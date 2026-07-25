@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Quản Lý Lương & Hồ Sơ Chuyên Sâu - VINAPACO</title>
+    <title>Hệ Thống Quản Trị Tổng Hợp Doanh Nghiệp - VINAPACO</title>
     <!-- Tailwind CSS & FontAwesome -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,7 +19,7 @@
     <header class="bg-slate-900 text-white shadow-md py-4 px-6 flex flex-col md:flex-row justify-between items-center">
         <div>
             <h1 class="text-xl font-bold tracking-wide">TỔNG CÔNG TY GIẤY VIỆT NAM (VINAPACO)</h1>
-            <p class="text-xs text-slate-400">Văn Phòng Tổng công ty - Hệ thống Quản trị Tài chính & Nhân sự Thông minh</p>
+            <p class="text-xs text-slate-400">Văn Phòng Tổng công ty - Hệ thống Quản trị Tài chính, Nhân sự & Tài sản Thông minh</p>
         </div>
         <div class="mt-3 md:mt-0 flex items-center gap-3">
             <span id="current-time-label" class="text-sm bg-slate-800 px-3 py-1.5 rounded border border-slate-700"></span>
@@ -29,7 +29,7 @@
     <!-- CONTAINER CHÍNH -->
     <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6">
 
-        <!-- THANH CẤU HÌNH KỲ BÁO CÁO & ĐỒNG BỘ -->
+        <!-- THANH CẤU HÌNH KỲ BÁO CÁO & ĐỒNG BỘ API -->
         <div class="bg-white rounded-xl shadow-sm p-5 mb-6 border border-slate-200">
             <h2 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
                 <i class="fa-solid fa-sliders text-teal-600"></i> Thiết lập Kỳ Báo Cáo & Tham Số Hệ Thống
@@ -62,7 +62,7 @@
                 </div>
             </div>
 
-            <!-- NÚT THỰC THI & THANH TIẾN ĐỘ -->
+            <!-- NÚT THỰC THI & LINK SHEET -->
             <div class="mt-5 flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-100">
                 <div class="flex items-center gap-3">
                     <button onclick="triggerSyncData()" class="bg-teal-700 hover:bg-teal-800 text-white font-bold px-6 py-2.5 rounded shadow transition flex items-center gap-2 text-sm">
@@ -71,6 +71,9 @@
                     <a id="file-link-output" href="#" target="_blank" class="hidden text-sm text-blue-600 underline font-bold flex items-center gap-1">
                         <i class="fa-solid fa-file-excel"></i> Mở Bảng Tính Trên Google Drive
                     </a>
+                </div>
+                <div class="text-xs text-slate-500">
+                    <i class="fa-solid fa-shield-halved text-teal-600 mr-1"></i> Tự động phân loại thư mục theo năm/tháng & sinh năm tiếp theo
                 </div>
             </div>
 
@@ -92,10 +95,10 @@
         <!-- NỘI DUNG CÁC TAB -->
         <div class="bg-white rounded-xl shadow-sm p-5 border border-slate-200 min-h-[450px]">
             
-            <!-- TAB 1: NHÂN SỰ & TẠM ỨNG (Chống nhảy dữ liệu khi gõ) -->
+            <!-- TAB 1: NHÂN SỰ & TẠM ỨNG (16 Nhân sự thực tế văn phòng) -->
             <div id="tab-nhansu" class="tab-content">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-users text-teal-600 mr-2"></i> Danh Sách Cán Bộ Nhân Viên & Nhập Liệu Tạm Ứng</h3>
+                    <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-users text-teal-600 mr-2"></i> Danh Sách 16 Nhân Sự Văn Phòng & Nhập Liệu Tạm Ứng</h3>
                     <button onclick="addNewStaffRow()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs px-3 py-1.5 rounded font-bold">
                         <i class="fa-solid fa-plus mr-1"></i> Thêm Nhân Sự
                     </button>
@@ -120,7 +123,7 @@
                             </tr>
                         </thead>
                         <tbody id="staff-table-body">
-                            <!-- Dữ liệu render bằng JS giữ nguyên trạng thái con trỏ, chống nhảy -->
+                            <!-- Render dữ liệu thực tế -->
                         </tbody>
                     </table>
                 </div>
@@ -129,11 +132,20 @@
             <!-- TAB 2: HỒ SƠ THANH TOÁN -->
             <div id="tab-hstt" class="tab-content hidden">
                 <h3 class="font-bold text-slate-800 text-base mb-4"><i class="fa-solid fa-file-invoice-dollar text-teal-600 mr-2"></i> Hồ Sơ Thanh Toán Chuyên Sâu</h3>
-                <p class="text-xs text-slate-500 mb-4">Quản lý và đính kèm chứng từ thanh toán, quyết toán tài chính hàng tháng vào thư mục chuyên mục trên Google Drive.</p>
-                <div class="border border-dashed border-slate-300 rounded-lg p-6 text-center text-slate-500 bg-slate-50">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Nội dung thanh toán</label>
+                        <input type="text" id="hstt-content" placeholder="Ví dụ: Quyết toán chi phí văn phòng phẩm..." class="w-full p-2 border border-slate-300 rounded text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Đơn vị thụ hưởng</label>
+                        <input type="text" id="hstt-receiver" placeholder="Tên công ty / Cửa hàng..." class="w-full p-2 border border-slate-300 rounded text-sm">
+                    </div>
+                </div>
+                <div class="border border-dashed border-teal-300 rounded-lg p-6 text-center text-slate-600 bg-teal-50/50">
                     <i class="fa-solid fa-folder-open text-3xl mb-2 text-teal-600"></i>
-                    <p class="text-sm font-bold">Thư mục đính kèm tự động: "1. Hồ sơ thanh toán"</p>
-                    <span class="text-xs text-slate-400">Được đồng bộ chuẩn xác theo năm và tháng đã chọn ở phần cấu hình phía trên.</span>
+                    <p class="text-sm font-bold">Thư mục đính kèm định tuyến: "1. Hồ sơ thanh toán"</p>
+                    <span class="text-xs text-slate-500">Chứng từ sẽ được lưu trữ phân loại chuẩn xác theo tháng và năm trên Google Drive.</span>
                 </div>
             </div>
 
@@ -141,12 +153,12 @@
             <div id="tab-vt" class="tab-content hidden">
                 <h3 class="font-bold text-slate-800 text-base mb-4"><i class="fa-solid fa-tower-cell text-teal-600 mr-2"></i> Quản Lý Cước Viễn Thông & Internet</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="p-4 border rounded-lg bg-slate-50">
-                        <h4 class="font-bold text-sm mb-2 text-blue-900">📞 Quản lý Thuê bao Di động Nghiệp vụ</h4>
+                    <div class="p-4 border rounded-lg bg-slate-50 shadow-sm">
+                        <h4 class="font-bold text-sm mb-2 text-blue-900"><i class="fa-solid fa-mobile-screen-button mr-1"></i> Thuê bao Di động Nghiệp vụ</h4>
                         <p class="text-xs text-slate-600">Theo dõi định mức cước, kiểm soát số lượng thuê bao đứng tên cơ quan và đối soát hóa đơn nhà mạng VNPT/Viettel.</p>
                     </div>
-                    <div class="p-4 border rounded-lg bg-slate-50">
-                        <h4 class="font-bold text-sm mb-2 text-blue-900">🌐 Quản lý Đường truyền Internet Văn phòng & Nhà máy</h4>
+                    <div class="p-4 border rounded-lg bg-slate-50 shadow-sm">
+                        <h4 class="font-bold text-sm mb-2 text-blue-900"><i class="fa-solid fa-globe mr-1"></i> Đường truyền Internet Văn phòng & Nhà máy</h4>
                         <p class="text-xs text-slate-600">Đồng bộ chứng từ thanh toán cước cáp quang, kênh truyền số liệu WAN và lưu trữ chứng từ tại thư mục "2. Cước Viễn thông & Internet".</p>
                     </div>
                 </div>
@@ -156,8 +168,8 @@
             <div id="tab-cntt" class="tab-content hidden">
                 <h3 class="font-bold text-slate-800 text-base mb-4"><i class="fa-solid fa-laptop text-teal-600 mr-2"></i> Danh Mục Thiết Bị Công Nghệ Thông Tin</h3>
                 <p class="text-xs text-slate-500 mb-4">Quản lý tài sản số, máy tính, máy in, thiết bị mạng phân bổ tại Văn phòng Hà Nội và nhà máy Phú Thọ.</p>
-                <div class="p-4 bg-slate-50 border rounded-lg text-xs text-slate-600">
-                    📂 Tất cả biên bản bàn giao, thanh lý thiết bị được phân loại lưu trữ tự động vào thư mục <strong>"3. Thiết bị CNTT"</strong> theo từng tháng.
+                <div class="p-4 bg-slate-50 border rounded-lg text-xs text-slate-700 shadow-sm">
+                    📂 Tất cả biên bản bàn giao, thanh lý thiết bị được phân loại lưu trữ tự động vào thư mục chuyên mục <strong>"3. Thiết bị CNTT"</strong> theo từng tháng và năm.
                 </div>
             </div>
 
@@ -197,14 +209,27 @@
 
     <!-- SCRIPT XỬ LÝ FRONTEND -->
     <script>
-        // Danh sách nhân sự mẫu chuẩn chống nhảy khi nhập liệu
+        // Danh sách 16 cán bộ nhân viên thực tế của Văn phòng Tổng công ty Giấy Việt Nam
         let staffList = [
-            { id: 1, name: "Nguyễn Thị Tuyết Nhung", lcb_heso: 4.65, lcb_phucap: 0.8, he_so_lcv: 4.5, phu_cap_lcv: 0.5, NT: 22, P: 0, le_vr: 0, hs_htcv: 1.0, tam_ung: 0, account: "1012345678" },
-            { id: 2, name: "Tạ Đức Long", lcb_heso: 5.20, lcb_phucap: 1.0, he_so_lcv: 5.0, phu_cap_lcv: 0.8, NT: 22, P: 0, le_vr: 0, hs_htcv: 1.1, tam_ung: 2000000, account: "1088888888" },
-            { id: 3, name: "Nguyễn Văn An", lcb_heso: 3.33, lcb_phucap: 0.5, he_so_lcv: 3.0, phu_cap_lcv: 0.3, NT: 21, P: 1, le_vr: 0, hs_htcv: 1.0, tam_ung: 0, account: "1098765432" }
+            { id: 1, name: "Nguyễn Minh Ngọc", lcb_heso: 1.94, lcb_phucap: 0.25, he_so_lcv: 5.20, phu_cap_lcv: 0.60, NT: 22, P: 0, le_vr: 0, hs_htcv: 1.0, tam_ung: 5000000, account: "105005712499" },
+            { id: 2, name: "Nguyễn Văn Nam", lcb_heso: 1.48, lcb_phucap: 0.0, he_so_lcv: 2.24, phu_cap_lcv: 0.0, NT: 19, P: 3, le_vr: 0, hs_htcv: 1.0, tam_ung: 4000000, account: "105004242307" },
+            { id: 3, name: "Nguyễn Thị Tuyết Nhung", lcb_heso: 1.79, lcb_phucap: 0.0, he_so_lcv: 1.74, phu_cap_lcv: 0.0, NT: 20, P: 2, le_vr: 0, hs_htcv: 1.0, tam_ung: 3000000, account: "102005035542" },
+            { id: 4, name: "Vũ Thị Thu", lcb_heso: 1.94, lcb_phucap: 0.0, he_so_lcv: 1.86, phu_cap_lcv: 0.0, NT: 22, P: 0, le_vr: 0, hs_htcv: 1.0, tam_ung: 3000000, account: "106004294441" },
+            { id: 5, name: "Đào Thị Liên", lcb_heso: 1.79, lcb_phucap: 0.0, he_so_lcv: 1.74, phu_cap_lcv: 0.0, NT: 22, P: 0, le_vr: 0, hs_htcv: 1.0, tam_ung: 4000000, account: "106004359838" },
+            { id: 6, name: "Võ Thị Thanh Tuyền", lcb_heso: 1.71, lcb_phucap: 0.0, he_so_lcv: 1.74, phu_cap_lcv: 0.0, NT: 22, P: 0, le_vr: 0, hs_htcv: 1.0, tam_ung: 4000000, account: "106868653975" },
+            { id: 7, name: "Trần Thị Thanh", lcb_heso: 1.67, lcb_phucap: 0.0, he_so_lcv: 1.48, phu_cap_lcv: 0.0, NT: 22, P: 0, le_vr: 0, hs_htcv: 1.0, tam_ung: 4000000, account: "105004294439" },
+            { id: 8, name: "Trần Đức Chiến", lcb_heso: 1.83, lcb_phucap: 0.0, he_so_lcv: 1.66, phu_cap_lcv: 0.0, NT: 22, P: 0, le_vr: 0, hs_htcv: 1.0, tam_ung: 3000000, account: "102004797815" },
+            { id: 9, name: "Phạm Tiến Long", lcb_heso: 1.80, lcb_phucap: 0.0, he_so_lcv: 1.62, phu_cap_lcv: 0.0, NT: 22, P: 0, le_vr: 0, hs_htcv: 1.0, tam_ung: 3000000, account: "104004583045" },
+            { id: 10, name: "Đinh Hữu Vinh", lcb_heso: 1.83, lcb_phucap: 0.0, he_so_lcv: 1.66, phu_cap_lcv: 0.0, NT: 22, P: 0, le_vr: 0, hs_htcv: 1.0, tam_ung: 3000000, account: "100004797831" },
+            { id: 11, name: "Bùi Đình Điệp", lcb_heso: 1.53, lcb_phucap: 0.0, he_so_lcv: 1.62, phu_cap_lcv: 0.0, NT: 22, P: 0, le_vr: 0, hs_htcv: 1.0, tam_ung: 3000000, account: "102005123456" },
+            { id: 12, name: "Hoàng Mạnh Hùng", lcb_heso: 1.53, lcb_phucap: 0.0, he_so_lcv: 1.62, phu_cap_lcv: 0.0, NT: 22, P: 0, le_vr: 0, hs_htcv: 1.0, tam_ung: 3000000, account: "103004899211" },
+            { id: 13, name: "Ma Trọng Luận", lcb_heso: 1.35, lcb_phucap: 0.0, he_so_lcv: 1.63, phu_cap_lcv: 0.0, NT: 22, P: 0, le_vr: 0, hs_htcv: 1.1, tam_ung: 3000000, account: "104005988123" },
+            { id: 14, name: "Trần Bình Dương", lcb_heso: 1.79, lcb_phucap: 0.0, he_so_lcv: 2.40, phu_cap_lcv: 0.0, NT: 22, P: 0, le_vr: 0, hs_htcv: 1.0, tam_ung: 3000000, account: "105006741290" },
+            { id: 15, name: "Đặng Trần Trung", lcb_heso: 1.53, lcb_phucap: 0.0, he_so_lcv: 1.62, phu_cap_lcv: 0.0, NT: 22, P: 0, le_vr: 0, hs_htcv: 1.0, tam_ung: 3000000, account: "106004555888" },
+            { id: 16, name: "Phạm Huy Chiến", lcb_heso: 2.26, lcb_phucap: 0.0, he_so_lcv: 2.40, phu_cap_lcv: 0.0, NT: 22, P: 0, le_vr: 0, hs_htcv: 1.0, tam_ung: 4000000, account: "107008999111" }
         ];
 
-        // Web App URL từ Google Apps Script của bạn (Thay thế link bên dưới bằng link Web App thực tế)
+        // Link Web App API từ Google Apps Script của bạn
         const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzONon27Dy0enBQr2VrnOGnBcXUHZE8pL0o-cNnydBlcr3wF8NUk8Qd9yu8Uynxi_qx/exec";
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -264,7 +289,7 @@
             renderStaffTable();
         }
 
-        // TIẾN TRÌNH ĐỒNG BỘ VÀ HIỂN THỊ TIẾN ĐỘ
+        // TIẾN TRÌNH ĐỒNG BỘ VÀ HIỂN THỊ THANH TIẾN ĐỘ
         function triggerSyncData() {
             const progressContainer = document.getElementById('sync-progress-container');
             const progressBar = document.getElementById('sync-progress-bar');
@@ -295,7 +320,7 @@
                 }
             }, 300);
 
-            // Gửi dữ liệu qua Apps Script Web App
+            // Gửi dữ liệu qua Apps Script Web App API
             fetch(APPS_SCRIPT_URL, {
                 method: "POST",
                 mode: "no-cors",
@@ -314,10 +339,10 @@
                     document.getElementById('file-preview-box').innerHTML = `
                         <div class="text-green-700 font-bold mb-2"><i class="fa-solid fa-circle-check mr-1"></i> Đã đồng bộ thành công vào Thư mục: Lương hàng năm Văn phòng/${yearVal}/Tháng ${monthVal}</div>
                         <ul class="list-disc pl-5 space-y-1 text-slate-700">
-                            <li>📁 1. Hồ sơ thanh toán (Đã sẵn sàng nhận chứng từ)</li>
-                            <li>📁 2. Cước Viễn thông & Internet (Đã sẵn sàng nhận hóa đơn)</li>
-                            <li>📁 3. Thiết bị CNTT (Đã sẵn sàng nhận biên bản tài sản)</li>
-                            <li>📁 4. Quyết định & Trình ký (Đã sẵn sàng lưu bản PDF/Doc)</li>
+                            <li>📁 1. Hồ sơ thanh toán (Sẵn sàng nhận chứng từ)</li>
+                            <li>📁 2. Cước Viễn thông & Internet (Sẵn sàng nhận hóa đơn)</li>
+                            <li>📁 3. Thiết bị CNTT (Sẵn sàng nhận biên bản tài sản)</li>
+                            <li>📁 4. Quyết định & Trình ký (Sẵn sàng lưu bản PDF/Doc)</li>
                         </ul>
                     `;
                     alert("Đồng bộ hệ thống và phân loại thư mục thành công!");
