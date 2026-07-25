@@ -8,7 +8,6 @@
     <meta http-equiv="Expires" content="0">
     <title>HỆ THỐNG QUẢN TRỊ TỔNG HỢP VÀ TÍNH LƯƠNG - VINAPACO ENTERPRISE</title>
     
-    <!-- BỔ SUNG FAVICON ĐỂ HẾT LỖI 404 -->
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135706.png" type="image/png">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
@@ -103,7 +102,7 @@
         .inp-table.inp-name { min-width: 220px; text-align: left; font-weight: 700; color: #0f172a; }
         .inp-table.inp-account { min-width: 130px; text-align: center; font-weight: 700; }
         .inp-table.inp-num-day { min-width: 55px; width: 60px; font-weight: 800; background-color: #fef9c3; text-align: center; color: #000; }
-        .inp-table.inp-currency { min-width: 110px; font-weight: 700; text-align: right; color: #000; background-color: #fff7ed; border-color: #f97316; }
+        .inp-table.inp-currency { min-width: 110px; font-weight: 700; text-align: right; color: #000; background-color: #fff7ed; border-color: #ea580c; }
 
         .signature-container { margin-top: 35px; display: flex; justify-content: space-between; text-align: center; padding: 10px 40px; }
         .signature-box { flex: 1; font-size: 14px; }
@@ -301,7 +300,7 @@
                                     <th style="background:#fef9c3; width:65px;">Phụ cấp LCV</th>
                                     <th>LCV Gốc</th>
                                     <th>LCV Thực Tế</th>
-                                    <th style="background:#ffedd5; color: #c2410c; min-width:115px;">Tạm Ứng (Cho phép sửa)</th>
+                                    <th style="background:#ffedd5; color: #c2410c; min-width:115px;">Tạm Ứng (Nhập số)</th>
                                     <th style="background:#fee2e2; color: #991b1b; min-width:115px;">Quỹ PCTT</th>
                                     <th style="background:#fee2e2; color: #991b1b; min-width:115px;">Trừ Ứng Lương</th>
                                     <th style="background-color: #e9d5ff; font-weight:bold; color:#581c87;">Thực Lĩnh CV</th>
@@ -368,9 +367,9 @@
     </div>
 
     <script>
-        const CURRENT_DATA_VERSION = "v_2026_07_25_favicon_fixed"; 
+        const CURRENT_DATA_VERSION = "v_2026_07_25_fixed_input_and_drive_v3"; 
 
-        const HARDCODED_SCRIPT_API = "https://script.google.com/macros/s/AKfycbzNjW4jneVMkikksnbqnX_xmDd7s8sJywd6vwPSU1YoaAbeKZP2R196Ur4Em9ruY5gwCQ/exec";
+        const HARDCODED_SCRIPT_API = "https://script.google.com/macros/s/AKfycbzONon27Dy0enBQr2VrnOGnBcXUHZE8pL0o-cNnydBlcr3wF8NUk8Qd9yu8Uynxi_qx/exec";
         let GOOGLE_SHEET_VIEW_URL = localStorage.getItem('sys_cfg_sheet_url') || "https://docs.google.com/spreadsheets/d/1QkvmX4ZIP1qdKwvZ4UHywoih9Go2qPtGjHpIp_6cZRo/edit"; 
         let GOOGLE_SCRIPT_API_URL = localStorage.getItem('sys_cfg_script_url') || HARDCODED_SCRIPT_API; 
 
@@ -530,27 +529,27 @@
 
                 tbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${index + 1}</td>
-                    <td><input class="inp-table inp-name" type="text" value="${row.name}" oninput="updateSalaryRowValue(${index}, 'name', this.value)"></td>
-                    <td><input class="inp-table inp-account" type="text" value="${row.account || ''}" oninput="updateSalaryRowValue(${index}, 'account', this.value)"></td>
-                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:700;" type="number" step="0.01" value="${row.lcb_heso}" oninput="updateSalaryRowValue(${index}, 'lcb_heso', this.value)"></td>
-                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:700;" type="number" step="0.01" value="${row.lcb_phucap || 0}" oninput="updateSalaryRowValue(${index}, 'lcb_phucap', this.value)"></td>
+                    <td><input class="inp-table inp-name" type="text" value="${row.name}" onchange="updateSalaryRowValue(${index}, 'name', this.value)"></td>
+                    <td><input class="inp-table inp-account" type="text" value="${row.account || ''}" onchange="updateSalaryRowValue(${index}, 'account', this.value)"></td>
+                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:700;" type="number" step="0.01" value="${row.lcb_heso}" onchange="updateSalaryRowValue(${index}, 'lcb_heso', this.value)"></td>
+                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:700;" type="number" step="0.01" value="${row.lcb_phucap || 0}" onchange="updateSalaryRowValue(${index}, 'lcb_phucap', this.value)"></td>
                     <td class="text-right font-bold" style="color:#1e3a8a;">${formatCurrencyVN(luong_ky_hdld)}</td>
                     <td class="text-right font-bold" style="color:#047857;">${formatCurrencyVN(luong_co_ban)}</td>
-                    <td class="text-center"><input class="inp-table inp-num-day" type="number" value="${val_NT}" oninput="updateSalaryRowValue(${index}, 'NT', this.value)"></td>
-                    <td class="text-center"><input class="inp-table inp-num-day" type="number" value="${val_P}" oninput="updateSalaryRowValue(${index}, 'P', this.value)"></td>
-                    <td class="text-center"><input class="inp-table inp-num-day" type="number" value="${val_LE}" oninput="updateSalaryRowValue(${index}, 'le_vr', this.value)"></td>
+                    <td class="text-center"><input class="inp-table inp-num-day" type="number" value="${val_NT}" onchange="updateSalaryRowValue(${index}, 'NT', this.value)"></td>
+                    <td class="text-center"><input class="inp-table inp-num-day" type="number" value="${val_P}" onchange="updateSalaryRowValue(${index}, 'P', this.value)"></td>
+                    <td class="text-center"><input class="inp-table inp-num-day" type="number" value="${val_LE}" onchange="updateSalaryRowValue(${index}, 'le_vr', this.value)"></td>
                     <td class="text-right">${formatCurrencyVN(l_thoigian)}</td>
                     <td class="text-right" style="color:#1e3a8a; font-weight:bold;">${formatCurrencyVN(le_phep_tt)}</td>
                     <td class="text-right font-bold">${formatCurrencyVN(l_tong_cb)}</td>
                     <td class="text-right" style="color:var(--red); font-weight:bold;">${formatCurrencyVN(bh)}</td>
                     <td class="text-right font-bold" style="background:#bfdbfe; color:#1e3a8a;">${formatCurrencyVN(thuc_linh_cb)}</td>
-                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:700;" type="number" step="0.01" value="${row.he_so_lcv}" oninput="updateSalaryRowValue(${index}, 'he_so_lcv', this.value)"></td>
-                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:700;" type="number" step="0.01" value="${row.phu_cap_lcv || 0}" oninput="updateSalaryRowValue(${index}, 'phu_cap_lcv', this.value)"></td>
+                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:700;" type="number" step="0.01" value="${row.he_so_lcv}" onchange="updateSalaryRowValue(${index}, 'he_so_lcv', this.value)"></td>
+                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:700;" type="number" step="0.01" value="${row.phu_cap_lcv || 0}" onchange="updateSalaryRowValue(${index}, 'phu_cap_lcv', this.value)"></td>
                     <td class="text-right">${formatCurrencyVN(luong_cong_viec)}</td>
                     <td class="text-right font-bold">${formatCurrencyVN(lcv_thucte)}</td>
-                    <td class="text-right"><input class="inp-table inp-currency" type="text" value="${formatCurrencyVN(tamUngVal)}" oninput="handleCurrencyCellInput(this, ${index}, 'tam_ung')"></td>
-                    <td class="text-right"><input class="inp-table inp-currency" type="text" value="${formatCurrencyVN(pcttVal)}" oninput="handleCurrencyCellInput(this, ${index}, 'pctt')"></td>
-                    <td class="text-right"><input class="inp-table inp-currency" type="text" value="${formatCurrencyVN(truUngVal)}" oninput="handleCurrencyCellInput(this, ${index}, 'tru_ung')"></td>
+                    <td class="text-right"><input class="inp-table inp-currency" type="text" value="${formatCurrencyVN(tamUngVal)}" onchange="handleCurrencyCellInput(this, ${index}, 'tam_ung')"></td>
+                    <td class="text-right"><input class="inp-table inp-currency" type="text" value="${formatCurrencyVN(pcttVal)}" onchange="handleCurrencyCellInput(this, ${index}, 'pctt')"></td>
+                    <td class="text-right"><input class="inp-table inp-currency" type="text" value="${formatCurrencyVN(truUngVal)}" onchange="handleCurrencyCellInput(this, ${index}, 'tru_ung')"></td>
                     <td class="text-right font-bold" style="color:#581c87; background:#e9d5ff;">${formatCurrencyVN(thuc_linh_lcv)}</td>
                     <td class="text-right font-bold" style="background:#fef08a; color:#713f12; font-size:15px;">${formatCurrencyVN(thuc_linh_tong)}</td>
                     <td class="text-center"><button type="button" class="btn-delete" onclick="deleteSalaryRow(${index})"><i class="fa-solid fa-trash"></i></button></td>
@@ -564,6 +563,7 @@
             document.getElementById('v-total-thuc').innerText = formatCurrencyVN(T_o_thuc_linh_tong) + " VND";
         }
 
+        // SỬA LỖI NHẢY CON TRỎ CHUỘT: Dùng onchange để khi gõ xong mới format lại tiền
         function handleCurrencyCellInput(inputEl, index, field) {
             let rawNum = parseCurrencyVN(inputEl.value);
             inputEl.value = formatCurrencyVN(rawNum);
@@ -605,7 +605,7 @@
             notifyBox.style.background = "#ebf8ff";
             notifyBox.style.color = "#2b6cb0";
             notifyBox.style.border = "1px solid #90cdf4";
-            notifyBox.innerText = "⏳ Đang kết nối và đồng bộ bảng lương 16 nhân sự sang thư mục Drive...";
+            notifyBox.innerText = "⏳ Đang kết nối và đồng bộ bảng lương sang thư mục Drive...";
 
             try {
                 let payload = {
@@ -629,7 +629,9 @@
                     notifyBox.style.background = "#c6f6d5";
                     notifyBox.style.color = "#22543d";
                     notifyBox.style.border = "1px solid #9ae6b4";
-                    notifyBox.innerHTML = `🎉 <b>Đồng bộ thành công!</b> Tệp bảng lương chuẩn kèm tiền tạm ứng đã xuất vào thư mục 'báo cáo lương năm ${CURRENT_SELECTED_YEAR}'. <a href="${result.fileUrl}" target="_blank" style="color:#2b6cb0; font-weight:bold; text-decoration:underline;">Bấm vào đây để mở trực tiếp Google Sheet</a>`;
+                    notifyBox.innerHTML = `🎉 <b>Đồng bộ thành công!</b> Tệp bảng lương đã được xuất vào thư mục 'báo cáo lương năm ${CURRENT_SELECTED_YEAR}'. <br>
+                    <a href="${result.fileUrl}" target="_blank" style="color:#2b6cb0; font-weight:bold; text-decoration:underline; margin-right:15px;">👉 Mở Google Sheet vừa tạo</a>
+                    <a href="${result.folderUrl}" target="_blank" style="color:#6d28d9; font-weight:bold; text-decoration:underline;">📁 Mở Thư Mục Báo Cáo Trên Drive</a>`;
                 } else {
                     throw new Error(result.message);
                 }
