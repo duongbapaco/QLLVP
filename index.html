@@ -259,7 +259,7 @@
                     <div class="card-title">
                         <span id="disp-table-title">DANH SÁCH BẢNG LƯƠNG CHI TIẾT NHÂN VIÊN</span>
                         <div>
-                            <button type="button" class="btn btn-orange" style="padding:4px 10px;" onclick="restoreDefaultStaffs()"><i class="fa-solid fa-rotate-left"></i> Nạp Dữ Liệu Mẫu</button>
+                            <button type="button" class="btn btn-orange" style="padding:4px 10px;" onclick="restoreDefaultStaffs()"><i class="fa-solid fa-rotate-left"></i> Nạp Dữ Liệu Mẫu (16 Nhân Sự)</button>
                             <button type="button" class="btn btn-primary" style="padding:4px 10px;" onclick="addNewSalaryRow()"><i class="fa-solid fa-user-plus"></i> Thêm Nhân Viên</button>
                         </div>
                     </div>
@@ -368,12 +368,24 @@
 
         let CURRENT_SELECTED_YEAR = "2026";
 
+        // BỐC TÁCH MẢNG CHUẨN 100% THEO HÌNH ẢNH MẪU 16 NHÂN SỰ
         const default16Staffs = [
-            {"name": "Nguyễn Minh Ngọc", "lcb_heso": 1.94, "lcb_phucap": 0.25, "NT": 22, "P": 0, "le_vr": 0, "he_so_lcv": 5.2, "phu_cap_lcv": 0.6, "tam_ung": 5000000, "pctt": 0, "tru_ung": 0, "account": "105005712499"},
-            {"name": "Nguyễn Văn Nam", "lcb_heso": 1.48, "lcb_phucap": 0.00, "NT": 19, "P": 3, "le_vr": 0, "he_so_lcv": 2.24, "phu_cap_lcv": 0.0, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0, "account": "105004242307"},
-            {"name": "Nguyễn Thị Tuyết Nhung", "lcb_heso": 1.79, "lcb_phucap": 0.00, "NT": 20, "P": 2, "le_vr": 0, "he_so_lcv": 1.74, "phu_cap_lcv": 0.0, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0, "account": "102005035542"},
-            {"name": "Vũ Thị Thu", "lcb_heso": 1.94, "lcb_phucap": 0.00, "NT": 22, "P": 0, "le_vr": 0, "he_so_lcv": 1.86, "phu_cap_lcv": 0.0, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0, "account": "106004294441"},
-            {"name": "Đào Thị Liên", "lcb_heso": 1.79, "lcb_phucap": 0.00, "NT": 22, "P": 0, "le_vr": 0, "he_so_lcv": 1.74, "phu_cap_lcv": 0.0, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0, "account": "106004359838"}
+            {"name": "Nguyễn Minh Ngọc", "account": "105005712499", "lcb_heso": 1.94, "lcb_phucap": 0.25, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 5.20, "phu_cap_lcv": 0.6, "tam_ung": 0, "pctt": 0, "tru_ung": 0},
+            {"name": "Nguyễn Văn Nam", "account": "105004242307", "lcb_heso": 1.48, "lcb_phucap": 0.00, "NT": 14, "P": 6, "le_vr": 1, "he_so_lcv": 2.24, "phu_cap_lcv": 0.0, "tam_ung": 0, "pctt": 0, "tru_ung": 0},
+            {"name": "Nguyễn Thị Tuyết Nhung", "account": "102005035542", "lcb_heso": 1.79, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.74, "phu_cap_lcv": 0.0, "tam_ung": 0, "pctt": 0, "tru_ung": 0},
+            {"name": "Vũ Thị Thu", "account": "106004294441", "lcb_heso": 1.94, "lcb_phucap": 0.00, "NT": 21, "P": 0, "le_vr": 1, "he_so_lcv": 1.86, "phu_cap_lcv": 0.0, "tam_ung": 0, "pctt": 0, "tru_ung": 0},
+            {"name": "Đào Thị Liên", "account": "106004359838", "lcb_heso": 1.79, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.74, "phu_cap_lcv": 0.0, "tam_ung": 0, "pctt": 0, "tru_ung": 0},
+            {"name": "Võ Thị Thanh Tuyền", "account": "106868653975", "lcb_heso": 1.71, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.74, "phu_cap_lcv": 0.0, "tam_ung": 0, "pctt": 0, "tru_ung": 0},
+            {"name": "Trần Thị Thanh", "account": "105004294439", "lcb_heso": 1.67, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.48, "phu_cap_lcv": 0.0, "tam_ung": 0, "pctt": 0, "tru_ung": 0},
+            {"name": "Trần Đức Chiến", "account": "102004797815", "lcb_heso": 1.83, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.66, "phu_cap_lcv": 0.0, "tam_ung": 0, "pctt": 0, "tru_ung": 0},
+            {"name": "Phạm Tiến Long", "account": "104004583045", "lcb_heso": 1.80, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.62, "phu_cap_lcv": 0.0, "tam_ung": 0, "pctt": 0, "tru_ung": 0},
+            {"name": "Đinh Hữu Vinh", "account": "100004797831", "lcb_heso": 1.83, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.66, "phu_cap_lcv": 0.0, "tam_ung": 0, "pctt": 0, "tru_ung": 0},
+            {"name": "Bùi Đình Điệp", "account": "101004882063", "lcb_heso": 1.53, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.62, "phu_cap_lcv": 0.0, "tam_ung": 0, "pctt": 0, "tru_ung": 0},
+            {"name": "Hoàng Mạnh Hùng", "account": "100006186724", "lcb_heso": 1.53, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.62, "phu_cap_lcv": 0.0, "tam_ung": 0, "pctt": 0, "tru_ung": 0},
+            {"name": "Ma Trọng Luận", "account": "106869104133", "lcb_heso": 1.35, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.63, "phu_cap_lcv": 0.0, "tam_ung": 0, "pctt": 0, "tru_ung": 0},
+            {"name": "Trần Bình Dương", "account": "106873586343", "lcb_heso": 1.79, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 2.40, "phu_cap_lcv": 0.0, "tam_ung": 0, "pctt": 0, "tru_ung": 0},
+            {"name": "Đặng Trần Trung", "account": "107002654931", "lcb_heso": 1.53, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.62, "phu_cap_lcv": 0.0, "tam_ung": 0, "pctt": 0, "tru_ung": 0},
+            {"name": "Phạm Huy Chiến", "account": "102004830132", "lcb_heso": 2.26, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 2.40, "phu_cap_lcv": 0.0, "tam_ung": 0, "pctt": 0, "tru_ung": 0}
         ];
 
         let salaryConfigsByMonth = JSON.parse(localStorage.getItem('sys_salary_configs_by_month')) || {};
@@ -474,9 +486,9 @@
             let lcvReg = cfg.lcv || 1991139;
 
             activeData.forEach((row, index) => {
-                let val_NT = row.NT !== undefined && row.NT !== null && row.NT !== "" ? parseFloat(row.NT) : 22;
+                let val_NT = row.NT !== undefined && row.NT !== null && row.NT !== "" ? parseFloat(row.NT) : 20;
                 let val_P = row.P !== undefined && row.P !== null && row.P !== "" ? parseFloat(row.P) : 0;
-                let val_LE = row.le_vr !== undefined && row.le_vr !== null && row.le_vr !== "" ? parseFloat(row.le_vr) : 0;
+                let val_LE = row.le_vr !== undefined && row.le_vr !== null && row.le_vr !== "" ? parseFloat(row.le_vr) : 1;
 
                 let tongHeSoLCB = parseFloat(row.lcb_heso || 0) + parseFloat(row.lcb_phucap || 0);
 
@@ -558,7 +570,7 @@
             let sm = document.getElementById('filter-month').value;
             if (!salaryDataByMonth[sm]) salaryDataByMonth[sm] = [];
             salaryDataByMonth[sm].push({
-                "name": "Nhân viên mới", "lcb_heso": 1.5, "lcb_phucap": 0.0, "NT": 22, "P": 0, "le_vr": 0, "he_so_lcv": 1.6, "phu_cap_lcv": 0.0, "tam_ung": 0, "pctt": 0, "tru_ung": 0, "account": "0000000000"
+                "name": "Nhân viên mới", "account": "0000000000", "lcb_heso": 1.5, "lcb_phucap": 0.0, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.6, "phu_cap_lcv": 0.0, "tam_ung": 0, "pctt": 0, "tru_ung": 0
             });
             calculateSalaryLogic();
         }
@@ -573,7 +585,6 @@
 
         function openMainSalaryGoogleSheet() { window.open(GOOGLE_SHEET_VIEW_URL, '_blank'); }
 
-        // ĐỒNG BỘ MÂY TRUYỀN NHẬN PHẢN HỒI THỰC
         async function syncDataToCloudServer() {
             let sm = document.getElementById('filter-month').value;
             let notifyBox = document.getElementById('syncNotifyBox');
@@ -581,7 +592,7 @@
             notifyBox.style.background = "#ebf8ff";
             notifyBox.style.color = "#2b6cb0";
             notifyBox.style.border = "1px solid #90cdf4";
-            notifyBox.innerText = "⏳ Đang kết nối và đồng bộ bảng lương sang thư mục Drive...";
+            notifyBox.innerText = "⏳ Đang kết nối và đồng bộ bảng lương 16 nhân sự chuẩn sang thư mục Drive...";
 
             try {
                 let payload = {
@@ -605,7 +616,7 @@
                     notifyBox.style.background = "#c6f6d5";
                     notifyBox.style.color = "#22543d";
                     notifyBox.style.border = "1px solid #9ae6b4";
-                    notifyBox.innerHTML = `🎉 <b>Đồng bộ thành công!</b> Tệp bảng lương đã được tạo tại thư mục 'báo cáo lương năm ${CURRENT_SELECTED_YEAR}'. <a href="${result.fileUrl}" target="_blank" style="color:#2b6cb0; font-weight:bold; text-decoration:underline;">Bấm vào đây để mở Google Sheet</a>`;
+                    notifyBox.innerHTML = `🎉 <b>Đồng bộ thành công!</b> Tệp bảng lương chuẩn 16 nhân sự đã được xuất vào thư mục 'báo cáo lương năm ${CURRENT_SELECTED_YEAR}'. <a href="${result.fileUrl}" target="_blank" style="color:#2b6cb0; font-weight:bold; text-decoration:underline;">Bấm vào đây để mở trực tiếp Google Sheet</a>`;
                 } else {
                     throw new Error(result.message);
                 }
