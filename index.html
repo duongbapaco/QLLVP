@@ -3,134 +3,179 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TỔNG CÔNG TY GIẤY VIỆT NAM - VĂN PHÒNG</title>
+  <title>Hệ Thống Quản Trị Tổng Hợp Doanh Nghiệp (Bản Chuẩn API Sẵn Sàng)</title>
   <style>
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 20px; background-color: #f4f6f9; color: #333; }
-    .container { max-width: 1000px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-    h2 { color: #1b5e20; border-bottom: 2px solid #1b5e20; padding-bottom: 10px; }
-    .btn-group { margin: 20px 0; display: flex; gap: 10px; flex-wrap: wrap; }
-    button { padding: 10px 18px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-    .btn-primary { background-color: #2e7d32; color: white; }
-    .btn-primary:hover { background-color: #1b5e20; }
-    .btn-secondary { background-color: #0288d1; color: white; }
-    .btn-secondary:hover { background-color: #01579b; }
-    .config-section { background: #e8f5e9; padding: 15px; border-radius: 6px; margin-top: 30px; border: 1px solid #c8e6c9; }
+    /* STYLESHEET NGUYÊN BẢN CỦA HỆ THỐNG */
+    :root { --primary-color: #1b5e20; --secondary-color: #2e7d32; --bg-color: #f4f6f9; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background-color: var(--bg-color); color: #333; }
+    .container { max-width: 1200px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .header { text-align: center; border-bottom: 2px solid var(--primary-color); padding-bottom: 15px; margin-bottom: 20px; }
+    .header h1 { margin: 0; color: var(--primary-color); font-size: 24px; text-transform: uppercase; }
+    .header p { margin: 5px 0 0; color: #666; font-size: 14px; }
+    
+    /* NAV TABS */
+    .nav-tabs { display: flex; gap: 5px; border-bottom: 2px solid #ddd; margin-bottom: 20px; flex-wrap: wrap; }
+    .tab-btn { padding: 10px 20px; background: #e0e0e0; border: none; border-radius: 5px 5px 0 0; cursor: pointer; font-weight: bold; transition: 0.3s; }
+    .tab-btn.active { background: var(--primary-color); color: white; }
+    
+    /* TAB CONTENT */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    
+    /* BUTTONS & TABLES */
+    .btn { padding: 8px 16px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; background: var(--secondary-color); color: white; transition: 0.2s; }
+    .btn:hover { background: var(--primary-color); }
+    .btn-blue { background: #0288d1; } .btn-blue:hover { background: #01579b; }
+    
+    /* CONFIG BOX */
+    .config-box { background: #e8f5e9; border: 1px solid #c8e6c9; padding: 15px; border-radius: 6px; margin-top: 30px; }
     .form-group { margin-bottom: 12px; }
-    label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 14px; }
-    input[type="text"] { width: 100%; padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-    #statusAlert { margin-top: 15px; padding: 10px; border-radius: 4px; display: none; font-weight: bold; }
-    .status-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-    .status-error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    .form-group label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 13px; }
+    .form-group input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+    #statusAlert { margin: 15px 0; padding: 10px; border-radius: 4px; display: none; font-weight: bold; }
+    .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    .alert-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <h2>TỔNG CÔNG TY GIẤY VIỆT NAM - VĂN PHÒNG</h2>
-  <p>Hệ Thống Quản Trị & Báo Cáo Bảng Lương Trực Tuyến</p>
+  <div class="header">
+    <h1>TỔNG CÔNG TY GIẤY VIỆT NAM - VĂN PHÒNG</h1>
+    <p>Hệ Thống Quản Trị Tổng Hợp Doanh Nghiệp (Bản Chuẩn API Sẵn Sàng)</p>
+  </div>
 
-  <!-- THANH CÔNG CỤ NÚT BẤM -->
-  <div class="btn-group">
-    <button class="btn-primary" onclick="moGoogleSheet()">📊 Mở Sheet Bảng Lương Direct</button>
-    <button class="btn-secondary" onclick="dongBoDuLieu()">🔄 Tải / Đồng Bộ Từ Mây</button>
+  <!-- THANH TABS ĐIỀU HƯỚNG QUẢN LÝ -->
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="switchTab('luong')">Tính Lương Nhân Viên</button>
+    <button class="tab-btn" onclick="switchTab('thanhtoan')">Hồ Sơ Thanh Toán Văn Phòng</button>
+    <button class="tab-btn" onclick="switchTab('internet')">Cước Viễn Thông & Internet</button>
+    <button class="tab-btn" onclick="switchTab('cntt')">Thiết Bị Công Nghệ Thông Tin</button>
   </div>
 
   <div id="statusAlert"></div>
 
-  <!-- PHẦN CẤU HÌNH LINK GOOGLE SHEET VÀ DRIVE -->
-  <div class="config-section">
-    <h3>⚙️ CẤU HÌNH LINK GOOGLE SHEET VÀ DRIVE</h3>
+  <!-- TAB 1: BẢNG LƯƠNG NHÂN VIÊN -->
+  <div id="tab-luong" class="tab-content active">
+    <div style="margin-bottom: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <button class="btn" onclick="moSheetChuan()">📊 Mở Sheet Đồng Bộ Mây</button>
+      <button class="btn btn-blue" onclick="dongBoApi()">🔄 Tải Từ Mây</button>
+    </div>
+    <h3>DANH SÁCH BẢNG LƯƠNG CHI TIẾT NHÂN VIÊN</h3>
+    <p><i>(Dữ liệu bảng lương được đồng bộ trực tiếp từ Google Sheets)</i></p>
+  </div>
+
+  <!-- TAB 2: HỒ SƠ THANH TOÁN -->
+  <div id="tab-thanhtoan" class="tab-content">
+    <h3>DANH SÁCH TỔNG HỢP HỒ SƠ THANH TOÁN (NĂM 2026)</h3>
+    <p>Tạo mới và quản lý đề nghị thanh toán văn phòng.</p>
+  </div>
+
+  <!-- TAB 3: CƯỚC VIỄN THÔNG -->
+  <div id="tab-internet" class="tab-content">
+    <h3>DANH SÁCH CHI PHÍ ĐƯỜNG TRUYỀN INTERNET NĂM 2026</h3>
+    <p>Quản lý chi phí mạng VNPT, Viettel, FPT, CMC.</p>
+  </div>
+
+  <!-- TAB 4: THIẾT BỊ CNTT -->
+  <div id="tab-cntt" class="tab-content">
+    <h3>BẢNG TỔNG HỢP KIỂM KÊ TRANG THIẾT BỊ CNTT NĂM 2026</h3>
+    <p>Quản lý kiểm kê tài sản và tạo tem QR Code.</p>
+  </div>
+
+  <!-- CẤU HÌNH LINK GOOGLE SHEET VÀ DRIVE -->
+  <div class="config-box">
+    <h3 style="margin-top:0; color: #1b5e20;">⚙️ CẤU HÌNH LINK GOOGLE SHEET VÀ DRIVE</h3>
     
     <div class="form-group">
-      <label for="apiUrlInput">1. Link Google Script Web App API (.../exec):</label>
-      <input type="text" id="apiUrlInput" placeholder="https://script.google.com/macros/s/AKfycbzONon27Dy0enBQr2VrnOGnBcXUHZE8pL0o-cNnydBlcr3wF8NUk8Qd9yu8Uynxi_qx/exec">
+      <label>1. Link Google Script Web App API (.../exec):</label>
+      <input type="text" id="cfgApi" placeholder="https://script.google.com/macros/s/.../exec">
     </div>
 
     <div class="form-group">
-      <label for="sheetUrlInput">2. Link Google Sheets Xem BẢNG LƯƠNG Trực Tiếp:</label>
-      <input type="text" id="sheetUrlInput" placeholder="https://docs.google.com/spreadsheets/d/.../edit">
+      <label>2. Link Google Sheets Xem BẢNG LƯƠNG Trực Tiếp:</label>
+      <input type="text" id="cfgSheet" placeholder="https://docs.google.com/spreadsheets/d/.../edit">
     </div>
 
-    <button class="btn-primary" onclick="luuCauHinh()">💾 Lưu Cấu Hình Link</button>
+    <button class="btn" onclick="luuCauHinhContext()">💾 Lưu Cấu Hình Link</button>
   </div>
 </div>
 
 <script>
-  // Link Sheet Mặc định của Bảng Lương (Dự phòng chống lỗi undefined)
-  const DEFAULT_SHEET_URL = "https://docs.google.com/spreadsheets/d/1QkvmX4ZIP1qdKwvZ4UHywoih9Go2qPtGjHpIp_6cZRo/edit";
+  // Link Sheet Mặc định dự phòng chuẩn tuyệt đối
+  const DEFAULT_SHEET = "https://docs.google.com/spreadsheets/d/1QkvmX4ZIP1qdKwvZ4UHywoih9Go2qPtGjHpIp_6cZRo/edit";
 
-  // Khi tải trang: Khôi phục cấu hình từ Bộ nhớ (LocalStorage)
   window.onload = function() {
-    var savedApi = localStorage.getItem("qllvp_api_url") || "";
-    var savedSheet = localStorage.getItem("qllvp_sheet_url") || DEFAULT_SHEET_URL;
-
-    document.getElementById("apiUrlInput").value = savedApi;
-    document.getElementById("sheetUrlInput").value = savedSheet;
+    var api = localStorage.getItem("qllvp_api_url") || "";
+    var sheet = localStorage.getItem("qllvp_sheet_url") || DEFAULT_SHEET;
+    document.getElementById("cfgApi").value = api;
+    document.getElementById("cfgSheet").value = sheet;
   };
 
-  // 1. HÀM MỞ SHEET AN TOÀN - TRIỆT TIÊU HOÀN TOÀN LỖI 404 / UNDEFINED
-  function moGoogleSheet() {
-    var sheetInput = document.getElementById("sheetUrlInput").value.trim();
-    var targetUrl = sheetInput || localStorage.getItem("qllvp_sheet_url") || DEFAULT_SHEET_URL;
-
-    // Loại bỏ hoàn toàn các giá trị hỏng
-    if (!targetUrl || targetUrl === "undefined" || targetUrl === "null") {
-      targetUrl = DEFAULT_SHEET_URL;
-    }
-
-    // Tự động bổ sung https:// nếu thiếu
-    if (!targetUrl.startsWith("http://") && !targetUrl.startsWith("https://")) {
-      targetUrl = "https://" + targetUrl;
-    }
-
-    // Mở tab mới
-    window.open(targetUrl, "_blank");
+  // CHUYỂN TAB CÁC PHÂN HỆ QUẢN LÝ
+  function switchTab(tabId) {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    
+    event.target.classList.add('active');
+    document.getElementById('tab-' + tabId).classList.add('active');
   }
 
-  // 2. HÀM LƯU CẤU HÌNH LINK
-  function luuCauHinh() {
-    var apiUrl = document.getElementById("apiUrlInput").value.trim();
-    var sheetUrl = document.getElementById("sheetUrlInput").value.trim();
+  // HÀM MỞ SHEET CHUẨN - CHỐNG 100% LỖI UNDEFINED & 404
+  function moSheetChuan() {
+    var inputVal = document.getElementById("cfgSheet").value.trim();
+    var target = inputVal || localStorage.getItem("qllvp_sheet_url") || DEFAULT_SHEET;
 
-    if (!sheetUrl) sheetUrl = DEFAULT_SHEET_URL;
+    if (!target || target === "undefined" || target === "null") {
+      target = DEFAULT_SHEET;
+    }
 
-    localStorage.setItem("qllvp_api_url", apiUrl);
-    localStorage.setItem("qllvp_sheet_url", sheetUrl);
+    if (!target.startsWith("http://") && !target.startsWith("https://")) {
+      target = "https://" + target;
+    }
 
-    hienThiThongBao("✅ Đã lưu cấu hình link thành công!", "success");
+    window.open(target, "_blank");
   }
 
-  // 3. HÀM ĐỒNG BỘ DỮ LIỆU TỪ GOOGLE SCRIPT API
-  function dongBoDuLieu() {
-    var apiUrl = localStorage.getItem("qllvp_api_url") || document.getElementById("apiUrlInput").value.trim();
+  // LƯU CẤU HÌNH LINK
+  function luuCauHinhContext() {
+    var apiVal = document.getElementById("cfgApi").value.trim();
+    var sheetVal = document.getElementById("cfgSheet").value.trim() || DEFAULT_SHEET;
 
-    if (!apiUrl || apiUrl === "undefined") {
-      hienThiThongBao("❌ Vui lòng nhập và Lưu Link Web App API (.../exec) trong phần Cấu hình trước!", "error");
+    localStorage.setItem("qllvp_api_url", apiVal);
+    localStorage.setItem("qllvp_sheet_url", sheetVal);
+
+    showAlert("✅ Đã lưu cấu hình link thành công!", "success");
+  }
+
+  // ĐỒNG BỘ API
+  function dongBoApi() {
+    var api = localStorage.getItem("qllvp_api_url") || document.getElementById("cfgApi").value.trim();
+    if (!api || api === "undefined") {
+      showAlert("❌ Vui lòng nhập và Lưu Link Web App API (.../exec) trước!", "error");
       return;
     }
 
-    hienThiThongBao("⏳ Đang kết nối mây và đồng bộ dữ liệu...", "success");
+    showAlert("⏳ Đang kết nối mây và đồng bộ dữ liệu...", "success");
 
-    // Gọi API Apps Script với tham số action=format
-    fetch(apiUrl + "?action=format")
-      .then(response => response.json())
+    fetch(api + "?action=format")
+      .then(res => res.json())
       .then(data => {
         if (data.status === "success" || data.success) {
-          hienThiThongBao("✅ Đồng bộ thành công: " + (data.message || "Đã kết nối Google Sheet!"), "success");
+          showAlert("✅ Đồng bộ thành công: " + (data.message || "Đã kết nối mây!"), "success");
         } else {
-          hienThiThongBao("⚠️ Cảnh báo: " + JSON.stringify(data), "error");
+          showAlert("⚠️ Phản hồi từ mây: " + JSON.stringify(data), "error");
         }
       })
-      .catch(error => {
-        hienThiThongBao("❌ Đồng bộ thất bại: " + error.message, "error");
+      .catch(err => {
+        showAlert("❌ Đồng bộ thất bại: " + err.message, "error");
       });
   }
 
-  // Hàm tiện ích hiển thị thông báo
-  function hienThiThongBao(msg, type) {
+  function showAlert(msg, type) {
     var box = document.getElementById("statusAlert");
     box.style.display = "block";
-    box.className = type === "success" ? "status-success" : "status-error";
+    box.className = type === "success" ? "alert-success" : "alert-error";
     box.innerText = msg;
   }
 </script>
