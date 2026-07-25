@@ -5,34 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hệ Thống Quản Trị Tổng Hợp Doanh Nghiệp (Bản Chuẩn API Sẵn Sàng)</title>
   <style>
-    /* STYLESHEET NGUYÊN BẢN CỦA HỆ THỐNG */
-    :root { --primary-color: #1b5e20; --secondary-color: #2e7d32; --bg-color: #f4f6f9; }
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background-color: var(--bg-color); color: #333; }
-    .container { max-width: 1200px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-    .header { text-align: center; border-bottom: 2px solid var(--primary-color); padding-bottom: 15px; margin-bottom: 20px; }
-    .header h1 { margin: 0; color: var(--primary-color); font-size: 24px; text-transform: uppercase; }
-    .header p { margin: 5px 0 0; color: #666; font-size: 14px; }
+    :root { --primary: #1b5e20; --primary-hover: #2e7d32; --bg: #f4f6f9; --border: #cccccc; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 15px; background-color: var(--bg); color: #333; font-size: 13px; }
+    .container { max-width: 1400px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .header { text-align: center; border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 15px; }
+    .header h1 { margin: 0; color: var(--primary); font-size: 22px; text-transform: uppercase; }
     
     /* NAV TABS */
-    .nav-tabs { display: flex; gap: 5px; border-bottom: 2px solid #ddd; margin-bottom: 20px; flex-wrap: wrap; }
-    .tab-btn { padding: 10px 20px; background: #e0e0e0; border: none; border-radius: 5px 5px 0 0; cursor: pointer; font-weight: bold; transition: 0.3s; }
-    .tab-btn.active { background: var(--primary-color); color: white; }
+    .nav-tabs { display: flex; gap: 4px; border-bottom: 2px solid #ddd; margin-bottom: 15px; flex-wrap: wrap; }
+    .tab-btn { padding: 8px 16px; background: #e0e0e0; border: none; border-radius: 4px 4px 0 0; cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.2s; }
+    .tab-btn.active { background: var(--primary); color: white; }
     
-    /* TAB CONTENT */
     .tab-content { display: none; }
     .tab-content.active { display: block; }
+
+    /* TABLES & FORMS */
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
+    th, td { border: 1px solid var(--border); padding: 6px 8px; text-align: center; }
+    th { background-color: #f0f4f1; color: var(--primary); font-weight: bold; }
+    input[type="text"], input[type="number"], select { width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px; box-sizing: border-box; font-size: 12px; }
     
-    /* BUTTONS & TABLES */
-    .btn { padding: 8px 16px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; background: var(--secondary-color); color: white; transition: 0.2s; }
-    .btn:hover { background: var(--primary-color); }
+    /* BUTTONS */
+    .btn { padding: 6px 12px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; background: var(--primary-hover); color: white; font-size: 12px; }
+    .btn:hover { background: var(--primary); }
     .btn-blue { background: #0288d1; } .btn-blue:hover { background: #01579b; }
-    
-    /* CONFIG BOX */
-    .config-box { background: #e8f5e9; border: 1px solid #c8e6c9; padding: 15px; border-radius: 6px; margin-top: 30px; }
-    .form-group { margin-bottom: 12px; }
-    .form-group label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 13px; }
-    .form-group input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-    #statusAlert { margin: 15px 0; padding: 10px; border-radius: 4px; display: none; font-weight: bold; }
+    .btn-danger { background: #d32f2f; } .btn-danger:hover { background: #b71c1c; }
+
+    .config-box { background: #e8f5e9; border: 1px solid #c8e6c9; padding: 15px; border-radius: 6px; margin-top: 25px; }
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-bottom: 10px; }
+    #statusAlert { margin: 10px 0; padding: 8px; border-radius: 4px; display: none; font-weight: bold; }
     .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
     .alert-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
   </style>
@@ -42,10 +43,9 @@
 <div class="container">
   <div class="header">
     <h1>TỔNG CÔNG TY GIẤY VIỆT NAM - VĂN PHÒNG</h1>
-    <p>Hệ Thống Quản Trị Tổng Hợp Doanh Nghiệp (Bản Chuẩn API Sẵn Sàng)</p>
   </div>
 
-  <!-- THANH TABS ĐIỀU HƯỚNG QUẢN LÝ -->
+  <!-- THANH TABS CHỨC NĂNG -->
   <div class="nav-tabs">
     <button class="tab-btn active" onclick="switchTab('luong')">Tính Lương Nhân Viên</button>
     <button class="tab-btn" onclick="switchTab('thanhtoan')">Hồ Sơ Thanh Toán Văn Phòng</button>
@@ -55,90 +55,234 @@
 
   <div id="statusAlert"></div>
 
-  <!-- TAB 1: BẢNG LƯƠNG NHÂN VIÊN -->
+  <!-- ==================== TAB 1: BẢNG LƯƠNG NHÂN VIÊN ==================== -->
   <div id="tab-luong" class="tab-content active">
-    <div style="margin-bottom: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
-      <button class="btn" onclick="moSheetChuan()">📊 Mở Sheet Đồng Bộ Mây</button>
-      <button class="btn btn-blue" onclick="dongBoApi()">🔄 Tải Từ Mây</button>
+    <div style="margin-bottom: 10px; display: flex; gap: 8px;">
+      <button class="btn" onclick="moGoogleSheet()">📊 Mở Sheet Đồng Bộ Mây</button>
+      <button class="btn btn-blue" onclick="dongBoApi('luong')">🔄 Tải Từ Mây</button>
     </div>
+
+    <!-- THAM SỐ LƯƠNG -->
+    <div style="background: #f9f9f9; padding: 10px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 15px;">
+      <b>CẤU HÌNH TIÊU ĐỀ & THAM SỐ THÁNG - NĂM 2026</b>
+      <div class="form-grid" style="margin-top: 8px;">
+        <div><label>Kỳ báo cáo:</label><input type="text" value="THÁNG 05 / 2026"></div>
+        <div><label>Tối thiểu vùng:</label><input type="text" value="4.140.000"></div>
+        <div><label>Cơ bản:</label><input type="text" value="2.530.000"></div>
+        <div><label>Công việc:</label><input type="text" value="2.087.970"></div>
+      </div>
+    </div>
+
     <h3>DANH SÁCH BẢNG LƯƠNG CHI TIẾT NHÂN VIÊN</h3>
-    <p><i>(Dữ liệu bảng lương được đồng bộ trực tiếp từ Google Sheets)</i></p>
+    <div style="overflow-x: auto;">
+      <table>
+        <thead>
+          <tr>
+            <th rowspan="2">STT</th>
+            <th rowspan="2">HỌ VÀ TÊN</th>
+            <th rowspan="2">Số Tài Khoản</th>
+            <th colspan="4">Lương Cơ Bản HĐLĐ</th>
+            <th colspan="3">Số Ngày Công Thực Tế</th>
+            <th colspan="3">Chi Tiết Lương Thực Nhận</th>
+            <th colspan="4">Cơ cấu Lương Công Việc (CV)</th>
+            <th rowspan="2">Tổng LCB + LCV</th>
+            <th rowspan="2">BH Bắt Buộc (10.5%)</th>
+            <th rowspan="2">Tạm Ứng (VND)</th>
+            <th rowspan="2">Thực Lĩnh</th>
+            <th rowspan="2">Xóa</th>
+          </tr>
+          <tr>
+            <th>Hệ số LCB</th><th>Phụ cấp LCB</th><th>Lương Ký HĐLĐ</th><th>Lương cơ bản</th>
+            <th>Thời gian (N)</th><th>Phép (P)</th><th>Lễ, VR</th>
+            <th>Lương Thời Gian</th><th>Lương Lễ, Phép</th><th>Tổng Lương CB</th>
+            <th>Hệ số LCV</th><th>Phụ cấp LCV</th><th>LCV Gốc</th><th>Lương CV Thực Tế</th>
+          </tr>
+        </thead>
+        <tbody id="bodyLuong">
+          <tr>
+            <td>1</td><td><b>Nguyễn Văn A</b></td><td>1900xxxxxx</td>
+            <td>3.00</td><td>0.20</td><td>8.100.000</td><td>8.100.000</td>
+            <td>22</td><td>2</td><td>0</td>
+            <td>7.000.000</td><td>630.000</td><td>7.630.000</td>
+            <td>2.50</td><td>0.10</td><td>5.428.000</td><td>5.428.000</td>
+            <td>13.058.000</td><td>1.371.090</td><td>0</td><td>11.686.910</td>
+            <td><button class="btn btn-danger">Xóa</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- BỘ PHẬN KÝ TÊN -->
+    <div style="display: flex; justify-content: space-around; margin-top: 25px; text-align: center;">
+      <div><b>PHÒNG NHÂN SỰ</b><br><br><br><i>(Ký, ghi rõ họ tên)</i></div>
+      <div><b>THỦ TRƯỞNG ĐƠN VỊ</b><br><br><br><i>(Ký, đóng dấu)</i></div>
+      <div><b>NGƯỜI LẬP BIỂU</b><br><br><br><b>Nguyễn Thị Tuyết Nhung</b></div>
+    </div>
   </div>
 
-  <!-- TAB 2: HỒ SƠ THANH TOÁN -->
+  <!-- ==================== TAB 2: HỒ SƠ THANH TOÁN ==================== -->
   <div id="tab-thanhtoan" class="tab-content">
+    <h3>Tạo Mới / Cập Nhật Hồ Sơ Đề Nghị Thanh Toán Văn Phòng (Năm 2026)</h3>
+    <div class="form-grid">
+      <div><label>Nội dung thanh toán:</label><input type="text" placeholder="Nhập nội dung..."></div>
+      <div><label>Đơn vị thụ hưởng:</label><input type="text" placeholder="Tên công ty / cá nhân"></div>
+      <div><label>Số tài khoản & Ngân hàng:</label><input type="text" placeholder="STK - Ngân hàng"></div>
+      <div><label>Số lượng:</label><input type="number" value="1"></div>
+      <div><label>Tiền trước thuế:</label><input type="text" value="0"></div>
+      <div>
+        <label>Áp dụng thuế VAT:</label>
+        <select><option>0%</option><option>5%</option><option>8%</option><option selected>10%</option></select>
+      </div>
+      <div><label>Tổng cộng thanh toán:</label><input type="text" value="0" readonly style="background:#eee;"></div>
+      <div>
+        <label>Trạng thái duyệt:</label>
+        <select><option>Chưa duyệt</option><option>Đã duyệt chi</option></select>
+      </div>
+    </div>
+    <button class="btn" style="margin-bottom:15px;">💾 Lưu Hồ Sơ Thanh Toán & Tải Tệp Lên Drive</button>
+
     <h3>DANH SÁCH TỔNG HỢP HỒ SƠ THANH TOÁN (NĂM 2026)</h3>
-    <p>Tạo mới và quản lý đề nghị thanh toán văn phòng.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>STT</th><th>Nội dung thanh toán</th><th>Đơn vị thụ hưởng</th><th>Tài khoản / Ngân hàng</th>
+          <th>SL</th><th>Trước thuế</th><th>Tiền thuế</th><th>Tổng chi</th><th>Trạng thái</th><th>Chứng từ Drive</th><th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="11">Chưa có dữ liệu thanh toán. Bấm "Tải Từ Mây" để đồng bộ.</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <!-- TAB 3: CƯỚC VIỄN THÔNG -->
+  <!-- ==================== TAB 3: CƯỚC VIỄN THÔNG ==================== -->
   <div id="tab-internet" class="tab-content">
+    <h3>Cập Nhật Chi Phí Mạng & Đính Kèm Hóa Đơn Theo Tháng (Năm 2026)</h3>
+    <div class="form-grid">
+      <div><label>Tên điểm kết nối / Văn phòng:</label><input type="text" placeholder="Văn phòng Hà Nội / Phú Thọ"></div>
+      <div>
+        <label>Nhà mạng cung cấp:</label>
+        <select><option>VNPT</option><option>Viettel</option><option>FPT Telecom</option><option>CMC Telecom</option></select>
+      </div>
+      <div><label>Gói băng thông:</label><input type="text" placeholder="VD: FiberVNN 100Mbps"></div>
+      <div><label>Mã đường truyền / CID:</label><input type="text"></div>
+      <div><label>Cước phí tháng (VND):</label><input type="text" value="0"></div>
+      <div><label>Kỳ cước nhập:</label><input type="text" value="05/2026"></div>
+    </div>
+    <button class="btn" style="margin-bottom:15px;">💾 Lưu Cước & Tải Tệp Lên Drive</button>
+
     <h3>DANH SÁCH CHI PHÍ ĐƯỜNG TRUYỀN INTERNET NĂM 2026</h3>
-    <p>Quản lý chi phí mạng VNPT, Viettel, FPT, CMC.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>STT</th><th>Điểm kết nối / Văn phòng</th><th>Nhà mạng</th><th>Gói băng thông</th>
+          <th>Mã thuê bao / Đường truyền</th><th>Chi phí (VND)</th><th>Kỳ cước</th><th>Folder & File Đính Kèm</th><th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="9">Chưa có dữ liệu cước mạng.</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <!-- TAB 4: THIẾT BỊ CNTT -->
+  <!-- ==================== TAB 4: THIẾT BỊ CNTT ==================== -->
   <div id="tab-cntt" class="tab-content">
+    <h3>Quản Lý Tài Sản & Kiểm Kê Thiết Bị Công Nghệ Thông Tin (Năm 2026)</h3>
+    <div class="form-grid">
+      <div><label>Người sử dụng:</label><input type="text"></div>
+      <div><label>Phòng ban / Bộ phận:</label><input type="text"></div>
+      <div>
+        <label>Loại thiết bị phần cứng:</label>
+        <select>
+          <option>Laptop Doanh Nghiệp</option>
+          <option>Máy tính bàn Workstation</option>
+          <option>Máy in văn phòng</option>
+          <option>Máy chủ trung tâm Server</option>
+          <option>Thiết bị Mạng (Router/Switch/AP)</option>
+        </select>
+      </div>
+      <div><label>Mã định danh (Auto):</label><input type="text" value="TB-2026-001" readonly style="background:#eee;"></div>
+      <div><label>Cấu hình chi tiết:</label><input type="text" placeholder="Core i7 / 16GB RAM / 512GB SSD"></div>
+      <div><label>Hệ điều hành (OS):</label><input type="text" value="Windows 11 Pro"></div>
+      <div><label>Bộ Office / ERP:</label><input type="text" value="Office 2021 / ASIA ERP"></div>
+    </div>
+    <button class="btn" style="margin-bottom:15px;">💾 Lưu Tài Sản Thiết Bị & Tạo QR Code</button>
+
     <h3>BẢNG TỔNG HỢP KIỂM KÊ TRANG THIẾT BỊ CNTT NĂM 2026</h3>
-    <p>Quản lý kiểm kê tài sản và tạo tem QR Code.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>STT</th><th>Mã tài sản</th><th>Loại</th><th>Cấu hình phần cứng</th><th>Người dùng</th>
+          <th>Phòng ban</th><th>Hệ điều hành & BQ OS</th><th>Bộ Office & ERP</th><th>Trạng thái</th><th>QR Code</th><th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="11">Chưa có dữ liệu kiểm kê thiết bị.</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <!-- CẤU HÌNH LINK GOOGLE SHEET VÀ DRIVE -->
+  <!-- ==================== CẤU HÌNH LINK GOOGLE SHEET VÀ DRIVE ==================== -->
   <div class="config-box">
-    <h3 style="margin-top:0; color: #1b5e20;">⚙️ CẤU HÌNH LINK GOOGLE SHEET VÀ DRIVE</h3>
+    <h3 style="margin-top:0; color: var(--primary);">⚙️ CẤU HÌNH LINK GOOGLE SHEET VÀ DRIVE</h3>
     
-    <div class="form-group">
-      <label>1. Link Google Script Web App API (.../exec):</label>
-      <input type="text" id="cfgApi" placeholder="https://script.google.com/macros/s/.../exec">
+    <div style="margin-bottom: 8px;">
+      <label><b>1. Link Google Script Web App API (.../exec):</b></label>
+      <input type="text" id="cfgApi" placeholder="https://script.google.com/macros/s/AKfycb.../exec">
     </div>
 
-    <div class="form-group">
-      <label>2. Link Google Sheets Xem BẢNG LƯƠNG Trực Tiếp:</label>
-      <input type="text" id="cfgSheet" placeholder="https://docs.google.com/spreadsheets/d/.../edit">
+    <div style="margin-bottom: 12px;">
+      <label><b>2. Link Google Sheets Xem BẢNG LƯƠNG Trực Tiếp:</b></label>
+      <input type="text" id="cfgSheet" placeholder="https://docs.google.com/spreadsheets/d/1QkvmX4ZIP1qdKwvZ4UHywoih9Go2qPtGjHpIp_6cZRo/edit">
     </div>
 
-    <button class="btn" onclick="luuCauHinhContext()">💾 Lưu Cấu Hình Link</button>
+    <button class="btn" onclick="luuCauHinh()">💾 Lưu Cấu Hình Link</button>
   </div>
 </div>
 
 <script>
-  // Link Sheet Mặc định dự phòng chuẩn tuyệt đối
+  // Link Google Sheet Bảng lương mặc định cố định chuẩn
   const DEFAULT_SHEET = "https://docs.google.com/spreadsheets/d/1QkvmX4ZIP1qdKwvZ4UHywoih9Go2qPtGjHpIp_6cZRo/edit";
 
+  // Khôi phục giá trị đã lưu khi tải trang
   window.onload = function() {
-    var api = localStorage.getItem("qllvp_api_url") || "";
-    var sheet = localStorage.getItem("qllvp_sheet_url") || DEFAULT_SHEET;
-    document.getElementById("cfgApi").value = api;
-    document.getElementById("cfgSheet").value = sheet;
+    var savedApi = localStorage.getItem("qllvp_api_url") || "";
+    var savedSheet = localStorage.getItem("qllvp_sheet_url") || DEFAULT_SHEET;
+
+    document.getElementById("cfgApi").value = savedApi;
+    document.getElementById("cfgSheet").value = savedSheet;
   };
 
-  // CHUYỂN TAB CÁC PHÂN HỆ QUẢN LÝ
+  // CHUYỂN TABS CHỨC NĂNG
   function switchTab(tabId) {
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-    
+    var btns = document.querySelectorAll('.tab-btn');
+    var contents = document.querySelectorAll('.tab-content');
+
+    btns.forEach(b => b.classList.remove('active'));
+    contents.forEach(c => c.classList.remove('active'));
+
     event.target.classList.add('active');
     document.getElementById('tab-' + tabId).classList.add('active');
   }
 
-  // HÀM MỞ SHEET CHUẨN - CHỐNG 100% LỖI UNDEFINED & 404
-  function moSheetChuan() {
-    var inputVal = document.getElementById("cfgSheet").value.trim();
-    var target = inputVal || localStorage.getItem("qllvp_sheet_url") || DEFAULT_SHEET;
+  // HÀM MỞ SHEET AN TOÀN tuyệt đối - CHỐNG 100% LỖI 404 & UNDEFINED
+  function moGoogleSheet() {
+    var sheetInput = document.getElementById("cfgSheet").value.trim();
+    var targetUrl = sheetInput || localStorage.getItem("qllvp_sheet_url") || DEFAULT_SHEET;
 
-    if (!target || target === "undefined" || target === "null") {
-      target = DEFAULT_SHEET;
+    if (!targetUrl || targetUrl === "undefined" || targetUrl === "null") {
+      targetUrl = DEFAULT_SHEET;
     }
 
-    if (!target.startsWith("http://") && !target.startsWith("https://")) {
-      target = "https://" + target;
+    if (!targetUrl.startsWith("http://") && !targetUrl.startsWith("https://")) {
+      targetUrl = "https://" + targetUrl;
     }
 
-    window.open(target, "_blank");
+    window.open(targetUrl, "_blank");
   }
 
-  // LƯU CẤU HÌNH LINK
-  function luuCauHinhContext() {
+  // HÀM LƯU CẤU HÌNH
+  function luuCauHinh() {
     var apiVal = document.getElementById("cfgApi").value.trim();
     var sheetVal = document.getElementById("cfgSheet").value.trim() || DEFAULT_SHEET;
 
@@ -148,21 +292,22 @@
     showAlert("✅ Đã lưu cấu hình link thành công!", "success");
   }
 
-  // ĐỒNG BỘ API
-  function dongBoApi() {
+  // HÀM ĐỒNG BỘ API
+  function dongBoApi(module) {
     var api = localStorage.getItem("qllvp_api_url") || document.getElementById("cfgApi").value.trim();
+
     if (!api || api === "undefined") {
-      showAlert("❌ Vui lòng nhập và Lưu Link Web App API (.../exec) trước!", "error");
+      showAlert("❌ Vui lòng dán và Lưu Link Web App API (.../exec) trong phần Cấu Hình đằng dưới trước!", "error");
       return;
     }
 
-    showAlert("⏳ Đang kết nối mây và đồng bộ dữ liệu...", "success");
+    showAlert("⏳ Đang kết nối mây và tải dữ liệu...", "success");
 
     fetch(api + "?action=format")
       .then(res => res.json())
       .then(data => {
         if (data.status === "success" || data.success) {
-          showAlert("✅ Đồng bộ thành công: " + (data.message || "Đã kết nối mây!"), "success");
+          showAlert("✅ Kết nối mây thành công: " + (data.message || "Đã đồng bộ dữ liệu!"), "success");
         } else {
           showAlert("⚠️ Phản hồi từ mây: " + JSON.stringify(data), "error");
         }
