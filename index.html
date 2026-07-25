@@ -274,7 +274,7 @@
                                     <th colspan="4" class="text-center" style="background-color: #bfdbfe; color:#1e3a8a;">Lương Cơ Bản HĐLĐ</th>
                                     <th colspan="3" class="text-center" style="background-color: #bae6fd; color:#0369a1;">Số Ngày Công Thực Tế</th>
                                     <th colspan="5" class="text-center" style="background-color: #e2e8f0;">Cơ cấu & Thực Lĩnh Lương Cơ Bản (CB)</th>
-                                    <th colspan="8" class="text-center" style="background-color: #e9d5ff; color:#581c87;">Cơ cấu & Khấu trừ Lương Công Việc (CV)</th>
+                                    <th colspan="9" class="text-center" style="background-color: #e9d5ff; color:#581c87;">Cơ cấu & Khấu trừ Lương Công Việc (CV)</th>
                                     <th rowspan="2" style="background-color: #fef08a; color:#713f12; font-size:14px; font-weight:bold; min-width:135px; text-align:center;">TỔNG THỰC LĨNH NET</th>
                                     <th rowspan="2" style="width: 40px; text-align:center;">Xóa</th>
                                 </tr>
@@ -293,9 +293,10 @@
                                     <th style="background-color: #bfdbfe; font-weight:bold; color:#1e3a8a;">Thực Lĩnh CB</th>
                                     <th style="background:#fef9c3; width:65px;">Hệ số LCV</th>
                                     <th style="background:#fef9c3; width:65px;">Phụ cấp LCV</th>
+                                    <th style="background:#fde047; width:65px; color:#713f12;">HS HTCV</th>
                                     <th>LCV Gốc</th>
                                     <th>LCV Thực Tế</th>
-                                    <th style="background:#ffedd5; color: #c2410c; min-width:115px;">Tạm Ứng (Cho phép sửa)</th>
+                                    <th style="background:#ffedd5; color: #c2410c; min-width:115px;">Tạm Ứng</th>
                                     <th style="background:#fee2e2; color: #991b1b; min-width:115px;">Quỹ PCTT</th>
                                     <th style="background:#fee2e2; color: #991b1b; min-width:115px;">Trừ Ứng Lương</th>
                                     <th style="background-color: #e9d5ff; font-weight:bold; color:#581c87;">Thực Lĩnh CV</th>
@@ -643,22 +644,22 @@
         let CURRENT_SELECTED_YEAR = "2026";
 
         const default16Staffs = [
-            {"name": "Nguyễn Minh Ngọc", "account": "105005712499", "lcb_heso": 1.94, "lcb_phucap": 0.25, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 5.20, "phu_cap_lcv": 0.6, "tam_ung": 5000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Nguyễn Văn Nam", "account": "105004242307", "lcb_heso": 1.48, "lcb_phucap": 0.00, "NT": 14, "P": 6, "le_vr": 1, "he_so_lcv": 2.24, "phu_cap_lcv": 0.0, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Nguyễn Thị Tuyết Nhung", "account": "102005035542", "lcb_heso": 1.79, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.74, "phu_cap_lcv": 0.0, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Vũ Thị Thu", "account": "106004294441", "lcb_heso": 1.94, "lcb_phucap": 0.00, "NT": 21, "P": 0, "le_vr": 1, "he_so_lcv": 1.86, "phu_cap_lcv": 0.0, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Đào Thị Liên", "account": "106004359838", "lcb_heso": 1.79, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.74, "phu_cap_lcv": 0.0, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Võ Thị Thanh Tuyền", "account": "106868653975", "lcb_heso": 1.71, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.74, "phu_cap_lcv": 0.0, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Trần Thị Thanh", "account": "105004294439", "lcb_heso": 1.67, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.48, "phu_cap_lcv": 0.0, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Trần Đức Chiến", "account": "102004797815", "lcb_heso": 1.83, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.66, "phu_cap_lcv": 0.0, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Phạm Tiến Long", "account": "104004583045", "lcb_heso": 1.80, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.62, "phu_cap_lcv": 0.0, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Đinh Hữu Vinh", "account": "100004797831", "lcb_heso": 1.83, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.66, "phu_cap_lcv": 0.0, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Bùi Đình Điệp", "account": "101004882063", "lcb_heso": 1.53, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.62, "phu_cap_lcv": 0.0, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Hoàng Mạnh Hùng", "account": "100006186724", "lcb_heso": 1.53, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.62, "phu_cap_lcv": 0.0, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Ma Trọng Luận", "account": "106869104133", "lcb_heso": 1.35, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.63, "phu_cap_lcv": 0.0, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Trần Bình Dương", "account": "106873586343", "lcb_heso": 1.79, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 2.40, "phu_cap_lcv": 0.0, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Đặng Trần Trung", "account": "107002654931", "lcb_heso": 1.53, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.62, "phu_cap_lcv": 0.0, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Phạm Huy Chiến", "account": "102004830132", "lcb_heso": 2.26, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 2.40, "phu_cap_lcv": 0.0, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0}
+            {"name": "Nguyễn Minh Ngọc", "account": "105005712499", "lcb_heso": 1.94, "lcb_phucap": 0.25, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 5.20, "phu_cap_lcv": 0.6, "hs_htcv": 1.0, "tam_ung": 5000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Nguyễn Văn Nam", "account": "105004242307", "lcb_heso": 1.48, "lcb_phucap": 0.00, "NT": 14, "P": 6, "le_vr": 1, "he_so_lcv": 2.24, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Nguyễn Thị Tuyết Nhung", "account": "102005035542", "lcb_heso": 1.79, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.74, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Vũ Thị Thu", "account": "106004294441", "lcb_heso": 1.94, "lcb_phucap": 0.00, "NT": 21, "P": 0, "le_vr": 1, "he_so_lcv": 1.86, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Đào Thị Liên", "account": "106004359838", "lcb_heso": 1.79, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.74, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Võ Thị Thanh Tuyền", "account": "106868653975", "lcb_heso": 1.71, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.74, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Trần Thị Thanh", "account": "105004294439", "lcb_heso": 1.67, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.48, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Trần Đức Chiến", "account": "102004797815", "lcb_heso": 1.83, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.66, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Phạm Tiến Long", "account": "104004583045", "lcb_heso": 1.80, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.62, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Đinh Hữu Vinh", "account": "100004797831", "lcb_heso": 1.83, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.66, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Bùi Đình Điệp", "account": "101004882063", "lcb_heso": 1.53, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.62, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Hoàng Mạnh Hùng", "account": "100006186724", "lcb_heso": 1.53, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.62, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Ma Trọng Luận", "account": "106869104133", "lcb_heso": 1.35, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.63, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Trần Bình Dương", "account": "106873586343", "lcb_heso": 1.79, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 2.40, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Đặng Trần Trung", "account": "107002654931", "lcb_heso": 1.53, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.62, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Phạm Huy Chiến", "account": "102004830132", "lcb_heso": 2.26, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 2.40, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0}
         ];
 
         let salaryConfigsByMonth = JSON.parse(localStorage.getItem('sys_salary_configs_by_month')) || {};
@@ -678,7 +679,6 @@
             return parseInt(str.toString().replace(/[^\d]/g, ''), 10) || 0;
         }
 
-        // Hàm chống nhảy chữ khi đang nhập số tiền
         function handleMoneyFocus(inputEl) {
             inputEl.value = parseCurrencyVN(inputEl.value);
         }
@@ -778,6 +778,7 @@
                 let val_NT = row.NT !== undefined && row.NT !== null && row.NT !== "" ? parseFloat(row.NT) : 20;
                 let val_P = row.P !== undefined && row.P !== null && row.P !== "" ? parseFloat(row.P) : 0;
                 let val_LE = row.le_vr !== undefined && row.le_vr !== null && row.le_vr !== "" ? parseFloat(row.le_vr) : 1;
+                let val_hsHtcv = row.hs_htcv !== undefined && row.hs_htcv !== null && row.hs_htcv !== "" ? parseFloat(row.hs_htcv) : 1.0;
 
                 let tongHeSoLCB = parseFloat(row.lcb_heso || 0) + parseFloat(row.lcb_phucap || 0);
 
@@ -790,7 +791,7 @@
                 let bh = Math.round(luong_ky_hdld * 0.105);
                 let thuc_linh_cb = l_tong_cb - bh;
                 
-                let luong_cong_viec = Math.round((parseFloat(row.he_so_lcv || 0) + parseFloat(row.phu_cap_lcv || 0)) * lcvReg);
+                let luong_cong_viec = Math.round((parseFloat(row.he_so_lcv || 0) + parseFloat(row.phu_cap_lcv || 0)) * lcvReg * val_hsHtcv);
                 let lcv_thucte = Math.round((luong_cong_viec / 22) * val_NT); 
                 
                 let tamUngVal = row.tam_ung !== undefined ? parseCurrencyVN(row.tam_ung) : 0;
@@ -822,6 +823,7 @@
                     <td class="text-right font-bold" style="background:#bfdbfe; color:#1e3a8a;">${formatCurrencyVN(thuc_linh_cb)}</td>
                     <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:700;" type="number" step="0.01" value="${row.he_so_lcv}" oninput="updateSalaryRowValue(${index}, 'he_so_lcv', this.value)"></td>
                     <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:700;" type="number" step="0.01" value="${row.phu_cap_lcv || 0}" oninput="updateSalaryRowValue(${index}, 'phu_cap_lcv', this.value)"></td>
+                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:800; background:#fef08a;" type="number" step="0.01" value="${val_hsHtcv}" oninput="updateSalaryRowValue(${index}, 'hs_htcv', this.value)"></td>
                     <td class="text-right">${formatCurrencyVN(luong_cong_viec)}</td>
                     <td class="text-right font-bold">${formatCurrencyVN(lcv_thucte)}</td>
                     <td class="text-right"><input class="inp-table inp-currency" type="text" value="${formatCurrencyVN(tamUngVal)}" onfocus="this.value=parseCurrencyVN(this.value)" onblur="this.value=formatCurrencyVN(parseCurrencyVN(this.value)); updateSalaryRowValue(${index}, 'tam_ung', this.value)"></td>
@@ -843,7 +845,7 @@
         function updateSalaryRowValue(index, field, val) {
             let sm = document.getElementById('filter-month').value;
             salaryDataByMonth[sm][index][field] = (field === 'name' || field === 'account') ? val : parseCurrencyVN(val);
-            if (field.includes('heso') || field.includes('phucap')) {
+            if (field.includes('heso') || field.includes('phucap') || field === 'hs_htcv') {
                 salaryDataByMonth[sm][index][field] = parseFloat(val) || 0;
             }
             calculateSalaryLogic();
@@ -853,7 +855,7 @@
             let sm = document.getElementById('filter-month').value;
             if (!salaryDataByMonth[sm]) salaryDataByMonth[sm] = [];
             salaryDataByMonth[sm].push({
-                "name": "Nhân viên mới", "account": "0000000000", "lcb_heso": 1.5, "lcb_phucap": 0.0, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.6, "phu_cap_lcv": 0.0, "tam_ung": 0, "pctt": 0, "tru_ung": 0
+                "name": "Nhân viên mới", "account": "0000000000", "lcb_heso": 1.5, "lcb_phucap": 0.0, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.6, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "tam_ung": 0, "pctt": 0, "tru_ung": 0
             });
             calculateSalaryLogic();
         }
