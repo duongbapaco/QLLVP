@@ -367,7 +367,7 @@
     </div>
 
     <script>
-        const CURRENT_DATA_VERSION = "v_2026_07_25_fixed_input_and_drive_v3"; 
+        const CURRENT_DATA_VERSION = "v_2026_07_25_multisheet_v4"; 
 
         const HARDCODED_SCRIPT_API = "https://script.google.com/macros/s/AKfycbzONon27Dy0enBQr2VrnOGnBcXUHZE8pL0o-cNnydBlcr3wF8NUk8Qd9yu8Uynxi_qx/exec";
         let GOOGLE_SHEET_VIEW_URL = localStorage.getItem('sys_cfg_sheet_url') || "https://docs.google.com/spreadsheets/d/1QkvmX4ZIP1qdKwvZ4UHywoih9Go2qPtGjHpIp_6cZRo/edit"; 
@@ -563,7 +563,6 @@
             document.getElementById('v-total-thuc').innerText = formatCurrencyVN(T_o_thuc_linh_tong) + " VND";
         }
 
-        // SỬA LỖI NHẢY CON TRỎ CHUỘT: Dùng onchange để khi gõ xong mới format lại tiền
         function handleCurrencyCellInput(inputEl, index, field) {
             let rawNum = parseCurrencyVN(inputEl.value);
             inputEl.value = formatCurrencyVN(rawNum);
@@ -605,7 +604,7 @@
             notifyBox.style.background = "#ebf8ff";
             notifyBox.style.color = "#2b6cb0";
             notifyBox.style.border = "1px solid #90cdf4";
-            notifyBox.innerText = "⏳ Đang kết nối và đồng bộ bảng lương sang thư mục Drive...";
+            notifyBox.innerText = "⏳ Đang khởi tạo và xuất file Google Sheet 5 Sheet chuyên nghiệp sang Google Drive...";
 
             try {
                 let payload = {
@@ -629,8 +628,8 @@
                     notifyBox.style.background = "#c6f6d5";
                     notifyBox.style.color = "#22543d";
                     notifyBox.style.border = "1px solid #9ae6b4";
-                    notifyBox.innerHTML = `🎉 <b>Đồng bộ thành công!</b> Tệp bảng lương đã được xuất vào thư mục 'báo cáo lương năm ${CURRENT_SELECTED_YEAR}'. <br>
-                    <a href="${result.fileUrl}" target="_blank" style="color:#2b6cb0; font-weight:bold; text-decoration:underline; margin-right:15px;">👉 Mở Google Sheet vừa tạo</a>
+                    notifyBox.innerHTML = `🎉 <b>Đồng bộ thành công!</b> Tệp bảng lương chuẩn 5 Sheet đã được xuất vào thư mục 'báo cáo lương năm ${CURRENT_SELECTED_YEAR}'. <br>
+                    <a href="${result.fileUrl}" target="_blank" style="color:#2b6cb0; font-weight:bold; text-decoration:underline; margin-right:15px;">👉 Mở Google Sheet vừa tạo (5 Sheet)</a>
                     <a href="${result.folderUrl}" target="_blank" style="color:#6d28d9; font-weight:bold; text-decoration:underline;">📁 Mở Thư Mục Báo Cáo Trên Drive</a>`;
                 } else {
                     throw new Error(result.message);
