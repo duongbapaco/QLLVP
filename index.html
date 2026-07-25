@@ -62,15 +62,12 @@
                 </div>
             </div>
 
-            <!-- NÚT THỰC THI & LINK SHEET -->
+            <!-- NÚT THỰC THI & THANH TIẾN ĐỘ -->
             <div class="mt-5 flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-100">
                 <div class="flex items-center gap-3">
                     <button onclick="triggerSyncData()" class="bg-teal-700 hover:bg-teal-800 text-white font-bold px-6 py-2.5 rounded shadow transition flex items-center gap-2 text-sm">
                         <i class="fa-solid fa-cloud-arrow-up"></i> Đồng bộ & Tạo Hồ Sơ Drive
                     </button>
-                    <a id="file-link-output" href="#" target="_blank" class="hidden text-sm text-blue-600 underline font-bold flex items-center gap-1">
-                        <i class="fa-solid fa-file-excel"></i> Mở Bảng Tính Trên Google Drive
-                    </a>
                 </div>
                 <div class="text-xs text-slate-500">
                     <i class="fa-solid fa-shield-halved text-teal-600 mr-1"></i> Tự động phân loại thư mục theo năm/tháng & sinh năm tiếp theo
@@ -95,7 +92,7 @@
         <!-- NỘI DUNG CÁC TAB -->
         <div class="bg-white rounded-xl shadow-sm p-5 border border-slate-200 min-h-[450px]">
             
-            <!-- TAB 1: NHÂN SỰ & TẠM ỨNG (16 Nhân sự thực tế văn phòng) -->
+            <!-- TAB 1: NHÂN SỰ & TẠM ỨNG -->
             <div id="tab-nhansu" class="tab-content">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="font-bold text-slate-800 text-base"><i class="fa-solid fa-users text-teal-600 mr-2"></i> Danh Sách 16 Nhân Sự Văn Phòng & Nhập Liệu Tạm Ứng</h3>
@@ -122,54 +119,47 @@
                                 <th class="border border-slate-300 p-2">Thao tác</th>
                             </tr>
                         </thead>
-                        <tbody id="staff-table-body">
-                            <!-- Render dữ liệu thực tế -->
-                        </tbody>
+                        <tbody id="staff-table-body"></tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- TAB 2: HỒ SƠ THANH TOÁN -->
+            <!-- TAB 2: HỒ SƠ THANH TOÁN & ĐÍNH KÈM CHỨNG TỪ -->
             <div id="tab-hstt" class="tab-content hidden">
-                <h3 class="font-bold text-slate-800 text-base mb-4"><i class="fa-solid fa-file-invoice-dollar text-teal-600 mr-2"></i> Hồ Sơ Thanh Toán Chuyên Sâu</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Nội dung thanh toán</label>
-                        <input type="text" id="hstt-content" placeholder="Ví dụ: Quyết toán chi phí văn phòng phẩm..." class="w-full p-2 border border-slate-300 rounded text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Đơn vị thụ hưởng</label>
-                        <input type="text" id="hstt-receiver" placeholder="Tên công ty / Cửa hàng..." class="w-full p-2 border border-slate-300 rounded text-sm">
-                    </div>
-                </div>
-                <div class="border border-dashed border-teal-300 rounded-lg p-6 text-center text-slate-600 bg-teal-50/50">
-                    <i class="fa-solid fa-folder-open text-3xl mb-2 text-teal-600"></i>
-                    <p class="text-sm font-bold">Thư mục đính kèm định tuyến: "1. Hồ sơ thanh toán"</p>
-                    <span class="text-xs text-slate-500">Chứng từ sẽ được lưu trữ phân loại chuẩn xác theo tháng và năm trên Google Drive.</span>
+                <h3 class="font-bold text-slate-800 text-base mb-4"><i class="fa-solid fa-file-invoice-dollar text-teal-600 mr-2"></i> Hồ Sơ Thanh Toán & Tải Lên Chứng Từ</h3>
+                <div class="p-4 border rounded-lg bg-teal-50/40 border-teal-200">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Chọn Tệp Chứng Từ / Hóa Đơn Đính Kèm (Lưu tự động vào mục 1. Hồ sơ thanh toán):</label>
+                    <input type="file" id="file-hstt" class="w-full p-2 border border-slate-300 rounded text-sm bg-white mb-3">
+                    <button onclick="uploadFileToDrive('1. Hồ sơ thanh toán', 'file-hstt', 'status-hstt')" class="bg-teal-700 hover:bg-teal-800 text-white font-bold px-4 py-2 rounded text-xs">
+                        <i class="fa-solid fa-upload mr-1"></i> Tải Lên Google Drive
+                    </button>
+                    <span id="status-hstt" class="ml-3 text-xs font-bold text-slate-600"></span>
                 </div>
             </div>
 
             <!-- TAB 3: CƯỚC VIỄN THÔNG & INTERNET -->
             <div id="tab-vt" class="tab-content hidden">
-                <h3 class="font-bold text-slate-800 text-base mb-4"><i class="fa-solid fa-tower-cell text-teal-600 mr-2"></i> Quản Lý Cước Viễn Thông & Internet</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="p-4 border rounded-lg bg-slate-50 shadow-sm">
-                        <h4 class="font-bold text-sm mb-2 text-blue-900"><i class="fa-solid fa-mobile-screen-button mr-1"></i> Thuê bao Di động Nghiệp vụ</h4>
-                        <p class="text-xs text-slate-600">Theo dõi định mức cước, kiểm soát số lượng thuê bao đứng tên cơ quan và đối soát hóa đơn nhà mạng VNPT/Viettel.</p>
-                    </div>
-                    <div class="p-4 border rounded-lg bg-slate-50 shadow-sm">
-                        <h4 class="font-bold text-sm mb-2 text-blue-900"><i class="fa-solid fa-globe mr-1"></i> Đường truyền Internet Văn phòng & Nhà máy</h4>
-                        <p class="text-xs text-slate-600">Đồng bộ chứng từ thanh toán cước cáp quang, kênh truyền số liệu WAN và lưu trữ chứng từ tại thư mục "2. Cước Viễn thông & Internet".</p>
-                    </div>
+                <h3 class="font-bold text-slate-800 text-base mb-4"><i class="fa-solid fa-tower-cell text-teal-600 mr-2"></i> Quản Lý Cước Viễn Thông & Hóa Đơn Mạng</h3>
+                <div class="p-4 border rounded-lg bg-blue-50/40 border-blue-200">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Chọn Hóa Đơn Cước Mạng / Di Động (Lưu tự động vào mục 2. Cước Viễn thông & Internet):</label>
+                    <input type="file" id="file-vt" class="w-full p-2 border border-slate-300 rounded text-sm bg-white mb-3">
+                    <button onclick="uploadFileToDrive('2. Cước Viễn thông & Internet', 'file-vt', 'status-vt')" class="bg-blue-700 hover:bg-blue-800 text-white font-bold px-4 py-2 rounded text-xs">
+                        <i class="fa-solid fa-upload mr-1"></i> Tải Lên Google Drive
+                    </button>
+                    <span id="status-vt" class="ml-3 text-xs font-bold text-slate-600"></span>
                 </div>
             </div>
 
             <!-- TAB 4: THIẾT BỊ CNTT -->
             <div id="tab-cntt" class="tab-content hidden">
-                <h3 class="font-bold text-slate-800 text-base mb-4"><i class="fa-solid fa-laptop text-teal-600 mr-2"></i> Danh Mục Thiết Bị Công Nghệ Thông Tin</h3>
-                <p class="text-xs text-slate-500 mb-4">Quản lý tài sản số, máy tính, máy in, thiết bị mạng phân bổ tại Văn phòng Hà Nội và nhà máy Phú Thọ.</p>
-                <div class="p-4 bg-slate-50 border rounded-lg text-xs text-slate-700 shadow-sm">
-                    📂 Tất cả biên bản bàn giao, thanh lý thiết bị được phân loại lưu trữ tự động vào thư mục chuyên mục <strong>"3. Thiết bị CNTT"</strong> theo từng tháng và năm.
+                <h3 class="font-bold text-slate-800 text-base mb-4"><i class="fa-solid fa-laptop text-teal-600 mr-2"></i> Kiểm Kê & Biên Bản Bàn Giao Thiết Bị CNTT</h3>
+                <div class="p-4 border rounded-lg bg-slate-50 border-slate-300">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Chọn Biên Bản Thiết Bị (Lưu tự động vào mục 3. Thiết bị CNTT):</label>
+                    <input type="file" id="file-cntt" class="w-full p-2 border border-slate-300 rounded text-sm bg-white mb-3">
+                    <button onclick="uploadFileToDrive('3. Thiết bị CNTT', 'file-cntt', 'status-cntt')" class="bg-slate-800 hover:bg-slate-900 text-white font-bold px-4 py-2 rounded text-xs">
+                        <i class="fa-solid fa-upload mr-1"></i> Tải Lên Google Drive
+                    </button>
+                    <span id="status-cntt" class="ml-3 text-xs font-bold text-slate-600"></span>
                 </div>
             </div>
 
@@ -193,10 +183,10 @@
         <!-- KHUNG XEM TRƯỚC VÀ QUẢN LÝ TÀI LIỆU ĐÍNH KÈM -->
         <div class="mt-6 bg-white rounded-xl shadow-sm p-5 border border-slate-200">
             <h3 class="font-bold text-slate-800 text-sm mb-3 flex items-center gap-2">
-                <i class="fa-solid fa-folder-tree text-teal-600"></i> Xem Trước Cấu Trúc Thư Mục & Tài Liệu Đính Kèm Theo Tháng
+                <i class="fa-solid fa-folder-tree text-teal-600"></i> Xem Trước Cấu Trúc Thư Mục & Tệp Đính Kèm Theo Tháng
             </h3>
             <div id="file-preview-box" class="p-4 bg-slate-50 rounded-lg border border-dashed border-slate-300 text-xs text-slate-600">
-                Chưa khởi tạo. Vui lòng nhấn nút <strong>"Đồng bộ & Tạo Hồ Sơ Drive"</strong> để hệ thống tự động sinh cấu trúc thư mục năm, tháng và các thư mục con phân loại đính kèm.
+                Chưa khởi tạo. Vui lòng nhấn nút <strong>"Đồng bộ & Tạo Hồ Sơ Drive"</strong> để hệ thống tự động sinh cấu trúc thư mục.
             </div>
         </div>
 
@@ -209,7 +199,6 @@
 
     <!-- SCRIPT XỬ LÝ FRONTEND -->
     <script>
-        // Danh sách 16 cán bộ nhân viên thực tế của Văn phòng Tổng công ty Giấy Việt Nam
         let staffList = [
             { id: 1, name: "Nguyễn Minh Ngọc", lcb_heso: 1.94, lcb_phucap: 0.25, he_so_lcv: 5.20, phu_cap_lcv: 0.60, NT: 22, P: 0, le_vr: 0, hs_htcv: 1.0, tam_ung: 5000000, account: "105005712499" },
             { id: 2, name: "Nguyễn Văn Nam", lcb_heso: 1.48, lcb_phucap: 0.0, he_so_lcv: 2.24, phu_cap_lcv: 0.0, NT: 19, P: 3, le_vr: 0, hs_htcv: 1.0, tam_ung: 4000000, account: "105004242307" },
@@ -229,7 +218,7 @@
             { id: 16, name: "Phạm Huy Chiến", lcb_heso: 2.26, lcb_phucap: 0.0, he_so_lcv: 2.40, phu_cap_lcv: 0.0, NT: 22, P: 0, le_vr: 0, hs_htcv: 1.0, tam_ung: 4000000, account: "107008999111" }
         ];
 
-        // Link Web App API từ Google Apps Script của bạn
+        // Link Web App API Google Apps Script của bạn
         const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzONon27Dy0enBQr2VrnOGnBcXUHZE8pL0o-cNnydBlcr3wF8NUk8Qd9yu8Uynxi_qx/exec";
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -289,7 +278,7 @@
             renderStaffTable();
         }
 
-        // TIẾN TRÌNH ĐỒNG BỘ VÀ HIỂN THỊ THANH TIẾN ĐỘ
+        // TIẾN TRÌNH ĐỒNG BỘ LƯƠNG
         function triggerSyncData() {
             const progressContainer = document.getElementById('sync-progress-container');
             const progressBar = document.getElementById('sync-progress-bar');
@@ -320,7 +309,6 @@
                 }
             }, 300);
 
-            // Gửi dữ liệu qua Apps Script Web App API
             fetch(APPS_SCRIPT_URL, {
                 method: "POST",
                 mode: "no-cors",
@@ -339,19 +327,63 @@
                     document.getElementById('file-preview-box').innerHTML = `
                         <div class="text-green-700 font-bold mb-2"><i class="fa-solid fa-circle-check mr-1"></i> Đã đồng bộ thành công vào Thư mục: Lương hàng năm Văn phòng/${yearVal}/Tháng ${monthVal}</div>
                         <ul class="list-disc pl-5 space-y-1 text-slate-700">
-                            <li>📁 1. Hồ sơ thanh toán (Sẵn sàng nhận chứng từ)</li>
-                            <li>📁 2. Cước Viễn thông & Internet (Sẵn sàng nhận hóa đơn)</li>
-                            <li>📁 3. Thiết bị CNTT (Sẵn sàng nhận biên bản tài sản)</li>
-                            <li>📁 4. Quyết định & Trình ký (Sẵn sàng lưu bản PDF/Doc)</li>
+                            <li>📁 1. Hồ sơ thanh toán</li>
+                            <li>📁 2. Cước Viễn thông & Internet</li>
+                            <li>📁 3. Thiết bị CNTT</li>
+                            <li>📁 4. Quyết định & Trình ký</li>
                         </ul>
                     `;
-                    alert("Đồng bộ hệ thống và phân loại thư mục thành công!");
+                    alert("Đồng bộ hệ thống và cấu trúc thư mục thành công!");
                 }, 800);
             }).catch(err => {
                 clearInterval(interval);
                 progressContainer.classList.add('hidden');
                 alert("Lỗi kết nối đồng bộ: " + err);
             });
+        }
+
+        // HÀM TẢI TỆP ĐÍNH KÈM LÊN GOOGLE DRIVE THEO CHUYÊN MỤC
+        function uploadFileToDrive(categoryName, inputId, statusId) {
+            const fileInput = document.getElementById(inputId);
+            const statusLabel = document.getElementById(statusId);
+            
+            if (fileInput.files.length === 0) {
+                alert("Vui lòng chọn một tệp đính kèm trước khi tải lên!");
+                return;
+            }
+
+            const file = fileInput.files[0];
+            statusLabel.innerText = "Đang tải lên...";
+            statusLabel.style.color = "#0284c7";
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Data = e.target.result;
+                const payload = {
+                    action: "upload_attachment",
+                    year: document.getElementById('cfg-year').value,
+                    month: document.getElementById('cfg-month').value,
+                    category: categoryName,
+                    fileName: file.name,
+                    mimeType: file.type,
+                    fileData: base64Data
+                };
+
+                fetch(APPS_SCRIPT_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                }).then(() => {
+                    statusLabel.innerText = "Tải lên thành công: " + file.name;
+                    statusLabel.style.color = "#16a34a";
+                    fileInput.value = "";
+                }).catch(err => {
+                    statusLabel.innerText = "Lỗi tải lên!";
+                    statusLabel.style.color = "#dc2626";
+                });
+            };
+            reader.readAsDataURL(file);
         }
     </script>
 </body>
