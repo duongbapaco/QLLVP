@@ -1285,15 +1285,22 @@
             }
         }
 
-        /* --- HỒ SƠ THANH TOÁN (HỖ TRỢ ĐÍNH KÈM NHIỀU TỆP) --- */
+        /* --- HỒ SƠ THANH TOÁN (TỰ ĐỘNG BÓC TÁCH NĂM/THÁNG TỪ KỲ BÁO CÁO HOẶC LỊCH CHỌN) --- */
         async function addNewPaymentRecord() {
-            let sm = document.getElementById('filter-month').value;
+            let sm = document.getElementById('filter-month').value; // Lấy kỳ tháng từ bộ lọc chung (ví dụ: "2026-07")
             let parts = sm.split('-');
             let year = parts[0] || CURRENT_SELECTED_YEAR;
             let month = parts[1] || "07";
 
-            let editIndex = parseInt(document.getElementById('edit-payment-index').value);
+            // Tự động bóc tách chuẩn Năm và Tháng từ ô chọn ngày thanh toán (ví dụ "26/07/2026") để đẩy chính xác lên đúng thư mục Google Drive
             let payDateTime = document.getElementById('pay-date-time').value.trim() || "26/07/2026";
+            let dateParts = payDateTime.split('/');
+            if (dateParts.length === 3) {
+                month = dateParts[1];
+                year = dateParts[2];
+            }
+
+            let editIndex = parseInt(document.getElementById('edit-payment-index').value);
             let content = document.getElementById('pay-content').value.trim();
             let receiver = document.getElementById('pay-receiver').value.trim();
             let qty = parseFloat(document.getElementById('pay-qty').value) || 1;
@@ -1321,7 +1328,7 @@
                 let progressText = document.getElementById('progress-text-hstt');
 
                 progressContainer.style.display = "block";
-                statusLabel.innerText = "⏳ Đang tải lên Google Drive (" + fileInput.files.length + " tệp)...";
+                statusLabel.innerText = "⏳ Đang tải lên Google Drive (Năm " + year + " / Tháng " + month + ")...";
 
                 for (let i = 0; i < fileInput.files.length; i++) {
                     let file = fileInput.files[i];
@@ -1368,7 +1375,7 @@
 
             localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
             renderPaymentTable();
-            statusLabel.innerText = "✅ Lưu hồ sơ và đồng bộ Google Drive thành công!";
+            statusLabel.innerText = "✅ Lưu hồ sơ và đồng bộ chính xác vào thư mục [Năm " + year + " / Tháng " + month + "] trên Google Drive!";
         }
 
         function editPaymentRecord(idx) {
@@ -1452,12 +1459,19 @@
         }
         function deletePaymentRecord(idx) { let sm = document.getElementById('filter-month').value; paymentRecordsByMonth[sm].splice(idx, 1); localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth)); renderPaymentTable(); }
 
-        /* --- CƯỚC VIỄN THÔNG (HỖ TRỢ ĐÍNH KÈM NHIỀU TỆP) --- */
+        /* --- CƯỚC VIỄN THÔNG (TỰ ĐỘNG BÓC TÁCH NĂM/THÁNG TỪ KỲ CƯỚC CHỌN) --- */
         async function addNewTelecomRecord() {
             let sm = document.getElementById('filter-month').value;
             let parts = sm.split('-');
             let year = parts[0] || CURRENT_SELECTED_YEAR;
             let month = parts[1] || "07";
+
+            // Tự động bóc tách chuẩn Tháng và Năm từ chuỗi kỳ cước (ví dụ "Tháng 07/2026") để đẩy chính xác lên đúng thư mục Google Drive
+            let period = document.getElementById('tele-period').value.trim() || "Tháng 07/2026";
+            let matchMonth = period.match(/Tháng\s+(\d+)/i);
+            let matchYear = period.match(/\/(\d{4})/);
+            if (matchMonth) month = matchMonth[1].padStart(2, '0');
+            if (matchYear) year = matchYear[1];
 
             let editIndex = parseInt(document.getElementById('edit-telecom-index').value);
             let location = document.getElementById('tele-location').value.trim();
@@ -1465,7 +1479,6 @@
             let bandwidth = document.getElementById('tele-bandwidth').value.trim();
             let cid = document.getElementById('tele-cid').value.trim();
             let amount = parseCurrencyVN(document.getElementById('tele-amount').value);
-            let period = document.getElementById('tele-period').value.trim() || "Tháng 07/2026";
             let fileInput = document.getElementById('file-vt');
             let statusLabel = document.getElementById('status-vt');
 
@@ -1483,7 +1496,7 @@
                 let progressText = document.getElementById('progress-text-vt');
 
                 progressContainer.style.display = "block";
-                statusLabel.innerText = "⏳ Đang tải hóa đơn cước lên Google Drive (" + fileInput.files.length + " tệp)...";
+                statusLabel.innerText = "⏳ Đang tải hóa đơn cước lên Google Drive (Năm " + year + " / Tháng " + month + ")...";
 
                 for (let i = 0; i < fileInput.files.length; i++) {
                     let file = fileInput.files[i];
@@ -1529,7 +1542,7 @@
 
             localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth));
             renderTelecomTable(); 
-            statusLabel.innerText = "✅ Đồng bộ cước và hóa đơn thành công!";
+            statusLabel.innerText = "✅ Đồng bộ cước vào thư mục [Năm " + year + " / Tháng " + month + "] trên Google Drive thành công!";
         }
 
         function editTelecomRecord(idx) {
