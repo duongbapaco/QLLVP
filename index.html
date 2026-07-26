@@ -86,8 +86,8 @@
         .btn-delete { background: #fef2f2; color: #b91c1c; border: 1.5px solid #fca5a5; padding: 3px 8px; font-size: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         .btn-edit { background: #eff6ff; color: #1d4ed8; border: 1.5px solid #93c5fd; padding: 3px 8px; font-size: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 4px; }
         
-        /* NÚT MỞ DRIVE THÔNG MINH, GẮN TÊN CHI TIẾT */
-        .btn-drive-link { display: inline-flex; align-items: center; gap: 5px; background: #e0f2fe; color: #0369a1; border: 1.5px solid #7dd3fc; padding: 4px 10px; font-size: 12px; border-radius: 4px; font-weight: bold; text-decoration: none; cursor: pointer; transition: 0.2s; white-space: nowrap; max-width: 280px; overflow: hidden; text-overflow: ellipsis; }
+        /* NÚT MỞ FOLDER DRIVE GỌN GÀNG, DUY NHẤT MỖI DÒNG */
+        .btn-drive-link { display: inline-flex; align-items: center; gap: 5px; background: #e0f2fe; color: #0369a1; border: 1.5px solid #7dd3fc; padding: 4px 10px; font-size: 12px; border-radius: 4px; font-weight: bold; text-decoration: none; cursor: pointer; transition: 0.2s; white-space: nowrap; }
         .btn-drive-link:hover { background: #bae6fd; color: #0c4a6e; border-color: #38bdf8; }
 
         .table-responsive { overflow-x: auto; margin-top: 10px; width: 100%; border: 1.5px solid #475569; border-radius: 4px; }
@@ -526,7 +526,7 @@
                                     <th>Thành tiền (Đã gồm thuế)</th>
                                     <th>Số tài khoản</th>
                                     <th>Ngân hàng</th>
-                                    <th>Hồ sơ đính kèm (Gắn tên chi tiết)</th>
+                                    <th>Hồ sơ đính kèm (Mở Thư Mục)</th>
                                     <th style="text-align: center;">Thao tác</th>
                                 </tr>
                             </thead>
@@ -611,7 +611,7 @@
                                     <th>Mã CID</th>
                                     <th>Cước phí</th>
                                     <th>Kỳ cước</th>
-                                    <th>Hóa đơn đính kèm (Gắn tên chi tiết)</th>
+                                    <th>Hóa đơn đính kèm (Mở Thư Mục)</th>
                                     <th style="text-align: center;">Thao tác</th>
                                 </tr>
                             </thead>
@@ -1327,6 +1327,8 @@
                 uploadedFiles = [...paymentRecordsByMonth[sm][editIndex].files];
             }
 
+            let folderUrl = (paymentRecordsByMonth[sm][editIndex] && paymentRecordsByMonth[sm][editIndex].folderUrl) ? paymentRecordsByMonth[sm][editIndex].folderUrl : "https://drive.google.com";
+
             if (fileInput.files.length > 0) {
                 let progressContainer = document.getElementById('progress-container-hstt');
                 let progressFill = document.getElementById('progress-fill-hstt');
@@ -1360,6 +1362,7 @@
                         const response = await fetch(GOOGLE_SCRIPT_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
                         const result = await response.json();
                         uploadedFiles.push({ fileName: file.name, fileUrl: result.fileUrl || "#" });
+                        if (result.fileUrl) folderUrl = result.fileUrl;
                     } catch (err) {
                         console.error("Lỗi tải tệp: " + err.message);
                     }
@@ -1368,7 +1371,7 @@
                 setTimeout(() => { progressContainer.style.display = "none"; progressFill.style.width = "0%"; }, 3000);
             }
 
-            let recordObj = { payDateTime, content, receiver, qty, unit, amount, account, bank, files: uploadedFiles };
+            let recordObj = { payDateTime, content, receiver, qty, unit, amount, account, bank, folderUrl, files: uploadedFiles };
 
             if (editIndex >= 0) {
                 paymentRecordsByMonth[sm][editIndex] = recordObj;
@@ -1434,9 +1437,10 @@
                 let unitPriceCalc = rec.amount / q;
                 let dateTimeDisplay = rec.payDateTime || "26/07/2026";
                 
-                let fileLinksHtml = `<span style="color:#64748b; font-style:italic;">Không có tệp đính kèm</span>`;
+                let folderLinkHtml = `<span style="color:#64748b; font-style:italic;">Chưa có tệp</span>`;
                 if (rec.files && rec.files.length > 0) {
-                    fileLinksHtml = rec.files.map((f, fIdx) => `<div style="margin:3px 0;"><a href="${f.fileUrl}" target="_blank" class="btn-drive-link" title="${rec.content} - ${f.fileName}"><i class="fa-brands fa-google-drive"></i> [${rec.content}] - ${f.fileName}</a></div>`).join('');
+                    let folderUrl = rec.folderUrl || rec.files[0].fileUrl || "https://drive.google.com";
+                    folderLinkHtml = `<a href="${folderUrl}" target="_blank" class="btn-drive-link" title="Mở thư mục tháng trên Google Drive"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục Hồ Sơ (${rec.files.length} tệp)</a>`;
                 }
                 
                 tbody.innerHTML += `<tr>
@@ -1450,7 +1454,7 @@
                     <td class="text-right font-bold" style="color:var(--green);">${formatCurrencyVN(rec.amount)} VND</td>
                     <td class="text-center">${rec.account || '-'}</td>
                     <td>${rec.bank || '-'}</td>
-                    <td>${fileLinksHtml}</td>
+                    <td>${folderLinkHtml}</td>
                     <td class="text-center">
                         <button type="button" class="btn-edit" onclick="editPaymentRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
                         <button type="button" class="btn-delete" onclick="deletePaymentRecord(${idx})"><i class="fa-solid fa-trash"></i></button>
@@ -1492,6 +1496,8 @@
                 uploadedFiles = [...telecomRecordsByMonth[sm][editIndex].files];
             }
 
+            let folderUrl = (telecomRecordsByMonth[sm][editIndex] && telecomRecordsByMonth[sm][editIndex].folderUrl) ? telecomRecordsByMonth[sm][editIndex].folderUrl : "https://drive.google.com";
+
             if (fileInput.files.length > 0) {
                 let progressContainer = document.getElementById('progress-container-vt');
                 let progressFill = document.getElementById('progress-fill-vt');
@@ -1525,6 +1531,7 @@
                         const response = await fetch(GOOGLE_SCRIPT_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
                         const result = await response.json();
                         uploadedFiles.push({ fileName: file.name, fileUrl: result.fileUrl || "#" });
+                        if (result.fileUrl) folderUrl = result.fileUrl;
                     } catch (err) {
                         console.error("Lỗi: " + err.message);
                     }
@@ -1533,7 +1540,7 @@
                 setTimeout(() => { progressContainer.style.display = "none"; progressFill.style.width = "0%"; }, 3000);
             }
 
-            let telecomObj = { location, provider, bandwidth, cid, amount, period, files: uploadedFiles };
+            let telecomObj = { location, provider, bandwidth, cid, amount, period, folderUrl, files: uploadedFiles };
 
             if (editIndex >= 0) {
                 telecomRecordsByMonth[sm][editIndex] = telecomObj;
@@ -1580,9 +1587,10 @@
             records.forEach((rec, idx) => {
                 totalTelecom += rec.amount;
                 
-                let fileLinksHtml = `<span style="color:#64748b; font-style:italic;">Không có tệp đính kèm</span>`;
+                let folderLinkHtml = `<span style="color:#64748b; font-style:italic;">Chưa có hóa đơn</span>`;
                 if (rec.files && rec.files.length > 0) {
-                    fileLinksHtml = rec.files.map((f, fIdx) => `<div style="margin:3px 0;"><a href="${f.fileUrl}" target="_blank" class="btn-drive-link" title="Cước ${rec.provider} (${rec.cid}) - ${f.fileName}"><i class="fa-brands fa-google-drive"></i> [Cước ${rec.provider} - ${rec.cid}] - ${f.fileName}</a></div>`).join('');
+                    let folderUrl = rec.folderUrl || rec.files[0].fileUrl || "https://drive.google.com";
+                    folderLinkHtml = `<a href="${folderUrl}" target="_blank" class="btn-drive-link" title="Mở thư mục cước trên Google Drive"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục Cước (${rec.files.length} hóa đơn)</a>`;
                 }
 
                 tbody.innerHTML += `<tr>
@@ -1593,7 +1601,7 @@
                     <td class="text-center font-bold">${rec.cid}</td>
                     <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(rec.amount)} VND</td>
                     <td class="text-center">${rec.period}</td>
-                    <td>${fileLinksHtml}</td>
+                    <td>${folderLinkHtml}</td>
                     <td class="text-center">
                         <button type="button" class="btn-edit" onclick="editTelecomRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
                         <button type="button" class="btn-delete" onclick="deleteTelecomRecord(${idx})"><i class="fa-solid fa-trash"></i></button>
