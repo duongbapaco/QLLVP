@@ -84,6 +84,7 @@
         .btn-orange { background: var(--orange); color: white; }
         .btn-gray { background: #475569; color: white; }
         .btn-delete { background: #fef2f2; color: #b91c1c; border: 1.5px solid #fca5a5; padding: 3px 8px; font-size: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-edit { background: #eff6ff; color: #1d4ed8; border: 1.5px solid #93c5fd; padding: 3px 8px; font-size: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 4px; }
         
         .table-responsive { overflow-x: auto; margin-top: 10px; width: 100%; border: 1.5px solid #475569; border-radius: 4px; }
         .main-table { width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap; font-size: 14px; color: #000000; }
@@ -111,7 +112,7 @@
         .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #1d4ed8, #047857); transition: width 0.3s ease; }
         .progress-bar-text { position: absolute; width: 100%; top: 0; left: 0; text-align: center; font-size: 10px; font-weight: bold; color: #0f172a; line-height: 16px; }
 
-        /* LỊCH POPUP TÙY CHỈNH THÔNG MINH (CHỌN NĂM, THÁNG, NGÀY LINH HOẠT) */
+        /* LỊCH POPUP TÙY CHỈNH THÔNG MINH */
         .custom-popup-calendar { display: none; position: absolute; top: calc(100% + 4px); left: 0; z-index: 9999; background: white; border: 2px solid var(--blue); border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); width: 290px; padding: 10px; font-family: 'Times New Roman', Times, serif; }
         .popup-cal-top-bar { display: flex; gap: 4px; margin-bottom: 8px; justify-content: space-between; }
         .popup-cal-top-bar select { padding: 3px 6px; border: 1.5px solid var(--blue); border-radius: 4px; font-weight: bold; font-size: 12px; color: var(--primary); background: #f8fafc; cursor: pointer; font-family: 'Times New Roman', Times, serif; }
@@ -170,6 +171,9 @@
                     <option value="2025">Năm 2025</option>
                     <option value="2026" selected>Năm 2026</option>
                     <option value="2027">Năm 2027</option>
+                    <option value="2028">Năm 2028</option>
+                    <option value="2029">Năm 2029</option>
+                    <option value="2030">Năm 2030</option>
                 </select>
             </div>
         </div>
@@ -421,6 +425,7 @@
                     </div>
 
                     <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+                        <input type="hidden" id="edit-payment-index" value="-1">
                         <div class="grid-form" style="margin-bottom: 10px;">
                             <div class="form-group" style="grid-column: span 2;">
                                 <label>Nội dung thanh toán:</label>
@@ -430,7 +435,6 @@
                                 <label>Đơn vị thụ hưởng:</label>
                                 <input type="text" id="pay-receiver" placeholder="Tên công ty / Cửa hàng...">
                             </div>
-                            <!-- Ô CHỌN THỜI GIAN THANH TOÁN CÓ LỊCH POPUP NĂM/THÁNG/NGÀY -->
                             <div class="form-group">
                                 <label><i class="fa-solid fa-calendar-days" style="color:var(--green);"></i> Thời gian thanh toán:</label>
                                 <div style="position:relative;">
@@ -488,8 +492,9 @@
                                 <input type="file" id="file-hstt" class="inp-table" style="background: white;">
                             </div>
                         </div>
-                        <div style="display:flex; justify-content:flex-end; margin-top: 10px;">
-                            <button type="button" class="btn btn-green" onclick="addNewPaymentRecord()"><i class="fa-solid fa-cloud-arrow-up"></i> Tải Lên & Thêm Vào Bảng</button>
+                        <div style="display:flex; justify-content:flex-end; gap: 8px; margin-top: 10px;">
+                            <button type="button" class="btn btn-gray" id="btn-cancel-edit-pay" style="display:none;" onclick="cancelEditPayment()"><i class="fa-solid fa-xmark"></i> Hủy sửa</button>
+                            <button type="button" class="btn btn-green" id="btn-save-pay" onclick="addNewPaymentRecord()"><i class="fa-solid fa-cloud-arrow-up"></i> Tải Lên & Thêm Vào Bảng</button>
                         </div>
                         <div class="progress-bar-container" id="progress-container-hstt">
                             <div class="progress-bar-fill" id="progress-fill-hstt"></div>
@@ -533,6 +538,7 @@
                         <span><i class="fa-solid fa-wifi" style="color:var(--orange);"></i> QUẢN LÝ CƯỚC MẠNG & INTERNET (Chọn kỳ cước linh hoạt Năm, Tháng, Ngày)</span>
                     </div>
                     <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+                        <input type="hidden" id="edit-telecom-index" value="-1">
                         <div style="display: grid; grid-template-columns: 2fr 1.2fr 1.5fr 1.8fr 1.5fr 1.5fr; gap: 10px; margin-bottom: 12px; align-items: end;">
                             <div class="form-group">
                                 <label style="color: #c2410c;">Điểm kết nối</label>
@@ -559,7 +565,6 @@
                                 <label style="color: #c2410c;">Cước phí tháng</label>
                                 <input type="text" id="tele-amount" value="33.015.571" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" style="border-color: #fdba74; text-align: right;">
                             </div>
-                            <!-- Ô CHỌN KỲ CƯỚC CÓ LỊCH POPUP NĂM/THÁNG/NGÀY -->
                             <div class="form-group">
                                 <label style="color: #c2410c;"><i class="fa-solid fa-calendar-days"></i> Kỳ cước:</label>
                                 <div style="position:relative;">
@@ -573,8 +578,9 @@
                                 <label style="font-weight: bold; color: #c2410c; white-space: nowrap;"><i class="fa-solid fa-file-arrow-up"></i> Hóa đơn:</label>
                                 <input type="file" id="file-vt" class="inp-table" style="background: white; border-color: #fdba74; max-width: 350px;">
                             </div>
-                            <div>
-                                <button type="button" class="btn btn-orange" onclick="addNewTelecomRecord()"><i class="fa-solid fa-cloud-arrow-up"></i> Tải Lên & Thêm Cước</button>
+                            <div style="display:flex; gap:8px;">
+                                <button type="button" class="btn btn-gray" id="btn-cancel-edit-tele" style="display:none;" onclick="cancelEditTelecom()"><i class="fa-solid fa-xmark"></i> Hủy sửa</button>
+                                <button type="button" class="btn btn-orange" id="btn-save-tele" onclick="addNewTelecomRecord()"><i class="fa-solid fa-cloud-arrow-up"></i> Tải Lên & Thêm Cước</button>
                             </div>
                         </div>
                         <div class="progress-bar-container" id="progress-container-vt">
@@ -641,7 +647,6 @@
                                 </div>
                             </div>
                             
-                            <!-- ĐÃ TÁCH RIÊNG Ô BẢN QUYỀN VÀ BỔ SUNG ĐẦY ĐỦ CÁC ĐỜI OFFICE TỪ 2007 -->
                             <div class="grid-form" style="margin-bottom: 10px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Hệ điều hành</label>
@@ -1280,12 +1285,14 @@
             }
         }
 
+        /* --- HỒ SƠ THANH TOÁN (CÓ TÍNH NĂNG SỬA & CẬP NHẬT) --- */
         function addNewPaymentRecord() {
             let sm = document.getElementById('filter-month').value;
             let parts = sm.split('-');
             let year = parts[0] || CURRENT_SELECTED_YEAR;
             let month = parts[1] || "07";
 
+            let editIndex = parseInt(document.getElementById('edit-payment-index').value);
             let payDateTime = document.getElementById('pay-date-time').value.trim() || "26/07/2026";
             let content = document.getElementById('pay-content').value.trim();
             let receiver = document.getElementById('pay-receiver').value.trim();
@@ -1334,9 +1341,18 @@
                         progressFill.style.width = "100%";
                         progressText.innerText = "Hoàn tất!";
 
-                        paymentRecordsByMonth[sm].push({ payDateTime, content, receiver, qty, unit, amount, account, bank, fileName: file.name, fileUrl: result.fileUrl || "#" });
+                        let recordObj = { payDateTime, content, receiver, qty, unit, amount, account, bank, fileName: file.name, fileUrl: result.fileUrl || "#" };
+                        
+                        if (editIndex >= 0) {
+                            paymentRecordsByMonth[sm][editIndex] = recordObj;
+                            cancelEditPayment();
+                        } else {
+                            paymentRecordsByMonth[sm].push(recordObj);
+                            clearPaymentForm();
+                        }
+
                         localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
-                        renderPaymentTable(); clearPaymentForm();
+                        renderPaymentTable();
                         statusLabel.innerText = "✅ Đồng bộ thành công lên thư mục Google Drive gốc!";
                         setTimeout(() => { progressContainer.style.display = "none"; progressFill.style.width = "0%"; }, 3000);
                     } catch (err) { 
@@ -1346,11 +1362,55 @@
                 };
                 reader.readAsDataURL(file);
             } else {
-                paymentRecordsByMonth[sm].push({ payDateTime, content, receiver, qty, unit, amount, account, bank, fileName: "Không có tệp đính kèm", fileUrl: "" });
+                let existingFile = "Không có tệp đính kèm";
+                let existingUrl = "";
+                if (editIndex >= 0 && paymentRecordsByMonth[sm][editIndex]) {
+                    existingFile = paymentRecordsByMonth[sm][editIndex].fileName || "Không có tệp đính kèm";
+                    existingUrl = paymentRecordsByMonth[sm][editIndex].fileUrl || "";
+                }
+
+                let recordObj = { payDateTime, content, receiver, qty, unit, amount, account, bank, fileName: existingFile, fileUrl: existingUrl };
+
+                if (editIndex >= 0) {
+                    paymentRecordsByMonth[sm][editIndex] = recordObj;
+                    cancelEditPayment();
+                } else {
+                    paymentRecordsByMonth[sm].push(recordObj);
+                    clearPaymentForm();
+                }
+
                 localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
-                renderPaymentTable(); clearPaymentForm();
+                renderPaymentTable(); 
                 statusLabel.innerText = "✅ Lưu hồ sơ thành công!";
             }
+        }
+
+        function editPaymentRecord(idx) {
+            let sm = document.getElementById('filter-month').value;
+            let rec = paymentRecordsByMonth[sm][idx];
+            if (!rec) return;
+
+            document.getElementById('edit-payment-index').value = idx;
+            document.getElementById('pay-date-time').value = rec.payDateTime || "26/07/2026";
+            document.getElementById('pay-content').value = rec.content || "";
+            document.getElementById('pay-receiver').value = rec.receiver || "";
+            document.getElementById('pay-qty').value = rec.qty || 1;
+            document.getElementById('pay-unit').value = rec.unit || "Cái";
+            document.getElementById('pay-unit-price').value = formatCurrencyVN((rec.amount || 0) / (rec.qty || 1));
+            document.getElementById('pay-amount').value = formatCurrencyVN(rec.amount || 0);
+            document.getElementById('pay-account').value = rec.account || "";
+            document.getElementById('pay-bank').value = rec.bank || "";
+
+            document.getElementById('btn-save-pay').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Cập Nhật Hồ Sơ`;
+            document.getElementById('btn-cancel-edit-pay').style.display = "inline-flex";
+            window.scrollTo({ top: 200, behavior: 'smooth' });
+        }
+
+        function cancelEditPayment() {
+            document.getElementById('edit-payment-index').value = "-1";
+            clearPaymentForm();
+            document.getElementById('btn-save-pay').innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Tải Lên & Thêm Vào Bảng`;
+            document.getElementById('btn-cancel-edit-pay').style.display = "none";
         }
 
         function clearPaymentForm() { 
@@ -1389,7 +1449,10 @@
                     <td class="text-center">${rec.account || '-'}</td>
                     <td>${rec.bank || '-'}</td>
                     <td>${fileLinkHtml}</td>
-                    <td class="text-center"><button type="button" class="btn-delete" onclick="deletePaymentRecord(${idx})"><i class="fa-solid fa-trash"></i></button></td>
+                    <td class="text-center">
+                        <button type="button" class="btn-edit" onclick="editPaymentRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button type="button" class="btn-delete" onclick="deletePaymentRecord(${idx})"><i class="fa-solid fa-trash"></i></button>
+                    </td>
                 </tr>`;
             });
             document.getElementById('pay-total-sum').innerText = `Tổng cộng: ${formatCurrencyVN(totalSum)} VND`;
@@ -1397,12 +1460,14 @@
         }
         function deletePaymentRecord(idx) { let sm = document.getElementById('filter-month').value; paymentRecordsByMonth[sm].splice(idx, 1); localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth)); renderPaymentTable(); }
 
+        /* --- CƯỚC VIỄN THÔNG (CÓ TÍNH NĂNG SỬA & CẬP NHẬT) --- */
         function addNewTelecomRecord() {
             let sm = document.getElementById('filter-month').value;
             let parts = sm.split('-');
             let year = parts[0] || CURRENT_SELECTED_YEAR;
             let month = parts[1] || "07";
 
+            let editIndex = parseInt(document.getElementById('edit-telecom-index').value);
             let location = document.getElementById('tele-location').value.trim();
             let provider = document.getElementById('tele-provider').value;
             let bandwidth = document.getElementById('tele-bandwidth').value.trim();
@@ -1446,7 +1511,15 @@
                         progressFill.style.width = "100%";
                         progressText.innerText = "Hoàn tất!";
 
-                        telecomRecordsByMonth[sm].push({ location, provider, bandwidth, cid, amount, period, fileName: file.name, fileUrl: result.fileUrl || "#" });
+                        let telecomObj = { location, provider, bandwidth, cid, amount, period, fileName: file.name, fileUrl: result.fileUrl || "#" };
+                        
+                        if (editIndex >= 0) {
+                            telecomRecordsByMonth[sm][editIndex] = telecomObj;
+                            cancelEditTelecom();
+                        } else {
+                            telecomRecordsByMonth[sm].push(telecomObj);
+                        }
+
                         localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth));
                         renderTelecomTable(); 
                         statusLabel.innerText = "✅ Đồng bộ cước thành công lên thư mục Google Drive gốc!";
@@ -1458,10 +1531,51 @@
                 };
                 reader.readAsDataURL(file);
             } else {
-                telecomRecordsByMonth[sm].push({ location, provider, bandwidth, cid, amount, period, fileName: "Không có tệp đính kèm", fileUrl: "" });
+                let existingFile = "Không có tệp đính kèm";
+                let existingUrl = "";
+                if (editIndex >= 0 && telecomRecordsByMonth[sm][editIndex]) {
+                    existingFile = telecomRecordsByMonth[sm][editIndex].fileName || "Không có tệp đính kèm";
+                    existingUrl = telecomRecordsByMonth[sm][editIndex].fileUrl || "";
+                }
+
+                let telecomObj = { location, provider, bandwidth, cid, amount, period, fileName: existingFile, fileUrl: existingUrl };
+
+                if (editIndex >= 0) {
+                    telecomRecordsByMonth[sm][editIndex] = telecomObj;
+                    cancelEditTelecom();
+                } else {
+                    telecomRecordsByMonth[sm].push(telecomObj);
+                }
+
                 localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth));
-                renderTelecomTable(); statusLabel.innerText = "✅ Đã lưu cước thành công (Không có tệp đính kèm)!";
+                renderTelecomTable(); 
+                statusLabel.innerText = "✅ Đã lưu cước thành công!";
             }
+        }
+
+        function editTelecomRecord(idx) {
+            let sm = document.getElementById('filter-month').value;
+            let rec = telecomRecordsByMonth[sm][idx];
+            if (!rec) return;
+
+            document.getElementById('edit-telecom-index').value = idx;
+            document.getElementById('tele-location').value = rec.location || "";
+            document.getElementById('tele-provider').value = rec.provider || "VNPT";
+            document.getElementById('tele-bandwidth').value = rec.bandwidth || "";
+            document.getElementById('tele-cid').value = rec.cid || "";
+            document.getElementById('tele-amount').value = formatCurrencyVN(rec.amount || 0);
+            document.getElementById('tele-period').value = rec.period || "Tháng 07/2026";
+
+            document.getElementById('btn-save-tele').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Cập Nhật Cước`;
+            document.getElementById('btn-cancel-edit-tele').style.display = "inline-flex";
+            window.scrollTo({ top: 200, behavior: 'smooth' });
+        }
+
+        function cancelEditTelecom() {
+            document.getElementById('edit-telecom-index').value = "-1";
+            document.getElementById('tele-amount').value = "33.015.571";
+            document.getElementById('btn-save-tele').innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Tải Lên & Thêm Cước`;
+            document.getElementById('btn-cancel-edit-tele').style.display = "none";
         }
 
         function renderTelecomTable() {
@@ -1482,7 +1596,10 @@
                     <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(rec.amount)} VND</td>
                     <td class="text-center">${rec.period}</td>
                     <td>${fileLinkHtml}</td>
-                    <td class="text-center"><button type="button" class="btn-delete" onclick="deleteTelecomRecord(${idx})"><i class="fa-solid fa-trash"></i></button></td>
+                    <td class="text-center">
+                        <button type="button" class="btn-edit" onclick="editTelecomRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button type="button" class="btn-delete" onclick="deleteTelecomRecord(${idx})"><i class="fa-solid fa-trash"></i></button>
+                    </td>
                 </tr>`;
             });
             document.getElementById('tele-total-sum').innerText = `Tổng cước: ${formatCurrencyVN(totalTelecom)} VND`;
