@@ -1325,6 +1325,9 @@
                 clearPaymentForm();
             }
 
+            // Tự động làm trống ô chọn tệp sau khi đồng bộ thành công
+            fileInput.value = "";
+
             localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
             renderPaymentTable();
             statusLabel.innerText = "✅ Đồng bộ hồ sơ vào thư mục [Năm " + year + " / Tháng " + month + "] thành công!";
@@ -1486,6 +1489,9 @@
             } else {
                 telecomRecordsByMonth[sm].push(telecomObj);
             }
+
+            // Tự động làm trống ô chọn tệp sau khi đồng bộ thành công
+            fileInput.value = "";
 
             localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth));
             renderTelecomTable(); 
