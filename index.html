@@ -68,7 +68,7 @@
                             <th class="p-3 border text-center w-20">Phụ cấp LCV</th>
                             <th class="p-3 border text-center w-20">Ngày công</th>
                             <th class="p-3 border text-right w-28">Ăn ca (×5.000đ)</th>
-                            <th class="p-3 border text-right w-28">Độc hại (VNĐ)</th>
+                            <th class="p-3 border text-right w-28">Độc hại (×13.000đ)</th>
                             <th class="p-3 border text-right w-32">Thực lĩnh NET</th>
                             <th class="p-3 border text-center w-16">Xóa</th>
                         </tr>
@@ -126,10 +126,10 @@
 
     <script>
         let staffList = [
-            { name: "Nguyễn Minh Ngọc", lcb_heso: 1.94, lcb_phucap: 0.25, he_so_lcv: 1.0, phu_cap_lcv: 0, NT: 20, dohai: 0, account: "1012345678" },
-            { name: "Nguyễn Văn Nam", lcb_heso: 1.48, lcb_phucap: 0.0, he_so_lcv: 1.0, phu_cap_lcv: 0, NT: 14, dohai: 0, account: "1012345679" },
-            { name: "Nguyễn Thị Tuyết Nhung", lcb_heso: 1.79, lcb_phucap: 0.0, he_so_lcv: 1.0, phu_cap_lcv: 0, NT: 20, dohai: 0, account: "1012345680" },
-            { name: "Vũ Thị Thu", lcb_heso: 1.94, lcb_phucap: 0.0, he_so_lcv: 1.0, phu_cap_lcv: 0, NT: 21, dohai: 0, account: "1012345681" }
+            { name: "Nguyễn Minh Ngọc", lcb_heso: 1.94, lcb_phucap: 0.25, he_so_lcv: 1.0, phu_cap_lcv: 0, NT: 20, account: "1012345678" },
+            { name: "Nguyễn Văn Nam", lcb_heso: 1.48, lcb_phucap: 0.0, he_so_lcv: 1.0, phu_cap_lcv: 0, NT: 14, account: "1012345679" },
+            { name: "Nguyễn Thị Tuyết Nhung", lcb_heso: 1.79, lcb_phucap: 0.0, he_so_lcv: 1.0, phu_cap_lcv: 0, NT: 20, account: "1012345680" },
+            { name: "Vũ Thị Thu", lcb_heso: 1.94, lcb_phucap: 0.0, he_so_lcv: 1.0, phu_cap_lcv: 0, NT: 21, account: "1012345681" }
         ];
 
         function renderTable() {
@@ -139,9 +139,13 @@
             const lcvVal = parseFloat(document.getElementById('lcvVal').value) || 1991139;
 
             staffList.forEach((s, idx) => {
-                // Tiền ăn ca tự động tính bằng Công thực tế (NT) * 5.000 VNĐ
+                // Tiền ăn ca = Công thực tế (NT) * 5.000 VNĐ
                 let ancaVal = s.NT * 5000;
                 s.anca = ancaVal; 
+
+                // Tiền độc hại = Công thực tế (NT) * 13.000 VNĐ
+                let dohaiVal = s.NT * 13000;
+                s.dohai = dohaiVal;
 
                 // Tính lương công việc thực tế
                 let hsHtcv = parseFloat(s.hs_htcv) || 1.0;
@@ -160,7 +164,7 @@
                     <td class="p-3 border text-center"><input type="number" step="0.01" value="${s.phu_cap_lcv}" onchange="updateStaff(${idx}, 'phu_cap_lcv', this.value)" class="w-16 text-center border rounded p-1"></td>
                     <td class="p-3 border text-center"><input type="number" value="${s.NT}" onchange="updateStaff(${idx}, 'NT', this.value)" class="w-16 text-center border rounded p-1"></td>
                     <td class="p-3 border text-right font-semibold text-emerald-700">${ancaVal.toLocaleString('vi-VN')} đ</td>
-                    <td class="p-3 border text-right"><input type="number" value="${s.dohai || 0}" onchange="updateStaff(${idx}, 'dohai', this.value)" class="w-24 text-right border rounded p-1"></td>
+                    <td class="p-3 border text-right font-semibold text-amber-700">${dohaiVal.toLocaleString('vi-VN')} đ</td>
                     <td class="p-3 border text-right font-bold text-blue-700">${Math.round(thucLinhCV).toLocaleString('vi-VN')} đ</td>
                     <td class="p-3 border text-center"><button onclick="removeStaff(${idx})" class="text-red-500 hover:text-red-700 px-2 py-1"><i class="fa-solid fa-trash"></i></button></td>
                 `;
@@ -180,7 +184,7 @@
         }
 
         function addNewStaff() {
-            staffList.push({ name: "Nhân sự mới", lcb_heso: 1.5, lcb_phucap: 0, he_so_lcv: 1.0, phu_cap_lcv: 0, NT: 20, dohai: 0, account: "100000000" });
+            staffList.push({ name: "Nhân sự mới", lcb_heso: 1.5, lcb_phucap: 0, he_so_lcv: 1.0, phu_cap_lcv: 0, NT: 20, account: "100000000" });
             renderTable();
         }
 
