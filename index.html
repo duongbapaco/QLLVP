@@ -38,17 +38,19 @@
         .header h1 { font-size: 18px; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; }
         .live-clock-box { background: rgba(255,255,255,0.15); padding: 6px 14px; border-radius: 4px; font-family: monospace; font-size: 13px; text-align: right; border: 1px solid rgba(255,255,255,0.3); font-weight: bold; color: #fef08a; }
 
-        .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px; }
-        @media (max-width: 900px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
+        .stat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 12px; }
+        @media (max-width: 1200px) { .stat-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 768px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
 
-        .stat-card { background: white; padding: 10px 14px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid var(--border-color); border-left: 5px solid var(--blue); display: flex; align-items: center; justify-content: space-between; }
-        .stat-card.orange { border-left-color: var(--orange); }
+        .stat-card { background: white; padding: 10px 12px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid var(--border-color); border-left: 5px solid var(--blue); display: flex; align-items: center; justify-content: space-between; }
         .stat-card.green { border-left-color: var(--green); }
+        .stat-card.orange { border-left-color: var(--orange); }
         .stat-card.purple { border-left-color: var(--purple); }
-        .stat-info { display: flex; flex-direction: column; }
-        .stat-title { font-size: 12px; text-transform: uppercase; color: #334155; font-weight: bold; }
-        .stat-value { font-size: 17px; font-weight: 800; color: var(--primary); margin-top: 2px; }
-        .stat-icon { font-size: 22px; opacity: 0.4; }
+        .stat-card.red { border-left-color: var(--red); }
+        .stat-info { display: flex; flex-direction: column; overflow: hidden; }
+        .stat-title { font-size: 11px; text-transform: uppercase; color: #334155; font-weight: bold; white-space: nowrap; }
+        .stat-value { font-size: 15px; font-weight: 800; color: var(--primary); margin-top: 2px; white-space: nowrap; }
+        .stat-icon { font-size: 20px; opacity: 0.4; flex-shrink: 0; }
 
         .salary-visual-summary { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 0 auto 15px auto; max-width: 100%; background: #ffffff; padding: 10px 16px; border-radius: 8px; border: 2px solid #cbd5e1; box-shadow: 0 2px 5px rgba(0,0,0,0.06); flex-wrap: wrap; }
         .visual-mini-card { flex: 1; min-width: 180px; background: #f8fafc; padding: 8px 14px; border-radius: 6px; border: 1.5px solid #cbd5e1; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
@@ -183,6 +185,7 @@
                 <div class="live-clock-box" id="live-system-clock">--:--:-- --/--/----</div>
             </div>
 
+            <!-- 5 THẺ THỐNG KÊ DASHBOARD CÂN ĐỐI -->
             <div class="stat-grid">
                 <div class="stat-card">
                     <div class="stat-info">
@@ -197,6 +200,13 @@
                         <span class="stat-value" id="dash-paid-pay" style="color:var(--green);">0 VND</span>
                     </div>
                     <i class="fa-solid fa-file-invoice-dollar stat-icon" style="color:var(--green);"></i>
+                </div>
+                <div class="stat-card red">
+                    <div class="stat-info">
+                        <span class="stat-title">TỔNG TẠM ỨNG</span>
+                        <span class="stat-value" id="dash-total-advance" style="color:var(--red);">0 VND</span>
+                    </div>
+                    <i class="fa-solid fa-hand-holding-dollar stat-icon" style="color:var(--red);"></i>
                 </div>
                 <div class="stat-card orange">
                     <div class="stat-info">
@@ -630,35 +640,55 @@
                                     <input type="text" id="it-code" value="IT-LAP-2026-243" style="border-color: #d8b4fe;" oninput="updateLiveQRPreview()">
                                 </div>
                             </div>
+                            
+                            <!-- ĐÃ TÁCH RIÊNG Ô BẢN QUYỀN VÀ BỔ SUNG ĐẦY ĐỦ CÁC ĐỜI OFFICE TỪ 2007 -->
                             <div class="grid-form" style="margin-bottom: 10px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Hệ điều hành</label>
                                     <select id="it-os" style="border-color: #d8b4fe;">
-                                        <option value="Chưa có bản quyền" selected>⚠️ Chưa có bản quyền</option>
-                                        <option value="Windows 11 Pro Bản quyền">Windows 11 Pro Bản quyền</option>
-                                        <option value="Windows 11 Home Bản quyền">Windows 11 Home Bản quyền</option>
-                                        <option value="Windows 10 Pro Bản quyền">Windows 10 Pro Bản quyền</option>
-                                        <option value="Windows 10 Home Bản quyền">Windows 10 Home Bản quyền</option>
+                                        <option value="Windows 11 Pro">Windows 11 Pro</option>
+                                        <option value="Windows 11 Home">Windows 11 Home</option>
+                                        <option value="Windows 10 Pro">Windows 10 Pro</option>
+                                        <option value="Windows 10 Home">Windows 10 Home</option>
                                         <option value="Windows 8 / 8.1">Windows 8 / 8.1</option>
                                         <option value="Windows 7 Professional">Windows 7 Professional</option>
                                         <option value="macOS Sonoma / Sequoia">macOS Sonoma / Sequoia</option>
                                         <option value="Ubuntu / Linux Enterprise">Ubuntu / Linux Enterprise</option>
-                                        <option value="Khác">Hệ điều hành khác</option>
+                                        <option value="Khác" selected>Hệ điều hành khác</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label style="color: #6d28d9;">Bản quyền HĐH</label>
+                                    <select id="it-os-lic" style="border-color: #d8b4fe;">
+                                        <option value="Chưa có bản quyền" selected>⚠️ Chưa có bản quyền</option>
+                                        <option value="Bản quyền doanh nhân/OEM">Đã có bản quyền (OEM/Doanh nghiệp)</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Bộ Microsoft Office</label>
                                     <select id="it-office" style="border-color: #d8b4fe;">
-                                        <option value="Chưa có bản quyền" selected>⚠️ Chưa có bản quyền</option>
-                                        <option value="Office LTSC Professional 2024 Bản quyền">Office LTSC Professional 2024 Bản quyền</option>
-                                        <option value="Microsoft 365 Apps for Business Bản quyền">Microsoft 365 Apps for Business Bản quyền</option>
+                                        <option value="Microsoft 365 (M365) Business">Microsoft 365 (M365) Business</option>
+                                        <option value="Office LTSC Professional 2024">Office LTSC Professional 2024</option>
                                         <option value="Office Professional Plus 2021">Office Professional Plus 2021</option>
                                         <option value="Office Professional Plus 2019">Office Professional Plus 2019</option>
                                         <option value="Office Professional Plus 2016">Office Professional Plus 2016</option>
+                                        <option value="Office Professional Plus 2013">Office Professional Plus 2013</option>
+                                        <option value="Office Professional Plus 2010">Office Professional Plus 2010</option>
+                                        <option value="Office Enterprise 2007">Office Enterprise 2007</option>
                                         <option value="Office Home & Business 2021">Office Home & Business 2021</option>
-                                        <option value="LibreOffice / WPS Miễn phí">LibreOffice / WPS Miễn phí</option>
+                                        <option value="LibreOffice / WPS Miễn phí" selected>LibreOffice / WPS Miễn phí</option>
                                     </select>
                                 </div>
+                                <div class="form-group">
+                                    <label style="color: #6d28d9;">Bản quyền Office</label>
+                                    <select id="it-office-lic" style="border-color: #d8b4fe;">
+                                        <option value="Chưa có bản quyền" selected>⚠️ Chưa có bản quyền</option>
+                                        <option value="Bản quyền doanh nghiệp">Đã có bản quyền doanh nghiệp</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="grid-form" style="margin-bottom: 10px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Phần mềm nghiệp vụ</label>
                                     <select id="it-software" style="border-color: #d8b4fe;" onchange="checkOtherSoftwareInput(this)">
@@ -670,11 +700,19 @@
                                         <option value="Phần mềm khác (Tự nhập)...">Phần mềm khác (Tự nhập)...</option>
                                     </select>
                                 </div>
-                                <div class="form-group" id="group-other-software" style="display:none;">
+                                <div class="form-group">
+                                    <label style="color: #6d28d9;">Bản quyền Phần mềm</label>
+                                    <select id="it-soft-lic" style="border-color: #d8b4fe;">
+                                        <option value="Chưa có bản quyền" selected>⚠️ Chưa có bản quyền</option>
+                                        <option value="Bản quyền chính hãng">Đã có bản quyền chính hãng</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" id="group-other-software" style="display:none; grid-column: span 2;">
                                     <label style="color: #6d28d9;">Nhập tên phần mềm khác:</label>
                                     <input type="text" id="it-software-other" placeholder="Tên phần mềm..." style="border-color: #d8b4fe;">
                                 </div>
                             </div>
+
                             <div class="grid-form" style="margin-bottom: 10px;">
                                 <div class="form-group" style="grid-column: span 2;">
                                     <label style="color: #6d28d9;">Thông số cấu hình phần cứng</label>
@@ -727,8 +765,9 @@
                                     <th>Mã tài sản</th>
                                     <th>Loại</th>
                                     <th>Cấu hình phần cứng</th>
-                                    <th>HĐH / Office</th>
-                                    <th>Phần mềm</th>
+                                    <th>Hệ điều hành & Bản quyền</th>
+                                    <th>Office & Bản quyền</th>
+                                    <th>Phần mềm & Bản quyền</th>
                                     <th>Người dùng</th>
                                     <th>Phòng ban</th>
                                     <th>Ngày bàn giao</th>
@@ -889,7 +928,6 @@
         let calViewDate = new Date(2026, 6, 26);
         let calSelectedDate = new Date(2026, 6, 26);
 
-        // HỆ THỐNG POPUP LỊCH NĂM / THÁNG / NGÀY LINH HOẠT
         let activePickerId = null;
         let pickerCurrentDate = new Date();
 
@@ -989,7 +1027,6 @@
             activePickerId = null;
         }
 
-        // Đóng popup khi click ra ngoài
         window.addEventListener('click', function(e) {
             if (activePickerId) {
                 let popup = document.getElementById(activePickerId);
@@ -1015,13 +1052,11 @@
         function handleMoneyFocus(inputEl) { inputEl.value = parseCurrencyVN(inputEl.value); }
         function handleMoneyBlur(inputEl) { inputEl.value = formatCurrencyVN(parseCurrencyVN(inputEl.value)); }
 
-        // TỰ ĐỘNG TÍNH TOÁN THÀNH TIỀN TỔNG CỘNG BAO GỒM SỐ LƯỢNG × ĐƠN GIÁ + TIỀN THUẾ TỪ CÔNG CỤ PHÍA TRÊN
         function calculatePayLineTotal() {
             let qty = parseFloat(document.getElementById('pay-qty').value) || 1;
             let unitPrice = parseCurrencyVN(document.getElementById('pay-unit-price').value);
             let baseSubtotal = qty * unitPrice;
 
-            // Lấy mức thuế đang chọn từ công cụ tính thuế phía trên
             let rate = parseFloat(document.getElementById('tax-rate-select').value) || 0;
             let taxAmount = Math.round(baseSubtotal * (rate / 100));
             let finalTotalWithTax = baseSubtotal + taxAmount;
@@ -1049,7 +1084,6 @@
             document.getElementById('tax-result-tax').innerText = `Tiền thuế: ${formatCurrencyVN(taxAmount)} VND`;
             document.getElementById('tax-result-total').innerText = `Tổng cộng: ${formatCurrencyVN(totalAmount)} VND`;
 
-            // Đồng thời cập nhật lại thành tiền tổng cộng ở form thanh toán bên dưới
             calculatePayLineTotal();
         }
 
@@ -1133,7 +1167,7 @@
             const tbody = document.getElementById('tbody-salary'); 
             tbody.innerHTML = ""; 
 
-            let T_thuc_linh_cb = 0, T_thuc_linh_lcv = 0, T_anca = 0, T_net = 0;
+            let T_thuc_linh_cb = 0, T_thuc_linh_lcv = 0, T_anca = 0, T_net = 0, T_tam_ung = 0;
             let vungReg = cfg.vung || 4140000;
             let baseReg = cfg.base || 2650000;
             let lcvReg = cfg.lcv || 1991139;
@@ -1172,6 +1206,7 @@
                 T_thuc_linh_lcv += thuc_linh_lcv; 
                 T_anca += ancaVal;
                 T_net += thuc_linh_tong;
+                T_tam_ung += tamUngVal;
 
                 tbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${index + 1}</td>
@@ -1207,6 +1242,7 @@
 
             localStorage.setItem('sys_salary_by_month', JSON.stringify(salaryDataByMonth));
             document.getElementById('dash-total-pay').innerText = formatCurrencyVN(T_net) + " VND";
+            document.getElementById('dash-total-advance').innerText = formatCurrencyVN(T_tam_ung) + " VND";
             document.getElementById('v-total-lcb').innerText = formatCurrencyVN(T_thuc_linh_cb) + " VND";
             document.getElementById('v-total-lcv-text').innerText = formatCurrencyVN(T_thuc_linh_lcv) + " VND";
             document.getElementById('v-total-anca').innerText = formatCurrencyVN(T_anca) + " VND";
@@ -1479,11 +1515,16 @@
             let dept = document.getElementById('it-dept').value.trim();
             let type = document.getElementById('it-type').value;
             let code = document.getElementById('it-code').value.trim();
+            
             let os = document.getElementById('it-os').value;
+            let osLic = document.getElementById('it-os-lic').value;
+            
             let office = document.getElementById('it-office').value;
+            let officeLic = document.getElementById('it-office-lic').value;
             
             let softSelect = document.getElementById('it-software').value;
             let software = softSelect.includes('Phần mềm khác') ? (document.getElementById('it-software-other').value.trim() || "Khác") : softSelect;
+            let softLic = document.getElementById('it-soft-lic').value;
 
             let specs = document.getElementById('it-specs').value.trim();
             let dateVal = document.getElementById('it-date').value; 
@@ -1492,7 +1533,7 @@
             if (!code || !user) { alert("Vui lòng nhập Mã tài sản và Người sử dụng!"); return; }
             if (!itAssetRecordsByYear[CURRENT_SELECTED_YEAR]) itAssetRecordsByYear[CURRENT_SELECTED_YEAR] = [];
             
-            itAssetRecordsByYear[CURRENT_SELECTED_YEAR].push({ user, dept, type, code, os, office, software, specs, dateVal, status });
+            itAssetRecordsByYear[CURRENT_SELECTED_YEAR].push({ user, dept, type, code, os, osLic, office, officeLic, software, softLic, specs, dateVal, status });
             localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
             renderItAssetTable(); 
             document.getElementById('status-cntt').innerText = "✅ Lưu thiết bị và ghi nhận thành công!";
@@ -1516,8 +1557,9 @@
                     <td class="text-center font-bold" style="color:var(--purple);">${rec.code}</td>
                     <td>${rec.type}</td>
                     <td>${rec.specs}</td>
-                    <td><b>HĐH:</b> ${rec.os} <br><b>Office:</b> ${rec.office}</td>
-                    <td><span style="color:var(--blue); font-weight:bold;">${rec.software}</span></td>
+                    <td>${rec.os || 'Khác'} <br><span style="color:${rec.osLic && rec.osLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'}; font-weight:bold;">[${rec.osLic || 'Chưa có bản quyền'}]</span></td>
+                    <td>${rec.office || 'Khác'} <br><span style="color:${rec.officeLic && rec.officeLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'}; font-weight:bold;">[${rec.officeLic || 'Chưa có bản quyền'}]</span></td>
+                    <td><span style="color:var(--blue); font-weight:bold;">${rec.software}</span> <br><span style="color:${rec.softLic && rec.softLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'}; font-weight:bold;">[${rec.softLic || 'Chưa có bản quyền'}]</span></td>
                     <td class="font-bold">${rec.user}</td>
                     <td>${rec.dept}</td>
                     <td class="text-center">${rec.dateVal ? rec.dateVal : '<span style="color:#94a3b8; font-style:italic;">Không nhập</span>'}</td>
