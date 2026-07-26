@@ -904,8 +904,11 @@
     </div>
 
     <script>
+        // CỐ ĐỊNH API VÀ LINK GOOGLE SHEET TRÊN GITHUB (KHÔNG BAO GIỜ CẦN CẤU HÌNH LẠI)
         const HARDCODED_SCRIPT_API = "https://script.google.com/macros/s/AKfycbxcz6ynaYF_FmckDC1p4EPCkVHMMvCe8rwcbAjNV0BQeVNdQx9j1UzHpOo0Z17T0fGb/exec";
-        let GOOGLE_SHEET_VIEW_URL = localStorage.getItem('sys_cfg_sheet_url') || "https://docs.google.com/spreadsheets/d/1MM2VqBw1EnZ7YFdpRW-So9_AQgR99YI_7XOAHgUULns/edit?gid=1529354527#gid=1529354527"; 
+        const DEFAULT_GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1MM2VqBw1EnZ7YFdpRW-So9_AQgR99YI_7XOAHgUULns/edit?gid=1529354527#gid=1529354527";
+
+        let GOOGLE_SHEET_VIEW_URL = localStorage.getItem('sys_cfg_sheet_url') || DEFAULT_GOOGLE_SHEET_URL; 
         let GOOGLE_SCRIPT_API_URL = localStorage.getItem('sys_cfg_script_url') || HARDCODED_SCRIPT_API; 
 
         let CURRENT_SELECTED_YEAR = "2026";
@@ -1439,8 +1442,8 @@
                 
                 let folderLinkHtml = `<span style="color:#64748b; font-style:italic;">Chưa có tệp</span>`;
                 if (rec.files && rec.files.length > 0) {
-                    let folderUrl = rec.folderUrl || rec.files[0].fileUrl || "https://drive.google.com";
-                    folderLinkHtml = `<a href="${folderUrl}" target="_blank" class="btn-drive-link" title="Mở thư mục tháng trên Google Drive"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục Hồ Sơ (${rec.files.length} tệp)</a>`;
+                    let folderUrl = rec.folderUrl || "https://drive.google.com";
+                    folderLinkHtml = `<a href="${folderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();" title="Mở thư mục tháng trên Google Drive"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục Hồ Sơ (${rec.files.length} tệp)</a>`;
                 }
                 
                 tbody.innerHTML += `<tr>
@@ -1589,8 +1592,8 @@
                 
                 let folderLinkHtml = `<span style="color:#64748b; font-style:italic;">Chưa có hóa đơn</span>`;
                 if (rec.files && rec.files.length > 0) {
-                    let folderUrl = rec.folderUrl || rec.files[0].fileUrl || "https://drive.google.com";
-                    folderLinkHtml = `<a href="${folderUrl}" target="_blank" class="btn-drive-link" title="Mở thư mục cước trên Google Drive"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục Cước (${rec.files.length} hóa đơn)</a>`;
+                    let folderUrl = rec.folderUrl || "https://drive.google.com";
+                    folderLinkHtml = `<a href="${folderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();" title="Mở thư mục cước trên Google Drive"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục Cước (${rec.files.length} hóa đơn)</a>`;
                 }
 
                 tbody.innerHTML += `<tr>
@@ -1934,6 +1937,26 @@
             }
         }
 
+        // TỰ ĐỘNG TẢI NGẦM DỮ LIỆU TỪ MÂY KHI KHỞI ĐỘNG TRANG TRÊN BẤT KỲ MÁY NÀO
+        async function autoLoadDataOnStartup() {
+            let sm = document.getElementById('filter-month').value;
+            let parts = sm.split('-');
+            let year = parts[0];
+            let month = parts[1];
+
+            try {
+                let fetchUrl = `${GOOGLE_SCRIPT_API_URL}?sheetUrl=${encodeURIComponent(GOOGLE_SHEET_VIEW_URL)}&year=${year}&month=${month}`;
+                const response = await fetch(fetchUrl);
+                const result = await response.json();
+
+                if (result.status === "success") {
+                    handleMonthChangeSelect();
+                }
+            } catch (err) {
+                console.log("Đang ở chế độ ngoại tuyến hoặc chờ phản hồi từ mây.");
+            }
+        }
+
         function switchMainTab(name) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-tabs .nav-tab').forEach(b => b.classList.remove('active'));
@@ -1954,6 +1977,10 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             setInterval(() => { document.getElementById('live-system-clock').innerText = new Date().toLocaleString('vi-VN'); }, 1000);
+            
+            // Tự động nạp dữ liệu từ mây ngay khi mở trang trên bất kỳ máy tính nào
+            autoLoadDataOnStartup();
+
             handleGlobalYearChange();
             updateLiveQRPreview();
             renderItAssetTable();
