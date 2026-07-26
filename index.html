@@ -1325,7 +1325,6 @@
                 clearPaymentForm();
             }
 
-            // Tự động làm trống ô chọn tệp sau khi đồng bộ thành công
             fileInput.value = "";
 
             localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
@@ -1490,7 +1489,6 @@
                 telecomRecordsByMonth[sm].push(telecomObj);
             }
 
-            // Tự động làm trống ô chọn tệp sau khi đồng bộ thành công
             fileInput.value = "";
 
             localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth));
@@ -1682,61 +1680,74 @@
         function openMainSalaryGoogleSheet() { window.open(GOOGLE_SHEET_VIEW_URL, '_blank'); }
 
         async function syncDataToCloudServer() {
-            let sm = document.getElementById('filter-month').value;
             let notifyBox = document.getElementById('syncNotifyBox');
             notifyBox.style.display = "block";
-            notifyBox.innerText = "⏳ Đang đẩy dữ liệu lên mây...";
+            notifyBox.innerText = "⏳ Đang đẩy toàn bộ dữ liệu hệ thống lên mây...";
             try {
                 let payload = {
                     action: "sync_salary_data_pro",
-                    year: CURRENT_SELECTED_YEAR,
-                    month: sm.split('-')[1] || "07",
                     sheetUrl: GOOGLE_SHEET_VIEW_URL,
-                    config: salaryConfigsByMonth[sm] || {},
-                    staffs: salaryDataByMonth[sm] || [],
-                    payments: paymentRecordsByMonth[sm] || [],
-                    telecoms: telecomRecordsByMonth[sm] || [],
-                    itAssets: itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || []
+                    allSalaries: salaryDataByMonth || {},
+                    allPayments: paymentRecordsByMonth || {},
+                    allTelecoms: telecomRecordsByMonth || {},
+                    allItAssets: itAssetRecordsByYear || {},
+                    allConfigs: salaryConfigsByMonth || {}
                 };
-                const response = await fetch(GOOGLE_SCRIPT_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
+                const response = await fetch(GOOGLE_SCRIPT_API_URL, { 
+                    method: "POST", 
+                    headers: { "Content-Type": "text/plain;charset=utf-8" }, 
+                    body: JSON.stringify(payload) 
+                });
                 const result = await response.json();
                 if (result.status === "success") {
-                    notifyBox.innerText = "🎉 Đồng bộ lên mây thành công!";
+                    notifyBox.innerText = "🎉 Đồng bộ toàn bộ dữ liệu lên mây thành công!";
                     setTimeout(() => { notifyBox.style.display = "none"; }, 4000);
-                } else { throw new Error(result.message); }
+                } else { 
+                    throw new Error(result.message); 
+                }
             } catch (err) {
-                notifyBox.innerText = "❌ Lỗi: " + err.message;
+                notifyBox.innerText = "❌ Lỗi đồng bộ: " + err.message;
             }
         }
 
         async function loadDataFromCloudServer() {
-            let sm = document.getElementById('filter-month').value;
-            let parts = sm.split('-');
-            let year = parts[0] || CURRENT_SELECTED_YEAR;
-            let month = parts[1] || "07";
             let notifyBox = document.getElementById('syncNotifyBox');
-            
             notifyBox.style.display = "block";
-            notifyBox.innerText = "⏳ Đang kết nối và tải dữ liệu từ mây...";
+            notifyBox.innerText = "⏳ Đang kết nối và tải toàn bộ dữ liệu từ mây về...";
             
             try {
-                let fetchUrl = `${GOOGLE_SCRIPT_API_URL}?sheetUrl=${encodeURIComponent(GOOGLE_SHEET_VIEW_URL)}&year=${year}&month=${month}&action=load_data`;
+                let fetchUrl = `${GOOGLE_SCRIPT_API_URL}?sheetUrl=${encodeURIComponent(GOOGLE_SHEET_VIEW_URL)}&action=load_data`;
                 const response = await fetch(fetchUrl);
                 const result = await response.json();
                 
                 if (result.status === "success") {
-                    if (result.salaries) { salaryDataByMonth = result.salaries; localStorage.setItem('sys_salary_by_month', JSON.stringify(salaryDataByMonth)); }
-                    if (result.payments) { paymentRecordsByMonth = result.payments; localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth)); }
-                    if (result.telecoms) { telecomRecordsByMonth = result.telecoms; localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth)); }
-                    if (result.itAssets) { itAssetRecordsByYear = result.itAssets; localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear)); }
-                    if (result.configs) { salaryConfigsByMonth = result.configs; localStorage.setItem('sys_salary_configs_by_month', JSON.stringify(salaryConfigsByMonth)); }
+                    if (result.salaries && Object.keys(result.salaries).length > 0) {
+                        salaryDataByMonth = result.salaries; 
+                        localStorage.setItem('sys_salary_by_month', JSON.stringify(salaryDataByMonth)); 
+                    }
+                    if (result.payments && Object.keys(result.payments).length > 0) {
+                        paymentRecordsByMonth = result.payments; 
+                        localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth)); 
+                    }
+                    if (result.telecoms && Object.keys(result.telecoms).length > 0) {
+                        telecomRecordsByMonth = result.telecoms; 
+                        localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth)); 
+                    }
+                    if (result.itAssets && Object.keys(result.itAssets).length > 0) {
+                        itAssetRecordsByYear = result.itAssets; 
+                        localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear)); 
+                    }
+                    if (result.configs && Object.keys(result.configs).length > 0) {
+                        salaryConfigsByMonth = result.configs; 
+                        localStorage.setItem('sys_salary_configs_by_month', JSON.stringify(salaryConfigsByMonth)); 
+                    }
 
                     handleMonthChangeSelect();
                     renderPaymentTable();
                     renderTelecomTable();
                     renderItAssetTable();
 
-                    notifyBox.innerText = "🎉 Tải dữ liệu từ mây về thành công!";
+                    notifyBox.innerText = "🎉 Tải và đồng bộ dữ liệu từ mây về thành công!";
                     setTimeout(() => { notifyBox.style.display = "none"; }, 4000);
                 } else { 
                     throw new Error(result.message || "Không tìm thấy dữ liệu trên mây."); 
