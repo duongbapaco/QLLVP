@@ -86,6 +86,10 @@
         .btn-delete { background: #fef2f2; color: #b91c1c; border: 1.5px solid #fca5a5; padding: 3px 8px; font-size: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         .btn-edit { background: #eff6ff; color: #1d4ed8; border: 1.5px solid #93c5fd; padding: 3px 8px; font-size: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 4px; }
         
+        /* NÚT MỞ DRIVE THÔNG MINH, GẮN TÊN CHI TIẾT */
+        .btn-drive-link { display: inline-flex; align-items: center; gap: 5px; background: #e0f2fe; color: #0369a1; border: 1.5px solid #7dd3fc; padding: 4px 10px; font-size: 12px; border-radius: 4px; font-weight: bold; text-decoration: none; cursor: pointer; transition: 0.2s; white-space: nowrap; max-width: 280px; overflow: hidden; text-overflow: ellipsis; }
+        .btn-drive-link:hover { background: #bae6fd; color: #0c4a6e; border-color: #38bdf8; }
+
         .table-responsive { overflow-x: auto; margin-top: 10px; width: 100%; border: 1.5px solid #475569; border-radius: 4px; }
         .main-table { width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap; font-size: 14px; color: #000000; }
         .main-table th { background: #cbd5e1; color: #000000; padding: 8px 6px; border: 1px solid #475569; font-weight: bold; text-align: center; }
@@ -386,6 +390,7 @@
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--green);">
                         <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--green);"></i> LẬP HỒ SƠ ĐỀ NGHỊ THANH TOÁN VĂN PHÒNG (Tự động cộng thuế vào thành tiền tổng cộng)</span>
+                        <a href="https://drive.google.com" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục Google Drive</a>
                     </div>
 
                     <!-- KHUNG CÔNG CỤ TÍNH THUẾ CHUYÊN NGHIỆP -->
@@ -521,7 +526,7 @@
                                     <th>Thành tiền (Đã gồm thuế)</th>
                                     <th>Số tài khoản</th>
                                     <th>Ngân hàng</th>
-                                    <th>Tệp đính kèm Google Drive (Nhiều file)</th>
+                                    <th>Hồ sơ đính kèm (Gắn tên chi tiết)</th>
                                     <th style="text-align: center;">Thao tác</th>
                                 </tr>
                             </thead>
@@ -536,6 +541,7 @@
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--orange);">
                         <span><i class="fa-solid fa-wifi" style="color:var(--orange);"></i> QUẢN LÝ CƯỚC MẠNG & INTERNET (Chọn kỳ cước linh hoạt Năm, Tháng, Ngày)</span>
+                        <a href="https://drive.google.com" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục Google Drive</a>
                     </div>
                     <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
                         <input type="hidden" id="edit-telecom-index" value="-1">
@@ -605,7 +611,7 @@
                                     <th>Mã CID</th>
                                     <th>Cước phí</th>
                                     <th>Kỳ cước</th>
-                                    <th>Hóa đơn Google Drive (Nhiều file)</th>
+                                    <th>Hóa đơn đính kèm (Gắn tên chi tiết)</th>
                                     <th style="text-align: center;">Thao tác</th>
                                 </tr>
                             </thead>
@@ -1285,14 +1291,13 @@
             }
         }
 
-        /* --- HỒ SƠ THANH TOÁN (TỰ ĐỘNG BÓC TÁCH NĂM/THÁNG TỪ KỲ BÁO CÁO HOẶC LỊCH CHỌN) --- */
+        /* --- HỒ SƠ THANH TOÁN --- */
         async function addNewPaymentRecord() {
-            let sm = document.getElementById('filter-month').value; // Lấy kỳ tháng từ bộ lọc chung (ví dụ: "2026-07")
+            let sm = document.getElementById('filter-month').value;
             let parts = sm.split('-');
             let year = parts[0] || CURRENT_SELECTED_YEAR;
             let month = parts[1] || "07";
 
-            // Tự động bóc tách chuẩn Năm và Tháng từ ô chọn ngày thanh toán (ví dụ "26/07/2026") để đẩy chính xác lên đúng thư mục Google Drive
             let payDateTime = document.getElementById('pay-date-time').value.trim() || "26/07/2026";
             let dateParts = payDateTime.split('/');
             if (dateParts.length === 3) {
@@ -1348,7 +1353,7 @@
                             year: year, 
                             month: month, 
                             category: "1. Hồ sơ thanh toán", 
-                            fileName: file.name, 
+                            fileName: "[" + content + "] " + file.name, 
                             mimeType: file.type, 
                             fileData: base64Data 
                         };
@@ -1431,15 +1436,13 @@
                 
                 let fileLinksHtml = `<span style="color:#64748b; font-style:italic;">Không có tệp đính kèm</span>`;
                 if (rec.files && rec.files.length > 0) {
-                    fileLinksHtml = rec.files.map((f, fIdx) => `<div style="margin:2px 0;"><a href="${f.fileUrl}" target="_blank" style="color:var(--blue); text-decoration:underline;"><i class="fa-solid fa-brands fa-google-drive"></i> [${fIdx + 1}] ${f.fileName}</a></div>`).join('');
-                } else if (rec.fileName && rec.fileName !== "Không có tệp đính kèm") {
-                    fileLinksHtml = `<a href="${rec.fileUrl || '#'}" target="_blank" style="color:var(--blue); text-decoration:underline;"><i class="fa-solid fa-brands fa-google-drive"></i> ${rec.fileName}</a>`;
+                    fileLinksHtml = rec.files.map((f, fIdx) => `<div style="margin:3px 0;"><a href="${f.fileUrl}" target="_blank" class="btn-drive-link" title="${rec.content} - ${f.fileName}"><i class="fa-brands fa-google-drive"></i> [${rec.content}] - ${f.fileName}</a></div>`).join('');
                 }
                 
                 tbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${idx + 1}</td>
                     <td class="text-center font-bold" style="color:var(--green);">${dateTimeDisplay}</td>
-                    <td>${rec.content}</td>
+                    <td><b>${rec.content}</b></td>
                     <td>${rec.receiver}</td>
                     <td class="text-center">${q}</td>
                     <td class="text-center">${u}</td>
@@ -1459,14 +1462,13 @@
         }
         function deletePaymentRecord(idx) { let sm = document.getElementById('filter-month').value; paymentRecordsByMonth[sm].splice(idx, 1); localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth)); renderPaymentTable(); }
 
-        /* --- CƯỚC VIỄN THÔNG (TỰ ĐỘNG BÓC TÁCH NĂM/THÁNG TỪ KỲ CƯỚC CHỌN) --- */
+        /* --- CƯỚC VIỄN THÔNG --- */
         async function addNewTelecomRecord() {
             let sm = document.getElementById('filter-month').value;
             let parts = sm.split('-');
             let year = parts[0] || CURRENT_SELECTED_YEAR;
             let month = parts[1] || "07";
 
-            // Tự động bóc tách chuẩn Tháng và Năm từ chuỗi kỳ cước (ví dụ "Tháng 07/2026") để đẩy chính xác lên đúng thư mục Google Drive
             let period = document.getElementById('tele-period').value.trim() || "Tháng 07/2026";
             let matchMonth = period.match(/Tháng\s+(\d+)/i);
             let matchYear = period.match(/\/(\d{4})/);
@@ -1516,7 +1518,7 @@
                             year: year, 
                             month: month, 
                             category: "2. Cước Viễn thông & Internet", 
-                            fileName: file.name, 
+                            fileName: "[Cước " + provider + " - " + cid + "] " + file.name, 
                             mimeType: file.type, 
                             fileData: base64Data 
                         };
@@ -1580,9 +1582,7 @@
                 
                 let fileLinksHtml = `<span style="color:#64748b; font-style:italic;">Không có tệp đính kèm</span>`;
                 if (rec.files && rec.files.length > 0) {
-                    fileLinksHtml = rec.files.map((f, fIdx) => `<div style="margin:2px 0;"><a href="${f.fileUrl}" target="_blank" style="color:var(--blue); text-decoration:underline;"><i class="fa-solid fa-brands fa-google-drive"></i> [${fIdx + 1}] ${f.fileName}</a></div>`).join('');
-                } else if (rec.fileName && rec.fileName !== "Không có tệp đính kèm") {
-                    fileLinksHtml = `<a href="${rec.fileUrl || '#'}" target="_blank" style="color:var(--blue); text-decoration:underline;"><i class="fa-solid fa-brands fa-google-drive"></i> ${rec.fileName}</a>`;
+                    fileLinksHtml = rec.files.map((f, fIdx) => `<div style="margin:3px 0;"><a href="${f.fileUrl}" target="_blank" class="btn-drive-link" title="Cước ${rec.provider} (${rec.cid}) - ${f.fileName}"><i class="fa-brands fa-google-drive"></i> [Cước ${rec.provider} - ${rec.cid}] - ${f.fileName}</a></div>`).join('');
                 }
 
                 tbody.innerHTML += `<tr>
