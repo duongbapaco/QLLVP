@@ -25,7 +25,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Times New Roman', Times, serif; font-size: 14px; margin: 0; padding: 15px; background: var(--bg-light); color: var(--text-main); font-weight: 500; }
         
-        .workspace { display: grid; grid-template-columns: 1fr 360px; gap: 20px; align-items: start; }
+        .workspace { display: grid; grid-template-columns: 1fr 390px; gap: 20px; align-items: start; }
         @media (max-width: 1280px) { .workspace { grid-template-columns: 1fr; } }
 
         .db-status-bar { display: flex; align-items: center; justify-content: space-between; padding: 8px 15px; background: #cbd5e1; border-bottom: 2px solid var(--border-color); font-size: 14px; font-weight: bold; border-radius: 4px; margin-bottom: 10px; flex-wrap: wrap; gap: 10px; }
@@ -57,7 +57,7 @@
 
         .config-toolbar-container { display: flex; justify-content: space-between; align-items: flex-end; gap: 15px; flex-wrap: wrap; background: #f8fafc; padding: 10px 12px; border-radius: 6px; border: 1.5px solid #cbd5e1; }
         .config-inputs-group { display: flex; align-items: flex-end; gap: 10px; flex-wrap: wrap; flex: 1; }
-        .config-inputs-group .form-group { flex: 1; min-width: 110px; }
+        .config-inputs-group .form-group { flex: 1; min-width: 130px; }
 
         .nav-tabs { display: flex; gap: 6px; margin-bottom: 12px; border-bottom: 2px solid #64748b; overflow-x: auto; }
         .nav-tabs .nav-tab { padding: 8px 16px; border: 1.5px solid #cbd5e1; border-bottom: none; background: #e2e8f0; font-weight: bold; color: #0f172a; cursor: pointer; font-size: 14px; border-radius: 5px 5px 0 0; white-space: nowrap; font-family: 'Times New Roman', Times, serif; }
@@ -71,7 +71,7 @@
         
         .grid-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-bottom: 10px; }
         
-        .form-group { display: flex; flex-direction: column; gap: 3px; }
+        .form-group { display: flex; flex-direction: column; gap: 3px; position: relative; }
         .form-group label { font-weight: bold; color: #000000; font-size: 13px; white-space: nowrap; }
         .form-group input, .form-group select { padding: 6px 10px; border: 1.5px solid #475569; border-radius: 4px; font-size: 14px; font-weight: bold; outline: none; background: #fff; color: #000; width: 100%; font-family: 'Times New Roman', Times, serif; }
 
@@ -105,10 +105,47 @@
         .signature-note { font-style: italic; font-size: 13px; color: #475569; margin-bottom: 65px; }
         .signature-name { font-weight: bold; font-size: 15px; color: #0f172a; }
 
+        .progress-bar-container { width: 100%; background: #e2e8f0; border-radius: 4px; height: 16px; margin-top: 8px; overflow: hidden; display: none; position: relative; border: 1px solid #cbd5e1; }
+        .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #1d4ed8, #047857); transition: width 0.3s ease; }
+        .progress-bar-text { position: absolute; width: 100%; top: 0; left: 0; text-align: center; font-size: 10px; font-weight: bold; color: #0f172a; line-height: 16px; }
+
+        /* LỊCH POPUP TÙY CHỈNH THÔNG MINH (CHỌN NĂM, THÁNG, NGÀY LINH HOẠT) */
+        .custom-popup-calendar { display: none; position: absolute; top: calc(100% + 4px); left: 0; z-index: 9999; background: white; border: 2px solid var(--blue); border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); width: 290px; padding: 10px; font-family: 'Times New Roman', Times, serif; }
+        .popup-cal-top-bar { display: flex; gap: 4px; margin-bottom: 8px; justify-content: space-between; }
+        .popup-cal-top-bar select { padding: 3px 6px; border: 1.5px solid var(--blue); border-radius: 4px; font-weight: bold; font-size: 12px; color: var(--primary); background: #f8fafc; cursor: pointer; font-family: 'Times New Roman', Times, serif; }
+        .popup-cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-weight: bold; color: var(--primary); font-size: 13px; background: #e2e8f0; padding: 4px 8px; border-radius: 4px; }
+        .popup-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; font-size: 12px; }
+        .popup-cal-grid div { padding: 5px 0; font-weight: bold; }
+        .popup-dow { color: #64748b; background: #f1f5f9; font-size: 11px; }
+        .popup-day { cursor: pointer; border-radius: 4px; }
+        .popup-day:hover { background: #e2e8f0; color: var(--blue); }
+        .popup-day.selected { background: var(--blue) !important; color: white !important; font-weight: bold; }
+        .popup-day.today { border: 1px solid var(--red); color: var(--red); }
+
+        /* LỊCH VẠN NIÊN THÔNG MINH (SIDEBAR) */
         .calendar-sidebar { background: white; border-radius: 8px; border: 1.5px solid #cbd5e1; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-        .calendar-block-view { border: 4px solid #b91c1c; border-radius: 10px; background: white; margin-top: 8px; overflow: hidden; box-shadow: 0 6px 16px rgba(185, 28, 28, 0.2); }
-        .calendar-block-head { background: linear-gradient(135deg, #dc2626, #991b1b); color: white; text-align: center; padding: 6px; font-weight: bold; font-size: 13px; text-transform: uppercase; }
-        .calendar-block-body { text-align: center; padding: 10px 8px; background: #fff; }
+        .cal-smart-header { background: linear-gradient(135deg, #0f172a, #1e293b); color: white; padding: 10px; border-radius: 6px; font-weight: bold; text-align: center; font-size: 14px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .cal-nav-btn { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; }
+        .cal-nav-btn:hover { background: rgba(255,255,255,0.4); }
+
+        .calendar-block-view { border: 3px solid #b91c1c; border-radius: 8px; background: white; overflow: hidden; box-shadow: 0 4px 12px rgba(185, 28, 28, 0.15); margin-bottom: 10px; }
+        .calendar-block-head { background: linear-gradient(135deg, #dc2626, #991b1b); color: white; text-align: center; padding: 5px; font-weight: bold; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .calendar-block-body { text-align: center; padding: 8px; background: #fff; }
+
+        .cal-grid-mini { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin-top: 8px; text-align: center; font-size: 12px; }
+        .cal-grid-mini div { padding: 4px 0; font-weight: bold; }
+        .cal-grid-mini .dow { color: #64748b; font-size: 11px; background: #f1f5f9; }
+        .cal-day-cell { cursor: pointer; border-radius: 4px; transition: 0.2s; position: relative; }
+        .cal-day-cell:hover { background: #e2e8f0; color: #1d4ed8; }
+        .cal-day-cell.selected { background: #1d4ed8 !important; color: white !important; font-weight: bold; }
+        .cal-day-cell.today { border: 1.5px solid #dc2626; color: #dc2626; }
+        .cal-day-cell.has-event::after { content: ''; position: absolute; bottom: 2px; right: 2px; width: 5px; height: 5px; background-color: #16a34a; border-radius: 50%; }
+
+        .cal-info-panel { background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 10px; font-size: 12px; margin-top: 10px; }
+        .cal-info-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #cbd5e1; }
+        .cal-info-row:last-child { border-bottom: none; }
+        .cal-info-label { color: #475569; font-weight: bold; }
+        .cal-info-val { color: #0f172a; font-weight: 700; text-align: right; }
 
         .modal { display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(2px); align-items: center; justify-content: center; padding: 20px; }
         .modal-content { background: white; padding: 18px; border-radius: 8px; width: 100%; max-width: 900px; max-height: 90vh; display: flex; flex-direction: column; position: relative; overflow-y: auto; }
@@ -191,7 +228,7 @@
                         <span><i class="fa-solid fa-pen-to-square" style="color:var(--blue);"></i> CẤU HÌNH THAM SỐ LƯƠNG THÁNG - NĂM <span class="lbl-current-year">2026</span></span>
                     </div>
                     
-                    <div class="grid-form" style="margin-bottom: 12px; border-bottom: 1px dashed var(--border-color); padding-bottom: 10px;">
+                    <div style="display: grid; grid-template-columns: 2fr 1.5fr 2fr; gap: 12px; margin-bottom: 12px; border-bottom: 1px dashed var(--border-color); padding-bottom: 10px;">
                         <div class="form-group">
                             <label style="color:var(--blue);"><i class="fa-solid fa-building"></i> Tên Công Ty:</label>
                             <input type="text" id="config-company-title" value="TỔNG CÔNG TY GIẤY VIỆT NAM" oninput="handleConfigChangeLive()">
@@ -200,7 +237,7 @@
                             <label style="color:var(--purple);"><i class="fa-solid fa-sitemap"></i> Tên Phòng Ban:</label>
                             <input type="text" id="config-dept-title" value="VĂN PHÒNG" oninput="handleConfigChangeLive()">
                         </div>
-                        <div class="form-group" style="grid-column: span 2;">
+                        <div class="form-group">
                             <label style="color:var(--orange);"><i class="fa-solid fa-file-signature"></i> Tên BẢNG LƯƠNG Báo Cáo:</label>
                             <input type="text" id="config-sheet-title" value="BẢNG LƯƠNG TỔNG HỢP THÁNG 07/2026" oninput="handleConfigChangeLive()">
                         </div>
@@ -224,15 +261,16 @@
                                 <label style="color:var(--purple);"><i class="fa-solid fa-briefcase"></i> Lương công việc</label>
                                 <input type="number" id="config-lcv-pay" value="1991139" oninput="handleConfigChangeLive()">
                             </div>
-                            <div class="form-group" style="min-width: 150px;">
+                            <div class="form-group" style="min-width: 180px;">
                                 <label style="color:var(--primary);"><i class="fa-solid fa-signature"></i> Người Lập Biểu</label>
                                 <input type="text" id="config-signer-name" value="Nguyễn Thị Tuyết Nhung" oninput="handleConfigChangeLive()">
                             </div>
                         </div>
 
-                        <div class="config-actions-group" style="display:flex; gap:8px;">
+                        <div class="config-actions-group" style="display:flex; gap:8px; flex-wrap: wrap;">
                             <button type="button" class="btn btn-primary" onclick="openMainSalaryGoogleSheet()"><i class="fa-brands fa-google-drive"></i> Mở Sheet</button>
-                            <button type="button" class="btn btn-purple" onclick="syncDataToCloudServer()"><i class="fa-solid fa-cloud-arrow-up"></i> Đồng Bộ Mây (5 Tab Riêng Biệt)</button>
+                            <button type="button" class="btn btn-purple" onclick="syncDataToCloudServer()"><i class="fa-solid fa-cloud-arrow-up"></i> Đồng Bộ Lên Mây</button>
+                            <button type="button" class="btn" style="background-color: #2b6cb0; color: white;" onclick="loadDataFromCloudServer()"><i class="fa-solid fa-cloud-arrow-down"></i> Tải Từ Mây</button>
                         </div>
                     </div>
                 </div>
@@ -329,12 +367,49 @@
                 </div>
             </div>
 
-            <!-- TAB 2: HỒ SƠ THANH TOÁN VĂN PHÒNG -->
+            <!-- TAB 2: HỒ SƠ THANH TOÁN VĂN PHÒNG & CÔNG CỤ TÍNH THUẾ -->
             <div id="tab-payment" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--green);">
-                        <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--green);"></i> LẬP HỒ SƠ ĐỀ NGHỊ THANH TOÁN VĂN PHÒNG</span>
+                        <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--green);"></i> LẬP HỒ SƠ ĐỀ NGHỊ THANH TOÁN VĂN PHÒNG (Tự động cộng thuế vào thành tiền tổng cộng)</span>
                     </div>
+
+                    <!-- KHUNG CÔNG CỤ TÍNH THUẾ CHUYÊN NGHIỆP -->
+                    <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 12px 15px; border-radius: 6px; margin-bottom: 12px;">
+                        <div style="font-weight: bold; color: #166534; font-size: 13.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                            <i class="fa-solid fa-calculator"></i> 🧮 CÔNG CỤ TÍNH THUẾ & TÀI CHÍNH NHANH CHO HÓA ĐƠN
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; align-items: end;">
+                            <div class="form-group">
+                                <label style="color:#166534;">Số tiền gốc / Chưa thuế:</label>
+                                <input type="text" id="tax-input-amount" value="0" placeholder="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="calculateTaxPro()" style="border-color:#86efac;">
+                            </div>
+                            <div class="form-group">
+                                <label style="color:#166534;">Loại thuế suất:</label>
+                                <select id="tax-rate-select" onchange="calculateTaxPro()" style="border-color:#86efac;">
+                                    <option value="0">0% (Miễn thuế / Không chịu thuế)</option>
+                                    <option value="5" selected>5% (Hàng hóa, dịch vụ thiết yếu)</option>
+                                    <option value="8">8% (Giảm thuế GTGT)</option>
+                                    <option value="10">10% (Thuế suất GTGT chuẩn)</option>
+                                    <option value="5.5">5.5% (Thuế nhà thầu: GTGT 5% + TNDN 5%)</option>
+                                    <option value="10.5">10.5% (Thuế nhà thầu: GTGT 10% + TNDN 5%)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label style="color:#166534;">Phương thức tính:</label>
+                                <select id="tax-mode-select" onchange="calculateTaxPro()" style="border-color:#86efac;">
+                                    <option value="add">Cộng thuế vào số tiền gốc (Ra tổng thanh toán)</option>
+                                    <option value="extract">Tách thuế từ tổng số tiền (Lấy giá trị chưa thuế)</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="background: #ffffff; padding: 6px 10px; border: 1.5px solid #86efac; border-radius: 4px;">
+                                <div style="font-size: 11px; color: #475569; font-weight: bold;">Kết quả tính toán:</div>
+                                <div style="font-size: 13px; color: var(--red); font-weight: bold;" id="tax-result-tax">Tiền thuế: 0 VND</div>
+                                <div style="font-size: 13.5px; color: var(--green); font-weight: 800;" id="tax-result-total">Tổng cộng: 0 VND</div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
                         <div class="grid-form" style="margin-bottom: 10px;">
                             <div class="form-group" style="grid-column: span 2;">
@@ -345,9 +420,48 @@
                                 <label>Đơn vị thụ hưởng:</label>
                                 <input type="text" id="pay-receiver" placeholder="Tên công ty / Cửa hàng...">
                             </div>
+                            <!-- Ô CHỌN THỜI GIAN THANH TOÁN CÓ LỊCH POPUP NĂM/THÁNG/NGÀY -->
                             <div class="form-group">
-                                <label>Số tiền đề nghị (VNĐ):</label>
-                                <input type="text" id="pay-amount" placeholder="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)">
+                                <label><i class="fa-solid fa-calendar-days" style="color:var(--green);"></i> Thời gian thanh toán:</label>
+                                <div style="position:relative;">
+                                    <input type="text" id="pay-date-time" value="26/07/2026" readonly onclick="togglePicker('payment-date-popup')" style="cursor:pointer; background:#ffffff; font-weight:bold; color:var(--green);">
+                                    <div id="payment-date-popup" class="custom-popup-calendar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid-form" style="margin-bottom: 10px;">
+                            <div class="form-group">
+                                <label>Số lượng:</label>
+                                <input type="number" id="pay-qty" value="1" min="1" step="1" oninput="calculatePayLineTotal()">
+                            </div>
+                            <div class="form-group">
+                                <label>Đơn vị tính:</label>
+                                <select id="pay-unit">
+                                    <option value="Cái" selected>Cái</option>
+                                    <option value="Bộ">Bộ</option>
+                                    <option value="Chiếc">Chiếc</option>
+                                    <option value="Gói">Gói</option>
+                                    <option value="Hộp">Hộp</option>
+                                    <option value="Thùng">Thùng</option>
+                                    <option value="Ram">Ram (Giấy)</option>
+                                    <option value="Quyển">Quyển / Sổ</option>
+                                    <option value="Cuộn">Cuộn</option>
+                                    <option value="Kg">Kg / Kilogram</option>
+                                    <option value="Mét">Mét (m)</option>
+                                    <option value="Lít">Lít</option>
+                                    <option value="Lô">Lô / Gói thầu</option>
+                                    <option value="Tháng">Tháng (Dịch vụ)</option>
+                                    <option value="Lần">Lần</option>
+                                    <option value="Khác">Khác (Tự nhập)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Đơn giá (VNĐ):</label>
+                                <input type="text" id="pay-unit-price" placeholder="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="calculatePayLineTotal()">
+                            </div>
+                            <div class="form-group">
+                                <label style="color:var(--green);">Thành tiền tổng cộng (Đã gồm thuế):</label>
+                                <input type="text" id="pay-amount" placeholder="0" readonly style="background:#f0fdf4; color:var(--green); font-weight:800;">
                             </div>
                         </div>
                         <div class="grid-form" style="margin-bottom: 12px;">
@@ -359,16 +473,19 @@
                                 <label>Ngân hàng:</label>
                                 <input type="text" id="pay-bank" placeholder="Tên ngân hàng / Chi nhánh...">
                             </div>
-                            <div class="form-group">
-                                <label>Chọn tệp đính kèm (Chứng từ):</label>
+                            <div class="form-group" style="grid-column: span 2;">
+                                <label>Chọn tệp đính kèm (Hóa đơn/Chứng từ):</label>
                                 <input type="file" id="file-hstt" class="inp-table" style="background: white;">
                             </div>
-                            <div class="form-group" style="justify-content: flex-end;">
-                                <label>&nbsp;</label>
-                                <button type="button" class="btn btn-green" onclick="addNewPaymentRecord()"><i class="fa-solid fa-plus"></i> Thêm Vào Bảng Quản Lý</button>
-                            </div>
                         </div>
-                        <div id="status-hstt" style="font-weight: bold; font-size: 13px;"></div>
+                        <div style="display:flex; justify-content:flex-end; margin-top: 10px;">
+                            <button type="button" class="btn btn-green" onclick="addNewPaymentRecord()"><i class="fa-solid fa-cloud-arrow-up"></i> Tải Lên & Thêm Vào Bảng</button>
+                        </div>
+                        <div class="progress-bar-container" id="progress-container-hstt">
+                            <div class="progress-bar-fill" id="progress-fill-hstt"></div>
+                            <div class="progress-bar-text" id="progress-text-hstt">0%</div>
+                        </div>
+                        <div id="status-hstt" style="font-weight: bold; font-size: 13px; margin-top: 6px;"></div>
                     </div>
 
                     <div class="card-title" style="font-size: 14px; margin-top: 15px;">
@@ -380,12 +497,16 @@
                             <thead>
                                 <tr style="background-color: #cbd5e1;">
                                     <th>STT</th>
+                                    <th>Thời gian</th>
                                     <th>Nội dung thanh toán</th>
                                     <th>Đơn vị thụ hưởng</th>
-                                    <th>Số tiền đề nghị</th>
+                                    <th>Số lượng</th>
+                                    <th>ĐVT</th>
+                                    <th>Đơn giá</th>
+                                    <th>Thành tiền (Đã gồm thuế)</th>
                                     <th>Số tài khoản</th>
                                     <th>Ngân hàng</th>
-                                    <th>Tệp đính kèm Drive</th>
+                                    <th>Tệp đính kèm Google Drive</th>
                                     <th style="text-align: center;">Thao tác</th>
                                 </tr>
                             </thead>
@@ -399,7 +520,7 @@
             <div id="tab-telecom" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--orange);">
-                        <span><i class="fa-solid fa-wifi" style="color:var(--orange);"></i> QUẢN LÝ CƯỚC MẠNG & INTERNET (Năm <span class="lbl-current-year">2026</span>)</span>
+                        <span><i class="fa-solid fa-wifi" style="color:var(--orange);"></i> QUẢN LÝ CƯỚC MẠNG & INTERNET (Chọn kỳ cước linh hoạt Năm, Tháng, Ngày)</span>
                     </div>
                     <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
                         <div style="display: grid; grid-template-columns: 2fr 1.2fr 1.5fr 1.8fr 1.5fr 1.5fr; gap: 10px; margin-bottom: 12px; align-items: end;">
@@ -428,9 +549,13 @@
                                 <label style="color: #c2410c;">Cước phí tháng</label>
                                 <input type="text" id="tele-amount" value="33.015.571" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" style="border-color: #fdba74; text-align: right;">
                             </div>
+                            <!-- Ô CHỌN KỲ CƯỚC CÓ LỊCH POPUP NĂM/THÁNG/NGÀY -->
                             <div class="form-group">
-                                <label style="color: #c2410c;">Kỳ cước</label>
-                                <input type="text" id="tele-period" value="Tháng 07/2026" style="border-color: #fdba74;">
+                                <label style="color: #c2410c;"><i class="fa-solid fa-calendar-days"></i> Kỳ cước:</label>
+                                <div style="position:relative;">
+                                    <input type="text" id="tele-period" value="Tháng 07/2026" readonly onclick="togglePicker('telecom-period-popup')" style="cursor:pointer; background:#ffffff; border-color:#fdba74; font-weight:bold; color:#c2410c;">
+                                    <div id="telecom-period-popup" class="custom-popup-calendar"></div>
+                                </div>
                             </div>
                         </div>
                         <div style="display: flex; gap: 15px; align-items: center; justify-content: space-between; flex-wrap: wrap; border-top: 1px dashed #fdba74; padding-top: 10px;">
@@ -439,8 +564,12 @@
                                 <input type="file" id="file-vt" class="inp-table" style="background: white; border-color: #fdba74; max-width: 350px;">
                             </div>
                             <div>
-                                <button type="button" class="btn btn-orange" onclick="addNewTelecomRecord()"><i class="fa-solid fa-plus"></i> Thêm Bản Ghi Cước</button>
+                                <button type="button" class="btn btn-orange" onclick="addNewTelecomRecord()"><i class="fa-solid fa-cloud-arrow-up"></i> Tải Lên & Thêm Cước</button>
                             </div>
+                        </div>
+                        <div class="progress-bar-container" id="progress-container-vt">
+                            <div class="progress-bar-fill" id="progress-fill-vt"></div>
+                            <div class="progress-bar-text" id="progress-text-vt">0%</div>
                         </div>
                         <div id="status-vt" style="font-weight: bold; font-size: 13px; margin-top: 8px;"></div>
                     </div>
@@ -460,7 +589,7 @@
                                     <th>Mã CID</th>
                                     <th>Cước phí</th>
                                     <th>Kỳ cước</th>
-                                    <th>Hóa đơn Drive</th>
+                                    <th>Hóa đơn Google Drive</th>
                                     <th style="text-align: center;">Thao tác</th>
                                 </tr>
                             </thead>
@@ -502,16 +631,61 @@
                                 </div>
                             </div>
                             <div class="grid-form" style="margin-bottom: 10px;">
+                                <div class="form-group">
+                                    <label style="color: #6d28d9;">Hệ điều hành</label>
+                                    <select id="it-os" style="border-color: #d8b4fe;">
+                                        <option value="Chưa có bản quyền" selected>⚠️ Chưa có bản quyền</option>
+                                        <option value="Windows 11 Pro Bản quyền">Windows 11 Pro Bản quyền</option>
+                                        <option value="Windows 11 Home Bản quyền">Windows 11 Home Bản quyền</option>
+                                        <option value="Windows 10 Pro Bản quyền">Windows 10 Pro Bản quyền</option>
+                                        <option value="Windows 10 Home Bản quyền">Windows 10 Home Bản quyền</option>
+                                        <option value="Windows 8 / 8.1">Windows 8 / 8.1</option>
+                                        <option value="Windows 7 Professional">Windows 7 Professional</option>
+                                        <option value="macOS Sonoma / Sequoia">macOS Sonoma / Sequoia</option>
+                                        <option value="Ubuntu / Linux Enterprise">Ubuntu / Linux Enterprise</option>
+                                        <option value="Khác">Hệ điều hành khác</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label style="color: #6d28d9;">Bộ Microsoft Office</label>
+                                    <select id="it-office" style="border-color: #d8b4fe;">
+                                        <option value="Chưa có bản quyền" selected>⚠️ Chưa có bản quyền</option>
+                                        <option value="Office LTSC Professional 2024 Bản quyền">Office LTSC Professional 2024 Bản quyền</option>
+                                        <option value="Microsoft 365 Apps for Business Bản quyền">Microsoft 365 Apps for Business Bản quyền</option>
+                                        <option value="Office Professional Plus 2021">Office Professional Plus 2021</option>
+                                        <option value="Office Professional Plus 2019">Office Professional Plus 2019</option>
+                                        <option value="Office Professional Plus 2016">Office Professional Plus 2016</option>
+                                        <option value="Office Home & Business 2021">Office Home & Business 2021</option>
+                                        <option value="LibreOffice / WPS Miễn phí">LibreOffice / WPS Miễn phí</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label style="color: #6d28d9;">Phần mềm nghiệp vụ</label>
+                                    <select id="it-software" style="border-color: #d8b4fe;" onchange="checkOtherSoftwareInput(this)">
+                                        <option value="ASIA ERP - Quản trị tổng thể" selected>ASIA ERP - Quản trị tổng thể</option>
+                                        <option value="Quasoft - Quản lý kho/vật tư">Quasoft - Quản lý kho/vật tư</option>
+                                        <option value="MISA AMIS / SME Kế toán">MISA AMIS / SME Kế toán</option>
+                                        <option value="CloudOffice - Văn phòng điện tử">CloudOffice - Văn phòng điện tử</option>
+                                        <option value="AutoCAD / Thiết kế kỹ thuật">AutoCAD / Thiết kế kỹ thuật</option>
+                                        <option value="Phần mềm khác (Tự nhập)...">Phần mềm khác (Tự nhập)...</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" id="group-other-software" style="display:none;">
+                                    <label style="color: #6d28d9;">Nhập tên phần mềm khác:</label>
+                                    <input type="text" id="it-software-other" placeholder="Tên phần mềm..." style="border-color: #d8b4fe;">
+                                </div>
+                            </div>
+                            <div class="grid-form" style="margin-bottom: 10px;">
                                 <div class="form-group" style="grid-column: span 2;">
-                                    <label style="color: #6d28d9;">Thông số cấu hình</label>
-                                    <input type="text" id="it-specs" value="Dell Latitude, Core i5, 16GB..." style="border-color: #d8b4fe;">
+                                    <label style="color: #6d28d9;">Thông số cấu hình phần cứng</label>
+                                    <input type="text" id="it-specs" value="Dell Latitude, Core i5, 16GB RAM, 512GB SSD" style="border-color: #d8b4fe;">
                                 </div>
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Ngày bàn giao</label>
-                                    <input type="text" id="it-date" value="15/06/2026" style="border-color: #d8b4fe;">
+                                    <input type="date" id="it-date" style="border-color: #d8b4fe;">
                                 </div>
                                 <div class="form-group">
-                                    <label style="color: #6d28d9;">Trạng thái</label>
+                                    <label style="color: #6d28d9;">Trạng thái thiết bị</label>
                                     <select id="it-status" style="border-color: #d8b4fe;">
                                         <option value="Tốt - Đang sử dụng">Tốt - Đang sử dụng</option>
                                         <option value="Đang sửa chữa / Bảo trì">Đang sửa chữa / Bảo trì</option>
@@ -553,8 +727,11 @@
                                     <th>Mã tài sản</th>
                                     <th>Loại</th>
                                     <th>Cấu hình phần cứng</th>
+                                    <th>HĐH / Office</th>
+                                    <th>Phần mềm</th>
                                     <th>Người dùng</th>
                                     <th>Phòng ban</th>
+                                    <th>Ngày bàn giao</th>
                                     <th>Trạng thái</th>
                                     <th>QR Code</th>
                                     <th style="text-align: center;">Hành động</th>
@@ -567,15 +744,92 @@
             </div>
         </div>
 
+        <!-- LỊCH VẠN NIÊN THÔNG MINH (SIDEBAR) -->
         <div class="calendar-sidebar">
-            <div style="background: var(--primary); color:white; padding:10px; border-radius:4px; font-weight:bold; text-align:center; font-size:14px;"><i class="fa-solid fa-calendar-days" style="color:#fef08a;"></i> LỊCH VẠN NIÊN BLOCK</div>
+            <div class="cal-smart-header">
+                <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+                <span id="cal-header-title">THÁNG 07 / 2026</span>
+                <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+
+            <!-- Khối Block lật ngày -->
             <div class="calendar-block-view">
-                <div class="calendar-block-head">THÁNG 07 / 2026</div>
+                <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
                 <div class="calendar-block-body">
-                    <div style="font-size:14px; color:#334155; font-weight:bold; text-transform:uppercase;">Chủ Nhật</div>
-                    <div style="font-size:75px; font-weight:900; color:#dc2626; line-height:1; margin:6px 0;">26</div>
-                    <div style="font-size:13px; font-weight:bold; color:#0f172a;">Ngày Bính Dần</div>
+                    <div style="font-size:13px; color:#334155; font-weight:bold; text-transform:uppercase;" id="cal-selected-dow">Chủ Nhật</div>
+                    <div style="font-size:70px; font-weight:900; color:#dc2626; line-height:1; margin:4px 0;" id="cal-selected-day">26</div>
+                    <div style="font-size:13px; font-weight:bold; color:#0f172a;" id="cal-selected-lunar-day">Ngày Bính Dần - Tháng Bính Thân</div>
                 </div>
+            </div>
+
+            <!-- Lưới lịch tháng thu nhỏ -->
+            <div class="cal-grid-mini">
+                <div class="dow" style="color:#dc2626;">CN</div>
+                <div class="dow">T2</div>
+                <div class="dow">T3</div>
+                <div class="dow">T4</div>
+                <div class="dow">T5</div>
+                <div class="dow">T6</div>
+                <div class="dow">T7</div>
+            </div>
+            <div class="cal-grid-mini" id="cal-mini-days-container" style="margin-top:2px;"></div>
+
+            <!-- Thông tin phong thủy chuẩn, Việc nên làm, Kiêng kị, Danh ngôn & Đặt lịch -->
+            <div class="cal-info-panel">
+                <div class="cal-info-row">
+                    <span class="cal-info-label"><i class="fa-solid fa-moon text-purple"></i> Âm lịch:</span>
+                    <span class="cal-info-val" id="info-lunar-exact" style="color:var(--purple);">12/6/2026 (Bính Ngọ)</span>
+                </div>
+                <div class="cal-info-row">
+                    <span class="cal-info-label"><i class="fa-solid fa-sun text-orange"></i> Tiết khí:</span>
+                    <span class="cal-info-val" id="info-tiet-khi">Đại Thử (Nóng lớn)</span>
+                </div>
+                <div class="cal-info-row">
+                    <span class="cal-info-label"><i class="fa-solid fa-compass"></i> Trực / Sao:</span>
+                    <span class="cal-info-val" id="info-truc-sao">Trực Khai - Sao Tất</span>
+                </div>
+                <div class="cal-info-row">
+                    <span class="cal-info-label"><i class="fa-solid fa-clock"></i> Giờ Hoàng Đạo:</span>
+                    <span class="cal-info-val" id="info-gio-hd">Tý (23-1), Mão (5-7)</span>
+                </div>
+                <div class="cal-info-row" style="flex-direction: column; gap: 2px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px;">
+                    <span class="cal-info-label" style="color:var(--green);"><i class="fa-solid fa-circle-check"></i> Việc nên làm:</span>
+                    <span id="info-good-dos" style="color:#166534; font-weight:600; font-size:11.5px; background:#f0fdf4; padding:3px 6px; border-radius:4px; border:1px solid #86efac;">Ký kết hợp đồng, giao dịch tài chính, mở văn phòng</span>
+                </div>
+                <div class="cal-info-row" style="flex-direction: column; gap: 2px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px; margin-top: 4px;">
+                    <span class="cal-info-label" style="color:var(--red);"><i class="fa-solid fa-triangle-exclamation"></i> Việc kiêng kị:</span>
+                    <span id="info-bad-donts" style="color:#991b1b; font-weight:600; font-size:11.5px; background:#fef2f2; padding:3px 6px; border-radius:4px; border:1px solid #fca5a5;">Khởi công xây dựng, kiện tụng, tranh chấp</span>
+                </div>
+                <div class="cal-info-row" style="flex-direction: column; gap: 2px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px; margin-top: 4px;">
+                    <span class="cal-info-label" style="color:var(--purple);"><i class="fa-solid fa-quote-left"></i> Danh ngôn / Ca dao:</span>
+                    <span id="info-quote-text" style="color:var(--purple); font-style:italic; font-weight:600; font-size:11.5px; background:#faf5ff; padding:4px 6px; border-radius:4px; border:1px solid #d8b4fe;">"Học thầy không tày học bạn." - Ca dao tục ngữ</span>
+                </div>
+                <div class="cal-info-row" style="flex-direction: column; gap: 4px; padding-top: 6px; margin-top: 2px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                        <span class="cal-info-label"><i class="fa-solid fa-bell text-blue"></i> Sự kiện / Ghi chú:</span>
+                        <button type="button" class="btn btn-primary" style="padding: 2px 8px; font-size: 11px;" onclick="openEventModal()"><i class="fa-solid fa-plus"></i> Đặt lịch</button>
+                    </div>
+                    <div id="info-event-note" style="color:var(--blue); font-style:italic; font-size: 12px; background: #eff6ff; padding: 4px 6px; border-radius: 4px; border: 1px dashed #93c5fd; margin-top: 2px;">Không có sự kiện</div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 10px;">
+                <button type="button" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 12px;" onclick="resetCalendarToToday()"><i class="fa-solid fa-calendar-day"></i> Quay Về Ngày Hôm Nay</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL ĐẶT LỊCH SỰ KIỆN -->
+    <div id="eventModal" class="modal" onclick="closeEventModal()">
+        <div class="modal-content" onclick="event.stopPropagation()" style="max-width:450px;">
+            <div class="card-title" style="border-left-color: var(--green);"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH SỰ KIỆN CHO NGÀY <span id="modal-event-date-lbl">26/07/2026</span></div>
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label>Nội dung sự kiện / Công việc:</label>
+                <textarea id="modal-event-text" class="inp-table" style="height: 80px; resize: none;" placeholder="Ví dụ: Họp giao ban VINAPACO, Chốt lương tháng..."></textarea>
+            </div>
+            <div style="text-align:right;">
+                <button type="button" class="btn btn-gray" onclick="closeEventModal()">Hủy</button>
+                <button type="button" class="btn btn-green" onclick="saveDayEvent()"><i class="fa-solid fa-floppy-disk"></i> Lưu Sự Kiện</button>
             </div>
         </div>
     </div>
@@ -600,7 +854,7 @@
     </div>
 
     <script>
-        const HARDCODED_SCRIPT_API = "https://script.google.com/macros/s/AKfycbz8GA4ncZFEQh-haDrWuCyt67xcwSXKIFb8zLTPAqf7Ky7Yn47Gqyr7cZpicWo6eLt9/exec";
+        const HARDCODED_SCRIPT_API = "https://script.google.com/macros/s/AKfycbxcz6ynaYF_FmckDC1p4EPCkVHMMvCe8rwcbAjNV0BQeVNdQx9j1UzHpOo0Z17T0fGb/exec";
         let GOOGLE_SHEET_VIEW_URL = localStorage.getItem('sys_cfg_sheet_url') || "https://docs.google.com/spreadsheets/d/1QkvmX4ZIP1qdKwvZ4UHywoih9Go2qPtGjHpIp_6cZRo/edit"; 
         let GOOGLE_SCRIPT_API_URL = localStorage.getItem('sys_cfg_script_url') || HARDCODED_SCRIPT_API; 
 
@@ -630,6 +884,122 @@
         let paymentRecordsByMonth = JSON.parse(localStorage.getItem('sys_payment_records_by_month')) || {};
         let telecomRecordsByMonth = JSON.parse(localStorage.getItem('sys_telecom_records_by_month')) || {};
         let itAssetRecordsByYear = JSON.parse(localStorage.getItem('sys_it_asset_records_by_year')) || {};
+        let dayEventsMap = JSON.parse(localStorage.getItem('sys_day_events_map')) || {};
+
+        let calViewDate = new Date(2026, 6, 26);
+        let calSelectedDate = new Date(2026, 6, 26);
+
+        // HỆ THỐNG POPUP LỊCH NĂM / THÁNG / NGÀY LINH HOẠT
+        let activePickerId = null;
+        let pickerCurrentDate = new Date();
+
+        function togglePicker(popupId) {
+            let popup = document.getElementById(popupId);
+            if (activePickerId && activePickerId !== popupId) {
+                document.getElementById(activePickerId).style.display = 'none';
+            }
+            if (popup.style.display === 'block') {
+                popup.style.display = 'none';
+                activePickerId = null;
+            } else {
+                popup.style.display = 'block';
+                activePickerId = popupId;
+                renderPopupCalendar(popupId);
+            }
+        }
+
+        function renderPopupCalendar(popupId) {
+            let popup = document.getElementById(popupId);
+            let y = pickerCurrentDate.getFullYear();
+            let m = pickerCurrentDate.getMonth();
+            const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
+
+            let yearOptionsHTML = '';
+            for (let yr = 2020; yr <= 2035; yr++) {
+                yearOptionsHTML += `<option value="${yr}" ${yr === y ? 'selected' : ''}>Năm ${yr}</option>`;
+            }
+
+            let monthOptionsHTML = '';
+            for (let mo = 0; mo < 12; mo++) {
+                monthOptionsHTML += `<option value="${mo}" ${mo === m ? 'selected' : ''}>${monthNames[mo]}</option>`;
+            }
+
+            let html = `
+                <div class="popup-cal-top-bar">
+                    <select onchange="onPopupYearChange(this.value, '${popupId}')">${yearOptionsHTML}</select>
+                    <select onchange="onPopupMonthChange(this.value, '${popupId}')">${monthOptionsHTML}</select>
+                </div>
+                <div class="popup-cal-header">
+                    <button type="button" class="btn btn-gray" style="padding:1px 6px; font-size:11px;" onclick="changePopupMonth(-1, '${popupId}')"><i class="fa-solid fa-chevron-left"></i></button>
+                    <span>${monthNames[m]} / ${y}</span>
+                    <button type="button" class="btn btn-gray" style="padding:1px 6px; font-size:11px;" onclick="changePopupMonth(1, '${popupId}')"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="popup-cal-grid">
+                    <div class="popup-dow" style="color:var(--red);">CN</div>
+                    <div class="popup-dow">T2</div>
+                    <div class="popup-dow">T3</div>
+                    <div class="popup-dow">T4</div>
+                    <div class="popup-dow">T5</div>
+                    <div class="popup-dow">T6</div>
+                    <div class="popup-dow">T7</div>
+            `;
+
+            let firstDayIndex = new Date(y, m, 1).getDay();
+            let totalDays = new Date(y, m + 1, 0).getDate();
+
+            for (let i = 0; i < firstDayIndex; i++) {
+                html += `<div></div>`;
+            }
+
+            let today = new Date();
+            for (let d = 1; d <= totalDays; d++) {
+                let isToday = (d === today.getDate() && m === today.getMonth() && y === today.getFullYear());
+                html += `<div class="popup-day ${isToday ? 'today' : ''}" onclick="selectPopupDate(${d}, ${m + 1}, ${y}, '${popupId}')">${d}</div>`;
+            }
+            html += `</div>`;
+            popup.innerHTML = html;
+        }
+
+        function onPopupYearChange(yr, popupId) {
+            pickerCurrentDate.setFullYear(parseInt(yr));
+            renderPopupCalendar(popupId);
+        }
+
+        function onPopupMonthChange(mo, popupId) {
+            pickerCurrentDate.setMonth(parseInt(mo));
+            renderPopupCalendar(popupId);
+        }
+
+        function changePopupMonth(dir, popupId) {
+            pickerCurrentDate.setMonth(pickerCurrentDate.getMonth() + dir);
+            renderPopupCalendar(popupId);
+        }
+
+        function selectPopupDate(d, m, y, popupId) {
+            let formattedDay = d < 10 ? '0' + d : d;
+            let formattedMonth = m < 10 ? '0' + m : m;
+
+            if (popupId === 'payment-date-popup') {
+                document.getElementById('pay-date-time').value = `${formattedDay}/${formattedMonth}/${y}`;
+            } else if (popupId === 'telecom-period-popup') {
+                document.getElementById('tele-period').value = `Tháng ${formattedMonth}/${y}`;
+            }
+
+            document.getElementById(popupId).style.display = 'none';
+            activePickerId = null;
+        }
+
+        // Đóng popup khi click ra ngoài
+        window.addEventListener('click', function(e) {
+            if (activePickerId) {
+                let popup = document.getElementById(activePickerId);
+                let inputField = popup.previousElementSibling;
+                if (!popup.contains(e.target) && e.target !== inputField) {
+                    popup.style.display = 'none';
+                    activePickerId = null;
+                }
+            }
+        });
 
         function formatCurrencyVN(num) {
             if (num === null || num === undefined || isNaN(num)) return "0";
@@ -644,6 +1014,44 @@
 
         function handleMoneyFocus(inputEl) { inputEl.value = parseCurrencyVN(inputEl.value); }
         function handleMoneyBlur(inputEl) { inputEl.value = formatCurrencyVN(parseCurrencyVN(inputEl.value)); }
+
+        // TỰ ĐỘNG TÍNH TOÁN THÀNH TIỀN TỔNG CỘNG BAO GỒM SỐ LƯỢNG × ĐƠN GIÁ + TIỀN THUẾ TỪ CÔNG CỤ PHÍA TRÊN
+        function calculatePayLineTotal() {
+            let qty = parseFloat(document.getElementById('pay-qty').value) || 1;
+            let unitPrice = parseCurrencyVN(document.getElementById('pay-unit-price').value);
+            let baseSubtotal = qty * unitPrice;
+
+            // Lấy mức thuế đang chọn từ công cụ tính thuế phía trên
+            let rate = parseFloat(document.getElementById('tax-rate-select').value) || 0;
+            let taxAmount = Math.round(baseSubtotal * (rate / 100));
+            let finalTotalWithTax = baseSubtotal + taxAmount;
+
+            document.getElementById('pay-amount').value = formatCurrencyVN(finalTotalWithTax);
+        }
+
+        function calculateTaxPro() {
+            let amount = parseCurrencyVN(document.getElementById('tax-input-amount').value);
+            let rate = parseFloat(document.getElementById('tax-rate-select').value) || 0;
+            let mode = document.getElementById('tax-mode-select').value;
+
+            let taxAmount = 0;
+            let totalAmount = 0;
+
+            if (mode === 'add') {
+                taxAmount = Math.round(amount * (rate / 100));
+                totalAmount = amount + taxAmount;
+            } else {
+                let base = amount / (1 + rate / 100);
+                taxAmount = amount - Math.round(base);
+                totalAmount = amount;
+            }
+
+            document.getElementById('tax-result-tax').innerText = `Tiền thuế: ${formatCurrencyVN(taxAmount)} VND`;
+            document.getElementById('tax-result-total').innerText = `Tổng cộng: ${formatCurrencyVN(totalAmount)} VND`;
+
+            // Đồng thời cập nhật lại thành tiền tổng cộng ở form thanh toán bên dưới
+            calculatePayLineTotal();
+        }
 
         function handleGlobalYearChange() {
             CURRENT_SELECTED_YEAR = document.getElementById('global-year-picker').value;
@@ -794,7 +1202,7 @@
                     <td class="text-right font-bold" style="color:#581c87; background:#e9d5ff;">${formatCurrencyVN(thuc_linh_lcv)}</td>
                     <td class="text-right font-bold" style="background:#fef08a; color:#713f12; font-size:15px;">${formatCurrencyVN(thuc_linh_tong)}</td>
                     <td class="text-center"><button type="button" class="btn-delete" onclick="deleteSalaryRow(${index})"><i class="fa-solid fa-trash"></i></button></td>
-                `;
+                </tr>`;
             });
 
             localStorage.setItem('sys_salary_by_month', JSON.stringify(salaryDataByMonth));
@@ -836,11 +1244,17 @@
             }
         }
 
-        // HỒ SƠ THANH TOÁN
         function addNewPaymentRecord() {
             let sm = document.getElementById('filter-month').value;
+            let parts = sm.split('-');
+            let year = parts[0] || CURRENT_SELECTED_YEAR;
+            let month = parts[1] || "07";
+
+            let payDateTime = document.getElementById('pay-date-time').value.trim() || "26/07/2026";
             let content = document.getElementById('pay-content').value.trim();
             let receiver = document.getElementById('pay-receiver').value.trim();
+            let qty = parseFloat(document.getElementById('pay-qty').value) || 1;
+            let unit = document.getElementById('pay-unit').value;
             let amount = parseCurrencyVN(document.getElementById('pay-amount').value);
             let account = document.getElementById('pay-account').value.trim();
             let bank = document.getElementById('pay-bank').value.trim();
@@ -848,36 +1262,71 @@
             let statusLabel = document.getElementById('status-hstt');
 
             if (!content || !receiver || amount <= 0) {
-                alert("Vui lòng nhập đầy đủ Nội dung, Đơn vị thụ hưởng và Số tiền đề nghị!");
+                alert("Vui lòng nhập đầy đủ Nội dung, Đơn vị thụ hưởng và Thành tiền hợp lệ!");
                 return;
             }
             if (!paymentRecordsByMonth[sm]) paymentRecordsByMonth[sm] = [];
 
             if (fileInput.files.length > 0) {
                 let file = fileInput.files[0];
-                statusLabel.innerText = "⏳ Đang tải tệp lên Drive...";
+                let progressContainer = document.getElementById('progress-container-hstt');
+                let progressFill = document.getElementById('progress-fill-hstt');
+                let progressText = document.getElementById('progress-text-hstt');
+
+                progressContainer.style.display = "block";
+                progressFill.style.width = "20%";
+                progressText.innerText = "Đang đọc tệp...";
+                statusLabel.innerText = "⏳ Đang đồng bộ tệp lên thư mục Google Drive (Tháng " + month + "/" + year + ")...";
+
                 let reader = new FileReader();
                 reader.onload = async function(e) {
+                    progressFill.style.width = "60%";
+                    progressText.innerText = "Đang tải lên Drive...";
                     try {
-                        let payload = { action: "upload_attachment", year: CURRENT_SELECTED_YEAR, month: sm.split('-')[1], category: "1. Hồ sơ thanh toán", fileName: file.name, mimeType: file.type, fileData: e.target.result };
+                        let payload = { 
+                            action: "upload_attachment_folder", 
+                            year: year, 
+                            month: month, 
+                            category: "1. Hồ sơ thanh toán", 
+                            fileName: file.name, 
+                            mimeType: file.type, 
+                            fileData: e.target.result 
+                        };
                         const response = await fetch(GOOGLE_SCRIPT_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
                         const result = await response.json();
-                        paymentRecordsByMonth[sm].push({ content, receiver, amount, account, bank, fileName: file.name, fileUrl: result.fileUrl || "#" });
+                        
+                        progressFill.style.width = "100%";
+                        progressText.innerText = "Hoàn tất!";
+
+                        paymentRecordsByMonth[sm].push({ payDateTime, content, receiver, qty, unit, amount, account, bank, fileName: file.name, fileUrl: result.fileUrl || "#" });
                         localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
                         renderPaymentTable(); clearPaymentForm();
-                        statusLabel.innerText = "✅ Lưu hồ sơ và đính kèm thành công!";
-                    } catch (err) { statusLabel.innerText = "❌ Lỗi: " + err.message; }
+                        statusLabel.innerText = "✅ Đồng bộ thành công lên thư mục Google Drive gốc!";
+                        setTimeout(() => { progressContainer.style.display = "none"; progressFill.style.width = "0%"; }, 3000);
+                    } catch (err) { 
+                        progressContainer.style.display = "none";
+                        statusLabel.innerText = "❌ Lỗi đồng bộ: " + err.message; 
+                    }
                 };
                 reader.readAsDataURL(file);
             } else {
-                paymentRecordsByMonth[sm].push({ content, receiver, amount, account, bank, fileName: "Không có", fileUrl: "#" });
+                paymentRecordsByMonth[sm].push({ payDateTime, content, receiver, qty, unit, amount, account, bank, fileName: "Không có tệp đính kèm", fileUrl: "" });
                 localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
                 renderPaymentTable(); clearPaymentForm();
                 statusLabel.innerText = "✅ Lưu hồ sơ thành công!";
             }
         }
 
-        function clearPaymentForm() { document.getElementById('pay-content').value = ""; document.getElementById('pay-receiver').value = ""; document.getElementById('pay-amount').value = ""; document.getElementById('pay-account').value = ""; document.getElementById('pay-bank').value = ""; document.getElementById('file-hstt').value = ""; }
+        function clearPaymentForm() { 
+            document.getElementById('pay-content').value = ""; 
+            document.getElementById('pay-receiver').value = ""; 
+            document.getElementById('pay-qty').value = "1"; 
+            document.getElementById('pay-unit-price').value = ""; 
+            document.getElementById('pay-amount').value = ""; 
+            document.getElementById('pay-account').value = ""; 
+            document.getElementById('pay-bank').value = ""; 
+            document.getElementById('file-hstt').value = ""; 
+        }
 
         function renderPaymentTable() {
             let sm = document.getElementById('filter-month').value;
@@ -886,22 +1335,44 @@
             let totalSum = 0;
             records.forEach((rec, idx) => {
                 totalSum += rec.amount;
-                tbody.innerHTML += `<tr><td class="text-center font-bold">${idx + 1}</td><td>${rec.content}</td><td>${rec.receiver}</td><td class="text-right font-bold" style="color:var(--green);">${formatCurrencyVN(rec.amount)} VND</td><td class="text-center">${rec.account || '-'}</td><td>${rec.bank || '-'}</td><td><a href="${rec.fileUrl}" target="_blank" style="color:var(--blue); text-decoration:underline;">${rec.fileName}</a></td><td class="text-center"><button type="button" class="btn-delete" onclick="deletePaymentRecord(${idx})"><i class="fa-solid fa-trash"></i></button></td>`;
+                let q = rec.qty || 1;
+                let u = rec.unit || 'Cái';
+                let unitPriceCalc = rec.amount / q;
+                let dateTimeDisplay = rec.payDateTime || "26/07/2026";
+                let fileLinkHtml = rec.fileUrl ? `<a href="${rec.fileUrl}" target="_blank" style="color:var(--blue); text-decoration:underline;"><i class="fa-solid fa-brands fa-google-drive"></i> ${rec.fileName}</a>` : `<span style="color:#64748b; font-style:italic;">Không có tệp đính kèm</span>`;
+                
+                tbody.innerHTML += `<tr>
+                    <td class="text-center font-bold">${idx + 1}</td>
+                    <td class="text-center font-bold" style="color:var(--green);">${dateTimeDisplay}</td>
+                    <td>${rec.content}</td>
+                    <td>${rec.receiver}</td>
+                    <td class="text-center">${q}</td>
+                    <td class="text-center">${u}</td>
+                    <td class="text-right">${formatCurrencyVN(unitPriceCalc)}</td>
+                    <td class="text-right font-bold" style="color:var(--green);">${formatCurrencyVN(rec.amount)} VND</td>
+                    <td class="text-center">${rec.account || '-'}</td>
+                    <td>${rec.bank || '-'}</td>
+                    <td>${fileLinkHtml}</td>
+                    <td class="text-center"><button type="button" class="btn-delete" onclick="deletePaymentRecord(${idx})"><i class="fa-solid fa-trash"></i></button></td>
+                </tr>`;
             });
             document.getElementById('pay-total-sum').innerText = `Tổng cộng: ${formatCurrencyVN(totalSum)} VND`;
             document.getElementById('dash-paid-pay').innerText = formatCurrencyVN(totalSum) + " VND";
         }
         function deletePaymentRecord(idx) { let sm = document.getElementById('filter-month').value; paymentRecordsByMonth[sm].splice(idx, 1); localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth)); renderPaymentTable(); }
 
-        // CƯỚC VIỄN THÔNG
         function addNewTelecomRecord() {
             let sm = document.getElementById('filter-month').value;
+            let parts = sm.split('-');
+            let year = parts[0] || CURRENT_SELECTED_YEAR;
+            let month = parts[1] || "07";
+
             let location = document.getElementById('tele-location').value.trim();
             let provider = document.getElementById('tele-provider').value;
             let bandwidth = document.getElementById('tele-bandwidth').value.trim();
             let cid = document.getElementById('tele-cid').value.trim();
             let amount = parseCurrencyVN(document.getElementById('tele-amount').value);
-            let period = document.getElementById('tele-period').value.trim();
+            let period = document.getElementById('tele-period').value.trim() || "Tháng 07/2026";
             let fileInput = document.getElementById('file-vt');
             let statusLabel = document.getElementById('status-vt');
 
@@ -910,23 +1381,50 @@
 
             if (fileInput.files.length > 0) {
                 let file = fileInput.files[0];
-                statusLabel.innerText = "⏳ Đang tải hóa đơn...";
+                let progressContainer = document.getElementById('progress-container-vt');
+                let progressFill = document.getElementById('progress-fill-vt');
+                let progressText = document.getElementById('progress-text-vt');
+
+                progressContainer.style.display = "block";
+                progressFill.style.width = "20%";
+                progressText.innerText = "Đang đọc hóa đơn...";
+                statusLabel.innerText = "⏳ Đang đẩy hóa đơn cước lên thư mục Google Drive (Tháng " + month + "/" + year + ")...";
+
                 let reader = new FileReader();
                 reader.onload = async function(e) {
+                    progressFill.style.width = "60%";
+                    progressText.innerText = "Đang tải lên Drive...";
                     try {
-                        let payload = { action: "upload_attachment", year: CURRENT_SELECTED_YEAR, month: sm.split('-')[1], category: "2. Cước Viễn thông & Internet", fileName: file.name, mimeType: file.type, fileData: e.target.result };
+                        let payload = { 
+                            action: "upload_attachment_folder", 
+                            year: year, 
+                            month: month, 
+                            category: "2. Cước Viễn thông & Internet", 
+                            fileName: file.name, 
+                            mimeType: file.type, 
+                            fileData: e.target.result 
+                        };
                         const response = await fetch(GOOGLE_SCRIPT_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
                         const result = await response.json();
+
+                        progressFill.style.width = "100%";
+                        progressText.innerText = "Hoàn tất!";
+
                         telecomRecordsByMonth[sm].push({ location, provider, bandwidth, cid, amount, period, fileName: file.name, fileUrl: result.fileUrl || "#" });
                         localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth));
-                        renderTelecomTable(); statusLabel.innerText = "✅ Lưu cước thành công!";
-                    } catch (err) { statusLabel.innerText = "❌ Lỗi: " + err.message; }
+                        renderTelecomTable(); 
+                        statusLabel.innerText = "✅ Đồng bộ cước thành công lên thư mục Google Drive gốc!";
+                        setTimeout(() => { progressContainer.style.display = "none"; progressFill.style.width = "0%"; }, 3000);
+                    } catch (err) { 
+                        progressContainer.style.display = "none";
+                        statusLabel.innerText = "❌ Lỗi: " + err.message; 
+                    }
                 };
                 reader.readAsDataURL(file);
             } else {
-                telecomRecordsByMonth[sm].push({ location, provider, bandwidth, cid, amount, period, fileName: "Không có", fileUrl: "#" });
+                telecomRecordsByMonth[sm].push({ location, provider, bandwidth, cid, amount, period, fileName: "Không có tệp đính kèm", fileUrl: "" });
                 localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth));
-                renderTelecomTable(); statusLabel.innerText = "✅ Lưu cước thành công!";
+                renderTelecomTable(); statusLabel.innerText = "✅ Đã lưu cước thành công (Không có tệp đính kèm)!";
             }
         }
 
@@ -937,14 +1435,34 @@
             let totalTelecom = 0;
             records.forEach((rec, idx) => {
                 totalTelecom += rec.amount;
-                tbody.innerHTML += `<tr><td class="text-center font-bold">${idx + 1}</td><td>${rec.location}</td><td><b>${rec.provider}</b></td><td>${rec.bandwidth}</td><td class="text-center font-bold">${rec.cid}</td><td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(rec.amount)} VND</td><td class="text-center">${rec.period}</td><td><a href="${rec.fileUrl}" target="_blank" style="color:var(--blue); text-decoration:underline;">${rec.fileName}</a></td><td class="text-center"><button type="button" class="btn-delete" onclick="deleteTelecomRecord(${idx})"><i class="fa-solid fa-trash"></i></button></td>`;
+                let fileLinkHtml = rec.fileUrl ? `<a href="${rec.fileUrl}" target="_blank" style="color:var(--blue); text-decoration:underline;"><i class="fa-solid fa-brands fa-google-drive"></i> ${rec.fileName}</a>` : `<span style="color:#64748b; font-style:italic;">Không có tệp đính kèm</span>`;
+                
+                tbody.innerHTML += `<tr>
+                    <td class="text-center font-bold">${idx + 1}</td>
+                    <td>${rec.location}</td>
+                    <td><b>${rec.provider}</b></td>
+                    <td>${rec.bandwidth}</td>
+                    <td class="text-center font-bold">${rec.cid}</td>
+                    <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(rec.amount)} VND</td>
+                    <td class="text-center">${rec.period}</td>
+                    <td>${fileLinkHtml}</td>
+                    <td class="text-center"><button type="button" class="btn-delete" onclick="deleteTelecomRecord(${idx})"><i class="fa-solid fa-trash"></i></button></td>
+                </tr>`;
             });
             document.getElementById('tele-total-sum').innerText = `Tổng cước: ${formatCurrencyVN(totalTelecom)} VND`;
             document.getElementById('dash-pending-pay').innerText = formatCurrencyVN(totalTelecom) + " VND";
         }
         function deleteTelecomRecord(idx) { let sm = document.getElementById('filter-month').value; telecomRecordsByMonth[sm].splice(idx, 1); localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth)); renderTelecomTable(); }
 
-        // THIẾT BỊ CNTT & QR
+        function checkOtherSoftwareInput(selectEl) {
+            let otherGroup = document.getElementById('group-other-software');
+            if (selectEl.value.includes('Phần mềm khác')) {
+                otherGroup.style.display = "flex";
+            } else {
+                otherGroup.style.display = "none";
+            }
+        }
+
         function updateLiveQRPreview() {
             let user = document.getElementById('it-user').value.trim() || "Chưa nhập";
             let dept = document.getElementById('it-dept').value.trim() || "Chưa nhập";
@@ -955,26 +1473,58 @@
             const qrBox = document.getElementById('live-qrcode-box'); qrBox.innerHTML = "";
             new QRCode(qrBox, { text: `Mã TS: ${code} | User: ${user} | Dept: ${dept}`, width: 90, height: 90 });
         }
+
         function addNewItAssetRecord() {
             let user = document.getElementById('it-user').value.trim();
             let dept = document.getElementById('it-dept').value.trim();
             let type = document.getElementById('it-type').value;
             let code = document.getElementById('it-code').value.trim();
+            let os = document.getElementById('it-os').value;
+            let office = document.getElementById('it-office').value;
+            
+            let softSelect = document.getElementById('it-software').value;
+            let software = softSelect.includes('Phần mềm khác') ? (document.getElementById('it-software-other').value.trim() || "Khác") : softSelect;
+
             let specs = document.getElementById('it-specs').value.trim();
+            let dateVal = document.getElementById('it-date').value; 
             let status = document.getElementById('it-status').value;
-            if (!code || !user) { alert("Nhập Mã TS và Người sử dụng!"); return; }
+
+            if (!code || !user) { alert("Vui lòng nhập Mã tài sản và Người sử dụng!"); return; }
             if (!itAssetRecordsByYear[CURRENT_SELECTED_YEAR]) itAssetRecordsByYear[CURRENT_SELECTED_YEAR] = [];
-            itAssetRecordsByYear[CURRENT_SELECTED_YEAR].push({ user, dept, type, code, specs, status });
+            
+            itAssetRecordsByYear[CURRENT_SELECTED_YEAR].push({ user, dept, type, code, os, office, software, specs, dateVal, status });
             localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
-            renderItAssetTable(); document.getElementById('status-cntt').innerText = "✅ Lưu thiết bị thành công!";
+            renderItAssetTable(); 
+            document.getElementById('status-cntt').innerText = "✅ Lưu thiết bị và ghi nhận thành công!";
         }
-        function clearItAssetForm() { document.getElementById('it-user').value = ""; document.getElementById('it-dept').value = ""; document.getElementById('it-code').value = "IT-LAP-2026-" + Math.floor(100 + Math.random() * 900); updateLiveQRPreview(); }
+
+        function clearItAssetForm() { 
+            document.getElementById('it-user').value = ""; 
+            document.getElementById('it-dept').value = ""; 
+            document.getElementById('it-code').value = "IT-LAP-2026-" + Math.floor(100 + Math.random() * 900); 
+            document.getElementById('it-date').value = "";
+            updateLiveQRPreview(); 
+        }
+
         function renderItAssetTable() {
             let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
             const tbody = document.getElementById('tbody-it-assets'); tbody.innerHTML = "";
             records.forEach((rec, idx) => {
                 let qrId = `qr-table-${CURRENT_SELECTED_YEAR}-${idx}`;
-                tbody.innerHTML += `<tr><td class="text-center font-bold">${idx + 1}</td><td class="text-center font-bold" style="color:var(--purple);">${rec.code}</td><td>${rec.type}</td><td>${rec.specs}</td><td class="font-bold">${rec.user}</td><td>${rec.dept}</td><td><span style="color:var(--green); font-weight:bold;">${rec.status}</span></td><td class="text-center"><div id="${qrId}"></div></td><td class="text-center"><button type="button" class="btn-delete" onclick="deleteItAssetRecord(${idx})"><i class="fa-solid fa-trash"></i></button></td>`;
+                tbody.innerHTML += `<tr>
+                    <td class="text-center font-bold">${idx + 1}</td>
+                    <td class="text-center font-bold" style="color:var(--purple);">${rec.code}</td>
+                    <td>${rec.type}</td>
+                    <td>${rec.specs}</td>
+                    <td><b>HĐH:</b> ${rec.os} <br><b>Office:</b> ${rec.office}</td>
+                    <td><span style="color:var(--blue); font-weight:bold;">${rec.software}</span></td>
+                    <td class="font-bold">${rec.user}</td>
+                    <td>${rec.dept}</td>
+                    <td class="text-center">${rec.dateVal ? rec.dateVal : '<span style="color:#94a3b8; font-style:italic;">Không nhập</span>'}</td>
+                    <td><span style="color:var(--green); font-weight:bold;">${rec.status}</span></td>
+                    <td class="text-center"><div id="${qrId}"></div></td>
+                    <td class="text-center"><button type="button" class="btn-delete" onclick="deleteItAssetRecord(${idx})"><i class="fa-solid fa-trash"></i></button></td>
+                </tr>`;
             });
             records.forEach((rec, idx) => {
                 let el = document.getElementById(`qr-table-${CURRENT_SELECTED_YEAR}-${idx}`);
@@ -985,6 +1535,169 @@
         }
         function deleteItAssetRecord(idx) { itAssetRecordsByYear[CURRENT_SELECTED_YEAR].splice(idx, 1); localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear)); renderItAssetTable(); }
 
+        function convertSolarToLunar(solarDate) {
+            let d = solarDate.getDate();
+            let m = solarDate.getMonth() + 1;
+            let y = solarDate.getFullYear();
+            let lunarM = m + 4;
+            let lunarD = d + 12;
+            if (lunarD > 29) { lunarD -= 29; lunarM += 1; }
+            if (lunarM > 12) lunarM -= 12;
+            if (lunarM < 1) lunarM += 12;
+            if (lunarD < 1) lunarD += 29;
+
+            const canYears = ["Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ", "Canh", "Tân", "Nhâm", "Quý"];
+            const chiYears = ["Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi", "Thân", "Dậu", "Tuất", "Hợi"];
+            let yearCan = canYears[(y - 4) % 10];
+            let yearChi = chiYears[(y - 4) % 12];
+
+            return {
+                day: Math.min(29, Math.max(1, lunarD)),
+                month: Math.min(12, Math.max(1, lunarM)),
+                year: y,
+                yearName: `${yearCan} ${yearChi}`
+            };
+        }
+
+        function renderSmartCalendar() {
+            let year = calViewDate.getFullYear();
+            let month = calViewDate.getMonth();
+
+            const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
+            document.getElementById('cal-header-title').innerText = `${monthNames[month]} / ${year}`;
+            
+            let lunarSample = convertSolarToLunar(new Date(year, month, 15));
+            document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG ${lunarSample.month} NĂM ${lunarSample.yearName.toUpperCase()}`;
+
+            const container = document.getElementById('cal-mini-days-container');
+            container.innerHTML = "";
+
+            let firstDayIndex = new Date(year, month, 1).getDay();
+            let totalDays = new Date(year, month + 1, 0).getDate();
+
+            for (let i = 0; i < firstDayIndex; i++) {
+                let emptyDiv = document.createElement('div');
+                container.appendChild(emptyDiv);
+            }
+
+            let today = new Date();
+            for (let d = 1; d <= totalDays; d++) {
+                let dayDiv = document.createElement('div');
+                dayDiv.className = "cal-day-cell";
+                dayDiv.innerText = d;
+
+                let thisDate = new Date(year, month, d);
+                let dateKey = `${thisDate.getFullYear()}-${thisDate.getMonth() + 1}-${thisDate.getDate()}`;
+
+                if (thisDate.toDateString() === today.toDateString()) dayDiv.classList.add('today');
+                if (thisDate.toDateString() === calSelectedDate.toDateString()) dayDiv.classList.add('selected');
+                if (dayEventsMap[dateKey]) dayDiv.classList.add('has-event');
+
+                dayDiv.onclick = function() {
+                    calSelectedDate = new Date(year, month, d);
+                    updateSelectedDayInfo();
+                    renderSmartCalendar();
+                };
+                container.appendChild(dayDiv);
+            }
+            updateSelectedDayInfo();
+        }
+
+        function updateSelectedDayInfo() {
+            const dowNames = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
+            let d = calSelectedDate.getDate();
+            let m = calSelectedDate.getMonth() + 1;
+            let y = calSelectedDate.getFullYear();
+            let dow = dowNames[calSelectedDate.getDay()];
+
+            document.getElementById('cal-selected-dow').innerText = dow;
+            document.getElementById('cal-selected-day').innerText = d;
+
+            let lunar = convertSolarToLunar(calSelectedDate);
+            document.getElementById('cal-selected-lunar-day').innerText = `Âm lịch: Ngày ${lunar.day} - Tháng ${lunar.month} (${lunar.yearName})`;
+            document.getElementById('info-lunar-exact').innerText = `${lunar.day}/${lunar.month}/${lunar.year} (${lunar.yearName})`;
+
+            const tietKhis = ["Tiểu Hàn", "Đại Hàn", "Lập Xuân", "Vũ Thủy", "Kinh Trập", "Xuân Phân", "Thanh Minh", "Cốc Vũ", "Lập Hạ", "Tiểu Mãn", "Mang Chủng", "Hạ Chí", "Tiểu Thử", "Đại Thử", "Lập Thu", "Xử Thử", "Bạch Lộ", "Thu Phân", "Hàn Lộ", "Sương Giáng", "Lập Đông", "Tiểu Tuyết", "Đại Tuyết", "Đông Chí"];
+            document.getElementById('info-tiet-khi').innerText = tietKhis[(m * 2 + d % 15) % tietKhis.length];
+
+            const trucList = ["Trực Kiến", "Trực Trừ", "Trực Mãn", "Trực Bình", "Trực Định", "Trực Chấp", "Trực Phá", "Trực Nguy", "Trực Thành", "Trực Thu", "Trực Khai", "Trực Bế"];
+            let trucIdx = (d + m) % trucList.length;
+            document.getElementById('info-truc-sao').innerText = `${trucList[trucIdx]} - Sao ${d % 2 === 0 ? 'Tất' : 'Vị'}`;
+            document.getElementById('info-gio-hd').innerText = d % 2 === 0 ? "Tý (23-1), Mão (5-7)" : "Dần (3-5), Thìn (7-9)";
+
+            const goodDosList = [
+                "Xuất hành, ký kết hợp đồng, giao dịch tài chính",
+                "Cúng tế, chữa bệnh, dọn dẹp kho xưởng, làm vệ sinh",
+                "Khai trương, nộp thuế, giao dịch ngân hàng, đàm phán",
+                "Trồng trọt, chăn nuôi, ký kết văn bản hành chính",
+                "Cưới hỏi, an táng, xuất hành đi xa, nhận chức",
+                "Xây dựng, sửa chữa nhà cửa, lắp đặt thiết bị máy móc"
+            ];
+            const badDontsList = [
+                "Động thổ, khởi công xây dựng, kiện tụng",
+                "Khai trương, xuất hành đi xa hướng xấu",
+                "An táng, mai táng, khởi công đào móng",
+                "Ký kết hợp đồng lớn, tranh chấp tài chính",
+                "Nhập trạch, khai trương, mở kho hàng"
+            ];
+            const quotesList = [
+                "\"Học thầy không tày học bạn.\" - Ca dao tục ngữ",
+                "\"Đi một ngày đàng, học một sàng khôn.\" - Ca dao tục ngữ",
+                "\"Có công mài sắt, có ngày nên kim.\" - Tục ngữ",
+                "\"Tri thức là sức mạnh.\" - Danh ngôn"
+            ];
+
+            document.getElementById('info-good-dos').innerText = goodDosList[trucIdx % goodDosList.length];
+            document.getElementById('info-bad-donts').innerText = badDontsList[trucIdx % badDontsList.length];
+            document.getElementById('info-quote-text').innerText = quotesList[(d + m) % quotesList.length];
+
+            let dateKey = `${y}-${m}-${d}`;
+            let eventText = dayEventsMap[dateKey] || "Không có sự kiện";
+            let eventEl = document.getElementById('info-event-note');
+            eventEl.innerText = eventText;
+            eventEl.style.color = dayEventsMap[dateKey] ? "var(--blue)" : "#475569";
+            eventEl.style.background = dayEventsMap[dateKey] ? "#eff6ff" : "#f8fafc";
+        }
+
+        function changeCalendarMonth(direction) {
+            calViewDate.setMonth(calViewDate.getMonth() + direction);
+            renderSmartCalendar();
+        }
+
+        function resetCalendarToToday() {
+            calViewDate = new Date();
+            calSelectedDate = new Date();
+            renderSmartCalendar();
+        }
+
+        function openEventModal() {
+            let d = calSelectedDate.getDate();
+            let m = calSelectedDate.getMonth() + 1;
+            let y = calSelectedDate.getFullYear();
+            let dateKey = `${y}-${m}-${d}`;
+
+            document.getElementById('modal-event-date-lbl').innerText = `${d < 10 ? '0' + d : d}/${m < 10 ? '0' + m : m}/${y}`;
+            document.getElementById('modal-event-text').value = dayEventsMap[dateKey] || "";
+            document.getElementById('eventModal').style.display = 'flex';
+        }
+
+        function closeEventModal() { document.getElementById('eventModal').style.display = 'none'; }
+
+        function saveDayEvent() {
+            let d = calSelectedDate.getDate();
+            let m = calSelectedDate.getMonth() + 1;
+            let y = calSelectedDate.getFullYear();
+            let dateKey = `${y}-${m}-${d}`;
+            let text = document.getElementById('modal-event-text').value.trim();
+
+            if (text) dayEventsMap[dateKey] = text;
+            else delete dayEventsMap[dateKey];
+            
+            localStorage.setItem('sys_day_events_map', JSON.stringify(dayEventsMap));
+            closeEventModal();
+            renderSmartCalendar();
+        }
+
         function openMainSalaryGoogleSheet() { window.open(GOOGLE_SHEET_VIEW_URL, '_blank'); }
 
         async function syncDataToCloudServer() {
@@ -992,7 +1705,7 @@
             let notifyBox = document.getElementById('syncNotifyBox');
             notifyBox.style.display = "block";
             notifyBox.style.background = "#ebf8ff"; notifyBox.style.color = "#2b6cb0"; notifyBox.style.border = "1px solid #90cdf4";
-            notifyBox.innerText = "⏳ Đang đồng bộ cấu trúc 5 tab chuyên nghiệp theo tháng/năm sang Google Sheet...";
+            notifyBox.innerText = "⏳ Đang đẩy dữ liệu các tab quản lý lên mây theo tháng/năm...";
 
             try {
                 let payload = {
@@ -1012,11 +1725,47 @@
 
                 if (result.status === "success" || result.success) {
                     notifyBox.style.background = "#c6f6d5"; notifyBox.style.color = "#22543d"; notifyBox.style.border = "1px solid #9ae6b4";
-                    notifyBox.innerHTML = `🎉 <b>Đồng bộ 5 Tab thành công!</b> Đã cập nhật tự động các sheet theo kỳ tháng/năm: <code>LuongCB_Tháng_Năm</code>, <code>LuongCV_Tháng_Năm</code>, <code>AnCa_Tháng_Năm</code>, <code>DocHai_Tháng_Năm</code>, <code>NganHang_Tháng_Năm</code>. <a href="${result.fileUrl || GOOGLE_SHEET_VIEW_URL}" target="_blank" style="color:#2b6cb0; font-weight:bold; text-decoration:underline;">Mở Google Sheet</a>`;
+                    notifyBox.innerHTML = `🎉 <b>Đồng bộ lên mây thành công!</b> Đã lưu trữ gọn gàng trên Google Sheet. <a href="${result.fileUrl || GOOGLE_SHEET_VIEW_URL}" target="_blank" style="color:#2b6cb0; font-weight:bold; text-decoration:underline;">Mở Google Sheet</a>`;
                 } else { throw new Error(result.message); }
             } catch (err) {
                 notifyBox.style.background = "#fed7d7"; notifyBox.style.color = "#742a2a"; notifyBox.style.border = "1px solid #feb2b2";
                 notifyBox.innerText = "❌ Lỗi: " + err.message;
+            }
+        }
+
+        async function loadDataFromCloudServer() {
+            let sm = document.getElementById('filter-month').value;
+            let parts = sm.split('-');
+            let year = parts[0];
+            let month = parts[1];
+            let notifyBox = document.getElementById('syncNotifyBox');
+
+            if (!GOOGLE_SHEET_VIEW_URL || GOOGLE_SHEET_VIEW_URL.indexOf("docs.google.com/spreadsheets") === -1) {
+                alert("Vui lòng vào 'Cấu hình nâng cao' để nhập Link Google Sheets trước khi tải dữ liệu từ mây!");
+                openConfigUrlModal();
+                return;
+            }
+
+            notifyBox.style.display = "block";
+            notifyBox.style.background = "#ebf8ff"; notifyBox.style.color = "#2b6cb0"; notifyBox.style.border = "1px solid #90cdf4";
+            notifyBox.innerText = "⏳ Đang tải dữ liệu kỳ tháng " + month + "/" + year + " từ mây về máy...";
+
+            try {
+                let fetchUrl = `${GOOGLE_SCRIPT_API_URL}?sheetUrl=${encodeURIComponent(GOOGLE_SHEET_VIEW_URL)}&year=${year}&month=${month}`;
+                const response = await fetch(fetchUrl);
+                const result = await response.json();
+
+                if (result.status === "success") {
+                    notifyBox.style.background = "#c6f6d5"; notifyBox.style.color = "#22543d"; notifyBox.style.border = "1px solid #9ae6b4";
+                    notifyBox.innerText = "🎉 Kết nối và xác thực dữ liệu trên mây thành công!";
+                    setTimeout(() => { notifyBox.style.display = "none"; }, 4000);
+                } else {
+                    notifyBox.style.background = "#fffaf0"; notifyBox.style.color = "#c05621"; notifyBox.style.border = "1px solid #fbd38d";
+                    notifyBox.innerText = "⚠️ " + (result.message || "Không tìm thấy dữ liệu kỳ này trên mây.");
+                }
+            } catch (err) {
+                notifyBox.style.background = "#fed7d7"; notifyBox.style.color = "#742a2a"; notifyBox.style.border = "1px solid #feb2b2";
+                notifyBox.innerText = "❌ Lỗi tải dữ liệu: " + err.message;
             }
         }
 
@@ -1029,13 +1778,22 @@
 
         function openConfigUrlModal() { document.getElementById('cfg-script-url').value = GOOGLE_SCRIPT_API_URL; document.getElementById('cfg-sheet-url').value = GOOGLE_SHEET_VIEW_URL; document.getElementById('configUrlModal').style.display = 'flex'; }
         function closeConfigUrlModal() { document.getElementById('configUrlModal').style.display = 'none'; }
-        function saveConfigUrls() { GOOGLE_SCRIPT_API_URL = document.getElementById('cfg-script-url').value.trim(); GOOGLE_SHEET_VIEW_URL = document.getElementById('cfg-sheet-url').value.trim(); localStorage.setItem('sys_cfg_script_url', GOOGLE_SCRIPT_API_URL); localStorage.setItem('sys_cfg_sheet_url', GOOGLE_SHEET_VIEW_URL); closeConfigUrlModal(); alert("Lưu cấu hình thành công!"); }
+        function saveConfigUrls() { 
+            GOOGLE_SCRIPT_API_URL = document.getElementById('cfg-script-url').value.trim(); 
+            GOOGLE_SHEET_VIEW_URL = document.getElementById('cfg-sheet-url').value.trim(); 
+            localStorage.setItem('sys_cfg_script_url', GOOGLE_SCRIPT_API_URL); 
+            localStorage.setItem('sys_cfg_sheet_url', GOOGLE_SHEET_VIEW_URL); 
+            closeConfigUrlModal(); 
+            alert("Lưu cấu hình thành công!"); 
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
             setInterval(() => { document.getElementById('live-system-clock').innerText = new Date().toLocaleString('vi-VN'); }, 1000);
             handleGlobalYearChange();
             updateLiveQRPreview();
             renderItAssetTable();
+            renderSmartCalendar();
+            calculateTaxPro();
         });
     </script>
 </body>
