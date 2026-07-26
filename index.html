@@ -390,7 +390,7 @@
             <div id="tab-payment" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--green);">
-                        <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--green);"></i> LẬP HỒ SƠ ĐỀ NGHỊ THANH TOÁN VĂN PHÒNG (Tự động cộng thuế vào thành tiền tổng cộng)</span>
+                        <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--green);"></i> LẬP HỒ SƠ ĐỀ NGHỊ THANH TOÁN VĂN PHÒNG (Thành tiền tự động tính hoặc nhập tay tùy ý)</span>
                         <a href="https://drive.google.com" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục Google Drive</a>
                     </div>
 
@@ -476,12 +476,12 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Đơn giá (VNĐ) (Hỗ trợ dấu phẩy thập phân):</label>
+                                <label>Đơn giá (VNĐ):</label>
                                 <input type="text" id="pay-unit-price" placeholder="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="calculatePayLineTotal()">
                             </div>
                             <div class="form-group">
-                                <label style="color:var(--green);">Thành tiền tổng cộng (Đã gồm thuế):</label>
-                                <input type="text" id="pay-amount" placeholder="0" readonly style="background:#f0fdf4; color:var(--green); font-weight:800;">
+                                <label style="color:var(--green);">Thành tiền tổng cộng (Tự động hoặc Nhập tay):</label>
+                                <input type="text" id="pay-amount" placeholder="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="markAmountManual()" style="background:#f0fdf4; color:var(--green); font-weight:800; border-color:#86efac;">
                             </div>
                         </div>
                         <div class="grid-form" style="margin-bottom: 12px;">
@@ -887,6 +887,7 @@
         let GOOGLE_SCRIPT_API_URL = localStorage.getItem('sys_cfg_script_url') || HARDCODED_SCRIPT_API; 
 
         let CURRENT_SELECTED_YEAR = "2026";
+        let isAmountManual = false; // Biến cờ ghi nhận người dùng chủ động nhập tay thành tiền
 
         const default16Staffs = [
             {"name": "Nguyễn Minh Ngọc", "account": "105005712499", "lcb_heso": 1.94, "lcb_phucap": 0.25, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 5.20, "phu_cap_lcv": 0.6, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 5000000, "pctt": 0, "tru_ung": 0},
@@ -1022,7 +1023,6 @@
             }
         });
 
-        // 🧮 HÀM XỬ LÝ TIỀN TỆ THÔNG MINH: Chấp nhận dấu chấm ngăn cách ngàn và dấu phẩy thập phân (Ví dụ: 263.888,9)
         function formatCurrencyVN(num) {
             if (num === null || num === undefined || isNaN(num)) return "0";
             let parts = Number(num).toFixed(2).split('.');
@@ -1051,13 +1051,21 @@
             inputEl.value = formatCurrencyVN(parseCurrencyVN(inputEl.value)); 
         }
 
+        function markAmountManual() {
+            isAmountManual = true;
+        }
+
         function calculatePayLineTotal() {
             let qty = parseFloat(document.getElementById('pay-qty').value) || 1;
             let unitPrice = parseCurrencyVN(document.getElementById('pay-unit-price').value);
             let baseSubtotal = qty * unitPrice;
             let rate = parseFloat(document.getElementById('tax-rate-select').value) || 0;
             let taxAmount = baseSubtotal * (rate / 100);
-            document.getElementById('pay-amount').value = formatCurrencyVN(baseSubtotal + taxAmount);
+            
+            // Nếu người dùng chưa chủ động nhập tay thành tiền thì mới tự động cập nhật
+            if (!isAmountManual) {
+                document.getElementById('pay-amount').value = formatCurrencyVN(baseSubtotal + taxAmount);
+            }
         }
 
         function calculateTaxPro() {
@@ -1280,7 +1288,7 @@
             let receiver = document.getElementById('pay-receiver').value.trim();
             let qty = parseFloat(document.getElementById('pay-qty').value) || 1;
             let unit = document.getElementById('pay-unit').value;
-            let unitPrice = parseCurrencyVN(document.getElementById('pay-unit-price').value); // Lấy chính xác đơn giá gốc nhập vào
+            let unitPrice = parseCurrencyVN(document.getElementById('pay-unit-price').value);
             let amount = parseCurrencyVN(document.getElementById('pay-amount').value);
             let account = document.getElementById('pay-account').value.trim();
             let bank = document.getElementById('pay-bank').value.trim();
@@ -1353,6 +1361,7 @@
             }
 
             fileInput.value = "";
+            isAmountManual = false; // Reset cờ sau khi lưu
 
             localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
             renderPaymentTable();
@@ -1370,13 +1379,13 @@
             document.getElementById('pay-receiver').value = rec.receiver || "";
             document.getElementById('pay-qty').value = rec.qty || 1;
             document.getElementById('pay-unit').value = rec.unit || "Cái";
-            // Lấy chính xác đơn giá đã lưu (nếu dữ liệu cũ chưa có unitPrice thì fallback tính toán)
             let exactUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : ((rec.amount || 0) / (rec.qty || 1));
             document.getElementById('pay-unit-price').value = formatCurrencyVN(exactUnitPrice);
             document.getElementById('pay-amount').value = formatCurrencyVN(rec.amount || 0);
             document.getElementById('pay-account').value = rec.account || "";
             document.getElementById('pay-bank').value = rec.bank || "";
 
+            isAmountManual = true; // Đánh dấu để giữ nguyên giá trị khi đang sửa
             document.getElementById('btn-save-pay').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Cập Nhật Hồ Sơ`;
             document.getElementById('btn-cancel-edit-pay').style.display = "inline-flex";
             window.scrollTo({ top: 200, behavior: 'smooth' });
@@ -1385,6 +1394,7 @@
         function cancelEditPayment() {
             document.getElementById('edit-payment-index').value = "-1";
             clearPaymentForm();
+            isAmountManual = false;
             document.getElementById('btn-save-pay').innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Tải Lên & Thêm Vào Bảng`;
             document.getElementById('btn-cancel-edit-pay').style.display = "none";
         }
@@ -1394,6 +1404,7 @@
             document.getElementById('pay-qty').value = "1"; document.getElementById('pay-unit-price').value = ""; 
             document.getElementById('pay-amount').value = ""; document.getElementById('pay-account').value = ""; 
             document.getElementById('pay-bank').value = ""; document.getElementById('file-hstt').value = ""; 
+            isAmountManual = false;
         }
 
         function renderPaymentTable() {
@@ -1404,7 +1415,6 @@
             records.forEach((rec, idx) => {
                 totalSum += rec.amount;
                 let q = rec.qty || 1, u = rec.unit || 'Cái';
-                // Hiển thị chính xác đơn giá gốc đã nhập
                 let displayUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : (rec.amount / q);
                 let dateTimeDisplay = rec.payDateTime || "26/07/2026";
                 let folderLinkHtml = `<span style="color:#64748b; font-style:italic;">Chưa có tệp</span>`;
@@ -1650,11 +1660,6 @@
             document.getElementById('dash-total-it-devices').innerText = `${records.length} Thiết bị`;
         }
         function deleteItAssetRecord(idx) { itAssetRecordsByYear[CURRENT_SELECTED_YEAR].splice(idx, 1); localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear)); renderItAssetTable(); }
-
-        function convertSolarToLunar(solarDate) {
-            let d = solarDate.getDate(), m = solarDate.getMonth() + 1, y = solarDate.getFullYear();
-            return { day: d, month: m, year: y, yearName: "Bính Ngọ" };
-        }
 
         function renderSmartCalendar() {
             let year = calViewDate.getFullYear(), month = calViewDate.getMonth();
