@@ -232,7 +232,7 @@
 
                         <div class="config-actions-group" style="display:flex; gap:8px;">
                             <button type="button" class="btn btn-primary" onclick="openMainSalaryGoogleSheet()"><i class="fa-brands fa-google-drive"></i> Mở Sheet</button>
-                            <button type="button" class="btn btn-purple" onclick="syncDataToCloudServer()"><i class="fa-solid fa-cloud-arrow-up"></i> Đồng Bộ Mây (5 Tab)</button>
+                            <button type="button" class="btn btn-purple" onclick="syncDataToCloudServer()"><i class="fa-solid fa-cloud-arrow-up"></i> Đồng Bộ Mây (5 Tab Riêng Biệt)</button>
                         </div>
                     </div>
                 </div>
@@ -277,8 +277,8 @@
                                     <th colspan="4" class="text-center" style="background-color: #bfdbfe; color:#1e3a8a;">Lương Cơ Bản HĐLĐ</th>
                                     <th colspan="3" class="text-center" style="background-color: #bae6fd; color:#0369a1;">Số Ngày Công Thực Tế</th>
                                     <th colspan="5" class="text-center" style="background-color: #e2e8f0;">Cơ cấu & Thực Lĩnh Lương CB</th>
-                                    <th colspan="11" class="text-center" style="background-color: #e9d5ff; color:#581c87;">Cơ cấu & Thực Lĩnh Lương CV, Ăn Ca, Độc Hại (<span style="font-size:11px;">Độc hại: NT × 13.000đ</span>)</th>
-                                    <th rowspan="2" style="background-color: #fef08a; color:#713f12; font-size:14px; font-weight:bold; min-width:135px; text-align:center;">TỔNG NET</th>
+                                    <th colspan="11" class="text-center" style="background-color: #e9d5ff; color:#581c87;">Cơ cấu & Thực Lĩnh Lương CV</th>
+                                    <th rowspan="2" style="background-color: #fef08a; color:#713f12; font-size:14px; font-weight:bold; min-width:135px; text-align:center;">TỔNG NET <br><span style="font-size:10px; font-weight:normal;">(Thực Lĩnh CV + Thực Lĩnh CB)</span></th>
                                     <th rowspan="2" style="width: 40px; text-align:center;">Xóa</th>
                                 </tr>
                                 <tr style="background-color: #cbd5e1;">
@@ -299,8 +299,8 @@
                                     <th style="background:#fde047; width:60px; color:#713f12;">HS HTCV</th>
                                     <th>LCV Gốc</th>
                                     <th>LCV Thực Tế</th>
-                                    <th style="background:#ffedd5; color:#c2410c;">Tiền Ăn Ca <span style="font-size:10px;">(×5.000)</span></th>
-                                    <th style="background:#dcfce7; color:#166534;">Tiền Độc Hại <span style="font-size:10px;">(×13.000)</span></th>
+                                    <th style="background:#ffedd5; color:#c2410c;">Tiền Ăn Ca <span style="font-size:10px;">(NT×5.000)</span></th>
+                                    <th style="background:#dcfce7; color:#166534;">Tiền Độc Hại <span style="font-size:10px;">(NT×13.000)</span></th>
                                     <th style="background:#ffedd5; color:#c2410c;">Tạm Ứng</th>
                                     <th style="background:#fee2e2; color:#991b1b;">Quỹ PCTT</th>
                                     <th style="background:#fee2e2; color:#991b1b;">Trừ Ứng</th>
@@ -600,29 +600,29 @@
     </div>
 
     <script>
-        const HARDCODED_SCRIPT_API = "https://script.google.com/macros/s/AKfycbzONon27Dy0enBQr2VrnOGnBcXUHZE8pL0o-cNnydBlcr3wF8NUk8Qd9yu8Uynxi_qx/exec";
+        const HARDCODED_SCRIPT_API = "https://script.google.com/macros/s/AKfycbz8GA4ncZFEQh-haDrWuCyt67xcwSXKIFb8zLTPAqf7Ky7Yn47Gqyr7cZpicWo6eLt9/exec";
         let GOOGLE_SHEET_VIEW_URL = localStorage.getItem('sys_cfg_sheet_url') || "https://docs.google.com/spreadsheets/d/1QkvmX4ZIP1qdKwvZ4UHywoih9Go2qPtGjHpIp_6cZRo/edit"; 
         let GOOGLE_SCRIPT_API_URL = localStorage.getItem('sys_cfg_script_url') || HARDCODED_SCRIPT_API; 
 
         let CURRENT_SELECTED_YEAR = "2026";
 
         const default16Staffs = [
-            {"name": "Nguyễn Minh Ngọc", "account": "105005712499", "lcb_heso": 1.94, "lcb_phucap": 0.25, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 5.20, "phu_cap_lcv": 0.6, "hs_htcv": 1.0, "anca": 1000000, "dohai": 260000, "tam_ung": 5000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Nguyễn Văn Nam", "account": "105004242307", "lcb_heso": 1.48, "lcb_phucap": 0.00, "NT": 14, "P": 6, "le_vr": 1, "he_so_lcv": 2.24, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 700000, "dohai": 182000, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Nguyễn Thị Tuyết Nhung", "account": "102005035542", "lcb_heso": 1.79, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.74, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 1000000, "dohai": 260000, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Vũ Thị Thu", "account": "106004294441", "lcb_heso": 1.94, "lcb_phucap": 0.00, "NT": 21, "P": 0, "le_vr": 1, "he_so_lcv": 1.86, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 1050000, "dohai": 273000, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Đào Thị Liên", "account": "106004359838", "lcb_heso": 1.79, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.74, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 1000000, "dohai": 260000, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Võ Thị Thanh Tuyền", "account": "106868653975", "lcb_heso": 1.71, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.74, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 1000000, "dohai": 260000, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Trần Thị Thanh", "account": "105004294439", "lcb_heso": 1.67, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.48, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 1000000, "dohai": 260000, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Trần Đức Chiến", "account": "102004797815", "lcb_heso": 1.83, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.66, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 1000000, "dohai": 260000, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Phạm Tiến Long", "account": "104004583045", "lcb_heso": 1.80, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.62, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 1000000, "dohai": 260000, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Đinh Hữu Vinh", "account": "100004797831", "lcb_heso": 1.83, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.66, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 1000000, "dohai": 260000, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Bùi Đình Điệp", "account": "101004882063", "lcb_heso": 1.53, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.62, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 1000000, "dohai": 260000, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Hoàng Mạnh Hùng", "account": "100006186724", "lcb_heso": 1.53, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.62, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 1000000, "dohai": 260000, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Ma Trọng Luận", "account": "106869104133", "lcb_heso": 1.35, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.63, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 1000000, "dohai": 260000, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Trần Bình Dương", "account": "106873586343", "lcb_heso": 1.79, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 2.40, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 1000000, "dohai": 260000, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Đặng Trần Trung", "account": "107002654931", "lcb_heso": 1.53, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.62, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 1000000, "dohai": 260000, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
-            {"name": "Phạm Huy Chiến", "account": "102004830132", "lcb_heso": 2.26, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 2.40, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 1000000, "dohai": 260000, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0}
+            {"name": "Nguyễn Minh Ngọc", "account": "105005712499", "lcb_heso": 1.94, "lcb_phucap": 0.25, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 5.20, "phu_cap_lcv": 0.6, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 5000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Nguyễn Văn Nam", "account": "105004242307", "lcb_heso": 1.48, "lcb_phucap": 0.00, "NT": 14, "P": 6, "le_vr": 1, "he_so_lcv": 2.24, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 70000, "dohai": 182000, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Nguyễn Thị Tuyết Nhung", "account": "102005035542", "lcb_heso": 1.79, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.74, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Vũ Thị Thu", "account": "106004294441", "lcb_heso": 1.94, "lcb_phucap": 0.00, "NT": 21, "P": 0, "le_vr": 1, "he_so_lcv": 1.86, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 105000, "dohai": 273000, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Đào Thị Liên", "account": "106004359838", "lcb_heso": 1.79, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.74, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Võ Thị Thanh Tuyền", "account": "106868653975", "lcb_heso": 1.71, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.74, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Trần Thị Thanh", "account": "105004294439", "lcb_heso": 1.67, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.48, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Trần Đức Chiến", "account": "102004797815", "lcb_heso": 1.83, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.66, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Phạm Tiến Long", "account": "104004583045", "lcb_heso": 1.80, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.62, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Đinh Hữu Vinh", "account": "100004797831", "lcb_heso": 1.83, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.66, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Bùi Đình Điệp", "account": "101004882063", "lcb_heso": 1.53, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.62, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Hoàng Mạnh Hùng", "account": "100006186724", "lcb_heso": 1.53, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.62, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Ma Trọng Luận", "account": "106869104133", "lcb_heso": 1.35, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.63, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Trần Bình Dương", "account": "106873586343", "lcb_heso": 1.79, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 2.40, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Đặng Trần Trung", "account": "107002654931", "lcb_heso": 1.53, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.62, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
+            {"name": "Phạm Huy Chiến", "account": "102004830132", "lcb_heso": 2.26, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 2.40, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0}
         ];
 
         let salaryConfigsByMonth = JSON.parse(localStorage.getItem('sys_salary_configs_by_month')) || {};
@@ -750,7 +750,6 @@
                 let luong_cong_viec = Math.round((parseFloat(row.he_so_lcv || 0) + parseFloat(row.phu_cap_lcv || 0)) * lcvReg * val_hsHtcv);
                 let lcv_thucte = Math.round((luong_cong_viec / 22) * val_NT); 
                 
-                // Cập nhật công thức chuẩn tự động: Ăn ca = NT * 5.000, Độc hại = NT * 13.000
                 let ancaVal = row.anca !== undefined ? parseCurrencyVN(row.anca) : val_NT * 5000;
                 let dohaiVal = row.dohai !== undefined ? parseCurrencyVN(row.dohai) : val_NT * 13000;
                 
@@ -758,7 +757,7 @@
                 let pcttVal = row.pctt !== undefined ? parseCurrencyVN(row.pctt) : 0;
                 let truUngVal = row.tru_ung !== undefined ? parseCurrencyVN(row.tru_ung) : 0;
 
-                let thuc_linh_lcv = lcv_thucte + ancaVal + dohaiVal - tamUngVal - pcttVal - truUngVal;
+                let thuc_linh_lcv = lcv_thucte - tamUngVal - pcttVal - truUngVal;
                 let thuc_linh_tong = thuc_linh_cb + thuc_linh_lcv;
 
                 T_thuc_linh_cb += thuc_linh_cb; 
@@ -993,7 +992,7 @@
             let notifyBox = document.getElementById('syncNotifyBox');
             notifyBox.style.display = "block";
             notifyBox.style.background = "#ebf8ff"; notifyBox.style.color = "#2b6cb0"; notifyBox.style.border = "1px solid #90cdf4";
-            notifyBox.innerText = "⏳ Đang đồng bộ toàn bộ 5 tab chuyên nghiệp sang Google Drive...";
+            notifyBox.innerText = "⏳ Đang đồng bộ cấu trúc 5 tab chuyên nghiệp theo tháng/năm sang Google Sheet...";
 
             try {
                 let payload = {
@@ -1013,7 +1012,7 @@
 
                 if (result.status === "success" || result.success) {
                     notifyBox.style.background = "#c6f6d5"; notifyBox.style.color = "#22543d"; notifyBox.style.border = "1px solid #9ae6b4";
-                    notifyBox.innerHTML = `🎉 <b>Đồng bộ thành công!</b> Đã tạo tự động các tab: <code>Lương CB</code>, <code>Lương CV</code>, <code>ĂnCa</code>, <code>ĐộcHại</code>, <code>Ngan hang</code>. <a href="${result.fileUrl || GOOGLE_SHEET_VIEW_URL}" target="_blank" style="color:#2b6cb0; font-weight:bold; text-decoration:underline;">Mở Google Sheet</a>`;
+                    notifyBox.innerHTML = `🎉 <b>Đồng bộ 5 Tab thành công!</b> Đã cập nhật tự động các sheet theo kỳ tháng/năm: <code>LuongCB_Tháng_Năm</code>, <code>LuongCV_Tháng_Năm</code>, <code>AnCa_Tháng_Năm</code>, <code>DocHai_Tháng_Năm</code>, <code>NganHang_Tháng_Năm</code>. <a href="${result.fileUrl || GOOGLE_SHEET_VIEW_URL}" target="_blank" style="color:#2b6cb0; font-weight:bold; text-decoration:underline;">Mở Google Sheet</a>`;
                 } else { throw new Error(result.message); }
             } catch (err) {
                 notifyBox.style.background = "#fed7d7"; notifyBox.style.color = "#742a2a"; notifyBox.style.border = "1px solid #feb2b2";
