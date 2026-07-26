@@ -488,8 +488,8 @@
                                 <input type="text" id="pay-bank" placeholder="Tên ngân hàng / Chi nhánh...">
                             </div>
                             <div class="form-group" style="grid-column: span 2;">
-                                <label>Chọn tệp đính kèm (Hóa đơn/Chứng từ):</label>
-                                <input type="file" id="file-hstt" class="inp-table" style="background: white;">
+                                <label>Chọn nhiều tệp đính kèm (Hóa đơn/Chứng từ):</label>
+                                <input type="file" id="file-hstt" class="inp-table" style="background: white;" multiple>
                             </div>
                         </div>
                         <div style="display:flex; justify-content:flex-end; gap: 8px; margin-top: 10px;">
@@ -521,7 +521,7 @@
                                     <th>Thành tiền (Đã gồm thuế)</th>
                                     <th>Số tài khoản</th>
                                     <th>Ngân hàng</th>
-                                    <th>Tệp đính kèm Google Drive</th>
+                                    <th>Tệp đính kèm Google Drive (Nhiều file)</th>
                                     <th style="text-align: center;">Thao tác</th>
                                 </tr>
                             </thead>
@@ -575,8 +575,8 @@
                         </div>
                         <div style="display: flex; gap: 15px; align-items: center; justify-content: space-between; flex-wrap: wrap; border-top: 1px dashed #fdba74; padding-top: 10px;">
                             <div style="display: flex; gap: 10px; align-items: center; flex: 1;">
-                                <label style="font-weight: bold; color: #c2410c; white-space: nowrap;"><i class="fa-solid fa-file-arrow-up"></i> Hóa đơn:</label>
-                                <input type="file" id="file-vt" class="inp-table" style="background: white; border-color: #fdba74; max-width: 350px;">
+                                <label style="font-weight: bold; color: #c2410c; white-space: nowrap;"><i class="fa-solid fa-file-arrow-up"></i> Hóa đơn (Nhiều tệp):</label>
+                                <input type="file" id="file-vt" class="inp-table" style="background: white; border-color: #fdba74; max-width: 350px;" multiple>
                             </div>
                             <div style="display:flex; gap:8px;">
                                 <button type="button" class="btn btn-gray" id="btn-cancel-edit-tele" style="display:none;" onclick="cancelEditTelecom()"><i class="fa-solid fa-xmark"></i> Hủy sửa</button>
@@ -605,7 +605,7 @@
                                     <th>Mã CID</th>
                                     <th>Cước phí</th>
                                     <th>Kỳ cước</th>
-                                    <th>Hóa đơn Google Drive</th>
+                                    <th>Hóa đơn Google Drive (Nhiều file)</th>
                                     <th style="text-align: center;">Thao tác</th>
                                 </tr>
                             </thead>
@@ -1285,8 +1285,8 @@
             }
         }
 
-        /* --- HỒ SƠ THANH TOÁN (CÓ TÍNH NĂNG SỬA & CẬP NHẬT) --- */
-        function addNewPaymentRecord() {
+        /* --- HỒ SƠ THANH TOÁN (HỖ TRỢ ĐÍNH KÈM NHIỀU TỆP) --- */
+        async function addNewPaymentRecord() {
             let sm = document.getElementById('filter-month').value;
             let parts = sm.split('-');
             let year = parts[0] || CURRENT_SELECTED_YEAR;
@@ -1310,21 +1310,31 @@
             }
             if (!paymentRecordsByMonth[sm]) paymentRecordsByMonth[sm] = [];
 
+            let uploadedFiles = [];
+            if (editIndex >= 0 && paymentRecordsByMonth[sm][editIndex] && paymentRecordsByMonth[sm][editIndex].files) {
+                uploadedFiles = [...paymentRecordsByMonth[sm][editIndex].files];
+            }
+
             if (fileInput.files.length > 0) {
-                let file = fileInput.files[0];
                 let progressContainer = document.getElementById('progress-container-hstt');
                 let progressFill = document.getElementById('progress-fill-hstt');
                 let progressText = document.getElementById('progress-text-hstt');
 
                 progressContainer.style.display = "block";
-                progressFill.style.width = "20%";
-                progressText.innerText = "Đang đọc tệp...";
-                statusLabel.innerText = "⏳ Đang đồng bộ tệp lên thư mục Google Drive (Tháng " + month + "/" + year + ")...";
+                statusLabel.innerText = "⏳ Đang tải lên Google Drive (" + fileInput.files.length + " tệp)...";
 
-                let reader = new FileReader();
-                reader.onload = async function(e) {
-                    progressFill.style.width = "60%";
-                    progressText.innerText = "Đang tải lên Drive...";
+                for (let i = 0; i < fileInput.files.length; i++) {
+                    let file = fileInput.files[i];
+                    let percent = Math.round(((i + 1) / fileInput.files.length) * 100);
+                    progressFill.style.width = percent + "%";
+                    progressText.innerText = `Đang tải ${i + 1}/${fileInput.files.length}...`;
+
+                    let base64Data = await new Promise((resolve) => {
+                        let reader = new FileReader();
+                        reader.onload = (e) => resolve(e.target.result);
+                        reader.readAsDataURL(file);
+                    });
+
                     try {
                         let payload = { 
                             action: "upload_attachment_folder", 
@@ -1333,56 +1343,32 @@
                             category: "1. Hồ sơ thanh toán", 
                             fileName: file.name, 
                             mimeType: file.type, 
-                            fileData: e.target.result 
+                            fileData: base64Data 
                         };
                         const response = await fetch(GOOGLE_SCRIPT_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
                         const result = await response.json();
-                        
-                        progressFill.style.width = "100%";
-                        progressText.innerText = "Hoàn tất!";
-
-                        let recordObj = { payDateTime, content, receiver, qty, unit, amount, account, bank, fileName: file.name, fileUrl: result.fileUrl || "#" };
-                        
-                        if (editIndex >= 0) {
-                            paymentRecordsByMonth[sm][editIndex] = recordObj;
-                            cancelEditPayment();
-                        } else {
-                            paymentRecordsByMonth[sm].push(recordObj);
-                            clearPaymentForm();
-                        }
-
-                        localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
-                        renderPaymentTable();
-                        statusLabel.innerText = "✅ Đồng bộ thành công lên thư mục Google Drive gốc!";
-                        setTimeout(() => { progressContainer.style.display = "none"; progressFill.style.width = "0%"; }, 3000);
-                    } catch (err) { 
-                        progressContainer.style.display = "none";
-                        statusLabel.innerText = "❌ Lỗi đồng bộ: " + err.message; 
+                        uploadedFiles.push({ fileName: file.name, fileUrl: result.fileUrl || "#" });
+                    } catch (err) {
+                        console.error("Lỗi tải tệp: " + err.message);
                     }
-                };
-                reader.readAsDataURL(file);
-            } else {
-                let existingFile = "Không có tệp đính kèm";
-                let existingUrl = "";
-                if (editIndex >= 0 && paymentRecordsByMonth[sm][editIndex]) {
-                    existingFile = paymentRecordsByMonth[sm][editIndex].fileName || "Không có tệp đính kèm";
-                    existingUrl = paymentRecordsByMonth[sm][editIndex].fileUrl || "";
                 }
-
-                let recordObj = { payDateTime, content, receiver, qty, unit, amount, account, bank, fileName: existingFile, fileUrl: existingUrl };
-
-                if (editIndex >= 0) {
-                    paymentRecordsByMonth[sm][editIndex] = recordObj;
-                    cancelEditPayment();
-                } else {
-                    paymentRecordsByMonth[sm].push(recordObj);
-                    clearPaymentForm();
-                }
-
-                localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
-                renderPaymentTable(); 
-                statusLabel.innerText = "✅ Lưu hồ sơ thành công!";
+                progressText.innerText = "Hoàn tất!";
+                setTimeout(() => { progressContainer.style.display = "none"; progressFill.style.width = "0%"; }, 3000);
             }
+
+            let recordObj = { payDateTime, content, receiver, qty, unit, amount, account, bank, files: uploadedFiles };
+
+            if (editIndex >= 0) {
+                paymentRecordsByMonth[sm][editIndex] = recordObj;
+                cancelEditPayment();
+            } else {
+                paymentRecordsByMonth[sm].push(recordObj);
+                clearPaymentForm();
+            }
+
+            localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
+            renderPaymentTable();
+            statusLabel.innerText = "✅ Lưu hồ sơ và đồng bộ Google Drive thành công!";
         }
 
         function editPaymentRecord(idx) {
@@ -1435,7 +1421,13 @@
                 let u = rec.unit || 'Cái';
                 let unitPriceCalc = rec.amount / q;
                 let dateTimeDisplay = rec.payDateTime || "26/07/2026";
-                let fileLinkHtml = rec.fileUrl ? `<a href="${rec.fileUrl}" target="_blank" style="color:var(--blue); text-decoration:underline;"><i class="fa-solid fa-brands fa-google-drive"></i> ${rec.fileName}</a>` : `<span style="color:#64748b; font-style:italic;">Không có tệp đính kèm</span>`;
+                
+                let fileLinksHtml = `<span style="color:#64748b; font-style:italic;">Không có tệp đính kèm</span>`;
+                if (rec.files && rec.files.length > 0) {
+                    fileLinksHtml = rec.files.map((f, fIdx) => `<div style="margin:2px 0;"><a href="${f.fileUrl}" target="_blank" style="color:var(--blue); text-decoration:underline;"><i class="fa-solid fa-brands fa-google-drive"></i> [${fIdx + 1}] ${f.fileName}</a></div>`).join('');
+                } else if (rec.fileName && rec.fileName !== "Không có tệp đính kèm") {
+                    fileLinksHtml = `<a href="${rec.fileUrl || '#'}" target="_blank" style="color:var(--blue); text-decoration:underline;"><i class="fa-solid fa-brands fa-google-drive"></i> ${rec.fileName}</a>`;
+                }
                 
                 tbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${idx + 1}</td>
@@ -1448,7 +1440,7 @@
                     <td class="text-right font-bold" style="color:var(--green);">${formatCurrencyVN(rec.amount)} VND</td>
                     <td class="text-center">${rec.account || '-'}</td>
                     <td>${rec.bank || '-'}</td>
-                    <td>${fileLinkHtml}</td>
+                    <td>${fileLinksHtml}</td>
                     <td class="text-center">
                         <button type="button" class="btn-edit" onclick="editPaymentRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
                         <button type="button" class="btn-delete" onclick="deletePaymentRecord(${idx})"><i class="fa-solid fa-trash"></i></button>
@@ -1460,8 +1452,8 @@
         }
         function deletePaymentRecord(idx) { let sm = document.getElementById('filter-month').value; paymentRecordsByMonth[sm].splice(idx, 1); localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth)); renderPaymentTable(); }
 
-        /* --- CƯỚC VIỄN THÔNG (CÓ TÍNH NĂNG SỬA & CẬP NHẬT) --- */
-        function addNewTelecomRecord() {
+        /* --- CƯỚC VIỄN THÔNG (HỖ TRỢ ĐÍNH KÈM NHIỀU TỆP) --- */
+        async function addNewTelecomRecord() {
             let sm = document.getElementById('filter-month').value;
             let parts = sm.split('-');
             let year = parts[0] || CURRENT_SELECTED_YEAR;
@@ -1480,21 +1472,31 @@
             if (!cid || amount <= 0) { alert("Nhập mã CID và Cước phí hợp lệ!"); return; }
             if (!telecomRecordsByMonth[sm]) telecomRecordsByMonth[sm] = [];
 
+            let uploadedFiles = [];
+            if (editIndex >= 0 && telecomRecordsByMonth[sm][editIndex] && telecomRecordsByMonth[sm][editIndex].files) {
+                uploadedFiles = [...telecomRecordsByMonth[sm][editIndex].files];
+            }
+
             if (fileInput.files.length > 0) {
-                let file = fileInput.files[0];
                 let progressContainer = document.getElementById('progress-container-vt');
                 let progressFill = document.getElementById('progress-fill-vt');
                 let progressText = document.getElementById('progress-text-vt');
 
                 progressContainer.style.display = "block";
-                progressFill.style.width = "20%";
-                progressText.innerText = "Đang đọc hóa đơn...";
-                statusLabel.innerText = "⏳ Đang đẩy hóa đơn cước lên thư mục Google Drive (Tháng " + month + "/" + year + ")...";
+                statusLabel.innerText = "⏳ Đang tải hóa đơn cước lên Google Drive (" + fileInput.files.length + " tệp)...";
 
-                let reader = new FileReader();
-                reader.onload = async function(e) {
-                    progressFill.style.width = "60%";
-                    progressText.innerText = "Đang tải lên Drive...";
+                for (let i = 0; i < fileInput.files.length; i++) {
+                    let file = fileInput.files[i];
+                    let percent = Math.round(((i + 1) / fileInput.files.length) * 100);
+                    progressFill.style.width = percent + "%";
+                    progressText.innerText = `Đang tải ${i + 1}/${fileInput.files.length}...`;
+
+                    let base64Data = await new Promise((resolve) => {
+                        let reader = new FileReader();
+                        reader.onload = (e) => resolve(e.target.result);
+                        reader.readAsDataURL(file);
+                    });
+
                     try {
                         let payload = { 
                             action: "upload_attachment_folder", 
@@ -1503,54 +1505,31 @@
                             category: "2. Cước Viễn thông & Internet", 
                             fileName: file.name, 
                             mimeType: file.type, 
-                            fileData: e.target.result 
+                            fileData: base64Data 
                         };
                         const response = await fetch(GOOGLE_SCRIPT_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
                         const result = await response.json();
-
-                        progressFill.style.width = "100%";
-                        progressText.innerText = "Hoàn tất!";
-
-                        let telecomObj = { location, provider, bandwidth, cid, amount, period, fileName: file.name, fileUrl: result.fileUrl || "#" };
-                        
-                        if (editIndex >= 0) {
-                            telecomRecordsByMonth[sm][editIndex] = telecomObj;
-                            cancelEditTelecom();
-                        } else {
-                            telecomRecordsByMonth[sm].push(telecomObj);
-                        }
-
-                        localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth));
-                        renderTelecomTable(); 
-                        statusLabel.innerText = "✅ Đồng bộ cước thành công lên thư mục Google Drive gốc!";
-                        setTimeout(() => { progressContainer.style.display = "none"; progressFill.style.width = "0%"; }, 3000);
-                    } catch (err) { 
-                        progressContainer.style.display = "none";
-                        statusLabel.innerText = "❌ Lỗi: " + err.message; 
+                        uploadedFiles.push({ fileName: file.name, fileUrl: result.fileUrl || "#" });
+                    } catch (err) {
+                        console.error("Lỗi: " + err.message);
                     }
-                };
-                reader.readAsDataURL(file);
-            } else {
-                let existingFile = "Không có tệp đính kèm";
-                let existingUrl = "";
-                if (editIndex >= 0 && telecomRecordsByMonth[sm][editIndex]) {
-                    existingFile = telecomRecordsByMonth[sm][editIndex].fileName || "Không có tệp đính kèm";
-                    existingUrl = telecomRecordsByMonth[sm][editIndex].fileUrl || "";
                 }
-
-                let telecomObj = { location, provider, bandwidth, cid, amount, period, fileName: existingFile, fileUrl: existingUrl };
-
-                if (editIndex >= 0) {
-                    telecomRecordsByMonth[sm][editIndex] = telecomObj;
-                    cancelEditTelecom();
-                } else {
-                    telecomRecordsByMonth[sm].push(telecomObj);
-                }
-
-                localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth));
-                renderTelecomTable(); 
-                statusLabel.innerText = "✅ Đã lưu cước thành công!";
+                progressText.innerText = "Hoàn tất!";
+                setTimeout(() => { progressContainer.style.display = "none"; progressFill.style.width = "0%"; }, 3000);
             }
+
+            let telecomObj = { location, provider, bandwidth, cid, amount, period, files: uploadedFiles };
+
+            if (editIndex >= 0) {
+                telecomRecordsByMonth[sm][editIndex] = telecomObj;
+                cancelEditTelecom();
+            } else {
+                telecomRecordsByMonth[sm].push(telecomObj);
+            }
+
+            localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth));
+            renderTelecomTable(); 
+            statusLabel.innerText = "✅ Đồng bộ cước và hóa đơn thành công!";
         }
 
         function editTelecomRecord(idx) {
@@ -1585,8 +1564,14 @@
             let totalTelecom = 0;
             records.forEach((rec, idx) => {
                 totalTelecom += rec.amount;
-                let fileLinkHtml = rec.fileUrl ? `<a href="${rec.fileUrl}" target="_blank" style="color:var(--blue); text-decoration:underline;"><i class="fa-solid fa-brands fa-google-drive"></i> ${rec.fileName}</a>` : `<span style="color:#64748b; font-style:italic;">Không có tệp đính kèm</span>`;
                 
+                let fileLinksHtml = `<span style="color:#64748b; font-style:italic;">Không có tệp đính kèm</span>`;
+                if (rec.files && rec.files.length > 0) {
+                    fileLinksHtml = rec.files.map((f, fIdx) => `<div style="margin:2px 0;"><a href="${f.fileUrl}" target="_blank" style="color:var(--blue); text-decoration:underline;"><i class="fa-solid fa-brands fa-google-drive"></i> [${fIdx + 1}] ${f.fileName}</a></div>`).join('');
+                } else if (rec.fileName && rec.fileName !== "Không có tệp đính kèm") {
+                    fileLinksHtml = `<a href="${rec.fileUrl || '#'}" target="_blank" style="color:var(--blue); text-decoration:underline;"><i class="fa-solid fa-brands fa-google-drive"></i> ${rec.fileName}</a>`;
+                }
+
                 tbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${idx + 1}</td>
                     <td>${rec.location}</td>
@@ -1595,7 +1580,7 @@
                     <td class="text-center font-bold">${rec.cid}</td>
                     <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(rec.amount)} VND</td>
                     <td class="text-center">${rec.period}</td>
-                    <td>${fileLinkHtml}</td>
+                    <td>${fileLinksHtml}</td>
                     <td class="text-center">
                         <button type="button" class="btn-edit" onclick="editTelecomRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
                         <button type="button" class="btn-delete" onclick="deleteTelecomRecord(${idx})"><i class="fa-solid fa-trash"></i></button>
