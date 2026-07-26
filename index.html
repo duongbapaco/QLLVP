@@ -25,7 +25,8 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Times New Roman', Times, serif; font-size: 14px; margin: 0; padding: 15px; background: var(--bg-light); color: var(--text-main); font-weight: 500; }
         
-        .workspace { display: grid; grid-template-columns: 1fr 390px; gap: 20px; align-items: start; }
+        .workspace { display: grid; grid-template-columns: 1fr 390px; gap: 20px; align-items: start; transition: all 0.3s ease; }
+        .workspace.calendar-hidden { grid-template-columns: 1fr !important; }
         @media (max-width: 1280px) { .workspace { grid-template-columns: 1fr; } }
 
         .db-status-bar { display: flex; align-items: center; justify-content: space-between; padding: 8px 15px; background: #cbd5e1; border-bottom: 2px solid var(--border-color); font-size: 14px; font-weight: bold; border-radius: 4px; margin-bottom: 10px; flex-wrap: wrap; gap: 10px; }
@@ -127,7 +128,9 @@
         .popup-day.selected { background: var(--blue) !important; color: white !important; font-weight: bold; }
         .popup-day.today { border: 1px solid var(--red); color: var(--red); }
 
-        .calendar-sidebar { background: white; border-radius: 8px; border: 1.5px solid #cbd5e1; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .calendar-sidebar { background: white; border-radius: 8px; border: 1.5px solid #cbd5e1; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.3s ease; }
+        .calendar-sidebar.hidden { display: none !important; }
+
         .cal-smart-header { background: linear-gradient(135deg, #0f172a, #1e293b); color: white; padding: 10px; border-radius: 6px; font-weight: bold; text-align: center; font-size: 14px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         .cal-nav-btn { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; }
         .cal-nav-btn:hover { background: rgba(255,255,255,0.4); }
@@ -178,12 +181,13 @@
                 </select>
             </div>
         </div>
-        <div>
+        <div style="display:flex; gap:8px;">
+            <button type="button" class="btn btn-green" style="padding: 3px 10px; font-size:12px;" onclick="toggleCalendarSidebar()"><i class="fa-solid fa-calendar-days"></i> <span id="toggle-cal-text">Ẩn/Hiện Lịch</span></button>
             <button type="button" class="btn btn-purple" style="padding: 3px 10px; font-size:12px;" onclick="openConfigUrlModal()"><i class="fa-solid fa-link"></i> Cấu hình nâng cao</button>
         </div>
     </div>
 
-    <div class="workspace">
+    <div class="workspace" id="main-workspace">
         <div class="main-body">
             <div class="header">
                 <h1 id="disp-header-company">TỔNG CÔNG TY GIẤY VIỆT NAM - VĂN PHÒNG</h1>
@@ -472,7 +476,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Đơn giá (VNĐ):</label>
+                                <label>Đơn giá (VNĐ) (Hỗ trợ dấu phẩy thập phân):</label>
                                 <input type="text" id="pay-unit-price" placeholder="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="calculatePayLineTotal()">
                             </div>
                             <div class="form-group">
@@ -774,7 +778,7 @@
         </div>
 
         <!-- LỊCH VẠN NIÊN THÔNG MINH (SIDEBAR) -->
-        <div class="calendar-sidebar">
+        <div class="calendar-sidebar" id="calendar-sidebar-box">
             <div class="cal-smart-header">
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
                 <span id="cal-header-title">THÁNG 07 / 2026</span>
@@ -916,6 +920,13 @@
         let activePickerId = null;
         let pickerCurrentDate = new Date();
 
+        function toggleCalendarSidebar() {
+            let sidebar = document.getElementById('calendar-sidebar-box');
+            let workspace = document.getElementById('main-workspace');
+            sidebar.classList.toggle('hidden');
+            workspace.classList.toggle('calendar-hidden');
+        }
+
         function togglePicker(popupId) {
             let popup = document.getElementById(popupId);
             if (activePickerId && activePickerId !== popupId) {
@@ -1011,26 +1022,41 @@
             }
         });
 
+        // 🧮 HÀM XỬ LÝ TIỀN TỆ THÔNG MINH: Chấp nhận dấu chấm ngăn cách ngàn và dấu phẩy thập phân (Ví dụ: 263.888,9)
         function formatCurrencyVN(num) {
             if (num === null || num === undefined || isNaN(num)) return "0";
-            return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            let parts = Number(num).toFixed(2).split('.');
+            let integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            let decimalPart = parts[1];
+            if (decimalPart === "00") {
+                return integerPart;
+            }
+            return integerPart + "," + decimalPart.replace(/0+$/, '');
         }
 
         function parseCurrencyVN(str) {
             if (str === null || str === undefined) return 0;
             if (typeof str === 'number') return str;
-            return parseInt(str.toString().replace(/[^\d]/g, ''), 10) || 0;
+            let cleanStr = str.toString().trim();
+            if (cleanStr === "") return 0;
+            cleanStr = cleanStr.replace(/\./g, '').replace(/,/g, '.');
+            let val = parseFloat(cleanStr);
+            return isNaN(val) ? 0 : val;
         }
 
-        function handleMoneyFocus(inputEl) { inputEl.value = parseCurrencyVN(inputEl.value); }
-        function handleMoneyBlur(inputEl) { inputEl.value = formatCurrencyVN(parseCurrencyVN(inputEl.value)); }
+        function handleMoneyFocus(inputEl) { 
+            inputEl.value = parseCurrencyVN(inputEl.value); 
+        }
+        function handleMoneyBlur(inputEl) { 
+            inputEl.value = formatCurrencyVN(parseCurrencyVN(inputEl.value)); 
+        }
 
         function calculatePayLineTotal() {
             let qty = parseFloat(document.getElementById('pay-qty').value) || 1;
             let unitPrice = parseCurrencyVN(document.getElementById('pay-unit-price').value);
             let baseSubtotal = qty * unitPrice;
             let rate = parseFloat(document.getElementById('tax-rate-select').value) || 0;
-            let taxAmount = Math.round(baseSubtotal * (rate / 100));
+            let taxAmount = baseSubtotal * (rate / 100);
             document.getElementById('pay-amount').value = formatCurrencyVN(baseSubtotal + taxAmount);
         }
 
@@ -1041,11 +1067,11 @@
             let taxAmount = 0, totalAmount = 0;
 
             if (mode === 'add') {
-                taxAmount = Math.round(amount * (rate / 100));
+                taxAmount = amount * (rate / 100);
                 totalAmount = amount + taxAmount;
             } else {
                 let base = amount / (1 + rate / 100);
-                taxAmount = amount - Math.round(base);
+                taxAmount = amount - base;
                 totalAmount = amount;
             }
 
@@ -1254,6 +1280,7 @@
             let receiver = document.getElementById('pay-receiver').value.trim();
             let qty = parseFloat(document.getElementById('pay-qty').value) || 1;
             let unit = document.getElementById('pay-unit').value;
+            let unitPrice = parseCurrencyVN(document.getElementById('pay-unit-price').value); // Lấy chính xác đơn giá gốc nhập vào
             let amount = parseCurrencyVN(document.getElementById('pay-amount').value);
             let account = document.getElementById('pay-account').value.trim();
             let bank = document.getElementById('pay-bank').value.trim();
@@ -1315,7 +1342,7 @@
                 setTimeout(() => { progressContainer.style.display = "none"; progressFill.style.width = "0%"; }, 3000);
             }
 
-            let recordObj = { payDateTime, content, receiver, qty, unit, amount, account, bank, folderUrl, files: uploadedFiles };
+            let recordObj = { payDateTime, content, receiver, qty, unit, unitPrice, amount, account, bank, folderUrl, files: uploadedFiles };
 
             if (editIndex >= 0) {
                 paymentRecordsByMonth[sm][editIndex] = recordObj;
@@ -1343,7 +1370,9 @@
             document.getElementById('pay-receiver').value = rec.receiver || "";
             document.getElementById('pay-qty').value = rec.qty || 1;
             document.getElementById('pay-unit').value = rec.unit || "Cái";
-            document.getElementById('pay-unit-price').value = formatCurrencyVN((rec.amount || 0) / (rec.qty || 1));
+            // Lấy chính xác đơn giá đã lưu (nếu dữ liệu cũ chưa có unitPrice thì fallback tính toán)
+            let exactUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : ((rec.amount || 0) / (rec.qty || 1));
+            document.getElementById('pay-unit-price').value = formatCurrencyVN(exactUnitPrice);
             document.getElementById('pay-amount').value = formatCurrencyVN(rec.amount || 0);
             document.getElementById('pay-account').value = rec.account || "";
             document.getElementById('pay-bank').value = rec.bank || "";
@@ -1374,7 +1403,10 @@
             let totalSum = 0;
             records.forEach((rec, idx) => {
                 totalSum += rec.amount;
-                let q = rec.qty || 1, u = rec.unit || 'Cái', unitPriceCalc = rec.amount / q, dateTimeDisplay = rec.payDateTime || "26/07/2026";
+                let q = rec.qty || 1, u = rec.unit || 'Cái';
+                // Hiển thị chính xác đơn giá gốc đã nhập
+                let displayUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : (rec.amount / q);
+                let dateTimeDisplay = rec.payDateTime || "26/07/2026";
                 let folderLinkHtml = `<span style="color:#64748b; font-style:italic;">Chưa có tệp</span>`;
                 if (rec.files && rec.files.length > 0) {
                     let folderUrl = rec.folderUrl || "https://drive.google.com";
@@ -1387,7 +1419,7 @@
                     <td>${rec.receiver}</td>
                     <td class="text-center">${q}</td>
                     <td class="text-center">${u}</td>
-                    <td class="text-right">${formatCurrencyVN(unitPriceCalc)}</td>
+                    <td class="text-right">${formatCurrencyVN(displayUnitPrice)}</td>
                     <td class="text-right font-bold" style="color:var(--green);">${formatCurrencyVN(rec.amount)} VND</td>
                     <td class="text-center">${rec.account || '-'}</td>
                     <td>${rec.bank || '-'}</td>
