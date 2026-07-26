@@ -1712,18 +1712,38 @@
         async function loadDataFromCloudServer() {
             let sm = document.getElementById('filter-month').value;
             let parts = sm.split('-');
+            let year = parts[0] || CURRENT_SELECTED_YEAR;
+            let month = parts[1] || "07";
             let notifyBox = document.getElementById('syncNotifyBox');
+            
             notifyBox.style.display = "block";
-            notifyBox.innerText = "⏳ Đang kết nối mây...";
+            notifyBox.innerText = "⏳ Đang kết nối và tải dữ liệu từ mây...";
+            
             try {
-                let fetchUrl = `${GOOGLE_SCRIPT_API_URL}?sheetUrl=${encodeURIComponent(GOOGLE_SHEET_VIEW_URL)}&year=${parts[0]}&month=${parts[1]}`;
+                let fetchUrl = `${GOOGLE_SCRIPT_API_URL}?sheetUrl=${encodeURIComponent(GOOGLE_SHEET_VIEW_URL)}&year=${year}&month=${month}&action=load_data`;
                 const response = await fetch(fetchUrl);
                 const result = await response.json();
+                
                 if (result.status === "success") {
-                    notifyBox.innerText = "🎉 Kết nối mây thành công!";
-                    setTimeout(() => { notifyBox.style.display = "none"; }, 3000);
+                    if (result.salaries) { salaryDataByMonth = result.salaries; localStorage.setItem('sys_salary_by_month', JSON.stringify(salaryDataByMonth)); }
+                    if (result.payments) { paymentRecordsByMonth = result.payments; localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth)); }
+                    if (result.telecoms) { telecomRecordsByMonth = result.telecoms; localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth)); }
+                    if (result.itAssets) { itAssetRecordsByYear = result.itAssets; localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear)); }
+                    if (result.configs) { salaryConfigsByMonth = result.configs; localStorage.setItem('sys_salary_configs_by_month', JSON.stringify(salaryConfigsByMonth)); }
+
+                    handleMonthChangeSelect();
+                    renderPaymentTable();
+                    renderTelecomTable();
+                    renderItAssetTable();
+
+                    notifyBox.innerText = "🎉 Tải dữ liệu từ mây về thành công!";
+                    setTimeout(() => { notifyBox.style.display = "none"; }, 4000);
+                } else { 
+                    throw new Error(result.message || "Không tìm thấy dữ liệu trên mây."); 
                 }
-            } catch (err) { notifyBox.innerText = "❌ Lỗi: " + err.message; }
+            } catch (err) { 
+                notifyBox.innerText = "❌ Lỗi tải dữ liệu: " + err.message; 
+            }
         }
 
         function switchMainTab(name) {
