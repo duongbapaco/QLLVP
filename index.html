@@ -1534,7 +1534,9 @@
                         const response = await fetch(GOOGLE_SCRIPT_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
                         const result = await response.json();
                         uploadedFiles.push({ fileName: file.name, fileUrl: result.fileUrl || "#" });
-                        if (result.fileUrl) folderUrl = result.fileUrl;
+                        if (result.fileUrl) {
+                            folderUrl = result.fileUrl;
+                        }
                     } catch (err) {
                         console.error("Lỗi: " + err.message);
                     }
