@@ -23,108 +23,106 @@
             --bg-light: #f1f5f9;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Times New Roman', Times, serif; font-size: 14px; margin: 0; padding: 8px; background: var(--bg-light); color: var(--text-main); font-weight: 500; }
+        body { font-family: 'Times New Roman', Times, serif; font-size: 14px; margin: 0; padding: 10px; background: var(--bg-light); color: var(--text-main); font-weight: 500; }
         
-        .workspace { display: grid; grid-template-columns: 1fr 390px; gap: 12px; align-items: start; transition: all 0.3s ease; }
+        .workspace { display: grid; grid-template-columns: 1fr 390px; gap: 15px; align-items: start; transition: all 0.3s ease; }
         .workspace.calendar-hidden { grid-template-columns: 1fr !important; }
         @media (max-width: 1200px) { .workspace { grid-template-columns: 1fr; } }
 
-        .db-status-bar { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: #cbd5e1; border-bottom: 2px solid var(--border-color); font-size: 13px; font-weight: bold; border-radius: 4px; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
+        .db-status-bar { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: #cbd5e1; border-bottom: 2px solid var(--border-color); font-size: 13px; font-weight: bold; border-radius: 4px; margin-bottom: 10px; flex-wrap: wrap; gap: 8px; }
         .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; background-color: var(--green); }
         
-        .year-selector-box { display: flex; align-items: center; gap: 6px; background: #ffffff; padding: 4px 8px; border-radius: 4px; border: 2px solid var(--blue); color: var(--blue); font-size: 13px; }
+        .year-selector-box { display: flex; align-items: center; gap: 6px; background: #ffffff; padding: 4px 10px; border-radius: 4px; border: 2px solid var(--blue); color: var(--blue); font-size: 13px; }
         .year-selector-box select { border: none; font-weight: bold; color: var(--blue); outline: none; background: transparent; font-size: 13px; cursor: pointer; font-family: 'Times New Roman', Times, serif; }
 
-        .header { display: flex; justify-content: space-between; align-items: center; background: #0f172a; color: white; padding: 10px 12px; border-radius: 4px; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
-        .header h1 { font-size: 15px; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; }
-        .live-clock-box { background: rgba(255,255,255,0.15); padding: 4px 8px; border-radius: 4px; font-family: monospace; font-size: 12px; text-align: right; border: 1px solid rgba(255,255,255,0.3); font-weight: bold; color: #fef08a; }
+        .header { display: flex; justify-content: space-between; align-items: center; background: #0f172a; color: white; padding: 10px 15px; border-radius: 4px; margin-bottom: 10px; flex-wrap: wrap; gap: 8px; }
+        .header h1 { font-size: 16px; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; }
+        .live-clock-box { background: rgba(255,255,255,0.15); padding: 5px 10px; border-radius: 4px; font-family: monospace; font-size: 12px; text-align: right; border: 1px solid rgba(255,255,255,0.3); font-weight: bold; color: #fef08a; }
 
-        .stat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 8px; }
+        .stat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 10px; }
         @media (max-width: 1200px) { .stat-grid { grid-template-columns: repeat(3, 1fr); } }
         @media (max-width: 768px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 480px) { .stat-grid { grid-template-columns: 1fr; } }
 
-        .stat-card { background: white; padding: 8px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid var(--border-color); border-left: 5px solid var(--blue); display: flex; align-items: center; justify-content: space-between; }
+        .stat-card { background: white; padding: 8px 10px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid var(--border-color); border-left: 5px solid var(--blue); display: flex; align-items: center; justify-content: space-between; }
         .stat-card.green { border-left-color: var(--green); }
         .stat-card.orange { border-left-color: var(--orange); }
         .stat-card.purple { border-left-color: var(--purple); }
         .stat-card.red { border-left-color: var(--red); }
         .stat-info { display: flex; flex-direction: column; overflow: hidden; }
-        .stat-title { font-size: 10px; text-transform: uppercase; color: #334155; font-weight: bold; white-space: nowrap; }
-        .stat-value { font-size: 13.5px; font-weight: 800; color: var(--primary); margin-top: 2px; white-space: nowrap; }
-        .stat-icon { font-size: 16px; opacity: 0.4; flex-shrink: 0; }
+        .stat-title { font-size: 10.5px; text-transform: uppercase; color: #334155; font-weight: bold; white-space: nowrap; }
+        .stat-value { font-size: 14px; font-weight: 800; color: var(--primary); margin-top: 2px; white-space: nowrap; }
+        .stat-icon { font-size: 18px; opacity: 0.4; flex-shrink: 0; }
 
-        .salary-visual-summary { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin: 0 auto 10px auto; max-width: 100%; background: #ffffff; padding: 8px; border-radius: 8px; border: 2px solid #cbd5e1; box-shadow: 0 2px 5px rgba(0,0,0,0.06); flex-wrap: wrap; }
-        .visual-mini-card { flex: 1; min-width: 150px; background: #f8fafc; padding: 6px 10px; border-radius: 6px; border: 1.5px solid #cbd5e1; display: flex; align-items: center; justify-content: space-between; gap: 6px; }
-        .visual-lbl { font-size: 11px; font-weight: bold; color: #0f172a; white-space: nowrap; display: flex; align-items: center; }
-        .visual-val { font-size: 14.5px; font-weight: 800; color: var(--primary); white-space: nowrap; }
+        .salary-visual-summary { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 0 auto 12px auto; max-width: 100%; background: #ffffff; padding: 10px; border-radius: 8px; border: 2px solid #cbd5e1; box-shadow: 0 2px 5px rgba(0,0,0,0.06); flex-wrap: wrap; }
+        .visual-mini-card { flex: 1; min-width: 160px; background: #f8fafc; padding: 8px 12px; border-radius: 6px; border: 1.5px solid #cbd5e1; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+        .visual-lbl { font-size: 11.5px; font-weight: bold; color: #0f172a; white-space: nowrap; display: flex; align-items: center; }
+        .visual-val { font-size: 15px; font-weight: 800; color: var(--primary); white-space: nowrap; }
 
-        .config-toolbar-container { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; flex-wrap: wrap; background: #f8fafc; padding: 8px; border-radius: 6px; border: 1.5px solid #cbd5e1; }
-        .config-inputs-group { display: flex; align-items: flex-end; gap: 6px; flex-wrap: wrap; flex: 1; }
-        .config-inputs-group .form-group { flex: 1; min-width: 110px; }
+        .config-toolbar-container { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1.5px solid #cbd5e1; }
+        .config-inputs-group { display: flex; align-items: flex-end; gap: 8px; flex-wrap: wrap; flex: 1; }
+        .config-inputs-group .form-group { flex: 1; min-width: 120px; }
 
-        .nav-tabs { display: flex; gap: 4px; margin-bottom: 8px; border-bottom: 2px solid #64748b; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
+        .nav-tabs { display: flex; gap: 4px; margin-bottom: 10px; border-bottom: 2px solid #64748b; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
         .nav-tabs::-webkit-scrollbar { height: 4px; }
         .nav-tabs::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 2px; }
-        .nav-tabs .nav-tab { padding: 7px 12px; border: 1.5px solid #cbd5e1; border-bottom: none; background: #e2e8f0; font-weight: bold; color: #0f172a; cursor: pointer; font-size: 13px; border-radius: 5px 5px 0 0; white-space: nowrap; font-family: 'Times New Roman', Times, serif; }
+        .nav-tabs .nav-tab { padding: 8px 14px; border: 1.5px solid #cbd5e1; border-bottom: none; background: #e2e8f0; font-weight: bold; color: #0f172a; cursor: pointer; font-size: 13.5px; border-radius: 5px 5px 0 0; white-space: nowrap; font-family: 'Times New Roman', Times, serif; }
         .nav-tabs .nav-tab.active { color: var(--blue) !important; background: white !important; border: 2px solid #64748b !important; border-bottom: 3px solid var(--blue) !important; }
         
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         
-        .main-card { background: white; border-radius: 6px; padding: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); margin-bottom: 8px; border: 1.5px solid #cbd5e1; }
-        .card-title { font-size: 14.5px; font-weight: bold; color: var(--primary); margin-bottom: 8px; border-left: 5px solid var(--blue); padding-left: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
+        .main-card { background: white; border-radius: 6px; padding: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); margin-bottom: 10px; border: 1.5px solid #cbd5e1; }
+        .card-title { font-size: 15px; font-weight: bold; color: var(--primary); margin-bottom: 10px; border-left: 5px solid var(--blue); padding-left: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
         
-        .grid-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 6px; margin-bottom: 6px; }
+        .grid-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-bottom: 8px; }
         
-        .form-group { display: flex; flex-direction: column; gap: 2px; position: relative; }
-        .form-group label { font-weight: bold; color: #000000; font-size: 12px; white-space: nowrap; }
-        .form-group input, .form-group select { padding: 6px 8px; border: 1.5px solid #475569; border-radius: 4px; font-size: 14px; font-weight: bold; outline: none; background: #fff; color: #000; width: 100%; font-family: 'Times New Roman', Times, serif; }
+        .form-group { display: flex; flex-direction: column; gap: 3px; position: relative; }
+        .form-group label { font-weight: bold; color: #000000; font-size: 12.5px; white-space: nowrap; }
+        .form-group input, .form-group select { padding: 7px 10px; border: 1.5px solid #475569; border-radius: 4px; font-size: 14px; font-weight: bold; outline: none; background: #fff; color: #000; width: 100%; font-family: 'Times New Roman', Times, serif; }
 
-        .btn { padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; gap: 5px; font-size: 12.5px; font-family: 'Times New Roman', Times, serif; min-height: 34px; }
+        .btn { padding: 7px 14px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-size: 13px; font-family: 'Times New Roman', Times, serif; min-height: 36px; }
         .btn-primary { background: var(--blue); color: white; }
         .btn-purple { background: var(--purple); color: white; }
         .btn-green { background: var(--green); color: white; }
         .btn-orange { background: var(--orange); color: white; }
         .btn-gray { background: #475569; color: white; }
-        .btn-delete { background: #fef2f2; color: #b91c1c; border: 1.5px solid #fca5a5; padding: 4px 8px; font-size: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; min-height: 32px; min-width: 32px; }
-        .btn-edit { background: #eff6ff; color: #1d4ed8; border: 1.5px solid #93c5fd; padding: 4px 8px; font-size: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 3px; min-height: 32px; min-width: 32px; }
+        .btn-delete { background: #fef2f2; color: #b91c1c; border: 1.5px solid #fca5a5; padding: 4px 8px; font-size: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; min-height: 30px; }
+        .btn-edit { background: #eff6ff; color: #1d4ed8; border: 1.5px solid #93c5fd; padding: 4px 8px; font-size: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 4px; min-height: 30px; }
         
-        .btn-drive-link { display: inline-flex; align-items: center; gap: 4px; background: #e0f2fe; color: #0369a1; border: 1.5px solid #7dd3fc; padding: 4px 8px; font-size: 11.5px; border-radius: 4px; font-weight: bold; text-decoration: none; cursor: pointer; white-space: nowrap; min-height: 30px; }
+        .btn-drive-link { display: inline-flex; align-items: center; gap: 5px; background: #e0f2fe; color: #0369a1; border: 1.5px solid #7dd3fc; padding: 5px 10px; font-size: 12px; border-radius: 4px; font-weight: bold; text-decoration: none; cursor: pointer; white-space: nowrap; min-height: 32px; }
 
-        /* TỐI ƯU CẢM ỨNG & HIỂN THỊ BẢNG TRÊN DI ĐỘNG */
-        .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 6px; width: 100%; border: 1.5px solid #475569; border-radius: 4px; background: #fff; }
+        .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 8px; width: 100%; border: 1.5px solid #475569; border-radius: 4px; background: #fff; }
         .main-table { width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap; font-size: 13.5px; color: #000000; }
-        .main-table th { background: #cbd5e1; color: #000000; padding: 8px 6px; border: 1px solid #475569; font-weight: bold; text-align: center; }
-        .main-table td { padding: 4px 5px; border: 1px solid #64748b; vertical-align: middle; font-weight: 600; }
+        .main-table th { background: #cbd5e1; color: #000000; padding: 7px 6px; border: 1px solid #475569; font-weight: bold; text-align: center; }
+        .main-table td { padding: 5px 6px; border: 1px solid #64748b; vertical-align: middle; font-weight: 600; }
         .main-table tbody tr:nth-child(even) { background-color: #f8fafc; }
         
         .text-right { text-align: right; }
         .text-center { text-align: center; }
         .font-bold { font-weight: bold; }
         
-        /* Cải tiến các ô input trong bảng để dễ bấm, nổi bật khi chạm */
-        .inp-table { width: 100%; padding: 6px 6px; border: 1.5px solid #475569; border-radius: 4px; font-size: 14px; font-weight: 700; outline: none; background: #ffffff; color: #000000; font-family: 'Times New Roman', Times, serif; min-height: 34px; }
-        .inp-table:focus { border-color: var(--blue); background-color: #eff6ff; box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.2); }
-        .inp-table.inp-name { min-width: 190px; text-align: left; font-weight: 700; color: #0f172a; }
-        .inp-table.inp-account { min-width: 115px; text-align: center; font-weight: 700; }
-        .inp-table.inp-num-day { min-width: 55px; width: 60px; font-weight: 800; background-color: #fef9c3; text-align: center; color: #000; min-height: 34px; }
+        .inp-table { width: 100%; padding: 5px 6px; border: 1.5px solid #475569; border-radius: 4px; font-size: 13.5px; font-weight: 700; outline: none; background: #ffffff; color: #000000; font-family: 'Times New Roman', Times, serif; min-height: 34px; }
+        .inp-table:focus { border-color: var(--blue); background-color: #eff6ff; }
+        .inp-table.inp-name { min-width: 200px; text-align: left; font-weight: 700; color: #0f172a; }
+        .inp-table.inp-account { min-width: 120px; text-align: center; font-weight: 700; }
+        .inp-table.inp-num-day { min-width: 50px; width: 55px; font-weight: 800; background-color: #fef9c3; text-align: center; color: #000; }
         .inp-table.inp-currency { min-width: 100px; font-weight: 700; text-align: right; color: #000; background-color: #fff7ed; border-color: #f97316; }
 
-        .signature-container { margin-top: 20px; display: flex; justify-content: space-between; text-align: center; padding: 8px 5px; flex-wrap: wrap; gap: 12px; }
-        .signature-box { flex: 1; min-width: 140px; font-size: 13px; }
-        .signature-title { font-weight: bold; font-size: 13.5px; text-transform: uppercase; margin-bottom: 3px; color: #0f172a; }
-        .signature-note { font-style: italic; font-size: 11.5px; color: #475569; margin-bottom: 40px; }
-        .signature-name { font-weight: bold; font-size: 13.5px; color: #0f172a; }
+        .signature-container { margin-top: 25px; display: flex; justify-content: space-between; text-align: center; padding: 10px; flex-wrap: wrap; gap: 15px; }
+        .signature-box { flex: 1; min-width: 150px; font-size: 13.5px; }
+        .signature-title { font-weight: bold; font-size: 14px; text-transform: uppercase; margin-bottom: 4px; color: #0f172a; }
+        .signature-note { font-style: italic; font-size: 12px; color: #475569; margin-bottom: 45px; }
+        .signature-name { font-weight: bold; font-size: 14px; color: #0f172a; }
 
-        .progress-bar-container { width: 100%; background: #e2e8f0; border-radius: 4px; height: 16px; margin-top: 6px; overflow: hidden; display: none; position: relative; border: 1px solid #cbd5e1; }
+        .progress-bar-container { width: 100%; background: #e2e8f0; border-radius: 4px; height: 16px; margin-top: 8px; overflow: hidden; display: none; position: relative; border: 1px solid #cbd5e1; }
         .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #1d4ed8, #047857); transition: width 0.3s ease; }
         .progress-bar-text { position: absolute; width: 100%; top: 0; left: 0; text-align: center; font-size: 10px; font-weight: bold; color: #0f172a; line-height: 16px; }
 
-        .custom-popup-calendar { display: none; position: absolute; top: calc(100% + 4px); left: 0; z-index: 9999; background: white; border: 2px solid var(--blue); border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); width: 275px; padding: 8px; font-family: 'Times New Roman', Times, serif; }
-        .popup-cal-top-bar { display: flex; gap: 4px; margin-bottom: 6px; justify-content: space-between; }
-        .popup-cal-top-bar select { padding: 4px; border: 1.5px solid var(--blue); border-radius: 4px; font-weight: bold; font-size: 12px; color: var(--primary); background: #f8fafc; cursor: pointer; font-family: 'Times New Roman', Times, serif; }
-        .popup-cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-weight: bold; color: var(--primary); font-size: 12.5px; background: #e2e8f0; padding: 4px 6px; border-radius: 4px; }
+        .custom-popup-calendar { display: none; position: absolute; top: calc(100% + 4px); left: 0; z-index: 9999; background: white; border: 2px solid var(--blue); border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); width: 280px; padding: 10px; font-family: 'Times New Roman', Times, serif; }
+        .popup-cal-top-bar { display: flex; gap: 4px; margin-bottom: 8px; justify-content: space-between; }
+        .popup-cal-top-bar select { padding: 4px 6px; border: 1.5px solid var(--blue); border-radius: 4px; font-weight: bold; font-size: 12px; color: var(--primary); background: #f8fafc; cursor: pointer; font-family: 'Times New Roman', Times, serif; }
+        .popup-cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-weight: bold; color: var(--primary); font-size: 13px; background: #e2e8f0; padding: 4px 8px; border-radius: 4px; }
         .popup-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; font-size: 12px; }
         .popup-cal-grid div { padding: 6px 0; font-weight: bold; }
         .popup-dow { color: #64748b; background: #f1f5f9; font-size: 11px; }
@@ -133,41 +131,41 @@
         .popup-day.selected { background: var(--blue) !important; color: white !important; font-weight: bold; }
         .popup-day.today { border: 1px solid var(--red); color: var(--red); }
 
-        .calendar-sidebar { background: white; border-radius: 8px; border: 1.5px solid #cbd5e1; padding: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.3s ease; }
+        .calendar-sidebar { background: white; border-radius: 8px; border: 1.5px solid #cbd5e1; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.3s ease; }
         .calendar-sidebar.hidden { display: none !important; }
 
-        .cal-smart-header { background: linear-gradient(135deg, #0f172a, #1e293b); color: white; padding: 8px; border-radius: 6px; font-weight: bold; text-align: center; font-size: 13px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .cal-smart-header { background: linear-gradient(135deg, #0f172a, #1e293b); color: white; padding: 10px; border-radius: 6px; font-weight: bold; text-align: center; font-size: 13.5px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         .cal-nav-btn { background: rgba(255,255,255,0.2); border: none; color: white; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; }
         .cal-nav-btn:hover { background: rgba(255,255,255,0.4); }
 
-        .calendar-block-view { border: 3px solid #b91c1c; border-radius: 8px; background: white; overflow: hidden; box-shadow: 0 4px 12px rgba(185, 28, 28, 0.15); margin-bottom: 8px; }
-        .calendar-block-head { background: linear-gradient(135deg, #dc2626, #991b1b); color: white; text-align: center; padding: 4px; font-weight: bold; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .calendar-block-body { text-align: center; padding: 6px; background: #fff; }
+        .calendar-block-view { border: 3px solid #b91c1c; border-radius: 8px; background: white; overflow: hidden; box-shadow: 0 4px 12px rgba(185, 28, 28, 0.15); margin-bottom: 10px; }
+        .calendar-block-head { background: linear-gradient(135deg, #dc2626, #991b1b); color: white; text-align: center; padding: 5px; font-weight: bold; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .calendar-block-body { text-align: center; padding: 8px; background: #fff; }
 
-        .cal-grid-mini { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin-top: 5px; text-align: center; font-size: 11.5px; }
+        .cal-grid-mini { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin-top: 6px; text-align: center; font-size: 12px; }
         .cal-grid-mini div { padding: 5px 0; font-weight: bold; }
-        .cal-grid-mini .dow { color: #64748b; font-size: 10.5px; background: #f1f5f9; }
+        .cal-grid-mini .dow { color: #64748b; font-size: 11px; background: #f1f5f9; }
         .cal-day-cell { cursor: pointer; border-radius: 4px; transition: 0.2s; position: relative; }
         .cal-day-cell:hover { background: #e2e8f0; color: #1d4ed8; }
         .cal-day-cell.selected { background: #1d4ed8 !important; color: white !important; font-weight: bold; }
         .cal-day-cell.today { border: 1.5px solid #dc2626; color: #dc2626; }
-        .cal-day-cell.has-event::after { content: ''; position: absolute; bottom: 2px; right: 2px; width: 4px; height: 4px; background-color: #16a34a; border-radius: 50%; }
+        .cal-day-cell.has-event::after { content: ''; position: absolute; bottom: 2px; right: 2px; width: 5px; height: 5px; background-color: #16a34a; border-radius: 50%; }
 
-        .cal-info-panel { background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 8px; font-size: 11.5px; margin-top: 8px; }
-        .cal-info-row { display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 1px dashed #cbd5e1; gap: 6px; }
+        .cal-info-panel { background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 10px; font-size: 12px; margin-top: 10px; }
+        .cal-info-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #cbd5e1; gap: 8px; }
         .cal-info-row:last-child { border-bottom: none; }
         .cal-info-label { color: #475569; font-weight: bold; flex-shrink: 0; }
         .cal-info-val { color: #0f172a; font-weight: 700; text-align: right; word-break: break-word; }
 
-        .modal { display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(2px); align-items: center; justify-content: center; padding: 12px; }
-        .modal-content { background: white; padding: 14px; border-radius: 8px; width: 100%; max-width: 800px; max-height: 90vh; display: flex; flex-direction: column; position: relative; overflow-y: auto; }
-        .status-box-notify { padding: 8px 12px; border-radius: 6px; font-weight: bold; margin-bottom: 8px; display: none; }
+        .modal { display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(2px); align-items: center; justify-content: center; padding: 15px; }
+        .modal-content { background: white; padding: 16px; border-radius: 8px; width: 100%; max-width: 850px; max-height: 90vh; display: flex; flex-direction: column; position: relative; overflow-y: auto; }
+        .status-box-notify { padding: 10px 14px; border-radius: 6px; font-weight: bold; margin-bottom: 10px; display: none; }
     </style>
 </head>
 <body>
 
     <div class="db-status-bar">
-        <div style="display:flex; align-items:center; gap:8px; flex-wrap: wrap;">
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap: wrap;">
             <div>
                 <span class="status-dot" id="cloud-status-dot"></span>
                 <span id="cloud-status-text">Đã tích hợp API Cloud trực tiếp</span>
@@ -252,7 +250,7 @@
                         <span><i class="fa-solid fa-pen-to-square" style="color:var(--blue);"></i> CẤU HÌNH LƯƠNG THÁNG - NĂM <span class="lbl-current-year">2026</span></span>
                     </div>
                     
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; margin-bottom: 8px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 10px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px;">
                         <div class="form-group">
                             <label style="color:var(--blue);"><i class="fa-solid fa-building"></i> Tên Công Ty:</label>
                             <input type="text" id="config-company-title" value="TỔNG CÔNG TY GIẤY VIỆT NAM" oninput="handleConfigChangeLive()">
@@ -285,7 +283,7 @@
                                 <label style="color:var(--purple);"><i class="fa-solid fa-briefcase"></i> Lương công việc</label>
                                 <input type="number" id="config-lcv-pay" value="1991139" oninput="handleConfigChangeLive()">
                             </div>
-                            <div class="form-group" style="min-width: 150px;">
+                            <div class="form-group" style="min-width: 160px;">
                                 <label style="color:var(--primary);"><i class="fa-solid fa-signature"></i> Người Lập Biểu</label>
                                 <input type="text" id="config-signer-name" value="Nguyễn Thị Tuyết Nhung" oninput="handleConfigChangeLive()">
                             </div>
@@ -334,13 +332,13 @@
                             <thead>
                                 <tr style="background-color: #94a3b8;">
                                     <th rowspan="2" style="width: 35px;">STT</th>
-                                    <th rowspan="2" style="min-width:190px;">HỌ VÀ TÊN</th>
-                                    <th rowspan="2" style="min-width:115px;">Số Tài Khoản</th>
+                                    <th rowspan="2" style="min-width:200px;">HỌ VÀ TÊN</th>
+                                    <th rowspan="2" style="min-width:120px;">Số Tài Khoản</th>
                                     <th colspan="4" class="text-center" style="background-color: #bfdbfe; color:#1e3a8a;">Lương Cơ Bản HĐLĐ</th>
                                     <th colspan="3" class="text-center" style="background-color: #bae6fd; color:#0369a1;">Số Ngày Công Thực Tế</th>
                                     <th colspan="5" class="text-center" style="background-color: #e2e8f0;">Cơ cấu & Thực Lĩnh Lương CB</th>
                                     <th colspan="11" class="text-center" style="background-color: #e9d5ff; color:#581c87;">Cơ cấu & Thực Lĩnh Lương CV</th>
-                                    <th rowspan="2" style="background-color: #fef08a; color:#713f12; font-size:13.5px; font-weight:bold; min-width:125px; text-align:center;">TỔNG NET <br><span style="font-size:10px; font-weight:normal;">(Thực Lĩnh CV + CB)</span></th>
+                                    <th rowspan="2" style="background-color: #fef08a; color:#713f12; font-size:13.5px; font-weight:bold; min-width:130px; text-align:center;">TỔNG NET <br><span style="font-size:10px; font-weight:normal;">(Thực Lĩnh CV + CB)</span></th>
                                     <th rowspan="2" style="width: 40px; text-align:center;">Xóa</th>
                                 </tr>
                                 <tr style="background-color: #cbd5e1;">
@@ -348,9 +346,9 @@
                                     <th style="background:#fef9c3; width:55px;">Phụ cấp LCB</th>
                                     <th style="background:#dbeafe;">Lương HĐLĐ</th>
                                     <th style="background:#dbeafe;">Lương CB</th>
-                                    <th style="background:#fef9c3; width:55px;">NT</th>
-                                    <th style="background:#fef9c3; width:55px;">P</th>
-                                    <th style="background:#fef9c3; width:55px;">Lễ/VR</th>
+                                    <th style="background:#fef9c3; width:50px;">NT</th>
+                                    <th style="background:#fef9c3; width:50px;">P</th>
+                                    <th style="background:#fef9c3; width:50px;">Lễ/VR</th>
                                     <th>Lương Thời Gian</th>
                                     <th>Lương Lễ, Phép</th>
                                     <th>Tổng Lương CB</th>
@@ -400,11 +398,11 @@
                     </div>
 
                     <!-- CÔNG CỤ TÍNH THUẾ -->
-                    <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 10px; border-radius: 6px; margin-bottom: 8px;">
-                        <div style="font-weight: bold; color: #166534; font-size: 12.5px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+                    <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px;">
+                        <div style="font-weight: bold; color: #166534; font-size: 13px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
                             <i class="fa-solid fa-calculator"></i> 🧮 CÔNG CỤ TÍNH THUẾ & TÀI CHÍNH NHANH
                         </div>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; align-items: end;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; align-items: end;">
                             <div class="form-group">
                                 <label style="color:#166534;">Số tiền gốc / Chưa thuế:</label>
                                 <input type="text" id="tax-input-amount" value="0" placeholder="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="calculateTaxPro()" style="border-color:#86efac;">
@@ -427,17 +425,17 @@
                                     <option value="extract">Tách thuế từ tổng số tiền</option>
                                 </select>
                             </div>
-                            <div class="form-group" style="background: #ffffff; padding: 6px; border: 1.5px solid #86efac; border-radius: 4px;">
+                            <div class="form-group" style="background: #ffffff; padding: 6px 10px; border: 1.5px solid #86efac; border-radius: 4px;">
                                 <div style="font-size: 11px; color: #475569; font-weight: bold;">Kết quả tính:</div>
-                                <div style="font-size: 12px; color: var(--red); font-weight: bold;" id="tax-result-tax">Thuế: 0 VND</div>
-                                <div style="font-size: 12.5px; color: var(--green); font-weight: 800;" id="tax-result-total">Tổng: 0 VND</div>
+                                <div style="font-size: 12.5px; color: var(--red); font-weight: bold;" id="tax-result-tax">Thuế: 0 VND</div>
+                                <div style="font-size: 13px; color: var(--green); font-weight: 800;" id="tax-result-total">Tổng: 0 VND</div>
                             </div>
                         </div>
                     </div>
 
-                    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 10px; border-radius: 6px; margin-bottom: 10px;">
+                    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
                         <input type="hidden" id="edit-payment-index" value="-1">
-                        <div class="grid-form" style="margin-bottom: 6px;">
+                        <div class="grid-form" style="margin-bottom: 8px;">
                             <div class="form-group" style="grid-column: span 2;">
                                 <label>Nội dung thanh toán:</label>
                                 <input type="text" id="pay-content" placeholder="Ví dụ: Thanh toán VPP tháng 07/2026...">
@@ -454,7 +452,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="grid-form" style="margin-bottom: 6px;">
+                        <div class="grid-form" style="margin-bottom: 8px;">
                             <div class="form-group">
                                 <label>Số lượng:</label>
                                 <input type="number" id="pay-qty" value="1" min="1" step="1" oninput="calculatePayLineTotal()">
@@ -489,7 +487,7 @@
                                 <input type="text" id="pay-amount" placeholder="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="markAmountManual()" style="background:#f0fdf4; color:var(--green); font-weight:800; border-color:#86efac;">
                             </div>
                         </div>
-                        <div class="grid-form" style="margin-bottom: 8px;">
+                        <div class="grid-form" style="margin-bottom: 10px;">
                             <div class="form-group">
                                 <label>Số tài khoản:</label>
                                 <input type="text" id="pay-account" placeholder="Số TK...">
@@ -503,7 +501,7 @@
                                 <input type="file" id="file-hstt" class="inp-table" style="background: white;" multiple>
                             </div>
                         </div>
-                        <div style="display:flex; justify-content:flex-end; gap: 6px; margin-top: 6px;">
+                        <div style="display:flex; justify-content:flex-end; gap: 8px; margin-top: 8px;">
                             <button type="button" class="btn btn-gray" id="btn-cancel-edit-pay" style="display:none;" onclick="cancelEditPayment()"><i class="fa-solid fa-xmark"></i> Hủy</button>
                             <button type="button" class="btn btn-green" id="btn-save-pay" onclick="addNewPaymentRecord()"><i class="fa-solid fa-cloud-arrow-up"></i> Tải Lên & Thêm</button>
                         </div>
@@ -511,10 +509,10 @@
                             <div class="progress-bar-fill" id="progress-fill-hstt"></div>
                             <div class="progress-bar-text" id="progress-text-hstt">0%</div>
                         </div>
-                        <div id="status-hstt" style="font-weight: bold; font-size: 12.5px; margin-top: 5px;"></div>
+                        <div id="status-hstt" style="font-weight: bold; font-size: 13px; margin-top: 6px;"></div>
                     </div>
 
-                    <div class="card-title" style="font-size: 13.5px; margin-top: 10px;">
+                    <div class="card-title" style="font-size: 13.5px; margin-top: 12px;">
                         <span>DANH SÁCH HỒ SƠ THANH TOÁN TRONG KỲ</span>
                         <span id="pay-total-sum" style="color: var(--green);">Tổng: 0 VND</span>
                     </div>
@@ -549,9 +547,9 @@
                         <span><i class="fa-solid fa-wifi" style="color:var(--orange);"></i> QUẢN LÝ CƯỚC MẠNG & INTERNET</span>
                         <a href="https://drive.google.com" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Drive</a>
                     </div>
-                    <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 10px; border-radius: 6px; margin-bottom: 10px;">
+                    <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
                         <input type="hidden" id="edit-telecom-index" value="-1">
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 6px; margin-bottom: 8px; align-items: end;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; margin-bottom: 10px; align-items: end;">
                             <div class="form-group">
                                 <label style="color: #c2410c;">Điểm kết nối</label>
                                 <input type="text" id="tele-location" value="Tổng công ty Giấy Việt Nam" style="border-color: #fdba74;">
@@ -585,10 +583,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="display: flex; gap: 8px; align-items: center; justify-content: space-between; flex-wrap: wrap; border-top: 1px dashed #fdba74; padding-top: 6px;">
-                            <div style="display: flex; gap: 6px; align-items: center; flex: 1; flex-wrap: wrap;">
+                        <div style="display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; border-top: 1px dashed #fdba74; padding-top: 8px;">
+                            <div style="display: flex; gap: 8px; align-items: center; flex: 1; flex-wrap: wrap;">
                                 <label style="font-weight: bold; color: #c2410c; white-space: nowrap;"><i class="fa-solid fa-file-arrow-up"></i> Hóa đơn:</label>
-                                <input type="file" id="file-vt" class="inp-table" style="background: white; border-color: #fdba74; max-width: 300px;" multiple>
+                                <input type="file" id="file-vt" class="inp-table" style="background: white; border-color: #fdba74; max-width: 320px;" multiple>
                             </div>
                             <div style="display:flex; gap:6px;">
                                 <button type="button" class="btn btn-gray" id="btn-cancel-edit-tele" style="display:none;" onclick="cancelEditTelecom()"><i class="fa-solid fa-xmark"></i> Hủy</button>
@@ -599,10 +597,10 @@
                             <div class="progress-bar-fill" id="progress-fill-vt"></div>
                             <div class="progress-bar-text" id="progress-text-vt">0%</div>
                         </div>
-                        <div id="status-vt" style="font-weight: bold; font-size: 12.5px; margin-top: 5px;"></div>
+                        <div id="status-vt" style="font-weight: bold; font-size: 13px; margin-top: 6px;"></div>
                     </div>
 
-                    <div class="card-title" style="font-size: 13.5px; margin-top: 10px;">
+                    <div class="card-title" style="font-size: 13.5px; margin-top: 12px;">
                         <span>DANH SÁCH CƯỚC VIỄN THÔNG & INTERNET</span>
                         <span id="tele-total-sum" style="color: var(--orange);">Tổng cước: 0 VND</span>
                     </div>
@@ -633,9 +631,9 @@
                     <div class="card-title" style="border-left-color: var(--purple);">
                         <span><i class="fa-solid fa-laptop" style="color:var(--purple);"></i> QUẢN LÝ TÀI SẢN & KIỂM KÊ CNTT (<span class="lbl-current-year">2026</span>)</span>
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 260px; gap: 10px; background: #faf5ff; border: 1.5px solid #d8b4fe; padding: 10px; border-radius: 6px; margin-bottom: 10px; align-items: start;">
+                    <div style="display: grid; grid-template-columns: 1fr 280px; gap: 12px; background: #faf5ff; border: 1.5px solid #d8b4fe; padding: 12px; border-radius: 6px; margin-bottom: 12px; align-items: start;">
                         <div>
-                            <div class="grid-form" style="margin-bottom: 6px;">
+                            <div class="grid-form" style="margin-bottom: 8px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Người sử dụng</label>
                                     <input type="text" id="it-user" placeholder="Họ và tên..." style="border-color: #d8b4fe;" oninput="updateLiveQRPreview()">
@@ -659,7 +657,7 @@
                                 </div>
                             </div>
                             
-                            <div class="grid-form" style="margin-bottom: 6px;">
+                            <div class="grid-form" style="margin-bottom: 8px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Hệ điều hành</label>
                                     <select id="it-os" style="border-color: #d8b4fe;">
@@ -694,7 +692,7 @@
                                 </div>
                             </div>
 
-                            <div class="grid-form" style="margin-bottom: 6px;">
+                            <div class="grid-form" style="margin-bottom: 8px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Phần mềm nghiệp vụ</label>
                                     <select id="it-software" style="border-color: #d8b4fe;">
@@ -713,7 +711,7 @@
                                 </div>
                             </div>
 
-                            <div class="grid-form" style="margin-bottom: 6px;">
+                            <div class="grid-form" style="margin-bottom: 8px;">
                                 <div class="form-group" style="grid-column: span 2;">
                                     <label style="color: #6d28d9;">Thông số cấu hình phần cứng</label>
                                     <input type="text" id="it-specs" value="Dell Latitude, Core i5, 16GB RAM, 512GB SSD" style="border-color: #d8b4fe;">
@@ -730,19 +728,19 @@
                                     </select>
                                 </div>
                             </div>
-                            <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+                            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
                                 <button type="button" class="btn btn-purple" onclick="addNewItAssetRecord()"><i class="fa-solid fa-qrcode"></i> Lưu Tài Sản & Tạo QR</button>
                                 <button type="button" class="btn btn-gray" onclick="clearItAssetForm()"><i class="fa-solid fa-xmark"></i> Hủy</button>
                             </div>
                         </div>
 
-                        <div style="border: 2px dashed var(--purple); border-radius: 6px; background: white; padding: 8px; display: flex; flex-direction: column; align-items: center; justify-content: space-between;">
-                            <div style="font-weight: bold; color: var(--purple); font-size: 12px; text-align: center; border-bottom: 1px solid #e2e8f0; width: 100%; padding-bottom: 4px;"><i class="fa-solid fa-qrcode"></i> 📱 TEM QR TRỰC TIẾP</div>
+                        <div style="border: 2px dashed var(--purple); border-radius: 6px; background: white; padding: 10px; display: flex; flex-direction: column; align-items: center; justify-content: space-between;">
+                            <div style="font-weight: bold; color: var(--purple); font-size: 12.5px; text-align: center; border-bottom: 1px solid #e2e8f0; width: 100%; padding-bottom: 4px;"><i class="fa-solid fa-qrcode"></i> 📱 TEM QR TRỰC TIẾP</div>
                             <div style="text-align: center; width: 100%;">
-                                <div style="font-size: 11px; font-weight: bold; color: #0f172a; margin-bottom: 2px;">VINAPACO IT ASSET</div>
-                                <div id="live-qrcode-box" style="display: flex; justify-content: center; margin: 3px 0;"></div>
+                                <div style="font-size: 11.5px; font-weight: bold; color: #0f172a; margin-bottom: 3px;">VINAPACO IT ASSET</div>
+                                <div id="live-qrcode-box" style="display: flex; justify-content: center; margin: 4px 0;"></div>
                             </div>
-                            <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 4px; padding: 4px; width: 100%; font-size: 10px; line-height: 1.2;">
+                            <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 4px; padding: 5px; width: 100%; font-size: 10.5px; line-height: 1.25;">
                                 <div><b>Mã TS:</b> <span id="lbl-qr-code">IT-LAP-2026-243</span></div>
                                 <div><b>Người dùng:</b> <span id="lbl-qr-user">Chưa nhập</span></div>
                                 <div><b>Bộ phận:</b> <span id="lbl-qr-dept">Chưa nhập</span></div>
@@ -750,9 +748,9 @@
                         </div>
                     </div>
 
-                    <div id="status-cntt" style="font-weight: bold; font-size: 12.5px; margin-bottom: 6px;"></div>
+                    <div id="status-cntt" style="font-weight: bold; font-size: 13px; margin-bottom: 8px;"></div>
 
-                    <div class="card-title" style="font-size: 13.5px; margin-top: 10px;">
+                    <div class="card-title" style="font-size: 13.5px; margin-top: 12px;">
                         <span>BẢNG TỔNG HỢP KIỂM KÊ TRANG THIẾT BỊ CNTT NĂM 2026</span>
                         <span id="it-total-count" style="color: var(--purple);">Tổng: 0 Thiết bị</span>
                     </div>
@@ -793,9 +791,9 @@
             <div class="calendar-block-view">
                 <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
                 <div class="calendar-block-body">
-                    <div style="font-size:11.5px; color:#334155; font-weight:bold; text-transform:uppercase;" id="cal-selected-dow">Chủ Nhật</div>
-                    <div style="font-size:55px; font-weight:900; color:#dc2626; line-height:1; margin:2px 0;" id="cal-selected-day">26</div>
-                    <div style="font-size:11.5px; font-weight:bold; color:#0f172a;" id="cal-selected-lunar-day">Ngày Bính Dần - Tháng Bính Thân</div>
+                    <div style="font-size:12px; color:#334155; font-weight:bold; text-transform:uppercase;" id="cal-selected-dow">Chủ Nhật</div>
+                    <div style="font-size:60px; font-weight:900; color:#dc2626; line-height:1; margin:3px 0;" id="cal-selected-day">26</div>
+                    <div style="font-size:12px; font-weight:bold; color:#0f172a;" id="cal-selected-lunar-day">Ngày Bính Dần - Tháng Bính Thân</div>
                 </div>
             </div>
 
@@ -827,36 +825,36 @@
                     <span class="cal-info-label"><i class="fa-solid fa-clock"></i> Giờ Hoàng Đạo:</span>
                     <span class="cal-info-val" id="info-gio-hd">Tý (23-1), Mão (5-7)</span>
                 </div>
-                <div class="cal-info-row" style="flex-direction: column; gap: 2px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 5px;">
+                <div class="cal-info-row" style="flex-direction: column; gap: 2px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px;">
                     <span class="cal-info-label" style="color:var(--green);"><i class="fa-solid fa-circle-check"></i> Việc nên làm:</span>
-                    <span id="info-good-dos" style="color:#166534; font-weight:600; font-size:11px; background:#f0fdf4; padding:2px 5px; border-radius:4px; border:1px solid #86efac;">Ký hợp đồng, giao dịch tài chính</span>
+                    <span id="info-good-dos" style="color:#166534; font-weight:600; font-size:11.5px; background:#f0fdf4; padding:3px 6px; border-radius:4px; border:1px solid #86efac;">Ký hợp đồng, giao dịch tài chính</span>
                 </div>
-                <div class="cal-info-row" style="flex-direction: column; gap: 2px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 5px; margin-top: 3px;">
+                <div class="cal-info-row" style="flex-direction: column; gap: 2px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px; margin-top: 4px;">
                     <span class="cal-info-label" style="color:var(--red);"><i class="fa-solid fa-triangle-exclamation"></i> Việc kiêng kị:</span>
-                    <span id="info-bad-donts" style="color:#991b1b; font-weight:600; font-size:11px; background:#fef2f2; padding:2px 5px; border-radius:4px; border:1px solid #fca5a5;">Khởi công xây dựng, kiện tụng</span>
+                    <span id="info-bad-donts" style="color:#991b1b; font-weight:600; font-size:11.5px; background:#fef2f2; padding:3px 6px; border-radius:4px; border:1px solid #fca5a5;">Khởi công xây dựng, kiện tụng</span>
                 </div>
-                <div class="cal-info-row" style="flex-direction: column; gap: 3px; padding-top: 5px; margin-top: 2px;">
+                <div class="cal-info-row" style="flex-direction: column; gap: 4px; padding-top: 6px; margin-top: 2px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                         <span class="cal-info-label"><i class="fa-solid fa-bell text-blue"></i> Sự kiện / Ghi chú:</span>
-                        <button type="button" class="btn btn-primary" style="padding: 2px 6px; font-size: 11px; min-height: 24px;" onclick="openEventModal()"><i class="fa-solid fa-plus"></i> Đặt lịch</button>
+                        <button type="button" class="btn btn-primary" style="padding: 2px 8px; font-size: 11px; min-height: 26px;" onclick="openEventModal()"><i class="fa-solid fa-plus"></i> Đặt lịch</button>
                     </div>
-                    <div id="info-event-note" style="color:var(--blue); font-style:italic; font-size: 11px; background: #eff6ff; padding: 3px 5px; border-radius: 4px; border: 1px dashed #93c5fd; margin-top: 2px;">Không có sự kiện</div>
+                    <div id="info-event-note" style="color:var(--blue); font-style:italic; font-size: 11.5px; background: #eff6ff; padding: 4px 6px; border-radius: 4px; border: 1px dashed #93c5fd; margin-top: 2px;">Không có sự kiện</div>
                 </div>
             </div>
             
-            <div style="text-align: center; margin-top: 8px;">
-                <button type="button" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 11.5px; min-height: 32px;" onclick="resetCalendarToToday()"><i class="fa-solid fa-calendar-day"></i> Quay Về Hôm Nay</button>
+            <div style="text-align: center; margin-top: 10px;">
+                <button type="button" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 12px; min-height: 34px;" onclick="resetCalendarToToday()"><i class="fa-solid fa-calendar-day"></i> Quay Về Hôm Nay</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL ĐẶT LỊCH SỰ KIỆN -->
     <div id="eventModal" class="modal" onclick="closeEventModal()">
-        <div class="modal-content" onclick="event.stopPropagation()" style="max-width:400px;">
-            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">26/07/2026</span></div>
-            <div class="form-group" style="margin-bottom: 8px;">
+        <div class="modal-content" onclick="event.stopPropagation()" style="max-width:420px;">
+            <div class="card-title" style="border-left-color: var(--green); font-size: 14px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">26/07/2026</span></div>
+            <div class="form-group" style="margin-bottom: 10px;">
                 <label>Nội dung sự kiện / Công việc:</label>
-                <textarea id="modal-event-text" class="inp-table" style="height: 70px; resize: none;" placeholder="Ví dụ: Họp giao ban..."></textarea>
+                <textarea id="modal-event-text" class="inp-table" style="height: 75px; resize: none;" placeholder="Ví dụ: Họp giao ban..."></textarea>
             </div>
             <div style="text-align:right; display:flex; justify-content:flex-end; gap:6px;">
                 <button type="button" class="btn btn-gray" onclick="closeEventModal()">Hủy</button>
@@ -867,13 +865,13 @@
 
     <!-- MODAL CONFIG URL -->
     <div id="configUrlModal" class="modal" onclick="closeConfigUrlModal()">
-        <div class="modal-content" onclick="event.stopPropagation()" style="max-width:550px;">
-            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;">CẤU HÌNH LINK GOOGLE SHEET VÀ DRIVE</div>
-            <div class="form-group" style="margin-bottom:8px;">
+        <div class="modal-content" onclick="event.stopPropagation()" style="max-width:600px;">
+            <div class="card-title" style="border-left-color: var(--green); font-size: 14px;">CẤU HÌNH LINK GOOGLE SHEET VÀ DRIVE</div>
+            <div class="form-group" style="margin-bottom:10px;">
                 <label>1. Link Google Script Web App API (`.../exec`):</label>
                 <input type="text" id="cfg-script-url">
             </div>
-            <div class="form-group" style="margin-bottom:10px;">
+            <div class="form-group" style="margin-bottom:12px;">
                 <label>2. Link Google Sheets Xem BẢNG LƯƠNG:</label>
                 <input type="text" id="cfg-sheet-url">
             </div>
@@ -1232,7 +1230,7 @@
                     <td class="text-right"><input class="inp-table inp-currency" type="text" value="${formatCurrencyVN(pcttVal)}" onfocus="this.value=parseCurrencyVN(this.value)" onblur="this.value=formatCurrencyVN(parseCurrencyVN(this.value)); updateSalaryRowValue(${index}, 'pctt', this.value)"></td>
                     <td class="text-right"><input class="inp-table inp-currency" type="text" value="${formatCurrencyVN(truUngVal)}" onfocus="this.value=parseCurrencyVN(this.value)" onblur="this.value=formatCurrencyVN(parseCurrencyVN(this.value)); updateSalaryRowValue(${index}, 'tru_ung', this.value)"></td>
                     <td class="text-right font-bold" style="color:#581c87; background:#e9d5ff;">${formatCurrencyVN(thuc_linh_lcv)}</td>
-                    <td class="text-right font-bold" style="background:#fef08a; color:#713f12; font-size:14px;">${formatCurrencyVN(thuc_linh_tong)}</td>
+                    <td class="text-right font-bold" style="background:#fef08a; color:#713f12; font-size:14.5px;">${formatCurrencyVN(thuc_linh_tong)}</td>
                     <td class="text-center"><button type="button" class="btn-delete" onclick="deleteSalaryRow(${index})"><i class="fa-solid fa-trash"></i></button></td>
                 </tr>`;
             });
@@ -1608,7 +1606,7 @@
             document.getElementById('lbl-qr-user').innerText = user;
             document.getElementById('lbl-qr-dept').innerText = dept;
             const qrBox = document.getElementById('live-qrcode-box'); qrBox.innerHTML = "";
-            new QRCode(qrBox, { text: `Mã TS: ${code} | User: ${user} | Dept: ${dept}`, width: 80, height: 80 });
+            new QRCode(qrBox, { text: `Mã TS: ${code} | User: ${user} | Dept: ${dept}`, width: 85, height: 85 });
         }
 
         function addNewItAssetRecord() {
@@ -1659,7 +1657,7 @@
             });
             records.forEach((rec, idx) => {
                 let el = document.getElementById(`qr-table-${CURRENT_SELECTED_YEAR}-${idx}`);
-                if (el && el.innerHTML === "") { new QRCode(el, { text: `Mã TS: ${rec.code} | User: ${rec.user}`, width: 38, height: 38 }); }
+                if (el && el.innerHTML === "") { new QRCode(el, { text: `Mã TS: ${rec.code} | User: ${rec.user}`, width: 40, height: 40 }); }
             });
             document.getElementById('it-total-count').innerText = `Tổng: ${records.length} Thiết bị`;
             document.getElementById('dash-total-it-devices').innerText = `${records.length} Thiết bị`;
