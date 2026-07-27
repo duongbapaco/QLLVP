@@ -1665,14 +1665,23 @@
             updateLiveQRPreview();
         }
 
+        // HÀM CHUYỂN ĐỔI TIẾNG VIỆT KHÔNG DẤU (ĐỂ QUÉT ZALO HIỂN THỊ THẲNG VĂN BẢN KHÔNG LỖI)
+        function removeVietnameseAccents(str) {
+            if (!str) return "";
+            return str.normalize('NFD')
+                      .replace(/[\u0300-\u036f]/g, '')
+                      .replace(/đ/g, 'd').replace(/Đ/g, 'D');
+        }
+
         function getStructuredQrText(code, type, user, dept, os, office) {
             let cleanCode = code || "IT-TS-2026";
-            let cleanType = encodeURIComponent(type || "Thiet bi");
-            let cleanUser = encodeURIComponent(user || "Chua ro");
-            let cleanDept = encodeURIComponent(dept || "Chua ro");
-            let cleanOs = encodeURIComponent(os || "Win");
-            let cleanOffice = encodeURIComponent(office || "Office");
-            return `https://vinapaco.internal/asset?code=${cleanCode}&type=${cleanType}&user=${cleanUser}&dept=${cleanDept}&os=${cleanOs}&office=${cleanOffice}`;
+            let cleanType = removeVietnameseAccents(type || "Thiet bi");
+            let cleanUser = removeVietnameseAccents(user || "Chua ro");
+            let cleanDept = removeVietnameseAccents(dept || "Chua ro");
+            let cleanOs = removeVietnameseAccents(os || "Win");
+            let cleanOffice = removeVietnameseAccents(office || "Office");
+            
+            return `VINAPACO IT ASSET\n[Ma TS]: ${cleanCode}\n[Loai]: ${cleanType}\n[Nguoi dung]: ${cleanUser}\n[Phong ban]: ${cleanDept}\n[HDH]: ${cleanOs}\n[Office]: ${cleanOffice}`;
         }
 
         function updateLiveQRPreview() {
