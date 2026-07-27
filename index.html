@@ -1667,12 +1667,12 @@
 
         function getStructuredQrText(code, type, user, dept, os, office) {
             let cleanCode = code || "IT-TS-2026";
-            let cleanType = type || "Thiet bi";
-            let cleanUser = user || "Chua ro";
-            let cleanDept = dept || "Chua ro";
-            let cleanOs = os || "Win";
-            let cleanOffice = office || "Office";
-            return `VINAPACO-ASSET|MaTS:${cleanCode}|Loai:${cleanType}|NguoiDung:${cleanUser}|PhongBan:${cleanDept}|OS:${cleanOs}|Office:${cleanOffice}`;
+            let cleanType = encodeURIComponent(type || "Thiet bi");
+            let cleanUser = encodeURIComponent(user || "Chua ro");
+            let cleanDept = encodeURIComponent(dept || "Chua ro");
+            let cleanOs = encodeURIComponent(os || "Win");
+            let cleanOffice = encodeURIComponent(office || "Office");
+            return `https://vinapaco.internal/asset?code=${cleanCode}&type=${cleanType}&user=${cleanUser}&dept=${cleanDept}&os=${cleanOs}&office=${cleanOffice}`;
         }
 
         function updateLiveQRPreview() {
