@@ -146,11 +146,14 @@
         .cal-grid-mini { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin-top: 6px; text-align: center; font-size: 12px; }
         .cal-grid-mini div { padding: 6px 0; font-weight: bold; }
         .cal-grid-mini .dow { color: #64748b; font-size: 11px; background: #f1f5f9; }
-        .cal-day-cell { cursor: pointer; border-radius: 4px; transition: 0.2s; position: relative; min-height: 28px; display: flex; align-items: center; justify-content: center; }
+        .cal-day-cell { cursor: pointer; border-radius: 4px; transition: 0.2s; position: relative; min-height: 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .cal-day-cell:hover { background: #e2e8f0; color: #1d4ed8; }
         .cal-day-cell.selected { background: #1d4ed8 !important; color: white !important; font-weight: bold; }
         .cal-day-cell.today { border: 1.5px solid #dc2626; color: #dc2626; }
         .cal-day-cell.has-event::after { content: ''; position: absolute; bottom: 2px; right: 2px; width: 5px; height: 5px; background-color: #16a34a; border-radius: 50%; }
+        
+        .lunar-sub-txt { font-size: 8.5px; color: #64748b; line-height: 1; margin-top: 1px; }
+        .cal-day-cell.selected .lunar-sub-txt { color: #fef08a; }
 
         .cal-info-panel { background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 10px; font-size: 12px; margin-top: 10px; }
         .cal-info-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #cbd5e1; gap: 8px; }
@@ -792,8 +795,8 @@
             <div class="calendar-block-view">
                 <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
                 <div class="calendar-block-body">
-                    <div style="font-size:12px; color:#334155; font-weight:bold; text-transform:uppercase;" id="cal-selected-dow">Chủ Nhật</div>
-                    <div style="font-size:60px; font-weight:900; color:#dc2626; line-height:1; margin:3px 0;" id="cal-selected-day">26</div>
+                    <div style="font-size:12px; color:#334155; font-weight:bold; text-transform:uppercase;" id="cal-selected-dow">Thứ Hai</div>
+                    <div style="font-size:60px; font-weight:900; color:#dc2626; line-height:1; margin:3px 0;" id="cal-selected-day">27</div>
                     <div style="font-size:12px; font-weight:bold; color:#0f172a;" id="cal-selected-lunar-day">Ngày Bính Dần - Tháng Bính Thân</div>
                 </div>
             </div>
@@ -812,7 +815,7 @@
             <div class="cal-info-panel">
                 <div class="cal-info-row">
                     <span class="cal-info-label"><i class="fa-solid fa-moon text-purple"></i> Âm lịch:</span>
-                    <span class="cal-info-val" id="info-lunar-exact" style="color:var(--purple);">12/6/2026 (Bính Ngọ)</span>
+                    <span class="cal-info-val" id="info-lunar-exact" style="color:var(--purple);">13/6/2026 (Bính Ngọ)</span>
                 </div>
                 <div class="cal-info-row">
                     <span class="cal-info-label"><i class="fa-solid fa-sun text-orange"></i> Tiết khí:</span>
@@ -852,7 +855,7 @@
     <!-- MODAL ĐẶT LỊCH SỰ KIỆN -->
     <div id="eventModal" class="modal" onclick="closeEventModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:420px;">
-            <div class="card-title" style="border-left-color: var(--green); font-size: 14px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">26/07/2026</span></div>
+            <div class="card-title" style="border-left-color: var(--green); font-size: 14px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">27/07/2026</span></div>
             <div class="form-group" style="margin-bottom: 10px;">
                 <label>Nội dung sự kiện / Công việc:</label>
                 <textarea id="modal-event-text" class="inp-table" style="height: 75px; resize: none;" placeholder="Ví dụ: Họp giao ban..."></textarea>
@@ -919,8 +922,9 @@
         let itAssetRecordsByYear = JSON.parse(localStorage.getItem('sys_it_asset_records_by_year')) || {};
         let dayEventsMap = JSON.parse(localStorage.getItem('sys_day_events_map')) || {};
 
-        let calViewDate = new Date(2026, 6, 26);
-        let calSelectedDate = new Date(2026, 6, 26);
+        let todaySystemDate = new Date();
+        let calViewDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), 1);
+        let calSelectedDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), todaySystemDate.getDate());
 
         let activePickerId = null;
         let pickerCurrentDate = new Date();
@@ -1207,21 +1211,21 @@
                     <td class="text-center font-bold">${index + 1}</td>
                     <td><input class="inp-table inp-name" type="text" value="${row.name}" oninput="updateSalaryRowValue(${index}, 'name', this.value)"></td>
                     <td><input class="inp-table inp-account" type="text" value="${row.account || ''}" oninput="updateSalaryRowValue(${index}, 'account', this.value)"></td>
-                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:700;" type="number" step="0.01" value="${row.lcb_heso}" oninput="updateSalaryRowValue(${index}, 'lcb_heso', this.value)"></td>
-                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:700;" type="number" step="0.01" value="${row.lcb_phucap || 0}" oninput="updateSalaryRowValue(${index}, 'lcb_phucap', this.value)"></td>
+                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:700;" type="text" inputmode="decimal" value="${row.lcb_heso}" onchange="updateSalaryRowValue(${index}, 'lcb_heso', this.value)"></td>
+                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:700;" type="text" inputmode="decimal" value="${row.lcb_phucap || 0}" onchange="updateSalaryRowValue(${index}, 'lcb_phucap', this.value)"></td>
                     <td class="text-right font-bold" style="color:#1e3a8a;">${formatCurrencyVN(luong_ky_hdld)}</td>
                     <td class="text-right font-bold" style="color:#047857;">${formatCurrencyVN(luong_co_ban)}</td>
-                    <td class="text-center"><input class="inp-table inp-num-day" type="number" value="${val_NT}" oninput="updateSalaryRowValue(${index}, 'NT', this.value)"></td>
-                    <td class="text-center"><input class="inp-table inp-num-day" type="number" value="${val_P}" oninput="updateSalaryRowValue(${index}, 'P', this.value)"></td>
-                    <td class="text-center"><input class="inp-table inp-num-day" type="number" value="${val_LE}" oninput="updateSalaryRowValue(${index}, 'le_vr', this.value)"></td>
+                    <td class="text-center"><input class="inp-table inp-num-day" type="text" inputmode="numeric" value="${val_NT}" onchange="updateSalaryRowValue(${index}, 'NT', this.value)"></td>
+                    <td class="text-center"><input class="inp-table inp-num-day" type="text" inputmode="numeric" value="${val_P}" onchange="updateSalaryRowValue(${index}, 'P', this.value)"></td>
+                    <td class="text-center"><input class="inp-table inp-num-day" type="text" inputmode="numeric" value="${val_LE}" onchange="updateSalaryRowValue(${index}, 'le_vr', this.value)"></td>
                     <td class="text-right">${formatCurrencyVN(l_thoigian)}</td>
                     <td class="text-right" style="color:#1e3a8a; font-weight:bold;">${formatCurrencyVN(le_phep_tt)}</td>
                     <td class="text-right font-bold">${formatCurrencyVN(l_tong_cb)}</td>
                     <td class="text-right" style="color:var(--red); font-weight:bold;">${formatCurrencyVN(bh)}</td>
                     <td class="text-right font-bold" style="background:#bfdbfe; color:#1e3a8a;">${formatCurrencyVN(thuc_linh_cb)}</td>
-                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:700;" type="number" step="0.01" value="${row.he_so_lcv}" oninput="updateSalaryRowValue(${index}, 'he_so_lcv', this.value)"></td>
-                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:700;" type="number" step="0.01" value="${row.phu_cap_lcv || 0}" oninput="updateSalaryRowValue(${index}, 'phu_cap_lcv', this.value)"></td>
-                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:800; background:#fef08a;" type="number" step="0.01" value="${val_hsHtcv}" oninput="updateSalaryRowValue(${index}, 'hs_htcv', this.value)"></td>
+                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:700;" type="text" inputmode="decimal" value="${row.he_so_lcv}" onchange="updateSalaryRowValue(${index}, 'he_so_lcv', this.value)"></td>
+                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:700;" type="text" inputmode="decimal" value="${row.phu_cap_lcv || 0}" onchange="updateSalaryRowValue(${index}, 'phu_cap_lcv', this.value)"></td>
+                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:800; background:#fef08a;" type="text" inputmode="decimal" value="${val_hsHtcv}" onchange="updateSalaryRowValue(${index}, 'hs_htcv', this.value)"></td>
                     <td class="text-right">${formatCurrencyVN(luong_cong_viec)}</td>
                     <td class="text-right font-bold">${formatCurrencyVN(lcv_thucte)}</td>
                     <td class="text-right"><input class="inp-table inp-currency" type="text" value="${formatCurrencyVN(ancaVal)}" onfocus="this.value=parseCurrencyVN(this.value)" onblur="this.value=formatCurrencyVN(parseCurrencyVN(this.value)); updateSalaryRowValue(${index}, 'anca', this.value)"></td>
@@ -1282,7 +1286,7 @@
             let year = parts[0] || CURRENT_SELECTED_YEAR;
             let month = parts[1] || "07";
 
-            let payDateTime = document.getElementById('pay-date-time').value.trim() || "26/07/2026";
+            let payDateTime = document.getElementById('pay-date-time').value.trim() || "27/07/2026";
             let dateParts = payDateTime.split('/');
             if (dateParts.length === 3) { month = dateParts[1]; year = dateParts[2]; }
 
@@ -1377,7 +1381,7 @@
             if (!rec) return;
 
             document.getElementById('edit-payment-index').value = idx;
-            document.getElementById('pay-date-time').value = rec.payDateTime || "26/07/2026";
+            document.getElementById('pay-date-time').value = rec.payDateTime || "27/07/2026";
             document.getElementById('pay-content').value = rec.content || "";
             document.getElementById('pay-receiver').value = rec.receiver || "";
             document.getElementById('pay-qty').value = rec.qty || 1;
@@ -1419,7 +1423,7 @@
                 totalSum += rec.amount;
                 let q = rec.qty || 1, u = rec.unit || 'Cái';
                 let displayUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : (rec.amount / q);
-                let dateTimeDisplay = rec.payDateTime || "26/07/2026";
+                let dateTimeDisplay = rec.payDateTime || "27/07/2026";
                 let folderLinkHtml = `<span style="color:#64748b; font-style:italic;">Không có</span>`;
                 if (rec.files && rec.files.length > 0) {
                     let folderUrl = rec.folderUrl || "https://drive.google.com";
@@ -1664,6 +1668,136 @@
         }
         function deleteItAssetRecord(idx) { itAssetRecordsByYear[CURRENT_SELECTED_YEAR].splice(idx, 1); localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear)); renderItAssetTable(); }
 
+        /* --- THUẬT TOÁN ÂM LỊCH CHUẨN XÁC --- */
+        const PI = Math.PI;
+        function INT(d) { return Math.floor(d); }
+        function jdFromDate(dd, mm, yy) {
+            let a = INT((14 - mm) / 12);
+            let y = yy + 4800 - a;
+            let m = mm + 12 * a - 3;
+            let jd = dd + INT((153 * m + 2) / 5) + 365 * y + INT(y / 4) - INT(y / 100) + INT(y / 400) - 32045;
+            if (jd < 2299161) jd = dd + INT((153 * m + 2) / 5) + 365 * y + INT(y / 4) - 32045;
+            return jd;
+        }
+        function sunLongitude(jdn) {
+            let T = (jdn - 2451545.0) / 36525.0;
+            let L0 = 280.46646 + 36000.76983 * T;
+            let M = 357.52911 + 35999.05029 * T - 0.0001537 * T * T;
+            let C = (1.914602 - 0.004817 * T - 0.000014 * T * T) * Math.sin(M * PI / 180) + (0.019993 - 0.000101 * T) * Math.sin(2 * M * PI / 180) + 0.000289 * Math.sin(3 * M * PI / 180);
+            let L = L0 + C;
+            while (L < 0) L += 360;
+            while (L >= 360) L -= 360;
+            return L;
+        }
+        function getSunLongitude(jdn, timeZone) {
+            return sunLongitude(jdn - 0.5 - timeZone / 24.0);
+        }
+        function getNewMoonDay(k, timeZone) {
+            let T = k / 1236.85;
+            let T2 = T * T;
+            let T3 = T2 * T;
+            let dr = PI / 180;
+            let Jd1 = 2415020.75933 + 29.53058868 * k + 0.0001178 * T2 - 0.000000155 * T3;
+            let M = 359.2242 + 29.10535608 * k - 0.0000333 * T2 - 0.00000347 * T3;
+            let Mprime = 306.0253 + 385.81691806 * k + 0.0107306 * T2 + 0.00001236 * T3;
+            let F = 21.2964 + 390.67050646 * k - 0.0016528 * T2 - 0.00000239 * T3;
+            let C1 = (0.1734 - 0.000393 * T) * Math.sin(M * dr) + 0.0021 * Math.sin(2 * M * dr);
+            let C2 = -0.4068 * Math.sin(Mprime * dr) + 0.0161 * Math.sin(2 * Mprime * dr);
+            let C3 = -0.0004 * Math.sin(2 * F * dr);
+            let Deltajd = C1 + C2 + C3;
+            let Jd = Jd1 + Deltajd;
+            return INT(Jd + 0.5 + timeZone / 24.0);
+        }
+        function getLunarMonth11(yy, timeZone) {
+            let off = jdFromDate(31, 12, yy) - 2415020;
+            let k = INT(off / 29.53058868);
+            let nm = getNewMoonDay(k, timeZone);
+            let sunLong = getSunLongitude(nm, timeZone);
+            if (sunLong > 270) {
+                nm = getNewMoonDay(k - 1, timeZone);
+            }
+            return nm;
+        }
+        function getLeapMonthOffset(a11, timeZone) {
+            let k = INT((a11 - 2415020.75933) / 29.53058868 + 0.5);
+            let last = 0;
+            let i = 1;
+            let arc = getSunLongitude(getNewMoonDay(k, timeZone), timeZone);
+            while (true) {
+                let lastArc = arc;
+                k++;
+                let nm = getNewMoonDay(k, timeZone);
+                arc = getSunLongitude(nm, timeZone);
+                if (Math.abs(arc - lastArc) > 200) {
+                    let diff = Math.abs(arc - lastArc);
+                    if (arc < lastArc) arc += 360;
+                    else lastArc += 360;
+                }
+                let m = INT(arc / 30);
+                if (m === last) {
+                    return i;
+                }
+                last = m;
+                i++;
+                if (i >= 14) break;
+            }
+            return 0;
+        }
+        function convertSolar2Lunar(dd, mm, yy, timeZone) {
+            let dayNumber = jdFromDate(dd, mm, yy);
+            let k = INT((dayNumber - 2415020.75933) / 29.53058868);
+            let nm = getNewMoonDay(k, timeZone);
+            if (nm > dayNumber) {
+                k--;
+                nm = getNewMoonDay(k, timeZone);
+            }
+            let a11 = getLunarMonth11(yy, timeZone);
+            let b11 = a11;
+            if (a11 >= nm) {
+                a11 = getLunarMonth11(yy - 1, timeZone);
+            } else {
+                b11 = getLunarMonth11(yy + 1, timeZone);
+            }
+            let lunarMonth = INT((nm - a11) / 29.5 + 0.5) + 11;
+            let leap = 0;
+            let leapMonthDiff = getLeapMonthOffset(a11, timeZone);
+            if (leapMonthDiff > 0) {
+                let leapMoonDay = getNewMoonDay(k, timeZone);
+                if (dayNumber >= leapMoonDay) {
+                    lunarMonth = INT((leapMoonDay - a11) / 29.5 + 0.5) + 11;
+                    if (lunarMonth > 12) lunarMonth -= 12;
+                    let leapMonth = leapMonthDiff;
+                    if (lunarMonth === leapMonth) leap = 1;
+                }
+            }
+            if (lunarMonth > 12) lunarMonth -= 12;
+            let lunarDay = dayNumber - nm + 1;
+            let lunarYear = yy;
+            if (lunarMonth === 11 && lunarDay >= 1 && dayNumber < a11) lunarYear = yy - 1;
+            if (lunarMonth >= 1 && lunarMonth <= 3 && dayNumber >= b11) lunarYear = yy + 1;
+            return { day: lunarDay, month: lunarMonth, year: lunarYear, leap: leap };
+        }
+
+        const stemNames = ["Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ", "Canh", "Tân", "Nhâm", "Quý"];
+        const branchNames = ["Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi", "Thân", "Dậu", "Tuất", "Hợi"];
+        
+        function getYearCanChi(year) {
+            let stem = stemNames[(year + 6) % 10];
+            let branch = branchNames[(year + 8) % 12];
+            return `${stem} ${branch}`;
+        }
+        function getMonthCanChi(lunarMonth, lunarYear) {
+            let yearStemIdx = (lunarYear + 6) % 10;
+            let monthStemIdx = (yearStemIdx % 5 * 2 + lunarMonth + 1) % 10;
+            let monthBranchIdx = (lunarMonth + 1) % 12;
+            return `${stemNames[monthStemIdx]} ${branchNames[monthBranchIdx]}`;
+        }
+        function getDayCanChi(jdn) {
+            let stem = stemNames[(jdn + 9) % 10];
+            let branch = branchNames[(jdn + 1) % 12];
+            return `${stem} ${branch}`;
+        }
+
         function renderSmartCalendar() {
             let year = calViewDate.getFullYear(), month = calViewDate.getMonth();
             const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
@@ -1677,8 +1811,22 @@
             let today = new Date();
             for (let d = 1; d <= totalDays; d++) {
                 let dayDiv = document.createElement('div');
-                dayDiv.className = "cal-day-cell"; dayDiv.innerText = d;
-                let thisDate = new Date(year, month, d), dateKey = `${thisDate.getFullYear()}-${thisDate.getMonth() + 1}-${thisDate.getDate()}`;
+                dayDiv.className = "cal-day-cell"; 
+                
+                let thisDate = new Date(year, month, d);
+                let dateKey = `${thisDate.getFullYear()}-${thisDate.getMonth() + 1}-${thisDate.getDate()}`;
+                let lunar = convertSolar2Lunar(d, month + 1, year, 7.0);
+
+                let dayNumberSpan = document.createElement('span');
+                dayNumberSpan.innerText = d;
+                dayNumberSpan.style.fontWeight = "bold";
+                dayNumberSpan.style.fontSize = "13px";
+                dayDiv.appendChild(dayNumberSpan);
+
+                let lunarSubSpan = document.createElement('span');
+                lunarSubSpan.className = "lunar-sub-txt";
+                lunarSubSpan.innerText = lunar.day === 1 ? `${lunar.month}/${lunar.day}` : lunar.day;
+                dayDiv.appendChild(lunarSubSpan);
 
                 if (thisDate.toDateString() === today.toDateString()) dayDiv.classList.add('today');
                 if (thisDate.toDateString() === calSelectedDate.toDateString()) dayDiv.classList.add('selected');
@@ -1693,9 +1841,22 @@
         function updateSelectedDayInfo() {
             const dowNames = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
             let d = calSelectedDate.getDate(), m = calSelectedDate.getMonth() + 1, y = calSelectedDate.getFullYear();
-            document.getElementById('cal-selected-dow').innerText = dowNames[calSelectedDate.getDay()];
+            let dowStr = dowNames[calSelectedDate.getDay()];
+            
+            document.getElementById('cal-selected-dow').innerText = dowStr;
             document.getElementById('cal-selected-day').innerText = d;
-            document.getElementById('info-lunar-exact').innerText = `${d}/${m}/${y} (Bính Ngọ)`;
+
+            let lunar = convertSolar2Lunar(d, m, y, 7.0);
+            let jdn = jdFromDate(d, m, y);
+            let yearCC = getYearCanChi(lunar.year);
+            let monthCC = getMonthCanChi(lunar.month, lunar.year);
+            let dayCC = getDayCanChi(jdn);
+
+            document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG ${lunar.month}${lunar.leap ? ' (Nhuận)' : ''} NĂM ${yearCC.toUpperCase()}`;
+            document.getElementById('cal-selected-lunar-day').innerText = `Ngày ${dayCC} - Tháng ${monthCC}`;
+            document.getElementById('info-lunar-exact').innerText = `${lunar.day}/${lunar.month}/${lunar.year} (${yearCC})`;
+
+            document.getElementById('modal-event-date-lbl').innerText = `${d < 10 ? '0'+d : d}/${m < 10 ? '0'+m : m}/${y}`;
 
             let dateKey = `${y}-${m}-${d}`;
             let eventText = dayEventsMap[dateKey] || "Không có sự kiện";
@@ -1705,7 +1866,14 @@
         }
 
         function changeCalendarMonth(direction) { calViewDate.setMonth(calViewDate.getMonth() + direction); renderSmartCalendar(); }
-        function resetCalendarToToday() { calViewDate = new Date(); calSelectedDate = new Date(); renderSmartCalendar(); }
+        
+        function resetCalendarToToday() { 
+            todaySystemDate = new Date();
+            calViewDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), 1); 
+            calSelectedDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), todaySystemDate.getDate()); 
+            renderSmartCalendar(); 
+        }
+
         function openEventModal() { document.getElementById('eventModal').style.display = 'flex'; }
         function closeEventModal() { document.getElementById('eventModal').style.display = 'none'; }
         
@@ -1819,7 +1987,7 @@
             handleGlobalYearChange();
             updateLiveQRPreview();
             renderItAssetTable();
-            renderSmartCalendar();
+            resetCalendarToToday();
             calculateTaxPro();
         });
     </script>
