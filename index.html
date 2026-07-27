@@ -641,11 +641,11 @@
                             <div class="grid-form" style="margin-bottom: 8px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Người sử dụng <span style="color:var(--red);">*</span></label>
-                                    <input type="text" id="it-user" placeholder="Họ và tên..." style="border-color: #d8b4fe;" oninput="updateLiveQRPreview()">
+                                    <input type="text" id="it-user" value="Nguyễn Văn An" placeholder="Họ và tên..." style="border-color: #d8b4fe;" oninput="updateLiveQRPreview()">
                                 </div>
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Phòng ban/Bộ phận <span style="color:var(--red);">*</span></label>
-                                    <input type="text" id="it-dept" placeholder="Phòng ban..." style="border-color: #d8b4fe;" oninput="updateLiveQRPreview()">
+                                    <input type="text" id="it-dept" value="Phòng Kỹ thuật - Công nghệ" placeholder="Phòng ban..." style="border-color: #d8b4fe;" oninput="updateLiveQRPreview()">
                                 </div>
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Loại thiết bị</label>
@@ -668,7 +668,7 @@
                             <div class="grid-form" style="margin-bottom: 8px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Hệ điều hành</label>
-                                    <select id="it-os" style="border-color: #d8b4fe;">
+                                    <select id="it-os" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
                                         <option value="Windows 11 Pro" selected>Windows 11 Pro</option>
                                         <option value="Windows 11 Home">Windows 11 Home</option>
                                         <option value="Windows 10 Pro">Windows 10 Pro</option>
@@ -682,14 +682,14 @@
                                 </div>
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Bản quyền HĐH</label>
-                                    <select id="it-os-lic" style="border-color: #d8b4fe;">
+                                    <select id="it-os-lic" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
                                         <option value="Bản quyền chính hãng (OEM/Retail)" selected>Đã có bản quyền chính hãng</option>
                                         <option value="Chưa có bản quyền">⚠️ Chưa có bản quyền</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Bộ Microsoft Office</label>
-                                    <select id="it-office" style="border-color: #d8b4fe;">
+                                    <select id="it-office" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
                                         <option value="Microsoft 365 (M365) Business" selected>Microsoft 365 Business</option>
                                         <option value="Office Professional Plus 2024">Office Pro Plus 2024</option>
                                         <option value="Office Professional Plus 2021">Office Pro Plus 2021</option>
@@ -703,7 +703,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Bản quyền Office</label>
-                                    <select id="it-office-lic" style="border-color: #d8b4fe;">
+                                    <select id="it-office-lic" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
                                         <option value="Bản quyền doanh nghiệp" selected>Đã có bản quyền doanh nghiệp</option>
                                         <option value="Chưa có bản quyền">⚠️ Chưa có bản quyền</option>
                                     </select>
@@ -713,7 +713,7 @@
                             <div class="grid-form" style="margin-bottom: 8px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Phần mềm nghiệp vụ</label>
-                                    <select id="it-software" style="border-color: #d8b4fe;">
+                                    <select id="it-software" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
                                         <option value="ASIA ERP - Quản trị tổng thể" selected>ASIA ERP - Quản trị tổng thể</option>
                                         <option value="Quasoft - Quản lý kho/vật tư">Quasoft - Quản lý kho/vật tư</option>
                                         <option value="MISA AMIS / SME Kế toán">MISA AMIS / SME Kế toán</option>
@@ -722,7 +722,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Bản quyền Phần mềm</label>
-                                    <select id="it-soft-lic" style="border-color: #d8b4fe;">
+                                    <select id="it-soft-lic" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
                                         <option value="Bản quyền chính hãng" selected>Đã có bản quyền chính hãng</option>
                                         <option value="Chưa có bản quyền">⚠️ Chưa có bản quyền</option>
                                     </select>
@@ -757,15 +757,15 @@
                             <div style="font-weight: bold; color: var(--purple); font-size: 12.5px; text-align: center; border-bottom: 1px solid #e2e8f0; width: 100%; padding-bottom: 4px;"><i class="fa-solid fa-qrcode"></i> 📱 TEM QR TRỰC TIẾP</div>
                             <div style="text-align: center; width: 100%;">
                                 <div style="font-size: 11.5px; font-weight: bold; color: #0f172a; margin-bottom: 3px;">VINAPACO IT ASSET</div>
-                                <div style="display: flex; justify-content: center; margin: 4px 0; cursor: pointer;" onclick="openLargeQrModal('ASSET:' + document.getElementById('it-code').value + '; TYPE:' + document.getElementById('it-type').value + '; USER:' + (document.getElementById('it-user').value || 'Chua nhap') + '; DEPT:' + (document.getElementById('it-dept').value || 'Chua nhap') + '; OS:' + document.getElementById('it-os').value + '; OFFICE:' + document.getElementById('it-office').value, document.getElementById('it-code').value)">
+                                <div style="display: flex; justify-content: center; margin: 4px 0; cursor: pointer;" onclick="openLargeQrModalFromPreview()">
                                     <canvas id="live-qrcode-canvas"></canvas>
                                 </div>
                                 <div style="font-size: 10px; color: var(--blue); font-style: italic;">(Bấm vào mã QR để phóng to)</div>
                             </div>
                             <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 4px; padding: 5px; width: 100%; font-size: 10.5px; line-height: 1.25;">
                                 <div><b>Mã TS:</b> <span id="lbl-qr-code">--</span></div>
-                                <div><b>Người dùng:</b> <span id="lbl-qr-user" style="color:var(--red);">Chưa nhập</span></div>
-                                <div><b>Bộ phận:</b> <span id="lbl-qr-dept" style="color:var(--red);">Chưa nhập</span></div>
+                                <div><b>Người dùng:</b> <span id="lbl-qr-user" style="color:var(--primary);">Nguyễn Văn An</span></div>
+                                <div><b>Bộ phận:</b> <span id="lbl-qr-dept" style="color:var(--primary);">Phòng Kỹ thuật - Công nghệ</span></div>
                             </div>
                         </div>
                     </div>
@@ -1665,10 +1665,23 @@
             updateLiveQRPreview();
         }
 
+        function getStructuredQrText(code, type, user, dept, os, office) {
+            let cleanCode = code || "IT-TS-2026";
+            let cleanType = type || "Thiet bi";
+            let cleanUser = user || "Chua ro";
+            let cleanDept = dept || "Chua ro";
+            let cleanOs = os || "Win";
+            let cleanOffice = office || "Office";
+            return `VINAPACO-ASSET|MaTS:${cleanCode}|Loai:${cleanType}|NguoiDung:${cleanUser}|PhongBan:${cleanDept}|OS:${cleanOs}|Office:${cleanOffice}`;
+        }
+
         function updateLiveQRPreview() {
             let user = document.getElementById('it-user').value.trim();
             let dept = document.getElementById('it-dept').value.trim();
             let code = document.getElementById('it-code').value.trim() || "IT-LAP-2026-000";
+            let type = document.getElementById('it-type').value;
+            let os = document.getElementById('it-os').value;
+            let office = document.getElementById('it-office').value;
             
             document.getElementById('lbl-qr-code').innerText = code;
             let userLbl = document.getElementById('lbl-qr-user');
@@ -1680,7 +1693,7 @@
             if(dept) { deptLbl.innerText = dept; deptLbl.style.color = "var(--primary)"; }
             else { deptLbl.innerText = "Chưa nhập"; deptLbl.style.color = "var(--red)"; }
 
-            let qrContent = `ASSET:${code}; TYPE:${document.getElementById('it-type').value}; USER:${user || 'Chua nhap'}; DEPT:${dept || 'Chua nhap'}; OS:${document.getElementById('it-os').value}; OFFICE:${document.getElementById('it-office').value}`;
+            let qrContent = getStructuredQrText(code, type, user, dept, os, office);
 
             try {
                 new QRious({
@@ -1691,6 +1704,21 @@
             } catch (e) {
                 console.error("QR Error:", e);
             }
+        }
+
+        function openLargeQrModalFromPreview() {
+            let user = document.getElementById('it-user').value.trim();
+            let dept = document.getElementById('it-dept').value.trim();
+            if(!user || !dept) {
+                alert("⚠️ Vui lòng nhập đầy đủ Người sử dụng và Phòng ban để tạo mã QR chuẩn xác!");
+                return;
+            }
+            let code = document.getElementById('it-code').value.trim();
+            let type = document.getElementById('it-type').value;
+            let os = document.getElementById('it-os').value;
+            let office = document.getElementById('it-office').value;
+            let qrText = getStructuredQrText(code, type, user, dept, os, office);
+            openLargeQrModal(qrText, code);
         }
 
         function openLargeQrModal(qrText, codeVal) {
@@ -1855,7 +1883,7 @@
             const tbody = document.getElementById('tbody-it-assets'); tbody.innerHTML = "";
             filteredRecords.forEach((rec, idx) => {
                 let canvasId = `qr-canvas-${CURRENT_SELECTED_YEAR}-${idx}`;
-                let qrTextStr = `ASSET:${rec.code}; TYPE:${rec.type}; USER:${rec.user}; DEPT:${rec.dept}; OS:${rec.os}; OFFICE:${rec.office}`;
+                let qrTextStr = getStructuredQrText(rec.code, rec.type, rec.user, rec.dept, rec.os, rec.office);
                 
                 tbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${idx + 1}</td>
@@ -1886,7 +1914,7 @@
                         try {
                             new QRious({
                                 element: canvasEl,
-                                value: `ASSET:${rec.code}; TYPE:${rec.type}; USER:${rec.user}; DEPT:${rec.dept}; OS:${rec.os}; OFFICE:${rec.office}`,
+                                value: getStructuredQrText(rec.code, rec.type, rec.user, rec.dept, rec.os, rec.office),
                                 size: 48
                             });
                         } catch (e) {
