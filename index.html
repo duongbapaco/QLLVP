@@ -637,6 +637,7 @@
                     </div>
                     <div style="display: grid; grid-template-columns: 1fr 280px; gap: 12px; background: #faf5ff; border: 1.5px solid #d8b4fe; padding: 12px; border-radius: 6px; margin-bottom: 12px; align-items: start;">
                         <div>
+                            <input type="hidden" id="edit-it-index" value="-1">
                             <div class="grid-form" style="margin-bottom: 8px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Người sử dụng</label>
@@ -746,8 +747,9 @@
                                 </div>
                             </div>
                             <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-                                <button type="button" class="btn btn-purple" onclick="addNewItAssetRecord()"><i class="fa-solid fa-qrcode"></i> Lưu Tài Sản & Tạo QR</button>
-                                <button type="button" class="btn btn-gray" onclick="clearItAssetForm()"><i class="fa-solid fa-xmark"></i> Hủy</button>
+                                <button type="button" class="btn btn-gray" id="btn-cancel-edit-it" style="display:none;" onclick="cancelEditItAsset()"><i class="fa-solid fa-xmark"></i> Hủy</button>
+                                <button type="button" class="btn btn-purple" id="btn-save-it" onclick="addNewItAssetRecord()"><i class="fa-solid fa-qrcode"></i> Lưu Tài Sản & Tạo QR</button>
+                                <button type="button" class="btn btn-gray" onclick="clearItAssetForm()"><i class="fa-solid fa-rotate-left"></i> Làm mới</button>
                             </div>
                         </div>
 
@@ -1653,6 +1655,7 @@
         }
 
         function addNewItAssetRecord() {
+            let editIndex = parseInt(document.getElementById('edit-it-index').value);
             let user = document.getElementById('it-user').value.trim();
             let dept = document.getElementById('it-dept').value.trim();
             let type = document.getElementById('it-type').value;
@@ -1665,12 +1668,68 @@
             if (!code || !user || !dept) { alert("Nhập đầy đủ Mã tài sản, Người sử dụng và Phòng ban!"); return; }
             if (!itAssetRecordsByYear[CURRENT_SELECTED_YEAR]) itAssetRecordsByYear[CURRENT_SELECTED_YEAR] = [];
             
-            itAssetRecordsByYear[CURRENT_SELECTED_YEAR].push({ user, dept, type, code, os, osLic, office, officeLic, software, softLic, specs, dateVal, status });
+            let recordObj = { user, dept, type, code, os, osLic, office, officeLic, software, softLic, specs, dateVal, status };
+
+            if (editIndex >= 0) {
+                let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR];
+                let filterDept = document.getElementById('filter-dept-select').value;
+                if (filterDept !== "ALL") {
+                    let filtered = records.filter(r => r.dept === filterDept);
+                    let targetRec = filtered[editIndex];
+                    let realIdx = records.indexOf(targetRec);
+                    if (realIdx > -1) records[realIdx] = recordObj;
+                } else {
+                    records[editIndex] = recordObj;
+                }
+                cancelEditItAsset();
+            } else {
+                itAssetRecordsByYear[CURRENT_SELECTED_YEAR].push(recordObj);
+                clearItAssetForm();
+            }
+
             localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
             updateDeptFilterDropdown();
             renderItAssetTable(); 
-            generateNewItCode();
             document.getElementById('status-cntt').innerText = "✅ Lưu thiết bị thành công!";
+        }
+
+        function editItAssetRecord(idx) {
+            let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
+            let filterDept = document.getElementById('filter-dept-select').value;
+            let targetRecords = records;
+            if (filterDept !== "ALL") {
+                targetRecords = records.filter(r => r.dept === filterDept);
+            }
+            let rec = targetRecords[idx];
+            if (!rec) return;
+
+            let realIdx = records.indexOf(rec);
+            document.getElementById('edit-it-index').value = realIdx;
+            document.getElementById('it-user').value = rec.user || "";
+            document.getElementById('it-dept').value = rec.dept || "";
+            document.getElementById('it-type').value = rec.type || "Laptop Doanh Nghiệp";
+            document.getElementById('it-code').value = rec.code || "";
+            document.getElementById('it-os').value = rec.os || "Windows 11 Pro";
+            document.getElementById('it-os-lic').value = rec.osLic || "Bản quyền chính hãng (OEM/Retail)";
+            document.getElementById('it-office').value = rec.office || "Microsoft 365 (M365) Business";
+            document.getElementById('it-office-lic').value = rec.officeLic || "Bản quyền doanh nghiệp";
+            document.getElementById('it-software').value = rec.software || "ASIA ERP - Quản trị tổng thể";
+            document.getElementById('it-soft-lic').value = rec.softLic || "Bản quyền chính hãng";
+            document.getElementById('it-specs').value = rec.specs || "";
+            document.getElementById('it-date').value = rec.dateVal || "";
+            document.getElementById('it-status').value = rec.status || "Tốt - Đang sử dụng";
+
+            updateLiveQRPreview();
+            document.getElementById('btn-save-it').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Cập Nhật Tài Sản`;
+            document.getElementById('btn-cancel-edit-it').style.display = "inline-flex";
+            window.scrollTo({ top: 200, behavior: 'smooth' });
+        }
+
+        function cancelEditItAsset() {
+            document.getElementById('edit-it-index').value = "-1";
+            clearItAssetForm();
+            document.getElementById('btn-save-it').innerHTML = `<i class="fa-solid fa-qrcode"></i> Lưu Tài Sản & Tạo QR`;
+            document.getElementById('btn-cancel-edit-it').style.display = "none";
         }
 
         function clearItAssetForm() { 
@@ -1718,14 +1777,25 @@
                     <td>${rec.dept}</td>
                     <td class="text-center">${rec.dateVal || '-'}</td>
                     <td><span style="color:var(--green); font-weight:bold;">${rec.status}</span></td>
-                    <td class="text-center"><div id="${qrId}"></div></td>
-                    <td class="text-center"><button type="button" class="btn-delete" onclick="deleteItAssetRecord(${idx})"><i class="fa-solid fa-trash"></i></button></td>
+                    <td class="text-center"><div id="${qrId}" style="display:inline-block; padding:2px; background:#fff;"></div></td>
+                    <td class="text-center">
+                        <button type="button" class="btn-edit" onclick="editItAssetRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button type="button" class="btn-delete" onclick="deleteItAssetRecord(${idx})"><i class="fa-solid fa-trash"></i></button>
+                    </td>
                 </tr>`;
             });
-            filteredRecords.forEach((rec, idx) => {
-                let el = document.getElementById(`qr-table-${CURRENT_SELECTED_YEAR}-${idx}`);
-                if (el && el.innerHTML === "") { new QRCode(el, { text: `Mã TS: ${rec.code} | User: ${rec.user}`, width: 40, height: 40 }); }
-            });
+            
+            // Render QR codes safely after elements exist in DOM
+            setTimeout(() => {
+                filteredRecords.forEach((rec, idx) => {
+                    let el = document.getElementById(`qr-table-${CURRENT_SELECTED_YEAR}-${idx}`);
+                    if (el) {
+                        el.innerHTML = "";
+                        new QRCode(el, { text: `Mã TS: ${rec.code} | User: ${rec.user} | Dept: ${rec.dept}`, width: 45, height: 45 });
+                    }
+                });
+            }, 50);
+
             document.getElementById('it-total-count').innerText = `Tổng: ${filteredRecords.length} Thiết bị`;
             document.getElementById('dash-total-it-devices').innerText = `${records.length} Thiết bị`;
         }
