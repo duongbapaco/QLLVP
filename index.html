@@ -451,7 +451,7 @@
                             <div class="form-group">
                                 <label><i class="fa-solid fa-calendar-days" style="color:var(--green);"></i> Thời gian:</label>
                                 <div style="position:relative;">
-                                    <input type="text" id="pay-date-time" value="26/07/2026" readonly onclick="togglePicker('payment-date-popup')" style="cursor:pointer; background:#ffffff; font-weight:bold; color:var(--green);">
+                                    <input type="text" id="pay-date-time" value="27/07/2026" readonly onclick="togglePicker('payment-date-popup')" style="cursor:pointer; background:#ffffff; font-weight:bold; color:var(--green);">
                                     <div id="payment-date-popup" class="custom-popup-calendar"></div>
                                 </div>
                             </div>
@@ -648,16 +648,19 @@
                                 </div>
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Loại thiết bị</label>
-                                    <select id="it-type" style="border-color: #d8b4fe;">
-                                        <option value="Laptop Doanh Nghiệp">Laptop Doanh Nghiệp</option>
+                                    <select id="it-type" style="border-color: #d8b4fe;" onchange="generateNewItCode()">
+                                        <option value="Laptop Doanh Nghiệp" selected>Laptop Doanh Nghiệp</option>
                                         <option value="Máy tính để bàn (PC)">Máy tính để bàn (PC)</option>
                                         <option value="Máy in / Máy photocopy">Máy in / Máy photocopy</option>
                                         <option value="Thiết bị mạng">Thiết bị mạng</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label style="color: #6d28d9;">Mã định danh</label>
-                                    <input type="text" id="it-code" value="IT-LAP-2026-243" style="border-color: #d8b4fe;" oninput="updateLiveQRPreview()">
+                                    <label style="color: #6d28d9; display:flex; justify-content:space-between; align-items:center;">
+                                        <span>Mã định danh (Tự sinh)</span>
+                                        <button type="button" onclick="generateNewItCode()" style="background:none; border:none; color:var(--purple); cursor:pointer; font-size:11px; font-weight:bold;"><i class="fa-solid fa-rotate"></i> Tạo mới</button>
+                                    </label>
+                                    <input type="text" id="it-code" readonly style="border-color: #d8b4fe; background:#f3e8ff; font-weight:bold; color:var(--purple);" oninput="updateLiveQRPreview()">
                                 </div>
                             </div>
                             
@@ -745,7 +748,7 @@
                                 <div id="live-qrcode-box" style="display: flex; justify-content: center; margin: 4px 0;"></div>
                             </div>
                             <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 4px; padding: 5px; width: 100%; font-size: 10.5px; line-height: 1.25;">
-                                <div><b>Mã TS:</b> <span id="lbl-qr-code">IT-LAP-2026-243</span></div>
+                                <div><b>Mã TS:</b> <span id="lbl-qr-code">--</span></div>
                                 <div><b>Người dùng:</b> <span id="lbl-qr-user">Chưa nhập</span></div>
                                 <div><b>Bộ phận:</b> <span id="lbl-qr-dept">Chưa nhập</span></div>
                             </div>
@@ -1602,10 +1605,23 @@
         }
         function deleteTelecomRecord(idx) { let sm = document.getElementById('filter-month').value; telecomRecordsByMonth[sm].splice(idx, 1); localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth)); renderTelecomTable(); }
 
+        function generateNewItCode() {
+            let typeVal = document.getElementById('it-type').value;
+            let prefix = "IT-LAP";
+            if (typeVal.includes("Máy tính để bàn")) prefix = "IT-PC";
+            else if (typeVal.includes("Máy in")) prefix = "IT-PRN";
+            else if (typeVal.includes("Thiết bị mạng")) prefix = "IT-NET";
+
+            let randomNum = Math.floor(100 + Math.random() * 900);
+            let code = `${prefix}-${CURRENT_SELECTED_YEAR}-${randomNum}`;
+            document.getElementById('it-code').value = code;
+            updateLiveQRPreview();
+        }
+
         function updateLiveQRPreview() {
             let user = document.getElementById('it-user').value.trim() || "Chưa nhập";
             let dept = document.getElementById('it-dept').value.trim() || "Chưa nhập";
-            let code = document.getElementById('it-code').value.trim() || "IT-LAP-2026-243";
+            let code = document.getElementById('it-code').value.trim() || "IT-LAP-2026-000";
             document.getElementById('lbl-qr-code').innerText = code;
             document.getElementById('lbl-qr-user').innerText = user;
             document.getElementById('lbl-qr-dept').innerText = dept;
@@ -1629,12 +1645,13 @@
             itAssetRecordsByYear[CURRENT_SELECTED_YEAR].push({ user, dept, type, code, os, osLic, office, officeLic, software, softLic, specs, dateVal, status });
             localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
             renderItAssetTable(); 
+            generateNewItCode();
             document.getElementById('status-cntt').innerText = "✅ Lưu thiết bị thành công!";
         }
 
         function clearItAssetForm() { 
             document.getElementById('it-user').value = ""; document.getElementById('it-dept').value = ""; 
-            document.getElementById('it-code').value = "IT-LAP-2026-" + Math.floor(100 + Math.random() * 900); 
+            generateNewItCode();
             document.getElementById('it-date').value = ""; updateLiveQRPreview(); 
         }
 
@@ -1985,7 +2002,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             setInterval(() => { document.getElementById('live-system-clock').innerText = new Date().toLocaleString('vi-VN'); }, 1000);
             handleGlobalYearChange();
-            updateLiveQRPreview();
+            generateNewItCode();
             renderItAssetTable();
             resetCalendarToToday();
             calculateTaxPro();
