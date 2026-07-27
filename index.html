@@ -640,11 +640,11 @@
                             <input type="hidden" id="edit-it-index" value="-1">
                             <div class="grid-form" style="margin-bottom: 8px;">
                                 <div class="form-group">
-                                    <label style="color: #6d28d9;">Người sử dụng</label>
+                                    <label style="color: #6d28d9;">Người sử dụng <span style="color:var(--red);">*</span></label>
                                     <input type="text" id="it-user" placeholder="Họ và tên..." style="border-color: #d8b4fe;" oninput="updateLiveQRPreview()">
                                 </div>
                                 <div class="form-group">
-                                    <label style="color: #6d28d9;">Phòng ban/Bộ phận</label>
+                                    <label style="color: #6d28d9;">Phòng ban/Bộ phận <span style="color:var(--red);">*</span></label>
                                     <input type="text" id="it-dept" placeholder="Phòng ban..." style="border-color: #d8b4fe;" oninput="updateLiveQRPreview()">
                                 </div>
                                 <div class="form-group">
@@ -757,15 +757,15 @@
                             <div style="font-weight: bold; color: var(--purple); font-size: 12.5px; text-align: center; border-bottom: 1px solid #e2e8f0; width: 100%; padding-bottom: 4px;"><i class="fa-solid fa-qrcode"></i> 📱 TEM QR TRỰC TIẾP</div>
                             <div style="text-align: center; width: 100%;">
                                 <div style="font-size: 11.5px; font-weight: bold; color: #0f172a; margin-bottom: 3px;">VINAPACO IT ASSET</div>
-                                <div style="display: flex; justify-content: center; margin: 4px 0; cursor: pointer;" onclick="openLargeQrModal('ASSET: ' + document.getElementById('it-code').value + ' | USER: ' + document.getElementById('it-user').value + ' | DEPT: ' + document.getElementById('it-dept').value, document.getElementById('it-code').value)">
+                                <div style="display: flex; justify-content: center; margin: 4px 0; cursor: pointer;" onclick="openLargeQrModal('ASSET:' + document.getElementById('it-code').value + '; TYPE:' + document.getElementById('it-type').value + '; USER:' + (document.getElementById('it-user').value || 'Chua nhap') + '; DEPT:' + (document.getElementById('it-dept').value || 'Chua nhap') + '; OS:' + document.getElementById('it-os').value + '; OFFICE:' + document.getElementById('it-office').value, document.getElementById('it-code').value)">
                                     <canvas id="live-qrcode-canvas"></canvas>
                                 </div>
                                 <div style="font-size: 10px; color: var(--blue); font-style: italic;">(Bấm vào mã QR để phóng to)</div>
                             </div>
                             <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 4px; padding: 5px; width: 100%; font-size: 10.5px; line-height: 1.25;">
                                 <div><b>Mã TS:</b> <span id="lbl-qr-code">--</span></div>
-                                <div><b>Người dùng:</b> <span id="lbl-qr-user">Chưa nhập</span></div>
-                                <div><b>Bộ phận:</b> <span id="lbl-qr-dept">Chưa nhập</span></div>
+                                <div><b>Người dùng:</b> <span id="lbl-qr-user" style="color:var(--red);">Chưa nhập</span></div>
+                                <div><b>Bộ phận:</b> <span id="lbl-qr-dept" style="color:var(--red);">Chưa nhập</span></div>
                             </div>
                         </div>
                     </div>
@@ -1666,17 +1666,26 @@
         }
 
         function updateLiveQRPreview() {
-            let user = document.getElementById('it-user').value.trim() || "Chưa nhập";
-            let dept = document.getElementById('it-dept').value.trim() || "Chưa nhập";
+            let user = document.getElementById('it-user').value.trim();
+            let dept = document.getElementById('it-dept').value.trim();
             let code = document.getElementById('it-code').value.trim() || "IT-LAP-2026-000";
+            
             document.getElementById('lbl-qr-code').innerText = code;
-            document.getElementById('lbl-qr-user').innerText = user;
-            document.getElementById('lbl-qr-dept').innerText = dept;
+            let userLbl = document.getElementById('lbl-qr-user');
+            let deptLbl = document.getElementById('lbl-qr-dept');
+
+            if(user) { userLbl.innerText = user; userLbl.style.color = "var(--primary)"; }
+            else { userLbl.innerText = "Chưa nhập"; userLbl.style.color = "var(--red)"; }
+
+            if(dept) { deptLbl.innerText = dept; deptLbl.style.color = "var(--primary)"; }
+            else { deptLbl.innerText = "Chưa nhập"; deptLbl.style.color = "var(--red)"; }
+
+            let qrContent = `ASSET:${code}; TYPE:${document.getElementById('it-type').value}; USER:${user || 'Chua nhap'}; DEPT:${dept || 'Chua nhap'}; OS:${document.getElementById('it-os').value}; OFFICE:${document.getElementById('it-office').value}`;
 
             try {
                 new QRious({
                     element: document.getElementById('live-qrcode-canvas'),
-                    value: `ASSET: ${code} | USER: ${user} | DEPT: ${dept}`,
+                    value: qrContent,
                     size: 90
                 });
             } catch (e) {
@@ -1746,7 +1755,7 @@
             let software = document.getElementById('it-software').value, softLic = document.getElementById('it-soft-lic').value;
             let specs = document.getElementById('it-specs').value.trim(), dateVal = document.getElementById('it-date').value, status = document.getElementById('it-status').value;
 
-            if (!code || !user || !dept) { alert("Nhập đầy đủ Mã tài sản, Người sử dụng và Phòng ban!"); return; }
+            if (!code || !user || !dept) { alert("⚠️ Vui lòng nhập đầy đủ Người sử dụng và Phòng ban để tạo mã QR chuẩn xác phục vụ kiểm kê!"); return; }
             if (!itAssetRecordsByYear[CURRENT_SELECTED_YEAR]) itAssetRecordsByYear[CURRENT_SELECTED_YEAR] = [];
             
             let recordObj = { user, dept, type, code, os, osLic, office, officeLic, software, softLic, specs, dateVal, status };
@@ -1846,7 +1855,7 @@
             const tbody = document.getElementById('tbody-it-assets'); tbody.innerHTML = "";
             filteredRecords.forEach((rec, idx) => {
                 let canvasId = `qr-canvas-${CURRENT_SELECTED_YEAR}-${idx}`;
-                let qrTextStr = `ASSET: ${rec.code} | USER: ${rec.user} | DEPT: ${rec.dept}`;
+                let qrTextStr = `ASSET:${rec.code}; TYPE:${rec.type}; USER:${rec.user}; DEPT:${rec.dept}; OS:${rec.os}; OFFICE:${rec.office}`;
                 
                 tbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${idx + 1}</td>
@@ -1877,7 +1886,7 @@
                         try {
                             new QRious({
                                 element: canvasEl,
-                                value: `ASSET: ${rec.code} | USER: ${rec.user} | DEPT: ${rec.dept}`,
+                                value: `ASSET:${rec.code}; TYPE:${rec.type}; USER:${rec.user}; DEPT:${rec.dept}; OS:${rec.os}; OFFICE:${rec.office}`,
                                 size: 48
                             });
                         } catch (e) {
