@@ -757,7 +757,7 @@
                             <div style="font-weight: bold; color: var(--purple); font-size: 12.5px; text-align: center; border-bottom: 1px solid #e2e8f0; width: 100%; padding-bottom: 4px;"><i class="fa-solid fa-qrcode"></i> 📱 TEM QR TRỰC TIẾP</div>
                             <div style="text-align: center; width: 100%;">
                                 <div style="font-size: 11.5px; font-weight: bold; color: #0f172a; margin-bottom: 3px;">VINAPACO IT ASSET</div>
-                                <div style="display: flex; justify-content: center; margin: 4px 0; cursor: pointer;" onclick="openLargeQrModal('Mã TS: ' + document.getElementById('it-code').value + ' | User: ' + document.getElementById('it-user').value + ' | Dept: ' + document.getElementById('it-dept').value, document.getElementById('it-code').value)">
+                                <div style="display: flex; justify-content: center; margin: 4px 0; cursor: pointer;" onclick="openLargeQrModal('ASSET: ' + document.getElementById('it-code').value + ' | USER: ' + document.getElementById('it-user').value + ' | DEPT: ' + document.getElementById('it-dept').value, document.getElementById('it-code').value)">
                                     <canvas id="live-qrcode-canvas"></canvas>
                                 </div>
                                 <div style="font-size: 10px; color: var(--blue); font-style: italic;">(Bấm vào mã QR để phóng to)</div>
@@ -1676,7 +1676,7 @@
             try {
                 new QRious({
                     element: document.getElementById('live-qrcode-canvas'),
-                    value: `Mã TS: ${code} | User: ${user} | Dept: ${dept}`,
+                    value: `ASSET: ${code} | USER: ${user} | DEPT: ${dept}`,
                     size: 90
                 });
             } catch (e) {
@@ -1846,7 +1846,7 @@
             const tbody = document.getElementById('tbody-it-assets'); tbody.innerHTML = "";
             filteredRecords.forEach((rec, idx) => {
                 let canvasId = `qr-canvas-${CURRENT_SELECTED_YEAR}-${idx}`;
-                let qrTextStr = `Mã TS: ${rec.code} | User: ${rec.user} | Dept: ${rec.dept}`;
+                let qrTextStr = `ASSET: ${rec.code} | USER: ${rec.user} | DEPT: ${rec.dept}`;
                 
                 tbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${idx + 1}</td>
@@ -1877,7 +1877,7 @@
                         try {
                             new QRious({
                                 element: canvasEl,
-                                value: `Mã TS: ${rec.code} | User: ${rec.user} | Dept: ${rec.dept}`,
+                                value: `ASSET: ${rec.code} | USER: ${rec.user} | DEPT: ${rec.dept}`,
                                 size: 48
                             });
                         } catch (e) {
