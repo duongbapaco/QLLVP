@@ -23,24 +23,24 @@
             --text-main: #000000;
             --bg-light: #f1f5f9;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Times New Roman', Times, serif; font-size: 14px; margin: 0; padding: 10px; background: var(--bg-light); color: var(--text-main); font-weight: 500; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: rgba(0,0,0,0.2); }
+        body { font-family: 'Times New Roman', Times, serif; font-size: 14px; margin: 0; padding: 8px; background: var(--bg-light); color: var(--text-main); font-weight: 500; }
         
-        .workspace { display: grid; grid-template-columns: 1fr 390px; gap: 15px; align-items: start; transition: all 0.3s ease; }
+        .workspace { display: grid; grid-template-columns: 1fr 390px; gap: 12px; align-items: start; transition: all 0.3s ease; }
         .workspace.calendar-hidden { grid-template-columns: 1fr !important; }
         @media (max-width: 1200px) { .workspace { grid-template-columns: 1fr; } }
 
-        .db-status-bar { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: #cbd5e1; border-bottom: 2px solid var(--border-color); font-size: 13px; font-weight: bold; border-radius: 4px; margin-bottom: 10px; flex-wrap: wrap; gap: 8px; }
+        .db-status-bar { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: #cbd5e1; border-bottom: 2px solid var(--border-color); font-size: 13px; font-weight: bold; border-radius: 4px; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
         .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; background-color: var(--green); }
         
         .year-selector-box { display: flex; align-items: center; gap: 6px; background: #ffffff; padding: 4px 10px; border-radius: 4px; border: 2px solid var(--blue); color: var(--blue); font-size: 13px; }
         .year-selector-box select { border: none; font-weight: bold; color: var(--blue); outline: none; background: transparent; font-size: 13px; cursor: pointer; font-family: 'Times New Roman', Times, serif; }
 
-        .header { display: flex; justify-content: space-between; align-items: center; background: #0f172a; color: white; padding: 10px 15px; border-radius: 4px; margin-bottom: 10px; flex-wrap: wrap; gap: 8px; }
-        .header h1 { font-size: 16px; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; }
+        .header { display: flex; justify-content: space-between; align-items: center; background: #0f172a; color: white; padding: 10px 15px; border-radius: 4px; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
+        .header h1 { font-size: 15px; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; }
         .live-clock-box { background: rgba(255,255,255,0.15); padding: 5px 10px; border-radius: 4px; font-family: monospace; font-size: 12px; text-align: right; border: 1px solid rgba(255,255,255,0.3); font-weight: bold; color: #fef08a; }
 
-        .stat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 10px; }
+        .stat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 8px; }
         @media (max-width: 1200px) { .stat-grid { grid-template-columns: repeat(3, 1fr); } }
         @media (max-width: 768px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 480px) { .stat-grid { grid-template-columns: 1fr; } }
@@ -55,16 +55,16 @@
         .stat-value { font-size: 14px; font-weight: 800; color: var(--primary); margin-top: 2px; white-space: nowrap; }
         .stat-icon { font-size: 18px; opacity: 0.4; flex-shrink: 0; }
 
-        .salary-visual-summary { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 0 auto 12px auto; max-width: 100%; background: #ffffff; padding: 10px; border-radius: 8px; border: 2px solid #cbd5e1; box-shadow: 0 2px 5px rgba(0,0,0,0.06); flex-wrap: wrap; }
-        .visual-mini-card { flex: 1; min-width: 160px; background: #f8fafc; padding: 8px 12px; border-radius: 6px; border: 1.5px solid #cbd5e1; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-        .visual-lbl { font-size: 11.5px; font-weight: bold; color: #0f172a; white-space: nowrap; display: flex; align-items: center; }
-        .visual-val { font-size: 15px; font-weight: 800; color: var(--primary); white-space: nowrap; }
+        .salary-visual-summary { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin: 0 auto 10px auto; max-width: 100%; background: #ffffff; padding: 10px; border-radius: 8px; border: 2px solid #cbd5e1; box-shadow: 0 2px 5px rgba(0,0,0,0.06); flex-wrap: wrap; }
+        .visual-mini-card { flex: 1; min-width: 150px; background: #f8fafc; padding: 8px 12px; border-radius: 6px; border: 1.5px solid #cbd5e1; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+        .visual-lbl { font-size: 11px; font-weight: bold; color: #0f172a; white-space: nowrap; display: flex; align-items: center; }
+        .visual-val { font-size: 14.5px; font-weight: 800; color: var(--primary); white-space: nowrap; }
 
-        .config-toolbar-container { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1.5px solid #cbd5e1; }
+        .config-toolbar-container { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; flex-wrap: wrap; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1.5px solid #cbd5e1; }
         .config-inputs-group { display: flex; align-items: flex-end; gap: 8px; flex-wrap: wrap; flex: 1; }
         .config-inputs-group .form-group { flex: 1; min-width: 120px; }
 
-        .nav-tabs { display: flex; gap: 4px; margin-bottom: 10px; border-bottom: 2px solid #64748b; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
+        .nav-tabs { display: flex; gap: 4px; margin-bottom: 8px; border-bottom: 2px solid #64748b; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
         .nav-tabs::-webkit-scrollbar { height: 4px; }
         .nav-tabs::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 2px; }
         .nav-tabs .nav-tab { padding: 8px 14px; border: 1.5px solid #cbd5e1; border-bottom: none; background: #e2e8f0; font-weight: bold; color: #0f172a; cursor: pointer; font-size: 13.5px; border-radius: 5px 5px 0 0; white-space: nowrap; font-family: 'Times New Roman', Times, serif; }
@@ -73,59 +73,59 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         
-        .main-card { background: white; border-radius: 6px; padding: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); margin-bottom: 10px; border: 1.5px solid #cbd5e1; }
-        .card-title { font-size: 15px; font-weight: bold; color: var(--primary); margin-bottom: 10px; border-left: 5px solid var(--blue); padding-left: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .main-card { background: white; border-radius: 6px; padding: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); margin-bottom: 10px; border: 1.5px solid #cbd5e1; }
+        .card-title { font-size: 14.5px; font-weight: bold; color: var(--primary); margin-bottom: 8px; border-left: 5px solid var(--blue); padding-left: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
         
-        .grid-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-bottom: 8px; }
+        .grid-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-bottom: 8px; }
         
         .form-group { display: flex; flex-direction: column; gap: 3px; position: relative; }
-        .form-group label { font-weight: bold; color: #000000; font-size: 12.5px; white-space: nowrap; }
-        .form-group input, .form-group select { padding: 7px 10px; border: 1.5px solid #475569; border-radius: 4px; font-size: 14px; font-weight: bold; outline: none; background: #fff; color: #000; width: 100%; font-family: 'Times New Roman', Times, serif; }
+        .form-group label { font-weight: bold; color: #000000; font-size: 12px; white-space: nowrap; }
+        .form-group input, .form-group select { padding: 8px 10px; border: 1.5px solid #475569; border-radius: 4px; font-size: 14px; font-weight: bold; outline: none; background: #fff; color: #000; width: 100%; font-family: 'Times New Roman', Times, serif; }
 
-        .btn { padding: 7px 14px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-size: 13px; font-family: 'Times New Roman', Times, serif; min-height: 36px; }
+        .btn { padding: 8px 14px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-size: 13px; font-family: 'Times New Roman', Times, serif; min-height: 40px; touch-action: manipulation; }
         .btn-primary { background: var(--blue); color: white; }
         .btn-purple { background: var(--purple); color: white; }
         .btn-green { background: var(--green); color: white; }
         .btn-orange { background: var(--orange); color: white; }
         .btn-gray { background: #475569; color: white; }
-        .btn-delete { background: #fef2f2; color: #b91c1c; border: 1.5px solid #fca5a5; padding: 4px 8px; font-size: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; min-height: 30px; }
-        .btn-edit { background: #eff6ff; color: #1d4ed8; border: 1.5px solid #93c5fd; padding: 4px 8px; font-size: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 4px; min-height: 30px; }
+        .btn-delete { background: #fef2f2; color: #b91c1c; border: 1.5px solid #fca5a5; padding: 6px 10px; font-size: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; min-height: 34px; touch-action: manipulation; }
+        .btn-edit { background: #eff6ff; color: #1d4ed8; border: 1.5px solid #93c5fd; padding: 6px 10px; font-size: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 4px; min-height: 34px; touch-action: manipulation; }
         
-        .btn-drive-link { display: inline-flex; align-items: center; gap: 5px; background: #e0f2fe; color: #0369a1; border: 1.5px solid #7dd3fc; padding: 5px 10px; font-size: 12px; border-radius: 4px; font-weight: bold; text-decoration: none; cursor: pointer; white-space: nowrap; min-height: 32px; }
+        .btn-drive-link { display: inline-flex; align-items: center; gap: 5px; background: #e0f2fe; color: #0369a1; border: 1.5px solid #7dd3fc; padding: 6px 10px; font-size: 12px; border-radius: 4px; font-weight: bold; text-decoration: none; cursor: pointer; white-space: nowrap; min-height: 36px; touch-action: manipulation; }
 
         .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 8px; width: 100%; border: 1.5px solid #475569; border-radius: 4px; background: #fff; }
         .main-table { width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap; font-size: 13.5px; color: #000000; }
-        .main-table th { background: #cbd5e1; color: #000000; padding: 7px 6px; border: 1px solid #475569; font-weight: bold; text-align: center; }
-        .main-table td { padding: 5px 6px; border: 1px solid #64748b; vertical-align: middle; font-weight: 600; }
+        .main-table th { background: #cbd5e1; color: #000000; padding: 8px 6px; border: 1px solid #475569; font-weight: bold; text-align: center; }
+        .main-table td { padding: 6px; border: 1px solid #64748b; vertical-align: middle; font-weight: 600; }
         .main-table tbody tr:nth-child(even) { background-color: #f8fafc; }
         
         .text-right { text-align: right; }
         .text-center { text-align: center; }
         .font-bold { font-weight: bold; }
         
-        .inp-table { width: 100%; padding: 5px 6px; border: 1.5px solid #475569; border-radius: 4px; font-size: 13.5px; font-weight: 700; outline: none; background: #ffffff; color: #000000; font-family: 'Times New Roman', Times, serif; min-height: 34px; }
+        .inp-table { width: 100%; padding: 6px; border: 1.5px solid #475569; border-radius: 4px; font-size: 13.5px; font-weight: 700; outline: none; background: #ffffff; color: #000000; font-family: 'Times New Roman', Times, serif; min-height: 36px; }
         .inp-table:focus { border-color: var(--blue); background-color: #eff6ff; }
-        .inp-table.inp-name { min-width: 200px; text-align: left; font-weight: 700; color: #0f172a; }
+        .inp-table.inp-name { min-width: 190px; text-align: left; font-weight: 700; color: #0f172a; }
         .inp-table.inp-account { min-width: 120px; text-align: center; font-weight: 700; }
         .inp-table.inp-num-day { min-width: 50px; width: 55px; font-weight: 800; background-color: #fef9c3; text-align: center; color: #000; }
         .inp-table.inp-currency { min-width: 100px; font-weight: 700; text-align: right; color: #000; background-color: #fff7ed; border-color: #f97316; }
 
-        .signature-container { margin-top: 25px; display: flex; justify-content: space-between; text-align: center; padding: 10px; flex-wrap: wrap; gap: 15px; }
+        .signature-container { margin-top: 20px; display: flex; justify-content: space-between; text-align: center; padding: 10px; flex-wrap: wrap; gap: 15px; }
         .signature-box { flex: 1; min-width: 150px; font-size: 13.5px; }
         .signature-title { font-weight: bold; font-size: 14px; text-transform: uppercase; margin-bottom: 4px; color: #0f172a; }
-        .signature-note { font-style: italic; font-size: 12px; color: #475569; margin-bottom: 45px; }
+        .signature-note { font-style: italic; font-size: 12px; color: #475569; margin-bottom: 40px; }
         .signature-name { font-weight: bold; font-size: 14px; color: #0f172a; }
 
         .progress-bar-container { width: 100%; background: #e2e8f0; border-radius: 4px; height: 16px; margin-top: 8px; overflow: hidden; display: none; position: relative; border: 1px solid #cbd5e1; }
         .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #1d4ed8, #047857); transition: width 0.3s ease; }
         .progress-bar-text { position: absolute; width: 100%; top: 0; left: 0; text-align: center; font-size: 10px; font-weight: bold; color: #0f172a; line-height: 16px; }
 
-        .custom-popup-calendar { display: none; position: absolute; top: calc(100% + 4px); left: 0; z-index: 9999; background: white; border: 2px solid var(--blue); border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); width: 280px; padding: 10px; font-family: 'Times New Roman', Times, serif; }
+        .custom-popup-calendar { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 99999; background: white; border: 2px solid var(--blue); border-radius: 8px; box-shadow: 0 4px 25px rgba(0,0,0,0.3); width: 300px; max-width: 90vw; padding: 12px; font-family: 'Times New Roman', Times, serif; }
         .popup-cal-top-bar { display: flex; gap: 4px; margin-bottom: 8px; justify-content: space-between; }
-        .popup-cal-top-bar select { padding: 4px 6px; border: 1.5px solid var(--blue); border-radius: 4px; font-weight: bold; font-size: 12px; color: var(--primary); background: #f8fafc; cursor: pointer; font-family: 'Times New Roman', Times, serif; }
-        .popup-cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-weight: bold; color: var(--primary); font-size: 13px; background: #e2e8f0; padding: 4px 8px; border-radius: 4px; }
-        .popup-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; font-size: 12px; }
-        .popup-cal-grid div { padding: 6px 0; font-weight: bold; }
+        .popup-cal-top-bar select { padding: 6px; border: 1.5px solid var(--blue); border-radius: 4px; font-weight: bold; font-size: 12px; color: var(--primary); background: #f8fafc; cursor: pointer; font-family: 'Times New Roman', Times, serif; }
+        .popup-cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-weight: bold; color: var(--primary); font-size: 13.5px; background: #e2e8f0; padding: 6px 8px; border-radius: 4px; }
+        .popup-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; text-align: center; font-size: 13px; }
+        .popup-cal-grid div { padding: 8px 0; font-weight: bold; }
         .popup-dow { color: #64748b; background: #f1f5f9; font-size: 11px; }
         .popup-day { cursor: pointer; border-radius: 4px; }
         .popup-day:hover { background: #e2e8f0; color: var(--blue); }
@@ -136,24 +136,24 @@
         .calendar-sidebar.hidden { display: none !important; }
 
         .cal-smart-header { background: linear-gradient(135deg, #0f172a, #1e293b); color: white; padding: 10px; border-radius: 6px; font-weight: bold; text-align: center; font-size: 13.5px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .cal-nav-btn { background: rgba(255,255,255,0.2); border: none; color: white; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; }
+        .cal-nav-btn { background: rgba(255,255,255,0.2); border: none; color: white; width: 32px; height: 32px; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; touch-action: manipulation; }
         .cal-nav-btn:hover { background: rgba(255,255,255,0.4); }
 
         .calendar-block-view { border: 3px solid #b91c1c; border-radius: 8px; background: white; overflow: hidden; box-shadow: 0 4px 12px rgba(185, 28, 28, 0.15); margin-bottom: 10px; }
-        .calendar-block-head { background: linear-gradient(135deg, #dc2626, #991b1b); color: white; text-align: center; padding: 5px; font-weight: bold; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .calendar-block-head { background: linear-gradient(135deg, #dc2626, #991b1b); color: white; text-align: center; padding: 6px; font-weight: bold; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.5px; }
         .calendar-block-body { text-align: center; padding: 8px; background: #fff; }
 
         .cal-grid-mini { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin-top: 6px; text-align: center; font-size: 12px; }
-        .cal-grid-mini div { padding: 5px 0; font-weight: bold; }
+        .cal-grid-mini div { padding: 6px 0; font-weight: bold; }
         .cal-grid-mini .dow { color: #64748b; font-size: 11px; background: #f1f5f9; }
-        .cal-day-cell { cursor: pointer; border-radius: 4px; transition: 0.2s; position: relative; }
+        .cal-day-cell { cursor: pointer; border-radius: 4px; transition: 0.2s; position: relative; min-height: 28px; display: flex; align-items: center; justify-content: center; }
         .cal-day-cell:hover { background: #e2e8f0; color: #1d4ed8; }
         .cal-day-cell.selected { background: #1d4ed8 !important; color: white !important; font-weight: bold; }
         .cal-day-cell.today { border: 1.5px solid #dc2626; color: #dc2626; }
         .cal-day-cell.has-event::after { content: ''; position: absolute; bottom: 2px; right: 2px; width: 5px; height: 5px; background-color: #16a34a; border-radius: 50%; }
 
         .cal-info-panel { background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 10px; font-size: 12px; margin-top: 10px; }
-        .cal-info-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #cbd5e1; gap: 8px; }
+        .cal-info-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #cbd5e1; gap: 8px; }
         .cal-info-row:last-child { border-bottom: none; }
         .cal-info-label { color: #475569; font-weight: bold; flex-shrink: 0; }
         .cal-info-val { color: #0f172a; font-weight: 700; text-align: right; word-break: break-word; }
@@ -166,7 +166,7 @@
 <body>
 
     <div class="db-status-bar">
-        <div style="display:flex; align-items:center; gap:10px; flex-wrap: wrap;">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap: wrap;">
             <div>
                 <span class="status-dot" id="cloud-status-dot"></span>
                 <span id="cloud-status-text">Đã tích hợp API Cloud trực tiếp</span>
@@ -186,8 +186,8 @@
             </div>
         </div>
         <div style="display:flex; gap:6px; flex-wrap: wrap;">
-            <button type="button" class="btn btn-green" style="padding: 4px 8px; font-size:11.5px; min-height:30px;" onclick="toggleCalendarSidebar()"><i class="fa-solid fa-calendar-days"></i> <span id="toggle-cal-text">Lịch</span></button>
-            <button type="button" class="btn btn-purple" style="padding: 4px 8px; font-size:11.5px; min-height:30px;" onclick="openConfigUrlModal()"><i class="fa-solid fa-link"></i> Cấu hình</button>
+            <button type="button" class="btn btn-green" style="padding: 6px 10px; font-size:12px;" onclick="toggleCalendarSidebar()"><i class="fa-solid fa-calendar-days"></i> Lịch</button>
+            <button type="button" class="btn btn-purple" style="padding: 6px 10px; font-size:12px;" onclick="openConfigUrlModal()"><i class="fa-solid fa-link"></i> Cấu hình</button>
         </div>
     </div>
 
@@ -251,7 +251,7 @@
                         <span><i class="fa-solid fa-pen-to-square" style="color:var(--blue);"></i> CẤU HÌNH LƯƠNG THÁNG - NĂM <span class="lbl-current-year">2026</span></span>
                     </div>
                     
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 10px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; margin-bottom: 10px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px;">
                         <div class="form-group">
                             <label style="color:var(--blue);"><i class="fa-solid fa-building"></i> Tên Công Ty:</label>
                             <input type="text" id="config-company-title" value="TỔNG CÔNG TY GIẤY VIỆT NAM" oninput="handleConfigChangeLive()">
@@ -284,7 +284,7 @@
                                 <label style="color:var(--purple);"><i class="fa-solid fa-briefcase"></i> Lương công việc</label>
                                 <input type="number" id="config-lcv-pay" value="1991139" oninput="handleConfigChangeLive()">
                             </div>
-                            <div class="form-group" style="min-width: 160px;">
+                            <div class="form-group" style="min-width: 150px;">
                                 <label style="color:var(--primary);"><i class="fa-solid fa-signature"></i> Người Lập Biểu</label>
                                 <input type="text" id="config-signer-name" value="Nguyễn Thị Tuyết Nhung" oninput="handleConfigChangeLive()">
                             </div>
@@ -323,8 +323,8 @@
                     <div class="card-title">
                         <span id="disp-table-title">DANH SÁCH BẢNG LƯƠNG TỔNG HỢP NHÂN VIÊN</span>
                         <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                            <button type="button" class="btn btn-orange" style="padding:4px 8px; font-size:12px;" onclick="restoreDefaultStaffs()"><i class="fa-solid fa-rotate-left"></i> Nạp Mẫu</button>
-                            <button type="button" class="btn btn-primary" style="padding:4px 8px; font-size:12px;" onclick="addNewSalaryRow()"><i class="fa-solid fa-user-plus"></i> Thêm NV</button>
+                            <button type="button" class="btn btn-orange" style="padding:6px 10px; font-size:12px;" onclick="restoreDefaultStaffs()"><i class="fa-solid fa-rotate-left"></i> Nạp Mẫu</button>
+                            <button type="button" class="btn btn-primary" style="padding:6px 10px; font-size:12px;" onclick="addNewSalaryRow()"><i class="fa-solid fa-user-plus"></i> Thêm NV</button>
                         </div>
                     </div>
                     
@@ -333,7 +333,7 @@
                             <thead>
                                 <tr style="background-color: #94a3b8;">
                                     <th rowspan="2" style="width: 35px;">STT</th>
-                                    <th rowspan="2" style="min-width:200px;">HỌ VÀ TÊN</th>
+                                    <th rowspan="2" style="min-width:190px;">HỌ VÀ TÊN</th>
                                     <th rowspan="2" style="min-width:120px;">Số Tài Khoản</th>
                                     <th colspan="4" class="text-center" style="background-color: #bfdbfe; color:#1e3a8a;">Lương Cơ Bản HĐLĐ</th>
                                     <th colspan="3" class="text-center" style="background-color: #bae6fd; color:#0369a1;">Số Ngày Công Thực Tế</th>
@@ -403,7 +403,7 @@
                         <div style="font-weight: bold; color: #166534; font-size: 13px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
                             <i class="fa-solid fa-calculator"></i> 🧮 CÔNG CỤ TÍNH THUẾ & TÀI CHÍNH NHANH
                         </div>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; align-items: end;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; align-items: end;">
                             <div class="form-group">
                                 <label style="color:#166534;">Số tiền gốc / Chưa thuế:</label>
                                 <input type="text" id="tax-input-amount" value="0" placeholder="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="calculateTaxPro()" style="border-color:#86efac;">
@@ -550,7 +550,7 @@
                     </div>
                     <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
                         <input type="hidden" id="edit-telecom-index" value="-1">
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; margin-bottom: 10px; align-items: end;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-bottom: 10px; align-items: end;">
                             <div class="form-group">
                                 <label style="color: #c2410c;">Điểm kết nối</label>
                                 <input type="text" id="tele-location" value="Tổng công ty Giấy Việt Nam" style="border-color: #fdba74;">
@@ -837,14 +837,14 @@
                 <div class="cal-info-row" style="flex-direction: column; gap: 4px; padding-top: 6px; margin-top: 2px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                         <span class="cal-info-label"><i class="fa-solid fa-bell text-blue"></i> Sự kiện / Ghi chú:</span>
-                        <button type="button" class="btn btn-primary" style="padding: 2px 8px; font-size: 11px; min-height: 26px;" onclick="openEventModal()"><i class="fa-solid fa-plus"></i> Đặt lịch</button>
+                        <button type="button" class="btn btn-primary" style="padding: 4px 10px; font-size: 11.5px; min-height: 30px;" onclick="openEventModal()"><i class="fa-solid fa-plus"></i> Đặt lịch</button>
                     </div>
                     <div id="info-event-note" style="color:var(--blue); font-style:italic; font-size: 11.5px; background: #eff6ff; padding: 4px 6px; border-radius: 4px; border: 1px dashed #93c5fd; margin-top: 2px;">Không có sự kiện</div>
                 </div>
             </div>
             
             <div style="text-align: center; margin-top: 10px;">
-                <button type="button" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 12px; min-height: 34px;" onclick="resetCalendarToToday()"><i class="fa-solid fa-calendar-day"></i> Quay Về Hôm Nay</button>
+                <button type="button" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 12px; min-height: 38px;" onclick="resetCalendarToToday()"><i class="fa-solid fa-calendar-day"></i> Quay Về Hôm Nay</button>
             </div>
         </div>
     </div>
@@ -970,9 +970,9 @@
                     <select onchange="onPopupMonthChange(this.value, '${popupId}')">${monthOptionsHTML}</select>
                 </div>
                 <div class="popup-cal-header">
-                    <button type="button" class="btn btn-gray" style="padding:1px 6px; font-size:11px;" onclick="changePopupMonth(-1, '${popupId}')"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button type="button" class="btn btn-gray" style="padding:4px 8px; font-size:12px;" onclick="changePopupMonth(-1, '${popupId}')"><i class="fa-solid fa-chevron-left"></i></button>
                     <span>${monthNames[m]} / ${y}</span>
-                    <button type="button" class="btn btn-gray" style="padding:1px 6px; font-size:11px;" onclick="changePopupMonth(1, '${popupId}')"><i class="fa-solid fa-chevron-right"></i></button>
+                    <button type="button" class="btn btn-gray" style="padding:4px 8px; font-size:12px;" onclick="changePopupMonth(1, '${popupId}')"><i class="fa-solid fa-chevron-right"></i></button>
                 </div>
                 <div class="popup-cal-grid">
                     <div class="popup-dow" style="color:var(--red);">CN</div>
@@ -996,7 +996,7 @@
                 let isToday = (d === today.getDate() && m === today.getMonth() && y === today.getFullYear());
                 html += `<div class="popup-day ${isToday ? 'today' : ''}" onclick="selectPopupDate(${d}, ${m + 1}, ${y}, '${popupId}')">${d}</div>`;
             }
-            html += `</div>`;
+            html += `</div><div style="text-align:right; margin-top:10px;"><button type="button" class="btn btn-gray" style="padding:4px 10px; font-size:12px;" onclick="document.getElementById('${popupId}').style.display='none'; activePickerId=null;">Đóng</button></div>`;
             popup.innerHTML = html;
         }
 
