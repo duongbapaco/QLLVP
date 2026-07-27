@@ -8,7 +8,8 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Sử dụng thư viện qrious để sinh mã QR siêu chuẩn qua Canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <style>
@@ -757,7 +758,9 @@
                             <div style="font-weight: bold; color: var(--purple); font-size: 12.5px; text-align: center; border-bottom: 1px solid #e2e8f0; width: 100%; padding-bottom: 4px;"><i class="fa-solid fa-qrcode"></i> 📱 TEM QR TRỰC TIẾP</div>
                             <div style="text-align: center; width: 100%;">
                                 <div style="font-size: 11.5px; font-weight: bold; color: #0f172a; margin-bottom: 3px;">VINAPACO IT ASSET</div>
-                                <div id="live-qrcode-box" style="display: flex; justify-content: center; margin: 4px 0;"></div>
+                                <div style="display: flex; justify-content: center; margin: 4px 0;">
+                                    <canvas id="live-qrcode-canvas"></canvas>
+                                </div>
                             </div>
                             <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 4px; padding: 5px; width: 100%; font-size: 10.5px; line-height: 1.25;">
                                 <div><b>Mã TS:</b> <span id="lbl-qr-code">--</span></div>
@@ -1650,8 +1653,17 @@
             document.getElementById('lbl-qr-code').innerText = code;
             document.getElementById('lbl-qr-user').innerText = user;
             document.getElementById('lbl-qr-dept').innerText = dept;
-            const qrBox = document.getElementById('live-qrcode-box'); qrBox.innerHTML = "";
-            new QRCode(qrBox, { text: `Mã TS: ${code} | User: ${user} | Dept: ${dept}`, width: 85, height: 85 });
+
+            // Sử dụng QRious để vẽ trực tiếp lên canvas xem trước
+            try {
+                new QRious({
+                    element: document.getElementById('live-qrcode-canvas'),
+                    value: `Mã TS: ${code} | User: ${user} | Dept: ${dept}`,
+                    size: 85
+                });
+            } catch (e) {
+                console.error("QR Error:", e);
+            }
         }
 
         function addNewItAssetRecord() {
@@ -1764,7 +1776,7 @@
 
             const tbody = document.getElementById('tbody-it-assets'); tbody.innerHTML = "";
             filteredRecords.forEach((rec, idx) => {
-                let qrId = `qr-table-${CURRENT_SELECTED_YEAR}-${idx}`;
+                let canvasId = `qr-canvas-${CURRENT_SELECTED_YEAR}-${idx}`;
                 tbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${idx + 1}</td>
                     <td class="text-center font-bold" style="color:var(--purple);">${rec.code}</td>
@@ -1777,7 +1789,7 @@
                     <td>${rec.dept}</td>
                     <td class="text-center">${rec.dateVal || '-'}</td>
                     <td><span style="color:var(--green); font-weight:bold;">${rec.status}</span></td>
-                    <td class="text-center"><div id="${qrId}" style="display:inline-block; padding:2px; background:#fff;"></div></td>
+                    <td class="text-center"><canvas id="${canvasId}" style="width:45px; height:45px; display:inline-block;"></canvas></td>
                     <td class="text-center">
                         <button type="button" class="btn-edit" onclick="editItAssetRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
                         <button type="button" class="btn-delete" onclick="deleteItAssetRecord(${idx})"><i class="fa-solid fa-trash"></i></button>
@@ -1785,13 +1797,20 @@
                 </tr>`;
             });
             
-            // Render QR codes safely after elements exist in DOM
+            // Vẽ mã QR chính xác bằng thư viện QRious cho từng dòng trong bảng
             setTimeout(() => {
                 filteredRecords.forEach((rec, idx) => {
-                    let el = document.getElementById(`qr-table-${CURRENT_SELECTED_YEAR}-${idx}`);
-                    if (el) {
-                        el.innerHTML = "";
-                        new QRCode(el, { text: `Mã TS: ${rec.code} | User: ${rec.user} | Dept: ${rec.dept}`, width: 45, height: 45 });
+                    let canvasEl = document.getElementById(`qr-canvas-${CURRENT_SELECTED_YEAR}-${idx}`);
+                    if (canvasEl) {
+                        try {
+                            new QRious({
+                                element: canvasEl,
+                                value: `Mã TS: ${rec.code} | User: ${rec.user} | Dept: ${rec.dept}`,
+                                size: 45
+                            });
+                        } catch (e) {
+                            console.error("Table QR Error:", e);
+                        }
                     }
                 });
             }, 50);
