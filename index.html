@@ -1227,6 +1227,12 @@
                 });
             });
 
+            // Trừ trực tiếp 14.822.400 VND khỏi tổng hồ sơ thanh toán cho năm 2026 theo yêu cầu
+            if (CURRENT_SELECTED_YEAR === "2026") {
+                totalPaidYear -= 14822400;
+                if (totalPaidYear < 0) totalPaidYear = 0;
+            }
+
             // 3. Tổng kết cước viễn thông theo năm chọn
             Object.keys(telecomRecordsByMonth || {}).forEach(sm => {
                 let records = telecomRecordsByMonth[sm] || [];
@@ -1239,12 +1245,6 @@
                     }
                 });
             });
-
-            // Trừ trực tiếp 14.822.400 VND khỏi tổng cước mạng cho năm 2026 theo yêu cầu
-            if (CURRENT_SELECTED_YEAR === "2026") {
-                totalTelecomYear -= 14822400;
-                if (totalTelecomYear < 0) totalTelecomYear = 0;
-            }
 
             // 4. Tổng số máy CNTT theo đúng năm chọn
             let itCountYear = (itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || []).length;
@@ -1788,14 +1788,7 @@
                 });
             });
 
-            // Trừ trực tiếp 14.822.400 VND khỏi tổng cước mạng hiển thị dưới bảng cước cho năm 2026
-            let displayTotalTelecom = totalTelecom;
-            if (CURRENT_SELECTED_YEAR === "2026") {
-                displayTotalTelecom -= 14822400;
-                if (displayTotalTelecom < 0) displayTotalTelecom = 0;
-            }
-
-            document.getElementById('tele-total-sum').innerText = `Tổng cước: ${formatCurrencyVN(displayTotalTelecom)} VND`;
+            document.getElementById('tele-total-sum').innerText = `Tổng cước: ${formatCurrencyVN(totalTelecom)} VND`;
             updateGlobalDashboardSummary();
         }
 
