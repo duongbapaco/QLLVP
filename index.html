@@ -57,10 +57,11 @@
 
         .dash-quick-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; background: #ffffff; padding: 12px; border-radius: 8px; border: 1.5px solid #cbd5e1; align-items: center; justify-content: space-between; }
 
-        .salary-visual-summary { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin: 0 auto 10px auto; max-width: 100%; background: #ffffff; padding: 10px; border-radius: 8px; border: 2px solid #cbd5e1; box-shadow: 0 2px 5px rgba(0,0,0,0.06); flex-wrap: wrap; }
-        .visual-mini-card { flex: 1; min-width: 150px; background: #f8fafc; padding: 8px 12px; border-radius: 6px; border: 1.5px solid #cbd5e1; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-        .visual-lbl { font-size: 11px; font-weight: bold; color: #0f172a; white-space: nowrap; display: flex; align-items: center; }
-        .visual-val { font-size: 14.5px; font-weight: 800; color: var(--primary); white-space: nowrap; }
+        /* Thu gọn các ô thông tin tóm tắt đầu bảng */
+        .salary-visual-summary { display: flex; justify-content: space-between; align-items: center; gap: 6px; margin: 0 auto 10px auto; max-width: 100%; background: #ffffff; padding: 8px 10px; border-radius: 8px; border: 2px solid #cbd5e1; box-shadow: 0 2px 5px rgba(0,0,0,0.06); flex-wrap: wrap; }
+        .visual-mini-card { flex: 1; min-width: 120px; max-width: 230px; background: #f8fafc; padding: 6px 10px; border-radius: 6px; border: 1.5px solid #cbd5e1; display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+        .visual-lbl { font-size: 10px; font-weight: bold; color: #0f172a; white-space: nowrap; display: flex; align-items: center; }
+        .visual-val { font-size: 13px; font-weight: 800; color: var(--primary); white-space: nowrap; }
 
         .config-toolbar-container { background: #f8fafc; padding: 10px 12px; border-radius: 6px; border: 1.5px solid #cbd5e1; }
 
@@ -96,7 +97,10 @@
 
         .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 8px; width: 100%; border: 1.5px solid #475569; border-radius: 4px; background: #fff; }
         .main-table { width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap; font-size: 13px; color: #000000; }
-        .main-table th { background: #cbd5e1; color: #000000; padding: 8px 6px; border: 1px solid #475569; font-weight: bold; text-align: center; }
+        
+        /* Mở rộng chiều cao của các ô tiêu đề (th) */
+        .main-table th { background: #cbd5e1; color: #000000; padding: 14px 8px; border: 1px solid #475569; font-weight: bold; text-align: center; vertical-align: middle; line-height: 1.4; }
+        
         .main-table td { padding: 6px; border: 1px solid #64748b; vertical-align: middle; font-weight: 600; }
         .main-table tbody tr:nth-child(even) { background-color: #f8fafc; }
         
@@ -319,42 +323,42 @@
                     </div>
                     
                     <div class="config-toolbar-container" style="margin-bottom: 8px;">
-                        <div style="display: grid; grid-template-columns: 1.8fr 1fr 1.6fr; gap: 8px; margin-bottom: 8px; align-items: end;">
+                        <div style="display: grid; grid-template-columns: 1.3fr 0.9fr 1.3fr; gap: 8px; margin-bottom: 8px; align-items: end;">
                             <div class="form-group">
-                                <label style="color:var(--blue);"><i class="fa-solid fa-building"></i> Tên Công Ty:</label>
-                                <input type="text" id="config-company-title" value="TỔNG CÔNG TY GIẤY VIỆT NAM" oninput="handleConfigChangeLive()">
+                                <label style="color:var(--blue);"><i class="fa-solid fa-building"></i> Tên Công Ty (Thu gọn):</label>
+                                <input type="text" id="config-company-title" value="TGC GIẤY VN" oninput="handleConfigChangeLive()">
                             </div>
                             <div class="form-group">
                                 <label style="color:var(--purple);"><i class="fa-solid fa-sitemap"></i> Tên Phòng Ban:</label>
                                 <input type="text" id="config-dept-title" value="VĂN PHÒNG" oninput="handleConfigChangeLive()">
                             </div>
                             <div class="form-group">
-                                <label style="color:var(--orange);"><i class="fa-solid fa-file-signature"></i> Tên BẢNG LƯƠNG:</label>
-                                <input type="text" id="config-sheet-title" value="BẢNG LƯƠNG TỔNG HỢP THÁNG 07/2025" oninput="handleConfigChangeLive()">
+                                <label style="color:var(--orange);"><i class="fa-solid fa-file-signature"></i> Tên BẢNG LƯƠNG (Thu gọn):</label>
+                                <input type="text" id="config-sheet-title" value="LƯƠNG THÁNG 07/2025" oninput="handleConfigChangeLive()">
                             </div>
                         </div>
 
                         <div style="display: flex; align-items: flex-end; gap: 8px; flex-wrap: wrap; justify-content: space-between;">
                             <div style="display: flex; gap: 8px; flex-wrap: wrap; flex: 1;">
-                                <div class="form-group" style="width: 115px; flex-shrink: 0;">
-                                    <label><i class="fa-regular fa-calendar-days"></i> Kỳ báo cáo</label>
-                                    <input type="month" id="filter-month" value="2025-07" onchange="handleMonthChangeSelect()">
+                                <div class="form-group" style="width: 140px; flex-shrink: 0;">
+                                    <label style="color:var(--blue);"><i class="fa-regular fa-calendar-days"></i> Kỳ báo cáo (Rộng hơn)</label>
+                                    <input type="month" id="filter-month" value="2025-07" onchange="handleMonthChangeSelect()" style="font-size: 13.5px; padding: 6px 10px;">
                                 </div>
-                                <div class="form-group" style="width: 105px; flex-shrink: 0;">
-                                    <label style="color:var(--orange);"><i class="fa-solid fa-chart-line"></i> Tối thiểu vùng</label>
+                                <div class="form-group" style="width: 95px; flex-shrink: 0;">
+                                    <label style="color:var(--orange);">Tối thiểu vùng</label>
                                     <input type="number" id="config-vung-pay" value="4140000" oninput="handleConfigChangeLive()">
                                 </div>
-                                <div class="form-group" style="width: 105px; flex-shrink: 0;">
-                                    <label style="color:var(--blue);"><i class="fa-solid fa-coins"></i> Lương cơ bản</label>
+                                <div class="form-group" style="width: 95px; flex-shrink: 0;">
+                                    <label style="color:var(--blue);">Lương cơ bản</label>
                                     <input type="number" id="config-base-pay" value="2650000" oninput="handleConfigChangeLive()">
                                 </div>
-                                <div class="form-group" style="width: 105px; flex-shrink: 0;">
-                                    <label style="color:var(--purple);"><i class="fa-solid fa-briefcase"></i> Lương công việc</label>
+                                <div class="form-group" style="width: 95px; flex-shrink: 0;">
+                                    <label style="color:var(--purple);">Lương công việc</label>
                                     <input type="number" id="config-lcv-pay" value="1991139" oninput="handleConfigChangeLive()">
                                 </div>
-                                <div class="form-group" style="flex: 1; min-width: 160px;">
-                                    <label style="color:var(--primary);"><i class="fa-solid fa-signature"></i> Người Lập Biểu</label>
-                                    <input type="text" id="config-signer-name" value="Nguyễn Thị Tuyết Nhung" oninput="handleConfigChangeLive()">
+                                <div class="form-group" style="width: 140px; flex-shrink: 0;">
+                                    <label style="color:var(--primary);">Người Lập Biểu</label>
+                                    <input type="text" id="config-signer-name" value="N.T.T.Nhung" oninput="handleConfigChangeLive()">
                                 </div>
                             </div>
 
@@ -372,19 +376,19 @@
                 <div class="main-card">
                     <div class="salary-visual-summary">
                         <div class="visual-mini-card">
-                            <span class="visual-lbl"><i class="fa-solid fa-wallet" style="color:var(--blue); margin-right:4px;"></i> THỰC LĨNH CB:</span>
+                            <span class="visual-lbl"><i class="fa-solid fa-wallet" style="color:var(--blue); margin-right:3px;"></i> TL.CB:</span>
                             <span class="visual-val" id="v-total-lcb" style="color:var(--blue);">0 VND</span>
                         </div>
                         <div class="visual-mini-card">
-                            <span class="visual-lbl"><i class="fa-solid fa-briefcase" style="color:var(--purple); margin-right:4px;"></i> THỰC LĨNH CV:</span>
+                            <span class="visual-lbl"><i class="fa-solid fa-briefcase" style="color:var(--purple); margin-right:3px;"></i> TL.CV:</span>
                             <span class="visual-val" id="v-total-lcv-text" style="color:var(--purple);">0 VND</span>
                         </div>
                         <div class="visual-mini-card">
-                            <span class="visual-lbl"><i class="fa-solid fa-bowl-rice" style="color:var(--orange); margin-right:4px;"></i> TỔNG ĂN CA:</span>
+                            <span class="visual-lbl"><i class="fa-solid fa-bowl-rice" style="color:var(--orange); margin-right:3px;"></i> ĂN CA:</span>
                             <span class="visual-val" id="v-total-anca" style="color:var(--orange);">0 VND</span>
                         </div>
                         <div class="visual-mini-card" style="background: #f0fdf4; border-color: #86efac;">
-                            <span class="visual-lbl" style="color: #166534;"><i class="fa-solid fa-circle-dollar-to-slot" style="color:var(--green); margin-right:4px;"></i> TỔNG NET:</span>
+                            <span class="visual-lbl" style="color: #166534;"><i class="fa-solid fa-circle-dollar-to-slot" style="color:var(--green); margin-right:3px;"></i> T.NET:</span>
                             <span class="visual-val" id="v-total-thuc" style="color:var(--green);">0 VND</span>
                         </div>
                     </div>
@@ -408,7 +412,7 @@
                                     <th colspan="3" class="text-center" style="background-color: #bae6fd; color:#0369a1;">Số Ngày Công Thực Tế</th>
                                     <th colspan="5" class="text-center" style="background-color: #e2e8f0;">Cơ cấu & Thực Lĩnh Lương CB</th>
                                     <th colspan="11" class="text-center" style="background-color: #e9d5ff; color:#581c87;">Cơ cấu & Thực Lĩnh Lương CV</th>
-                                    <th rowspan="2" style="background-color: #fef08a; color:#713f12; font-size:13px; font-weight:bold; min-width:130px; text-align:center;">TỔNG NET <br><span style="font-size:9.5px; font-weight:normal;">(Thực Lĩnh CV + CB)</span></th>
+                                    <th rowspan="2" style="background-color: #fef08a; color:#713f12; font-size:13px; font-weight:bold; min-width:120px; text-align:center;">TỔNG NET <br><span style="font-size:9.5px; font-weight:normal;">(CV + CB)</span></th>
                                     <th rowspan="2" style="width: 40px; text-align:center;">Xóa</th>
                                 </tr>
                                 <tr style="background-color: #cbd5e1;">
@@ -453,7 +457,7 @@
                         <div class="signature-box">
                             <div class="signature-title">NGƯỜI LẬP BIỂU</div>
                             <div class="signature-note">(Ký, ghi rõ họ tên)</div>
-                            <div class="signature-name" id="disp-signer-name">Nguyễn Thị Tuyết Nhung</div>
+                            <div class="signature-name" id="disp-signer-name">N.T.T.Nhung</div>
                         </div>
                     </div>
                 </div>
@@ -732,12 +736,13 @@
                             
                             <div class="grid-form" style="margin-bottom: 8px;">
                                 <div class="form-group">
-                                    <label style="color: #6d28d9;">Hệ điều hành</label>
+                                    <label style="color: #6d28d9;">Hệ điều hành (Đủ phiên bản)</label>
                                     <select id="it-os" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
                                         <option value="Windows 11 Pro / Home" selected>Windows 11 Pro / Home</option>
                                         <option value="Windows 10 Pro / Home">Windows 10 Pro / Home</option>
-                                        <option value="Windows 8 / 8.1">Windows 8 / 8.1</option>
-                                        <option value="Windows 7">Windows 7 (Legacy)</option>
+                                        <option value="Windows 8.1">Windows 8.1</option>
+                                        <option value="Windows 8">Windows 8</option>
+                                        <option value="Windows 7 Professional / Ultimate">Windows 7 Professional / Ultimate</option>
                                         <option value="macOS Apple Silicon / Intel">macOS Apple Silicon / Intel</option>
                                         <option value="Linux / Ubuntu / Fedora">Linux / Ubuntu / Fedora</option>
                                     </select>
@@ -745,34 +750,36 @@
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Bản quyền HĐH <span style="color:var(--red);">*</span></label>
                                     <select id="it-os-lic" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
-                                        <option value="⚠️ Chưa có bản quyền HĐH (Chưa Active)">⚠️ Chưa có bản quyền HĐH (Chưa Active)</option>
-                                        <option value="Bản quyền chính hãng OEM/Retail" selected>Đã có bản quyền chính hãng OEM/Retail</option>
+                                        <option value="⚠️ Chưa có bản quyền HĐH (Chưa Active)" selected>⚠️ Chưa có bản quyền HĐH (Chưa Active)</option>
+                                        <option value="Bản quyền chính hãng OEM/Retail">Đã có bản quyền chính hãng OEM/Retail</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label style="color: #6d28d9;">Bộ Microsoft Office</label>
+                                    <label style="color: #6d28d9;">Bộ Microsoft Office (Đủ phiên bản)</label>
                                     <select id="it-office" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
                                         <option value="Microsoft 365 (M365) Business Standard" selected>Microsoft 365 Business Standard</option>
                                         <option value="Office 2024 / Office LTSC 2024">Office 2024 / Office LTSC 2024</option>
                                         <option value="Office 2021 (Pro Plus / Home & Business)">Office 2021 (Pro Plus / Home & Business)</option>
                                         <option value="Office 2019 (Pro Plus / Home & Business)">Office 2019 (Pro Plus / Home & Business)</option>
                                         <option value="Office 2016 (Pro Plus / Standard)">Office 2016 (Pro Plus / Standard)</option>
-                                        <option value="Office 2013 / 2010 / 2007">Office 2013 / 2010 / 2007 (Cũ)</option>
+                                        <option value="Office 2013 (Pro Plus / Standard)">Office 2013 (Pro Plus / Standard)</option>
+                                        <option value="Office 2010 (Pro Plus / Standard)">Office 2010 (Pro Plus / Standard)</option>
+                                        <option value="Office 2007 (Enterprise / Professional)">Office 2007 (Enterprise / Professional)</option>
                                         <option value="LibreOffice / WPS Office (Miễn phí)">LibreOffice / WPS Office (Miễn phí)</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Bản quyền Office <span style="color:var(--red);">*</span></label>
                                     <select id="it-office-lic" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
-                                        <option value="⚠️ Chưa có bản quyền Office">⚠️ Chưa có bản quyền Office</option>
-                                        <option value="Bản quyền doanh nghiệp chính hãng" selected>Đã có bản quyền doanh nghiệp chính hãng</option>
+                                        <option value="⚠️ Chưa có bản quyền Office" selected>⚠️ Chưa có bản quyền Office</option>
+                                        <option value="Bản quyền doanh nghiệp chính hãng">Đã có bản quyền doanh nghiệp chính hãng</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="grid-form" style="margin-bottom: 8px;">
                                 <div class="form-group">
-                                    <label style="color: #6d28d9;">Phần mềm AutoCad (Thiết kế kỹ thuật 2D/3D)</label>
+                                    <label style="color: #6d28d9;">Phần mềm Thiết kế (AutoCAD & SolidWorks)</label>
                                     <select id="it-software" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
                                         <option value="Không có (Văn phòng cơ bản)" selected>🚫 Không có (Văn phòng cơ bản)</option>
                                         <option value="AutoCAD 2026 / 2025">AutoCAD 2026 / 2025</option>
@@ -782,15 +789,6 @@
                                         <option value="AutoCAD 2015 / 2014 / 2013">AutoCAD 2015 / 2014 / 2013</option>
                                         <option value="AutoCAD 2012 / 2011 / 2010">AutoCAD 2012 / 2011 / 2010</option>
                                         <option value="AutoCAD 2009 / 2008 / 2007">AutoCAD 2009 / 2008 / 2007 (Cũ)</option>
-                                        <option value="Adobe Creative Cloud (Photoshop, Illustrator...)">Adobe Creative Cloud (Photoshop, Illustrator...)</option>
-                                        <option value="CorelDRAW Graphics Suite">CorelDRAW Graphics Suite</option>
-                                        <option value="Revit / ASIA ERP / Quasoft / CloudOffice">Revit / ASIA ERP / Quasoft / CloudOffice</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label style="color: #6d28d9;">Phần mềm SolidWorks (Mô hình 3D)</label>
-                                    <select id="it-software-solid" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
-                                        <option value="Không có (Văn phòng cơ bản)" selected>🚫 Không có (Văn phòng cơ bản)</option>
                                         <option value="SolidWorks 2026 / 2025">SolidWorks 2026 / 2025</option>
                                         <option value="SolidWorks 2024 / 2023 / 2022">SolidWorks 2024 / 2023 / 2022</option>
                                         <option value="SolidWorks 2021 / 2020 / 2019">SolidWorks 2021 / 2020 / 2019</option>
@@ -800,20 +798,46 @@
                                         <option value="SolidWorks 2009 / 2008 / 2007">SolidWorks 2009 / 2008 / 2007 (Cũ)</option>
                                     </select>
                                 </div>
-                                <div class="form-group" style="grid-column: span 2;">
-                                    <label style="color: #6d28d9;">Bản quyền Phần mềm / Đồ họa / CAD <span style="color:var(--red);">*</span></label>
-                                    <select id="it-soft-lic" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
-                                        <option value="⚠️ Chưa có bản quyền phần mềm / Crack">⚠️ Chưa có bản quyền phần mềm / Crack</option>
-                                        <option value="Bản quyền chính hãng doanh nghiệp" selected>Đã có bản quyền chính hãng doanh nghiệp</option>
+                                <div class="form-group">
+                                    <label style="color: #6d28d9;">Phần mềm ASIA ERP</label>
+                                    <select id="it-asia" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
+                                        <option value="Không" selected>🚫 Không</option>
+                                        <option value="ASIA Enterprise ERP (Kế toán - Kho)">ASIA Enterprise ERP (Kế toán - Kho)</option>
+                                        <option value="ASIA Standard ERP">ASIA Standard ERP</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label style="color: #6d28d9;">Phần mềm QUASOFT</label>
+                                    <select id="it-quasoft" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
+                                        <option value="Không" selected>🚫 Không</option>
+                                        <option value="Quasoft Warehouse & Material Management">Quasoft Warehouse & Material Management</option>
+                                        <option value="Quasoft Production Standard">Quasoft Production Standard</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label style="color: #6d28d9;">Phần mềm CloudOffice</label>
+                                    <select id="it-cloudoffice" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
+                                        <option value="Có (Đã tích hợp Web/App)" selected>✅ Có (Đã tích hợp Web/App)</option>
+                                        <option value="Không">🚫 Không</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="grid-form" style="margin-bottom: 8px;">
                                 <div class="form-group" style="grid-column: span 2;">
+                                    <label style="color: #6d28d9;">Bản quyền Phần mềm / Đồ họa / CAD <span style="color:var(--red);">*</span></label>
+                                    <select id="it-soft-lic" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
+                                        <option value="⚠️ Chưa có bản quyền phần mềm / Crack" selected>⚠️ Chưa có bản quyền phần mềm / Crack</option>
+                                        <option value="Bản quyền chính hãng doanh nghiệp">Đã có bản quyền chính hãng doanh nghiệp</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="grid-column: span 2;">
                                     <label style="color: #6d28d9;">Thông số cấu hình phần cứng</label>
                                     <input type="text" id="it-specs" value="Dell Latitude, Core i5, 16GB RAM, 512GB SSD" style="border-color: #d8b4fe;">
                                 </div>
+                            </div>
+
+                            <div class="grid-form" style="margin-bottom: 8px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Ngày bàn giao</label>
                                     <input type="date" id="it-date" style="border-color: #d8b4fe;">
@@ -892,7 +916,7 @@
                                     <th>Cấu hình</th>
                                     <th>HĐH & Bản quyền</th>
                                     <th>Office & Bản quyền</th>
-                                    <th>Phần mềm (AutoCad / Solid / Khác)</th>
+                                    <th>Phần mềm (AutoCAD / Solid / ASIA / Quasoft / CloudOffice)</th>
                                     <th>Người dùng</th>
                                     <th>Phòng ban</th>
                                     <th>Ngày bàn giao</th>
@@ -1496,10 +1520,10 @@
 
             if (!salaryConfigsByMonth[sm]) {
                 salaryConfigsByMonth[sm] = {
-                    companyTitle: "TỔNG CÔNG TY GIẤY VIỆT NAM",
+                    companyTitle: "TGC GIẤY VN",
                     deptTitle: "VĂN PHÒNG",
-                    sheetTitle: `BẢNG LƯƠNG TỔNG HỢP THÁNG ${mNum}/${yNum}`,
-                    vung: 4140000, base: 2650000, lcv: 1991139, signer: "Nguyễn Thị Tuyết Nhung"
+                    sheetTitle: `LƯƠNG THÁNG ${mNum}/${yNum}`,
+                    vung: 4140000, base: 2650000, lcv: 1991139, signer: "N.T.T.Nhung"
                 };
             }
             let cfg = salaryConfigsByMonth[sm];
@@ -1543,9 +1567,9 @@
 
             let activeData = salaryDataByMonth[sm] || JSON.parse(JSON.stringify(default16Staffs));
             let cfg = salaryConfigsByMonth[sm] || {};
-            document.getElementById('disp-header-company').innerText = `${cfg.companyTitle || 'TỔNG CÔNG TY GIẤY VIỆT NAM'} - ${cfg.deptTitle || 'VĂN PHÒNG'}`;
-            document.getElementById('disp-table-title').innerText = cfg.sheetTitle || `BẢNG LƯƠNG TỔNG HỢP THÁNG ${mNum}/${yNum}`;
-            document.getElementById('disp-signer-name').innerText = cfg.signer || "Nguyễn Thị Tuyết Nhung";
+            document.getElementById('disp-header-company').innerText = `${cfg.companyTitle || 'TGC GIẤY VN'} - ${cfg.deptTitle || 'VĂN PHÒNG'}`;
+            document.getElementById('disp-table-title').innerText = cfg.sheetTitle || `LƯƠNG THÁNG ${mNum}/${yNum}`;
+            document.getElementById('disp-signer-name').innerText = cfg.signer || "N.T.T.Nhung";
 
             const tbody = document.getElementById('tbody-salary'); 
             tbody.innerHTML = ""; 
@@ -2052,7 +2076,7 @@
                       .replace(/đ/g, 'd').replace(/Đ/g, 'D');
         }
 
-        function getStructuredQrText(code, type, user, dept, os, office, software, solid) {
+        function getStructuredQrText(code, type, user, dept, os, office, software, asia, quasoft, cloudoffice) {
             let cleanCode = code || `IT-TS-${CURRENT_SELECTED_YEAR}`;
             let cleanType = removeVietnameseAccents(type || "Thiet bi");
             let cleanUser = removeVietnameseAccents(user || "Chua ro");
@@ -2060,9 +2084,11 @@
             let cleanOs = removeVietnameseAccents(os || "Win");
             let cleanOffice = removeVietnameseAccents(office || "Office");
             let cleanSoftware = removeVietnameseAccents(software || "Khong");
-            let cleanSolid = removeVietnameseAccents(solid || "Khong");
+            let cleanAsia = removeVietnameseAccents(asia || "Khong");
+            let cleanQuasoft = removeVietnameseAccents(quasoft || "Khong");
+            let cleanCloud = removeVietnameseAccents(cloudoffice || "Co");
             
-            return `VINAPACO IT ASSET\n[Ma TS]: ${cleanCode}\n[Loai]: ${cleanType}\n[Nguoi dung]: ${cleanUser}\n[Phong ban]: ${cleanDept}\n[HDH]: ${cleanOs}\n[Office]: ${cleanOffice}\n[AutoCad]: ${cleanSoftware}\n[SolidWorks]: ${cleanSolid}`;
+            return `VINAPACO IT ASSET\n[Ma TS]: ${cleanCode}\n[Loai]: ${cleanType}\n[Nguoi dung]: ${cleanUser}\n[Phong ban]: ${cleanDept}\n[HDH]: ${cleanOs}\n[Office]: ${cleanOffice}\n[Phan mem CAD/Solid]: ${cleanSoftware}\n[ASIA]: ${cleanAsia}\n[Quasoft]: ${cleanQuasoft}\n[CloudOffice]: ${cleanCloud}`;
         }
 
         function updateLiveQRPreview() {
@@ -2073,7 +2099,9 @@
             let os = document.getElementById('it-os').value;
             let office = document.getElementById('it-office').value;
             let software = document.getElementById('it-software').value;
-            let solid = document.getElementById('it-software-solid').value;
+            let asia = document.getElementById('it-asia').value;
+            let quasoft = document.getElementById('it-quasoft').value;
+            let cloudoffice = document.getElementById('it-cloudoffice').value;
             
             document.getElementById('lbl-qr-code').innerText = code;
             let userLbl = document.getElementById('lbl-qr-user');
@@ -2085,7 +2113,7 @@
             if(dept) { deptLbl.innerText = dept; deptLbl.style.color = "var(--primary)"; }
             else { deptLbl.innerText = "Chưa nhập"; deptLbl.style.color = "var(--red)"; }
 
-            let qrContent = getStructuredQrText(code, type, user, dept, os, office, software, solid);
+            let qrContent = getStructuredQrText(code, type, user, dept, os, office, software, asia, quasoft, cloudoffice);
 
             const previewCanvasContainer = document.getElementById('live-qrcode-canvas');
             if (previewCanvasContainer) {
@@ -2114,8 +2142,11 @@
             let os = document.getElementById('it-os').value;
             let office = document.getElementById('it-office').value;
             let software = document.getElementById('it-software').value;
-            let solid = document.getElementById('it-software-solid').value;
-            let qrText = getStructuredQrText(code, type, user, dept, os, office, software, solid);
+            let asia = document.getElementById('it-asia').value;
+            let quasoft = document.getElementById('it-quasoft').value;
+            let cloudoffice = document.getElementById('it-cloudoffice').value;
+
+            let qrText = getStructuredQrText(code, type, user, dept, os, office, software, asia, quasoft, cloudoffice);
             openLargeQrModal(qrText, code);
         }
 
@@ -2183,14 +2214,16 @@
             let os = document.getElementById('it-os').value, osLic = document.getElementById('it-os-lic').value;
             let office = document.getElementById('it-office').value, officeLic = document.getElementById('it-office-lic').value;
             let software = document.getElementById('it-software').value;
-            let solid = document.getElementById('it-software-solid').value;
+            let asia = document.getElementById('it-asia').value;
+            let quasoft = document.getElementById('it-quasoft').value;
+            let cloudoffice = document.getElementById('it-cloudoffice').value;
             let softLic = document.getElementById('it-soft-lic').value;
             let specs = document.getElementById('it-specs').value.trim(), dateVal = document.getElementById('it-date').value, status = document.getElementById('it-status').value;
 
             if (!code || !user || !dept) { alert("⚠️ Vui lòng nhập đầy đủ Người sử dụng và Phòng ban để tạo mã QR chuẩn xác phục vụ kiểm kê!"); return; }
             if (!itAssetRecordsByYear[CURRENT_SELECTED_YEAR]) itAssetRecordsByYear[CURRENT_SELECTED_YEAR] = [];
             
-            let recordObj = { user, dept, type, code, os, osLic, office, officeLic, software, solid, softLic, specs, dateVal, status };
+            let recordObj = { user, dept, type, code, os, osLic, office, officeLic, software, asia, quasoft, cloudoffice, softLic, specs, dateVal, status };
 
             if (editIndex >= 0) {
                 let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR];
@@ -2244,12 +2277,14 @@
             document.getElementById('it-type').value = rec.type || "Laptop Doanh Nghiệp";
             document.getElementById('it-code').value = rec.code || "";
             document.getElementById('it-os').value = rec.os || "Windows 11 Pro / Home";
-            document.getElementById('it-os-lic').value = rec.osLic || "Bản quyền chính hãng OEM/Retail";
+            document.getElementById('it-os-lic').value = rec.osLic || "⚠️ Chưa có bản quyền HĐH (Chưa Active)";
             document.getElementById('it-office').value = rec.office || "Microsoft 365 (M365) Business Standard";
-            document.getElementById('it-office-lic').value = rec.officeLic || "Bản quyền doanh nghiệp chính hãng";
+            document.getElementById('it-office-lic').value = rec.officeLic || "⚠️ Chưa có bản quyền Office";
             document.getElementById('it-software').value = rec.software || "Không có (Văn phòng cơ bản)";
-            document.getElementById('it-software-solid').value = rec.solid || "Không có (Văn phòng cơ bản)";
-            document.getElementById('it-soft-lic').value = rec.softLic || "Bản quyền chính hãng doanh nghiệp";
+            document.getElementById('it-asia').value = rec.asia || "Không";
+            document.getElementById('it-quasoft').value = rec.quasoft || "Không";
+            document.getElementById('it-cloudoffice').value = rec.cloudoffice || "Có (Đã tích hợp Web/App)";
+            document.getElementById('it-soft-lic').value = rec.softLic || "⚠️ Chưa có bản quyền phần mềm / Crack";
             document.getElementById('it-specs').value = rec.specs || "";
             document.getElementById('it-date').value = rec.dateVal || "";
             document.getElementById('it-status').value = rec.status || "Tốt - Đang sử dụng";
@@ -2318,7 +2353,7 @@
             const tbody = document.getElementById('tbody-it-assets'); tbody.innerHTML = "";
             filteredRecords.forEach((rec, idx) => {
                 let canvasId = `qr-canvas-${CURRENT_SELECTED_YEAR}-${idx}`;
-                let qrTextStr = getStructuredQrText(rec.code, rec.type, rec.user, rec.dept, rec.os, rec.office, rec.software, rec.solid);
+                let qrTextStr = getStructuredQrText(rec.code, rec.type, rec.user, rec.dept, rec.os, rec.office, rec.software, rec.asia, rec.quasoft, rec.cloudoffice);
                 
                 tbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${idx + 1}</td>
@@ -2327,7 +2362,7 @@
                     <td>${rec.specs}</td>
                     <td>${rec.os} <br><span style="color:${rec.osLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.osLic}]</span></td>
                     <td>${rec.office} <br><span style="color:${rec.officeLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.officeLic}]</span></td>
-                    <td><span style="color:var(--blue);">CAD: ${rec.software}</span><br><span style="color:var(--purple);">Solid: ${rec.solid || 'Không'}</span> <br><span style="color:${rec.softLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.softLic}]</span></td>
+                    <td><span style="color:var(--blue);">CAD/Solid: ${rec.software}</span><br><span style="color:var(--green);">ASIA: ${rec.asia || 'Không'}</span> | <span style="color:var(--orange);">Quasoft: ${rec.quasoft || 'Không'}</span><br><span style="color:var(--purple);">CloudOffice: ${rec.cloudoffice || 'Có'}</span><br><span style="color:${rec.softLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.softLic}]</span></td>
                     <td class="font-bold">${rec.user}</td>
                     <td>${rec.dept}</td>
                     <td class="text-center">${rec.dateVal || '-'}</td>
@@ -2349,7 +2384,7 @@
                         try {
                             new QRious({
                                 element: canvasEl,
-                                value: getStructuredQrText(rec.code, rec.type, rec.user, rec.dept, rec.os, rec.office, rec.software, rec.solid),
+                                value: getStructuredQrText(rec.code, rec.type, rec.user, rec.dept, rec.os, rec.office, rec.software, rec.asia, rec.quasoft, rec.cloudoffice),
                                 size: 48
                             });
                         } catch (e) {
@@ -2417,7 +2452,7 @@
                         <td style="border: 1px solid black; padding: 6px;">${r.specs}</td>
                         <td style="border: 1px solid black; padding: 6px;">${r.os} (${r.osLic})</td>
                         <td style="border: 1px solid black; padding: 6px;">${r.office} (${r.officeLic})</td>
-                        <td style="border: 1px solid black; padding: 6px;">CAD: ${r.software} | Solid: ${r.solid || 'Không'} (${r.softLic})</td>
+                        <td style="border: 1px solid black; padding: 6px;">CAD/Solid: ${r.software} | ASIA: ${r.asia} | Quasoft: ${r.quasoft} | CloudOffice: ${r.cloudoffice} (${r.softLic})</td>
                         <td style="border: 1px solid black; padding: 6px; font-weight: bold;">${r.user}</td>
                         <td style="border: 1px solid black; padding: 6px;">${r.dept}</td>
                         <td style="border: 1px solid black; padding: 6px; text-align: center;">${r.status}</td>
@@ -2455,7 +2490,7 @@
                     <div class="sub-title">Đơn vị: ${deptTitleStr} - Năm ${CURRENT_SELECTED_YEAR}</div>
 
                     <p>Kính gửi: Tổng giám đốc Tổng công ty Giấy Việt Nam,</p>
-                    <p>Thực hiện kế hoạch quản trị và kiểm kê tài sản công nghệ thông tin tại Tổng công ty, phòng chuyên môn xin báo cáo chi tiết hiện trạng trang thiết bị, hệ điều hành, bản quyền phần mềm và các ứng dụng thiết kế kỹ thuật (AutoCad, SolidWorks) tính đến thời điểm ${todayStr} như sau:</p>
+                    <p>Thực hiện kế hoạch quản trị và kiểm kê tài sản công nghệ thông tin tại Tổng công ty, phòng chuyên môn xin báo cáo chi tiết hiện trạng trang thiết bị, hệ điều hành, bản quyền phần mềm và các ứng dụng doanh nghiệp (AutoCAD, SolidWorks, ASIA, Quasoft, CloudOffice) tính đến thời điểm ${todayStr} như sau:</p>
 
                     <table class="report-table">
                         <thead>
@@ -2466,7 +2501,7 @@
                                 <th>Cấu hình phần cứng</th>
                                 <th>Hệ điều hành</th>
                                 <th>Bộ Office</th>
-                                <th>Phần mềm (CAD / Solid)</th>
+                                <th>Phần mềm chuyên dụng & Bản quyền</th>
                                 <th>Người sử dụng</th>
                                 <th>Phòng ban</th>
                                 <th>Trạng thái</th>
@@ -2483,7 +2518,7 @@
                     <table class="sig-table">
                         <tr>
                             <td><b>Ý KIẾN CỦA LÃNH ĐẠO</b><br><br><br><br></td>
-                            <td><b>NGƯỜI LẬP BÁO CÁO</b><br><br><br><br><b>Nguyễn Thị Tuyết Nhung</b></td>
+                            <td><b>NGƯỜI LẬP BÁO CÁO</b><br><br><br><br><b>N.T.T.Nhung</b></td>
                         </tr>
                     </table>
                 </body>
