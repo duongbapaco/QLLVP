@@ -40,7 +40,6 @@
         .header h1 { font-size: 15px; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; }
         .live-clock-box { background: rgba(255,255,255,0.15); padding: 5px 10px; border-radius: 4px; font-family: monospace; font-size: 12px; text-align: right; border: 1px solid rgba(255,255,255,0.3); font-weight: bold; color: #fef08a; }
 
-        /* DASHBOARD GRID CHUYÊN NGHIỆP */
         .dash-overview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px; }
         @media (max-width: 1024px) { .dash-overview-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 600px) { .dash-overview-grid { grid-template-columns: 1fr; } }
@@ -58,27 +57,11 @@
 
         .dash-quick-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; background: #ffffff; padding: 12px; border-radius: 8px; border: 1.5px solid #cbd5e1; align-items: center; justify-content: space-between; }
 
-        .stat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 8px; }
-        @media (max-width: 1200px) { .stat-grid { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 768px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 480px) { .stat-grid { grid-template-columns: 1fr; } }
-
-        .stat-card { background: white; padding: 8px 10px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid var(--border-color); border-left: 5px solid var(--blue); display: flex; align-items: center; justify-content: space-between; }
-        .stat-card.green { border-left-color: var(--green); }
-        .stat-card.orange { border-left-color: var(--orange); }
-        .stat-card.purple { border-left-color: var(--purple); }
-        .stat-card.red { border-left-color: var(--red); }
-        .stat-info { display: flex; flex-direction: column; overflow: hidden; }
-        .stat-title { font-size: 10.5px; text-transform: uppercase; color: #334155; font-weight: bold; white-space: nowrap; }
-        .stat-value { font-size: 14px; font-weight: 800; color: var(--primary); margin-top: 2px; white-space: nowrap; }
-        .stat-icon { font-size: 18px; opacity: 0.4; flex-shrink: 0; }
-
         .salary-visual-summary { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin: 0 auto 10px auto; max-width: 100%; background: #ffffff; padding: 10px; border-radius: 8px; border: 2px solid #cbd5e1; box-shadow: 0 2px 5px rgba(0,0,0,0.06); flex-wrap: wrap; }
         .visual-mini-card { flex: 1; min-width: 150px; background: #f8fafc; padding: 8px 12px; border-radius: 6px; border: 1.5px solid #cbd5e1; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
         .visual-lbl { font-size: 11px; font-weight: bold; color: #0f172a; white-space: nowrap; display: flex; align-items: center; }
         .visual-val { font-size: 14.5px; font-weight: 800; color: var(--primary); white-space: nowrap; }
 
-        /* THANH CÔNG CỤ TÍNH LƯƠNG GỌN GÀNG, THÔNG MINH */
         .config-toolbar-container { display: flex; justify-content: space-between; align-items: flex-end; gap: 8px; flex-wrap: wrap; background: #f8fafc; padding: 8px 10px; border-radius: 6px; border: 1.5px solid #cbd5e1; }
         .config-inputs-group { display: flex; align-items: flex-end; gap: 6px; flex-wrap: wrap; flex: 1; }
         .config-inputs-group .form-group { min-width: 110px; max-width: 160px; flex: 1; }
@@ -222,7 +205,7 @@
                 <div class="live-clock-box" id="live-system-clock">--:--:-- --/--/----</div>
             </div>
 
-            <!-- THANH ĐIỀU HƯỚNG TAB CHÍNH (Đưa Dashboard lên đầu tiên) -->
+            <!-- THANH ĐIỀU HƯỚNG TAB CHÍNH -->
             <div class="nav-tabs">
                 <button type="button" class="nav-tab active" data-tab="dashboard" onclick="switchMainTab('dashboard')"><i class="fa-solid fa-chart-pie"></i> 📊 Dashboard Tổng Quan</button>
                 <button type="button" class="nav-tab" data-tab="salary" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Tính Lương</button>
@@ -231,7 +214,7 @@
                 <button type="button" class="nav-tab" data-tab="it-assets" onclick="switchMainTab('it-assets')"><i class="fa-solid fa-laptop"></i> Thiết Bị CNTT</button>
             </div>
 
-            <!-- TAB 0: DASHBOARD TỔNG QUAN CHUYÊN NGHIỆP (MẶC ĐỊNH MỞ KHI VÀO WEB) -->
+            <!-- TAB 0: DASHBOARD TỔNG QUAN CHUYÊN NGHIỆP -->
             <div id="tab-dashboard" class="tab-content active">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--blue);">
@@ -307,7 +290,7 @@
                 </div>
             </div>
 
-            <!-- TAB 1: BẢNG LƯƠNG NHÂN SỰ (ĐÃ THU GỌN GIAO DIỆN & TỐI ƯU ĐỘ RỘNG CÁC Ô) -->
+            <!-- TAB 1: BẢNG LƯƠNG NHÂN SỰ -->
             <div id="tab-salary" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--blue);">
@@ -461,7 +444,6 @@
                         <a href="https://drive.google.com" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Drive</a>
                     </div>
 
-                    <!-- CÔNG CỤ TÍNH THUẾ -->
                     <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px;">
                         <div style="font-weight: bold; color: #166534; font-size: 13px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
                             <i class="fa-solid fa-calculator"></i> 🧮 CÔNG CỤ TÍNH THUẾ & TÀI CHÍNH NHANH
@@ -826,7 +808,6 @@
 
                     <div id="status-cntt" style="font-weight: bold; font-size: 13px; margin-bottom: 8px;"></div>
 
-                    <!-- THANH CÔNG CỤ LỌC & XUẤT WORD -->
                     <div style="display: flex; justify-content: space-between; align-items: center; background: #f3e8ff; border: 1.5px solid #d8b4fe; padding: 10px; border-radius: 6px; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
                         <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; flex: 1;">
                             <div style="display: flex; align-items: center; gap: 4px;">
@@ -883,7 +864,7 @@
             </div>
         </div>
 
-        <!-- LỊCH VẠN NIÊN THÔNG MINH (SIDEBAR - ĐẦY ĐỦ THÔNG TIN PHONG THỦY) -->
+        <!-- LỊCH VẠN NIÊN THÔNG MINH (SIDEBAR) -->
         <div class="calendar-sidebar" id="calendar-sidebar-box">
             <div class="cal-smart-header">
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
@@ -1349,13 +1330,6 @@
 
             let itCountYear = (itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || []).length;
 
-            // Cập nhật giá trị lên Stat-grid và Dashboard Pro
-            document.getElementById('dash-total-pay').innerText = formatCurrencyVN(totalNetYear) + " VND";
-            document.getElementById('dash-paid-pay').innerText = formatCurrencyVN(totalPaidYear) + " VND";
-            document.getElementById('dash-total-advance').innerText = formatCurrencyVN(totalAdvanceYear) + " VND";
-            document.getElementById('dash-pending-pay').innerText = formatCurrencyVN(totalTelecomYear) + " VND";
-            document.getElementById('dash-total-it-devices').innerText = `${itCountYear} Thiết bị`;
-
             document.getElementById('dash-pro-total-pay').innerText = formatCurrencyVN(totalNetYear) + " VND";
             document.getElementById('dash-pro-paid-pay').innerText = formatCurrencyVN(totalPaidYear) + " VND";
             document.getElementById('dash-pro-total-advance').innerText = formatCurrencyVN(totalAdvanceYear) + " VND";
@@ -1439,7 +1413,7 @@
             const tbody = document.getElementById('tbody-salary'); 
             tbody.innerHTML = ""; 
 
-            let T_thuc_linh_cb = 0, T_thuc_linh_lcv = 0, T_anca = 0, T_net = 0, T_tam_ung = 0;
+            let T_thuc_linh_cb = 0, T_thuc_linh_lcv = 0, T_anca = 0, T_net = 0;
             let vungReg = cfg.vung || 4140000;
             let baseReg = cfg.base || 2650000;
             let lcvReg = cfg.lcv || 1991139;
@@ -1474,27 +1448,26 @@
                 T_thuc_linh_lcv += thuc_linh_lcv; 
                 T_anca += ancaVal;
                 T_net += thuc_linh_tong;
-                T_tam_ung += tamUngVal;
 
                 tbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${index + 1}</td>
                     <td><input class="inp-table inp-name" type="text" value="${row.name}" oninput="updateSalaryRowValue(${index}, 'name', this.value)"></td>
                     <td><input class="inp-table inp-account" type="text" value="${row.account || ''}" oninput="updateSalaryRowValue(${index}, 'account', this.value)"></td>
-                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:700;" type="text" inputmode="decimal" value="${row.lcb_heso}" onchange="updateSalaryRowValue(${index}, 'lcb_heso', this.value)"></td>
-                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:700;" type="text" inputmode="decimal" value="${row.lcb_phucap || 0}" onchange="updateSalaryRowValue(${index}, 'lcb_phucap', this.value)"></td>
+                    <td class="text-center"><input class="inp-table" style="text-align:center; font-weight:700;" type="text" value="${row.lcb_heso}" onchange="updateSalaryRowValue(${index}, 'lcb_heso', this.value)"></td>
+                    <td class="text-center"><input class="inp-table" style="text-align:center; font-weight:700;" type="text" value="${row.lcb_phucap || 0}" onchange="updateSalaryRowValue(${index}, 'lcb_phucap', this.value)"></td>
                     <td class="text-right font-bold" style="color:#1e3a8a;">${formatCurrencyVN(luong_ky_hdld)}</td>
                     <td class="text-right font-bold" style="color:#047857;">${formatCurrencyVN(luong_co_ban)}</td>
-                    <td class="text-center"><input class="inp-table inp-num-day" type="text" inputmode="numeric" value="${val_NT}" onchange="updateSalaryRowValue(${index}, 'NT', this.value)"></td>
-                    <td class="text-center"><input class="inp-table inp-num-day" type="text" inputmode="numeric" value="${val_P}" onchange="updateSalaryRowValue(${index}, 'P', this.value)"></td>
-                    <td class="text-center"><input class="inp-table inp-num-day" type="text" inputmode="numeric" value="${val_LE}" onchange="updateSalaryRowValue(${index}, 'le_vr', this.value)"></td>
+                    <td class="text-center"><input class="inp-table inp-num-day" type="text" value="${val_NT}" onchange="updateSalaryRowValue(${index}, 'NT', this.value)"></td>
+                    <td class="text-center"><input class="inp-table inp-num-day" type="text" value="${val_P}" onchange="updateSalaryRowValue(${index}, 'P', this.value)"></td>
+                    <td class="text-center"><input class="inp-table inp-num-day" type="text" value="${val_LE}" onchange="updateSalaryRowValue(${index}, 'le_vr', this.value)"></td>
                     <td class="text-right">${formatCurrencyVN(l_thoigian)}</td>
                     <td class="text-right" style="color:#1e3a8a; font-weight:bold;">${formatCurrencyVN(le_phep_tt)}</td>
                     <td class="text-right font-bold">${formatCurrencyVN(l_tong_cb)}</td>
                     <td class="text-right" style="color:var(--red); font-weight:bold;">${formatCurrencyVN(bh)}</td>
                     <td class="text-right font-bold" style="background:#bfdbfe; color:#1e3a8a;">${formatCurrencyVN(thuc_linh_cb)}</td>
-                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:700;" type="text" inputmode="decimal" value="${row.he_so_lcv}" onchange="updateSalaryRowValue(${index}, 'he_so_lcv', this.value)"></td>
-                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:700;" type="text" inputmode="decimal" value="${row.phu_cap_lcv || 0}" onchange="updateSalaryRowValue(${index}, 'phu_cap_lcv', this.value)"></td>
-                    <td class="text-center"><input class="inp-table inp-num-sm" style="text-align:center; font-weight:800; background:#fef08a;" type="text" inputmode="decimal" value="${val_hsHtcv}" onchange="updateSalaryRowValue(${index}, 'hs_htcv', this.value)"></td>
+                    <td class="text-center"><input class="inp-table" style="text-align:center; font-weight:700;" type="text" value="${row.he_so_lcv}" onchange="updateSalaryRowValue(${index}, 'he_so_lcv', this.value)"></td>
+                    <td class="text-center"><input class="inp-table" style="text-align:center; font-weight:700;" type="text" value="${row.phu_cap_lcv || 0}" onchange="updateSalaryRowValue(${index}, 'phu_cap_lcv', this.value)"></td>
+                    <td class="text-center"><input class="inp-table" style="text-align:center; font-weight:800; background:#fef08a;" type="text" value="${val_hsHtcv}" onchange="updateSalaryRowValue(${index}, 'hs_htcv', this.value)"></td>
                     <td class="text-right">${formatCurrencyVN(luong_cong_viec)}</td>
                     <td class="text-right font-bold">${formatCurrencyVN(lcv_thucte)}</td>
                     <td class="text-right"><input class="inp-table inp-currency" type="text" value="${formatCurrencyVN(ancaVal)}" onfocus="this.value=parseCurrencyVN(this.value)" onblur="this.value=formatCurrencyVN(parseCurrencyVN(this.value)); updateSalaryRowValue(${index}, 'anca', this.value)"></td>
@@ -1548,7 +1521,6 @@
             }
         }
 
-        /* --- HỒ SƠ THANH TOÁN --- */
         async function addNewPaymentRecord() {
             let sm = document.getElementById('filter-month').value;
             let parts = sm.split('-');
@@ -1644,8 +1616,7 @@
             statusLabel.innerText = "✅ Thêm hồ sơ thành công!";
         }
 
-        function editPaymentRecord(idxKey, actualIdx) {
-            let sm = document.getElementById('filter-month').value;
+        function editPaymentRecord(sm, actualIdx) {
             let rec = paymentRecordsByMonth[sm][actualIdx];
             if (!rec) return;
 
@@ -1739,7 +1710,6 @@
             }
         }
 
-        /* --- CƯỚC VIỄN THÔNG --- */
         async function addNewTelecomRecord() {
             let sm = document.getElementById('filter-month').value;
             let parts = sm.split('-');
