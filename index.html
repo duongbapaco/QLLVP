@@ -1227,7 +1227,7 @@
                 });
             });
 
-            // 3. Tổng kết cước viễn thông theo năm chọn
+            // 3. Tổng kết cước viễn thông theo năm chọn (Trừ đi 14.822.400 VND cho năm 2026 theo yêu cầu)
             Object.keys(telecomRecordsByMonth || {}).forEach(sm => {
                 let records = telecomRecordsByMonth[sm] || [];
                 records.forEach(rec => {
@@ -1239,6 +1239,11 @@
                     }
                 });
             });
+
+            if (CURRENT_SELECTED_YEAR === "2026") {
+                totalTelecomYear -= 14822400;
+                if (totalTelecomYear < 0) totalTelecomYear = 0;
+            }
 
             // 4. Tổng số máy CNTT theo đúng năm chọn
             let itCountYear = (itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || []).length;
@@ -1577,7 +1582,6 @@
             let totalSum = 0;
             let globalIndex = 1;
 
-            // Quét toàn bộ dữ liệu hồ sơ thanh toán trong kho lưu trữ, lọc theo NĂM đang chọn
             Object.keys(paymentRecordsByMonth || {}).forEach(sm => {
                 let records = paymentRecordsByMonth[sm] || [];
                 records.forEach((rec, actualIdx) => {
@@ -1751,7 +1755,6 @@
             let totalTelecom = 0;
             let globalIndex = 1;
 
-            // Quét toàn bộ kho lưu trữ cước viễn thông, lọc theo NĂM đang chọn
             Object.keys(telecomRecordsByMonth || {}).forEach(sm => {
                 let records = telecomRecordsByMonth[sm] || [];
                 records.forEach((rec, actualIdx) => {
