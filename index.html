@@ -9,6 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <style>
@@ -178,13 +179,12 @@
                 <i class="fa-solid fa-calendar-check"></i>
                 <label for="global-year-picker">NĂM:</label>
                 <select id="global-year-picker" onchange="handleGlobalYearChange()">
-                    <option value="2024">Năm 2024</option>
-                    <option value="2025">Năm 2025</option>
-                    <option value="2026" selected>Năm 2026</option>
-                    <option value="2027">Năm 2027</option>
-                    <option value="2028">Năm 2028</option>
-                    <option value="2029">Năm 2029</option>
-                    <option value="2030">Năm 2030</option>
+                    <option value="2025">Năm 2025 (Thuế 10%)</option>
+                    <option value="2026" selected>Năm 2026 (Thuế 8%)</option>
+                    <option value="2027">Năm 2027 (Linh hoạt)</option>
+                    <option value="2028">Năm 2028 (Linh hoạt)</option>
+                    <option value="2029">Năm 2029 (Linh hoạt)</option>
+                    <option value="2030">Năm 2030 (Linh hoạt)</option>
                 </select>
             </div>
         </div>
@@ -203,18 +203,18 @@
 
             <!-- THANH ĐIỀU HƯỚNG TAB CHÍNH -->
             <div class="nav-tabs">
-                <button type="button" class="nav-tab active" data-tab="dashboard" onclick="switchMainTab('dashboard')"><i class="fa-solid fa-chart-pie"></i> 📊 Dashboard Tổng Quan & Thuế</button>
+                <button type="button" class="nav-tab active" data-tab="dashboard" onclick="switchMainTab('dashboard')"><i class="fa-solid fa-chart-pie"></i> 📊 Dashboard & Biểu Đồ Thuế</button>
                 <button type="button" class="nav-tab" data-tab="salary" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Tính Lương</button>
                 <button type="button" class="nav-tab" data-tab="payment" onclick="switchMainTab('payment')"><i class="fa-solid fa-file-invoice"></i> Hồ Sơ TT</button>
                 <button type="button" class="nav-tab" data-tab="telecom" onclick="switchMainTab('telecom')"><i class="fa-solid fa-globe"></i> Cước Viễn Thông</button>
                 <button type="button" class="nav-tab" data-tab="it-assets" onclick="switchMainTab('it-assets')"><i class="fa-solid fa-laptop"></i> Thiết Bị CNTT</button>
             </div>
 
-            <!-- TAB 0: DASHBOARD TỔNG QUAN & THỐNG KÊ THUẾ -->
+            <!-- TAB 0: DASHBOARD TỔNG QUAN & BIỂU ĐỒ THỐNG KÊ -->
             <div id="tab-dashboard" class="tab-content active">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--blue);">
-                        <span><i class="fa-solid fa-gauge-high" style="color:var(--blue);"></i> TỔNG QUAN ĐIỀU HÀNH & THỐNG KÊ THUẾ NĂM <span class="lbl-current-year">2026</span></span>
+                        <span><i class="fa-solid fa-gauge-high" style="color:var(--blue);"></i> TỔNG QUAN ĐIỀU HÀNH & BIỂU ĐỒ THỐNG KÊ NĂM <span class="lbl-current-year">2026</span></span>
                     </div>
 
                     <div class="dash-quick-actions">
@@ -253,7 +253,7 @@
                                 <i class="fa-solid fa-percent dash-card-icon" style="color:var(--orange);"></i>
                             </div>
                             <div class="dash-card-val" id="dash-pro-total-tax" style="color:var(--orange);">0 VND</div>
-                            <div style="font-size: 10.5px; color: #64748b; margin-top: 4px;"><i class="fa-solid fa-calculator"></i> Tách từ hồ sơ thanh toán</div>
+                            <div style="font-size: 10.5px; color: #64748b; margin-top: 4px;"><i class="fa-solid fa-calculator"></i> Tách linh hoạt theo năm</div>
                         </div>
                         <div class="dash-card-pro purple">
                             <div class="dash-card-top">
@@ -265,10 +265,30 @@
                         </div>
                     </div>
 
-                    <!-- BẢNG TỰ ĐỘNG TÁCH THUẾ NĂM 2026 TỪ DỮ LIỆU DASHBOARD -->
+                    <!-- KHU VỰC HIỂN THỊ BIỂU ĐỒ TRỰC QUAN CHUYÊN NGHIỆP -->
+                    <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 12px; margin-bottom: 12px;">
+                        <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 8px;">
+                            <div style="font-weight: bold; color: var(--primary); font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
+                                <span><i class="fa-solid fa-chart-bar" style="color:var(--blue);"></i> Biểu đồ cơ cấu Chi phí & Tài chính năm <span class="lbl-current-year">2026</span></span>
+                            </div>
+                            <div style="position: relative; height: 260px; width: 100%;">
+                                <canvas id="financeBarChart"></canvas>
+                            </div>
+                        </div>
+                        <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 8px;">
+                            <div style="font-weight: bold; color: var(--primary); font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
+                                <span><i class="fa-solid fa-chart-pie" style="color:var(--orange);"></i> Tỷ trọng Chi phí & Tiền thuế</span>
+                            </div>
+                            <div style="position: relative; height: 260px; width: 100%; display: flex; justify-content: center;">
+                                <canvas id="taxPieChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BẢNG TỰ ĐỘNG TÁCH THUẾ LINH HOẠT THEO NĂM -->
                     <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
                         <div style="font-weight: bold; color: #c2410c; font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
-                            <span><i class="fa-solid fa-calculator"></i> 🧮 TỰ ĐỘNG TÁCH THUẾ (TÍNH NGƯỢC TỪ SỐ TIỀN SAU THUẾ) NĂM <span class="lbl-current-year">2026</span></span>
+                            <span><i class="fa-solid fa-calculator"></i> 🧮 BẢNG TỰ ĐỘNG TÁCH THUẾ LINH HOẠT (NĂM <span class="lbl-current-year">2026</span>)</span>
                             <span id="dash-tax-badge-count" style="font-size: 11.5px; background: #ffedd5; padding: 2px 6px; border-radius: 4px; border: 1px solid #f97316;">0 hồ sơ đã phân tích</span>
                         </div>
                         <div class="table-responsive" style="max-height: 250px; overflow-y: auto; border-color: #fdba74;">
@@ -288,26 +308,6 @@
                             </table>
                         </div>
                     </div>
-
-                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px; align-items: start;">
-                        <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 8px;">
-                            <div style="font-weight: bold; color: var(--primary); font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
-                                <i class="fa-solid fa-circle-info" style="color:var(--blue);"></i> Thông Tin Quản Trị Hệ Thống VINAPACO
-                            </div>
-                            <ul style="padding-left: 18px; font-size: 12.5px; color: #334155; line-height: 1.5;">
-                                <li><b>Đơn vị chủ quản:</b> Tổng công ty Giấy Việt Nam - Văn phòng Tổng công ty.</li>
-                                <li><b>Hệ thống số liệu:</b> Quản trị tự động bảng lương nhân sự, hồ sơ thanh toán tài chính, tự động tách thuế tính ngược và kiểm kê trang thiết bị CNTT có mã QR định danh trực tiếp.</li>
-                                <li><b>Cơ chế Auto-Sync Cloud:</b> Tự động đồng bộ ngầm mọi thay đổi dữ liệu lên Google Sheets và Google Drive ngay khi nhập liệu.</li>
-                            </ul>
-                        </div>
-                        <div style="background: #fdf4ff; border: 1.5px solid #d8b4fe; padding: 12px; border-radius: 8px; text-align: center;">
-                            <div style="font-weight: bold; color: var(--purple); font-size: 13px; margin-bottom: 6px;">
-                                <i class="fa-solid fa-laptop"></i> Tổng Số Thiết Bị CNTT
-                            </div>
-                            <div style="font-size: 26px; font-weight: 900; color: var(--purple); margin: 6px 0;" id="dash-pro-total-it-devices">0 Thiết bị</div>
-                            <div style="font-size: 11px; color: #6b21a8; font-style: italic;">Đã được cấp tem QR mã định danh kiểm kê năm <span class="lbl-current-year">2026</span></div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -318,7 +318,6 @@
                         <span><i class="fa-solid fa-pen-to-square" style="color:var(--blue);"></i> CẤU HÌNH LƯƠNG THÁNG - NĂM <span class="lbl-current-year">2026</span></span>
                     </div>
                     
-                    <!-- THU GỌN TỐI ĐA KHOẢNG CÁCH VÀ CHIỀU DÀI CÁC Ô TÊN CÔNG TY, PHÒNG BAN, BẢNG LƯƠNG VÀ CÁC Ô CẤU HÌNH -->
                     <div class="config-toolbar-container" style="margin-bottom: 8px;">
                         <div style="display: grid; grid-template-columns: 1.8fr 1fr 1.6fr; gap: 8px; margin-bottom: 8px; align-items: end;">
                             <div class="form-group">
@@ -470,7 +469,7 @@
 
                     <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
                         <div style="font-weight: bold; color: #166534; font-size: 12.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
-                            <i class="fa-solid fa-calculator"></i> 🧮 CÔNG CỤ TÍNH THUẾ (TÍNH NGƯỢC TỪ SỐ TIỀN SAU THUẾ) & TÀI CHÍNH NHANH
+                            <i class="fa-solid fa-calculator"></i> 🧮 CÔNG CỤ TÍNH THUẾ LINH HOẠT & TÀI CHÍNH NHANH
                         </div>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; align-items: end;">
                             <div class="form-group">
@@ -482,8 +481,8 @@
                                 <select id="tax-rate-select" onchange="calculateTaxPro()" style="border-color:#86efac;">
                                     <option value="0">0% (Không chịu thuế)</option>
                                     <option value="5">5% (Thiết yếu)</option>
-                                    <option value="8" selected>8% (Giảm thuế GTGT)</option>
-                                    <option value="10">10% (Chuẩn GTGT)</option>
+                                    <option value="8">8% (Giảm thuế GTGT)</option>
+                                    <option value="10" selected>10% (Chuẩn GTGT / Năm 2025)</option>
                                     <option value="5.5">5.5% (Thuế nhà thầu 5%+5%)</option>
                                     <option value="10.5">10.5% (Thuế nhà thầu 10%+5%)</option>
                                 </select>
@@ -1048,6 +1047,8 @@
         let CURRENT_SELECTED_YEAR = "2026";
         let isAmountManual = false;
         let autoSyncTimer = null;
+        let barChartInstance = null;
+        let pieChartInstance = null;
 
         const default16Staffs = [
             {"name": "Nguyễn Minh Ngọc", "account": "105005712499", "lcb_heso": 1.94, "lcb_phucap": 0.25, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 5.20, "phu_cap_lcv": 0.6, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 5000000, "pctt": 0, "tru_ung": 0},
@@ -1282,11 +1283,9 @@
             let taxAmount = 0, baseAmount = 0;
 
             if (mode === 'extract') {
-                // TÍNH NGƯỢC: Tổng tiền là số tiền sau thuế -> Tách ra tiền thuế và tiền gốc chưa thuế
                 baseAmount = totalAmount / (1 + rate / 100);
                 taxAmount = totalAmount - baseAmount;
             } else {
-                // Cộng thuế vào gốc
                 baseAmount = totalAmount;
                 taxAmount = baseAmount * (rate / 100);
                 totalAmount = baseAmount + taxAmount;
@@ -1296,12 +1295,19 @@
             document.getElementById('tax-result-total').innerText = `Tiền gốc: ${formatCurrencyVN(baseAmount)} VND`;
         }
 
+        function getTaxRateForYear(yearStr) {
+            if (yearStr === "2025") return 10; // Năm 2025 mặc định 10%
+            if (yearStr === "2026") return 8;  // Năm 2026 mặc định 8%
+            return 8; // Các năm tiếp theo mặc định 8% (linh hoạt thay đổi theo nội dung)
+        }
+
         function updateGlobalDashboardSummary() {
             let totalNetYear = 0;
             let totalAdvanceYear = 0;
             let totalPaidYear = 0;
             let totalTelecomYear = 0;
             let totalTaxYear = 0;
+            let totalBaseYear = 0;
 
             Object.keys(salaryDataByMonth || {}).forEach(sm => {
                 let parts = sm.split('-');
@@ -1338,7 +1344,6 @@
                         let thuc_linh_tong = thuc_linh_cb + thuc_linh_lcv;
 
                         totalNetYear += thuc_linh_tong;
-                        totalAdvanceYear += tamUngVal;
                     });
                 }
             });
@@ -1346,6 +1351,7 @@
             const taxSummaryTbody = document.getElementById('tbody-dash-tax-summary');
             taxSummaryTbody.innerHTML = "";
             let taxRecordCount = 0;
+            let defaultRate = getTaxRateForYear(CURRENT_SELECTED_YEAR);
 
             Object.keys(paymentRecordsByMonth || {}).forEach(sm => {
                 let records = paymentRecordsByMonth[sm] || [];
@@ -1357,17 +1363,19 @@
                         let totalAmt = rec.amount || 0;
                         totalPaidYear += totalAmt;
                         
-                        let estRate = 8; // Mặc định 8% như yêu cầu
+                        let estRate = defaultRate;
                         let contentLower = (rec.content || "").toLowerCase();
                         if (contentLower.includes("10%")) estRate = 10;
+                        else if (contentLower.includes("8%")) estRate = 8;
                         else if (contentLower.includes("5%")) estRate = 5;
                         else if (contentLower.includes("0%")) estRate = 0;
                         else if (contentLower.includes("nhà thầu")) estRate = 10.5;
 
-                        // TÍNH NGƯỢC: Tổng tiền là sau thuế -> Tính ngược ra gốc và thuế
+                        // TÍNH NGƯỢC THUẾ LINH HOẠT
                         let baseAmt = totalAmt / (1 + estRate / 100);
                         let taxAmt = totalAmt - baseAmt;
                         totalTaxYear += taxAmt;
+                        totalBaseYear += baseAmt;
                         taxRecordCount++;
 
                         taxSummaryTbody.innerHTML += `
@@ -1388,7 +1396,7 @@
             if (taxRecordCount === 0) {
                 taxSummaryTbody.innerHTML = `<tr><td colspan="7" class="text-center" style="color:#64748b; font-style:italic; padding:15px;">Chưa có dữ liệu thanh toán trong năm ${CURRENT_SELECTED_YEAR} để tính ngược thuế.</td></tr>`;
             }
-            document.getElementById('dash-tax-badge-count').innerText = `${taxRecordCount} hồ sơ đã phân tích`;
+            document.getElementById('dash-tax-badge-count').innerText = `${taxRecordCount} hồ sơ đã phân tích (Thuế suất mặc định: ${defaultRate}%)`;
 
             let seenTelecomKeys = new Set();
             Object.keys(telecomRecordsByMonth || {}).forEach(sm => {
@@ -1407,13 +1415,56 @@
                 });
             });
 
-            let itCountYear = (itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || []).length;
-
             document.getElementById('dash-pro-total-pay').innerText = formatCurrencyVN(totalNetYear) + " VND";
             document.getElementById('dash-pro-paid-pay').innerText = formatCurrencyVN(totalPaidYear) + " VND";
             document.getElementById('dash-pro-total-tax').innerText = formatCurrencyVN(totalTaxYear) + " VND";
             document.getElementById('dash-pro-pending-pay').innerText = formatCurrencyVN(totalTelecomYear) + " VND";
-            document.getElementById('dash-pro-total-it-devices').innerText = `${itCountYear} Thiết bị`;
+
+            // CẬP NHẬT BIỂU ĐỒ TRỰC QUAN CHUYÊN NGHIỆP
+            updateAnalyticsCharts(totalNetYear, totalPaidYear, totalTaxYear, totalTelecomYear);
+        }
+
+        function updateAnalyticsCharts(totalNet, totalPaid, totalTax, totalTelecom) {
+            // 1. Biểu đồ cột (Bar Chart)
+            const ctxBar = document.getElementById('financeBarChart').getContext('2d');
+            if (barChartInstance) { barChartInstance.destroy(); }
+            barChartInstance = new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: ['Tổng Lương Net', 'Thanh Toán VP', 'Tiền Thuế (Tách)', 'Cước Viễn Thông'],
+                    datasets: [{
+                        label: `Giá trị (VND) - Năm ${CURRENT_SELECTED_YEAR}`,
+                        data: [totalNet, totalPaid, totalTax, totalTelecom],
+                        backgroundColor: ['#1d4ed8', '#047857', '#ea580c', '#6d28d9'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+
+            // 2. Biểu đồ tròn (Pie Chart)
+            const ctxPie = document.getElementById('taxPieChart').getContext('2d');
+            if (pieChartInstance) { pieChartInstance.destroy(); }
+            pieChartInstance = new Chart(ctxPie, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Lương Net', 'Thanh Toán VP', 'Tiền Thuế', 'Cước Viễn Thông'],
+                    datasets: [{
+                        data: [totalNet || 1, totalPaid || 1, totalTax || 1, totalTelecom || 1],
+                        backgroundColor: ['#1d4ed8', '#047857', '#ea580c', '#6d28d9']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
         }
 
         function handleGlobalYearChange() {
@@ -2790,6 +2841,9 @@
             document.querySelectorAll('.nav-tabs .nav-tab').forEach(b => b.classList.remove('active'));
             document.getElementById('tab-' + name).classList.add('active');
             document.querySelector(`.nav-tabs .nav-tab[data-tab="${name}"]`).classList.add('active');
+            if(name === 'dashboard') {
+                updateGlobalDashboardSummary();
+            }
         }
 
         function openConfigUrlModal() { document.getElementById('cfg-script-url').value = GOOGLE_SCRIPT_API_URL; document.getElementById('cfg-sheet-url').value = GOOGLE_SHEET_VIEW_URL; document.getElementById('configUrlModal').style.display = 'flex'; }
