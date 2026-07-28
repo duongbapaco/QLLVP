@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>HỆ THỐNG QUẢN TRỊ TỔNG HỢP & TÍNH LƯƠNG - VINAPACO ENTERPRISE</title>
+    <title>HỆ THỐNG QUẢN TRỊ TỔNG HỢP & TÍNH LƯƠNG - TỔNG CÔNG TY GIẤY VIỆT NAM</title>
     <link rel="icon" href="data:,">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
@@ -39,7 +39,7 @@
         .year-selector-box select { border: none; font-weight: bold; color: var(--blue); outline: none; background: transparent; font-size: 13px; cursor: pointer; font-family: 'Times New Roman', Times, serif; }
 
         .header { display: flex; justify-content: space-between; align-items: center; background: #0f172a; color: white; padding: 10px 15px; border-radius: 4px; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
-        .header h1 { font-size: 15px; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; }
+        .header h1 { font-size: 14px; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; }
         .live-clock-box { background: rgba(255,255,255,0.15); padding: 5px 10px; border-radius: 4px; font-family: monospace; font-size: 12px; text-align: right; border: 1px solid rgba(255,255,255,0.3); font-weight: bold; color: #fef08a; }
 
         .dash-overview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px; }
@@ -54,7 +54,7 @@
         .dash-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .dash-card-lbl { font-size: 11.5px; text-transform: uppercase; color: #475569; font-weight: bold; }
         .dash-card-icon { font-size: 20px; opacity: 0.5; }
-        .dash-card-val { font-size: 18px; font-weight: 900; color: var(--primary); }
+        .dash-card-val { font-size: 17px; font-weight: 900; color: var(--primary); }
 
         .dash-quick-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; background: #ffffff; padding: 12px; border-radius: 8px; border: 1.5px solid #cbd5e1; align-items: center; justify-content: space-between; }
 
@@ -181,7 +181,7 @@
                 <i class="fa-solid fa-calendar-check"></i>
                 <label for="global-year-picker">NĂM:</label>
                 <select id="global-year-picker" onchange="handleGlobalYearChange()">
-                    <option value="2025" selected>Năm 2025 (Thuế 10% - Trừ 14.822.400đ)</option>
+                    <option value="2025" selected>Năm 2025 (Thuế 10% - Không số liệu VP)</option>
                     <option value="2026">Năm 2026 (Thuế 8%)</option>
                     <option value="2027">Năm 2027 (Linh hoạt)</option>
                     <option value="2028">Năm 2028 (Linh hoạt)</option>
@@ -247,7 +247,7 @@
                                 <i class="fa-solid fa-file-invoice-dollar dash-card-icon" style="color:var(--green);"></i>
                             </div>
                             <div class="dash-card-val" id="dash-pro-paid-pay" style="color:var(--green);">0 VND</div>
-                            <div style="font-size: 10.5px; color: #64748b; margin-top: 4px;"><i class="fa-solid fa-circle-check text-green"></i> Đã trừ điều chỉnh (nếu có phát sinh)</div>
+                            <div style="font-size: 10.5px; color: #64748b; margin-top: 4px;"><i class="fa-solid fa-circle-check text-green"></i> Năm 2025 không có số liệu</div>
                         </div>
                         <div class="dash-card-pro orange">
                             <div class="dash-card-top">
@@ -267,11 +267,11 @@
                         </div>
                     </div>
 
-                    <!-- KHU VỰC HIỂN THỊ BIỂU ĐỒ 3D TRỰC QUAN KÈM SỐ LIỆU -->
+                    <!-- KHU VỰC HIỂN THỊ BIỂU ĐỒ 3D DYNAMIC TRỰC QUAN -->
                     <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 12px; margin-bottom: 12px;">
                         <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 8px;">
                             <div style="font-weight: bold; color: var(--primary); font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
-                                <span><i class="fa-solid fa-chart-column" style="color:var(--blue);"></i> Biểu đồ Cột 3D Chi phí & Tài chính năm <span class="lbl-current-year">2025</span></span>
+                                <span><i class="fa-solid fa-chart-column" style="color:var(--blue);"></i> Biểu đồ Cột 3D Động Chi phí & Tài chính năm <span class="lbl-current-year">2025</span></span>
                             </div>
                             <div style="position: relative; height: 280px; width: 100%;">
                                 <canvas id="financeBarChart"></canvas>
@@ -279,7 +279,7 @@
                         </div>
                         <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 8px;">
                             <div style="font-weight: bold; color: var(--primary); font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
-                                <span><i class="fa-solid fa-chart-pie" style="color:var(--orange);"></i> Biểu đồ Tròn 3D Tỷ trọng Chi phí</span>
+                                <span><i class="fa-solid fa-chart-pie" style="color:var(--orange);"></i> Biểu đồ Tròn 3D Động Tỷ trọng Chi phí</span>
                             </div>
                             <div style="position: relative; height: 280px; width: 100%; display: flex; justify-content: center;">
                                 <canvas id="taxPieChart"></canvas>
@@ -323,15 +323,15 @@
                     <div class="config-toolbar-container" style="margin-bottom: 8px;">
                         <div style="display: flex; gap: 10px; margin-bottom: 8px; align-items: flex-end; flex-wrap: wrap;">
                             <div class="form-group" style="flex: 2; min-width: 220px; max-width: 320px;">
-                                <label style="color:var(--blue);"><i class="fa-solid fa-building"></i> Tên Công Ty (Thu gọn):</label>
-                                <input type="text" id="config-company-title" value="TGC GIẤY VN" oninput="handleConfigChangeLive()">
+                                <label style="color:var(--blue);"><i class="fa-solid fa-building"></i> Tên Công Ty (Đầy đủ):</label>
+                                <input type="text" id="config-company-title" value="TỔNG CÔNG TY GIẤY VIỆT NAM" oninput="handleConfigChangeLive()">
                             </div>
                             <div class="form-group" style="flex: 1.5; min-width: 150px; max-width: 220px;">
                                 <label style="color:var(--purple);"><i class="fa-solid fa-sitemap"></i> Tên Phòng Ban:</label>
                                 <input type="text" id="config-dept-title" value="VĂN PHÒNG" oninput="handleConfigChangeLive()">
                             </div>
                             <div class="form-group" style="flex: 1.5; min-width: 160px; max-width: 230px;">
-                                <label style="color:var(--orange);"><i class="fa-solid fa-file-signature"></i> Tên BẢNG LƯƠNG (Thu gọn):</label>
+                                <label style="color:var(--orange);"><i class="fa-solid fa-file-signature"></i> Tên BẢNG LƯƠNG:</label>
                                 <input type="text" id="config-sheet-title" value="LƯƠNG THÁNG 07/2025" oninput="handleConfigChangeLive()">
                             </div>
                         </div>
@@ -354,9 +354,9 @@
                                     <label style="color:var(--purple);">Lương công việc</label>
                                     <input type="number" id="config-lcv-pay" value="1991139" oninput="handleConfigChangeLive()">
                                 </div>
-                                <div class="form-group" style="width: 110px; flex-shrink: 0;">
-                                    <label style="color:var(--primary);">Người Lập Biểu</label>
-                                    <input type="text" id="config-signer-name" value="N.T.T.Nhung" oninput="handleConfigChangeLive()">
+                                <div class="form-group" style="width: 160px; flex-shrink: 0;">
+                                    <label style="color:var(--primary);">Người Lập Biểu (Đầy đủ)</label>
+                                    <input type="text" id="config-signer-name" value="Nguyễn Thị Tuyết Nhung" oninput="handleConfigChangeLive()">
                                 </div>
                             </div>
 
@@ -457,7 +457,7 @@
                         <div class="signature-box">
                             <div class="signature-title">NGƯỜI LẬP BIỂU</div>
                             <div class="signature-note">(Ký, ghi rõ họ tên)</div>
-                            <div class="signature-name" id="disp-signer-name">N.T.T.Nhung</div>
+                            <div class="signature-name" id="disp-signer-name">Nguyễn Thị Tuyết Nhung</div>
                         </div>
                     </div>
                 </div>
@@ -705,7 +705,6 @@
                         <span><i class="fa-solid fa-laptop" style="color:var(--purple);"></i> QUẢN LÝ TÀI SẢN & KIỂM KÊ CNTT (<span class="lbl-current-year">2025</span>)</span>
                     </div>
                     
-                    <!-- ĐÃ TỐI ƯU CHIỀU DÀI Ô INPUT & BỐ TRÍ THÔNG MINH, NHỎ GỌN, CÂN ĐỐI -->
                     <div style="display: grid; grid-template-columns: 1fr 280px; gap: 12px; background: #faf5ff; border: 1.5px solid #d8b4fe; padding: 12px; border-radius: 6px; margin-bottom: 12px; align-items: start;">
                         <div>
                             <input type="hidden" id="edit-it-index" value="-1">
@@ -843,7 +842,7 @@
                         <div style="border: 2px dashed var(--purple); border-radius: 6px; background: white; padding: 10px; display: flex; flex-direction: column; align-items: center; justify-content: space-between;">
                             <div style="font-weight: bold; color: var(--purple); font-size: 12px; text-align: center; border-bottom: 1px solid #e2e8f0; width: 100%; padding-bottom: 4px;"><i class="fa-solid fa-qrcode"></i> 📱 TEM QR TRỰC TIẾP</div>
                             <div style="text-align: center; width: 100%;">
-                                <div style="font-size: 11px; font-weight: bold; color: #0f172a; margin-bottom: 3px;">VINAPACO IT ASSET</div>
+                                <div style="font-size: 11px; font-weight: bold; color: #0f172a; margin-bottom: 3px;">TỔNG CÔNG TY GIẤY VIỆT NAM</div>
                                 <div style="display: flex; justify-content: center; margin: 4px 0; cursor: pointer;" onclick="openLargeQrModalFromPreview()">
                                     <canvas id="live-qrcode-canvas"></canvas>
                                 </div>
@@ -1407,7 +1406,7 @@
             });
 
             if (taxRecordCount === 0) {
-                taxSummaryTbody.innerHTML = `<tr><td colspan="7" class="text-center" style="color:#64748b; font-style:italic; padding:15px;">Chưa có dữ liệu thanh toán trong năm ${CURRENT_SELECTED_YEAR}. Số liệu hiển thị: 0 VND.</td></tr>`;
+                taxSummaryTbody.innerHTML = `<tr><td colspan="7" class="text-center" style="color:#64748b; font-style:italic; padding:15px;">Chưa có dữ liệu thanh toán văn phòng trong năm ${CURRENT_SELECTED_YEAR} (Trống số liệu).</td></tr>`;
             }
             document.getElementById('dash-tax-badge-count').innerText = `${taxRecordCount} hồ sơ đã phân tích (Thuế suất mặc định: ${defaultRate}%)`;
 
@@ -1467,6 +1466,10 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    animation: {
+                        duration: 800,
+                        easing: 'easeOutQuart'
+                    },
                     plugins: {
                         legend: { display: false },
                         datalabels: {
@@ -1518,6 +1521,11 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    animation: {
+                        animateRotate: true,
+                        animateScale: true,
+                        duration: 800
+                    },
                     plugins: {
                         legend: {
                             position: 'bottom',
@@ -1565,10 +1573,10 @@
 
             if (!salaryConfigsByMonth[sm]) {
                 salaryConfigsByMonth[sm] = {
-                    companyTitle: "TGC GIẤY VN",
+                    companyTitle: "TỔNG CÔNG TY GIẤY VIỆT NAM",
                     deptTitle: "VĂN PHÒNG",
                     sheetTitle: `LƯƠNG THÁNG ${mNum}/${yNum}`,
-                    vung: 4140000, base: 2650000, lcv: 1991139, signer: "N.T.T.Nhung"
+                    vung: 4140000, base: 2650000, lcv: 1991139, signer: "Nguyễn Thị Tuyết Nhung"
                 };
             }
             let cfg = salaryConfigsByMonth[sm];
@@ -1612,9 +1620,9 @@
 
             let activeData = salaryDataByMonth[sm] || JSON.parse(JSON.stringify(default16Staffs));
             let cfg = salaryConfigsByMonth[sm] || {};
-            document.getElementById('disp-header-company').innerText = `${cfg.companyTitle || 'TGC GIẤY VN'} - ${cfg.deptTitle || 'VĂN PHÒNG'}`;
+            document.getElementById('disp-header-company').innerText = `${cfg.companyTitle || 'TỔNG CÔNG TY GIẤY VIỆT NAM'} - ${cfg.deptTitle || 'VĂN PHÒNG'}`;
             document.getElementById('disp-table-title').innerText = cfg.sheetTitle || `LƯƠNG THÁNG ${mNum}/${yNum}`;
-            document.getElementById('disp-signer-name').innerText = cfg.signer || "N.T.T.Nhung";
+            document.getElementById('disp-signer-name').innerText = cfg.signer || "Nguyễn Thị Tuyết Nhung";
 
             const tbody = document.getElementById('tbody-salary'); 
             tbody.innerHTML = ""; 
@@ -1911,7 +1919,7 @@
             });
 
             if (recordCountYear === 0) {
-                tbody.innerHTML = `<tr><td colspan="12" class="text-center" style="color:#64748b; font-style:italic; padding:15px;">Chưa có dữ liệu thanh toán văn phòng trong năm ${CURRENT_SELECTED_YEAR}. Hiển thị: 0 VND.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="12" class="text-center" style="color:#64748b; font-style:italic; padding:15px;">Chưa có dữ liệu thanh toán văn phòng trong năm ${CURRENT_SELECTED_YEAR} (Trống số liệu).</td></tr>`;
             }
 
             document.getElementById('pay-total-sum').innerText = `Tổng: ${formatCurrencyVN(totalSum)} VND`;
@@ -2132,7 +2140,7 @@
             let cleanQuasoft = removeVietnameseAccents(quasoft || "Khong");
             let cleanCloud = removeVietnameseAccents(cloudoffice || "Co");
             
-            return `VINAPACO IT ASSET\n[Ma TS]: ${cleanCode}\n[Loai]: ${cleanType}\n[Nguoi dung]: ${cleanUser}\n[Phong ban]: ${cleanDept}\n[HDH]: ${cleanOs}\n[Office]: ${cleanOffice}\n[Phan mem Do hoa/CAD/Solid]: ${cleanSoftware}\n[ASIA]: ${cleanAsia}\n[Quasoft]: ${cleanQuasoft}\n[CloudOffice]: ${cleanCloud}`;
+            return `TỔNG CÔNG TY GIẤY VIỆT NAM - IT ASSET\n[Ma TS]: ${cleanCode}\n[Loai]: ${cleanType}\n[Nguoi dung]: ${cleanUser}\n[Phong ban]: ${cleanDept}\n[HDH]: ${cleanOs}\n[Office]: ${cleanOffice}\n[Phan mem Do hoa/CAD/Solid]: ${cleanSoftware}\n[ASIA]: ${cleanAsia}\n[Quasoft]: ${cleanQuasoft}\n[CloudOffice]: ${cleanCloud}`;
         }
 
         function updateLiveQRPreview() {
@@ -2229,14 +2237,14 @@
                     <style>
                         body { font-family: 'Times New Roman', Times, serif; text-align: center; padding: 20px; }
                         .qr-card { border: 2px dashed #000; display: inline-block; padding: 20px; border-radius: 8px; width: 300px; }
-                        h3 { margin: 5px 0; font-size: 16px; text-transform: uppercase; }
+                        h3 { margin: 5px 0; font-size: 15px; text-transform: uppercase; }
                         p { margin: 8px 0; font-size: 14px; font-weight: bold; }
                     </style>
                 </head>
                 <body>
                     <div class="qr-card">
                         <h3>TỔNG CÔNG TY GIẤY VIỆT NAM</h3>
-                        <div style="font-size:12px; margin-bottom:5px;">QUẢN LÝ THIẾT BỊ CNTT</div>
+                        <div style="font-size:11.5px; margin-bottom:5px;">QUẢN LÝ THIẾT BỊ CNTT</div>
                         <img src="${dataUrl}" width="160" height="160">
                         <p>${codeText}</p>
                     </div>
@@ -2481,6 +2489,7 @@
             });
 
             let deptTitleStr = filterDept === "ALL" ? "TẤT CẢ CÁC PHÒNG BAN" : filterDept.toUpperCase();
+            let signerNameStr = document.getElementById('config-signer-name').value.trim() || "Nguyễn Thị Tuyết Nhung";
 
             if (targetRecords.length === 0) {
                 alert("Không có thiết bị nào thỏa mãn điều kiện lọc để xuất báo cáo!");
@@ -2565,7 +2574,7 @@
                     <table class="sig-table">
                         <tr>
                             <td><b>Ý KIẾN CỦA LÃNH ĐẠO</b><br><br><br><br></td>
-                            <td><b>NGƯỜI LẬP BÁO CÁO</b><br><br><br><br><b>N.T.T.Nhung</b></td>
+                            <td><b>NGƯỜI LẬP BÁO CÁO</b><br><br><br><br><b>${signerNameStr}</b></td>
                         </tr>
                     </table>
                 </body>
