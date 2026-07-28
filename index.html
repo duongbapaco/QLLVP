@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>HỆ THỐNG QUẢN TRỊ TỔNG HỢP VÀ TÍNH LƯƠNG - VINAPACO ENTERPRISE</title>
+    <title>HỆ THỐNG QUẢN TRỊ TỔNG HỢP & TÍNH LƯƠNG - VINAPACO ENTERPRISE</title>
     <link rel="icon" href="data:,">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
@@ -65,7 +65,7 @@
         .config-toolbar-container { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; flex-wrap: wrap; background: #f8fafc; padding: 12px; border-radius: 6px; border: 1.5px solid #cbd5e1; }
         .config-inputs-group { display: flex; align-items: flex-end; gap: 10px; flex-wrap: wrap; flex: 1; }
         .config-inputs-group .form-group { min-width: 130px; flex: 1; }
-        .config-inputs-group .form-group.group-signer { min-width: 230px; flex: 1.8; }
+        .config-inputs-group .form-group.group-signer { min-width: 220px; flex: 1.5; }
 
         .nav-tabs { display: flex; gap: 4px; margin-bottom: 8px; border-bottom: 2px solid #64748b; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
         .nav-tabs::-webkit-scrollbar { height: 4px; }
@@ -207,18 +207,18 @@
 
             <!-- THANH ĐIỀU HƯỚNG TAB CHÍNH -->
             <div class="nav-tabs">
-                <button type="button" class="nav-tab active" data-tab="dashboard" onclick="switchMainTab('dashboard')"><i class="fa-solid fa-chart-pie"></i> 📊 Dashboard Tổng Quan</button>
+                <button type="button" class="nav-tab active" data-tab="dashboard" onclick="switchMainTab('dashboard')"><i class="fa-solid fa-chart-pie"></i> 📊 Dashboard Tổng Quan & Thuế</button>
                 <button type="button" class="nav-tab" data-tab="salary" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Tính Lương</button>
                 <button type="button" class="nav-tab" data-tab="payment" onclick="switchMainTab('payment')"><i class="fa-solid fa-file-invoice"></i> Hồ Sơ TT</button>
                 <button type="button" class="nav-tab" data-tab="telecom" onclick="switchMainTab('telecom')"><i class="fa-solid fa-globe"></i> Cước Viễn Thông</button>
                 <button type="button" class="nav-tab" data-tab="it-assets" onclick="switchMainTab('it-assets')"><i class="fa-solid fa-laptop"></i> Thiết Bị CNTT</button>
             </div>
 
-            <!-- TAB 0: DASHBOARD TỔNG QUAN CHUYÊN NGHIỆP -->
+            <!-- TAB 0: DASHBOARD TỔNG QUAN & THỐNG KÊ THUẾ -->
             <div id="tab-dashboard" class="tab-content active">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--blue);">
-                        <span><i class="fa-solid fa-gauge-high" style="color:var(--blue);"></i> TỔNG QUAN ĐIỀU HÀNH DOANH NGHIỆP - NĂM <span class="lbl-current-year">2026</span></span>
+                        <span><i class="fa-solid fa-gauge-high" style="color:var(--blue);"></i> TỔNG QUAN ĐIỀU HÀNH & THỐNG KÊ THUẾ NĂM <span class="lbl-current-year">2026</span></span>
                     </div>
 
                     <div class="dash-quick-actions">
@@ -233,6 +233,7 @@
                         </div>
                     </div>
 
+                    <!-- THỐNG KÊ 4 THẺ TÀI CHÍNH -->
                     <div class="dash-overview-grid">
                         <div class="dash-card-pro">
                             <div class="dash-card-top">
@@ -250,21 +251,45 @@
                             <div class="dash-card-val" id="dash-pro-paid-pay" style="color:var(--green);">0 VND</div>
                             <div style="font-size: 11px; color: #64748b; margin-top: 4px;"><i class="fa-solid fa-circle-check text-green"></i> Đã tổng hợp hồ sơ</div>
                         </div>
-                        <div class="dash-card-pro red">
-                            <div class="dash-card-top">
-                                <span class="dash-card-lbl">Tổng Tạm Ứng Lương</span>
-                                <i class="fa-solid fa-hand-holding-dollar dash-card-icon" style="color:var(--red);"></i>
-                            </div>
-                            <div class="dash-card-val" id="dash-pro-total-advance" style="color:var(--red);">0 VND</div>
-                            <div style="font-size: 11px; color: #64748b; margin-top: 4px;"><i class="fa-solid fa-wallet"></i> Khoản ứng trong kỳ</div>
-                        </div>
                         <div class="dash-card-pro orange">
                             <div class="dash-card-top">
-                                <span class="dash-card-lbl">Cước Viễn Thông & Mạng</span>
-                                <i class="fa-solid fa-wifi dash-card-icon" style="color:var(--orange);"></i>
+                                <span class="dash-card-lbl">Tổng Tiền Thuế Tự Động Tách</span>
+                                <i class="fa-solid fa-percent dash-card-icon" style="color:var(--orange);"></i>
                             </div>
-                            <div class="dash-card-val" id="dash-pro-pending-pay" style="color:var(--orange);">0 VND</div>
+                            <div class="dash-card-val" id="dash-pro-total-tax" style="color:var(--orange);">0 VND</div>
+                            <div style="font-size: 11px; color: #64748b; margin-top: 4px;"><i class="fa-solid fa-calculator"></i> Tách từ hồ sơ thanh toán</div>
+                        </div>
+                        <div class="dash-card-pro purple">
+                            <div class="dash-card-top">
+                                <span class="dash-card-lbl">Cước Viễn Thông & Mạng</span>
+                                <i class="fa-solid fa-wifi dash-card-icon" style="color:var(--purple);"></i>
+                            </div>
+                            <div class="dash-card-val" id="dash-pro-pending-pay" style="color:var(--purple);">0 VND</div>
                             <div style="font-size: 11px; color: #64748b; margin-top: 4px;"><i class="fa-solid signal"></i> Chi phí VNPT/Viettel/FPT</div>
+                        </div>
+                    </div>
+
+                    <!-- BẢNG TỰ ĐỘNG TÁCH THUẾ NĂM 2026 TỪ DỮ LIỆU DASHBOARD -->
+                    <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+                        <div style="font-weight: bold; color: #c2410c; font-size: 13.5px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
+                            <span><i class="fa-solid fa-calculator"></i> 🧮 TỰ ĐỘNG TÁCH & TỔNG HỢP TIỀN THUẾ NĂM <span class="lbl-current-year">2026</span> (TỪ HỒ SƠ THANH TOÁN)</span>
+                            <span id="dash-tax-badge-count" style="font-size: 12px; background: #ffedd5; padding: 3px 8px; border-radius: 4px; border: 1px solid #f97316;">0 hồ sơ đã phân tích</span>
+                        </div>
+                        <div class="table-responsive" style="max-height: 250px; overflow-y: auto; border-color: #fdba74;">
+                            <table class="main-table" style="font-size: 12.5px;">
+                                <thead>
+                                    <tr style="background-color: #fed7aa;">
+                                        <th>STT</th>
+                                        <th>Kỳ / Ngày</th>
+                                        <th>Nội dung thanh toán</th>
+                                        <th>Đơn vị thụ hưởng</th>
+                                        <th>Tổng tiền (Đã có thuế)</th>
+                                        <th>Tiền gốc chưa thuế</th>
+                                        <th>Tiền thuế tách được</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-dash-tax-summary"></tbody>
+                            </table>
                         </div>
                     </div>
 
@@ -275,8 +300,8 @@
                             </div>
                             <ul style="padding-left: 18px; font-size: 13px; color: #334155; line-height: 1.6;">
                                 <li><b>Đơn vị chủ quản:</b> Tổng công ty Giấy Việt Nam - Văn phòng Tổng công ty.</li>
-                                <li><b>Hệ thống số liệu:</b> Quản trị tự động bảng lương nhân sự, hồ sơ thanh toán tài chính, cước viễn thông và kiểm kê trang thiết bị CNTT có mã QR định danh trực tiếp.</li>
-                                <li><b>Cơ chế Auto-Sync Cloud:</b> Tự động đồng bộ ngầm mọi thay đổi dữ liệu lên Google Sheets và Google Drive ngay khi nhập liệu, giúp mở máy tính nào cũng thấy dữ liệu đầy đủ.</li>
+                                <li><b>Hệ thống số liệu:</b> Quản trị tự động bảng lương nhân sự, hồ sơ thanh toán tài chính, tự động tách thuế và kiểm kê trang thiết bị CNTT có mã QR định danh trực tiếp.</li>
+                                <li><b>Cơ chế Auto-Sync Cloud:</b> Tự động đồng bộ ngầm mọi thay đổi dữ liệu lên Google Sheets và Google Drive ngay khi nhập liệu.</li>
                             </ul>
                         </div>
                         <div style="background: #fdf4ff; border: 1.5px solid #d8b4fe; padding: 12px; border-radius: 8px; text-align: center;">
@@ -297,13 +322,13 @@
                         <span><i class="fa-solid fa-pen-to-square" style="color:var(--blue);"></i> CẤU HÌNH LƯƠNG THÁNG - NĂM <span class="lbl-current-year">2026</span></span>
                     </div>
                     
-                    <!-- THIẾT KẾ ĐỘ RỘNG VÀ CHIỀU CAO THÔNG MINH, CÂN ĐỐI -->
-                    <div style="display: grid; grid-template-columns: 2fr 1.2fr 1.6fr; gap: 10px; margin-bottom: 10px; border-bottom: 1px dashed var(--border-color); padding-bottom: 10px;">
-                        <div class="form-group">
+                    <!-- THU NGẮN CHIỀU DÀI CÁC Ô TÊN CÔNG TY & PHÒNG BAN ĐỂ DỄ NHÌN TRỰC DIỆN -->
+                    <div style="display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 10px; margin-bottom: 10px; border-bottom: 1px dashed var(--border-color); padding-bottom: 10px; align-items: end;">
+                        <div class="form-group" style="max-width: 420px;">
                             <label style="color:var(--blue);"><i class="fa-solid fa-building"></i> Tên Công Ty:</label>
                             <input type="text" id="config-company-title" value="TỔNG CÔNG TY GIẤY VIỆT NAM" oninput="handleConfigChangeLive()">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="max-width: 220px;">
                             <label style="color:var(--purple);"><i class="fa-solid fa-sitemap"></i> Tên Phòng Ban:</label>
                             <input type="text" id="config-dept-title" value="VĂN PHÒNG" oninput="handleConfigChangeLive()">
                         </div>
@@ -331,7 +356,6 @@
                                 <label style="color:var(--purple);"><i class="fa-solid fa-briefcase"></i> Lương công việc</label>
                                 <input type="number" id="config-lcv-pay" value="1991139" oninput="handleConfigChangeLive()">
                             </div>
-                            <!-- Ô Người Lập Biểu được nới rộng độ rộng tối ưu để hiển thị trọn vẹn tên dài -->
                             <div class="form-group group-signer">
                                 <label style="color:var(--primary);"><i class="fa-solid fa-signature"></i> Người Lập Biểu</label>
                                 <input type="text" id="config-signer-name" value="Nguyễn Thị Tuyết Nhung" oninput="handleConfigChangeLive()">
@@ -709,7 +733,6 @@
                                 </div>
                             </div>
                             
-                            <!-- BỔ SUNG ĐẦY ĐỦ PHIÊN BẢN HỆ ĐIỀU HÀNH VÀ BẢN QUYỀN ƯU TIÊN CHƯA CÓ BẢN QUYỀN LÊN ĐẦU -->
                             <div class="grid-form" style="margin-bottom: 10px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Hệ điều hành</label>
@@ -750,7 +773,6 @@
                                 </div>
                             </div>
 
-                            <!-- BỔ SUNG ĐẦY ĐỦ PHẦN MỀM THIẾT KẾ, ĐỒ HỌA MỚI NHẤT VÀ BẢN QUYỀN ƯU TIÊN -->
                             <div class="grid-form" style="margin-bottom: 10px;">
                                 <div class="form-group" style="grid-column: span 2;">
                                     <label style="color: #6d28d9;">Phần mềm nghiệp vụ / Thiết kế & Đồ họa mới nhất</label>
@@ -1269,6 +1291,7 @@
             let totalAdvanceYear = 0;
             let totalPaidYear = 0;
             let totalTelecomYear = 0;
+            let totalTaxYear = 0;
 
             Object.keys(salaryDataByMonth || {}).forEach(sm => {
                 let parts = sm.split('-');
@@ -1310,6 +1333,10 @@
                 }
             });
 
+            const taxSummaryTbody = document.getElementById('tbody-dash-tax-summary');
+            taxSummaryTbody.innerHTML = "";
+            let taxRecordCount = 0;
+
             Object.keys(paymentRecordsByMonth || {}).forEach(sm => {
                 let records = paymentRecordsByMonth[sm] || [];
                 records.forEach(rec => {
@@ -1318,9 +1345,39 @@
                     let recYear = (dParts.length === 3 && dParts[2].length === 4) ? dParts[2] : sm.split('-')[0];
                     if (recYear === CURRENT_SELECTED_YEAR) {
                         totalPaidYear += rec.amount || 0;
+                        
+                        let totalAmt = rec.amount || 0;
+                        let estRate = 5; 
+                        let contentLower = (rec.content || "").toLowerCase();
+                        if (contentLower.includes("10%")) estRate = 10;
+                        else if (contentLower.includes("8%")) estRate = 8;
+                        else if (contentLower.includes("0%")) estRate = 0;
+                        else if (contentLower.includes("nhà thầu")) estRate = 10.5;
+
+                        let baseAmt = totalAmt / (1 + estRate / 100);
+                        let taxAmt = totalAmt - baseAmt;
+                        totalTaxYear += taxAmt;
+                        taxRecordCount++;
+
+                        taxSummaryTbody.innerHTML += `
+                            <tr>
+                                <td class="text-center font-bold">${taxRecordCount}</td>
+                                <td class="text-center">${rec.payDateTime || sm}</td>
+                                <td><b>${rec.content}</b></td>
+                                <td>${rec.receiver}</td>
+                                <td class="text-right font-bold" style="color:var(--green);">${formatCurrencyVN(totalAmt)} VND</td>
+                                <td class="text-right">${formatCurrencyVN(baseAmt)} VND</td>
+                                <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(taxAmt)} VND (${estRate}%)</td>
+                            </tr>
+                        `;
                     }
                 });
             });
+
+            if (taxRecordCount === 0) {
+                taxSummaryTbody.innerHTML = `<tr><td colspan="7" class="text-center" style="color:#64748b; font-style:italic; padding:15px;">Chưa có dữ liệu thanh toán trong năm ${CURRENT_SELECTED_YEAR} để tách thuế.</td></tr>`;
+            }
+            document.getElementById('dash-tax-badge-count').innerText = `${taxRecordCount} hồ sơ đã phân tích`;
 
             let seenTelecomKeys = new Set();
             Object.keys(telecomRecordsByMonth || {}).forEach(sm => {
@@ -1343,7 +1400,7 @@
 
             document.getElementById('dash-pro-total-pay').innerText = formatCurrencyVN(totalNetYear) + " VND";
             document.getElementById('dash-pro-paid-pay').innerText = formatCurrencyVN(totalPaidYear) + " VND";
-            document.getElementById('dash-pro-total-advance').innerText = formatCurrencyVN(totalAdvanceYear) + " VND";
+            document.getElementById('dash-pro-total-tax').innerText = formatCurrencyVN(totalTaxYear) + " VND";
             document.getElementById('dash-pro-pending-pay').innerText = formatCurrencyVN(totalTelecomYear) + " VND";
             document.getElementById('dash-pro-total-it-devices').innerText = `${itCountYear} Thiết bị`;
         }
@@ -2591,7 +2648,6 @@
 
         function openMainSalaryGoogleSheet() { window.open(GOOGLE_SHEET_VIEW_URL, '_blank'); }
 
-        // Cơ chế Auto-Sync (Tự động đồng bộ ngầm thông minh sau 1.5 giây ngừng gõ)
         function triggerAutoSync() {
             if (autoSyncTimer) clearTimeout(autoSyncTimer);
             autoSyncTimer = setTimeout(() => {
