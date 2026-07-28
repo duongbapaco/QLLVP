@@ -176,7 +176,7 @@
         <div style="display:flex; align-items:center; gap:8px; flex-wrap: wrap;">
             <div>
                 <span class="status-dot" id="cloud-status-dot"></span>
-                <span id="cloud-status-text">Đã tích hợp API Cloud trực tiếp</span>
+                <span id="cloud-status-text">Đã bật Tự động Đồng bộ Mây (Auto-Sync)</span>
             </div>
             <div class="year-selector-box">
                 <i class="fa-solid fa-calendar-check"></i>
@@ -276,7 +276,7 @@
                             <ul style="padding-left: 18px; font-size: 13px; color: #334155; line-height: 1.6;">
                                 <li><b>Đơn vị chủ quản:</b> Tổng công ty Giấy Việt Nam - Văn phòng Tổng công ty.</li>
                                 <li><b>Hệ thống số liệu:</b> Quản trị tự động bảng lương nhân sự, hồ sơ thanh toán tài chính, cước viễn thông và kiểm kê trang thiết bị CNTT có mã QR định danh trực tiếp.</li>
-                                <li><b>Đồng bộ dữ liệu Cloud:</b> Tích hợp kết nối API đồng bộ trực tiếp với Google Sheets & Google Drive phục vụ lưu trữ văn bản, hóa đơn chứng từ.</li>
+                                <li><b>Cơ chế Auto-Sync Cloud:</b> Tự động đồng bộ ngầm mọi thay đổi dữ liệu lên Google Sheets và Google Drive ngay khi nhập liệu, giúp mở máy tính nào cũng thấy dữ liệu đầy đủ.</li>
                             </ul>
                         </div>
                         <div style="background: #fdf4ff; border: 1.5px solid #d8b4fe; padding: 12px; border-radius: 8px; text-align: center;">
@@ -1002,6 +1002,7 @@
 
         let CURRENT_SELECTED_YEAR = "2026";
         let isAmountManual = false;
+        let autoSyncTimer = null;
 
         const default16Staffs = [
             {"name": "Nguyễn Minh Ngọc", "account": "105005712499", "lcb_heso": 1.94, "lcb_phucap": 0.25, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 5.20, "phu_cap_lcv": 0.6, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 5000000, "pctt": 0, "tru_ung": 0},
@@ -1350,6 +1351,7 @@
             let sm = document.getElementById('filter-month').value;
             salaryDataByMonth[sm] = JSON.parse(JSON.stringify(default16Staffs));
             calculateSalaryLogic();
+            triggerAutoSync();
         }
 
         function handleMonthChangeSelect() {
@@ -1396,6 +1398,7 @@
             };
             localStorage.setItem('sys_salary_configs_by_month', JSON.stringify(salaryConfigsByMonth));
             calculateSalaryLogic();
+            triggerAutoSync();
         }
 
         function calculateSalaryLogic() {
@@ -1502,6 +1505,7 @@
                 salaryDataByMonth[sm][index]['dohai'] = ntVal * 13000;
             }
             calculateSalaryLogic();
+            triggerAutoSync();
         }
 
         function addNewSalaryRow() {
@@ -1511,6 +1515,7 @@
                 "name": "Nhân viên mới", "account": "0000000000", "lcb_heso": 1.5, "lcb_phucap": 0.0, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.6, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 0, "pctt": 0, "tru_ung": 0
             });
             calculateSalaryLogic();
+            triggerAutoSync();
         }
 
         function deleteSalaryRow(idx) {
@@ -1518,6 +1523,7 @@
             if (confirm('Xóa nhân viên này?')) {
                 salaryDataByMonth[sm].splice(idx, 1);
                 calculateSalaryLogic();
+                triggerAutoSync();
             }
         }
 
@@ -1614,6 +1620,7 @@
             localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
             renderPaymentTable();
             statusLabel.innerText = "✅ Thêm hồ sơ thành công!";
+            triggerAutoSync();
         }
 
         function editPaymentRecord(sm, actualIdx) {
@@ -1707,6 +1714,7 @@
                 paymentRecordsByMonth[sm].splice(actualIdx, 1); 
                 localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth)); 
                 renderPaymentTable(); 
+                triggerAutoSync();
             }
         }
 
@@ -1800,6 +1808,7 @@
             localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth));
             renderTelecomTable(); 
             statusLabel.innerText = "✅ Lưu cước thành công!";
+            triggerAutoSync();
         }
 
         function editTelecomRecord(sm, actualIdx) {
@@ -1878,6 +1887,7 @@
                 telecomRecordsByMonth[sm].splice(actualIdx, 1); 
                 localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth)); 
                 renderTelecomTable(); 
+                triggerAutoSync();
             }
         }
 
@@ -2062,6 +2072,7 @@
             updateItAssetFilterDropdowns();
             renderItAssetTable(); 
             document.getElementById('status-cntt').innerText = "✅ Lưu thiết bị thành công!";
+            triggerAutoSync();
         }
 
         function editItAssetRecord(idx) {
@@ -2224,6 +2235,7 @@
 
             localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
             renderItAssetTable();
+            triggerAutoSync();
         }
 
         function exportItAssetWordReport() {
@@ -2564,13 +2576,54 @@
             if (text) dayEventsMap[dateKey] = text; else delete dayEventsMap[dateKey];
             localStorage.setItem('sys_day_events_map', JSON.stringify(dayEventsMap));
             closeEventModal(); renderSmartCalendar();
+            triggerAutoSync();
         }
 
         function openMainSalaryGoogleSheet() { window.open(GOOGLE_SHEET_VIEW_URL, '_blank'); }
 
+        // Cơ chế Auto-Sync (Tự động đồng bộ ngầm thông minh sau 1.5 giây ngừng gõ)
+        function triggerAutoSync() {
+            if (autoSyncTimer) clearTimeout(autoSyncTimer);
+            autoSyncTimer = setTimeout(() => {
+                silentSyncToCloud();
+            }, 1500);
+        }
+
+        async function silentSyncToCloud() {
+            let notifyBox = document.getElementById('syncNotifyBox');
+            try {
+                let payload = {
+                    action: "sync_salary_data_pro",
+                    sheetUrl: GOOGLE_SHEET_VIEW_URL,
+                    allSalaries: salaryDataByMonth || {},
+                    allPayments: paymentRecordsByMonth || {},
+                    allTelecoms: telecomRecordsByMonth || {},
+                    allItAssets: itAssetRecordsByYear || {},
+                    allConfigs: salaryConfigsByMonth || {}
+                };
+                const response = await fetch(GOOGLE_SCRIPT_API_URL, { 
+                    method: "POST", 
+                    headers: { "Content-Type": "text/plain;charset=utf-8" }, 
+                    body: JSON.stringify(payload) 
+                });
+                const result = await response.json();
+                if (result.status === "success") {
+                    notifyBox.style.display = "block";
+                    notifyBox.style.background = "#dcfce7";
+                    notifyBox.style.color = "#166534";
+                    notifyBox.innerText = "☁️ Đã tự động đồng bộ thay đổi lên mây thành công!";
+                    setTimeout(() => { notifyBox.style.display = "none"; }, 2500);
+                }
+            } catch (err) {
+                console.error("Auto-sync background error:", err);
+            }
+        }
+
         async function syncDataToCloudServer() {
             let notifyBox = document.getElementById('syncNotifyBox');
             notifyBox.style.display = "block";
+            notifyBox.style.background = "#ffffff";
+            notifyBox.style.color = "#0f172a";
             notifyBox.innerText = "⏳ Đang đồng bộ toàn bộ dữ liệu lên mây...";
             try {
                 let payload = {
@@ -2602,7 +2655,9 @@
         async function loadDataFromCloudServer() {
             let notifyBox = document.getElementById('syncNotifyBox');
             notifyBox.style.display = "block";
-            notifyBox.innerText = "⏳ Đang tải dữ liệu từ mây về...";
+            notifyBox.style.background = "#ffffff";
+            notifyBox.style.color = "#0f172a";
+            notifyBox.innerText = "⏳ Đang tải dữ liệu mới nhất từ mây về...";
             
             try {
                 let fetchUrl = `${GOOGLE_SCRIPT_API_URL}?sheetUrl=${encodeURIComponent(GOOGLE_SHEET_VIEW_URL)}&action=load_data`;
@@ -2666,6 +2721,10 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             setInterval(() => { document.getElementById('live-system-clock').innerText = new Date().toLocaleString('vi-VN'); }, 1000);
+            
+            // Khi mở web ở máy tính mới, tự động tải dữ liệu từ mây về trước
+            loadDataFromCloudServer();
+
             handleGlobalYearChange();
             generateNewItCode();
             renderItAssetTable();
