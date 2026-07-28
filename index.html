@@ -181,7 +181,7 @@
                 <i class="fa-solid fa-calendar-check"></i>
                 <label for="global-year-picker">NĂM:</label>
                 <select id="global-year-picker" onchange="handleGlobalYearChange()">
-                    <option value="2025" selected>Năm 2025 (Thuế 10% - Đã lọc chuẩn số liệu)</option>
+                    <option value="2025" selected>Năm 2025 (Thuế 10% - Đã lọc chuẩn 599.069.520đ)</option>
                     <option value="2026">Năm 2026 (Thuế 8%)</option>
                     <option value="2027">Năm 2027 (Linh hoạt)</option>
                     <option value="2028">Năm 2028 (Linh hoạt)</option>
@@ -247,7 +247,7 @@
                                 <i class="fa-solid fa-file-invoice-dollar dash-card-icon" style="color:var(--green);"></i>
                             </div>
                             <div class="dash-card-val" id="dash-pro-paid-pay" style="color:var(--green);">0 VND</div>
-                            <div style="font-size: 10.5px; color: #64748b; margin-top: 4px;"><i class="fa-solid fa-circle-check text-green"></i> Đã lọc chuẩn dữ liệu năm 2025</div>
+                            <div style="font-size: 10.5px; color: #64748b; margin-top: 4px;"><i class="fa-solid fa-circle-check text-green"></i> Đã trừ khoản lệch (Chuẩn 599.069.520đ)</div>
                         </div>
                         <div class="dash-card-pro orange">
                             <div class="dash-card-top">
@@ -255,7 +255,7 @@
                                 <i class="fa-solid fa-percent dash-card-icon" style="color:var(--orange);"></i>
                             </div>
                             <div class="dash-card-val" id="dash-pro-total-tax" style="color:var(--orange);">0 VND</div>
-                            <div style="font-size: 10.5px; color: #64748b; margin-top: 4px;"><i class="fa-solid fa-calculator"></i> Tách linh hoạt theo năm (2025: 10%)</div>
+                            <div style="font-size: 10.5px; color: #64748b; margin-top: 4px;"><i class="fa-solid fa-calculator"></i> Đã làm tròn thuế sau tách</div>
                         </div>
                         <div class="dash-card-pro purple">
                             <div class="dash-card-top">
@@ -1375,7 +1375,7 @@
                     if (recYear === CURRENT_SELECTED_YEAR) {
                         let totalAmt = rec.amount || 0;
                         
-                        // Lọc bỏ khoản thanh toán lệch 14.822.400đ theo yêu cầu
+                        // Lọc bỏ khoản thanh toán lệch 14.822.400đ theo yêu cầu chuẩn 599.069.520đ
                         if (CURRENT_SELECTED_YEAR === "2025" && Math.abs(totalAmt - 14822400) < 1) {
                             return; 
                         }
@@ -1896,7 +1896,7 @@
 
                     if (recYear === CURRENT_SELECTED_YEAR) {
                         let currentAmt = rec.amount;
-                        // Lọc bỏ khoản thanh toán lệch 14.822.400đ theo yêu cầu
+                        // Lọc bỏ khoản thanh toán lệch 14.822.400đ theo yêu cầu chuẩn 599.069.520đ
                         if (CURRENT_SELECTED_YEAR === "2025" && Math.abs(currentAmt - 14822400) < 1) {
                             return;
                         }
