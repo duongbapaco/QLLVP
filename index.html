@@ -303,7 +303,7 @@
                                         <th>Đơn vị thụ hưởng</th>
                                         <th>Tổng tiền (Sau thuế)</th>
                                         <th>Tiền gốc chưa thuế</th>
-                                        <th>Tiền thuế (Tính ngược)</th>
+                                        <th>Tiền thuế (Làm tròn)</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbody-dash-tax-summary"></tbody>
@@ -473,7 +473,7 @@
 
                     <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
                         <div style="font-weight: bold; color: #166534; font-size: 12.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
-                            <i class="fa-solid fa-calculator"></i> 🧮 CÔNG CỤ TÍNH THUẾ LINH HOẠT & TÀI CHÍNH NHANH
+                            <i class="fa-solid fa-calculator"></i> 🧮 CÔNG CỤ TÍNH THUẾ LINH HOẠT & TÀI CHÍNH NHANH (ĐÃ LÀM TRÒN)
                         </div>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; align-items: end;">
                             <div class="form-group">
@@ -499,7 +499,7 @@
                                 </select>
                             </div>
                             <div class="form-group" style="background: #ffffff; padding: 6px 10px; border: 1.5px solid #86efac; border-radius: 4px;">
-                                <div style="font-size: 10.5px; color: #475569; font-weight: bold;">Kết quả tính ngược:</div>
+                                <div style="font-size: 10.5px; color: #475569; font-weight: bold;">Kết quả tính ngược (Làm tròn):</div>
                                 <div style="font-size: 12px; color: var(--red); font-weight: bold;" id="tax-result-tax">Thuế: 0 VND</div>
                                 <div style="font-size: 12.5px; color: var(--green); font-weight: 800;" id="tax-result-total">Tiền gốc: 0 VND</div>
                             </div>
@@ -1297,15 +1297,15 @@
             let taxAmount = 0, baseAmount = 0;
 
             if (mode === 'extract') {
-                baseAmount = totalAmount / (1 + rate / 100);
-                taxAmount = totalAmount - baseAmount;
+                baseAmount = Math.round(totalAmount / (1 + rate / 100));
+                taxAmount = Math.round(totalAmount - baseAmount);
             } else {
                 baseAmount = totalAmount;
-                taxAmount = baseAmount * (rate / 100);
+                taxAmount = Math.round(baseAmount * (rate / 100));
                 totalAmount = baseAmount + taxAmount;
             }
 
-            document.getElementById('tax-result-tax').innerText = `Thuế: ${formatCurrencyVN(taxAmount)} VND`;
+            document.getElementById('tax-result-tax').innerText = `Thuế (Làm tròn): ${formatCurrencyVN(taxAmount)} VND`;
             document.getElementById('tax-result-total').innerText = `Tiền gốc: ${formatCurrencyVN(baseAmount)} VND`;
         }
 
@@ -1375,7 +1375,7 @@
                     if (recYear === CURRENT_SELECTED_YEAR) {
                         let totalAmt = rec.amount || 0;
                         
-                        // Lọc loại trừ số tiền 14.822.400 VND lọt nhầm sang 2025 nếu có
+                        // Lọc bỏ khoản thanh toán lệch 14.822.400đ theo yêu cầu
                         if (CURRENT_SELECTED_YEAR === "2025" && Math.abs(totalAmt - 14822400) < 1) {
                             return; 
                         }
@@ -1390,8 +1390,8 @@
                         else if (contentLower.includes("0%")) estRate = 0;
                         else if (contentLower.includes("nhà thầu")) estRate = 10.5;
 
-                        let baseAmt = totalAmt / (1 + estRate / 100);
-                        let taxAmt = totalAmt - baseAmt;
+                        let baseAmt = Math.round(totalAmt / (1 + estRate / 100));
+                        let taxAmt = Math.round(totalAmt - baseAmt); // Làm tròn tiền thuế sau tách
                         totalTaxYear += taxAmt;
                         totalBaseYear += baseAmt;
                         taxRecordCount++;
@@ -1896,7 +1896,7 @@
 
                     if (recYear === CURRENT_SELECTED_YEAR) {
                         let currentAmt = rec.amount;
-                        // Loại bỏ tiền 14.822.400 VND lọt nhầm ở năm 2025
+                        // Lọc bỏ khoản thanh toán lệch 14.822.400đ theo yêu cầu
                         if (CURRENT_SELECTED_YEAR === "2025" && Math.abs(currentAmt - 14822400) < 1) {
                             return;
                         }
