@@ -62,11 +62,10 @@
         .visual-lbl { font-size: 11px; font-weight: bold; color: #0f172a; white-space: nowrap; display: flex; align-items: center; }
         .visual-val { font-size: 14.5px; font-weight: 800; color: var(--primary); white-space: nowrap; }
 
-        .config-toolbar-container { display: flex; justify-content: space-between; align-items: flex-end; gap: 8px; flex-wrap: wrap; background: #f8fafc; padding: 8px 10px; border-radius: 6px; border: 1.5px solid #cbd5e1; }
-        .config-inputs-group { display: flex; align-items: flex-end; gap: 6px; flex-wrap: wrap; flex: 1; }
-        .config-inputs-group .form-group { min-width: 110px; max-width: 160px; flex: 1; }
-        .config-inputs-group .form-group.group-wide { max-width: 200px; }
-        .config-inputs-group .form-group.group-narrow { max-width: 100px; }
+        .config-toolbar-container { display: flex; justify-content: space-between; align-items: flex-end; gap: 8px; flex-wrap: wrap; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1.5px solid #cbd5e1; }
+        .config-inputs-group { display: flex; align-items: flex-end; gap: 8px; flex-wrap: wrap; flex: 1; }
+        .config-inputs-group .form-group { min-width: 120px; flex: 1; }
+        .config-inputs-group .form-group.group-signer { min-width: 210px; flex: 1.5; }
 
         .nav-tabs { display: flex; gap: 4px; margin-bottom: 8px; border-bottom: 2px solid #64748b; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
         .nav-tabs::-webkit-scrollbar { height: 4px; }
@@ -297,7 +296,8 @@
                         <span><i class="fa-solid fa-pen-to-square" style="color:var(--blue);"></i> CẤU HÌNH LƯƠNG THÁNG - NĂM <span class="lbl-current-year">2026</span></span>
                     </div>
                     
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 6px; margin-bottom: 8px; border-bottom: 1px dashed var(--border-color); padding-bottom: 6px;">
+                    <!-- PHẦN ĐƯỢC THIẾT KẾ LẠI ĐỘ RỘNG HỢP LÝ, CÂN ĐỐI, KHÔNG BỊ MẤT CHỮ -->
+                    <div style="display: grid; grid-template-columns: 2fr 1.2fr 1.5fr; gap: 8px; margin-bottom: 8px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px;">
                         <div class="form-group">
                             <label style="color:var(--blue);"><i class="fa-solid fa-building"></i> Tên Công Ty:</label>
                             <input type="text" id="config-company-title" value="TỔNG CÔNG TY GIẤY VIỆT NAM" oninput="handleConfigChangeLive()">
@@ -314,23 +314,24 @@
 
                     <div class="config-toolbar-container">
                         <div class="config-inputs-group">
-                            <div class="form-group group-narrow">
+                            <div class="form-group" style="min-width: 110px; flex: 0.9;">
                                 <label><i class="fa-regular fa-calendar-days"></i> Kỳ báo cáo</label>
                                 <input type="month" id="filter-month" value="2026-07" onchange="handleMonthChangeSelect()">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" style="min-width: 110px; flex: 1;">
                                 <label style="color:var(--orange);"><i class="fa-solid fa-chart-line"></i> Tối thiểu vùng</label>
                                 <input type="number" id="config-vung-pay" value="4140000" oninput="handleConfigChangeLive()">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" style="min-width: 110px; flex: 1;">
                                 <label style="color:var(--blue);"><i class="fa-solid fa-coins"></i> Lương cơ bản</label>
                                 <input type="number" id="config-base-pay" value="2650000" oninput="handleConfigChangeLive()">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" style="min-width: 110px; flex: 1;">
                                 <label style="color:var(--purple);"><i class="fa-solid fa-briefcase"></i> Lương công việc</label>
                                 <input type="number" id="config-lcv-pay" value="1991139" oninput="handleConfigChangeLive()">
                             </div>
-                            <div class="form-group group-wide">
+                            <!-- Ô Người Lập Biểu được nới rộng độ rộng tối ưu để hiển thị trọn vẹn tên dài -->
+                            <div class="form-group group-signer">
                                 <label style="color:var(--primary);"><i class="fa-solid fa-signature"></i> Người Lập Biểu</label>
                                 <input type="text" id="config-signer-name" value="Nguyễn Thị Tuyết Nhung" oninput="handleConfigChangeLive()">
                             </div>
@@ -2722,7 +2723,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             setInterval(() => { document.getElementById('live-system-clock').innerText = new Date().toLocaleString('vi-VN'); }, 1000);
             
-            // Khi mở web ở máy tính mới, tự động tải dữ liệu từ mây về trước
             loadDataFromCloudServer();
 
             handleGlobalYearChange();
