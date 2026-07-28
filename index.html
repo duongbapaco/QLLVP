@@ -62,10 +62,10 @@
         .visual-lbl { font-size: 11px; font-weight: bold; color: #0f172a; white-space: nowrap; display: flex; align-items: center; }
         .visual-val { font-size: 14.5px; font-weight: 800; color: var(--primary); white-space: nowrap; }
 
-        .config-toolbar-container { display: flex; justify-content: space-between; align-items: flex-end; gap: 8px; flex-wrap: wrap; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1.5px solid #cbd5e1; }
-        .config-inputs-group { display: flex; align-items: flex-end; gap: 8px; flex-wrap: wrap; flex: 1; }
-        .config-inputs-group .form-group { min-width: 120px; flex: 1; }
-        .config-inputs-group .form-group.group-signer { min-width: 210px; flex: 1.5; }
+        .config-toolbar-container { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; flex-wrap: wrap; background: #f8fafc; padding: 12px; border-radius: 6px; border: 1.5px solid #cbd5e1; }
+        .config-inputs-group { display: flex; align-items: flex-end; gap: 10px; flex-wrap: wrap; flex: 1; }
+        .config-inputs-group .form-group { min-width: 130px; flex: 1; }
+        .config-inputs-group .form-group.group-signer { min-width: 230px; flex: 1.8; }
 
         .nav-tabs { display: flex; gap: 4px; margin-bottom: 8px; border-bottom: 2px solid #64748b; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
         .nav-tabs::-webkit-scrollbar { height: 4px; }
@@ -76,16 +76,17 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         
-        .main-card { background: white; border-radius: 6px; padding: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); margin-bottom: 10px; border: 1.5px solid #cbd5e1; }
-        .card-title { font-size: 14.5px; font-weight: bold; color: var(--primary); margin-bottom: 8px; border-left: 5px solid var(--blue); padding-left: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .main-card { background: white; border-radius: 6px; padding: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); margin-bottom: 10px; border: 1.5px solid #cbd5e1; }
+        .card-title { font-size: 14.5px; font-weight: bold; color: var(--primary); margin-bottom: 10px; border-left: 5px solid var(--blue); padding-left: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
         
-        .grid-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-bottom: 8px; }
+        .grid-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-bottom: 10px; }
         
-        .form-group { display: flex; flex-direction: column; gap: 3px; position: relative; }
-        .form-group label { font-weight: bold; color: #000000; font-size: 11.5px; white-space: nowrap; }
-        .form-group input, .form-group select { padding: 6px 8px; border: 1.5px solid #475569; border-radius: 4px; font-size: 13.5px; font-weight: bold; outline: none; background: #fff; color: #000; width: 100%; font-family: 'Times New Roman', Times, serif; }
+        .form-group { display: flex; flex-direction: column; gap: 4px; position: relative; }
+        .form-group label { font-weight: bold; color: #000000; font-size: 12px; white-space: nowrap; }
+        .form-group input, .form-group select { padding: 7px 10px; border: 1.5px solid #475569; border-radius: 4px; font-size: 13.5px; font-weight: bold; outline: none; background: #fff; color: #000; width: 100%; font-family: 'Times New Roman', Times, serif; min-height: 38px; }
+        .form-group input:focus, .form-group select:focus { border-color: var(--blue); background-color: #eff6ff; }
 
-        .btn { padding: 8px 14px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-size: 13px; font-family: 'Times New Roman', Times, serif; min-height: 36px; touch-action: manipulation; }
+        .btn { padding: 8px 14px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-size: 13px; font-family: 'Times New Roman', Times, serif; min-height: 38px; touch-action: manipulation; }
         .btn-primary { background: var(--blue); color: white; }
         .btn-purple { background: var(--purple); color: white; }
         .btn-green { background: var(--green); color: white; }
@@ -98,20 +99,20 @@
 
         .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 8px; width: 100%; border: 1.5px solid #475569; border-radius: 4px; background: #fff; }
         .main-table { width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap; font-size: 13.5px; color: #000000; }
-        .main-table th { background: #cbd5e1; color: #000000; padding: 8px 6px; border: 1px solid #475569; font-weight: bold; text-align: center; }
-        .main-table td { padding: 6px; border: 1px solid #64748b; vertical-align: middle; font-weight: 600; }
+        .main-table th { background: #cbd5e1; color: #000000; padding: 9px 8px; border: 1px solid #475569; font-weight: bold; text-align: center; }
+        .main-table td { padding: 7px 8px; border: 1px solid #64748b; vertical-align: middle; font-weight: 600; }
         .main-table tbody tr:nth-child(even) { background-color: #f8fafc; }
         
         .text-right { text-align: right; }
         .text-center { text-align: center; }
         .font-bold { font-weight: bold; }
         
-        .inp-table { width: 100%; padding: 6px; border: 1.5px solid #475569; border-radius: 4px; font-size: 13.5px; font-weight: 700; outline: none; background: #ffffff; color: #000000; font-family: 'Times New Roman', Times, serif; min-height: 36px; }
+        .inp-table { width: 100%; padding: 7px 8px; border: 1.5px solid #475569; border-radius: 4px; font-size: 13.5px; font-weight: 700; outline: none; background: #ffffff; color: #000000; font-family: 'Times New Roman', Times, serif; min-height: 38px; }
         .inp-table:focus { border-color: var(--blue); background-color: #eff6ff; }
-        .inp-table.inp-name { min-width: 190px; text-align: left; font-weight: 700; color: #0f172a; }
-        .inp-table.inp-account { min-width: 120px; text-align: center; font-weight: 700; }
-        .inp-table.inp-num-day { min-width: 50px; width: 55px; font-weight: 800; background-color: #fef9c3; text-align: center; color: #000; }
-        .inp-table.inp-currency { min-width: 100px; font-weight: 700; text-align: right; color: #000; background-color: #fff7ed; border-color: #f97316; }
+        .inp-table.inp-name { min-width: 200px; text-align: left; font-weight: 700; color: #0f172a; }
+        .inp-table.inp-account { min-width: 130px; text-align: center; font-weight: 700; }
+        .inp-table.inp-num-day { min-width: 55px; width: 60px; font-weight: 800; background-color: #fef9c3; text-align: center; color: #000; }
+        .inp-table.inp-currency { min-width: 110px; font-weight: 700; text-align: right; color: #000; background-color: #fff7ed; border-color: #f97316; }
 
         .signature-container { margin-top: 20px; display: flex; justify-content: space-between; text-align: center; padding: 10px; flex-wrap: wrap; gap: 15px; }
         .signature-box { flex: 1; min-width: 150px; font-size: 13.5px; }
@@ -296,8 +297,8 @@
                         <span><i class="fa-solid fa-pen-to-square" style="color:var(--blue);"></i> CẤU HÌNH LƯƠNG THÁNG - NĂM <span class="lbl-current-year">2026</span></span>
                     </div>
                     
-                    <!-- PHẦN ĐƯỢC THIẾT KẾ LẠI ĐỘ RỘNG HỢP LÝ, CÂN ĐỐI, KHÔNG BỊ MẤT CHỮ -->
-                    <div style="display: grid; grid-template-columns: 2fr 1.2fr 1.5fr; gap: 8px; margin-bottom: 8px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px;">
+                    <!-- THIẾT KẾ ĐỘ RỘNG VÀ CHIỀU CAO THÔNG MINH, CÂN ĐỐI -->
+                    <div style="display: grid; grid-template-columns: 2fr 1.2fr 1.6fr; gap: 10px; margin-bottom: 10px; border-bottom: 1px dashed var(--border-color); padding-bottom: 10px;">
                         <div class="form-group">
                             <label style="color:var(--blue);"><i class="fa-solid fa-building"></i> Tên Công Ty:</label>
                             <input type="text" id="config-company-title" value="TỔNG CÔNG TY GIẤY VIỆT NAM" oninput="handleConfigChangeLive()">
@@ -314,19 +315,19 @@
 
                     <div class="config-toolbar-container">
                         <div class="config-inputs-group">
-                            <div class="form-group" style="min-width: 110px; flex: 0.9;">
+                            <div class="form-group" style="min-width: 130px; flex: 1;">
                                 <label><i class="fa-regular fa-calendar-days"></i> Kỳ báo cáo</label>
                                 <input type="month" id="filter-month" value="2026-07" onchange="handleMonthChangeSelect()">
                             </div>
-                            <div class="form-group" style="min-width: 110px; flex: 1;">
+                            <div class="form-group" style="min-width: 120px; flex: 1;">
                                 <label style="color:var(--orange);"><i class="fa-solid fa-chart-line"></i> Tối thiểu vùng</label>
                                 <input type="number" id="config-vung-pay" value="4140000" oninput="handleConfigChangeLive()">
                             </div>
-                            <div class="form-group" style="min-width: 110px; flex: 1;">
+                            <div class="form-group" style="min-width: 120px; flex: 1;">
                                 <label style="color:var(--blue);"><i class="fa-solid fa-coins"></i> Lương cơ bản</label>
                                 <input type="number" id="config-base-pay" value="2650000" oninput="handleConfigChangeLive()">
                             </div>
-                            <div class="form-group" style="min-width: 110px; flex: 1;">
+                            <div class="form-group" style="min-width: 120px; flex: 1;">
                                 <label style="color:var(--purple);"><i class="fa-solid fa-briefcase"></i> Lương công việc</label>
                                 <input type="number" id="config-lcv-pay" value="1991139" oninput="handleConfigChangeLive()">
                             </div>
@@ -379,32 +380,32 @@
                         <table class="main-table" id="main-salary-table">
                             <thead>
                                 <tr style="background-color: #94a3b8;">
-                                    <th rowspan="2" style="width: 35px;">STT</th>
-                                    <th rowspan="2" style="min-width:190px;">HỌ VÀ TÊN</th>
-                                    <th rowspan="2" style="min-width:120px;">Số Tài Khoản</th>
+                                    <th rowspan="2" style="width: 40px;">STT</th>
+                                    <th rowspan="2" style="min-width:200px;">HỌ VÀ TÊN</th>
+                                    <th rowspan="2" style="min-width:130px;">Số Tài Khoản</th>
                                     <th colspan="4" class="text-center" style="background-color: #bfdbfe; color:#1e3a8a;">Lương Cơ Bản HĐLĐ</th>
                                     <th colspan="3" class="text-center" style="background-color: #bae6fd; color:#0369a1;">Số Ngày Công Thực Tế</th>
                                     <th colspan="5" class="text-center" style="background-color: #e2e8f0;">Cơ cấu & Thực Lĩnh Lương CB</th>
                                     <th colspan="11" class="text-center" style="background-color: #e9d5ff; color:#581c87;">Cơ cấu & Thực Lĩnh Lương CV</th>
-                                    <th rowspan="2" style="background-color: #fef08a; color:#713f12; font-size:13.5px; font-weight:bold; min-width:130px; text-align:center;">TỔNG NET <br><span style="font-size:10px; font-weight:normal;">(Thực Lĩnh CV + CB)</span></th>
-                                    <th rowspan="2" style="width: 40px; text-align:center;">Xóa</th>
+                                    <th rowspan="2" style="background-color: #fef08a; color:#713f12; font-size:13.5px; font-weight:bold; min-width:140px; text-align:center;">TỔNG NET <br><span style="font-size:10px; font-weight:normal;">(Thực Lĩnh CV + CB)</span></th>
+                                    <th rowspan="2" style="width: 45px; text-align:center;">Xóa</th>
                                 </tr>
                                 <tr style="background-color: #cbd5e1;">
-                                    <th style="background:#fef9c3; width:55px;">Hệ số LCB</th>
-                                    <th style="background:#fef9c3; width:55px;">Phụ cấp LCB</th>
+                                    <th style="background:#fef9c3; width:60px;">Hệ số LCB</th>
+                                    <th style="background:#fef9c3; width:60px;">Phụ cấp LCB</th>
                                     <th style="background:#dbeafe;">Lương HĐLĐ</th>
                                     <th style="background:#dbeafe;">Lương CB</th>
-                                    <th style="background:#fef9c3; width:50px;">NT</th>
-                                    <th style="background:#fef9c3; width:50px;">P</th>
-                                    <th style="background:#fef9c3; width:50px;">Lễ/VR</th>
+                                    <th style="background:#fef9c3; width:55px;">NT</th>
+                                    <th style="background:#fef9c3; width:55px;">P</th>
+                                    <th style="background:#fef9c3; width:55px;">Lễ/VR</th>
                                     <th>Lương Thời Gian</th>
                                     <th>Lương Lễ, Phép</th>
                                     <th>Tổng Lương CB</th>
                                     <th style="color:var(--red);">BH (10.5%)</th>
                                     <th style="background-color: #bfdbfe; color:#1e3a8a;">Thực Lĩnh CB</th>
-                                    <th style="background:#fef9c3; width:55px;">Hệ số LCV</th>
-                                    <th style="background:#fef9c3; width:55px;">Phụ cấp LCV</th>
-                                    <th style="background:#fde047; width:55px; color:#713f12;">HS HTCV</th>
+                                    <th style="background:#fef9c3; width:60px;">Hệ số LCV</th>
+                                    <th style="background:#fef9c3; width:60px;">Phụ cấp LCV</th>
+                                    <th style="background:#fde047; width:60px; color:#713f12;">HS HTCV</th>
                                     <th>LCV Gốc</th>
                                     <th>LCV Thực Tế</th>
                                     <th style="background:#ffedd5; color:#c2410c;">Tiền Ăn Ca <span style="font-size:10px;">(NT×5k)</span></th>
@@ -445,11 +446,11 @@
                         <a href="https://drive.google.com" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Drive</a>
                     </div>
 
-                    <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px;">
-                        <div style="font-weight: bold; color: #166534; font-size: 13px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+                    <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
+                        <div style="font-weight: bold; color: #166534; font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
                             <i class="fa-solid fa-calculator"></i> 🧮 CÔNG CỤ TÍNH THUẾ & TÀI CHÍNH NHANH
                         </div>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; align-items: end;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; align-items: end;">
                             <div class="form-group">
                                 <label style="color:#166534;">Số tiền gốc / Chưa thuế:</label>
                                 <input type="text" id="tax-input-amount" value="0" placeholder="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="calculateTaxPro()" style="border-color:#86efac;">
@@ -472,7 +473,7 @@
                                     <option value="extract">Tách thuế từ tổng số tiền</option>
                                 </select>
                             </div>
-                            <div class="form-group" style="background: #ffffff; padding: 6px 10px; border: 1.5px solid #86efac; border-radius: 4px;">
+                            <div class="form-group" style="background: #ffffff; padding: 7px 10px; border: 1.5px solid #86efac; border-radius: 4px;">
                                 <div style="font-size: 11px; color: #475569; font-weight: bold;">Kết quả tính:</div>
                                 <div style="font-size: 12.5px; color: var(--red); font-weight: bold;" id="tax-result-tax">Thuế: 0 VND</div>
                                 <div style="font-size: 13px; color: var(--green); font-weight: 800;" id="tax-result-total">Tổng: 0 VND</div>
@@ -482,7 +483,7 @@
 
                     <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
                         <input type="hidden" id="edit-payment-index" value="-1">
-                        <div class="grid-form" style="margin-bottom: 8px;">
+                        <div class="grid-form" style="margin-bottom: 10px;">
                             <div class="form-group" style="grid-column: span 2;">
                                 <label>Nội dung thanh toán:</label>
                                 <input type="text" id="pay-content" placeholder="Ví dụ: Thanh toán VPP tháng 07/2026...">
@@ -499,7 +500,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="grid-form" style="margin-bottom: 8px;">
+                        <div class="grid-form" style="margin-bottom: 10px;">
                             <div class="form-group">
                                 <label>Số lượng:</label>
                                 <input type="number" id="pay-qty" value="1" min="1" step="1" oninput="calculatePayLineTotal()">
@@ -534,7 +535,7 @@
                                 <input type="text" id="pay-amount" placeholder="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="markAmountManual()" style="background:#f0fdf4; color:var(--green); font-weight:800; border-color:#86efac;">
                             </div>
                         </div>
-                        <div class="grid-form" style="margin-bottom: 10px;">
+                        <div class="grid-form" style="margin-bottom: 12px;">
                             <div class="form-group">
                                 <label>Số tài khoản:</label>
                                 <input type="text" id="pay-account" placeholder="Số TK...">
@@ -596,7 +597,7 @@
                     </div>
                     <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
                         <input type="hidden" id="edit-telecom-index" value="-1">
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-bottom: 10px; align-items: end;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-bottom: 10px; align-items: end;">
                             <div class="form-group">
                                 <label style="color: #c2410c;">Điểm kết nối</label>
                                 <input type="text" id="tele-location" value="Tổng công ty Giấy Việt Nam" style="border-color: #fdba74;">
@@ -630,7 +631,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; border-top: 1px dashed #fdba74; padding-top: 8px;">
+                        <div style="display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; border-top: 1px dashed #fdba74; padding-top: 10px;">
                             <div style="display: flex; gap: 8px; align-items: center; flex: 1; flex-wrap: wrap;">
                                 <label style="font-weight: bold; color: #c2410c; white-space: nowrap;"><i class="fa-solid fa-file-arrow-up"></i> Hóa đơn:</label>
                                 <input type="file" id="file-vt" class="inp-table" style="background: white; border-color: #fdba74; max-width: 320px;" multiple>
@@ -678,10 +679,10 @@
                     <div class="card-title" style="border-left-color: var(--purple);">
                         <span><i class="fa-solid fa-laptop" style="color:var(--purple);"></i> QUẢN LÝ TÀI SẢN & KIỂM KÊ CNTT (<span class="lbl-current-year">2026</span>)</span>
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 280px; gap: 12px; background: #faf5ff; border: 1.5px solid #d8b4fe; padding: 12px; border-radius: 6px; margin-bottom: 12px; align-items: start;">
+                    <div style="display: grid; grid-template-columns: 1fr 300px; gap: 12px; background: #faf5ff; border: 1.5px solid #d8b4fe; padding: 12px; border-radius: 6px; margin-bottom: 12px; align-items: start;">
                         <div>
                             <input type="hidden" id="edit-it-index" value="-1">
-                            <div class="grid-form" style="margin-bottom: 8px;">
+                            <div class="grid-form" style="margin-bottom: 10px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Người sử dụng <span style="color:var(--red);">*</span></label>
                                     <input type="text" id="it-user" value="Nguyễn Văn An" placeholder="Họ và tên..." style="border-color: #d8b4fe;" oninput="updateLiveQRPreview()">
@@ -708,65 +709,73 @@
                                 </div>
                             </div>
                             
-                            <div class="grid-form" style="margin-bottom: 8px;">
+                            <!-- BỔ SUNG ĐẦY ĐỦ PHIÊN BẢN HỆ ĐIỀU HÀNH VÀ BẢN QUYỀN ƯU TIÊN CHƯA CÓ BẢN QUYỀN LÊN ĐẦU -->
+                            <div class="grid-form" style="margin-bottom: 10px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Hệ điều hành</label>
                                     <select id="it-os" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
-                                        <option value="Windows 11 Pro" selected>Windows 11 Pro</option>
-                                        <option value="Windows 11 Home">Windows 11 Home</option>
-                                        <option value="Windows 10 Pro">Windows 10 Pro</option>
-                                        <option value="Windows 10 Home">Windows 10 Home</option>
-                                        <option value="macOS (Apple)">macOS (Apple)</option>
-                                        <option value="Linux / Ubuntu">Linux / Ubuntu</option>
-                                        <option value="HĐH Khác">HĐH Khác</option>
+                                        <option value="Windows 11 Pro (64-bit)" selected>Windows 11 Pro (64-bit)</option>
+                                        <option value="Windows 11 Home (64-bit)">Windows 11 Home (64-bit)</option>
+                                        <option value="Windows 10 Pro (64-bit)">Windows 10 Pro (64-bit)</option>
+                                        <option value="Windows 10 Home (64-bit)">Windows 10 Home (64-bit)</option>
+                                        <option value="macOS Sequoia / Sonoma (Apple)">macOS Sequoia / Sonoma (Apple)</option>
+                                        <option value="Ubuntu Linux / Fedora / CentOS">Ubuntu Linux / Fedora / CentOS</option>
+                                        <option value="Hệ điều hành khác">Hệ điều hành khác</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label style="color: #6d28d9;">Bản quyền HĐH</label>
+                                    <label style="color: #6d28d9;">Bản quyền HĐH <span style="color:var(--red);">(Ưu tiên kiểm tra)</span></label>
                                     <select id="it-os-lic" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
-                                        <option value="Bản quyền chính hãng" selected>Đã có bản quyền chính hãng</option>
-                                        <option value="Chưa có bản quyền">⚠️ Chưa có bản quyền</option>
+                                        <option value="⚠️ Chưa có bản quyền HĐH (Chưa Active)">⚠️ Chưa có bản quyền HĐH (Chưa Active)</option>
+                                        <option value="Bản quyền chính hãng OEM/Retail" selected>Đã có bản quyền chính hãng OEM/Retail</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Bộ Microsoft Office</label>
                                     <select id="it-office" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
-                                        <option value="Microsoft 365 (M365) Business" selected>Microsoft 365 Business</option>
-                                        <option value="Office Professional Plus 2024">Office Pro Plus 2024</option>
-                                        <option value="Office Professional Plus 2021">Office Pro Plus 2021</option>
-                                        <option value="LibreOffice / WPS Miễn phí">LibreOffice / WPS Miễn phí</option>
+                                        <option value="Microsoft 365 (M365) Business Standard" selected>Microsoft 365 Business Standard</option>
+                                        <option value="Microsoft 365 Personal / Family">Microsoft 365 Personal / Family</option>
+                                        <option value="Office Professional Plus 2024">Office Professional Plus 2024</option>
+                                        <option value="Office Professional Plus 2021">Office Professional Plus 2021</option>
+                                        <option value="Office Home & Business 2021 / 2024">Office Home & Business 2021 / 2024</option>
+                                        <option value="LibreOffice / WPS Office (Miễn phí)">LibreOffice / WPS Office (Miễn phí)</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label style="color: #6d28d9;">Bản quyền Office</label>
+                                    <label style="color: #6d28d9;">Bản quyền Office <span style="color:var(--red);">(Ưu tiên kiểm tra)</span></label>
                                     <select id="it-office-lic" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
-                                        <option value="Bản quyền doanh nghiệp" selected>Đã có bản quyền doanh nghiệp</option>
-                                        <option value="Chưa có bản quyền">⚠️ Chưa có bản quyền</option>
+                                        <option value="⚠️ Chưa có bản quyền Office">⚠️ Chưa có bản quyền Office</option>
+                                        <option value="Bản quyền doanh nghiệp chính hãng" selected>Đã có bản quyền doanh nghiệp chính hãng</option>
                                     </select>
                                 </div>
                             </div>
 
-                            <div class="grid-form" style="margin-bottom: 8px;">
-                                <div class="form-group">
-                                    <label style="color: #6d28d9;">Phần mềm nghiệp vụ / Thiết kế</label>
+                            <!-- BỔ SUNG ĐẦY ĐỦ PHẦN MỀM THIẾT KẾ, ĐỒ HỌA MỚI NHẤT VÀ BẢN QUYỀN ƯU TIÊN -->
+                            <div class="grid-form" style="margin-bottom: 10px;">
+                                <div class="form-group" style="grid-column: span 2;">
+                                    <label style="color: #6d28d9;">Phần mềm nghiệp vụ / Thiết kế & Đồ họa mới nhất</label>
                                     <select id="it-software" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
-                                        <option value="Không có" selected>🚫 Không có (Văn phòng cơ bản)</option>
-                                        <option value="ASIA ERP - Quản trị tổng thể">ASIA ERP - Quản trị tổng thể</option>
-                                        <option value="Quasoft - Quản lý kho/vật tư">Quasoft - Quản lý kho/vật tư</option>
+                                        <option value="Không có (Văn phòng cơ bản)" selected>🚫 Không có (Văn phòng cơ bản)</option>
+                                        <option value="Adobe Creative Cloud 2026 (Photoshop, Illustrator, Premiere...)">Adobe Creative Cloud 2026 (Photoshop, Illustrator, Premiere...)</option>
+                                        <option value="Adobe Creative Cloud 2025 / 2024">Adobe Creative Cloud 2025 / 2024</option>
+                                        <option value="AutoCAD 2025 / 2026 (Thiết kế kỹ thuật 2D/3D)">AutoCAD 2025 / 2026 (Thiết kế kỹ thuật 2D/3D)</option>
+                                        <option value="CorelDRAW Graphics Suite 2025 / 2026">CorelDRAW Graphics Suite 2025 / 2026</option>
+                                        <option value="SolidWorks / Revit 2025 / 2026">SolidWorks / Revit 2025 / 2026</option>
+                                        <option value="ASIA ERP - Phần mềm Quản trị tổng thể">ASIA ERP - Phần mềm Quản trị tổng thể</option>
+                                        <option value="Quasoft - Quản lý kho / vật tư">Quasoft - Quản lý kho / vật tư</option>
                                         <option value="CloudOffice - Văn phòng điện tử">CloudOffice - Văn phòng điện tử</option>
-                                        <option value="AutoCAD 2025 / 2024 (Thiết kế)">AutoCAD 2025 / 2024 (Thiết kế)</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label style="color: #6d28d9;">Bản quyền Phần mềm / CAD</label>
+                                <div class="form-group" style="grid-column: span 2;">
+                                    <label style="color: #6d28d9;">Bản quyền Phần mềm / Đồ họa / CAD <span style="color:var(--red);">(Ưu tiên kiểm tra)</span></label>
                                     <select id="it-soft-lic" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
-                                        <option value="Bản quyền chính hãng" selected>Đã có bản quyền chính hãng</option>
-                                        <option value="Chưa có bản quyền">⚠️ Chưa có bản quyền</option>
+                                        <option value="⚠️ Chưa có bản quyền phần mềm / Crack">⚠️ Chưa có bản quyền phần mềm / Crack</option>
+                                        <option value="Bản quyền chính hãng doanh nghiệp" selected>Đã có bản quyền chính hãng doanh nghiệp</option>
                                     </select>
                                 </div>
                             </div>
 
-                            <div class="grid-form" style="margin-bottom: 8px;">
+                            <div class="grid-form" style="margin-bottom: 10px;">
                                 <div class="form-group" style="grid-column: span 2;">
                                     <label style="color: #6d28d9;">Thông số cấu hình phần cứng</label>
                                     <input type="text" id="it-specs" value="Dell Latitude, Core i5, 16GB RAM, 512GB SSD" style="border-color: #d8b4fe;">
@@ -799,7 +808,7 @@
                                 </div>
                                 <div style="font-size: 10px; color: var(--blue); font-style: italic;">(Bấm vào mã QR để phóng to)</div>
                             </div>
-                            <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 4px; padding: 5px; width: 100%; font-size: 10.5px; line-height: 1.25;">
+                            <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 4px; padding: 6px; width: 100%; font-size: 11px; line-height: 1.3;">
                                 <div><b>Mã TS:</b> <span id="lbl-qr-code">--</span></div>
                                 <div><b>Người dùng:</b> <span id="lbl-qr-user" style="color:var(--primary);">Nguyễn Văn An</span></div>
                                 <div><b>Bộ phận:</b> <span id="lbl-qr-dept" style="color:var(--primary);">Phòng Kỹ thuật - Công nghệ</span></div>
@@ -849,7 +858,7 @@
                                     <th>Cấu hình</th>
                                     <th>HĐH & Bản quyền</th>
                                     <th>Office & Bản quyền</th>
-                                    <th>Phần mềm & Bản quyền</th>
+                                    <th>Phần mềm / Đồ họa & Bản quyền</th>
                                     <th>Người dùng</th>
                                     <th>Phòng ban</th>
                                     <th>Ngày bàn giao</th>
@@ -1921,7 +1930,7 @@
             let cleanOffice = removeVietnameseAccents(office || "Office");
             let cleanSoftware = removeVietnameseAccents(software || "Khong co");
             
-            return `VINAPACO IT ASSET\n[Ma TS]: ${cleanCode}\n[Loai]: ${cleanType}\n[Nguoi dung]: ${cleanUser}\n[Phong ban]: ${cleanDept}\n[HDH]: ${cleanOs}\n[Office]: ${cleanOffice}\n[Phan mem/CAD]: ${cleanSoftware}`;
+            return `VINAPACO IT ASSET\n[Ma TS]: ${cleanCode}\n[Loai]: ${cleanType}\n[Nguoi dung]: ${cleanUser}\n[Phong ban]: ${cleanDept}\n[HDH]: ${cleanOs}\n[Office]: ${cleanOffice}\n[Phan mem/Do hoa]: ${cleanSoftware}`;
         }
 
         function updateLiveQRPreview() {
@@ -2098,12 +2107,12 @@
             document.getElementById('it-dept').value = rec.dept || "";
             document.getElementById('it-type').value = rec.type || "Laptop Doanh Nghiệp";
             document.getElementById('it-code').value = rec.code || "";
-            document.getElementById('it-os').value = rec.os || "Windows 11 Pro";
-            document.getElementById('it-os-lic').value = rec.osLic || "Bản quyền chính hãng";
-            document.getElementById('it-office').value = rec.office || "Microsoft 365 (M365) Business";
-            document.getElementById('it-office-lic').value = rec.officeLic || "Bản quyền doanh nghiệp";
-            document.getElementById('it-software').value = rec.software || "Không có";
-            document.getElementById('it-soft-lic').value = rec.softLic || "Bản quyền chính hãng";
+            document.getElementById('it-os').value = rec.os || "Windows 11 Pro (64-bit)";
+            document.getElementById('it-os-lic').value = rec.osLic || "Bản quyền chính hãng OEM/Retail";
+            document.getElementById('it-office').value = rec.office || "Microsoft 365 (M365) Business Standard";
+            document.getElementById('it-office-lic').value = rec.officeLic || "Bản quyền doanh nghiệp chính hãng";
+            document.getElementById('it-software').value = rec.software || "Không có (Văn phòng cơ bản)";
+            document.getElementById('it-soft-lic').value = rec.softLic || "Bản quyền chính hãng doanh nghiệp";
             document.getElementById('it-specs').value = rec.specs || "";
             document.getElementById('it-date').value = rec.dateVal || "";
             document.getElementById('it-status').value = rec.status || "Tốt - Đang sử dụng";
@@ -2320,7 +2329,7 @@
                                 <th>Cấu hình phần cứng</th>
                                 <th>Hệ điều hành</th>
                                 <th>Bộ Office</th>
-                                <th>Phần mềm / CAD</th>
+                                <th>Phần mềm / Đồ họa</th>
                                 <th>Người sử dụng</th>
                                 <th>Phòng ban</th>
                                 <th>Trạng thái</th>
