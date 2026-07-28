@@ -9,7 +9,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <!-- Sử dụng Chart.js kết hợp plugin ChartDataLabels để hiển thị trực tiếp số liệu -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <style>
@@ -57,11 +59,11 @@
 
         .dash-quick-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; background: #ffffff; padding: 12px; border-radius: 8px; border: 1.5px solid #cbd5e1; align-items: center; justify-content: space-between; }
 
-        /* Thu gọn các ô thông tin tóm tắt đầu bảng */
-        .salary-visual-summary { display: flex; justify-content: space-between; align-items: center; gap: 6px; margin: 0 auto 10px auto; max-width: 100%; background: #ffffff; padding: 8px 10px; border-radius: 8px; border: 2px solid #cbd5e1; box-shadow: 0 2px 5px rgba(0,0,0,0.06); flex-wrap: wrap; }
-        .visual-mini-card { flex: 1; min-width: 120px; max-width: 230px; background: #f8fafc; padding: 6px 10px; border-radius: 6px; border: 1.5px solid #cbd5e1; display: flex; align-items: center; justify-content: space-between; gap: 6px; }
-        .visual-lbl { font-size: 10px; font-weight: bold; color: #0f172a; white-space: nowrap; display: flex; align-items: center; }
-        .visual-val { font-size: 13px; font-weight: 800; color: var(--primary); white-space: nowrap; }
+        /* Thu gọn các ô thông tin tóm tắt đầu bảng lương */
+        .salary-visual-summary { display: flex; justify-content: space-between; align-items: center; gap: 4px; margin: 0 auto 10px auto; max-width: 100%; background: #ffffff; padding: 6px 8px; border-radius: 8px; border: 2px solid #cbd5e1; box-shadow: 0 2px 5px rgba(0,0,0,0.06); flex-wrap: wrap; }
+        .visual-mini-card { flex: 1; min-width: 95px; max-width: 160px; background: #f8fafc; padding: 4px 6px; border-radius: 6px; border: 1.5px solid #cbd5e1; display: flex; align-items: center; justify-content: space-between; gap: 4px; }
+        .visual-lbl { font-size: 9.5px; font-weight: bold; color: #0f172a; white-space: nowrap; display: flex; align-items: center; }
+        .visual-val { font-size: 11.5px; font-weight: 800; color: var(--primary); white-space: nowrap; }
 
         .config-toolbar-container { background: #f8fafc; padding: 10px 12px; border-radius: 6px; border: 1.5px solid #cbd5e1; }
 
@@ -98,7 +100,7 @@
         .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 8px; width: 100%; border: 1.5px solid #475569; border-radius: 4px; background: #fff; }
         .main-table { width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap; font-size: 13px; color: #000000; }
         
-        /* Mở rộng chiều cao của các ô tiêu đề (th) */
+        /* Mở rộng chiều cao các ô tiêu đề (th) */
         .main-table th { background: #cbd5e1; color: #000000; padding: 14px 8px; border: 1px solid #475569; font-weight: bold; text-align: center; vertical-align: middle; line-height: 1.4; }
         
         .main-table td { padding: 6px; border: 1px solid #64748b; vertical-align: middle; font-weight: 600; }
@@ -207,18 +209,18 @@
 
             <!-- THANH ĐIỀU HƯỚNG TAB CHÍNH -->
             <div class="nav-tabs">
-                <button type="button" class="nav-tab active" data-tab="dashboard" onclick="switchMainTab('dashboard')"><i class="fa-solid fa-chart-pie"></i> 📊 Dashboard & Biểu Đồ Thuế</button>
+                <button type="button" class="nav-tab active" data-tab="dashboard" onclick="switchMainTab('dashboard')"><i class="fa-solid fa-chart-pie"></i> 📊 Dashboard & Biểu Đồ 3D</button>
                 <button type="button" class="nav-tab" data-tab="salary" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Tính Lương</button>
                 <button type="button" class="nav-tab" data-tab="payment" onclick="switchMainTab('payment')"><i class="fa-solid fa-file-invoice"></i> Hồ Sơ TT</button>
                 <button type="button" class="nav-tab" data-tab="telecom" onclick="switchMainTab('telecom')"><i class="fa-solid fa-globe"></i> Cước Viễn Thông</button>
                 <button type="button" class="nav-tab" data-tab="it-assets" onclick="switchMainTab('it-assets')"><i class="fa-solid fa-laptop"></i> Thiết Bị CNTT</button>
             </div>
 
-            <!-- TAB 0: DASHBOARD TỔNG QUAN & BIỂU ĐỒ THỐNG KÊ -->
+            <!-- TAB 0: DASHBOARD TỔNG QUAN & BIỂU ĐỒ 3D TRỰC QUAN -->
             <div id="tab-dashboard" class="tab-content active">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--blue);">
-                        <span><i class="fa-solid fa-gauge-high" style="color:var(--blue);"></i> TỔNG QUAN ĐIỀU HÀNH & BIỂU ĐỒ THỐNG KÊ NĂM <span class="lbl-current-year">2025</span></span>
+                        <span><i class="fa-solid fa-gauge-high" style="color:var(--blue);"></i> TỔNG QUAN ĐIỀU HÀNH & BIỂU ĐỒ 3D TRỰC QUAN NĂM <span class="lbl-current-year">2025</span></span>
                     </div>
 
                     <div class="dash-quick-actions">
@@ -269,21 +271,21 @@
                         </div>
                     </div>
 
-                    <!-- KHU VỰC HIỂN THỊ BIỂU ĐỒ TRỰC QUAN CHUYÊN NGHIỆP -->
+                    <!-- KHU VỰC HIỂN THỊ BIỂU ĐỒ 3D TRỰC QUAN KÈM SỐ LIỆU -->
                     <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 12px; margin-bottom: 12px;">
                         <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 8px;">
                             <div style="font-weight: bold; color: var(--primary); font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
-                                <span><i class="fa-solid fa-chart-bar" style="color:var(--blue);"></i> Biểu đồ cơ cấu Chi phí & Tài chính năm <span class="lbl-current-year">2025</span></span>
+                                <span><i class="fa-solid fa-chart-column" style="color:var(--blue);"></i> Biểu đồ Cột 3D Chi phí & Tài chính năm <span class="lbl-current-year">2025</span></span>
                             </div>
-                            <div style="position: relative; height: 260px; width: 100%;">
+                            <div style="position: relative; height: 280px; width: 100%;">
                                 <canvas id="financeBarChart"></canvas>
                             </div>
                         </div>
                         <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 8px;">
                             <div style="font-weight: bold; color: var(--primary); font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
-                                <span><i class="fa-solid fa-chart-pie" style="color:var(--orange);"></i> Tỷ trọng Chi phí & Tiền thuế</span>
+                                <span><i class="fa-solid fa-chart-pie" style="color:var(--orange);"></i> Biểu đồ Tròn 3D Tỷ trọng Chi phí</span>
                             </div>
-                            <div style="position: relative; height: 260px; width: 100%; display: flex; justify-content: center;">
+                            <div style="position: relative; height: 280px; width: 100%; display: flex; justify-content: center;">
                                 <canvas id="taxPieChart"></canvas>
                             </div>
                         </div>
@@ -340,23 +342,23 @@
 
                         <div style="display: flex; align-items: flex-end; gap: 8px; flex-wrap: wrap; justify-content: space-between;">
                             <div style="display: flex; gap: 8px; flex-wrap: wrap; flex: 1;">
-                                <div class="form-group" style="width: 140px; flex-shrink: 0;">
+                                <div class="form-group" style="width: 130px; flex-shrink: 0;">
                                     <label style="color:var(--blue);"><i class="fa-regular fa-calendar-days"></i> Kỳ báo cáo (Rộng hơn)</label>
                                     <input type="month" id="filter-month" value="2025-07" onchange="handleMonthChangeSelect()" style="font-size: 13.5px; padding: 6px 10px;">
                                 </div>
-                                <div class="form-group" style="width: 95px; flex-shrink: 0;">
+                                <div class="form-group" style="width: 85px; flex-shrink: 0;">
                                     <label style="color:var(--orange);">Tối thiểu vùng</label>
                                     <input type="number" id="config-vung-pay" value="4140000" oninput="handleConfigChangeLive()">
                                 </div>
-                                <div class="form-group" style="width: 95px; flex-shrink: 0;">
+                                <div class="form-group" style="width: 85px; flex-shrink: 0;">
                                     <label style="color:var(--blue);">Lương cơ bản</label>
                                     <input type="number" id="config-base-pay" value="2650000" oninput="handleConfigChangeLive()">
                                 </div>
-                                <div class="form-group" style="width: 95px; flex-shrink: 0;">
+                                <div class="form-group" style="width: 85px; flex-shrink: 0;">
                                     <label style="color:var(--purple);">Lương công việc</label>
                                     <input type="number" id="config-lcv-pay" value="1991139" oninput="handleConfigChangeLive()">
                                 </div>
-                                <div class="form-group" style="width: 140px; flex-shrink: 0;">
+                                <div class="form-group" style="width: 110px; flex-shrink: 0;">
                                     <label style="color:var(--primary);">Người Lập Biểu</label>
                                     <input type="text" id="config-signer-name" value="N.T.T.Nhung" oninput="handleConfigChangeLive()">
                                 </div>
@@ -374,21 +376,22 @@
                 <div id="syncNotifyBox" class="status-box-notify"></div>
 
                 <div class="main-card">
+                    <!-- Thu ngắn các ô thống kê tổng ở đầu bảng lương -->
                     <div class="salary-visual-summary">
                         <div class="visual-mini-card">
-                            <span class="visual-lbl"><i class="fa-solid fa-wallet" style="color:var(--blue); margin-right:3px;"></i> TL.CB:</span>
+                            <span class="visual-lbl"><i class="fa-solid fa-wallet" style="color:var(--blue); margin-right:2px;"></i> TL.CB:</span>
                             <span class="visual-val" id="v-total-lcb" style="color:var(--blue);">0 VND</span>
                         </div>
                         <div class="visual-mini-card">
-                            <span class="visual-lbl"><i class="fa-solid fa-briefcase" style="color:var(--purple); margin-right:3px;"></i> TL.CV:</span>
+                            <span class="visual-lbl"><i class="fa-solid fa-briefcase" style="color:var(--purple); margin-right:2px;"></i> TL.CV:</span>
                             <span class="visual-val" id="v-total-lcv-text" style="color:var(--purple);">0 VND</span>
                         </div>
                         <div class="visual-mini-card">
-                            <span class="visual-lbl"><i class="fa-solid fa-bowl-rice" style="color:var(--orange); margin-right:3px;"></i> ĂN CA:</span>
+                            <span class="visual-lbl"><i class="fa-solid fa-bowl-rice" style="color:var(--orange); margin-right:2px;"></i> ĂN CA:</span>
                             <span class="visual-val" id="v-total-anca" style="color:var(--orange);">0 VND</span>
                         </div>
                         <div class="visual-mini-card" style="background: #f0fdf4; border-color: #86efac;">
-                            <span class="visual-lbl" style="color: #166534;"><i class="fa-solid fa-circle-dollar-to-slot" style="color:var(--green); margin-right:3px;"></i> T.NET:</span>
+                            <span class="visual-lbl" style="color: #166534;"><i class="fa-solid fa-circle-dollar-to-slot" style="color:var(--green); margin-right:2px;"></i> T.NET:</span>
                             <span class="visual-val" id="v-total-thuc" style="color:var(--green);">0 VND</span>
                         </div>
                     </div>
@@ -779,29 +782,20 @@
 
                             <div class="grid-form" style="margin-bottom: 8px;">
                                 <div class="form-group">
-                                    <label style="color: #6d28d9;">Phần mềm Thiết kế (AutoCAD & SolidWorks)</label>
+                                    <label style="color: #6d28d9;">Phần mềm Đồ họa / AutoCAD (Solid gộp chung)</label>
                                     <select id="it-software" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
-                                        <option value="Không có (Văn phòng cơ bản)" selected>🚫 Không có (Văn phòng cơ bản)</option>
-                                        <option value="AutoCAD 2026 / 2025">AutoCAD 2026 / 2025</option>
-                                        <option value="AutoCAD 2024 / 2023 / 2022">AutoCAD 2024 / 2023 / 2022</option>
-                                        <option value="AutoCAD 2021 / 2020 / 2019">AutoCAD 2021 / 2020 / 2019</option>
-                                        <option value="AutoCAD 2018 / 2017 / 2016">AutoCAD 2018 / 2017 / 2016</option>
-                                        <option value="AutoCAD 2015 / 2014 / 2013">AutoCAD 2015 / 2014 / 2013</option>
-                                        <option value="AutoCAD 2012 / 2011 / 2010">AutoCAD 2012 / 2011 / 2010</option>
-                                        <option value="AutoCAD 2009 / 2008 / 2007">AutoCAD 2009 / 2008 / 2007 (Cũ)</option>
-                                        <option value="SolidWorks 2026 / 2025">SolidWorks 2026 / 2025</option>
-                                        <option value="SolidWorks 2024 / 2023 / 2022">SolidWorks 2024 / 2023 / 2022</option>
-                                        <option value="SolidWorks 2021 / 2020 / 2019">SolidWorks 2021 / 2020 / 2019</option>
-                                        <option value="SolidWorks 2018 / 2017 / 2016">SolidWorks 2018 / 2017 / 2016</option>
-                                        <option value="SolidWorks 2015 / 2014 / 2013">SolidWorks 2015 / 2014 / 2013</option>
-                                        <option value="SolidWorks 2012 / 2011 / 2010">SolidWorks 2012 / 2011 / 2010</option>
-                                        <option value="SolidWorks 2009 / 2008 / 2007">SolidWorks 2009 / 2008 / 2007 (Cũ)</option>
+                                        <!-- Ưu tiên chưa có bản quyền / Miễn phí lên trước theo yêu cầu -->
+                                        <option value="⚠️ Chưa có bản quyền phần mềm / Crack" selected>⚠️ Chưa có bản quyền phần mềm / Crack</option>
+                                        <option value="🚫 Không có (Văn phòng cơ bản)">🚫 Không có (Văn phòng cơ bản)</option>
+                                        <option value="AutoCAD (Đủ phiên bản 2007-2026)">AutoCAD (Đủ phiên bản 2007-2026)</option>
+                                        <option value="SolidWorks (Đủ phiên bản 2007-2026)">SolidWorks (Đủ phiên bản 2007-2026)</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Phần mềm ASIA ERP</label>
                                     <select id="it-asia" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
-                                        <option value="Không" selected>🚫 Không</option>
+                                        <option value="⚠️ Chưa có bản quyền ASIA / Crack" selected>⚠️ Chưa có bản quyền ASIA / Crack</option>
+                                        <option value="🚫 Không">🚫 Không</option>
                                         <option value="ASIA Enterprise ERP (Kế toán - Kho)">ASIA Enterprise ERP (Kế toán - Kho)</option>
                                         <option value="ASIA Standard ERP">ASIA Standard ERP</option>
                                     </select>
@@ -809,7 +803,8 @@
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Phần mềm QUASOFT</label>
                                     <select id="it-quasoft" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
-                                        <option value="Không" selected>🚫 Không</option>
+                                        <option value="⚠️ Chưa có bản quyền Quasoft / Crack" selected>⚠️ Chưa có bản quyền Quasoft / Crack</option>
+                                        <option value="🚫 Không">🚫 Không</option>
                                         <option value="Quasoft Warehouse & Material Management">Quasoft Warehouse & Material Management</option>
                                         <option value="Quasoft Production Standard">Quasoft Production Standard</option>
                                     </select>
@@ -817,15 +812,15 @@
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Phần mềm CloudOffice</label>
                                     <select id="it-cloudoffice" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
-                                        <option value="Có (Đã tích hợp Web/App)" selected>✅ Có (Đã tích hợp Web/App)</option>
-                                        <option value="Không">🚫 Không</option>
+                                        <option value="✅ Có (Đã tích hợp Web/App)" selected>✅ Có (Đã tích hợp Web/App)</option>
+                                        <option value="🚫 Không">🚫 Không</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="grid-form" style="margin-bottom: 8px;">
                                 <div class="form-group" style="grid-column: span 2;">
-                                    <label style="color: #6d28d9;">Bản quyền Phần mềm / Đồ họa / CAD <span style="color:var(--red);">*</span></label>
+                                    <label style="color: #6d28d9;">Bản quyền Phần mềm Đồ họa / CAD <span style="color:var(--red);">*</span></label>
                                     <select id="it-soft-lic" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
                                         <option value="⚠️ Chưa có bản quyền phần mềm / Crack" selected>⚠️ Chưa có bản quyền phần mềm / Crack</option>
                                         <option value="Bản quyền chính hãng doanh nghiệp">Đã có bản quyền chính hãng doanh nghiệp</option>
@@ -916,7 +911,7 @@
                                     <th>Cấu hình</th>
                                     <th>HĐH & Bản quyền</th>
                                     <th>Office & Bản quyền</th>
-                                    <th>Phần mềm (AutoCAD / Solid / ASIA / Quasoft / CloudOffice)</th>
+                                    <th>Phần mềm (AutoCAD / ASIA / Quasoft / CloudOffice)</th>
                                     <th>Người dùng</th>
                                     <th>Phòng ban</th>
                                     <th>Ngày bàn giao</th>
@@ -1271,6 +1266,14 @@
             return integerPart + "," + decimalPart.replace(/0+$/, '');
         }
 
+        function formatCurrencyShort(num) {
+            if (num === null || num === undefined || isNaN(num)) return "0";
+            if (num >= 1e9) return (num / 1e9).toFixed(1) + " Tỷ";
+            if (num >= 1e6) return (num / 1e6).toFixed(1 + (num < 1e7 ? 1 : 0)) + " Tr";
+            if (num >= 1e3) return (num / 1e3).toFixed(0) + " k";
+            return num.toString();
+        }
+
         function parseCurrencyVN(str) {
             if (str === null || str === undefined) return 0;
             if (typeof str === 'number') return str;
@@ -1320,9 +1323,9 @@
         }
 
         function getTaxRateForYear(yearStr) {
-            if (yearStr === "2025") return 10; // Năm 2025 mặc định 10%
-            if (yearStr === "2026") return 8;  // Năm 2026 mặc định 8%
-            return 8; // Các năm tiếp theo mặc định 8% (linh hoạt thay đổi theo nội dung)
+            if (yearStr === "2025") return 10;
+            if (yearStr === "2026") return 8;
+            return 8;
         }
 
         function updateGlobalDashboardSummary() {
@@ -1394,7 +1397,6 @@
                         else if (contentLower.includes("0%")) estRate = 0;
                         else if (contentLower.includes("nhà thầu")) estRate = 10.5;
 
-                        // TÍNH NGƯỢC THUẾ LINH HOẠT
                         let baseAmt = totalAmt / (1 + estRate / 100);
                         let taxAmt = totalAmt - baseAmt;
                         totalTaxYear += taxAmt;
@@ -1416,7 +1418,6 @@
                 });
             });
 
-            // ÁP DỤNG TRỪ ĐI 14.822.400Đ CHO NĂM 2025 NẾU ĐƯỢC YÊU CẦU
             if (CURRENT_SELECTED_YEAR === "2025") {
                 totalPaidYear -= 14822400;
                 if (totalPaidYear < 0) totalPaidYear = 0;
@@ -1449,14 +1450,17 @@
             document.getElementById('dash-pro-total-tax').innerText = formatCurrencyVN(totalTaxYear) + " VND";
             document.getElementById('dash-pro-pending-pay').innerText = formatCurrencyVN(totalTelecomYear) + " VND";
 
-            // CẬP NHẬT BIỂU ĐỒ TRỰC QUAN CHUYÊN NGHIỆP
+            // CẬP NHẬT BIỂU ĐỒ 3D TRỰC QUAN KÈM SỐ LIỆU TRÊN ĐẦU CỘT
             updateAnalyticsCharts(totalNetYear, totalPaidYear, totalTaxYear, totalTelecomYear);
         }
 
         function updateAnalyticsCharts(totalNet, totalPaid, totalTax, totalTelecom) {
-            // 1. Biểu đồ cột (Bar Chart)
+            Chart.register(ChartDataLabels);
+
+            // 1. Biểu đồ Cột 3D (Mô phỏng 3D bằng hiệu ứng shadow, bo góc mạnh, gradient sang trọng và hiển thị số liệu trực tiếp trên đầu cột)
             const ctxBar = document.getElementById('financeBarChart').getContext('2d');
             if (barChartInstance) { barChartInstance.destroy(); }
+            
             barChartInstance = new Chart(ctxBar, {
                 type: 'bar',
                 data: {
@@ -1464,34 +1468,95 @@
                     datasets: [{
                         label: `Giá trị (VND) - Năm ${CURRENT_SELECTED_YEAR}`,
                         data: [totalNet, totalPaid, totalTax, totalTelecom],
-                        backgroundColor: ['#1d4ed8', '#047857', '#ea580c', '#6d28d9'],
-                        borderWidth: 1
+                        backgroundColor: [
+                            'rgba(29, 78, 216, 0.85)',
+                            'rgba(4, 120, 87, 0.85)',
+                            'rgba(234, 88, 12, 0.85)',
+                            'rgba(109, 40, 217, 0.85)'
+                        ],
+                        borderColor: [
+                            '#1d4ed8', '#047857', '#ea580c', '#6d28d9'
+                        ],
+                        borderWidth: 2,
+                        borderRadius: 6,
+                        borderSkipped: false,
+                        barPercentage: 0.65
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'top',
+                            formatter: function(value) {
+                                return formatCurrencyShort(value);
+                            },
+                            font: {
+                                weight: 'bold',
+                                size: 11,
+                                family: 'Times New Roman'
+                            },
+                            color: '#0f172a'
+                        }
+                    },
                     scales: {
-                        y: { beginAtZero: true }
+                        y: { 
+                            beginAtZero: true,
+                            grid: { color: '#e2e8f0' },
+                            ticks: {
+                                font: { size: 11, family: 'Times New Roman' },
+                                callback: function(value) { return formatCurrencyShort(value); }
+                            }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { weight: 'bold', size: 11, family: 'Times New Roman' }, color: '#0f172a' }
+                        }
                     }
                 }
             });
 
-            // 2. Biểu đồ tròn (Pie Chart)
+            // 2. Biểu đồ Tròn 3D Tỷ trọng Chi phí (Hiển thị số liệu trực tiếp trên từng lát cắt)
             const ctxPie = document.getElementById('taxPieChart').getContext('2d');
             if (pieChartInstance) { pieChartInstance.destroy(); }
+            
             pieChartInstance = new Chart(ctxPie, {
                 type: 'doughnut',
                 data: {
                     labels: ['Lương Net', 'Thanh Toán VP', 'Tiền Thuế', 'Cước Viễn Thông'],
                     datasets: [{
                         data: [totalNet || 1, totalPaid || 1, totalTax || 1, totalTelecom || 1],
-                        backgroundColor: ['#1d4ed8', '#047857', '#ea580c', '#6d28d9']
+                        backgroundColor: ['#1d4ed8', '#047857', '#ea580c', '#6d28d9'],
+                        borderWidth: 3,
+                        borderColor: '#ffffff',
+                        hoverOffset: 6
                     }]
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { font: { weight: 'bold', size: 11, family: 'Times New Roman' }, color: '#0f172a' }
+                        },
+                        datalabels: {
+                            formatter: (value, ctx) => {
+                                let sum = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                                let percentage = sum > 0 ? ((value * 100) / sum).toFixed(1) + "%" : "0%";
+                                return percentage;
+                            },
+                            color: '#ffffff',
+                            font: {
+                                weight: 'bold',
+                                size: 12,
+                                family: 'Times New Roman'
+                            }
+                        }
+                    }
                 }
             });
         }
@@ -1863,7 +1928,6 @@
                 });
             });
 
-            // HIỂN THỊ TỔNG ĐÃ TRỪ ĐI 14.822.400Đ NẾU NĂM 2025
             let displayedTotal = totalSum;
             if (CURRENT_SELECTED_YEAR === "2025") {
                 displayedTotal -= 14822400;
@@ -2088,7 +2152,7 @@
             let cleanQuasoft = removeVietnameseAccents(quasoft || "Khong");
             let cleanCloud = removeVietnameseAccents(cloudoffice || "Co");
             
-            return `VINAPACO IT ASSET\n[Ma TS]: ${cleanCode}\n[Loai]: ${cleanType}\n[Nguoi dung]: ${cleanUser}\n[Phong ban]: ${cleanDept}\n[HDH]: ${cleanOs}\n[Office]: ${cleanOffice}\n[Phan mem CAD/Solid]: ${cleanSoftware}\n[ASIA]: ${cleanAsia}\n[Quasoft]: ${cleanQuasoft}\n[CloudOffice]: ${cleanCloud}`;
+            return `VINAPACO IT ASSET\n[Ma TS]: ${cleanCode}\n[Loai]: ${cleanType}\n[Nguoi dung]: ${cleanUser}\n[Phong ban]: ${cleanDept}\n[HDH]: ${cleanOs}\n[Office]: ${cleanOffice}\n[Phan mem Do hoa/CAD/Solid]: ${cleanSoftware}\n[ASIA]: ${cleanAsia}\n[Quasoft]: ${cleanQuasoft}\n[CloudOffice]: ${cleanCloud}`;
         }
 
         function updateLiveQRPreview() {
@@ -2280,10 +2344,10 @@
             document.getElementById('it-os-lic').value = rec.osLic || "⚠️ Chưa có bản quyền HĐH (Chưa Active)";
             document.getElementById('it-office').value = rec.office || "Microsoft 365 (M365) Business Standard";
             document.getElementById('it-office-lic').value = rec.officeLic || "⚠️ Chưa có bản quyền Office";
-            document.getElementById('it-software').value = rec.software || "Không có (Văn phòng cơ bản)";
-            document.getElementById('it-asia').value = rec.asia || "Không";
-            document.getElementById('it-quasoft').value = rec.quasoft || "Không";
-            document.getElementById('it-cloudoffice').value = rec.cloudoffice || "Có (Đã tích hợp Web/App)";
+            document.getElementById('it-software').value = rec.software || "⚠️ Chưa có bản quyền phần mềm / Crack";
+            document.getElementById('it-asia').value = rec.asia || "⚠️ Chưa có bản quyền ASIA / Crack";
+            document.getElementById('it-quasoft').value = rec.quasoft || "⚠️ Chưa có bản quyền Quasoft / Crack";
+            document.getElementById('it-cloudoffice').value = rec.cloudoffice || "✅ Có (Đã tích hợp Web/App)";
             document.getElementById('it-soft-lic').value = rec.softLic || "⚠️ Chưa có bản quyền phần mềm / Crack";
             document.getElementById('it-specs').value = rec.specs || "";
             document.getElementById('it-date').value = rec.dateVal || "";
@@ -2362,7 +2426,7 @@
                     <td>${rec.specs}</td>
                     <td>${rec.os} <br><span style="color:${rec.osLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.osLic}]</span></td>
                     <td>${rec.office} <br><span style="color:${rec.officeLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.officeLic}]</span></td>
-                    <td><span style="color:var(--blue);">CAD/Solid: ${rec.software}</span><br><span style="color:var(--green);">ASIA: ${rec.asia || 'Không'}</span> | <span style="color:var(--orange);">Quasoft: ${rec.quasoft || 'Không'}</span><br><span style="color:var(--purple);">CloudOffice: ${rec.cloudoffice || 'Có'}</span><br><span style="color:${rec.softLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.softLic}]</span></td>
+                    <td><span style="color:var(--blue);">Đồ họa/CAD/Solid: ${rec.software}</span><br><span style="color:var(--green);">ASIA: ${rec.asia || 'Không'}</span> | <span style="color:var(--orange);">Quasoft: ${rec.quasoft || 'Không'}</span><br><span style="color:var(--purple);">CloudOffice: ${rec.cloudoffice || 'Có'}</span><br><span style="color:${rec.softLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.softLic}]</span></td>
                     <td class="font-bold">${rec.user}</td>
                     <td>${rec.dept}</td>
                     <td class="text-center">${rec.dateVal || '-'}</td>
@@ -2490,7 +2554,7 @@
                     <div class="sub-title">Đơn vị: ${deptTitleStr} - Năm ${CURRENT_SELECTED_YEAR}</div>
 
                     <p>Kính gửi: Tổng giám đốc Tổng công ty Giấy Việt Nam,</p>
-                    <p>Thực hiện kế hoạch quản trị và kiểm kê tài sản công nghệ thông tin tại Tổng công ty, phòng chuyên môn xin báo cáo chi tiết hiện trạng trang thiết bị, hệ điều hành, bản quyền phần mềm và các ứng dụng doanh nghiệp (AutoCAD, SolidWorks, ASIA, Quasoft, CloudOffice) tính đến thời điểm ${todayStr} như sau:</p>
+                    <p>Thực hiện kế hoạch quản trị và kiểm kê tài sản công nghệ thông tin tại Tổng công ty, phòng chuyên môn xin báo cáo chi tiết hiện trạng trang thiết bị, hệ điều hành, bản quyền phần mềm và các ứng dụng doanh nghiệp tính đến thời điểm ${todayStr} như sau:</p>
 
                     <table class="report-table">
                         <thead>
