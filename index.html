@@ -26,7 +26,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: rgba(0,0,0,0.2); }
         body { font-family: 'Times New Roman', Times, serif; font-size: 14px; margin: 0; padding: 8px; background: var(--bg-light); color: var(--text-main); font-weight: 500; }
         
-        .workspace { display: grid; grid-template-columns: 1fr 410px; gap: 12px; align-items: start; transition: all 0.3s ease; }
+        .workspace { display: grid; grid-template-columns: 1fr 420px; gap: 12px; align-items: start; transition: all 0.3s ease; }
         .workspace.calendar-hidden { grid-template-columns: 1fr !important; }
         @media (max-width: 1200px) { .workspace { grid-template-columns: 1fr; } }
 
@@ -823,7 +823,7 @@
             </div>
         </div>
 
-        <!-- LỊCH VẠN NIÊN THÔNG MINH (SIDEBAR - ĐẦY ĐỦ THÔNG TIN) -->
+        <!-- LỊCH VẠN NIÊN THÔNG MINH (SIDEBAR - ĐẦY ĐỦ THÔNG TIN PHONG THỦY) -->
         <div class="calendar-sidebar" id="calendar-sidebar-box">
             <div class="cal-smart-header">
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
@@ -863,6 +863,18 @@
                 <div class="cal-info-row">
                     <span class="cal-info-label"><i class="fa-solid fa-compass text-blue"></i> Giờ Hoàng Đạo:</span>
                     <span class="cal-info-val" id="info-hoang-dao" style="color:var(--blue);">Tý (23-1), Sửu (1-3), Mão (5-7)</span>
+                </div>
+                <div class="cal-info-row">
+                    <span class="cal-info-label"><i class="fa-solid fa-route" style="color:#b45309;"></i> Hướng xuất hành:</span>
+                    <span class="cal-info-val" id="info-huong-xuat-hanh" style="color:#b45309;">Hỷ thần: Đông Bắc - Tài thần: Nam</span>
+                </div>
+                <div class="cal-info-row">
+                    <span class="cal-info-label"><i class="fa-solid fa-circle-check text-green"></i> Việc nên làm:</span>
+                    <span class="cal-info-val" id="info-viec-nen-lam" style="color:var(--green);">Ký kết hợp đồng, giao dịch, mở kho, xuất hàng</span>
+                </div>
+                <div class="cal-info-row">
+                    <span class="cal-info-label"><i class="fa-solid fa-circle-xmark text-red"></i> Việc kiêng kị:</span>
+                    <span class="cal-info-val" id="info-viec-kieng-ki" style="color:var(--red);">Mai táng, kiện tụng lớn, động thổ xây dựng</span>
                 </div>
                 <div class="cal-info-row">
                     <span class="cal-info-label"><i class="fa-solid fa-user-shield text-red"></i> Tuổi xung khắc:</span>
@@ -995,7 +1007,37 @@
 
         const tietKhiList = ["Tiểu Hàn", "Đại Hàn", "Lập Xuân", "Vũ Thủy", "Kinh Trập", "Xuân Phân", "Thanh Minh", "Cốc Vũ", "Lập Hạ", "Tiểu Mãn", "Mang Chủng", "Hạ Chí", "Tiểu Thử", "Đại Thử", "Lập Thu", "Xử Thử", "Bạch Lộ", "Thu Phân", "Hàn Lộ", "Sương Giáng", "Lập Đông", "Tiểu Tuyết", "Đại Tuyết", "Đông Chí"];
         const hoangDaoPool = ["Tý (23h-1h), Sửu (1h-3h), Thìn (7h-9h)", "Dần (3h-5h), Tỵ (9h-11h), Thân (15h-17h)", "Mão (5h-7h), Ngọ (11h-13h), Dậu (17h-19h)", "Sửu (1h-3h), Thìn (7h-9h), Tuất (19h-21h)", "Tý (23h-1h), Dần (3h-5h), Hợi (21h-23h)"];
-        const xungTuoiPool = ["Mậu Thân, Nhâm Thân, Nhâm Tý", "Giáp Tý, Bính Tý, Canh Dần", "Đinh Dậu, Ất Dậu, Tân Mão", "Bính Dần, Giáp Dần, Mậu辰", "Kỷ Hợi, Tân Hợi, Quý Mùi"];
+        const xungTuoiPool = ["Mậu Thân, Nhâm Thân, Nhâm Tý", "Giáp Tý, Bính Tý, Canh Dần", "Đinh Dậu, Ất Dậu, Tân Mão", "Bính Dần, Giáp Dần, Mậu Thân", "Kỷ Hợi, Tân Hợi, Quý Mùi"];
+
+        // Danh mục hướng xuất hành phong phú
+        const huongXuatHanhPool = [
+            "Hỷ thần: Đông Bắc - Tài thần: Nam",
+            "Hỷ thần: Tây Bắc - Tài thần: Đông Nam",
+            "Hỷ thần: Tây Nam - Tài thần: Bắc",
+            "Hỷ thần: Chính Nam - Tài thần: Tây",
+            "Hỷ thần: Đông Nam - Tài thần: Tây Bắc",
+            "Hỷ thần: Chính Đông - Tài thần: Tây Nam"
+        ];
+
+        // Việc nên làm phong phú
+        const viecNenLamPool = [
+            "Ký kết hợp đồng, giao dịch, mở kho, xuất hàng",
+            "Cúng tế, cầu phúc, họp bàn chiến lược, khai trương",
+            "Sửa chữa nhà cửa, an táng, giao dịch tài chính",
+            "Nhậm chức, nhận việc mới, đi công tác, ký kết",
+            "Đào móng, xây dựng, cất nóc, mua sắm trang thiết bị",
+            "Thăm hỏi, đàm phán, ký kết văn bản hành chính"
+        ];
+
+        // Việc kiêng kị phong phú
+        const viecKiengKiPool = [
+            "Mai táng, kiện tụng lớn, động thổ xây dựng",
+            "Xuất hành đi xa hướng xấu, tranh chấp pháp lý",
+            "Ký kết hợp đồng giá trị lớn, kiện tụng",
+            "Khởi công xây dựng, nhậm chức, tranh chấp",
+            "Cưới hỏi, an táng, tranh chấp kiện tụng",
+            "Khai trương, xuất kho lượng lớn, kiện tụng"
+        ];
 
         let salaryConfigsByMonth = JSON.parse(localStorage.getItem('sys_salary_configs_by_month')) || {};
         let salaryDataByMonth = JSON.parse(localStorage.getItem('sys_salary_by_month')) || {};
@@ -2452,13 +2494,16 @@
             document.getElementById('cal-selected-lunar-day').innerText = `Ngày ${dayCC} - Tháng ${monthCC}`;
             document.getElementById('info-lunar-exact').innerText = `${lunar.day}/${lunar.month}/${lunar.year} (${yearCC})`;
 
-            // Bổ sung các thông tin phong thủy, tiết khí chi tiết
+            // Cập nhật phong thủy, tiết khí, hướng xuất hành, việc nên làm và kiêng kị
             let tietKhiIdx = (m * 2 + (d > 15 ? 1 : 0)) % tietKhiList.length;
             document.getElementById('info-tiet-khi').innerText = tietKhiList[tietKhiIdx];
             document.getElementById('info-hoang-dao').innerText = hoangDaoPool[jdn % hoangDaoPool.length];
+            document.getElementById('info-huong-xuat-hanh').innerText = huongXuatHanhPool[jdn % huongXuatHanhPool.length];
+            document.getElementById('info-viec-nen-lam').innerText = viecNenLamPool[jdn % viecNenLamPool.length];
+            document.getElementById('info-viec-kieng-ki').innerText = viecKiengKiPool[jdn % viecKiengKiPool.length];
             document.getElementById('info-tuoi-xung').innerText = xungTuoiPool[jdn % xungTuoiPool.length];
 
-            // Tự động xoay câu thành ngữ/ca dao theo ngày trong năm (OfYear index)
+            // Tự động xoay câu thành ngữ/ca dao theo ngày trong năm
             let startOfYear = new Date(y, 0, 1);
             let dayOfYear = Math.floor((calSelectedDate - startOfYear) / (1000 * 60 * 60 * 24));
             let proverbIndex = (dayOfYear + d) % dailyProverbsList.length;
