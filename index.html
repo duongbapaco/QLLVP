@@ -48,7 +48,6 @@
         .dash-card-pro.green { border-left-color: var(--green); }
         .dash-card-pro.orange { border-left-color: var(--orange); }
         .dash-card-pro.purple { border-left-color: var(--purple); }
-        .dash-card-pro.red { border-left-color: var(--red); }
         
         .dash-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .dash-card-lbl { font-size: 11.5px; text-transform: uppercase; color: #475569; font-weight: bold; }
@@ -62,10 +61,7 @@
         .visual-lbl { font-size: 11px; font-weight: bold; color: #0f172a; white-space: nowrap; display: flex; align-items: center; }
         .visual-val { font-size: 14.5px; font-weight: 800; color: var(--primary); white-space: nowrap; }
 
-        .config-toolbar-container { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; flex-wrap: wrap; background: #f8fafc; padding: 12px; border-radius: 6px; border: 1.5px solid #cbd5e1; }
-        .config-inputs-group { display: flex; align-items: flex-end; gap: 10px; flex-wrap: wrap; flex: 1; }
-        .config-inputs-group .form-group { min-width: 130px; flex: 1; }
-        .config-inputs-group .form-group.group-signer { min-width: 220px; flex: 1.5; }
+        .config-toolbar-container { background: #f8fafc; padding: 10px 12px; border-radius: 6px; border: 1.5px solid #cbd5e1; }
 
         .nav-tabs { display: flex; gap: 4px; margin-bottom: 8px; border-bottom: 2px solid #64748b; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
         .nav-tabs::-webkit-scrollbar { height: 4px; }
@@ -81,55 +77,55 @@
         
         .grid-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-bottom: 10px; }
         
-        .form-group { display: flex; flex-direction: column; gap: 4px; position: relative; }
-        .form-group label { font-weight: bold; color: #000000; font-size: 12px; white-space: nowrap; }
-        .form-group input, .form-group select { padding: 7px 10px; border: 1.5px solid #475569; border-radius: 4px; font-size: 13.5px; font-weight: bold; outline: none; background: #fff; color: #000; width: 100%; font-family: 'Times New Roman', Times, serif; min-height: 38px; }
+        .form-group { display: flex; flex-direction: column; gap: 3px; position: relative; }
+        .form-group label { font-weight: bold; color: #000000; font-size: 11.5px; white-space: nowrap; }
+        .form-group input, .form-group select { padding: 6px 8px; border: 1.5px solid #475569; border-radius: 4px; font-size: 13px; font-weight: bold; outline: none; background: #fff; color: #000; width: 100%; font-family: 'Times New Roman', Times, serif; min-height: 34px; }
         .form-group input:focus, .form-group select:focus { border-color: var(--blue); background-color: #eff6ff; }
 
-        .btn { padding: 8px 14px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-size: 13px; font-family: 'Times New Roman', Times, serif; min-height: 38px; touch-action: manipulation; }
+        .btn { padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; gap: 5px; font-size: 12.5px; font-family: 'Times New Roman', Times, serif; min-height: 34px; touch-action: manipulation; white-space: nowrap; }
         .btn-primary { background: var(--blue); color: white; }
         .btn-purple { background: var(--purple); color: white; }
         .btn-green { background: var(--green); color: white; }
         .btn-orange { background: var(--orange); color: white; }
         .btn-gray { background: #475569; color: white; }
-        .btn-delete { background: #fef2f2; color: #b91c1c; border: 1.5px solid #fca5a5; padding: 6px 10px; font-size: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; min-height: 34px; touch-action: manipulation; }
-        .btn-edit { background: #eff6ff; color: #1d4ed8; border: 1.5px solid #93c5fd; padding: 6px 10px; font-size: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 4px; min-height: 34px; touch-action: manipulation; }
+        .btn-delete { background: #fef2f2; color: #b91c1c; border: 1.5px solid #fca5a5; padding: 5px 8px; font-size: 11.5px; border-radius: 4px; cursor: pointer; font-weight: bold; min-height: 30px; touch-action: manipulation; }
+        .btn-edit { background: #eff6ff; color: #1d4ed8; border: 1.5px solid #93c5fd; padding: 5px 8px; font-size: 11.5px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 4px; min-height: 30px; touch-action: manipulation; }
         
-        .btn-drive-link { display: inline-flex; align-items: center; gap: 5px; background: #e0f2fe; color: #0369a1; border: 1.5px solid #7dd3fc; padding: 6px 10px; font-size: 12px; border-radius: 4px; font-weight: bold; text-decoration: none; cursor: pointer; white-space: nowrap; min-height: 36px; touch-action: manipulation; }
+        .btn-drive-link { display: inline-flex; align-items: center; gap: 4px; background: #e0f2fe; color: #0369a1; border: 1.5px solid #7dd3fc; padding: 5px 8px; font-size: 11.5px; border-radius: 4px; font-weight: bold; text-decoration: none; cursor: pointer; white-space: nowrap; min-height: 32px; touch-action: manipulation; }
 
         .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 8px; width: 100%; border: 1.5px solid #475569; border-radius: 4px; background: #fff; }
-        .main-table { width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap; font-size: 13.5px; color: #000000; }
-        .main-table th { background: #cbd5e1; color: #000000; padding: 9px 8px; border: 1px solid #475569; font-weight: bold; text-align: center; }
-        .main-table td { padding: 7px 8px; border: 1px solid #64748b; vertical-align: middle; font-weight: 600; }
+        .main-table { width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap; font-size: 13px; color: #000000; }
+        .main-table th { background: #cbd5e1; color: #000000; padding: 8px 6px; border: 1px solid #475569; font-weight: bold; text-align: center; }
+        .main-table td { padding: 6px; border: 1px solid #64748b; vertical-align: middle; font-weight: 600; }
         .main-table tbody tr:nth-child(even) { background-color: #f8fafc; }
         
         .text-right { text-align: right; }
         .text-center { text-align: center; }
         .font-bold { font-weight: bold; }
         
-        .inp-table { width: 100%; padding: 7px 8px; border: 1.5px solid #475569; border-radius: 4px; font-size: 13.5px; font-weight: 700; outline: none; background: #ffffff; color: #000000; font-family: 'Times New Roman', Times, serif; min-height: 38px; }
+        .inp-table { width: 100%; padding: 6px; border: 1.5px solid #475569; border-radius: 4px; font-size: 13px; font-weight: 700; outline: none; background: #ffffff; color: #000000; font-family: 'Times New Roman', Times, serif; min-height: 34px; }
         .inp-table:focus { border-color: var(--blue); background-color: #eff6ff; }
-        .inp-table.inp-name { min-width: 200px; text-align: left; font-weight: 700; color: #0f172a; }
-        .inp-table.inp-account { min-width: 130px; text-align: center; font-weight: 700; }
-        .inp-table.inp-num-day { min-width: 55px; width: 60px; font-weight: 800; background-color: #fef9c3; text-align: center; color: #000; }
-        .inp-table.inp-currency { min-width: 110px; font-weight: 700; text-align: right; color: #000; background-color: #fff7ed; border-color: #f97316; }
+        .inp-table.inp-name { min-width: 180px; text-align: left; font-weight: 700; color: #0f172a; }
+        .inp-table.inp-account { min-width: 120px; text-align: center; font-weight: 700; }
+        .inp-table.inp-num-day { min-width: 50px; width: 55px; font-weight: 800; background-color: #fef9c3; text-align: center; color: #000; }
+        .inp-table.inp-currency { min-width: 100px; font-weight: 700; text-align: right; color: #000; background-color: #fff7ed; border-color: #f97316; }
 
-        .signature-container { margin-top: 20px; display: flex; justify-content: space-between; text-align: center; padding: 10px; flex-wrap: wrap; gap: 15px; }
-        .signature-box { flex: 1; min-width: 150px; font-size: 13.5px; }
-        .signature-title { font-weight: bold; font-size: 14px; text-transform: uppercase; margin-bottom: 4px; color: #0f172a; }
-        .signature-note { font-style: italic; font-size: 12px; color: #475569; margin-bottom: 40px; }
-        .signature-name { font-weight: bold; font-size: 14px; color: #0f172a; }
+        .signature-container { margin-top: 15px; display: flex; justify-content: space-between; text-align: center; padding: 10px; flex-wrap: wrap; gap: 15px; }
+        .signature-box { flex: 1; min-width: 150px; font-size: 13px; }
+        .signature-title { font-weight: bold; font-size: 13.5px; text-transform: uppercase; margin-bottom: 4px; color: #0f172a; }
+        .signature-note { font-style: italic; font-size: 11.5px; color: #475569; margin-bottom: 35px; }
+        .signature-name { font-weight: bold; font-size: 13.5px; color: #0f172a; }
 
-        .progress-bar-container { width: 100%; background: #e2e8f0; border-radius: 4px; height: 16px; margin-top: 8px; overflow: hidden; display: none; position: relative; border: 1px solid #cbd5e1; }
+        .progress-bar-container { width: 100%; background: #e2e8f0; border-radius: 4px; height: 14px; margin-top: 6px; overflow: hidden; display: none; position: relative; border: 1px solid #cbd5e1; }
         .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #1d4ed8, #047857); transition: width 0.3s ease; }
-        .progress-bar-text { position: absolute; width: 100%; top: 0; left: 0; text-align: center; font-size: 10px; font-weight: bold; color: #0f172a; line-height: 16px; }
+        .progress-bar-text { position: absolute; width: 100%; top: 0; left: 0; text-align: center; font-size: 9.5px; font-weight: bold; color: #0f172a; line-height: 14px; }
 
         .custom-popup-calendar { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 99999; background: white; border: 2px solid var(--blue); border-radius: 8px; box-shadow: 0 4px 25px rgba(0,0,0,0.3); width: 300px; max-width: 90vw; padding: 12px; font-family: 'Times New Roman', Times, serif; }
         .popup-cal-top-bar { display: flex; gap: 4px; margin-bottom: 8px; justify-content: space-between; }
         .popup-cal-top-bar select { padding: 6px; border: 1.5px solid var(--blue); border-radius: 4px; font-weight: bold; font-size: 12px; color: var(--primary); background: #f8fafc; cursor: pointer; font-family: 'Times New Roman', Times, serif; }
-        .popup-cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-weight: bold; color: var(--primary); font-size: 13.5px; background: #e2e8f0; padding: 6px 8px; border-radius: 4px; }
-        .popup-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; text-align: center; font-size: 13px; }
-        .popup-cal-grid div { padding: 8px 0; font-weight: bold; }
+        .popup-cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-weight: bold; color: var(--primary); font-size: 13px; background: #e2e8f0; padding: 6px 8px; border-radius: 4px; }
+        .popup-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; text-align: center; font-size: 12.5px; }
+        .popup-cal-grid div { padding: 7px 0; font-weight: bold; }
         .popup-dow { color: #64748b; background: #f1f5f9; font-size: 11px; }
         .popup-day { cursor: pointer; border-radius: 4px; }
         .popup-day:hover { background: #e2e8f0; color: var(--blue); }
@@ -139,28 +135,28 @@
         .calendar-sidebar { background: white; border-radius: 8px; border: 1.5px solid #cbd5e1; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.3s ease; }
         .calendar-sidebar.hidden { display: none !important; }
 
-        .cal-smart-header { background: linear-gradient(135deg, #0f172a, #1e293b); color: white; padding: 10px; border-radius: 6px; font-weight: bold; text-align: center; font-size: 13.5px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .cal-nav-btn { background: rgba(255,255,255,0.2); border: none; color: white; width: 32px; height: 32px; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; touch-action: manipulation; }
+        .cal-smart-header { background: linear-gradient(135deg, #0f172a, #1e293b); color: white; padding: 10px; border-radius: 6px; font-weight: bold; text-align: center; font-size: 13px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .cal-nav-btn { background: rgba(255,255,255,0.2); border: none; color: white; width: 30px; height: 30px; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; touch-action: manipulation; }
         .cal-nav-btn:hover { background: rgba(255,255,255,0.4); }
 
         .calendar-block-view { border: 3px solid #b91c1c; border-radius: 8px; background: white; overflow: hidden; box-shadow: 0 4px 12px rgba(185, 28, 28, 0.15); margin-bottom: 10px; }
-        .calendar-block-head { background: linear-gradient(135deg, #dc2626, #991b1b); color: white; text-align: center; padding: 6px; font-weight: bold; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .calendar-block-head { background: linear-gradient(135deg, #dc2626, #991b1b); color: white; text-align: center; padding: 6px; font-weight: bold; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
         .calendar-block-body { text-align: center; padding: 8px; background: #fff; }
 
-        .cal-grid-mini { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin-top: 6px; text-align: center; font-size: 12px; }
-        .cal-grid-mini div { padding: 6px 0; font-weight: bold; }
-        .cal-grid-mini .dow { color: #64748b; font-size: 11px; background: #f1f5f9; }
-        .cal-day-cell { cursor: pointer; border-radius: 4px; transition: 0.2s; position: relative; min-height: 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .cal-grid-mini { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin-top: 6px; text-align: center; font-size: 11.5px; }
+        .cal-grid-mini div { padding: 5px 0; font-weight: bold; }
+        .cal-grid-mini .dow { color: #64748b; font-size: 10.5px; background: #f1f5f9; }
+        .cal-day-cell { cursor: pointer; border-radius: 4px; transition: 0.2s; position: relative; min-height: 26px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .cal-day-cell:hover { background: #e2e8f0; color: #1d4ed8; }
         .cal-day-cell.selected { background: #1d4ed8 !important; color: white !important; font-weight: bold; }
         .cal-day-cell.today { border: 1.5px solid #dc2626; color: #dc2626; }
-        .cal-day-cell.has-event::after { content: ''; position: absolute; bottom: 2px; right: 2px; width: 5px; height: 5px; background-color: #16a34a; border-radius: 50%; }
+        .cal-day-cell.has-event::after { content: ''; position: absolute; bottom: 2px; right: 2px; width: 4px; height: 4px; background-color: #16a34a; border-radius: 50%; }
         
-        .lunar-sub-txt { font-size: 8.5px; color: #64748b; line-height: 1; margin-top: 1px; }
+        .lunar-sub-txt { font-size: 8px; color: #64748b; line-height: 1; margin-top: 1px; }
         .cal-day-cell.selected .lunar-sub-txt { color: #fef08a; }
 
-        .cal-info-panel { background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 10px; font-size: 12px; margin-top: 10px; }
-        .cal-info-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #cbd5e1; gap: 8px; }
+        .cal-info-panel { background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 10px; font-size: 11.5px; margin-top: 10px; }
+        .cal-info-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #cbd5e1; gap: 8px; }
         .cal-info-row:last-child { border-bottom: none; }
         .cal-info-label { color: #475569; font-weight: bold; flex-shrink: 0; }
         .cal-info-val { color: #0f172a; font-weight: 700; text-align: right; word-break: break-word; }
@@ -193,8 +189,8 @@
             </div>
         </div>
         <div style="display:flex; gap:6px; flex-wrap: wrap;">
-            <button type="button" class="btn btn-green" style="padding: 6px 10px; font-size:12px;" onclick="toggleCalendarSidebar()"><i class="fa-solid fa-calendar-days"></i> Lịch</button>
-            <button type="button" class="btn btn-purple" style="padding: 6px 10px; font-size:12px;" onclick="openConfigUrlModal()"><i class="fa-solid fa-link"></i> Cấu hình</button>
+            <button type="button" class="btn btn-green" style="padding: 5px 10px; font-size:11.5px;" onclick="toggleCalendarSidebar()"><i class="fa-solid fa-calendar-days"></i> Lịch</button>
+            <button type="button" class="btn btn-purple" style="padding: 5px 10px; font-size:11.5px;" onclick="openConfigUrlModal()"><i class="fa-solid fa-link"></i> Cấu hình</button>
         </div>
     </div>
 
@@ -222,14 +218,14 @@
                     </div>
 
                     <div class="dash-quick-actions">
-                        <div style="font-weight: bold; color: #0f172a; font-size: 13.5px; display: flex; align-items: center; gap: 6px;">
+                        <div style="font-weight: bold; color: #0f172a; font-size: 13px; display: flex; align-items: center; gap: 6px;">
                             <i class="fa-solid fa-bolt" style="color:var(--orange);"></i> Truy cập nhanh chuyên mục:
                         </div>
                         <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                            <button type="button" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Bảng Lương</button>
-                            <button type="button" class="btn btn-green" style="padding: 6px 12px; font-size: 12px;" onclick="switchMainTab('payment')"><i class="fa-solid fa-file-invoice-dollar"></i> Thanh Toán VP</button>
-                            <button type="button" class="btn btn-orange" style="padding: 6px 12px; font-size: 12px;" onclick="switchMainTab('telecom')"><i class="fa-solid fa-wifi"></i> Cước Mạng</button>
-                            <button type="button" class="btn btn-purple" style="padding: 6px 12px; font-size: 12px;" onclick="switchMainTab('it-assets')"><i class="fa-solid fa-laptop-code"></i> Thiết Bị CNTT</button>
+                            <button type="button" class="btn btn-primary" style="padding: 5px 10px; font-size: 11.5px;" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Bảng Lương</button>
+                            <button type="button" class="btn btn-green" style="padding: 5px 10px; font-size: 11.5px;" onclick="switchMainTab('payment')"><i class="fa-solid fa-file-invoice-dollar"></i> Thanh Toán VP</button>
+                            <button type="button" class="btn btn-orange" style="padding: 5px 10px; font-size: 11.5px;" onclick="switchMainTab('telecom')"><i class="fa-solid fa-wifi"></i> Cước Mạng</button>
+                            <button type="button" class="btn btn-purple" style="padding: 5px 10px; font-size: 11.5px;" onclick="switchMainTab('it-assets')"><i class="fa-solid fa-laptop-code"></i> Thiết Bị CNTT</button>
                         </div>
                     </div>
 
@@ -241,7 +237,7 @@
                                 <i class="fa-solid fa-money-check-dollar dash-card-icon" style="color:var(--blue);"></i>
                             </div>
                             <div class="dash-card-val" id="dash-pro-total-pay" style="color:var(--blue);">0 VND</div>
-                            <div style="font-size: 11px; color: #64748b; margin-top: 4px;"><i class="fa-solid fa-arrow-trend-up text-green"></i> Thực lĩnh toàn bộ nhân sự</div>
+                            <div style="font-size: 10.5px; color: #64748b; margin-top: 4px;"><i class="fa-solid fa-arrow-trend-up text-green"></i> Thực lĩnh toàn bộ nhân sự</div>
                         </div>
                         <div class="dash-card-pro green">
                             <div class="dash-card-top">
@@ -249,15 +245,15 @@
                                 <i class="fa-solid fa-file-invoice-dollar dash-card-icon" style="color:var(--green);"></i>
                             </div>
                             <div class="dash-card-val" id="dash-pro-paid-pay" style="color:var(--green);">0 VND</div>
-                            <div style="font-size: 11px; color: #64748b; margin-top: 4px;"><i class="fa-solid fa-circle-check text-green"></i> Đã tổng hợp hồ sơ</div>
+                            <div style="font-size: 10.5px; color: #64748b; margin-top: 4px;"><i class="fa-solid fa-circle-check text-green"></i> Đã tổng hợp hồ sơ</div>
                         </div>
                         <div class="dash-card-pro orange">
                             <div class="dash-card-top">
-                                <span class="dash-card-lbl">Tổng Tiền Thuế Tự Động Tách</span>
+                                <span class="dash-card-lbl">Tổng Tiền Thuế (Tính Ngược)</span>
                                 <i class="fa-solid fa-percent dash-card-icon" style="color:var(--orange);"></i>
                             </div>
                             <div class="dash-card-val" id="dash-pro-total-tax" style="color:var(--orange);">0 VND</div>
-                            <div style="font-size: 11px; color: #64748b; margin-top: 4px;"><i class="fa-solid fa-calculator"></i> Tách từ hồ sơ thanh toán</div>
+                            <div style="font-size: 10.5px; color: #64748b; margin-top: 4px;"><i class="fa-solid fa-calculator"></i> Tách từ hồ sơ thanh toán</div>
                         </div>
                         <div class="dash-card-pro purple">
                             <div class="dash-card-top">
@@ -265,27 +261,27 @@
                                 <i class="fa-solid fa-wifi dash-card-icon" style="color:var(--purple);"></i>
                             </div>
                             <div class="dash-card-val" id="dash-pro-pending-pay" style="color:var(--purple);">0 VND</div>
-                            <div style="font-size: 11px; color: #64748b; margin-top: 4px;"><i class="fa-solid signal"></i> Chi phí VNPT/Viettel/FPT</div>
+                            <div style="font-size: 10.5px; color: #64748b; margin-top: 4px;"><i class="fa-solid signal"></i> Chi phí VNPT/Viettel/FPT</div>
                         </div>
                     </div>
 
                     <!-- BẢNG TỰ ĐỘNG TÁCH THUẾ NĂM 2026 TỪ DỮ LIỆU DASHBOARD -->
                     <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
-                        <div style="font-weight: bold; color: #c2410c; font-size: 13.5px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
-                            <span><i class="fa-solid fa-calculator"></i> 🧮 TỰ ĐỘNG TÁCH & TỔNG HỢP TIỀN THUẾ NĂM <span class="lbl-current-year">2026</span> (TỪ HỒ SƠ THANH TOÁN)</span>
-                            <span id="dash-tax-badge-count" style="font-size: 12px; background: #ffedd5; padding: 3px 8px; border-radius: 4px; border: 1px solid #f97316;">0 hồ sơ đã phân tích</span>
+                        <div style="font-weight: bold; color: #c2410c; font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
+                            <span><i class="fa-solid fa-calculator"></i> 🧮 TỰ ĐỘNG TÁCH THUẾ (TÍNH NGƯỢC TỪ SỐ TIỀN SAU THUẾ) NĂM <span class="lbl-current-year">2026</span></span>
+                            <span id="dash-tax-badge-count" style="font-size: 11.5px; background: #ffedd5; padding: 2px 6px; border-radius: 4px; border: 1px solid #f97316;">0 hồ sơ đã phân tích</span>
                         </div>
                         <div class="table-responsive" style="max-height: 250px; overflow-y: auto; border-color: #fdba74;">
-                            <table class="main-table" style="font-size: 12.5px;">
+                            <table class="main-table" style="font-size: 12px;">
                                 <thead>
                                     <tr style="background-color: #fed7aa;">
                                         <th>STT</th>
                                         <th>Kỳ / Ngày</th>
                                         <th>Nội dung thanh toán</th>
                                         <th>Đơn vị thụ hưởng</th>
-                                        <th>Tổng tiền (Đã có thuế)</th>
+                                        <th>Tổng tiền (Sau thuế)</th>
                                         <th>Tiền gốc chưa thuế</th>
-                                        <th>Tiền thuế tách được</th>
+                                        <th>Tiền thuế (Tính ngược)</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbody-dash-tax-summary"></tbody>
@@ -295,21 +291,21 @@
 
                     <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px; align-items: start;">
                         <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 8px;">
-                            <div style="font-weight: bold; color: var(--primary); font-size: 13.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                            <div style="font-weight: bold; color: var(--primary); font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
                                 <i class="fa-solid fa-circle-info" style="color:var(--blue);"></i> Thông Tin Quản Trị Hệ Thống VINAPACO
                             </div>
-                            <ul style="padding-left: 18px; font-size: 13px; color: #334155; line-height: 1.6;">
+                            <ul style="padding-left: 18px; font-size: 12.5px; color: #334155; line-height: 1.5;">
                                 <li><b>Đơn vị chủ quản:</b> Tổng công ty Giấy Việt Nam - Văn phòng Tổng công ty.</li>
-                                <li><b>Hệ thống số liệu:</b> Quản trị tự động bảng lương nhân sự, hồ sơ thanh toán tài chính, tự động tách thuế và kiểm kê trang thiết bị CNTT có mã QR định danh trực tiếp.</li>
+                                <li><b>Hệ thống số liệu:</b> Quản trị tự động bảng lương nhân sự, hồ sơ thanh toán tài chính, tự động tách thuế tính ngược và kiểm kê trang thiết bị CNTT có mã QR định danh trực tiếp.</li>
                                 <li><b>Cơ chế Auto-Sync Cloud:</b> Tự động đồng bộ ngầm mọi thay đổi dữ liệu lên Google Sheets và Google Drive ngay khi nhập liệu.</li>
                             </ul>
                         </div>
                         <div style="background: #fdf4ff; border: 1.5px solid #d8b4fe; padding: 12px; border-radius: 8px; text-align: center;">
-                            <div style="font-weight: bold; color: var(--purple); font-size: 13.5px; margin-bottom: 6px;">
+                            <div style="font-weight: bold; color: var(--purple); font-size: 13px; margin-bottom: 6px;">
                                 <i class="fa-solid fa-laptop"></i> Tổng Số Thiết Bị CNTT
                             </div>
-                            <div style="font-size: 28px; font-weight: 900; color: var(--purple); margin: 8px 0;" id="dash-pro-total-it-devices">0 Thiết bị</div>
-                            <div style="font-size: 11.5px; color: #6b21a8; font-style: italic;">Đã được cấp tem QR mã định danh kiểm kê năm <span class="lbl-current-year">2026</span></div>
+                            <div style="font-size: 26px; font-weight: 900; color: var(--purple); margin: 6px 0;" id="dash-pro-total-it-devices">0 Thiết bị</div>
+                            <div style="font-size: 11px; color: #6b21a8; font-style: italic;">Đã được cấp tem QR mã định danh kiểm kê năm <span class="lbl-current-year">2026</span></div>
                         </div>
                     </div>
                 </div>
@@ -322,50 +318,52 @@
                         <span><i class="fa-solid fa-pen-to-square" style="color:var(--blue);"></i> CẤU HÌNH LƯƠNG THÁNG - NĂM <span class="lbl-current-year">2026</span></span>
                     </div>
                     
-                    <!-- THU NGẮN CHIỀU DÀI CÁC Ô TÊN CÔNG TY & PHÒNG BAN ĐỂ DỄ NHÌN TRỰC DIỆN -->
-                    <div style="display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 10px; margin-bottom: 10px; border-bottom: 1px dashed var(--border-color); padding-bottom: 10px; align-items: end;">
-                        <div class="form-group" style="max-width: 420px;">
-                            <label style="color:var(--blue);"><i class="fa-solid fa-building"></i> Tên Công Ty:</label>
-                            <input type="text" id="config-company-title" value="TỔNG CÔNG TY GIẤY VIỆT NAM" oninput="handleConfigChangeLive()">
-                        </div>
-                        <div class="form-group" style="max-width: 220px;">
-                            <label style="color:var(--purple);"><i class="fa-solid fa-sitemap"></i> Tên Phòng Ban:</label>
-                            <input type="text" id="config-dept-title" value="VĂN PHÒNG" oninput="handleConfigChangeLive()">
-                        </div>
-                        <div class="form-group">
-                            <label style="color:var(--orange);"><i class="fa-solid fa-file-signature"></i> Tên BẢNG LƯƠNG:</label>
-                            <input type="text" id="config-sheet-title" value="BẢNG LƯƠNG TỔNG HỢP THÁNG 07/2026" oninput="handleConfigChangeLive()">
-                        </div>
-                    </div>
-
-                    <div class="config-toolbar-container">
-                        <div class="config-inputs-group">
-                            <div class="form-group" style="min-width: 130px; flex: 1;">
-                                <label><i class="fa-regular fa-calendar-days"></i> Kỳ báo cáo</label>
-                                <input type="month" id="filter-month" value="2026-07" onchange="handleMonthChangeSelect()">
+                    <!-- THU GỌN TỐI ĐA KHOẢNG CÁCH VÀ CHIỀU DÀI CÁC Ô TÊN CÔNG TY, PHÒNG BAN, BẢNG LƯƠNG VÀ CÁC Ô CẤU HÌNH -->
+                    <div class="config-toolbar-container" style="margin-bottom: 8px;">
+                        <div style="display: grid; grid-template-columns: 1.8fr 1fr 1.6fr; gap: 8px; margin-bottom: 8px; align-items: end;">
+                            <div class="form-group">
+                                <label style="color:var(--blue);"><i class="fa-solid fa-building"></i> Tên Công Ty:</label>
+                                <input type="text" id="config-company-title" value="TỔNG CÔNG TY GIẤY VIỆT NAM" oninput="handleConfigChangeLive()">
                             </div>
-                            <div class="form-group" style="min-width: 120px; flex: 1;">
-                                <label style="color:var(--orange);"><i class="fa-solid fa-chart-line"></i> Tối thiểu vùng</label>
-                                <input type="number" id="config-vung-pay" value="4140000" oninput="handleConfigChangeLive()">
+                            <div class="form-group">
+                                <label style="color:var(--purple);"><i class="fa-solid fa-sitemap"></i> Tên Phòng Ban:</label>
+                                <input type="text" id="config-dept-title" value="VĂN PHÒNG" oninput="handleConfigChangeLive()">
                             </div>
-                            <div class="form-group" style="min-width: 120px; flex: 1;">
-                                <label style="color:var(--blue);"><i class="fa-solid fa-coins"></i> Lương cơ bản</label>
-                                <input type="number" id="config-base-pay" value="2650000" oninput="handleConfigChangeLive()">
-                            </div>
-                            <div class="form-group" style="min-width: 120px; flex: 1;">
-                                <label style="color:var(--purple);"><i class="fa-solid fa-briefcase"></i> Lương công việc</label>
-                                <input type="number" id="config-lcv-pay" value="1991139" oninput="handleConfigChangeLive()">
-                            </div>
-                            <div class="form-group group-signer">
-                                <label style="color:var(--primary);"><i class="fa-solid fa-signature"></i> Người Lập Biểu</label>
-                                <input type="text" id="config-signer-name" value="Nguyễn Thị Tuyết Nhung" oninput="handleConfigChangeLive()">
+                            <div class="form-group">
+                                <label style="color:var(--orange);"><i class="fa-solid fa-file-signature"></i> Tên BẢNG LƯƠNG:</label>
+                                <input type="text" id="config-sheet-title" value="BẢNG LƯƠNG TỔNG HỢP THÁNG 07/2026" oninput="handleConfigChangeLive()">
                             </div>
                         </div>
 
-                        <div class="config-actions-group" style="display:flex; gap:6px; flex-wrap: wrap;">
-                            <button type="button" class="btn btn-primary" onclick="openMainSalaryGoogleSheet()"><i class="fa-brands fa-google-drive"></i> Mở Sheet</button>
-                            <button type="button" class="btn btn-purple" onclick="syncDataToCloudServer()"><i class="fa-solid fa-cloud-arrow-up"></i> Đồng Bộ Mây</button>
-                            <button type="button" class="btn" style="background-color: #2b6cb0; color: white;" onclick="loadDataFromCloudServer()"><i class="fa-solid fa-cloud-arrow-down"></i> Tải Mây</button>
+                        <div style="display: flex; align-items: flex-end; gap: 8px; flex-wrap: wrap; justify-content: space-between;">
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap; flex: 1;">
+                                <div class="form-group" style="width: 115px; flex-shrink: 0;">
+                                    <label><i class="fa-regular fa-calendar-days"></i> Kỳ báo cáo</label>
+                                    <input type="month" id="filter-month" value="2026-07" onchange="handleMonthChangeSelect()">
+                                </div>
+                                <div class="form-group" style="width: 105px; flex-shrink: 0;">
+                                    <label style="color:var(--orange);"><i class="fa-solid fa-chart-line"></i> Tối thiểu vùng</label>
+                                    <input type="number" id="config-vung-pay" value="4140000" oninput="handleConfigChangeLive()">
+                                </div>
+                                <div class="form-group" style="width: 105px; flex-shrink: 0;">
+                                    <label style="color:var(--blue);"><i class="fa-solid fa-coins"></i> Lương cơ bản</label>
+                                    <input type="number" id="config-base-pay" value="2650000" oninput="handleConfigChangeLive()">
+                                </div>
+                                <div class="form-group" style="width: 105px; flex-shrink: 0;">
+                                    <label style="color:var(--purple);"><i class="fa-solid fa-briefcase"></i> Lương công việc</label>
+                                    <input type="number" id="config-lcv-pay" value="1991139" oninput="handleConfigChangeLive()">
+                                </div>
+                                <div class="form-group" style="flex: 1; min-width: 160px;">
+                                    <label style="color:var(--primary);"><i class="fa-solid fa-signature"></i> Người Lập Biểu</label>
+                                    <input type="text" id="config-signer-name" value="Nguyễn Thị Tuyết Nhung" oninput="handleConfigChangeLive()">
+                                </div>
+                            </div>
+
+                            <div style="display:flex; gap:5px; flex-wrap: wrap; align-items: flex-end; padding-bottom: 1px;">
+                                <button type="button" class="btn btn-primary" style="padding: 6px 10px;" onclick="openMainSalaryGoogleSheet()"><i class="fa-brands fa-google-drive"></i> Sheet</button>
+                                <button type="button" class="btn btn-purple" style="padding: 6px 10px;" onclick="syncDataToCloudServer()"><i class="fa-solid fa-cloud-arrow-up"></i> Đồng Bộ</button>
+                                <button type="button" class="btn" style="background-color: #2b6cb0; color: white; padding: 6px 10px;" onclick="loadDataFromCloudServer()"><i class="fa-solid fa-cloud-arrow-down"></i> Tải Mây</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -395,8 +393,8 @@
                     <div class="card-title">
                         <span id="disp-table-title">DANH SÁCH BẢNG LƯƠNG TỔNG HỢP NHÂN VIÊN</span>
                         <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                            <button type="button" class="btn btn-orange" style="padding:6px 10px; font-size:12px;" onclick="restoreDefaultStaffs()"><i class="fa-solid fa-rotate-left"></i> Nạp Mẫu</button>
-                            <button type="button" class="btn btn-primary" style="padding:6px 10px; font-size:12px;" onclick="addNewSalaryRow()"><i class="fa-solid fa-user-plus"></i> Thêm NV</button>
+                            <button type="button" class="btn btn-orange" style="padding:5px 10px; font-size:11.5px;" onclick="restoreDefaultStaffs()"><i class="fa-solid fa-rotate-left"></i> Nạp Mẫu</button>
+                            <button type="button" class="btn btn-primary" style="padding:5px 10px; font-size:11.5px;" onclick="addNewSalaryRow()"><i class="fa-solid fa-user-plus"></i> Thêm NV</button>
                         </div>
                     </div>
                     
@@ -405,35 +403,35 @@
                             <thead>
                                 <tr style="background-color: #94a3b8;">
                                     <th rowspan="2" style="width: 40px;">STT</th>
-                                    <th rowspan="2" style="min-width:200px;">HỌ VÀ TÊN</th>
-                                    <th rowspan="2" style="min-width:130px;">Số Tài Khoản</th>
+                                    <th rowspan="2" style="min-width:180px;">HỌ VÀ TÊN</th>
+                                    <th rowspan="2" style="min-width:120px;">Số Tài Khoản</th>
                                     <th colspan="4" class="text-center" style="background-color: #bfdbfe; color:#1e3a8a;">Lương Cơ Bản HĐLĐ</th>
                                     <th colspan="3" class="text-center" style="background-color: #bae6fd; color:#0369a1;">Số Ngày Công Thực Tế</th>
                                     <th colspan="5" class="text-center" style="background-color: #e2e8f0;">Cơ cấu & Thực Lĩnh Lương CB</th>
                                     <th colspan="11" class="text-center" style="background-color: #e9d5ff; color:#581c87;">Cơ cấu & Thực Lĩnh Lương CV</th>
-                                    <th rowspan="2" style="background-color: #fef08a; color:#713f12; font-size:13.5px; font-weight:bold; min-width:140px; text-align:center;">TỔNG NET <br><span style="font-size:10px; font-weight:normal;">(Thực Lĩnh CV + CB)</span></th>
-                                    <th rowspan="2" style="width: 45px; text-align:center;">Xóa</th>
+                                    <th rowspan="2" style="background-color: #fef08a; color:#713f12; font-size:13px; font-weight:bold; min-width:130px; text-align:center;">TỔNG NET <br><span style="font-size:9.5px; font-weight:normal;">(Thực Lĩnh CV + CB)</span></th>
+                                    <th rowspan="2" style="width: 40px; text-align:center;">Xóa</th>
                                 </tr>
                                 <tr style="background-color: #cbd5e1;">
-                                    <th style="background:#fef9c3; width:60px;">Hệ số LCB</th>
-                                    <th style="background:#fef9c3; width:60px;">Phụ cấp LCB</th>
+                                    <th style="background:#fef9c3; width:55px;">Hệ số LCB</th>
+                                    <th style="background:#fef9c3; width:55px;">Phụ cấp LCB</th>
                                     <th style="background:#dbeafe;">Lương HĐLĐ</th>
                                     <th style="background:#dbeafe;">Lương CB</th>
-                                    <th style="background:#fef9c3; width:55px;">NT</th>
-                                    <th style="background:#fef9c3; width:55px;">P</th>
-                                    <th style="background:#fef9c3; width:55px;">Lễ/VR</th>
+                                    <th style="background:#fef9c3; width:50px;">NT</th>
+                                    <th style="background:#fef9c3; width:50px;">P</th>
+                                    <th style="background:#fef9c3; width:50px;">Lễ/VR</th>
                                     <th>Lương Thời Gian</th>
                                     <th>Lương Lễ, Phép</th>
                                     <th>Tổng Lương CB</th>
                                     <th style="color:var(--red);">BH (10.5%)</th>
                                     <th style="background-color: #bfdbfe; color:#1e3a8a;">Thực Lĩnh CB</th>
-                                    <th style="background:#fef9c3; width:60px;">Hệ số LCV</th>
-                                    <th style="background:#fef9c3; width:60px;">Phụ cấp LCV</th>
-                                    <th style="background:#fde047; width:60px; color:#713f12;">HS HTCV</th>
+                                    <th style="background:#fef9c3; width:55px;">Hệ số LCV</th>
+                                    <th style="background:#fef9c3; width:55px;">Phụ cấp LCV</th>
+                                    <th style="background:#fde047; width:55px; color:#713f12;">HS HTCV</th>
                                     <th>LCV Gốc</th>
                                     <th>LCV Thực Tế</th>
-                                    <th style="background:#ffedd5; color:#c2410c;">Tiền Ăn Ca <span style="font-size:10px;">(NT×5k)</span></th>
-                                    <th style="background:#dcfce7; color:#166534;">Tiền Độc Hại <span style="font-size:10px;">(NT×13k)</span></th>
+                                    <th style="background:#ffedd5; color:#c2410c;">Tiền Ăn Ca <span style="font-size:9.5px;">(NT×5k)</span></th>
+                                    <th style="background:#dcfce7; color:#166534;">Tiền Độc Hại <span style="font-size:9.5px;">(NT×13k)</span></th>
                                     <th style="background:#ffedd5; color:#c2410c;">Tạm Ứng</th>
                                     <th style="background:#fee2e2; color:#991b1b;">Quỹ PCTT</th>
                                     <th style="background:#fee2e2; color:#991b1b;">Trừ Ứng</th>
@@ -471,20 +469,20 @@
                     </div>
 
                     <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
-                        <div style="font-weight: bold; color: #166534; font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
-                            <i class="fa-solid fa-calculator"></i> 🧮 CÔNG CỤ TÍNH THUẾ & TÀI CHÍNH NHANH
+                        <div style="font-weight: bold; color: #166534; font-size: 12.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                            <i class="fa-solid fa-calculator"></i> 🧮 CÔNG CỤ TÍNH THUẾ (TÍNH NGƯỢC TỪ SỐ TIỀN SAU THUẾ) & TÀI CHÍNH NHANH
                         </div>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; align-items: end;">
                             <div class="form-group">
-                                <label style="color:#166534;">Số tiền gốc / Chưa thuế:</label>
+                                <label style="color:#166534;">Số tiền (Đã gồm thuế):</label>
                                 <input type="text" id="tax-input-amount" value="0" placeholder="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="calculateTaxPro()" style="border-color:#86efac;">
                             </div>
                             <div class="form-group">
                                 <label style="color:#166534;">Loại thuế suất:</label>
                                 <select id="tax-rate-select" onchange="calculateTaxPro()" style="border-color:#86efac;">
                                     <option value="0">0% (Không chịu thuế)</option>
-                                    <option value="5" selected>5% (Thiết yếu)</option>
-                                    <option value="8">8% (Giảm thuế GTGT)</option>
+                                    <option value="5">5% (Thiết yếu)</option>
+                                    <option value="8" selected>8% (Giảm thuế GTGT)</option>
                                     <option value="10">10% (Chuẩn GTGT)</option>
                                     <option value="5.5">5.5% (Thuế nhà thầu 5%+5%)</option>
                                     <option value="10.5">10.5% (Thuế nhà thầu 10%+5%)</option>
@@ -493,14 +491,14 @@
                             <div class="form-group">
                                 <label style="color:#166534;">Phương thức tính:</label>
                                 <select id="tax-mode-select" onchange="calculateTaxPro()" style="border-color:#86efac;">
-                                    <option value="add">Cộng thuế vào gốc (Ra tổng)</option>
-                                    <option value="extract">Tách thuế từ tổng số tiền</option>
+                                    <option value="extract" selected>Tính ngược tách thuế từ tổng</option>
+                                    <option value="add">Cộng thuế vào gốc</option>
                                 </select>
                             </div>
-                            <div class="form-group" style="background: #ffffff; padding: 7px 10px; border: 1.5px solid #86efac; border-radius: 4px;">
-                                <div style="font-size: 11px; color: #475569; font-weight: bold;">Kết quả tính:</div>
-                                <div style="font-size: 12.5px; color: var(--red); font-weight: bold;" id="tax-result-tax">Thuế: 0 VND</div>
-                                <div style="font-size: 13px; color: var(--green); font-weight: 800;" id="tax-result-total">Tổng: 0 VND</div>
+                            <div class="form-group" style="background: #ffffff; padding: 6px 10px; border: 1.5px solid #86efac; border-radius: 4px;">
+                                <div style="font-size: 10.5px; color: #475569; font-weight: bold;">Kết quả tính ngược:</div>
+                                <div style="font-size: 12px; color: var(--red); font-weight: bold;" id="tax-result-tax">Thuế: 0 VND</div>
+                                <div style="font-size: 12.5px; color: var(--green); font-weight: 800;" id="tax-result-total">Tiền gốc: 0 VND</div>
                             </div>
                         </div>
                     </div>
@@ -555,7 +553,7 @@
                                 <input type="text" id="pay-unit-price" placeholder="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="calculatePayLineTotal()">
                             </div>
                             <div class="form-group">
-                                <label style="color:var(--green);">Thành tiền (Tự động / Nhập tay):</label>
+                                <label style="color:var(--green);">Thành tiền (Tổng sau thuế):</label>
                                 <input type="text" id="pay-amount" placeholder="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="markAmountManual()" style="background:#f0fdf4; color:var(--green); font-weight:800; border-color:#86efac;">
                             </div>
                         </div>
@@ -581,10 +579,10 @@
                             <div class="progress-bar-fill" id="progress-fill-hstt"></div>
                             <div class="progress-bar-text" id="progress-text-hstt">0%</div>
                         </div>
-                        <div id="status-hstt" style="font-weight: bold; font-size: 13px; margin-top: 6px;"></div>
+                        <div id="status-hstt" style="font-weight: bold; font-size: 12.5px; margin-top: 6px;"></div>
                     </div>
 
-                    <div class="card-title" style="font-size: 13.5px; margin-top: 12px;">
+                    <div class="card-title" style="font-size: 13px; margin-top: 12px;">
                         <span>DANH SÁCH HỒ SƠ THANH TOÁN TRONG NĂM <span class="lbl-current-year">2026</span></span>
                         <span id="pay-total-sum" style="color: var(--green);">Tổng: 0 VND</span>
                     </div>
@@ -599,7 +597,7 @@
                                     <th>SL</th>
                                     <th>ĐVT</th>
                                     <th>Đơn giá</th>
-                                    <th>Thành tiền (Đã thuế)</th>
+                                    <th>Thành tiền (Sau thuế)</th>
                                     <th>Số tài khoản</th>
                                     <th>Ngân hàng</th>
                                     <th>Chứng từ đính kèm</th>
@@ -669,10 +667,10 @@
                             <div class="progress-bar-fill" id="progress-fill-vt"></div>
                             <div class="progress-bar-text" id="progress-text-vt">0%</div>
                         </div>
-                        <div id="status-vt" style="font-weight: bold; font-size: 13px; margin-top: 6px;"></div>
+                        <div id="status-vt" style="font-weight: bold; font-size: 12.5px; margin-top: 6px;"></div>
                     </div>
 
-                    <div class="card-title" style="font-size: 13.5px; margin-top: 12px;">
+                    <div class="card-title" style="font-size: 13px; margin-top: 12px;">
                         <span>DANH SÁCH CƯỚC VIỄN THÔNG & INTERNET TRONG NĂM <span class="lbl-current-year">2026</span></span>
                         <span id="tele-total-sum" style="color: var(--orange);">Tổng cước: 0 VND</span>
                     </div>
@@ -706,7 +704,7 @@
                     <div style="display: grid; grid-template-columns: 1fr 300px; gap: 12px; background: #faf5ff; border: 1.5px solid #d8b4fe; padding: 12px; border-radius: 6px; margin-bottom: 12px; align-items: start;">
                         <div>
                             <input type="hidden" id="edit-it-index" value="-1">
-                            <div class="grid-form" style="margin-bottom: 10px;">
+                            <div class="grid-form" style="margin-bottom: 8px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Người sử dụng <span style="color:var(--red);">*</span></label>
                                     <input type="text" id="it-user" value="Nguyễn Văn An" placeholder="Họ và tên..." style="border-color: #d8b4fe;" oninput="updateLiveQRPreview()">
@@ -733,21 +731,20 @@
                                 </div>
                             </div>
                             
-                            <div class="grid-form" style="margin-bottom: 10px;">
+                            <div class="grid-form" style="margin-bottom: 8px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Hệ điều hành</label>
                                     <select id="it-os" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
-                                        <option value="Windows 11 Pro (64-bit)" selected>Windows 11 Pro (64-bit)</option>
-                                        <option value="Windows 11 Home (64-bit)">Windows 11 Home (64-bit)</option>
-                                        <option value="Windows 10 Pro (64-bit)">Windows 10 Pro (64-bit)</option>
-                                        <option value="Windows 10 Home (64-bit)">Windows 10 Home (64-bit)</option>
-                                        <option value="macOS Sequoia / Sonoma (Apple)">macOS Sequoia / Sonoma (Apple)</option>
-                                        <option value="Ubuntu Linux / Fedora / CentOS">Ubuntu Linux / Fedora / CentOS</option>
-                                        <option value="Hệ điều hành khác">Hệ điều hành khác</option>
+                                        <option value="Windows 11 Pro / Home" selected>Windows 11 Pro / Home</option>
+                                        <option value="Windows 10 Pro / Home">Windows 10 Pro / Home</option>
+                                        <option value="Windows 8 / 8.1">Windows 8 / 8.1</option>
+                                        <option value="Windows 7">Windows 7 (Legacy)</option>
+                                        <option value="macOS Apple Silicon / Intel">macOS Apple Silicon / Intel</option>
+                                        <option value="Linux / Ubuntu / Fedora">Linux / Ubuntu / Fedora</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label style="color: #6d28d9;">Bản quyền HĐH <span style="color:var(--red);">(Ưu tiên kiểm tra)</span></label>
+                                    <label style="color: #6d28d9;">Bản quyền HĐH <span style="color:var(--red);">*</span></label>
                                     <select id="it-os-lic" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
                                         <option value="⚠️ Chưa có bản quyền HĐH (Chưa Active)">⚠️ Chưa có bản quyền HĐH (Chưa Active)</option>
                                         <option value="Bản quyền chính hãng OEM/Retail" selected>Đã có bản quyền chính hãng OEM/Retail</option>
@@ -757,15 +754,16 @@
                                     <label style="color: #6d28d9;">Bộ Microsoft Office</label>
                                     <select id="it-office" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
                                         <option value="Microsoft 365 (M365) Business Standard" selected>Microsoft 365 Business Standard</option>
-                                        <option value="Microsoft 365 Personal / Family">Microsoft 365 Personal / Family</option>
-                                        <option value="Office Professional Plus 2024">Office Professional Plus 2024</option>
-                                        <option value="Office Professional Plus 2021">Office Professional Plus 2021</option>
-                                        <option value="Office Home & Business 2021 / 2024">Office Home & Business 2021 / 2024</option>
+                                        <option value="Office 2024 / Office LTSC 2024">Office 2024 / Office LTSC 2024</option>
+                                        <option value="Office 2021 (Pro Plus / Home & Business)">Office 2021 (Pro Plus / Home & Business)</option>
+                                        <option value="Office 2019 (Pro Plus / Home & Business)">Office 2019 (Pro Plus / Home & Business)</option>
+                                        <option value="Office 2016 (Pro Plus / Standard)">Office 2016 (Pro Plus / Standard)</option>
+                                        <option value="Office 2013 / 2010 / 2007">Office 2013 / 2010 / 2007 (Cũ)</option>
                                         <option value="LibreOffice / WPS Office (Miễn phí)">LibreOffice / WPS Office (Miễn phí)</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label style="color: #6d28d9;">Bản quyền Office <span style="color:var(--red);">(Ưu tiên kiểm tra)</span></label>
+                                    <label style="color: #6d28d9;">Bản quyền Office <span style="color:var(--red);">*</span></label>
                                     <select id="it-office-lic" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
                                         <option value="⚠️ Chưa có bản quyền Office">⚠️ Chưa có bản quyền Office</option>
                                         <option value="Bản quyền doanh nghiệp chính hãng" selected>Đã có bản quyền doanh nghiệp chính hãng</option>
@@ -773,23 +771,38 @@
                                 </div>
                             </div>
 
-                            <div class="grid-form" style="margin-bottom: 10px;">
-                                <div class="form-group" style="grid-column: span 2;">
-                                    <label style="color: #6d28d9;">Phần mềm nghiệp vụ / Thiết kế & Đồ họa mới nhất</label>
+                            <div class="grid-form" style="margin-bottom: 8px;">
+                                <div class="form-group">
+                                    <label style="color: #6d28d9;">Phần mềm AutoCad (Thiết kế kỹ thuật 2D/3D)</label>
                                     <select id="it-software" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
                                         <option value="Không có (Văn phòng cơ bản)" selected>🚫 Không có (Văn phòng cơ bản)</option>
-                                        <option value="Adobe Creative Cloud 2026 (Photoshop, Illustrator, Premiere...)">Adobe Creative Cloud 2026 (Photoshop, Illustrator, Premiere...)</option>
-                                        <option value="Adobe Creative Cloud 2025 / 2024">Adobe Creative Cloud 2025 / 2024</option>
-                                        <option value="AutoCAD 2025 / 2026 (Thiết kế kỹ thuật 2D/3D)">AutoCAD 2025 / 2026 (Thiết kế kỹ thuật 2D/3D)</option>
-                                        <option value="CorelDRAW Graphics Suite 2025 / 2026">CorelDRAW Graphics Suite 2025 / 2026</option>
-                                        <option value="SolidWorks / Revit 2025 / 2026">SolidWorks / Revit 2025 / 2026</option>
-                                        <option value="ASIA ERP - Phần mềm Quản trị tổng thể">ASIA ERP - Phần mềm Quản trị tổng thể</option>
-                                        <option value="Quasoft - Quản lý kho / vật tư">Quasoft - Quản lý kho / vật tư</option>
-                                        <option value="CloudOffice - Văn phòng điện tử">CloudOffice - Văn phòng điện tử</option>
+                                        <option value="AutoCAD 2026 / 2025">AutoCAD 2026 / 2025</option>
+                                        <option value="AutoCAD 2024 / 2023 / 2022">AutoCAD 2024 / 2023 / 2022</option>
+                                        <option value="AutoCAD 2021 / 2020 / 2019">AutoCAD 2021 / 2020 / 2019</option>
+                                        <option value="AutoCAD 2018 / 2017 / 2016">AutoCAD 2018 / 2017 / 2016</option>
+                                        <option value="AutoCAD 2015 / 2014 / 2013">AutoCAD 2015 / 2014 / 2013</option>
+                                        <option value="AutoCAD 2012 / 2011 / 2010">AutoCAD 2012 / 2011 / 2010</option>
+                                        <option value="AutoCAD 2009 / 2008 / 2007">AutoCAD 2009 / 2008 / 2007 (Cũ)</option>
+                                        <option value="Adobe Creative Cloud (Photoshop, Illustrator...)">Adobe Creative Cloud (Photoshop, Illustrator...)</option>
+                                        <option value="CorelDRAW Graphics Suite">CorelDRAW Graphics Suite</option>
+                                        <option value="Revit / ASIA ERP / Quasoft / CloudOffice">Revit / ASIA ERP / Quasoft / CloudOffice</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label style="color: #6d28d9;">Phần mềm SolidWorks (Mô hình 3D)</label>
+                                    <select id="it-software-solid" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
+                                        <option value="Không có (Văn phòng cơ bản)" selected>🚫 Không có (Văn phòng cơ bản)</option>
+                                        <option value="SolidWorks 2026 / 2025">SolidWorks 2026 / 2025</option>
+                                        <option value="SolidWorks 2024 / 2023 / 2022">SolidWorks 2024 / 2023 / 2022</option>
+                                        <option value="SolidWorks 2021 / 2020 / 2019">SolidWorks 2021 / 2020 / 2019</option>
+                                        <option value="SolidWorks 2018 / 2017 / 2016">SolidWorks 2018 / 2017 / 2016</option>
+                                        <option value="SolidWorks 2015 / 2014 / 2013">SolidWorks 2015 / 2014 / 2013</option>
+                                        <option value="SolidWorks 2012 / 2011 / 2010">SolidWorks 2012 / 2011 / 2010</option>
+                                        <option value="SolidWorks 2009 / 2008 / 2007">SolidWorks 2009 / 2008 / 2007 (Cũ)</option>
                                     </select>
                                 </div>
                                 <div class="form-group" style="grid-column: span 2;">
-                                    <label style="color: #6d28d9;">Bản quyền Phần mềm / Đồ họa / CAD <span style="color:var(--red);">(Ưu tiên kiểm tra)</span></label>
+                                    <label style="color: #6d28d9;">Bản quyền Phần mềm / Đồ họa / CAD <span style="color:var(--red);">*</span></label>
                                     <select id="it-soft-lic" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
                                         <option value="⚠️ Chưa có bản quyền phần mềm / Crack">⚠️ Chưa có bản quyền phần mềm / Crack</option>
                                         <option value="Bản quyền chính hãng doanh nghiệp" selected>Đã có bản quyền chính hãng doanh nghiệp</option>
@@ -797,7 +810,7 @@
                                 </div>
                             </div>
 
-                            <div class="grid-form" style="margin-bottom: 10px;">
+                            <div class="grid-form" style="margin-bottom: 8px;">
                                 <div class="form-group" style="grid-column: span 2;">
                                     <label style="color: #6d28d9;">Thông số cấu hình phần cứng</label>
                                     <input type="text" id="it-specs" value="Dell Latitude, Core i5, 16GB RAM, 512GB SSD" style="border-color: #d8b4fe;">
@@ -822,15 +835,15 @@
                         </div>
 
                         <div style="border: 2px dashed var(--purple); border-radius: 6px; background: white; padding: 10px; display: flex; flex-direction: column; align-items: center; justify-content: space-between;">
-                            <div style="font-weight: bold; color: var(--purple); font-size: 12.5px; text-align: center; border-bottom: 1px solid #e2e8f0; width: 100%; padding-bottom: 4px;"><i class="fa-solid fa-qrcode"></i> 📱 TEM QR TRỰC TIẾP</div>
+                            <div style="font-weight: bold; color: var(--purple); font-size: 12px; text-align: center; border-bottom: 1px solid #e2e8f0; width: 100%; padding-bottom: 4px;"><i class="fa-solid fa-qrcode"></i> 📱 TEM QR TRỰC TIẾP</div>
                             <div style="text-align: center; width: 100%;">
-                                <div style="font-size: 11.5px; font-weight: bold; color: #0f172a; margin-bottom: 3px;">VINAPACO IT ASSET</div>
+                                <div style="font-size: 11px; font-weight: bold; color: #0f172a; margin-bottom: 3px;">VINAPACO IT ASSET</div>
                                 <div style="display: flex; justify-content: center; margin: 4px 0; cursor: pointer;" onclick="openLargeQrModalFromPreview()">
                                     <canvas id="live-qrcode-canvas"></canvas>
                                 </div>
-                                <div style="font-size: 10px; color: var(--blue); font-style: italic;">(Bấm vào mã QR để phóng to)</div>
+                                <div style="font-size: 9.5px; color: var(--blue); font-style: italic;">(Bấm vào mã QR để phóng to)</div>
                             </div>
-                            <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 4px; padding: 6px; width: 100%; font-size: 11px; line-height: 1.3;">
+                            <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 4px; padding: 6px; width: 100%; font-size: 10.5px; line-height: 1.3;">
                                 <div><b>Mã TS:</b> <span id="lbl-qr-code">--</span></div>
                                 <div><b>Người dùng:</b> <span id="lbl-qr-user" style="color:var(--primary);">Nguyễn Văn An</span></div>
                                 <div><b>Bộ phận:</b> <span id="lbl-qr-dept" style="color:var(--primary);">Phòng Kỹ thuật - Công nghệ</span></div>
@@ -838,25 +851,25 @@
                         </div>
                     </div>
 
-                    <div id="status-cntt" style="font-weight: bold; font-size: 13px; margin-bottom: 8px;"></div>
+                    <div id="status-cntt" style="font-weight: bold; font-size: 12.5px; margin-bottom: 8px;"></div>
 
                     <div style="display: flex; justify-content: space-between; align-items: center; background: #f3e8ff; border: 1.5px solid #d8b4fe; padding: 10px; border-radius: 6px; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
                         <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; flex: 1;">
                             <div style="display: flex; align-items: center; gap: 4px;">
-                                <label style="font-weight: bold; color: var(--purple); font-size: 12px;"><i class="fa-solid fa-filter"></i> Phòng ban:</label>
-                                <select id="filter-dept-select" onchange="renderItAssetTable()" style="max-width: 170px; border-color: #d8b4fe; font-weight: bold; color: var(--purple); font-size: 12px;">
+                                <label style="font-weight: bold; color: var(--purple); font-size: 11.5px;"><i class="fa-solid fa-filter"></i> Phòng ban:</label>
+                                <select id="filter-dept-select" onchange="renderItAssetTable()" style="max-width: 160px; border-color: #d8b4fe; font-weight: bold; color: var(--purple); font-size: 11.5px;">
                                     <option value="ALL">-- Tất cả --</option>
                                 </select>
                             </div>
                             <div style="display: flex; align-items: center; gap: 4px;">
-                                <label style="font-weight: bold; color: var(--purple); font-size: 12px;"><i class="fa-brands fa-windows"></i> HĐH:</label>
-                                <select id="filter-os-select" onchange="renderItAssetTable()" style="max-width: 150px; border-color: #d8b4fe; font-weight: bold; color: var(--purple); font-size: 12px;">
+                                <label style="font-weight: bold; color: var(--purple); font-size: 11.5px;"><i class="fa-brands fa-windows"></i> HĐH:</label>
+                                <select id="filter-os-select" onchange="renderItAssetTable()" style="max-width: 140px; border-color: #d8b4fe; font-weight: bold; color: var(--purple); font-size: 11.5px;">
                                     <option value="ALL">-- Tất cả HĐH --</option>
                                 </select>
                             </div>
                             <div style="display: flex; align-items: center; gap: 4px;">
-                                <label style="font-weight: bold; color: var(--purple); font-size: 12px;"><i class="fa-solid fa-file-excel"></i> Office:</label>
-                                <select id="filter-office-select" onchange="renderItAssetTable()" style="max-width: 150px; border-color: #d8b4fe; font-weight: bold; color: var(--purple); font-size: 12px;">
+                                <label style="font-weight: bold; color: var(--purple); font-size: 11.5px;"><i class="fa-solid fa-file-excel"></i> Office:</label>
+                                <select id="filter-office-select" onchange="renderItAssetTable()" style="max-width: 140px; border-color: #d8b4fe; font-weight: bold; color: var(--purple); font-size: 11.5px;">
                                     <option value="ALL">-- Tất cả Office --</option>
                                 </select>
                             </div>
@@ -866,7 +879,7 @@
                         </div>
                     </div>
 
-                    <div class="card-title" style="font-size: 13.5px; margin-top: 12px;">
+                    <div class="card-title" style="font-size: 13px; margin-top: 12px;">
                         <span>BẢNG TỔNG HỢP KIỂM KÊ TRANG THIẾT BỊ CNTT NĂM <span class="lbl-current-year">2026</span></span>
                         <span id="it-total-count" style="color: var(--purple);">Tổng: 0 Thiết bị</span>
                     </div>
@@ -880,12 +893,12 @@
                                     <th>Cấu hình</th>
                                     <th>HĐH & Bản quyền</th>
                                     <th>Office & Bản quyền</th>
-                                    <th>Phần mềm / Đồ họa & Bản quyền</th>
+                                    <th>Phần mềm (AutoCad / Solid / Khác)</th>
                                     <th>Người dùng</th>
                                     <th>Phòng ban</th>
                                     <th>Ngày bàn giao</th>
                                     <th>Trạng thái</th>
-                                    <th>QR Code <span style="font-size:9.5px; font-weight:normal;">(Bấm để phóng to)</span></th>
+                                    <th>QR Code <span style="font-size:9px; font-weight:normal;">(Bấm để phóng to)</span></th>
                                     <th style="text-align: center;">Hành động</th>
                                 </tr>
                             </thead>
@@ -907,9 +920,9 @@
             <div class="calendar-block-view">
                 <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
                 <div class="calendar-block-body">
-                    <div style="font-size:12px; color:#334155; font-weight:bold; text-transform:uppercase;" id="cal-selected-dow">Thứ Hai</div>
-                    <div style="font-size:60px; font-weight:900; color:#dc2626; line-height:1; margin:3px 0;" id="cal-selected-day">27</div>
-                    <div style="font-size:12px; font-weight:bold; color:#0f172a;" id="cal-selected-lunar-day">Ngày Bính Dần - Tháng Bính Thân</div>
+                    <div style="font-size:11.5px; color:#334155; font-weight:bold; text-transform:uppercase;" id="cal-selected-dow">Thứ Hai</div>
+                    <div style="font-size:55px; font-weight:900; color:#dc2626; line-height:1; margin:3px 0;" id="cal-selected-day">27</div>
+                    <div style="font-size:11.5px; font-weight:bold; color:#0f172a;" id="cal-selected-lunar-day">Ngày Bính Dần - Tháng Bính Thân</div>
                 </div>
             </div>
 
@@ -953,21 +966,21 @@
                     <span class="cal-info-label"><i class="fa-solid fa-user-shield text-red"></i> Tuổi xung khắc:</span>
                     <span class="cal-info-val" id="info-tuoi-xung" style="color:var(--red);">Mậu Thân, Nhâm Thân, Nhâm Tý</span>
                 </div>
-                <div class="cal-info-row" style="flex-direction: column; gap: 4px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px;">
+                <div class="cal-info-row" style="flex-direction: column; gap: 3px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 5px;">
                     <span class="cal-info-label" style="color:var(--orange);"><i class="fa-solid fa-quote-left"></i> Thành ngữ / Ca dao hôm nay:</span>
-                    <span id="info-daily-proverb" style="color:#7c2d12; font-weight:600; font-style:italic; font-size: 11.5px; background:#fff7ed; padding:5px 8px; border-radius:4px; border:1px solid #fdba74;">"Uống nước nhớ nguồn, ăn quả nhớ kẻ trồng cây."</span>
+                    <span id="info-daily-proverb" style="color:#7c2d12; font-weight:600; font-style:italic; font-size: 11px; background:#fff7ed; padding:4px 6px; border-radius:4px; border:1px solid #fdba74;">"Uống nước nhớ nguồn, ăn quả nhớ kẻ trồng cây."</span>
                 </div>
-                <div class="cal-info-row" style="flex-direction: column; gap: 4px; padding-top: 6px; margin-top: 2px;">
+                <div class="cal-info-row" style="flex-direction: column; gap: 3px; padding-top: 5px; margin-top: 2px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                         <span class="cal-info-label"><i class="fa-solid fa-bell text-blue"></i> Sự kiện / Ghi chú:</span>
-                        <button type="button" class="btn btn-primary" style="padding: 4px 10px; font-size: 11.5px; min-height: 30px;" onclick="openEventModal()"><i class="fa-solid fa-plus"></i> Đặt lịch</button>
+                        <button type="button" class="btn btn-primary" style="padding: 3px 8px; font-size: 11px; min-height: 26px;" onclick="openEventModal()"><i class="fa-solid fa-plus"></i> Đặt lịch</button>
                     </div>
-                    <div id="info-event-note" style="color:var(--blue); font-style:italic; font-size: 11.5px; background: #eff6ff; padding: 4px 6px; border-radius: 4px; border: 1px dashed #93c5fd; margin-top: 2px;">Không có sự kiện</div>
+                    <div id="info-event-note" style="color:var(--blue); font-style:italic; font-size: 11px; background: #eff6ff; padding: 4px 6px; border-radius: 4px; border: 1px dashed #93c5fd; margin-top: 2px;">Không có sự kiện</div>
                 </div>
             </div>
             
             <div style="text-align: center; margin-top: 10px;">
-                <button type="button" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 12px; min-height: 38px;" onclick="resetCalendarToToday()"><i class="fa-solid fa-calendar-day"></i> Quay Về Hôm Nay</button>
+                <button type="button" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 11.5px; min-height: 34px;" onclick="resetCalendarToToday()"><i class="fa-solid fa-calendar-day"></i> Quay Về Hôm Nay</button>
             </div>
         </div>
     </div>
@@ -975,14 +988,14 @@
     <!-- MODAL HIỂN THỊ & IN MÃ QR PHÓNG TO -->
     <div id="largeQrModal" class="modal" onclick="closeLargeQrModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:380px; text-align:center; align-items:center;">
-            <div class="card-title" style="border-left-color: var(--purple); font-size: 14px; width:100%; justify-content:space-between;">
+            <div class="card-title" style="border-left-color: var(--purple); font-size: 13.5px; width:100%; justify-content:space-between;">
                 <span><i class="fa-solid fa-qrcode"></i> TEM QR THIẾT BỊ CNTT</span>
                 <button type="button" onclick="closeLargeQrModal()" style="background:none; border:none; font-size:16px; cursor:pointer; font-weight:bold;">✕</button>
             </div>
             <div style="background:#f8fafc; border:2px solid var(--purple); border-radius:8px; padding:15px; margin:10px 0; width:100%; display:flex; flex-direction:column; align-items:center;">
-                <div style="font-weight:bold; font-size:13px; color:var(--primary); margin-bottom:6px;">TỔNG CÔNG TY GIẤY VIỆT NAM</div>
+                <div style="font-weight:bold; font-size:12.5px; color:var(--primary); margin-bottom:6px;">TỔNG CÔNG TY GIẤY VIỆT NAM</div>
                 <div id="modal-qr-container" style="margin:5px 0; background:white; padding:5px; border:1px solid #cbd5e1; display:flex; justify-content:center;"></div>
-                <div id="modal-qr-info-text" style="font-size:12px; font-weight:bold; color:var(--purple); margin-top:8px; word-break:break-all;"></div>
+                <div id="modal-qr-info-text" style="font-size:11.5px; font-weight:bold; color:var(--purple); margin-top:8px; word-break:break-all;"></div>
             </div>
             <div style="display:flex; gap:8px; width:100%; justify-content:center; margin-top:5px;">
                 <button type="button" class="btn btn-purple" style="flex:1;" onclick="printLargeQrCode()"><i class="fa-solid fa-print"></i> In Tem QR</button>
@@ -994,7 +1007,7 @@
     <!-- MODAL ĐẶT LỊCH SỰ KIỆN -->
     <div id="eventModal" class="modal" onclick="closeEventModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:420px;">
-            <div class="card-title" style="border-left-color: var(--green); font-size: 14px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">27/07/2026</span></div>
+            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">27/07/2026</span></div>
             <div class="form-group" style="margin-bottom: 10px;">
                 <label>Nội dung sự kiện / Công việc:</label>
                 <textarea id="modal-event-text" class="inp-table" style="height: 75px; resize: none;" placeholder="Ví dụ: Họp giao ban..."></textarea>
@@ -1009,7 +1022,7 @@
     <!-- MODAL CONFIG URL -->
     <div id="configUrlModal" class="modal" onclick="closeConfigUrlModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:600px;">
-            <div class="card-title" style="border-left-color: var(--green); font-size: 14px;">CẤU HÌNH LINK GOOGLE SHEET VÀ DRIVE</div>
+            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;">CẤU HÌNH LINK GOOGLE SHEET VÀ DRIVE</div>
             <div class="form-group" style="margin-bottom:10px;">
                 <label>1. Link Google Script Web App API (`.../exec`):</label>
                 <input type="text" id="cfg-script-url">
@@ -1164,9 +1177,9 @@
                     <select onchange="onPopupMonthChange(this.value, '${popupId}')">${monthOptionsHTML}</select>
                 </div>
                 <div class="popup-cal-header">
-                    <button type="button" class="btn btn-gray" style="padding:4px 8px; font-size:12px;" onclick="changePopupMonth(-1, '${popupId}')"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button type="button" class="btn btn-gray" style="padding:4px 8px; font-size:11px;" onclick="changePopupMonth(-1, '${popupId}')"><i class="fa-solid fa-chevron-left"></i></button>
                     <span>${monthNames[m]} / ${y}</span>
-                    <button type="button" class="btn btn-gray" style="padding:4px 8px; font-size:12px;" onclick="changePopupMonth(1, '${popupId}')"><i class="fa-solid fa-chevron-right"></i></button>
+                    <button type="button" class="btn btn-gray" style="padding:4px 8px; font-size:11px;" onclick="changePopupMonth(1, '${popupId}')"><i class="fa-solid fa-chevron-right"></i></button>
                 </div>
                 <div class="popup-cal-grid">
                     <div class="popup-dow" style="color:var(--red);">CN</div>
@@ -1190,7 +1203,7 @@
                 let isToday = (d === today.getDate() && m === today.getMonth() && y === today.getFullYear());
                 html += `<div class="popup-day ${isToday ? 'today' : ''}" onclick="selectPopupDate(${d}, ${m + 1}, ${y}, '${popupId}')">${d}</div>`;
             }
-            html += `</div><div style="text-align:right; margin-top:10px;"><button type="button" class="btn btn-gray" style="padding:4px 10px; font-size:12px;" onclick="document.getElementById('${popupId}').style.display='none'; activePickerId=null;">Đóng</button></div>`;
+            html += `</div><div style="text-align:right; margin-top:8px;"><button type="button" class="btn btn-gray" style="padding:4px 10px; font-size:11px;" onclick="document.getElementById('${popupId}').style.display='none'; activePickerId=null;">Đóng</button></div>`;
             popup.innerHTML = html;
         }
 
@@ -1257,33 +1270,30 @@
         function calculatePayLineTotal() {
             let qty = parseFloat(document.getElementById('pay-qty').value) || 1;
             let unitPrice = parseCurrencyVN(document.getElementById('pay-unit-price').value);
-            let baseSubtotal = qty * unitPrice;
-            let rate = parseFloat(document.getElementById('tax-rate-select').value) || 0;
-            let taxAmount = baseSubtotal * (rate / 100);
-            
             if (!isAmountManual) {
-                document.getElementById('pay-amount').value = formatCurrencyVN(baseSubtotal + taxAmount);
+                document.getElementById('pay-amount').value = formatCurrencyVN(qty * unitPrice);
             }
         }
 
         function calculateTaxPro() {
-            let amount = parseCurrencyVN(document.getElementById('tax-input-amount').value);
+            let totalAmount = parseCurrencyVN(document.getElementById('tax-input-amount').value);
             let rate = parseFloat(document.getElementById('tax-rate-select').value) || 0;
             let mode = document.getElementById('tax-mode-select').value;
-            let taxAmount = 0, totalAmount = 0;
+            let taxAmount = 0, baseAmount = 0;
 
-            if (mode === 'add') {
-                taxAmount = amount * (rate / 100);
-                totalAmount = amount + taxAmount;
+            if (mode === 'extract') {
+                // TÍNH NGƯỢC: Tổng tiền là số tiền sau thuế -> Tách ra tiền thuế và tiền gốc chưa thuế
+                baseAmount = totalAmount / (1 + rate / 100);
+                taxAmount = totalAmount - baseAmount;
             } else {
-                let base = amount / (1 + rate / 100);
-                taxAmount = amount - base;
-                totalAmount = amount;
+                // Cộng thuế vào gốc
+                baseAmount = totalAmount;
+                taxAmount = baseAmount * (rate / 100);
+                totalAmount = baseAmount + taxAmount;
             }
 
             document.getElementById('tax-result-tax').innerText = `Thuế: ${formatCurrencyVN(taxAmount)} VND`;
-            document.getElementById('tax-result-total').innerText = `Tổng: ${formatCurrencyVN(totalAmount)} VND`;
-            calculatePayLineTotal();
+            document.getElementById('tax-result-total').innerText = `Tiền gốc: ${formatCurrencyVN(baseAmount)} VND`;
         }
 
         function updateGlobalDashboardSummary() {
@@ -1344,16 +1354,17 @@
                     let dParts = dateTime.split('/');
                     let recYear = (dParts.length === 3 && dParts[2].length === 4) ? dParts[2] : sm.split('-')[0];
                     if (recYear === CURRENT_SELECTED_YEAR) {
-                        totalPaidYear += rec.amount || 0;
-                        
                         let totalAmt = rec.amount || 0;
-                        let estRate = 5; 
+                        totalPaidYear += totalAmt;
+                        
+                        let estRate = 8; // Mặc định 8% như yêu cầu
                         let contentLower = (rec.content || "").toLowerCase();
                         if (contentLower.includes("10%")) estRate = 10;
-                        else if (contentLower.includes("8%")) estRate = 8;
+                        else if (contentLower.includes("5%")) estRate = 5;
                         else if (contentLower.includes("0%")) estRate = 0;
                         else if (contentLower.includes("nhà thầu")) estRate = 10.5;
 
+                        // TÍNH NGƯỢC: Tổng tiền là sau thuế -> Tính ngược ra gốc và thuế
                         let baseAmt = totalAmt / (1 + estRate / 100);
                         let taxAmt = totalAmt - baseAmt;
                         totalTaxYear += taxAmt;
@@ -1375,7 +1386,7 @@
             });
 
             if (taxRecordCount === 0) {
-                taxSummaryTbody.innerHTML = `<tr><td colspan="7" class="text-center" style="color:#64748b; font-style:italic; padding:15px;">Chưa có dữ liệu thanh toán trong năm ${CURRENT_SELECTED_YEAR} để tách thuế.</td></tr>`;
+                taxSummaryTbody.innerHTML = `<tr><td colspan="7" class="text-center" style="color:#64748b; font-style:italic; padding:15px;">Chưa có dữ liệu thanh toán trong năm ${CURRENT_SELECTED_YEAR} để tính ngược thuế.</td></tr>`;
             }
             document.getElementById('dash-tax-badge-count').innerText = `${taxRecordCount} hồ sơ đã phân tích`;
 
@@ -1546,7 +1557,7 @@
                     <td class="text-right"><input class="inp-table inp-currency" type="text" value="${formatCurrencyVN(pcttVal)}" onfocus="this.value=parseCurrencyVN(this.value)" onblur="this.value=formatCurrencyVN(parseCurrencyVN(this.value)); updateSalaryRowValue(${index}, 'pctt', this.value)"></td>
                     <td class="text-right"><input class="inp-table inp-currency" type="text" value="${formatCurrencyVN(truUngVal)}" onfocus="this.value=parseCurrencyVN(this.value)" onblur="this.value=formatCurrencyVN(parseCurrencyVN(this.value)); updateSalaryRowValue(${index}, 'tru_ung', this.value)"></td>
                     <td class="text-right font-bold" style="color:#581c87; background:#e9d5ff;">${formatCurrencyVN(thuc_linh_lcv)}</td>
-                    <td class="text-right font-bold" style="background:#fef08a; color:#713f12; font-size:14.5px;">${formatCurrencyVN(thuc_linh_tong)}</td>
+                    <td class="text-right font-bold" style="background:#fef08a; color:#713f12; font-size:13.5px;">${formatCurrencyVN(thuc_linh_tong)}</td>
                     <td class="text-center"><button type="button" class="btn-delete" onclick="deleteSalaryRow(${index})"><i class="fa-solid fa-trash"></i></button></td>
                 </tr>`;
             });
@@ -1978,16 +1989,17 @@
                       .replace(/đ/g, 'd').replace(/Đ/g, 'D');
         }
 
-        function getStructuredQrText(code, type, user, dept, os, office, software) {
+        function getStructuredQrText(code, type, user, dept, os, office, software, solid) {
             let cleanCode = code || `IT-TS-${CURRENT_SELECTED_YEAR}`;
             let cleanType = removeVietnameseAccents(type || "Thiet bi");
             let cleanUser = removeVietnameseAccents(user || "Chua ro");
             let cleanDept = removeVietnameseAccents(dept || "Chua ro");
             let cleanOs = removeVietnameseAccents(os || "Win");
             let cleanOffice = removeVietnameseAccents(office || "Office");
-            let cleanSoftware = removeVietnameseAccents(software || "Khong co");
+            let cleanSoftware = removeVietnameseAccents(software || "Khong");
+            let cleanSolid = removeVietnameseAccents(solid || "Khong");
             
-            return `VINAPACO IT ASSET\n[Ma TS]: ${cleanCode}\n[Loai]: ${cleanType}\n[Nguoi dung]: ${cleanUser}\n[Phong ban]: ${cleanDept}\n[HDH]: ${cleanOs}\n[Office]: ${cleanOffice}\n[Phan mem/Do hoa]: ${cleanSoftware}`;
+            return `VINAPACO IT ASSET\n[Ma TS]: ${cleanCode}\n[Loai]: ${cleanType}\n[Nguoi dung]: ${cleanUser}\n[Phong ban]: ${cleanDept}\n[HDH]: ${cleanOs}\n[Office]: ${cleanOffice}\n[AutoCad]: ${cleanSoftware}\n[SolidWorks]: ${cleanSolid}`;
         }
 
         function updateLiveQRPreview() {
@@ -1998,6 +2010,7 @@
             let os = document.getElementById('it-os').value;
             let office = document.getElementById('it-office').value;
             let software = document.getElementById('it-software').value;
+            let solid = document.getElementById('it-software-solid').value;
             
             document.getElementById('lbl-qr-code').innerText = code;
             let userLbl = document.getElementById('lbl-qr-user');
@@ -2009,7 +2022,7 @@
             if(dept) { deptLbl.innerText = dept; deptLbl.style.color = "var(--primary)"; }
             else { deptLbl.innerText = "Chưa nhập"; deptLbl.style.color = "var(--red)"; }
 
-            let qrContent = getStructuredQrText(code, type, user, dept, os, office, software);
+            let qrContent = getStructuredQrText(code, type, user, dept, os, office, software, solid);
 
             const previewCanvasContainer = document.getElementById('live-qrcode-canvas');
             if (previewCanvasContainer) {
@@ -2038,7 +2051,8 @@
             let os = document.getElementById('it-os').value;
             let office = document.getElementById('it-office').value;
             let software = document.getElementById('it-software').value;
-            let qrText = getStructuredQrText(code, type, user, dept, os, office, software);
+            let solid = document.getElementById('it-software-solid').value;
+            let qrText = getStructuredQrText(code, type, user, dept, os, office, software, solid);
             openLargeQrModal(qrText, code);
         }
 
@@ -2105,13 +2119,15 @@
             let code = document.getElementById('it-code').value.trim();
             let os = document.getElementById('it-os').value, osLic = document.getElementById('it-os-lic').value;
             let office = document.getElementById('it-office').value, officeLic = document.getElementById('it-office-lic').value;
-            let software = document.getElementById('it-software').value, softLic = document.getElementById('it-soft-lic').value;
+            let software = document.getElementById('it-software').value;
+            let solid = document.getElementById('it-software-solid').value;
+            let softLic = document.getElementById('it-soft-lic').value;
             let specs = document.getElementById('it-specs').value.trim(), dateVal = document.getElementById('it-date').value, status = document.getElementById('it-status').value;
 
             if (!code || !user || !dept) { alert("⚠️ Vui lòng nhập đầy đủ Người sử dụng và Phòng ban để tạo mã QR chuẩn xác phục vụ kiểm kê!"); return; }
             if (!itAssetRecordsByYear[CURRENT_SELECTED_YEAR]) itAssetRecordsByYear[CURRENT_SELECTED_YEAR] = [];
             
-            let recordObj = { user, dept, type, code, os, osLic, office, officeLic, software, softLic, specs, dateVal, status };
+            let recordObj = { user, dept, type, code, os, osLic, office, officeLic, software, solid, softLic, specs, dateVal, status };
 
             if (editIndex >= 0) {
                 let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR];
@@ -2164,11 +2180,12 @@
             document.getElementById('it-dept').value = rec.dept || "";
             document.getElementById('it-type').value = rec.type || "Laptop Doanh Nghiệp";
             document.getElementById('it-code').value = rec.code || "";
-            document.getElementById('it-os').value = rec.os || "Windows 11 Pro (64-bit)";
+            document.getElementById('it-os').value = rec.os || "Windows 11 Pro / Home";
             document.getElementById('it-os-lic').value = rec.osLic || "Bản quyền chính hãng OEM/Retail";
             document.getElementById('it-office').value = rec.office || "Microsoft 365 (M365) Business Standard";
             document.getElementById('it-office-lic').value = rec.officeLic || "Bản quyền doanh nghiệp chính hãng";
             document.getElementById('it-software').value = rec.software || "Không có (Văn phòng cơ bản)";
+            document.getElementById('it-software-solid').value = rec.solid || "Không có (Văn phòng cơ bản)";
             document.getElementById('it-soft-lic').value = rec.softLic || "Bản quyền chính hãng doanh nghiệp";
             document.getElementById('it-specs').value = rec.specs || "";
             document.getElementById('it-date').value = rec.dateVal || "";
@@ -2238,7 +2255,7 @@
             const tbody = document.getElementById('tbody-it-assets'); tbody.innerHTML = "";
             filteredRecords.forEach((rec, idx) => {
                 let canvasId = `qr-canvas-${CURRENT_SELECTED_YEAR}-${idx}`;
-                let qrTextStr = getStructuredQrText(rec.code, rec.type, rec.user, rec.dept, rec.os, rec.office, rec.software);
+                let qrTextStr = getStructuredQrText(rec.code, rec.type, rec.user, rec.dept, rec.os, rec.office, rec.software, rec.solid);
                 
                 tbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${idx + 1}</td>
@@ -2247,7 +2264,7 @@
                     <td>${rec.specs}</td>
                     <td>${rec.os} <br><span style="color:${rec.osLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.osLic}]</span></td>
                     <td>${rec.office} <br><span style="color:${rec.officeLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.officeLic}]</span></td>
-                    <td><span style="color:var(--blue);">${rec.software}</span> <br><span style="color:${rec.softLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.softLic}]</span></td>
+                    <td><span style="color:var(--blue);">CAD: ${rec.software}</span><br><span style="color:var(--purple);">Solid: ${rec.solid || 'Không'}</span> <br><span style="color:${rec.softLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.softLic}]</span></td>
                     <td class="font-bold">${rec.user}</td>
                     <td>${rec.dept}</td>
                     <td class="text-center">${rec.dateVal || '-'}</td>
@@ -2269,7 +2286,7 @@
                         try {
                             new QRious({
                                 element: canvasEl,
-                                value: getStructuredQrText(rec.code, rec.type, rec.user, rec.dept, rec.os, rec.office, rec.software),
+                                value: getStructuredQrText(rec.code, rec.type, rec.user, rec.dept, rec.os, rec.office, rec.software, rec.solid),
                                 size: 48
                             });
                         } catch (e) {
@@ -2337,7 +2354,7 @@
                         <td style="border: 1px solid black; padding: 6px;">${r.specs}</td>
                         <td style="border: 1px solid black; padding: 6px;">${r.os} (${r.osLic})</td>
                         <td style="border: 1px solid black; padding: 6px;">${r.office} (${r.officeLic})</td>
-                        <td style="border: 1px solid black; padding: 6px;">${r.software} (${r.softLic})</td>
+                        <td style="border: 1px solid black; padding: 6px;">CAD: ${r.software} | Solid: ${r.solid || 'Không'} (${r.softLic})</td>
                         <td style="border: 1px solid black; padding: 6px; font-weight: bold;">${r.user}</td>
                         <td style="border: 1px solid black; padding: 6px;">${r.dept}</td>
                         <td style="border: 1px solid black; padding: 6px; text-align: center;">${r.status}</td>
@@ -2356,7 +2373,7 @@
                         .header-table td { width: 50%; vertical-align: top; text-align: center; font-size: 12pt; }
                         h1 { text-align: center; font-size: 15pt; text-transform: uppercase; font-weight: bold; margin-top: 15px; margin-bottom: 5px; }
                         .sub-title { text-align: center; font-size: 13pt; font-weight: bold; margin-bottom: 20px; color: #333; }
-                        table.report-table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 20px; font-size: 10.5pt; }
+                        table.report-table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 20px; font-size: 10pt; }
                         table.report-table th { background-color: #f2f2f2; border: 1px solid black; padding: 8px 6px; text-align: center; font-weight: bold; }
                         table.report-table td { border: 1px solid black; padding: 6px; vertical-align: middle; }
                         .sig-table { width: 100%; border-collapse: collapse; margin-top: 30px; text-align: center; font-size: 12pt; }
@@ -2375,7 +2392,7 @@
                     <div class="sub-title">Đơn vị: ${deptTitleStr} - Năm ${CURRENT_SELECTED_YEAR}</div>
 
                     <p>Kính gửi: Tổng giám đốc Tổng công ty Giấy Việt Nam,</p>
-                    <p>Thực hiện kế hoạch quản trị và kiểm kê tài sản công nghệ thông tin tại Tổng công ty, phòng chuyên môn xin báo cáo chi tiết hiện trạng trang thiết bị, hệ điều hành, bản quyền phần mềm và các ứng dụng thiết kế kỹ thuật tính đến thời điểm ${todayStr} như sau:</p>
+                    <p>Thực hiện kế hoạch quản trị và kiểm kê tài sản công nghệ thông tin tại Tổng công ty, phòng chuyên môn xin báo cáo chi tiết hiện trạng trang thiết bị, hệ điều hành, bản quyền phần mềm và các ứng dụng thiết kế kỹ thuật (AutoCad, SolidWorks) tính đến thời điểm ${todayStr} như sau:</p>
 
                     <table class="report-table">
                         <thead>
@@ -2386,7 +2403,7 @@
                                 <th>Cấu hình phần cứng</th>
                                 <th>Hệ điều hành</th>
                                 <th>Bộ Office</th>
-                                <th>Phần mềm / Đồ họa</th>
+                                <th>Phần mềm (CAD / Solid)</th>
                                 <th>Người sử dụng</th>
                                 <th>Phòng ban</th>
                                 <th>Trạng thái</th>
@@ -2565,7 +2582,7 @@
                 let dayNumberSpan = document.createElement('span');
                 dayNumberSpan.innerText = d;
                 dayNumberSpan.style.fontWeight = "bold";
-                dayNumberSpan.style.fontSize = "13px";
+                dayNumberSpan.style.fontSize = "12px";
                 dayDiv.appendChild(dayNumberSpan);
 
                 let lunarSubSpan = document.createElement('span');
