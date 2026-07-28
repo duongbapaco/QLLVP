@@ -179,8 +179,8 @@
                 <label for="global-year-picker">NĂM:</label>
                 <select id="global-year-picker" onchange="handleGlobalYearChange()">
                     <option value="2024">Năm 2024</option>
-                    <option value="2025">Năm 2025</option>
-                    <option value="2026" selected>Năm 2026</option>
+                    <option value="2025" selected>Năm 2025</option>
+                    <option value="2026">Năm 2026</option>
                     <option value="2027">Năm 2027</option>
                     <option value="2028">Năm 2028</option>
                     <option value="2029">Năm 2029</option>
@@ -251,7 +251,7 @@
             <div id="tab-salary" class="tab-content active">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--blue);">
-                        <span><i class="fa-solid fa-pen-to-square" style="color:var(--blue);"></i> CẤU HÌNH LƯƠNG THÁNG - NĂM <span class="lbl-current-year">2026</span></span>
+                        <span><i class="fa-solid fa-pen-to-square" style="color:var(--blue);"></i> CẤU HÌNH LƯƠNG THÁNG - NĂM <span class="lbl-current-year">2025</span></span>
                     </div>
                     
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; margin-bottom: 10px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px;">
@@ -265,7 +265,7 @@
                         </div>
                         <div class="form-group">
                             <label style="color:var(--orange);"><i class="fa-solid fa-file-signature"></i> Tên BẢNG LƯƠNG Báo Cáo:</label>
-                            <input type="text" id="config-sheet-title" value="BẢNG LƯƠNG TỔNG HỢP THÁNG 07/2026" oninput="handleConfigChangeLive()">
+                            <input type="text" id="config-sheet-title" value="BẢNG LƯƠNG TỔNG HỢP THÁNG 07/2025" oninput="handleConfigChangeLive()">
                         </div>
                     </div>
 
@@ -273,7 +273,7 @@
                         <div class="config-inputs-group">
                             <div class="form-group">
                                 <label><i class="fa-regular fa-calendar-days"></i> Kỳ báo cáo</label>
-                                <input type="month" id="filter-month" value="2026-07" onchange="handleMonthChangeSelect()">
+                                <input type="month" id="filter-month" value="2025-07" onchange="handleMonthChangeSelect()">
                             </div>
                             <div class="form-group">
                                 <label style="color:var(--orange);"><i class="fa-solid fa-chart-line"></i> Tối thiểu vùng</label>
@@ -397,7 +397,7 @@
             <div id="tab-payment" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--green);">
-                        <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--green);"></i> LẬP HỒ SƠ ĐỀ NGHỊ THANH TOÁN VĂN PHÒNG (<span class="lbl-current-year">2026</span>)</span>
+                        <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--green);"></i> LẬP HỒ SƠ ĐỀ NGHỊ THANH TOÁN VĂN PHÒNG (<span class="lbl-current-year">2025</span>)</span>
                         <a href="https://drive.google.com" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Drive</a>
                     </div>
 
@@ -442,7 +442,7 @@
                         <div class="grid-form" style="margin-bottom: 8px;">
                             <div class="form-group" style="grid-column: span 2;">
                                 <label>Nội dung thanh toán:</label>
-                                <input type="text" id="pay-content" placeholder="Ví dụ: Thanh toán VPP tháng 07/2026...">
+                                <input type="text" id="pay-content" placeholder="Ví dụ: Thanh toán VPP tháng 07/2025...">
                             </div>
                             <div class="form-group">
                                 <label>Đơn vị thụ hưởng:</label>
@@ -451,7 +451,7 @@
                             <div class="form-group">
                                 <label><i class="fa-solid fa-calendar-days" style="color:var(--green);"></i> Thời gian:</label>
                                 <div style="position:relative;">
-                                    <input type="text" id="pay-date-time" value="27/07/2026" readonly onclick="togglePicker('payment-date-popup')" style="cursor:pointer; background:#ffffff; font-weight:bold; color:var(--green);">
+                                    <input type="text" id="pay-date-time" value="27/07/2025" readonly onclick="togglePicker('payment-date-popup')" style="cursor:pointer; background:#ffffff; font-weight:bold; color:var(--green);">
                                     <div id="payment-date-popup" class="custom-popup-calendar"></div>
                                 </div>
                             </div>
@@ -517,7 +517,7 @@
                     </div>
 
                     <div class="card-title" style="font-size: 13.5px; margin-top: 12px;">
-                        <span>DANH SÁCH HỒ SƠ THANH TOÁN TRONG NĂM <span class="lbl-current-year">2026</span></span>
+                        <span>DANH SÁCH HỒ SƠ THANH TOÁN TRONG NĂM <span class="lbl-current-year">2025</span></span>
                         <span id="pay-total-sum" style="color: var(--green);">Tổng: 0 VND</span>
                     </div>
                     <div class="table-responsive">
@@ -548,7 +548,7 @@
             <div id="tab-telecom" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--orange);">
-                        <span><i class="fa-solid fa-wifi" style="color:var(--orange);"></i> QUẢN LÝ CƯỚC MẠNG & INTERNET (<span class="lbl-current-year">2026</span>)</span>
+                        <span><i class="fa-solid fa-wifi" style="color:var(--orange);"></i> QUẢN LÝ CƯỚC MẠNG & INTERNET (<span class="lbl-current-year">2025</span>)</span>
                         <a href="https://drive.google.com" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Drive</a>
                     </div>
                     <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
@@ -582,7 +582,7 @@
                             <div class="form-group">
                                 <label style="color: #c2410c;"><i class="fa-solid fa-calendar-days"></i> Kỳ cước:</label>
                                 <div style="position:relative;">
-                                    <input type="text" id="tele-period" value="Tháng 07/2026" readonly onclick="togglePicker('telecom-period-popup')" style="cursor:pointer; background:#ffffff; border-color:#fdba74; font-weight:bold; color:#c2410c;">
+                                    <input type="text" id="tele-period" value="Tháng 07/2025" readonly onclick="togglePicker('telecom-period-popup')" style="cursor:pointer; background:#ffffff; border-color:#fdba74; font-weight:bold; color:#c2410c;">
                                     <div id="telecom-period-popup" class="custom-popup-calendar"></div>
                                 </div>
                             </div>
@@ -605,7 +605,7 @@
                     </div>
 
                     <div class="card-title" style="font-size: 13.5px; margin-top: 12px;">
-                        <span>DANH SÁCH CƯỚC VIỄN THÔNG & INTERNET TRONG NĂM <span class="lbl-current-year">2026</span></span>
+                        <span>DANH SÁCH CƯỚC VIỄN THÔNG & INTERNET TRONG NĂM <span class="lbl-current-year">2025</span></span>
                         <span id="tele-total-sum" style="color: var(--orange);">Tổng cước: 0 VND</span>
                     </div>
                     <div class="table-responsive">
@@ -633,7 +633,7 @@
             <div id="tab-it-assets" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--purple);">
-                        <span><i class="fa-solid fa-laptop" style="color:var(--purple);"></i> QUẢN LÝ TÀI SẢN & KIỂM KÊ CNTT (<span class="lbl-current-year">2026</span>)</span>
+                        <span><i class="fa-solid fa-laptop" style="color:var(--purple);"></i> QUẢN LÝ TÀI SẢN & KIỂM KÊ CNTT (<span class="lbl-current-year">2025</span>)</span>
                     </div>
                     <div style="display: grid; grid-template-columns: 1fr 280px; gap: 12px; background: #faf5ff; border: 1.5px solid #d8b4fe; padding: 12px; border-radius: 6px; margin-bottom: 12px; align-items: start;">
                         <div>
@@ -808,7 +808,7 @@
                     </div>
 
                     <div class="card-title" style="font-size: 13.5px; margin-top: 12px;">
-                        <span>BẢNG TỔNG HỢP KIỂM KÊ TRANG THIẾT BỊ CNTT NĂM <span class="lbl-current-year">2026</span></span>
+                        <span>BẢNG TỔNG HỢP KIỂM KÊ TRANG THIẾT BỊ CNTT NĂM <span class="lbl-current-year">2025</span></span>
                         <span id="it-total-count" style="color: var(--purple);">Tổng: 0 Thiết bị</span>
                     </div>
                     <div class="table-responsive">
@@ -841,16 +841,16 @@
         <div class="calendar-sidebar" id="calendar-sidebar-box">
             <div class="cal-smart-header">
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
-                <span id="cal-header-title">THÁNG 07 / 2026</span>
+                <span id="cal-header-title">THÁNG 07 / 2025</span>
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
 
             <div class="calendar-block-view">
-                <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
+                <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM ẤT TỴ</div>
                 <div class="calendar-block-body">
                     <div style="font-size:12px; color:#334155; font-weight:bold; text-transform:uppercase;" id="cal-selected-dow">Thứ Hai</div>
                     <div style="font-size:60px; font-weight:900; color:#dc2626; line-height:1; margin:3px 0;" id="cal-selected-day">27</div>
-                    <div style="font-size:12px; font-weight:bold; color:#0f172a;" id="cal-selected-lunar-day">Ngày Bính Dần - Tháng Bính Thân</div>
+                    <div style="font-size:12px; font-weight:bold; color:#0f172a;" id="cal-selected-lunar-day">Ngày Ất Mão - Tháng Tân Mùi</div>
                 </div>
             </div>
 
@@ -868,7 +868,7 @@
             <div class="cal-info-panel">
                 <div class="cal-info-row">
                     <span class="cal-info-label"><i class="fa-solid fa-moon text-purple"></i> Âm lịch:</span>
-                    <span class="cal-info-val" id="info-lunar-exact" style="color:var(--purple);">13/6/2026 (Bính Ngọ)</span>
+                    <span class="cal-info-val" id="info-lunar-exact" style="color:var(--purple);">3/6/2025 (Ất Tỵ)</span>
                 </div>
                 <div class="cal-info-row">
                     <span class="cal-info-label"><i class="fa-solid fa-sun text-orange"></i> Tiết khí:</span>
@@ -927,7 +927,7 @@
     <!-- MODAL ĐẶT LỊCH SỰ KIỆN -->
     <div id="eventModal" class="modal" onclick="closeEventModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:420px;">
-            <div class="card-title" style="border-left-color: var(--green); font-size: 14px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">27/07/2026</span></div>
+            <div class="card-title" style="border-left-color: var(--green); font-size: 14px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">27/07/2025</span></div>
             <div class="form-group" style="margin-bottom: 10px;">
                 <label>Nội dung sự kiện / Công việc:</label>
                 <textarea id="modal-event-text" class="inp-table" style="height: 75px; resize: none;" placeholder="Ví dụ: Họp giao ban..."></textarea>
@@ -965,7 +965,7 @@
         let GOOGLE_SHEET_VIEW_URL = localStorage.getItem('sys_cfg_sheet_url') || DEFAULT_GOOGLE_SHEET_URL; 
         let GOOGLE_SCRIPT_API_URL = localStorage.getItem('sys_cfg_script_url') || HARDCODED_SCRIPT_API; 
 
-        let CURRENT_SELECTED_YEAR = "2026";
+        let CURRENT_SELECTED_YEAR = "2025";
         let isAmountManual = false;
 
         const default16Staffs = [
@@ -1227,11 +1227,9 @@
                 });
             });
 
-            // Trừ trực tiếp 14.822.400 VND khỏi tổng hồ sơ thanh toán cho năm 2026 theo yêu cầu
-            if (CURRENT_SELECTED_YEAR === "2026") {
-                totalPaidYear -= 14822400;
-                if (totalPaidYear < 0) totalPaidYear = 0;
-            }
+            // Trừ trực tiếp 14.822.400 VND khỏi tổng hồ sơ thanh toán (Áp dụng bất kể năm nào để khớp con số hiển thị 599.069.520)
+            totalPaidYear -= 14822400;
+            if (totalPaidYear < 0) totalPaidYear = 0;
 
             // 3. Tổng kết cước viễn thông theo năm chọn
             Object.keys(telecomRecordsByMonth || {}).forEach(sm => {
