@@ -780,16 +780,30 @@
 
                     <div id="status-cntt" style="font-weight: bold; font-size: 13px; margin-bottom: 8px;"></div>
 
-                    <!-- THANH CÔNG CỤ LỌC PHÒNG BAN & XUẤT WORD -->
+                    <!-- THANH CÔNG CỤ LỌC (PHÒNG BAN, HĐH, OFFICE) & XUẤT WORD -->
                     <div style="display: flex; justify-content: space-between; align-items: center; background: #f3e8ff; border: 1.5px solid #d8b4fe; padding: 10px; border-radius: 6px; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
                         <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; flex: 1;">
-                            <label style="font-weight: bold; color: var(--purple);"><i class="fa-solid fa-filter"></i> Lọc theo Phòng ban:</label>
-                            <select id="filter-dept-select" onchange="renderItAssetTable()" style="max-width: 250px; border-color: #d8b4fe; font-weight: bold; color: var(--purple);">
-                                <option value="ALL">-- Tất cả các phòng ban --</option>
-                            </select>
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <label style="font-weight: bold; color: var(--purple); font-size: 12px;"><i class="fa-solid fa-filter"></i> Phòng ban:</label>
+                                <select id="filter-dept-select" onchange="renderItAssetTable()" style="max-width: 170px; border-color: #d8b4fe; font-weight: bold; color: var(--purple); font-size: 12px;">
+                                    <option value="ALL">-- Tất cả --</option>
+                                </select>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <label style="font-weight: bold; color: var(--purple); font-size: 12px;"><i class="fa-brands fa-windows"></i> HĐH:</label>
+                                <select id="filter-os-select" onchange="renderItAssetTable()" style="max-width: 150px; border-color: #d8b4fe; font-weight: bold; color: var(--purple); font-size: 12px;">
+                                    <option value="ALL">-- Tất cả HĐH --</option>
+                                </select>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <label style="font-weight: bold; color: var(--purple); font-size: 12px;"><i class="fa-solid fa-file-excel"></i> Office:</label>
+                                <select id="filter-office-select" onchange="renderItAssetTable()" style="max-width: 150px; border-color: #d8b4fe; font-weight: bold; color: var(--purple); font-size: 12px;">
+                                    <option value="ALL">-- Tất cả Office --</option>
+                                </select>
+                            </div>
                         </div>
                         <div>
-                            <button type="button" class="btn btn-purple" onclick="exportItAssetWordReport()"><i class="fa-solid fa-file-word"></i> 📄 Xuất Báo Cáo Word (Gửi Lãnh Đạo)</button>
+                            <button type="button" class="btn btn-purple" onclick="exportItAssetWordReport()"><i class="fa-solid fa-file-word"></i> 📄 Xuất Báo Cáo Word</button>
                         </div>
                     </div>
 
@@ -1811,14 +1825,19 @@
             if (editIndex >= 0) {
                 let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR];
                 let filterDept = document.getElementById('filter-dept-select').value;
-                if (filterDept !== "ALL") {
-                    let filtered = records.filter(r => r.dept === filterDept);
-                    let targetRec = filtered[editIndex];
-                    let realIdx = records.indexOf(targetRec);
-                    if (realIdx > -1) records[realIdx] = recordObj;
-                } else {
-                    records[editIndex] = recordObj;
-                }
+                let filterOs = document.getElementById('filter-os-select').value;
+                let filterOffice = document.getElementById('filter-office-select').value;
+                
+                let filtered = records.filter(r => {
+                    let matchD = (filterDept === "ALL" || r.dept === filterDept);
+                    let matchO = (filterOs === "ALL" || r.os === filterOs);
+                    let matchOff = (filterOffice === "ALL" || r.office === filterOffice);
+                    return matchD && matchO && matchOff;
+                });
+
+                let targetRec = filtered[editIndex];
+                let realIdx = records.indexOf(targetRec);
+                if (realIdx > -1) records[realIdx] = recordObj;
                 cancelEditItAsset();
             } else {
                 itAssetRecordsByYear[CURRENT_SELECTED_YEAR].push(recordObj);
@@ -1826,7 +1845,7 @@
             }
 
             localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
-            updateDeptFilterDropdown();
+            updateItAssetFilterDropdowns();
             renderItAssetTable(); 
             document.getElementById('status-cntt').innerText = "✅ Lưu thiết bị thành công!";
         }
@@ -1834,10 +1853,16 @@
         function editItAssetRecord(idx) {
             let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
             let filterDept = document.getElementById('filter-dept-select').value;
-            let targetRecords = records;
-            if (filterDept !== "ALL") {
-                targetRecords = records.filter(r => r.dept === filterDept);
-            }
+            let filterOs = document.getElementById('filter-os-select').value;
+            let filterOffice = document.getElementById('filter-office-select').value;
+
+            let targetRecords = records.filter(r => {
+                let matchD = (filterDept === "ALL" || r.dept === filterDept);
+                let matchO = (filterOs === "ALL" || r.os === filterOs);
+                let matchOff = (filterOffice === "ALL" || r.office === filterOffice);
+                return matchD && matchO && matchOff;
+            });
+
             let rec = targetRecords[idx];
             if (!rec) return;
 
@@ -1876,29 +1901,50 @@
             document.getElementById('it-date').value = ""; updateLiveQRPreview(); 
         }
 
-        function updateDeptFilterDropdown() {
+        function updateItAssetFilterDropdowns() {
             let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
-            let deptSet = new Set();
-            records.forEach(r => { if(r.dept) deptSet.add(r.dept); });
-            let selectEl = document.getElementById('filter-dept-select');
-            let currentVal = selectEl.value;
-            
-            let html = `<option value="ALL">-- Tất cả các phòng ban --</option>`;
-            deptSet.forEach(dept => {
-                html += `<option value="${dept}" ${currentVal === dept ? 'selected' : ''}>${dept}</option>`;
+            let deptSet = new Set(), osSet = new Set(), officeSet = new Set();
+            records.forEach(r => { 
+                if(r.dept) deptSet.add(r.dept); 
+                if(r.os) osSet.add(r.os); 
+                if(r.office) officeSet.add(r.office); 
             });
-            selectEl.innerHTML = html;
+
+            // Department dropdown
+            let deptSel = document.getElementById('filter-dept-select');
+            let curDept = deptSel.value;
+            let deptHtml = `<option value="ALL">-- Tất cả --</option>`;
+            deptSet.forEach(d => { deptHtml += `<option value="${d}" ${curDept === d ? 'selected' : ''}>${d}</option>`; });
+            deptSel.innerHTML = deptHtml;
+
+            // OS dropdown
+            let osSel = document.getElementById('filter-os-select');
+            let curOs = osSel.value;
+            let osHtml = `<option value="ALL">-- Tất cả HĐH --</option>`;
+            osSet.forEach(o => { osHtml += `<option value="${o}" ${curOs === o ? 'selected' : ''}>${o}</option>`; });
+            osSel.innerHTML = osHtml;
+
+            // Office dropdown
+            let officeSel = document.getElementById('filter-office-select');
+            let curOffice = officeSel.value;
+            let officeHtml = `<option value="ALL">-- Tất cả Office --</option>`;
+            officeSet.forEach(off => { officeHtml += `<option value="${off}" ${curOffice === off ? 'selected' : ''}>${off}</option>`; });
+            officeSel.innerHTML = officeHtml;
         }
 
         function renderItAssetTable() {
-            updateDeptFilterDropdown();
+            updateItAssetFilterDropdowns();
             let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
             let filterDept = document.getElementById('filter-dept-select').value;
+            let filterOs = document.getElementById('filter-os-select').value;
+            let filterOffice = document.getElementById('filter-office-select').value;
             
-            let filteredRecords = records;
-            if (filterDept !== "ALL") {
-                filteredRecords = records.filter(r => r.dept === filterDept);
-            }
+            let filteredRecords = records.filter(r => {
+                let matchD = (filterDept === "ALL" || r.dept === filterDept);
+                let matchO = (filterOs === "ALL" || r.os === filterOs);
+                let matchOff = (filterOffice === "ALL" || r.office === filterOffice);
+                return matchD && matchO && matchOff;
+            });
 
             const tbody = document.getElementById('tbody-it-assets'); tbody.innerHTML = "";
             filteredRecords.forEach((rec, idx) => {
@@ -1951,32 +1997,42 @@
         function deleteItAssetRecord(idx) {
             let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
             let filterDept = document.getElementById('filter-dept-select').value;
-            if (filterDept !== "ALL") {
-                let filtered = records.filter(r => r.dept === filterDept);
-                let targetRec = filtered[idx];
-                let realIdx = records.indexOf(targetRec);
-                if (realIdx > -1) records.splice(realIdx, 1);
-            } else {
-                records.splice(idx, 1);
-            }
+            let filterOs = document.getElementById('filter-os-select').value;
+            let filterOffice = document.getElementById('filter-office-select').value;
+
+            let filtered = records.filter(r => {
+                let matchD = (filterDept === "ALL" || r.dept === filterDept);
+                let matchO = (filterOs === "ALL" || r.os === filterOs);
+                let matchOff = (filterOffice === "ALL" || r.office === filterOffice);
+                return matchD && matchO && matchOff;
+            });
+
+            let targetRec = filtered[idx];
+            let realIdx = records.indexOf(targetRec);
+            if (realIdx > -1) records.splice(realIdx, 1);
+
             localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
             renderItAssetTable();
         }
 
-        /* --- XUẤT BÁO CÁO WORD THEO PHÒNG BAN --- */
+        /* --- XUẤT BÁO CÁO WORD THEO PHÒNG BAN & LỌC --- */
         function exportItAssetWordReport() {
             let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
             let filterDept = document.getElementById('filter-dept-select').value;
-            let targetRecords = records;
-            let deptTitleStr = "TẤT CẢ CÁC PHÒNG BAN";
+            let filterOs = document.getElementById('filter-os-select').value;
+            let filterOffice = document.getElementById('filter-office-select').value;
 
-            if (filterDept !== "ALL") {
-                targetRecords = records.filter(r => r.dept === filterDept);
-                deptTitleStr = filterDept.toUpperCase();
-            }
+            let targetRecords = records.filter(r => {
+                let matchD = (filterDept === "ALL" || r.dept === filterDept);
+                let matchO = (filterOs === "ALL" || r.os === filterOs);
+                let matchOff = (filterOffice === "ALL" || r.office === filterOffice);
+                return matchD && matchO && matchOff;
+            });
+
+            let deptTitleStr = filterDept === "ALL" ? "TẤT CẢ CÁC PHÒNG BAN" : filterDept.toUpperCase();
 
             if (targetRecords.length === 0) {
-                alert("Không có thiết bị nào trong phòng ban này để xuất báo cáo!");
+                alert("Không có thiết bị nào thỏa mãn điều kiện lọc để xuất báo cáo!");
                 return;
             }
 
@@ -2027,10 +2083,10 @@
                     </table>
                     
                     <h1>BÁO CÁO KIỂM KÊ VÀ RÀ SOÁT TRANG THIẾT BỊ CNTT</h1>
-                    <div class="sub-title">Đơn vị / Bộ phận: ${deptTitleStr} - Năm ${CURRENT_SELECTED_YEAR}</div>
+                    <div class="sub-title">Đơn vị: ${deptTitleStr} - Năm ${CURRENT_SELECTED_YEAR}</div>
 
                     <p>Kính gửi: Tổng giám đốc Tổng công ty Giấy Việt Nam,</p>
-                    <p>Thực hiện kế hoạch quản trị và kiểm kê tài sản công nghệ thông tin tại Tổng công ty, phòng chuyên môn xin báo cáo chi tiết hiện trạng trang thiết bị, hệ điều hành, bản quyền phần mềm và các ứng dụng thiết kế kỹ thuật của bộ phận <b>${deptTitleStr}</b> tính đến thời điểm ${todayStr} như sau:</p>
+                    <p>Thực hiện kế hoạch quản trị và kiểm kê tài sản công nghệ thông tin tại Tổng công ty, phòng chuyên môn xin báo cáo chi tiết hiện trạng trang thiết bị, hệ điều hành, bản quyền phần mềm và các ứng dụng thiết kế kỹ thuật tính đến thời điểm ${todayStr} như sau:</p>
 
                     <table class="report-table">
                         <thead>
