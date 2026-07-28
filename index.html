@@ -397,7 +397,7 @@
             <div id="tab-payment" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--green);">
-                        <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--green);"></i> LẬP HỒ SƠ ĐỀ NGHỊ THANH TOÁN VĂN PHÒNG</span>
+                        <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--green);"></i> LẬP HỒ SƠ ĐỀ NGHỊ THANH TOÁN VĂN PHÒNG (<span class="lbl-current-year">2026</span>)</span>
                         <a href="https://drive.google.com" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Drive</a>
                     </div>
 
@@ -517,7 +517,7 @@
                     </div>
 
                     <div class="card-title" style="font-size: 13.5px; margin-top: 12px;">
-                        <span>DANH SÁCH HỒ SƠ THANH TOÁN TRONG KỲ</span>
+                        <span>DANH SÁCH HỒ SƠ THANH TOÁN TRONG NĂM <span class="lbl-current-year">2026</span></span>
                         <span id="pay-total-sum" style="color: var(--green);">Tổng: 0 VND</span>
                     </div>
                     <div class="table-responsive">
@@ -548,7 +548,7 @@
             <div id="tab-telecom" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--orange);">
-                        <span><i class="fa-solid fa-wifi" style="color:var(--orange);"></i> QUẢN LÝ CƯỚC MẠNG & INTERNET</span>
+                        <span><i class="fa-solid fa-wifi" style="color:var(--orange);"></i> QUẢN LÝ CƯỚC MẠNG & INTERNET (<span class="lbl-current-year">2026</span>)</span>
                         <a href="https://drive.google.com" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Drive</a>
                     </div>
                     <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
@@ -605,7 +605,7 @@
                     </div>
 
                     <div class="card-title" style="font-size: 13.5px; margin-top: 12px;">
-                        <span>DANH SÁCH CƯỚC VIỄN THÔNG & INTERNET</span>
+                        <span>DANH SÁCH CƯỚC VIỄN THÔNG & INTERNET TRONG NĂM <span class="lbl-current-year">2026</span></span>
                         <span id="tele-total-sum" style="color: var(--orange);">Tổng cước: 0 VND</span>
                     </div>
                     <div class="table-responsive">
@@ -808,7 +808,7 @@
                     </div>
 
                     <div class="card-title" style="font-size: 13.5px; margin-top: 12px;">
-                        <span>BẢNG TỔNG HỢP KIỂM KÊ TRANG THIẾT BỊ CNTT NĂM 2026</span>
+                        <span>BẢNG TỔNG HỢP KIỂM KÊ TRANG THIẾT BỊ CNTT NĂM <span class="lbl-current-year">2026</span></span>
                         <span id="it-total-count" style="color: var(--purple);">Tổng: 0 Thiết bị</span>
                     </div>
                     <div class="table-responsive">
@@ -1173,7 +1173,7 @@
             let totalPaidYear = 0;
             let totalTelecomYear = 0;
 
-            // 1. Tổng kết lương và tạm ứng theo năm chọn (Dựa vào key 'YYYY-MM' của salaryDataByMonth)
+            // 1. Tổng kết lương và tạm ứng theo năm chọn
             Object.keys(salaryDataByMonth || {}).forEach(sm => {
                 let parts = sm.split('-');
                 let yr = parts[0] || "";
@@ -1214,7 +1214,7 @@
                 }
             });
 
-            // 2. Tổng kết hồ sơ thanh toán theo năm chọn (Kiểm tra chính xác năm từ định dạng DD/MM/YYYY)
+            // 2. Tổng kết hồ sơ thanh toán theo năm chọn
             Object.keys(paymentRecordsByMonth || {}).forEach(sm => {
                 let records = paymentRecordsByMonth[sm] || [];
                 records.forEach(rec => {
@@ -1227,7 +1227,7 @@
                 });
             });
 
-            // 3. Tổng kết cước viễn thông theo năm chọn (Kiểm tra chính xác năm từ chu kỳ cước)
+            // 3. Tổng kết cước viễn thông theo năm chọn
             Object.keys(telecomRecordsByMonth || {}).forEach(sm => {
                 let records = telecomRecordsByMonth[sm] || [];
                 records.forEach(rec => {
@@ -1443,7 +1443,7 @@
             let year = parts[0] || CURRENT_SELECTED_YEAR;
             let month = parts[1] || "07";
 
-            let payDateTime = document.getElementById('pay-date-time').value.trim() || "27/07/2026";
+            let payDateTime = document.getElementById('pay-date-time').value.trim() || `27/07/${CURRENT_SELECTED_YEAR}`;
             let dateParts = payDateTime.split('/');
             if (dateParts.length === 3) { month = dateParts[1]; year = dateParts[2]; }
 
@@ -1532,13 +1532,13 @@
             statusLabel.innerText = "✅ Thêm hồ sơ thành công!";
         }
 
-        function editPaymentRecord(idx) {
+        function editPaymentRecord(idxKey, actualIdx) {
             let sm = document.getElementById('filter-month').value;
-            let rec = paymentRecordsByMonth[sm][idx];
+            let rec = paymentRecordsByMonth[sm][actualIdx];
             if (!rec) return;
 
-            document.getElementById('edit-payment-index').value = idx;
-            document.getElementById('pay-date-time').value = rec.payDateTime || "27/07/2026";
+            document.getElementById('edit-payment-index').value = actualIdx;
+            document.getElementById('pay-date-time').value = rec.payDateTime || `27/07/${CURRENT_SELECTED_YEAR}`;
             document.getElementById('pay-content').value = rec.content || "";
             document.getElementById('pay-receiver').value = rec.receiver || "";
             document.getElementById('pay-qty').value = rec.qty || 1;
@@ -1572,42 +1572,61 @@
         }
 
         function renderPaymentTable() {
-            let sm = document.getElementById('filter-month').value;
-            let records = paymentRecordsByMonth[sm] || [];
-            const tbody = document.getElementById('tbody-payment'); tbody.innerHTML = "";
+            const tbody = document.getElementById('tbody-payment'); 
+            tbody.innerHTML = "";
             let totalSum = 0;
-            records.forEach((rec, idx) => {
-                totalSum += rec.amount;
-                let q = rec.qty || 1, u = rec.unit || 'Cái';
-                let displayUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : (rec.amount / q);
-                let dateTimeDisplay = rec.payDateTime || "27/07/2026";
-                let folderLinkHtml = `<span style="color:#64748b; font-style:italic;">Không có</span>`;
-                if (rec.files && rec.files.length > 0) {
-                    let folderUrl = rec.folderUrl || "https://drive.google.com";
-                    folderLinkHtml = `<a href="${folderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục (${rec.files.length})</a>`;
-                }
-                tbody.innerHTML += `<tr>
-                    <td class="text-center font-bold">${idx + 1}</td>
-                    <td class="text-center font-bold" style="color:var(--green);">${dateTimeDisplay}</td>
-                    <td><b>${rec.content}</b></td>
-                    <td>${rec.receiver}</td>
-                    <td class="text-center">${q}</td>
-                    <td class="text-center">${u}</td>
-                    <td class="text-right">${formatCurrencyVN(displayUnitPrice)}</td>
-                    <td class="text-right font-bold" style="color:var(--green);">${formatCurrencyVN(rec.amount)} VND</td>
-                    <td class="text-center">${rec.account || '-'}</td>
-                    <td>${rec.bank || '-'}</td>
-                    <td>${folderLinkHtml}</td>
-                    <td class="text-center">
-                        <button type="button" class="btn-edit" onclick="editPaymentRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button type="button" class="btn-delete" onclick="deletePaymentRecord(${idx})"><i class="fa-solid fa-trash"></i></button>
-                    </td>
-                </tr>`;
+            let globalIndex = 1;
+
+            // Quét toàn bộ dữ liệu hồ sơ thanh toán trong kho lưu trữ, lọc theo NĂM đang chọn
+            Object.keys(paymentRecordsByMonth || {}).forEach(sm => {
+                let records = paymentRecordsByMonth[sm] || [];
+                records.forEach((rec, actualIdx) => {
+                    let dateTime = rec.payDateTime || "";
+                    let dParts = dateTime.split('/');
+                    let recYear = (dParts.length === 3 && dParts[2].length === 4) ? dParts[2] : sm.split('-')[0];
+
+                    if (recYear === CURRENT_SELECTED_YEAR) {
+                        totalSum += rec.amount;
+                        let q = rec.qty || 1, u = rec.unit || 'Cái';
+                        let displayUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : (rec.amount / q);
+                        let dateTimeDisplay = rec.payDateTime || `27/07/${CURRENT_SELECTED_YEAR}`;
+                        let folderLinkHtml = `<span style="color:#64748b; font-style:italic;">Không có</span>`;
+                        if (rec.files && rec.files.length > 0) {
+                            let folderUrl = rec.folderUrl || "https://drive.google.com";
+                            folderLinkHtml = `<a href="${folderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục (${rec.files.length})</a>`;
+                        }
+                        tbody.innerHTML += `<tr>
+                            <td class="text-center font-bold">${globalIndex++}</td>
+                            <td class="text-center font-bold" style="color:var(--green);">${dateTimeDisplay}</td>
+                            <td><b>${rec.content}</b></td>
+                            <td>${rec.receiver}</td>
+                            <td class="text-center">${q}</td>
+                            <td class="text-center">${u}</td>
+                            <td class="text-right">${formatCurrencyVN(displayUnitPrice)}</td>
+                            <td class="text-right font-bold" style="color:var(--green);">${formatCurrencyVN(rec.amount)} VND</td>
+                            <td class="text-center">${rec.account || '-'}</td>
+                            <td>${rec.bank || '-'}</td>
+                            <td>${folderLinkHtml}</td>
+                            <td class="text-center">
+                                <button type="button" class="btn-edit" onclick="editPaymentRecord('${sm}', ${actualIdx})"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button type="button" class="btn-delete" onclick="deletePaymentRecord('${sm}', ${actualIdx})"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>`;
+                    }
+                });
             });
+
             document.getElementById('pay-total-sum').innerText = `Tổng: ${formatCurrencyVN(totalSum)} VND`;
             updateGlobalDashboardSummary();
         }
-        function deletePaymentRecord(idx) { let sm = document.getElementById('filter-month').value; paymentRecordsByMonth[sm].splice(idx, 1); localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth)); renderPaymentTable(); }
+
+        function deletePaymentRecord(sm, actualIdx) { 
+            if (confirm('Xóa hồ sơ thanh toán này?')) {
+                paymentRecordsByMonth[sm].splice(actualIdx, 1); 
+                localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth)); 
+                renderPaymentTable(); 
+            }
+        }
 
         /* --- CƯỚC VIỄN THÔNG --- */
         async function addNewTelecomRecord() {
@@ -1616,7 +1635,7 @@
             let year = parts[0] || CURRENT_SELECTED_YEAR;
             let month = parts[1] || "07";
 
-            let period = document.getElementById('tele-period').value.trim() || "Tháng 07/2026";
+            let period = document.getElementById('tele-period').value.trim() || `Tháng 07/${CURRENT_SELECTED_YEAR}`;
             let matchMonth = period.match(/Tháng\s+(\d+)/i);
             let matchYear = period.match(/\/(\d{4})/);
             if (matchMonth) month = matchMonth[1].padStart(2, '0');
@@ -1702,18 +1721,17 @@
             statusLabel.innerText = "✅ Lưu cước thành công!";
         }
 
-        function editTelecomRecord(idx) {
-            let sm = document.getElementById('filter-month').value;
-            let rec = telecomRecordsByMonth[sm][idx];
+        function editTelecomRecord(sm, actualIdx) {
+            let rec = telecomRecordsByMonth[sm][actualIdx];
             if (!rec) return;
 
-            document.getElementById('edit-telecom-index').value = idx;
+            document.getElementById('edit-telecom-index').value = actualIdx;
             document.getElementById('tele-location').value = rec.location || "";
             document.getElementById('tele-provider').value = rec.provider || "VNPT";
             document.getElementById('tele-bandwidth').value = rec.bandwidth || "";
             document.getElementById('tele-cid').value = rec.cid || "";
             document.getElementById('tele-amount').value = formatCurrencyVN(rec.amount || 0);
-            document.getElementById('tele-period').value = rec.period || "Tháng 07/2026";
+            document.getElementById('tele-period').value = rec.period || `Tháng 07/${CURRENT_SELECTED_YEAR}`;
 
             document.getElementById('btn-save-tele').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Cập Nhật`;
             document.getElementById('btn-cancel-edit-tele').style.display = "inline-flex";
@@ -1728,36 +1746,55 @@
         }
 
         function renderTelecomTable() {
-            let sm = document.getElementById('filter-month').value;
-            let records = telecomRecordsByMonth[sm] || [];
-            const tbody = document.getElementById('tbody-telecom'); tbody.innerHTML = "";
+            const tbody = document.getElementById('tbody-telecom'); 
+            tbody.innerHTML = "";
             let totalTelecom = 0;
-            records.forEach((rec, idx) => {
-                totalTelecom += rec.amount;
-                let folderLinkHtml = `<span style="color:#64748b; font-style:italic;">Không có</span>`;
-                if (rec.files && rec.files.length > 0) {
-                    let folderUrl = rec.folderUrl || "https://drive.google.com";
-                    folderLinkHtml = `<a href="${folderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục (${rec.files.length})</a>`;
-                }
-                tbody.innerHTML += `<tr>
-                    <td class="text-center font-bold">${idx + 1}</td>
-                    <td>${rec.location}</td>
-                    <td><b>${rec.provider}</b></td>
-                    <td>${rec.bandwidth}</td>
-                    <td class="text-center font-bold">${rec.cid}</td>
-                    <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(rec.amount)} VND</td>
-                    <td class="text-center">${rec.period}</td>
-                    <td>${folderLinkHtml}</td>
-                    <td class="text-center">
-                        <button type="button" class="btn-edit" onclick="editTelecomRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button type="button" class="btn-delete" onclick="deleteTelecomRecord(${idx})"><i class="fa-solid fa-trash"></i></button>
-                    </td>
-                </tr>`;
+            let globalIndex = 1;
+
+            // Quét toàn bộ kho lưu trữ cước viễn thông, lọc theo NĂM đang chọn
+            Object.keys(telecomRecordsByMonth || {}).forEach(sm => {
+                let records = telecomRecordsByMonth[sm] || [];
+                records.forEach((rec, actualIdx) => {
+                    let period = rec.period || "";
+                    let matchYear = period.match(/\/(\d{4})/);
+                    let recYear = matchYear ? matchYear[1] : sm.split('-')[0];
+
+                    if (recYear === CURRENT_SELECTED_YEAR) {
+                        totalTelecom += rec.amount;
+                        let folderLinkHtml = `<span style="color:#64748b; font-style:italic;">Không có</span>`;
+                        if (rec.files && rec.files.length > 0) {
+                            let folderUrl = rec.folderUrl || "https://drive.google.com";
+                            folderLinkHtml = `<a href="${folderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục (${rec.files.length})</a>`;
+                        }
+                        tbody.innerHTML += `<tr>
+                            <td class="text-center font-bold">${globalIndex++}</td>
+                            <td>${rec.location}</td>
+                            <td><b>${rec.provider}</b></td>
+                            <td>${rec.bandwidth}</td>
+                            <td class="text-center font-bold">${rec.cid}</td>
+                            <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(rec.amount)} VND</td>
+                            <td class="text-center">${rec.period}</td>
+                            <td>${folderLinkHtml}</td>
+                            <td class="text-center">
+                                <button type="button" class="btn-edit" onclick="editTelecomRecord('${sm}', ${actualIdx})"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button type="button" class="btn-delete" onclick="deleteTelecomRecord('${sm}', ${actualIdx})"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>`;
+                    }
+                });
             });
+
             document.getElementById('tele-total-sum').innerText = `Tổng cước: ${formatCurrencyVN(totalTelecom)} VND`;
             updateGlobalDashboardSummary();
         }
-        function deleteTelecomRecord(idx) { let sm = document.getElementById('filter-month').value; telecomRecordsByMonth[sm].splice(idx, 1); localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth)); renderTelecomTable(); }
+
+        function deleteTelecomRecord(sm, actualIdx) { 
+            if (confirm('Xóa bản ghi cước viễn thông này?')) {
+                telecomRecordsByMonth[sm].splice(actualIdx, 1); 
+                localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth)); 
+                renderTelecomTable(); 
+            }
+        }
 
         function generateNewItCode() {
             let typeVal = document.getElementById('it-type').value;
@@ -1780,7 +1817,7 @@
         }
 
         function getStructuredQrText(code, type, user, dept, os, office, software) {
-            let cleanCode = code || "IT-TS-2026";
+            let cleanCode = code || `IT-TS-${CURRENT_SELECTED_YEAR}`;
             let cleanType = removeVietnameseAccents(type || "Thiet bi");
             let cleanUser = removeVietnameseAccents(user || "Chua ro");
             let cleanDept = removeVietnameseAccents(dept || "Chua ro");
@@ -1794,7 +1831,7 @@
         function updateLiveQRPreview() {
             let user = document.getElementById('it-user').value.trim();
             let dept = document.getElementById('it-dept').value.trim();
-            let code = document.getElementById('it-code').value.trim() || "IT-LAP-2026-000";
+            let code = document.getElementById('it-code').value.trim() || `IT-LAP-${CURRENT_SELECTED_YEAR}-000`;
             let type = document.getElementById('it-type').value;
             let os = document.getElementById('it-os').value;
             let office = document.getElementById('it-office').value;
