@@ -201,7 +201,7 @@
                 <div class="live-clock-box" id="live-system-clock">--:--:-- --/--/----</div>
             </div>
 
-            <!-- 5 THẺ THỐNG KÊ DASHBOARD -->
+            <!-- 5 THẺ THỐNG KÊ DASHBOARD (TỰ ĐỘNG TỔNG KẾT THEO NĂM) -->
             <div class="stat-grid">
                 <div class="stat-card">
                     <div class="stat-info">
@@ -1167,12 +1167,97 @@
             calculatePayLineTotal();
         }
 
+        function updateGlobalDashboardSummary() {
+            let totalNetYear = 0;
+            let totalAdvanceYear = 0;
+            let totalPaidYear = 0;
+            let totalTelecomYear = 0;
+
+            // 1. Tổng kết lương và tạm ứng theo năm chọn
+            Object.keys(salaryDataByMonth || {}).forEach(sm => {
+                let parts = sm.split('-');
+                let yr = parts[0] || "";
+                if (yr === CURRENT_SELECTED_YEAR) {
+                    let staffList = salaryDataByMonth[sm] || [];
+                    let cfg = salaryConfigsByMonth[sm] || {};
+                    let vungReg = cfg.vung || 4140000;
+                    let baseReg = cfg.base || 2650000;
+                    let lcvReg = cfg.lcv || 1991139;
+
+                    staffList.forEach(row => {
+                        let val_NT = row.NT !== undefined ? parseFloat(row.NT) : 20;
+                        let val_P = row.P !== undefined ? parseFloat(row.P) : 0;
+                        let val_LE = row.le_vr !== undefined ? parseFloat(row.le_vr) : 1;
+                        let val_hsHtcv = row.hs_htcv !== undefined ? parseFloat(row.hs_htcv) : 1.0;
+                        let tongHeSoLCB = parseFloat(row.lcb_heso || 0) + parseFloat(row.lcb_phucap || 0);
+
+                        let luong_ky_hdld = Math.round(tongHeSoLCB * vungReg);
+                        let luong_co_ban = Math.round(tongHeSoLCB * baseReg);
+                        let l_thoigian = Math.round((luong_co_ban / 22) * val_NT); 
+                        let le_phep_tt = Math.round((luong_ky_hdld / 22) * (val_P + val_LE));
+                        let l_tong_cb = l_thoigian + le_phep_tt; 
+                        let bh = Math.round(luong_ky_hdld * 0.105);
+                        let thuc_linh_cb = l_tong_cb - bh;
+                        
+                        let luong_cong_viec = Math.round((parseFloat(row.he_so_lcv || 0) + parseFloat(row.phu_cap_lcv || 0)) * lcvReg * val_hsHtcv);
+                        let lcv_thucte = Math.round((luong_cong_viec / 22) * val_NT); 
+                        let tamUngVal = row.tam_ung !== undefined ? parseCurrencyVN(row.tam_ung) : 0;
+                        let pcttVal = row.pctt !== undefined ? parseCurrencyVN(row.pctt) : 0;
+                        let truUngVal = row.tru_ung !== undefined ? parseCurrencyVN(row.tru_ung) : 0;
+
+                        let thuc_linh_lcv = lcv_thucte - tamUngVal - pcttVal - truUngVal;
+                        let thuc_linh_tong = thuc_linh_cb + thuc_linh_lcv;
+
+                        totalNetYear += thuc_linh_tong;
+                        totalAdvanceYear += tamUngVal;
+                    });
+                }
+            });
+
+            // 2. Tổng kết hồ sơ thanh toán theo năm chọn
+            Object.keys(paymentRecordsByMonth || {}).forEach(sm => {
+                let records = paymentRecordsByMonth[sm] || [];
+                records.forEach(rec => {
+                    let dateTime = rec.payDateTime || "";
+                    let dParts = dateTime.split('/');
+                    let recYear = dParts.length === 3 ? dParts[2] : sm.split('-')[0];
+                    if (recYear === CURRENT_SELECTED_YEAR) {
+                        totalPaidYear += rec.amount || 0;
+                    }
+                });
+            });
+
+            // 3. Tổng kết cước viễn thông theo năm chọn
+            Object.keys(telecomRecordsByMonth || {}).forEach(sm => {
+                let records = telecomRecordsByMonth[sm] || [];
+                records.forEach(rec => {
+                    let period = rec.period || "";
+                    let matchYear = period.match(/\/(\d{4})/);
+                    let recYear = matchYear ? matchYear[1] : sm.split('-')[0];
+                    if (recYear === CURRENT_SELECTED_YEAR) {
+                        totalTelecomYear += rec.amount || 0;
+                    }
+                });
+            });
+
+            // 4. Tổng số máy CNTT trong năm chọn
+            let itCountYear = (itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || []).length;
+
+            // Đổ dữ liệu ra 5 thẻ Dashboard
+            document.getElementById('dash-total-pay').innerText = formatCurrencyVN(totalNetYear) + " VND";
+            document.getElementById('dash-paid-pay').innerText = formatCurrencyVN(totalPaidYear) + " VND";
+            document.getElementById('dash-total-advance').innerText = formatCurrencyVN(totalAdvanceYear) + " VND";
+            document.getElementById('dash-pending-pay').innerText = formatCurrencyVN(totalTelecomYear) + " VND";
+            document.getElementById('dash-total-it-devices').innerText = `${itCountYear} Thiết bị`;
+        }
+
         function handleGlobalYearChange() {
             CURRENT_SELECTED_YEAR = document.getElementById('global-year-picker').value;
             document.querySelectorAll('.lbl-current-year').forEach(el => el.innerText = CURRENT_SELECTED_YEAR);
             document.getElementById('filter-month').value = `${CURRENT_SELECTED_YEAR}-07`;
             handleMonthChangeSelect();
             renderItAssetTable();
+            updateGlobalDashboardSummary();
         }
 
         function restoreDefaultStaffs() {
@@ -1312,12 +1397,12 @@
             });
 
             localStorage.setItem('sys_salary_by_month', JSON.stringify(salaryDataByMonth));
-            document.getElementById('dash-total-pay').innerText = formatCurrencyVN(T_net) + " VND";
-            document.getElementById('dash-total-advance').innerText = formatCurrencyVN(T_tam_ung) + " VND";
             document.getElementById('v-total-lcb').innerText = formatCurrencyVN(T_thuc_linh_cb) + " VND";
             document.getElementById('v-total-lcv-text').innerText = formatCurrencyVN(T_thuc_linh_lcv) + " VND";
             document.getElementById('v-total-anca').innerText = formatCurrencyVN(T_anca) + " VND";
             document.getElementById('v-total-thuc').innerText = formatCurrencyVN(T_net) + " VND";
+            
+            updateGlobalDashboardSummary();
         }
 
         function updateSalaryRowValue(index, field, val) {
@@ -1520,7 +1605,7 @@
                 </tr>`;
             });
             document.getElementById('pay-total-sum').innerText = `Tổng: ${formatCurrencyVN(totalSum)} VND`;
-            document.getElementById('dash-paid-pay').innerText = formatCurrencyVN(totalSum) + " VND";
+            updateGlobalDashboardSummary();
         }
         function deletePaymentRecord(idx) { let sm = document.getElementById('filter-month').value; paymentRecordsByMonth[sm].splice(idx, 1); localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth)); renderPaymentTable(); }
 
@@ -1670,7 +1755,7 @@
                 </tr>`;
             });
             document.getElementById('tele-total-sum').innerText = `Tổng cước: ${formatCurrencyVN(totalTelecom)} VND`;
-            document.getElementById('dash-pending-pay').innerText = formatCurrencyVN(totalTelecom) + " VND";
+            updateGlobalDashboardSummary();
         }
         function deleteTelecomRecord(idx) { let sm = document.getElementById('filter-month').value; telecomRecordsByMonth[sm].splice(idx, 1); localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth)); renderTelecomTable(); }
 
@@ -1687,7 +1772,6 @@
             updateLiveQRPreview();
         }
 
-        // HÀM CHUYỂN ĐỔI TIẾNG VIỆT KHÔNG DẤU (ĐỂ QUÉT ZALO HIỂN THỊ THẲNG VĂN BẢN KHÔNG LỖI)
         function removeVietnameseAccents(str) {
             if (!str) return "";
             return str.normalize('NFD')
@@ -1910,21 +1994,18 @@
                 if(r.office) officeSet.add(r.office); 
             });
 
-            // Department dropdown
             let deptSel = document.getElementById('filter-dept-select');
             let curDept = deptSel.value;
             let deptHtml = `<option value="ALL">-- Tất cả --</option>`;
             deptSet.forEach(d => { deptHtml += `<option value="${d}" ${curDept === d ? 'selected' : ''}>${d}</option>`; });
             deptSel.innerHTML = deptHtml;
 
-            // OS dropdown
             let osSel = document.getElementById('filter-os-select');
             let curOs = osSel.value;
             let osHtml = `<option value="ALL">-- Tất cả HĐH --</option>`;
             osSet.forEach(o => { osHtml += `<option value="${o}" ${curOs === o ? 'selected' : ''}>${o}</option>`; });
             osSel.innerHTML = osHtml;
 
-            // Office dropdown
             let officeSel = document.getElementById('filter-office-select');
             let curOffice = officeSel.value;
             let officeHtml = `<option value="ALL">-- Tất cả Office --</option>`;
@@ -1991,7 +2072,7 @@
             }, 50);
 
             document.getElementById('it-total-count').innerText = `Tổng: ${filteredRecords.length} Thiết bị`;
-            document.getElementById('dash-total-it-devices').innerText = `${records.length} Thiết bị`;
+            updateGlobalDashboardSummary();
         }
 
         function deleteItAssetRecord(idx) {
@@ -2015,7 +2096,6 @@
             renderItAssetTable();
         }
 
-        /* --- XUẤT BÁO CÁO WORD THEO PHÒNG BAN & LỌC --- */
         function exportItAssetWordReport() {
             let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
             let filterDept = document.getElementById('filter-dept-select').value;
@@ -2126,7 +2206,6 @@
             saveAs(blob, fileName);
         }
 
-        /* --- THUẬT TOÁN ÂM LỊCH CHUẨN XÁC --- */
         const PI = Math.PI;
         function INT(d) { return Math.floor(d); }
         function jdFromDate(dd, mm, yy) {
@@ -2412,6 +2491,7 @@
                     renderPaymentTable();
                     renderTelecomTable();
                     renderItAssetTable();
+                    updateGlobalDashboardSummary();
 
                     notifyBox.innerText = "🎉 Tải dữ liệu thành công!";
                     setTimeout(() => { notifyBox.style.display = "none"; }, 4000);
