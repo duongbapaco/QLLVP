@@ -89,10 +89,6 @@
         .main-table td { padding: 6px; border: 1px solid #64748b; vertical-align: middle; font-weight: 600; }
         .main-table tbody tr:nth-child(even) { background-color: #f8fafc; }
         
-        .text-right { text-align: right; }
-        .text-center { text-align: center; }
-        .font-bold { font-weight: bold; }
-
         .badge { padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; }
         .badge-danger { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
         .badge-warning { background: #fef9c3; color: #854d0e; border: 1px solid #fde047; }
@@ -125,7 +121,7 @@
         <div style="display:flex; align-items:center; gap:8px; flex-wrap: wrap;">
             <div>
                 <span class="status-dot"></span>
-                <span id="sys-status-text">Đã đồng bộ cơ sở dữ liệu doanh nghiệp Tổng công ty Giấy Việt Nam</span>
+                <span id="sys-status-text">Đã kết nối cơ sở dữ liệu doanh nghiệp Tổng công ty Giấy Việt Nam</span>
             </div>
             <div class="year-selector-box">
                 <i class="fa-solid fa-calendar-check"></i>
@@ -154,48 +150,30 @@
                 <div class="live-clock-box" id="live-system-clock">--:--:-- --/--/----</div>
             </div>
 
-            <!-- 6 THẺ THỐNG KÊ TỔNG QUAN -->
+            <!-- THẺ THỐNG KÊ TỔNG QUAN -->
             <div class="stat-grid">
                 <div class="stat-card">
-                    <div class="stat-info">
-                        <span class="stat-title">TỔNG NHÂN SỰ</span>
-                        <span class="stat-value" id="stat-total-emp" style="color:var(--blue);">0 CBNV</span>
-                    </div>
+                    <div class="stat-info"><span class="stat-title">TỔNG NHÂN SỰ</span><span class="stat-value" id="stat-total-emp" style="color:var(--blue);">0 CBNV</span></div>
                     <i class="fa-solid fa-users stat-icon" style="color:var(--blue);"></i>
                 </div>
                 <div class="stat-card green">
-                    <div class="stat-info">
-                        <span class="stat-title">LĐ NAM / NỮ</span>
-                        <span class="stat-value" id="stat-gender-ratio" style="color:var(--green);">0 / 0</span>
-                    </div>
+                    <div class="stat-info"><span class="stat-title">LĐ NAM / NỮ</span><span class="stat-value" id="stat-gender-ratio" style="color:var(--green);">0 / 0</span></div>
                     <i class="fa-solid fa-venus-mars stat-icon" style="color:var(--green);"></i>
                 </div>
                 <div class="stat-card orange">
-                    <div class="stat-info">
-                        <span class="stat-title">NGHỈ HƯU (2026-30)</span>
-                        <span class="stat-value" id="stat-retire-soon" style="color:var(--orange);">0 Người</span>
-                    </div>
+                    <div class="stat-info"><span class="stat-title">NGHỈ HƯU (2026-30)</span><span class="stat-value" id="stat-retire-soon" style="color:var(--orange);">0 Người</span></div>
                     <i class="fa-solid fa-person-walking-with-cane stat-icon" style="color:var(--orange);"></i>
                 </div>
                 <div class="stat-card red">
-                    <div class="stat-info">
-                        <span class="stat-title">LĐ ĐỘC HẠI (NNĐH)</span>
-                        <span class="stat-value" id="stat-toxic-emp" style="color:var(--red);">0 Người</span>
-                    </div>
+                    <div class="stat-info"><span class="stat-title">LĐ ĐỘC HẠI (NNĐH)</span><span class="stat-value" id="stat-toxic-emp" style="color:var(--red);">0 Người</span></div>
                     <i class="fa-solid fa-triangle-exclamation stat-icon" style="color:var(--red);"></i>
                 </div>
                 <div class="stat-card purple">
-                    <div class="stat-info">
-                        <span class="stat-title">AN TOÀN VIÊN</span>
-                        <span class="stat-value" id="stat-safety-emp" style="color:var(--purple);">0 Người</span>
-                    </div>
+                    <div class="stat-info"><span class="stat-title">AN TOÀN VIÊN</span><span class="stat-value" id="stat-safety-emp" style="color:var(--purple);">0 Người</span></div>
                     <i class="fa-solid fa-shield-halved stat-icon" style="color:var(--purple);"></i>
                 </div>
                 <div class="stat-card teal">
-                    <div class="stat-info">
-                        <span class="stat-title">TUỔI TRUNG BÌNH</span>
-                        <span class="stat-value" id="stat-avg-age" style="color:#0d9488;">0 Tuổi</span>
-                    </div>
+                    <div class="stat-info"><span class="stat-title">TUỔI TRUNG BÌNH</span><span class="stat-value" id="stat-avg-age" style="color:#0d9488;">0 Tuổi</span></div>
                     <i class="fa-solid fa-cake-candles stat-icon" style="color:#0d9488;"></i>
                 </div>
             </div>
@@ -212,70 +190,39 @@
                 <button type="button" class="nav-tab" data-tab="it" onclick="switchMainTab('it')"><i class="fa-solid fa-laptop"></i> Thiết Bị Công Nghệ</button>
             </div>
 
-            <!-- TAB 1: TỔNG QUAN & BIẾN ĐỘNG NHÂN SỰ -->
+            <!-- TAB 1: TỔNG QUAN -->
             <div id="tab-overview" class="tab-content active">
                 <div class="main-card">
                     <div class="card-title">
                         <span><i class="fa-solid fa-chart-column"></i> PHÂN TÍCH BIẾN ĐỘNG & CƠ CẤU NHÂN SỰ VINAPACO</span>
-                        <button type="button" class="btn btn-primary" style="padding:6px 12px; font-size:12px;" onclick="exportHrAnalyticsReport()"><i class="fa-solid fa-file-word"></i> Xuất Báo Cáo Nhân Sự Word</button>
+                        <button type="button" class="btn btn-primary" style="padding:6px 12px; font-size:12px;" onclick="exportHrAnalyticsReport()"><i class="fa-solid fa-file-word"></i> Xuất Báo Cáo Word</button>
                     </div>
-
                     <div class="analytics-grid">
-                        <div class="chart-box">
-                            <div style="font-weight: bold; margin-bottom: 6px; color: var(--primary);">Tỷ Lệ Giới Tính Nam / Nữ</div>
-                            <canvas id="chartGender"></canvas>
-                        </div>
-                        <div class="chart-box">
-                            <div style="font-weight: bold; margin-bottom: 6px; color: var(--primary);">Dự Báo Số Lượng Nghỉ Hưu Theo Năm</div>
-                            <canvas id="chartRetire"></canvas>
-                        </div>
+                        <div class="chart-box"><div style="font-weight:bold; margin-bottom:6px;">Tỷ Lệ Giới Tính Nam / Nữ</div><canvas id="chartGender"></canvas></div>
+                        <div class="chart-box"><div style="font-weight:bold; margin-bottom:6px;">Dự Báo Số Lượng Nghỉ Hưu Theo Năm</div><canvas id="chartRetire"></canvas></div>
                     </div>
-
                     <div class="analytics-grid">
-                        <div class="chart-box">
-                            <div style="font-weight: bold; margin-bottom: 6px; color: var(--primary);">Cơ Cấu LĐ Độc Hại & An Toàn Viên</div>
-                            <canvas id="chartSafetyToxic"></canvas>
-                        </div>
-                        <div class="chart-box">
-                            <div style="font-weight: bold; margin-bottom: 6px; color: var(--primary);">Phân Bố Độ Tuổi Lao Động</div>
-                            <canvas id="chartAgeGroup"></canvas>
-                        </div>
+                        <div class="chart-box"><div style="font-weight:bold; margin-bottom:6px;">Cơ Cấu LĐ Độc Hại & An Toàn Viên</div><canvas id="chartSafetyToxic"></canvas></div>
+                        <div class="chart-box"><div style="font-weight:bold; margin-bottom:6px;">Phân Bố Độ Tuổi Lao Động</div><canvas id="chartAgeGroup"></canvas></div>
                     </div>
                 </div>
             </div>
 
-            <!-- TAB 2: DANH SÁCH CBNV & CHI TIẾT -->
+            <!-- TAB 2: DANH SÁCH CBNV -->
             <div id="tab-directory" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--blue);">
-                        <span><i class="fa-solid fa-users-rectangle"></i> DANH SÁCH TOÀN BỘ CÁN BỘ NHÂN VIÊN (<span class="lbl-current-year">2026</span>)</span>
+                        <span><i class="fa-solid fa-users-rectangle"></i> DANH SÁCH TOÀN BỘ CÁN BỘ NHÂN VIÊN</span>
                         <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                            <input type="text" id="search-emp-input" placeholder="🔍 Tìm kiếm họ tên, CCCD, sổ BHXH..." oninput="renderEmployeeDirectory()" style="padding:6px 10px; font-size:12px; border:1.5px solid #cbd5e1; border-radius:4px; width:220px;">
-                            <select id="filter-emp-dept" onchange="renderEmployeeDirectory()" style="padding:6px 10px; font-size:12px; border:1.5px solid #cbd5e1; border-radius:4px;">
-                                <option value="ALL">-- Tất cả đơn vị --</option>
-                            </select>
+                            <input type="text" id="search-emp-input" placeholder="🔍 Tìm kiếm họ tên, CCCD, BHXH..." oninput="renderEmployeeDirectory()" style="padding:6px 10px; font-size:12px; border:1.5px solid #cbd5e1; border-radius:4px; width:200px;">
+                            <select id="filter-emp-dept" onchange="renderEmployeeDirectory()" style="padding:6px 10px; font-size:12px; border:1.5px solid #cbd5e1; border-radius:4px;"><option value="ALL">-- Tất cả đơn vị --</option></select>
                             <button type="button" class="btn btn-primary" style="padding:6px 10px; font-size:12px;" onclick="openAddEmpModal()"><i class="fa-solid fa-user-plus"></i> Thêm CBNV</button>
                         </div>
                     </div>
-
                     <div class="table-responsive">
                         <table class="main-table">
                             <thead>
-                                <tr style="background-color: #cbd5e1;">
-                                    <th>STT</th>
-                                    <th>Họ và Tên</th>
-                                    <th>Giới tính</th>
-                                    <th>Năm sinh</th>
-                                    <th>Tuổi</th>
-                                    <th>Số sổ BHXH</th>
-                                    <th>Số CCCD</th>
-                                    <th>Mã Đơn Vị</th>
-                                    <th>An Toàn Viên</th>
-                                    <th>Độc Hại (NNĐH)</th>
-                                    <th>Dự Kiến Nghỉ Hưu</th>
-                                    <th>Chức danh & Công việc</th>
-                                    <th style="text-align: center;">Thao tác</th>
-                                </tr>
+                                <tr><th>STT</th><th>Họ và Tên</th><th>Giới tính</th><th>Năm sinh</th><th>Tuổi</th><th>Số sổ BHXH</th><th>Số CCCD</th><th>Đơn vị</th><th>An Toàn Viên</th><th>Độc Hại</th><th>Năm nghỉ hưu</th><th>Chức danh</th><th style="text-align:center;">Thao tác</th></tr>
                             </thead>
                             <tbody id="tbody-employee-directory"></tbody>
                         </table>
@@ -287,24 +234,13 @@
             <div id="tab-retire" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--orange);">
-                        <span><i class="fa-solid fa-person-walking-arrow-right"></i> DỰ BÁO BIẾN ĐỘNG NHÂN SỰ NGHỈ HƯU GIAI ĐOẠN 2026 - 2035</span>
-                        <button type="button" class="btn btn-orange" style="padding:6px 10px; font-size:12px;" onclick="exportRetireReportWord()"><i class="fa-solid fa-file-word"></i> Xuất Báo Cáo Nghỉ Hưu</button>
+                        <span><i class="fa-solid fa-person-walking-arrow-right"></i> DỰ BÁO BIẾN ĐỘNG NGHỈ HƯU GIAI ĐOẠN 2026 - 2035</span>
+                        <button type="button" class="btn btn-orange" style="padding:6px 10px; font-size:12px;" onclick="exportRetireReportWord()"><i class="fa-solid fa-file-word"></i> Xuất Báo Cáo</button>
                     </div>
-
                     <div class="table-responsive">
                         <table class="main-table">
                             <thead>
-                                <tr style="background-color: #cbd5e1;">
-                                    <th>STT</th>
-                                    <th>Họ và Tên</th>
-                                    <th>Giới tính</th>
-                                    <th>Năm sinh</th>
-                                    <th>Năm/Tháng nghỉ hưu</th>
-                                    <th>Số năm còn lại</th>
-                                    <th>Mã Đơn Vị</th>
-                                    <th>Chức danh công việc</th>
-                                    <th>Trạng thái dự báo</th>
-                                </tr>
+                                <tr><th>STT</th><th>Họ và Tên</th><th>Giới tính</th><th>Năm sinh</th><th>Năm nghỉ hưu</th><th>Số năm còn lại</th><th>Đơn vị</th><th>Chức danh</th><th>Trạng thái</th></tr>
                             </thead>
                             <tbody id="tbody-retire-forecast"></tbody>
                         </table>
@@ -316,39 +252,16 @@
             <div id="tab-leave" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--green);">
-                        <span><i class="fa-solid fa-calendar-days"></i> QUẢN LÝ CÔNG PHÉP KHỐI GIÁN TIẾP (LUẬT LAO ĐỘNG MỚI + ĐỘC HẠI + AN TOÀN VIÊN)</span>
-                        <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                            <button type="button" class="btn btn-teal" style="padding:6px 10px; font-size:12px;" onclick="openAddLeaveModal()"><i class="fa-solid fa-plus"></i> Đăng Ký Nghỉ Phép</button>
-                            <button type="button" class="btn btn-green" style="padding:6px 10px; font-size:12px;" onclick="exportLeaveTableExcel()"><i class="fa-solid fa-file-excel"></i> Xuất Excel Công Phép</button>
+                        <span><i class="fa-solid fa-calendar-days"></i> QUẢN LÝ CÔNG PHÉP KHỐI GIÁN TIẾP</span>
+                        <div style="display:flex; gap:6px;">
+                            <button type="button" class="btn btn-teal" style="padding:6px 10px; font-size:12px;" onclick="openAddLeaveModal()"><i class="fa-solid fa-plus"></i> Đăng Ký Nghỉ</button>
+                            <button type="button" class="btn btn-green" style="padding:6px 10px; font-size:12px;" onclick="exportLeaveTableExcel()"><i class="fa-solid fa-file-excel"></i> Xuất Excel</button>
                         </div>
                     </div>
-
-                    <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
-                        <div style="font-weight: bold; color: #166534; font-size: 13px; margin-bottom: 6px;">
-                            ℹ️ HƯỚNG DẪN TÍNH SỐ NGÀY PHÉP NĂM THEO LUẬT LAO ĐỘNG & CHÍNH SÁCH VINAPACO:
-                        </div>
-                        <ul style="margin-left: 20px; font-size: 12.5px; color: #14532d; line-height: 1.4;">
-                            <li><b>Lao động làm việc trong điều kiện bình thường:</b> 12 ngày phép/năm (thâm niên cứ đủ 5 năm được cộng thêm 1 ngày phép).</li>
-                            <li><b>Lao động làm nghề, công việc nặng nhọc, độc hại, nguy hiểm (NNĐH):</b> 14 - 16 ngày phép/năm tùy bậc độc hại.</li>
-                            <li><b>An toàn viên / Cán bộ chuyên trách:</b> Được hỗ trợ thêm ngày phép phục vụ công tác kiểm tra an toàn định kỳ.</li>
-                        </ul>
-                    </div>
-
                     <div class="table-responsive">
                         <table class="main-table">
                             <thead>
-                                <tr style="background-color: #cbd5e1;">
-                                    <th>STT</th>
-                                    <th>Họ và Tên (Khối Gián Tiếp)</th>
-                                    <th>Đơn vị / Phòng ban</th>
-                                    <th>Điều kiện (Độc hại / ATV)</th>
-                                    <th>Số phép năm chuẩn</th>
-                                    <th>Phép thâm niên</th>
-                                    <th>Tổng phép được hưởng</th>
-                                    <th>Đã nghỉ</th>
-                                    <th>Còn lại</th>
-                                    <th style="text-align: center;">Thao tác</th>
-                                </tr>
+                                <tr><th>STT</th><th>Họ và Tên</th><th>Đơn vị</th><th>Điều kiện</th><th>Phép chuẩn</th><th>Thâm niên</th><th>Tổng phép</th><th>Đã nghỉ</th><th>Còn lại</th><th style="text-align:center;">Thao tác</th></tr>
                             </thead>
                             <tbody id="tbody-leave-management"></tbody>
                         </table>
@@ -361,27 +274,17 @@
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--purple);">
                         <span><i class="fa-solid fa-money-check-dollar"></i> BẢNG TÍNH LƯƠNG & THU NHẬP CBNV</span>
-                        <button type="button" class="btn btn-purple" style="padding:6px 10px; font-size:12px;" onclick="alert('Đã xuất bảng lương thành công!')"><i class="fa-solid fa-file-excel"></i> Xuất Bảng Lương</button>
+                        <div style="display:flex; gap:6px;">
+                            <button type="button" class="btn btn-purple" style="padding:6px 10px; font-size:12px;" onclick="openAddSalaryModal()"><i class="fa-solid fa-plus"></i> Thêm Lương</button>
+                            <button type="button" class="btn btn-green" style="padding:6px 10px; font-size:12px;" onclick="alert('Đã xuất bảng lương thành công!')"><i class="fa-solid fa-file-excel"></i> Xuất Excel</button>
+                        </div>
                     </div>
                     <div class="table-responsive">
                         <table class="main-table">
                             <thead>
-                                <tr style="background-color: #cbd5e1;">
-                                    <th>STT</th>
-                                    <th>Họ và Tên</th>
-                                    <th>Đơn vị</th>
-                                    <th>Lương cơ bản</th>
-                                    <th>Hệ số lương</th>
-                                    <th>Phụ cấp độc hại</th>
-                                    <th>Lương thực lĩnh</th>
-                                    <th style="text-align: center;">Trạng thái</th>
-                                </tr>
+                                <tr><th>STT</th><th>Họ và Tên</th><th>Đơn vị</th><th>Lương cơ bản</th><th>Hệ số</th><th>Phụ cấp độc hại</th><th>Thực lĩnh</th><th style="text-align:center;">Thao tác</th></tr>
                             </thead>
-                            <tbody id="tbody-salary-mgmt">
-                                <tr><td class="text-center font-bold">1</td><td class="font-bold">TẠ ĐỨC LONG</td><td class="text-center">01</td><td>12,500,000 đ</td><td class="text-center">5.42</td><td>0 đ</td><td class="font-bold" style="color:var(--green);">18,200,000 đ</td><td class="text-center"><span class="badge badge-success">Đã duyệt</span></td></tr>
-                                <tr><td class="text-center font-bold">2</td><td class="font-bold">NGUYỄN VĂN AN</td><td class="text-center">11.1</td><td>8,500,000 đ</td><td class="text-center">3.66</td><td>750,000 đ</td><td class="font-bold" style="color:var(--green);">12,450,000 đ</td><td class="text-center"><span class="badge badge-success">Đã duyệt</span></td></tr>
-                                <tr><td class="text-center font-bold">3</td><td class="font-bold">TRẦN THỊ THANH</td><td class="text-center">10</td><td>7,800,000 đ</td><td class="text-center">3.33</td><td>0 đ</td><td class="font-bold" style="color:var(--green);">10,800,000 đ</td><td class="text-center"><span class="badge badge-success">Đã duyệt</span></td></tr>
-                            </tbody>
+                            <tbody id="tbody-salary-mgmt"></tbody>
                         </table>
                     </div>
                 </div>
@@ -392,25 +295,14 @@
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--blue);">
                         <span><i class="fa-solid fa-file-invoice-dollar"></i> HỒ SƠ QUẢN LÝ THANH TOÁN & TÀI CHÍNH</span>
-                        <button type="button" class="btn btn-primary" style="padding:6px 10px; font-size:12px;" onclick="alert('Đã tạo hồ sơ thanh toán mới!')"><i class="fa-solid fa-plus"></i> Lập Hồ Sơ</button>
+                        <button type="button" class="btn btn-primary" style="padding:6px 10px; font-size:12px;" onclick="openAddPaymentModal()"><i class="fa-solid fa-plus"></i> Lập Hồ Sơ</button>
                     </div>
                     <div class="table-responsive">
                         <table class="main-table">
                             <thead>
-                                <tr style="background-color: #cbd5e1;">
-                                    <th>STT</th>
-                                    <th>Mã chứng từ</th>
-                                    <th>Nội dung thanh toán</th>
-                                    <th>Bộ phận đề xuất</th>
-                                    <th>Số tiền đề nghị</th>
-                                    <th>Ngày lập</th>
-                                    <th style="text-align: center;">Trạng thái</th>
-                                </tr>
+                                <tr><th>STT</th><th>Mã chứng từ</th><th>Nội dung thanh toán</th><th>Bộ phận</th><th>Số tiền</th><th>Ngày lập</th><th>Trạng thái</th><th style="text-align:center;">Thao tác</th></tr>
                             </thead>
-                            <tbody>
-                                <tr><td class="text-center font-bold">1</td><td class="font-bold">PT-2026-081</td><td>Thanh toán chi phí vật tư sửa chữa nhà máy giấy</td><td class="text-center">Phân Xưởng Cơ Khí</td><td class="font-bold" style="color:var(--blue);">45,200,000 đ</td><td class="text-center">20/07/2026</td><td class="text-center"><span class="badge badge-info">Chờ duyệt Kế toán trưởng</span></td></tr>
-                                <tr><td class="text-center font-bold">2</td><td class="font-bold">PT-2026-082</td><td>Mua sắm văn phòng phẩm quý 3/2026</td><td class="text-center">Phòng TCHC</td><td class="font-bold" style="color:var(--blue);">8,500,000 đ</td><td class="text-center">22/07/2026</td><td class="text-center"><span class="badge badge-success">Đã chi trả</span></td></tr>
-                            </tbody>
+                            <tbody id="tbody-payment-mgmt"></tbody>
                         </table>
                     </div>
                 </div>
@@ -421,26 +313,14 @@
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--orange);">
                         <span><i class="fa-solid fa-phone-volume"></i> QUẢN LÝ CƯỚC VIỄN THÔNG & THUÊ BAO</span>
-                        <button type="button" class="btn btn-orange" style="padding:6px 10px; font-size:12px;" onclick="alert('Đã cập nhật dữ liệu cước viễn thông!')"><i class="fa-solid fa-rotate"></i> Cập Nhật Cước</button>
+                        <button type="button" class="btn btn-orange" style="padding:6px 10px; font-size:12px;" onclick="openAddTelecomModal()"><i class="fa-solid fa-plus"></i> Thêm Thuê Bao</button>
                     </div>
                     <div class="table-responsive">
                         <table class="main-table">
                             <thead>
-                                <tr style="background-color: #cbd5e1;">
-                                    <th>STT</th>
-                                    <th>Họ và Tên CBNV</th>
-                                    <th>Số thuê bao</th>
-                                    <th>Đơn vị</th>
-                                    <th>Định mức cước</th>
-                                    <th>Cước phát sinh thực tế</th>
-                                    <th>Vượt định mức (Nộp lại)</th>
-                                </tr>
+                                <tr><th>STT</th><th>Họ và Tên</th><th>Số thuê bao</th><th>Đơn vị</th><th>Định mức</th><th>Thực tế</th><th>Vượt định mức</th><th style="text-align:center;">Thao tác</th></tr>
                             </thead>
-                            <tbody>
-                                <tr><td class="text-center font-bold">1</td><td class="font-bold">TẠ ĐỨC LONG (Tổng Giám đốc)</td><td class="text-center">0912xxxxxx</td><td class="text-center">Ban Tổng Giám đốc</td><td>500,000 đ</td><td>420,000 đ</td><td style="color:var(--green);">0 đ</td></tr>
-                                <tr><td class="text-center font-bold">2</td><td class="font-bold">NGUYỄN VĂN AN</td><td class="text-center">0983xxxxxx</td><td class="text-center">Phòng KCLT</td><td>300,000 đ</td><td>345,000 đ</td><td style="color:var(--red); font-weight:bold;">45,000 đ</td></tr>
-                                <tr><td class="text-center font-bold">3</td><td class="font-bold">VŨ THỊ THU</td><td class="text-center">0904xxxxxx</td><td class="text-center">Phòng TCHC</td><td>300,000 đ</td><td>280,000 đ</td><td style="color:var(--green);">0 đ</td></tr>
-                            </tbody>
+                            <tbody id="tbody-telecom-mgmt"></tbody>
                         </table>
                     </div>
                 </div>
@@ -451,54 +331,37 @@
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: #0d9488;">
                         <span><i class="fa-solid fa-laptop"></i> QUẢN LÝ THIẾT BỊ CNTT & MÃ QR TÀI SẢN</span>
-                        <button type="button" class="btn btn-teal" style="padding:6px 10px; font-size:12px;" onclick="alert('Đã tạo mã QR cho thiết bị thành công!')"><i class="fa-solid fa-qrcode"></i> Tạo Mã QR Thiết Bị</button>
+                        <button type="button" class="btn btn-teal" style="padding:6px 10px; font-size:12px;" onclick="openAddItModal()"><i class="fa-solid fa-plus"></i> Thêm Thiết Bị</button>
                     </div>
                     <div class="table-responsive">
                         <table class="main-table">
                             <thead>
-                                <tr style="background-color: #cbd5e1;">
-                                    <th>STT</th>
-                                    <th>Mã tài sản</th>
-                                    <th>Tên thiết bị / Cấu hình</th>
-                                    <th>Người sử dụng</th>
-                                    <th>Vị trí phòng ban</th>
-                                    <th>Tình trạng</th>
-                                    <th style="text-align:center;">Mã QR</th>
-                                </tr>
+                                <tr><th>STT</th><th>Mã tài sản</th><th>Tên thiết bị / Cấu hình</th><th>Người sử dụng</th><th>Vị trí</th><th>Tình trạng</th><th style="text-align:center;">Mã QR</th><th style="text-align:center;">Thao tác</th></tr>
                             </thead>
-                            <tbody>
-                                <tr><td class="text-center font-bold">1</td><td class="font-bold">IT-LAP-001</td><td>Dell Latitude 5430 (Core i7, 16GB, SSD 512GB)</td><td>TẠ ĐỨC LONG</td><td class="text-center">Phòng Tổng Giám đốc</td><td><span class="badge badge-success">Đang sử dụng tốt</span></td><td class="text-center"><i class="fa-solid fa-qrcode" style="font-size:20px; color:var(--blue);"></i></td></tr>
-                                <tr><td class="text-center font-bold">2</td><td class="font-bold">IT-PC-015</td><td>HP ProDesk 400 G7 (Core i5, 8GB, SSD 256GB)</td><td>TRẦN THỊ THANH</td><td class="text-center">Phòng Tài chính Kế toán</td><td><span class="badge badge-success">Đang sử dụng tốt</span></td><td class="text-center"><i class="fa-solid fa-qrcode" style="font-size:20px; color:var(--blue);"></i></td></tr>
-                                <tr><td class="text-center font-bold">3</td><td class="font-bold">IT-PRN-003</td><td>Máy in Canon LBP 2900</td><td>Văn phòng chung TCHC</td><td class="text-center">Phòng TCHC</td><td><span class="badge badge-warning">Cần đổ mực</span></td><td class="text-center"><i class="fa-solid fa-qrcode" style="font-size:20px; color:var(--blue);"></i></td></tr>
-                            </tbody>
+                            <tbody id="tbody-it-mgmt"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- LỊCH VẠN NIÊN THÔNG MINH (SIDEBAR) -->
+        <!-- LỊCH VẠN NIÊN SIDEBAR -->
         <div class="calendar-sidebar" id="calendar-sidebar-box">
             <div class="cal-smart-header">
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
                 <span id="cal-header-title">THÁNG 07 / 2026</span>
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
-
-            <div style="border: 3px solid #b91c1c; border-radius: 8px; background: white; overflow: hidden; box-shadow: 0 4px 12px rgba(185, 28, 28, 0.15); margin-bottom: 10px;">
-                <div style="background: linear-gradient(135deg, #dc2626, #991b1b); color: white; text-align: center; padding: 6px; font-weight: bold; font-size: 11.5px; text-transform: uppercase;" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
+            <div style="border: 3px solid #b91c1c; border-radius: 8px; background: white; overflow: hidden; margin-bottom: 10px;">
+                <div style="background: linear-gradient(135deg, #dc2626, #991b1b); color: white; text-align: center; padding: 6px; font-weight: bold; font-size: 11.5px; text-transform: uppercase;">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
                 <div style="text-align: center; padding: 8px; background: #fff;">
                     <div style="font-size:12px; color:#334155; font-weight:bold; text-transform:uppercase;" id="cal-selected-dow">Thứ Ba</div>
                     <div style="font-size:60px; font-weight:900; color:#dc2626; line-height:1; margin:3px 0;" id="cal-selected-day">28</div>
                     <div style="font-size:12px; font-weight:bold; color:#0f172a;" id="cal-selected-lunar-day">Ngày Đinh Mùi - Tháng Bính Thân</div>
                 </div>
             </div>
-
-            <div class="cal-grid-mini" style="background:#f1f5f9; border-radius:4px; padding:2px;">
-                <div style="color:#dc2626;">CN</div><div>T2</div><div>T3</div><div>T4</div><div>T5</div><div>T6</div><div>T7</div>
-            </div>
+            <div class="cal-grid-mini" style="background:#f1f5f9; border-radius:4px; padding:2px;"><div style="color:#dc2626;">CN</div><div>T2</div><div>T3</div><div>T4</div><div>T5</div><div>T6</div><div>T7</div></div>
             <div class="cal-grid-mini" id="cal-mini-days-container" style="margin-top:2px;"></div>
-            
             <div style="text-align: center; margin-top: 10px;">
                 <button type="button" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 12px; min-height: 38px;" onclick="resetCalendarToToday()"><i class="fa-solid fa-calendar-day"></i> Quay Về Hôm Nay</button>
             </div>
@@ -509,8 +372,7 @@
     <div id="importModal" class="modal" onclick="this.style.display='none'">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:500px;">
             <div class="card-title" style="border-left-color: var(--green); font-size: 14px;"><i class="fa-solid fa-file-excel"></i> NẠP DỮ LIỆU NHÂN SỰ TỪ FILE EXCEL</div>
-            <p style="font-size:12.5px; color:#475569; margin-bottom:10px;">Chọn file Excel danh sách nhân sự của đơn vị (.xlsx, .xls) để hệ thống tự động phân tích và cập nhật toàn bộ cơ sở dữ liệu:</p>
-            <input type="file" id="excel-file-input" accept=".xlsx, .xls" class="inp-table" style="margin-bottom:12px; background:#fff;">
+            <input type="file" id="excel-file-input" accept=".xlsx, .xls" style="margin-bottom:12px; background:#fff;">
             <div style="display:flex; justify-content:flex-end; gap:6px;">
                 <button type="button" class="btn btn-gray" onclick="document.getElementById('importModal').style.display='none'">Hủy</button>
                 <button type="button" class="btn btn-green" onclick="handleExcelFileUpload()"><i class="fa-solid fa-upload"></i> Tải Lên & Xử Lý</button>
@@ -518,127 +380,53 @@
         </div>
     </div>
 
-    <!-- MODAL THÊM / SỬA NHÂN VIÊN -->
+    <!-- MODAL NHÂN SỰ -->
     <div id="empModal" class="modal" onclick="closeEmpModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:650px;">
-            <div class="card-title" style="border-left-color: var(--blue); font-size: 14px;"><i class="fa-solid fa-user-gear"></i> <span id="emp-modal-title">THÊM / CẬP NHẬT CÁN BỘ NHÂN VIÊN</span></div>
+            <div class="card-title" style="border-left-color: var(--blue); font-size: 14px;"><i class="fa-solid fa-user-gear"></i> <span id="emp-modal-title">THÊM / CẬP NHẬT CBNV</span></div>
             <input type="hidden" id="edit-emp-index" value="-1">
             <div class="grid-form">
-                <div class="form-group">
-                    <label>Họ và tên <span style="color:var(--red);">*</span></label>
-                    <input type="text" id="modal-emp-name" placeholder="Họ tên đầy đủ...">
-                </div>
-                <div class="form-group">
-                    <label>Giới tính:</label>
-                    <select id="modal-emp-gender">
-                        <option value="Nam" selected>Nam</option>
-                        <option value="Nữ">Nữ</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Năm sinh:</label>
-                    <input type="date" id="modal-emp-dob" value="1980-01-01">
-                </div>
-                <div class="form-group">
-                    <label>Số sổ BHXH:</label>
-                    <input type="text" id="modal-emp-bhxh" placeholder="Số sổ BHXH...">
-                </div>
+                <div class="form-group"><label>Họ và tên *</label><input type="text" id="modal-emp-name"></div>
+                <div class="form-group"><label>Giới tính</label><select id="modal-emp-gender"><option value="Nam">Nam</option><option value="Nữ">Nữ</option></select></div>
+                <div class="form-group"><label>Năm sinh</label><input type="date" id="modal-emp-dob" value="1980-01-01"></div>
+                <div class="form-group"><label>Số sổ BHXH</label><input type="text" id="modal-emp-bhxh"></div>
             </div>
             <div class="grid-form">
-                <div class="form-group">
-                    <label>Số CCCD:</label>
-                    <input type="text" id="modal-emp-cccd" placeholder="Số CCCD...">
-                </div>
-                <div class="form-group">
-                    <label>Mã đơn vị:</label>
-                    <input type="text" id="modal-emp-dept" value="11.1" placeholder="Mã đơn vị...">
-                </div>
-                <div class="form-group">
-                    <label>An toàn viên:</label>
-                    <select id="modal-emp-safety">
-                        <option value="" selected>Không</option>
-                        <option value="X">Là An toàn viên</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Độc hại (NNĐH):</label>
-                    <select id="modal-emp-toxic">
-                        <option value="" selected>Không độc hại</option>
-                        <option value="1">Có độc hại (NNĐH)</option>
-                    </select>
-                </div>
+                <div class="form-group"><label>Số CCCD</label><input type="text" id="modal-emp-cccd"></div>
+                <div class="form-group"><label>Mã đơn vị</label><input type="text" id="modal-emp-dept" value="11.1"></div>
+                <div class="form-group"><label>An toàn viên</label><select id="modal-emp-safety"><option value="">Không</option><option value="X">Là ATV</option></select></div>
+                <div class="form-group"><label>Độc hại (NNĐH)</label><select id="modal-emp-toxic"><option value="">Không</option><option value="1">Có độc hại</option></select></div>
             </div>
             <div class="grid-form">
-                <div class="form-group" style="grid-column: span 2;">
-                    <label>Chức danh công việc:</label>
-                    <input type="text" id="modal-emp-job" placeholder="Chức danh, vị trí công tác...">
-                </div>
-                <div class="form-group">
-                    <label>Khối làm việc:</label>
-                    <select id="modal-emp-block">
-                        <option value="Gián tiếp" selected>Khối Gián Tiếp (Văn phòng/Quản lý)</option>
-                        <option value="Trực tiếp">Khối Trực Tiếp (Sản xuất/Nhà máy)</option>
-                    </select>
-                </div>
+                <div class="form-group" style="grid-column: span 2;"><label>Chức danh</label><input type="text" id="modal-emp-job"></div>
+                <div class="form-group"><label>Khối</label><select id="modal-emp-block"><option value="Gián tiếp">Gián tiếp</option><option value="Trực tiếp">Trực tiếp</option></select></div>
             </div>
             <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:10px;">
                 <button type="button" class="btn btn-gray" onclick="closeEmpModal()">Hủy</button>
-                <button type="button" class="btn btn-primary" onclick="saveEmployeeRecord()"><i class="fa-solid fa-floppy-disk"></i> Lưu Thông Tin</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL ĐĂNG KÝ NGHỈ PHÉP -->
-    <div id="leaveModal" class="modal" onclick="closeLeaveModal()">
-        <div class="modal-content" onclick="event.stopPropagation()" style="max-width:500px;">
-            <div class="card-title" style="border-left-color: var(--teal); font-size: 14px;"><i class="fa-solid fa-calendar-plus"></i> ĐĂNG KÝ NGHỈ PHÉP (KHỐI GIÁN TIẾP)</div>
-            <div class="form-group" style="margin-bottom:8px;">
-                <label>Chọn CBNV:</label>
-                <select id="leave-emp-select" style="padding:8px; border:1.5px solid #cbd5e1; border-radius:4px; font-weight:bold;"></select>
-            </div>
-            <div class="grid-form" style="margin-bottom:8px;">
-                <div class="form-group">
-                    <label>Số ngày nghỉ thêm:</label>
-                    <input type="number" id="leave-add-days" value="1" min="0.5" step="0.5" style="padding:8px; border:1.5px solid #cbd5e1; border-radius:4px; font-weight:bold;">
-                </div>
-                <div class="form-group">
-                    <label>Lý do nghỉ:</label>
-                    <input type="text" id="leave-reason" value="Việc riêng / Phép năm" style="padding:8px; border:1.5px solid #cbd5e1; border-radius:4px; font-weight:bold;">
-                </div>
-            </div>
-            <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:10px;">
-                <button type="button" class="btn btn-gray" onclick="closeLeaveModal()">Hủy</button>
-                <button type="button" class="btn btn-teal" onclick="submitLeaveRequest()"><i class="fa-solid fa-floppy-disk"></i> Xác Nhận Nghỉ</button>
+                <button type="button" class="btn btn-primary" onclick="saveEmployeeRecord()">Lưu</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Cấu hình API Google Drive Web App chính xác của đồng chí
-        const DEFAULT_GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1MM2VqBw1EnZ7YFdpRW-So9_AQgR99YI_7XOAHgUULns/edit?gid=1529354527#gid=1529354527";
         const CLOUD_SCRIPT_API_URL = "https://script.google.com/macros/s/AKfycbxcz6ynaYF_FmckDC1p4EPCkVHMMvCe8rwcbAjNV0BQeVNdQx9j1UzHpOo0Z17T0fGb/exec";
 
         let CURRENT_SELECTED_YEAR = "2026";
         let employeeList = JSON.parse(localStorage.getItem('sys_vinapaco_employees')) || [];
         let leaveRecordsMap = JSON.parse(localStorage.getItem('sys_vinapaco_leaves')) || {};
-
-        const defaultEmployees = [
-            {"name": "TẠ ĐỨC LONG", "gender": "Nam", "dob": "1975-05-12", "bhxh": "8200000001", "cccd": "025175000001", "dept": "01", "safety": "X", "toxic": "", "job": "Tổng Giám đốc, Ban Tổng Giám đốc", "block": "Gián tiếp"},
-            {"name": "TRIỆU THỊ NĂM", "gender": "Nữ", "dob": "1969-08-10", "bhxh": "8298010513", "cccd": "025169015152", "dept": "14.2", "safety": "", "toxic": "", "job": "Công nhân nguội sửa chữa cơ khí, Phân xưởng Cơ khí", "block": "Trực tiếp"},
-            {"name": "NGUYỄN THỊ THẠCH", "gender": "Nữ", "dob": "1974-08-01", "bhxh": "8200102787", "cccd": "042174013492", "dept": "10", "safety": "", "toxic": "", "job": "Thủ kho giấy thành phẩm, Tổng kho", "block": "Gián tiếp"},
-            {"name": "NGÔ THỊ THU LAN", "gender": "Nữ", "dob": "1969-09-01", "bhxh": "8200102773", "cccd": "025169012622", "dept": "11.1", "safety": "", "toxic": "1", "job": "Công nhân vận hành máy bóc vỏ gỗ, Phân xưởng Nguyên liệu", "block": "Trực tiếp"},
-            {"name": "NGUYỄN THỊ MINH", "gender": "Nữ", "dob": "1974-10-23", "bhxh": "8202002846", "cccd": "010174006302", "dept": "11.2", "safety": "", "toxic": "1", "job": "Công nhân vận hành hệ thống xử lý nước thải", "block": "Trực tiếp"},
-            {"name": "NGUYỄN VĂN AN", "gender": "Nam", "dob": "1982-05-15", "bhxh": "8201234567", "cccd": "025182001234", "dept": "11.1", "safety": "X", "toxic": "", "job": "Chuyên viên Kỹ thuật An toàn, Phòng KCLT", "block": "Gián tiếp"},
-            {"name": "TRẦN THỊ THANH", "gender": "Nữ", "dob": "1985-11-20", "bhxh": "8207654321", "cccd": "025185005678", "dept": "10", "safety": "", "toxic": "", "job": "Kế toán tổng hợp, Phòng Tài chính Kế toán", "block": "Gián tiếp"},
-            {"name": "PHẠM TIẾN LONG", "gender": "Nam", "dob": "1978-03-12", "bhxh": "8209876543", "cccd": "025178009876", "dept": "13.0", "safety": "X", "toxic": "1", "job": "Trưởng ca sản xuất giấy, Phân xưởng Giấy", "block": "Trực tiếp"},
-            {"name": "HOÀNG MẠNH HÙNG", "gender": "Nam", "dob": "1990-07-25", "bhxh": "8201122334", "cccd": "025190001122", "dept": "12.0", "safety": "", "toxic": "1", "job": "Vận hành lò hơi, Phân xưởng Động lực", "block": "Trực tiếp"},
-            {"name": "VŨ THỊ THU", "gender": "Nữ", "dob": "1988-12-05", "bhxh": "8205566778", "cccd": "025188005566", "dept": "14.0", "safety": "", "toxic": "", "job": "Chuyên viên Nhân sự, Phòng TCHC", "block": "Gián tiếp"}
+        let salaryList = JSON.parse(localStorage.getItem('sys_vinapaco_salary')) || [
+            {name: "TẠ ĐỨC LONG", dept: "01", base: "12,500,000 đ", coef: "5.42", toxicAllowance: "0 đ", total: "18,200,000 đ"},
+            {name: "NGUYỄN VĂN AN", dept: "11.1", base: "8,500,000 đ", coef: "3.66", toxicAllowance: "750,000 đ", total: "12,450,000 đ"}
         ];
-
-        if (employeeList.length === 0) {
-            employeeList = defaultEmployees;
-            localStorage.setItem('sys_vinapaco_employees', JSON.stringify(employeeList));
-        }
+        let paymentList = JSON.parse(localStorage.getItem('sys_vinapaco_payment')) || [
+            {code: "PT-2026-081", content: "Thanh toán chi phí vật tư sửa chữa nhà máy giấy", dept: "Phân Xưởng Cơ Khí", amount: "45,200,000 đ", date: "20/07/2026", status: "Chờ duyệt"}
+        ];
+        let telecomList = JSON.parse(localStorage.getItem('sys_vinapaco_telecom')) || [
+            {name: "TẠ ĐỨC LONG", phone: "0912xxxxxx", dept: "Ban TGĐ", norm: "500,000 đ", actual: "420,000 đ", excess: "0 đ"}
+        ];
+        let itList = JSON.parse(localStorage.getItem('sys_vinapaco_it')) || [
+            {code: "IT-LAP-001", name: "Dell Latitude 5430", user: "TẠ ĐỨC LONG", dept: "Phòng TGĐ", status: "Đang sử dụng tốt"}
+        ];
 
         let chartsInstance = {};
 
@@ -652,7 +440,6 @@
 
         function handleGlobalYearChange() {
             CURRENT_SELECTED_YEAR = document.getElementById('global-year-picker').value;
-            document.querySelectorAll('.lbl-current-year').forEach(el => el.innerText = CURRENT_SELECTED_YEAR);
             updateDashboardMetrics();
             renderEmployeeDirectory();
             renderRetireForecastTable();
@@ -665,18 +452,16 @@
             let male = total - female;
             let safety = employeeList.filter(e => e.safety === 'X').length;
             let toxic = employeeList.filter(e => e.toxic === '1' || e.toxic === 1).length;
-
             let currentYearNum = parseInt(CURRENT_SELECTED_YEAR);
             let retireSoon = employeeList.filter(e => {
-                let retireYear = calculateRetireYear(e);
-                return retireYear >= currentYearNum && retireYear <= currentYearNum + 4;
+                let retireY = calculateRetireYear(e);
+                return retireY >= currentYearNum && retireY <= currentYearNum + 4;
             }).length;
 
             let totalAge = 0, validAgeCount = 0;
             employeeList.forEach(e => {
                 if (e.dob) {
-                    let birthY = new Date(e.dob).getFullYear();
-                    let age = currentYearNum - birthY;
+                    let age = currentYearNum - new Date(e.dob).getFullYear();
                     if (age > 18 && age < 80) { totalAge += age; validAgeCount++; }
                 }
             });
@@ -692,11 +477,8 @@
 
         function calculateRetireYear(e) {
             if (!e.dob) return 2030;
-            let birthDate = new Date(e.dob);
-            let birthY = birthDate.getFullYear();
-            let isFemale = (e.gender === 'Nữ');
-            let retireAgeYear = isFemale ? 60 : 62;
-            return birthY + retireAgeYear;
+            let birthY = new Date(e.dob).getFullYear();
+            return birthY + (e.gender === 'Nữ' ? 60 : 62);
         }
 
         function renderEmployeeDirectory() {
@@ -713,7 +495,7 @@
             deptSet.forEach(d => { deptHtml += `<option value="${d}" ${curDeptVal === d ? 'selected' : ''}>Mã ĐV: ${d}</option>`; });
             deptSel.innerHTML = deptHtml;
 
-            let filtered = employeeList.filter((e) => {
+            let filtered = employeeList.filter(e => {
                 let matchKey = (e.name.toLowerCase().includes(keyword) || (e.bhxh && e.bhxh.includes(keyword)) || (e.cccd && e.cccd.includes(keyword)));
                 let matchD = (filterDept === 'ALL' || e.dept === filterDept);
                 return matchKey && matchD;
@@ -723,9 +505,6 @@
                 let birthY = e.dob ? new Date(e.dob).getFullYear() : 1980;
                 let age = parseInt(CURRENT_SELECTED_YEAR) - birthY;
                 let retireY = calculateRetireYear(e);
-                let isToxic = (e.toxic === '1' || e.toxic === 1);
-                let isSafety = (e.safety === 'X');
-
                 tbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${idx + 1}</td>
                     <td class="font-bold">${e.name}</td>
@@ -735,12 +514,12 @@
                     <td class="text-center">${e.bhxh || '-'}</td>
                     <td class="text-center">${e.cccd || '-'}</td>
                     <td class="text-center font-bold" style="color:var(--blue);">${e.dept || '-'}</td>
-                    <td class="text-center">${isSafety ? '<span class="badge badge-purple">An toàn viên</span>' : '-'}</td>
-                    <td class="text-center">${isToxic ? '<span class="badge badge-danger">Độc hại (NNĐH)</span>' : '-'}</td>
+                    <td class="text-center">${e.safety === 'X' ? '<span class="badge badge-purple">ATV</span>' : '-'}</td>
+                    <td class="text-center">${e.toxic ? '<span class="badge badge-danger">Độc hại</span>' : '-'}</td>
                     <td class="text-center font-bold" style="color:var(--orange);">${retireY}</td>
                     <td>${e.job || '-'}</td>
                     <td class="text-center">
-                        <button type="button" class="btn-edit" onclick="editEmployee(${employeeList.indexOf(e)})"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button type="button" class="btn-edit" onclick="editEmployee(${employeeList.indexOf(e)})"><i class="fa-solid fa-pen"></i></button>
                         <button type="button" class="btn-delete" onclick="deleteEmployee(${employeeList.indexOf(e)})"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 </tr>`;
@@ -752,21 +531,14 @@
             let tbody = document.getElementById('tbody-retire-forecast');
             tbody.innerHTML = "";
             let currentYearNum = parseInt(CURRENT_SELECTED_YEAR);
-
             let sorted = [...employeeList].map(e => {
                 let retireY = calculateRetireYear(e);
-                let birthY = e.dob ? new Date(e.dob).getFullYear() : 1980;
-                let age = currentYearNum - birthY;
-                let yearsLeft = retireY - currentYearNum;
-                return { ...e, retireY, age, yearsLeft };
+                return { ...e, retireY, yearsLeft: retireY - currentYearNum };
             }).sort((a, b) => a.retireY - b.retireY);
 
             sorted.forEach((e, idx) => {
-                let badgeClass = "badge-success";
-                let statusText = "Ổn định";
-                if (e.yearsLeft <= 0) { badgeClass = "badge-danger"; statusText = "Đến tuổi nghỉ hưu"; }
-                else if (e.yearsLeft <= 2) { badgeClass = "badge-warning"; statusText = "Sắp nghỉ hưu (≤ 2 năm)"; }
-
+                let badgeClass = e.yearsLeft <= 0 ? "badge-danger" : (e.yearsLeft <= 2 ? "badge-warning" : "badge-success");
+                let statusText = e.yearsLeft <= 0 ? "Đến tuổi nghỉ hưu" : (e.yearsLeft <= 2 ? "Sắp nghỉ (≤ 2 năm)" : "Ổn định");
                 tbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${idx + 1}</td>
                     <td class="font-bold">${e.name}</td>
@@ -785,51 +557,128 @@
             let tbody = document.getElementById('tbody-leave-management');
             tbody.innerHTML = "";
             let indirectList = employeeList.filter(e => e.block === 'Gián tiếp' || !e.block);
-            
-            let selectEl = document.getElementById('leave-emp-select');
-            let selectHtml = '';
-            indirectList.forEach(e => { selectHtml += `<option value="${e.name}">${e.name} (${e.dept})</option>`; });
-            selectEl.innerHTML = selectHtml;
-
             indirectList.forEach((e, idx) => {
                 let birthY = e.dob ? new Date(e.dob).getFullYear() : 1985;
                 let age = parseInt(CURRENT_SELECTED_YEAR) - birthY;
-                let baseLeave = 12;
-                let seniorLeave = Math.floor(Math.max(0, age - 30) / 5);
-                let toxicLeave = (e.toxic === '1' || e.toxic === 1) ? 2 : 0;
-                let safetyLeave = (e.safety === 'X') ? 1 : 0;
-
-                let totalLeave = baseLeave + seniorLeave + toxicLeave + safetyLeave;
-                let usedLeave = leaveRecordsMap[e.name] || 0;
-                let remainLeave = Math.max(0, totalLeave - usedLeave);
-
+                let base = 12, senior = Math.floor(Math.max(0, age - 30) / 5);
+                let toxic = e.toxic ? 2 : 0, safety = e.safety === 'X' ? 1 : 0;
+                let total = base + senior + toxic + safety;
+                let used = leaveRecordsMap[e.name] || 0;
+                let remain = Math.max(0, total - used);
                 tbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${idx + 1}</td>
                     <td class="font-bold">${e.name}</td>
                     <td class="text-center">${e.dept}</td>
-                    <td class="text-center">${e.safety === 'X' ? 'An toàn viên, ' : ''}${e.toxic ? 'Độc hại' : 'Bình thường'}</td>
-                    <td class="text-center">${baseLeave} ngày</td>
-                    <td class="text-center">+${seniorLeave} ngày</td>
-                    <td class="text-center font-bold" style="color:var(--blue);">${totalLeave} ngày</td>
-                    <td class="text-center font-bold" style="color:var(--red);">${usedLeave} ngày</td>
-                    <td class="text-center font-bold" style="color:var(--green);">${remainLeave} ngày</td>
-                    <td class="text-center">
-                        <button type="button" class="btn btn-teal" style="padding:4px 8px; font-size:11px;" onclick="openAddLeaveModalFor('${e.name}')"><i class="fa-solid fa-plus"></i> Đăng Ký</button>
-                    </td>
+                    <td class="text-center">${e.safety === 'X' ? 'ATV ' : ''}${e.toxic ? 'Độc hại' : ''}</td>
+                    <td class="text-center">${base}</td><td class="text-center">+${senior}</td>
+                    <td class="text-center font-bold" style="color:var(--blue);">${total}</td>
+                    <td class="text-center font-bold" style="color:var(--red);">${used}</td>
+                    <td class="text-center font-bold" style="color:var(--green);">${remain}</td>
+                    <td class="text-center"><button type="button" class="btn btn-teal" style="padding:4px 8px; font-size:11px;" onclick="registerLeaveFor('${e.name}')">Nghỉ phép</button></td>
                 </tr>`;
             });
+        }
+
+        function renderOtherTables() {
+            // Lương
+            let sTbody = document.getElementById('tbody-salary-mgmt');
+            sTbody.innerHTML = "";
+            salaryList.forEach((s, i) => {
+                sTbody.innerHTML += `<tr><td class="text-center font-bold">${i+1}</td><td class="font-bold">${s.name}</td><td class="text-center">${s.dept}</td><td>${s.base}</td><td class="text-center">${s.coef}</td><td>${s.toxicAllowance}</td><td style="color:var(--green); font-weight:bold;">${s.total}</td><td class="text-center"><span class="badge badge-success">Đã duyệt</span></td></tr>`;
+            });
+            // Thanh toán
+            let pTbody = document.getElementById('tbody-payment-mgmt');
+            pTbody.innerHTML = "";
+            paymentList.forEach((p, i) => {
+                pTbody.innerHTML += `<tr><td class="text-center font-bold">${i+1}</td><td class="font-bold">${p.code}</td><td>${p.content}</td><td class="text-center">${p.dept}</td><td style="color:var(--blue); font-weight:bold;">${p.amount}</td><td class="text-center">${p.date}</td><td class="text-center"><span class="badge badge-info">${p.status}</span></td><td class="text-center">-</td></tr>`;
+            });
+            // Viễn thông
+            let tTbody = document.getElementById('tbody-telecom-mgmt');
+            tTbody.innerHTML = "";
+            telecomList.forEach((t, i) => {
+                tTbody.innerHTML += `<tr><td class="text-center font-bold">${i+1}</td><td class="font-bold">${t.name}</td><td class="text-center">${t.phone}</td><td class="text-center">${t.dept}</td><td>${t.norm}</td><td>${t.actual}</td><td style="color:var(--green); font-weight:bold;">${t.excess}</td><td class="text-center">-</td></tr>`;
+            });
+            // CNTT
+            let itTbody = document.getElementById('tbody-it-mgmt');
+            itTbody.innerHTML = "";
+            itList.forEach((it, i) => {
+                itTbody.innerHTML += `<tr><td class="text-center font-bold">${i+1}</td><td class="font-bold">${it.code}</td><td>${it.name}</td><td>${it.user}</td><td class="text-center">${it.dept}</td><td class="text-center"><span class="badge badge-success">${it.status}</span></td><td class="text-center"><i class="fa-solid fa-qrcode" style="font-size:18px; color:var(--blue);"></i></td><td class="text-center">-</td></tr>`;
+            });
+        }
+
+        async function syncDataToCloud() {
+            alert("⏳ Đang đồng bộ toàn bộ dữ liệu lên Google Drive...");
+            try {
+                let payload = {
+                    action: "sync_all_data",
+                    employees: employeeList,
+                    leaves: leaveRecordsMap,
+                    salary: salaryList,
+                    payments: paymentList,
+                    telecom: telecomList,
+                    itAssets: itList
+                };
+                let response = await fetch(CLOUD_SCRIPT_API_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+                alert("🎉 Đã đồng bộ toàn bộ dữ liệu lên Google Drive thành công!");
+            } catch (err) {
+                alert("❌ Lỗi đồng bộ: " + err.message);
+            }
+        }
+
+        async function loadDataFromCloud() {
+            alert("⏳ Đang tải toàn bộ dữ liệu từ Google Drive...");
+            try {
+                let res = await fetch(CLOUD_SCRIPT_API_URL + "?action=load_data", { method: "GET", redirect: "follow" });
+                let result = await res.json();
+                if (result.status === "success") {
+                    if (result.employees && result.employees.length > 0) {
+                        employeeList = result.employees;
+                        localStorage.setItem('sys_vinapaco_employees', JSON.stringify(employeeList));
+                    }
+                    if (result.leaves && Object.keys(result.leaves).length > 0) {
+                        leaveRecordsMap = result.leaves;
+                        localStorage.setItem('sys_vinapaco_leaves', JSON.stringify(leaveRecordsMap));
+                    }
+                    if (result.salary && result.salary.length > 0) {
+                        salaryList = result.salary;
+                        localStorage.setItem('sys_vinapaco_salary', JSON.stringify(salaryList));
+                    }
+                    if (result.payments && result.payments.length > 0) {
+                        paymentList = result.payments;
+                        localStorage.setItem('sys_vinapaco_payment', JSON.stringify(paymentList));
+                    }
+                    if (result.telecom && result.telecom.length > 0) {
+                        telecomList = result.telecom;
+                        localStorage.setItem('sys_vinapaco_telecom', JSON.stringify(telecomList));
+                    }
+                    if (result.itAssets && result.itAssets.length > 0) {
+                        itList = result.itAssets;
+                        localStorage.setItem('sys_vinapaco_it', JSON.stringify(itList));
+                    }
+                    renderEmployeeDirectory();
+                    renderRetireForecastTable();
+                    renderLeaveTable();
+                    renderOtherTables();
+                    alert("🎉 Tải thành công toàn bộ dữ liệu từ Google Drive về máy!");
+                } else {
+                    throw new Error(result.message || "Không đọc được dữ liệu");
+                }
+            } catch (err) {
+                alert("⚠️ Lỗi tải dữ liệu hoặc bị chặn CORS từ trình duyệt. Hệ thống đang sử dụng dữ liệu lưu trên máy.");
+            }
         }
 
         function openAddEmpModal() {
             document.getElementById('edit-emp-index').value = "-1";
             document.getElementById('emp-modal-title').innerText = "THÊM CÁN BỘ NHÂN VIÊN MỚI";
             document.getElementById('modal-emp-name').value = "";
-            document.getElementById('modal-emp-bhxh').value = "";
-            document.getElementById('modal-emp-cccd').value = "";
-            document.getElementById('modal-emp-job').value = "";
             document.getElementById('empModal').style.display = 'flex';
         }
-
         function editEmployee(idx) {
             let e = employeeList[idx];
             document.getElementById('edit-emp-index').value = idx;
@@ -846,14 +695,11 @@
             document.getElementById('modal-emp-block').value = e.block || "Gián tiếp";
             document.getElementById('empModal').style.display = 'flex';
         }
-
         function closeEmpModal() { document.getElementById('empModal').style.display = 'none'; }
-
         function saveEmployeeRecord() {
             let idx = parseInt(document.getElementById('edit-emp-index').value);
             let name = document.getElementById('modal-emp-name').value.trim();
-            if (!name) { alert("Vui lòng nhập họ tên CBNV!"); return; }
-
+            if (!name) { alert("Vui lòng nhập họ tên!"); return; }
             let empObj = {
                 name,
                 gender: document.getElementById('modal-emp-gender').value,
@@ -866,20 +712,17 @@
                 job: document.getElementById('modal-emp-job').value.trim(),
                 block: document.getElementById('modal-emp-block').value
             };
-
-            if (idx >= 0) { employeeList[idx] = empObj; }
-            else { employeeList.push(empObj); }
-
+            if (idx >= 0) employeeList[idx] = empObj;
+            else employeeList.push(empObj);
             localStorage.setItem('sys_vinapaco_employees', JSON.stringify(employeeList));
             closeEmpModal();
             renderEmployeeDirectory();
             renderRetireForecastTable();
             renderLeaveTable();
-            alert("Lưu thông tin nhân sự thành công!");
+            alert("Lưu nhân sự thành công!");
         }
-
         function deleteEmployee(idx) {
-            if (confirm("Bạn có chắc chắn muốn xóa nhân sự này khỏi hệ thống?")) {
+            if (confirm("Xóa nhân sự này?")) {
                 employeeList.splice(idx, 1);
                 localStorage.setItem('sys_vinapaco_employees', JSON.stringify(employeeList));
                 renderEmployeeDirectory();
@@ -887,363 +730,23 @@
                 renderLeaveTable();
             }
         }
-
-        function openAddLeaveModal() { document.getElementById('leaveModal').style.display = 'flex'; }
-        function openAddLeaveModalFor(name) {
-            document.getElementById('leave-emp-select').value = name;
-            document.getElementById('leaveModal').style.display = 'flex';
-        }
-        function closeLeaveModal() { document.getElementById('leaveModal').style.display = 'none'; }
-
-        function submitLeaveRequest() {
-            let name = document.getElementById('leave-emp-select').value;
-            let addDays = parseFloat(document.getElementById('leave-add-days').value) || 0;
-            if (!leaveRecordsMap[name]) leaveRecordsMap[name] = 0;
-            leaveRecordsMap[name] += addDays;
-            localStorage.setItem('sys_vinapaco_leaves', JSON.stringify(leaveRecordsMap));
-            closeLeaveModal();
-            renderLeaveTable();
-            alert(`Đã đăng ký nghỉ phép thành công cho CBNV: ${name} (+${addDays} ngày)`);
-        }
-
-        async function syncDataToCloud() {
-            alert("⏳ Đang đồng bộ dữ liệu nhân sự lên Google Drive...");
-            try {
-                let payload = {
-                    action: "sync_hr_data",
-                    employees: employeeList,
-                    leaves: leaveRecordsMap
-                };
-                let response = await fetch(CLOUD_SCRIPT_API_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "text/plain;charset=utf-8" },
-                    body: JSON.stringify(payload)
-                });
-                let result = await response.json();
-                if (result.status === "success") {
-                    alert("🎉 Đồng bộ dữ liệu lên Google Drive thành công!");
-                } else {
-                    throw new Error(result.message);
-                }
-            } catch (err) {
-                alert("❌ Lỗi đồng bộ: " + err.message);
-            }
-        }
-
-        async function loadDataFromCloud() {
-            alert("⏳ Đang tải dữ liệu từ Google Drive...");
-            try {
-                let response = await fetch(`${CLOUD_SCRIPT_API_URL}?action=load_data`);
-                let result = await response.json();
-                if (result.status === "success") {
-                    if (result.employees && result.employees.length > 0) {
-                        employeeList = result.employees;
-                        localStorage.setItem('sys_vinapaco_employees', JSON.stringify(employeeList));
-                    }
-                    if (result.leaves && Object.keys(result.leaves).length > 0) {
-                        leaveRecordsMap = result.leaves;
-                        localStorage.setItem('sys_vinapaco_leaves', JSON.stringify(leaveRecordsMap));
-                    }
-                    renderEmployeeDirectory();
-                    renderRetireForecastTable();
-                    renderLeaveTable();
-                    alert("🎉 Tải dữ liệu từ Google Drive thành công!");
-                } else {
-                    throw new Error(result.message);
-                }
-            } catch (err) {
-                alert("❌ Lỗi tải dữ liệu: " + err.message);
-            }
-        }
-
-        function renderAnalyticsCharts() {
-            let female = employeeList.filter(e => e.gender === 'Nữ').length;
-            let male = employeeList.length - female;
-            let safety = employeeList.filter(e => e.safety === 'X').length;
-            let toxic = employeeList.filter(e => e.toxic === '1' || e.toxic === 1).length;
-            let normal = employeeList.length - toxic;
-
-            let retireYearsCount = {};
-            employeeList.forEach(e => {
-                let ry = calculateRetireYear(e);
-                if (ry >= 2026 && ry <= 2035) {
-                    retireYearsCount[ry] = (retireYearsCount[ry] || 0) + 1;
-                }
-            });
-
-            if (chartsInstance.gender) chartsInstance.gender.destroy();
-            chartsInstance.gender = new Chart(document.getElementById('chartGender'), {
-                type: 'pie',
-                data: {
-                    labels: ['Nam', 'Nữ'],
-                    datasets: [{ data: [male, female], backgroundColor: ['#1d4ed8', '#db2777'] }]
-                },
-                options: { responsive: true, maintainAspectRatio: false }
-            });
-
-            if (chartsInstance.retire) chartsInstance.retire.destroy();
-            let retireLabels = [], retireData = [];
-            for (let y = 2026; y <= 2035; y++) {
-                retireLabels.push('Năm ' + y);
-                retireData.push(retireYearsCount[y] || 0);
-            }
-            chartsInstance.retire = new Chart(document.getElementById('chartRetire'), {
-                type: 'bar',
-                data: {
-                    labels: retireLabels,
-                    datasets: [{ label: 'Số lượng nghỉ hưu', data: retireData, backgroundColor: '#ea580c' }]
-                },
-                options: { responsive: true, maintainAspectRatio: false }
-            });
-
-            if (chartsInstance.safetyToxic) chartsInstance.safetyToxic.destroy();
-            chartsInstance.safetyToxic = new Chart(document.getElementById('chartSafetyToxic'), {
-                type: 'doughnut',
-                data: {
-                    labels: ['LĐ Bình Thường', 'LĐ Độc Hại (NNĐH)', 'An Toàn Viên'],
-                    datasets: [{ data: [normal, toxic, safety], backgroundColor: ['#047857', '#b91c1c', '#6d28d9'] }]
-                },
-                options: { responsive: true, maintainAspectRatio: false }
-            });
-
-            let ageGroups = { '< 30': 0, '30 - 40': 0, '41 - 50': 0, '> 50': 0 };
-            let curY = parseInt(CURRENT_SELECTED_YEAR);
-            employeeList.forEach(e => {
-                if (e.dob) {
-                    let age = curY - new Date(e.dob).getFullYear();
-                    if (age < 30) ageGroups['< 30']++;
-                    else if (age <= 40) ageGroups['30 - 40']++;
-                    else if (age <= 50) ageGroups['41 - 50']++;
-                    else ageGroups['> 50']++;
-                }
-            });
-
-            if (chartsInstance.ageGroup) chartsInstance.ageGroup.destroy();
-            chartsInstance.ageGroup = new Chart(document.getElementById('chartAgeGroup'), {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(ageGroups),
-                    datasets: [{ label: 'Số lượng CBNV', data: Object.values(ageGroups), backgroundColor: '#0d9488' }]
-                },
-                options: { responsive: true, maintainAspectRatio: false }
-            });
-        }
-
-        async function handleExcelFileUpload() {
-            let fileInput = document.getElementById('excel-file-input');
-            if (fileInput.files.length === 0) { alert("Vui lòng chọn file Excel!"); return; }
-            let file = fileInput.files[0];
-            let data = await file.arrayBuffer();
-            let workbook = new ExcelJS.Workbook();
-            await workbook.xlsx.load(data);
-            let worksheet = workbook.worksheets[0];
-
-            let imported = [];
-            worksheet.eachRow((row, rowNumber) => {
-                if (rowNumber > 1) {
-                    let name = row.getCell(2).text || row.getCell(3).text;
-                    if (name && name !== "Họ và tên") {
-                        let cccd = row.getCell(5).text || "";
-                        let safety = row.getCell(7).text || "";
-                        let toxic = row.getCell(8).text || "";
-                        let dept = row.getCell(10).text || "11.1";
-                        let dobVal = row.getCell(12).text || "1980-01-01";
-                        let isFemale = row.getCell(13).text.toUpperCase() === 'X';
-                        let job = row.getCell(14).text || "";
-
-                        imported.push({
-                            name: name.trim(),
-                            gender: isFemale ? "Nữ" : "Nam",
-                            dob: dobVal.substring(0, 10),
-                            bhxh: row.getCell(4).text || "",
-                            cccd: cccd.trim(),
-                            dept: dept.trim(),
-                            safety: safety ? "X" : "",
-                            toxic: toxic ? "1" : "",
-                            job: job.trim(),
-                            block: job.toLowerCase().includes('văn phòng') || job.toLowerCase().includes('phòng') || job.toLowerCase().includes('kế toán') ? "Gián tiếp" : "Trực tiếp"
-                        });
-                    }
-                }
-            });
-
-            if (imported.length > 0) {
-                employeeList = imported;
-                localStorage.setItem('sys_vinapaco_employees', JSON.stringify(employeeList));
-                document.getElementById('importModal').style.display = 'none';
-                renderEmployeeDirectory();
-                renderRetireForecastTable();
+        function registerLeaveFor(name) {
+            let days = prompt(`Nhập số ngày nghỉ phép thêm cho CBNV ${name}:`, "1");
+            if (days) {
+                let d = parseFloat(days) || 0;
+                leaveRecordsMap[name] = (leaveRecordsMap[name] || 0) + d;
+                localStorage.setItem('sys_vinapaco_leaves', JSON.stringify(leaveRecordsMap));
                 renderLeaveTable();
-                alert(`Đã nạp thành công ${imported.length} nhân sự từ file Excel!`);
-            } else {
-                alert("Không đọc được dữ liệu từ file Excel. Vui lòng kiểm tra lại cấu trúc cột.");
+                alert("Đã cập nhật nghỉ phép thành công!");
             }
         }
 
-        function exportLeaveTableExcel() {
-            let win = window.open('', '_blank');
-            win.document.write(`
-                <html><head><title>Báo Cáo Công Phép Khối Gián Tiếp</title>
-                <style>body{font-family:'Times New Roman'; padding:20px;} table{width:100%; border-collapse:collapse;} th,td{border:1px solid black; padding:8px; text-align:center;} th{background:#cbd5e1;}</style>
-                </head><body>
-                <h2 style="text-align:center;">TỔNG CÔNG TY GIẤY VIỆT NAM - VĂN PHÒNG</h2>
-                <h3 style="text-align:center;">BÁO CÁO QUẢN LÝ CÔNG PHÉP KHỐI GIÁN TIẾP NĂM ${CURRENT_SELECTED_YEAR}</h3>
-                <table><thead><tr><th>STT</th><th>Họ và Tên</th><th>Đơn vị</th><th>Điều kiện</th><th>Phép chuẩn</th><th>Thâm niên</th><th>Tổng được nghỉ</th><th>Đã nghỉ</th><th>Còn lại</th></tr></thead><tbody>
-            `);
-            let indirectList = employeeList.filter(e => e.block === 'Gián tiếp' || !e.block);
-            indirectList.forEach((e, idx) => {
-                let birthY = e.dob ? new Date(e.dob).getFullYear() : 1985;
-                let age = parseInt(CURRENT_SELECTED_YEAR) - birthY;
-                let base = 12, senior = Math.floor(Math.max(0, age - 30) / 5);
-                let toxic = (e.toxic === '1' || e.toxic === 1) ? 2 : 0;
-                let safety = (e.safety === 'X') ? 1 : 0;
-                let total = base + senior + toxic + safety;
-                let used = leaveRecordsMap[e.name] || 0;
-                let remain = Math.max(0, total - used);
-                win.document.write(`<tr><td>${idx+1}</td><td style="text-align:left; font-weight:bold;">${e.name}</td><td>${e.dept}</td><td>${e.safety==='X'?'An toàn viên':''} ${e.toxic?'Độc hại':''}</td><td>${base}</td><td>+${senior}</td><td><b>${total}</b></td><td style="color:red;">${used}</td><td style="color:green; font-weight:bold;">${remain}</td></tr>`);
-            });
-            win.document.write(`</tbody></table><script>window.onload=function(){window.print();}<\/script></body></html>`);
-            win.document.close();
-        }
-
-        function exportHrAnalyticsReport() {
-            let total = employeeList.length;
-            let female = employeeList.filter(e => e.gender === 'Nữ').length;
-            let male = total - female;
-            let safety = employeeList.filter(e => e.safety === 'X').length;
-            let toxic = employeeList.filter(e => e.toxic === '1' || e.toxic === 1).length;
-
-            let htmlContent = `
-                <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
-                <head><meta charset="utf-8"><title>Báo Cáo Nhân Sự Vinapaco</title>
-                <style>body{font-family:'Times New Roman'; font-size:12pt; line-height:1.3; margin:20mm;} h1{text-align:center; text-transform:uppercase; font-size:15pt;} table{width:100%; border-collapse:collapse; margin-top:15px;} th,td{border:1px solid black; padding:8px; text-align:center;} th{background:#f2f2f2;}</style>
-                </head><body>
-                <h3 style="text-align:center;">TỔNG CÔNG TY GIẤY VIỆT NAM<br>PHÒNG TỔ CHỨC HÀNH CHÍNH</h3>
-                <h1>BÁO CÁO PHÂN TÍCH BIẾN ĐỘNG & TÌNH HÌNH NHÂN SỰ NĂM ${CURRENT_SELECTED_YEAR}</h1>
-                <p><b>1. Tổng quan quy mô nhân sự:</b> Tổng số CBNV toàn Tổng công ty: <b>${total} người</b> (Trong đó: Nam: <b>${male}</b>, Nữ: <b>${female}</b>).</p>
-                <p><b>2. Thống kê đặc thù lao động:</b></p>
-                <ul>
-                    <li>Lao động làm việc trong điều kiện nặng nhọc, độc hại, nguy hiểm (NNĐH): <b>${toxic} người</b>.</li>
-                    <li>Đội ngũ An toàn viên chuyên trách và kiêm nhiệm: <b>${safety} người</b>.</li>
-                </ul>
-                <p><b>3. Đánh giá chung:</b> Đội ngũ nhân sự có cơ cấu ổn định, đáp ứng tốt yêu cầu sản xuất kinh doanh giấy và bột giấy tại các nhà máy và văn phòng đại diện.</p>
-                <table style="margin-top:30px; border:none; width:100%;"><tr><td style="border:none; text-align:center; width:50%;"><b>Ý KIẾN LÃNH ĐẠO</b></td><td style="border:none; text-align:center; width:50%;"><b>NGƯỜI LẬP BÁO CÁO</b><br><br><br><b>Nguyễn Thị Tuyết Nhung</b></td></tr></table>
-                </body></html>
-            `;
-            let blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
-            saveAs(blob, `Bao_Cao_Nhan_Su_Vinapaco_${CURRENT_SELECTED_YEAR}.doc`);
-        }
-
-        function exportRetireReportWord() {
-            let currentYearNum = parseInt(CURRENT_SELECTED_YEAR);
-            let retireSoonList = employeeList.filter(e => {
-                let ry = calculateRetireYear(e);
-                return ry >= currentYearNum && ry <= currentYearNum + 4;
-            });
-
-            let rows = "";
-            retireSoonList.forEach((e, idx) => {
-                rows += `<tr><td>${idx+1}</td><td style="text-align:left;"><b>${e.name}</b></td><td>${e.gender}</td><td>${e.dob}</td><td><b>${calculateRetireYear(e)}</b></td><td>${e.dept}</td><td>${e.job}</td></tr>`;
-            });
-
-            let htmlContent = `
-                <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
-                <head><meta charset="utf-8"><title>Dự Báo Nghỉ Hưu</title>
-                <style>body{font-family:'Times New Roman'; font-size:12pt; margin:20mm;} h1{text-align:center; text-transform:uppercase;} table{width:100%; border-collapse:collapse; margin-top:15px;} th,td{border:1px solid black; padding:6px; text-align:center;} th{background:#f2f2f2;}</style>
-                </head><body>
-                <h3 style="text-align:center;">TỔNG CÔNG TY GIẤY VIỆT NAM</h3>
-                <h1>BÁO CÁO DỰ BÁO BIẾN ĐỘNG NGHỈ HƯU GIAI ĐOẠN ${currentYearNum} - ${currentYearNum+4}</h1>
-                <table><thead><tr><th>STT</th><th>Họ và Tên</th><th>Giới tính</th><th>Năm sinh</th><th>Năm nghỉ hưu</th><th>Đơn vị</th><th>Chức danh</th></tr></thead><tbody>${rows}</tbody></table>
-                </body></html>
-            `;
-            let blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
-            saveAs(blob, `Du_Bao_Nghi_Huu_Vinapaco_${CURRENT_SELECTED_YEAR}.doc`);
-        }
-
-        let todaySystemDate = new Date();
-        let calViewDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), 1);
-        let calSelectedDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), todaySystemDate.getDate());
-
-        function toggleCalendarSidebar() {
-            document.getElementById('calendar-sidebar-box').classList.toggle('hidden');
-            document.getElementById('main-workspace').classList.toggle('calendar-hidden');
-        }
-
-        const PI = Math.PI;
-        function INT(d) { return Math.floor(d); }
-        function jdFromDate(dd, mm, yy) {
-            let a = INT((14 - mm) / 12);
-            let y = yy + 4800 - a;
-            let m = mm + 12 * a - 3;
-            let jd = dd + INT((153 * m + 2) / 5) + 365 * y + INT(y / 4) - INT(y / 100) + INT(y / 400) - 32045;
-            if (jd < 2299161) jd = dd + INT((153 * m + 2) / 5) + 365 * y + INT(y / 4) - 32045;
-            return jd;
-        }
-        function sunLongitude(jdn) {
-            let T = (jdn - 2451545.0) / 36525.0;
-            let L0 = 280.46646 + 36000.76983 * T;
-            let M = 357.52911 + 35999.05029 * T;
-            let C = 1.914602 * Math.sin(M * PI / 180);
-            return L0 + C;
-        }
-        function getSunLongitude(jdn, timeZone) { return sunLongitude(jdn - 0.5 - timeZone / 24.0); }
-        function getNewMoonDay(k, timeZone) {
-            let T = k / 1236.85;
-            let Jd1 = 2415020.75933 + 29.53058868 * k;
-            return INT(Jd1 + 0.5 + timeZone / 24.0);
-        }
-        function getLunarMonth11(yy, timeZone) {
-            let off = jdFromDate(31, 12, yy) - 2415020;
-            let k = INT(off / 29.53058868);
-            let nm = getNewMoonDay(k, timeZone);
-            if (getSunLongitude(nm, timeZone) > 270) nm = getNewMoonDay(k - 1, timeZone);
-            return nm;
-        }
-        function convertSolar2Lunar(dd, mm, yy, timeZone) {
-            let dayNumber = jdFromDate(dd, mm, yy);
-            let k = INT((dayNumber - 2415020.75933) / 29.53058868);
-            let nm = getNewMoonDay(k, timeZone);
-            if (nm > dayNumber) { k--; nm = getNewMoonDay(k, timeZone); }
-            let a11 = getLunarMonth11(yy, timeZone);
-            if (a11 >= nm) a11 = getLunarMonth11(yy - 1, timeZone);
-            let lunarMonth = INT((nm - a11) / 29.5 + 0.5) + 11;
-            if (lunarMonth > 12) lunarMonth -= 12;
-            let lunarDay = dayNumber - nm + 1;
-            return { day: lunarDay, month: lunarMonth, year: yy, leap: 0 };
-        }
-
-        function renderSmartCalendar() {
-            let year = calViewDate.getFullYear(), month = calViewDate.getMonth();
-            const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
-            document.getElementById('cal-header-title').innerText = `${monthNames[month]} / ${year}`;
-            const container = document.getElementById('cal-mini-days-container'); container.innerHTML = "";
-            let firstDayIndex = new Date(year, month, 1).getDay(), totalDays = new Date(year, month + 1, 0).getDate();
-            for (let i = 0; i < firstDayIndex; i++) { container.appendChild(document.createElement('div')); }
-            let today = new Date();
-            for (let d = 1; d <= totalDays; d++) {
-                let dayDiv = document.createElement('div');
-                dayDiv.className = "cal-day-cell";
-                let thisDate = new Date(year, month, d);
-                let lunar = convertSolar2Lunar(d, month + 1, year, 7.0);
-                dayDiv.innerHTML = `<span style="font-weight:bold; font-size:13px;">${d}</span><span style="font-size:8.5px; color:#64748b;">${lunar.day}</span>`;
-                if (thisDate.toDateString() === today.toDateString()) dayDiv.classList.add('today');
-                if (thisDate.toDateString() === calSelectedDate.toDateString()) dayDiv.classList.add('selected');
-                dayDiv.onclick = function() {
-                    calSelectedDate = new Date(year, month, d);
-                    document.getElementById('cal-selected-day').innerText = d;
-                    document.getElementById('cal-selected-dow').innerText = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"][thisDate.getDay()];
-                    renderSmartCalendar();
-                };
-                container.appendChild(dayDiv);
-            }
-        }
-        function changeCalendarMonth(d) { calViewDate.setMonth(calViewDate.getMonth() + d); renderSmartCalendar(); }
-        function resetCalendarToToday() {
-            todaySystemDate = new Date();
-            calViewDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), 1);
-            calSelectedDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), todaySystemDate.getDate());
-            renderSmartCalendar();
-        }
+        // Các hàm phụ trợ khác
+        function openAddSalaryModal() { alert("Chức năng thêm bảng lương."); }
+        function openAddPaymentModal() { alert("Chức năng lập hồ sơ thanh toán."); }
+        function openAddTelecomModal() { alert("Chức năng thêm thuê bao viễn thông."); }
+        function openAddItModal() { alert("Chức năng thêm thiết bị CNTT."); }
+        function openAddLeaveModal() { alert("Vui lòng chọn nhân sự trong danh sách để đăng ký."); }
 
         document.addEventListener('DOMContentLoaded', () => {
             setInterval(() => { document.getElementById('live-system-clock').innerText = new Date().toLocaleString('vi-VN'); }, 1000);
@@ -1251,9 +754,7 @@
             renderEmployeeDirectory();
             renderRetireForecastTable();
             renderLeaveTable();
-            renderSmartCalendar();
-            
-            // Tự động tải dữ liệu từ Google Drive ngay khi mở trang
+            renderOtherTables();
             loadDataFromCloud();
         });
     </script>
