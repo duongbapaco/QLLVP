@@ -201,7 +201,7 @@
                 <div class="live-clock-box" id="live-system-clock">--:--:-- --/--/----</div>
             </div>
 
-            <!-- 5 THẺ THỐNG KÊ DASHBOARD (TỰ ĐỘNG TỔNG KẾT THEO NĂM) -->
+            <!-- 5 THẺ THỐNG KÊ DASHBOARD -->
             <div class="stat-grid">
                 <div class="stat-card">
                     <div class="stat-info">
@@ -1173,7 +1173,7 @@
             let totalPaidYear = 0;
             let totalTelecomYear = 0;
 
-            // 1. Tổng kết lương và tạm ứng theo năm chọn
+            // 1. Tổng kết lương và tạm ứng theo năm chọn (Dựa vào key 'YYYY-MM' của salaryDataByMonth)
             Object.keys(salaryDataByMonth || {}).forEach(sm => {
                 let parts = sm.split('-');
                 let yr = parts[0] || "";
@@ -1214,20 +1214,20 @@
                 }
             });
 
-            // 2. Tổng kết hồ sơ thanh toán theo năm chọn
+            // 2. Tổng kết hồ sơ thanh toán theo năm chọn (Kiểm tra chính xác năm từ định dạng DD/MM/YYYY)
             Object.keys(paymentRecordsByMonth || {}).forEach(sm => {
                 let records = paymentRecordsByMonth[sm] || [];
                 records.forEach(rec => {
                     let dateTime = rec.payDateTime || "";
                     let dParts = dateTime.split('/');
-                    let recYear = dParts.length === 3 ? dParts[2] : sm.split('-')[0];
+                    let recYear = (dParts.length === 3 && dParts[2].length === 4) ? dParts[2] : sm.split('-')[0];
                     if (recYear === CURRENT_SELECTED_YEAR) {
                         totalPaidYear += rec.amount || 0;
                     }
                 });
             });
 
-            // 3. Tổng kết cước viễn thông theo năm chọn
+            // 3. Tổng kết cước viễn thông theo năm chọn (Kiểm tra chính xác năm từ chu kỳ cước)
             Object.keys(telecomRecordsByMonth || {}).forEach(sm => {
                 let records = telecomRecordsByMonth[sm] || [];
                 records.forEach(rec => {
@@ -1240,7 +1240,7 @@
                 });
             });
 
-            // 4. Tổng số máy CNTT trong năm chọn
+            // 4. Tổng số máy CNTT theo đúng năm chọn
             let itCountYear = (itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || []).length;
 
             // Đổ dữ liệu ra 5 thẻ Dashboard
