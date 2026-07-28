@@ -26,7 +26,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: rgba(0,0,0,0.2); }
         body { font-family: 'Times New Roman', Times, serif; font-size: 14px; margin: 0; padding: 8px; background: var(--bg-light); color: var(--text-main); font-weight: 500; }
         
-        .workspace { display: grid; grid-template-columns: 1fr 390px; gap: 12px; align-items: start; transition: all 0.3s ease; }
+        .workspace { display: grid; grid-template-columns: 1fr 410px; gap: 12px; align-items: start; transition: all 0.3s ease; }
         .workspace.calendar-hidden { grid-template-columns: 1fr !important; }
         @media (max-width: 1200px) { .workspace { grid-template-columns: 1fr; } }
 
@@ -673,8 +673,6 @@
                                         <option value="Windows 11 Home">Windows 11 Home</option>
                                         <option value="Windows 10 Pro">Windows 10 Pro</option>
                                         <option value="Windows 10 Home">Windows 10 Home</option>
-                                        <option value="Windows 8 / 8.1 Pro">Windows 8 / 8.1 Pro</option>
-                                        <option value="Windows 7 Ultimate / Pro">Windows 7 Ultimate / Pro</option>
                                         <option value="macOS (Apple)">macOS (Apple)</option>
                                         <option value="Linux / Ubuntu">Linux / Ubuntu</option>
                                         <option value="HĐH Khác">HĐH Khác</option>
@@ -683,7 +681,7 @@
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Bản quyền HĐH</label>
                                     <select id="it-os-lic" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
-                                        <option value="Bản quyền chính hãng (OEM/Retail)" selected>Đã có bản quyền chính hãng</option>
+                                        <option value="Bản quyền chính hãng" selected>Đã có bản quyền chính hãng</option>
                                         <option value="Chưa có bản quyền">⚠️ Chưa có bản quyền</option>
                                     </select>
                                 </div>
@@ -693,11 +691,6 @@
                                         <option value="Microsoft 365 (M365) Business" selected>Microsoft 365 Business</option>
                                         <option value="Office Professional Plus 2024">Office Pro Plus 2024</option>
                                         <option value="Office Professional Plus 2021">Office Pro Plus 2021</option>
-                                        <option value="Office Professional Plus 2019">Office Pro Plus 2019</option>
-                                        <option value="Office Professional Plus 2016">Office Pro Plus 2016</option>
-                                        <option value="Office Professional 2013">Office Professional 2013</option>
-                                        <option value="Office Professional 2010">Office Professional 2010</option>
-                                        <option value="Office Enterprise 2007">Office Enterprise 2007</option>
                                         <option value="LibreOffice / WPS Miễn phí">LibreOffice / WPS Miễn phí</option>
                                     </select>
                                 </div>
@@ -710,7 +703,6 @@
                                 </div>
                             </div>
 
-                            <!-- MỞ RỘNG PHẦN MỀM NGHIỆP VỤ & THIẾT KẾ KỸ THUẬT -->
                             <div class="grid-form" style="margin-bottom: 8px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Phần mềm nghiệp vụ / Thiết kế</label>
@@ -718,14 +710,8 @@
                                         <option value="Không có" selected>🚫 Không có (Văn phòng cơ bản)</option>
                                         <option value="ASIA ERP - Quản trị tổng thể">ASIA ERP - Quản trị tổng thể</option>
                                         <option value="Quasoft - Quản lý kho/vật tư">Quasoft - Quản lý kho/vật tư</option>
-                                        <option value="MISA AMIS / SME Kế toán">MISA AMIS / SME Kế toán</option>
                                         <option value="CloudOffice - Văn phòng điện tử">CloudOffice - Văn phòng điện tử</option>
                                         <option value="AutoCAD 2025 / 2024 (Thiết kế)">AutoCAD 2025 / 2024 (Thiết kế)</option>
-                                        <option value="AutoCAD 2022 / 2021 (Thiết kế)">AutoCAD 2022 / 2021 (Thiết kế)</option>
-                                        <option value="AutoCAD 2018 / 2010 (Thiết kế)">AutoCAD 2018 / 2010 (Thiết kế)</option>
-                                        <option value="SolidWorks / Inventor (Cơ khí)">SolidWorks / Inventor (Cơ khí)</option>
-                                        <option value="Adobe Photoshop / Illustrator">Adobe Photoshop / Illustrator</option>
-                                        <option value="Phần mềm chuyên ngành khác">Phần mềm chuyên ngành khác</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -780,7 +766,7 @@
 
                     <div id="status-cntt" style="font-weight: bold; font-size: 13px; margin-bottom: 8px;"></div>
 
-                    <!-- THANH CÔNG CỤ LỌC (PHÒNG BAN, HĐH, OFFICE) & XUẤT WORD -->
+                    <!-- THANH CÔNG CỤ LỌC & XUẤT WORD -->
                     <div style="display: flex; justify-content: space-between; align-items: center; background: #f3e8ff; border: 1.5px solid #d8b4fe; padding: 10px; border-radius: 6px; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
                         <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; flex: 1;">
                             <div style="display: flex; align-items: center; gap: 4px;">
@@ -837,7 +823,7 @@
             </div>
         </div>
 
-        <!-- LỊCH VẠN NIÊN THÔNG MINH (SIDEBAR) -->
+        <!-- LỊCH VẠN NIÊN THÔNG MINH (SIDEBAR - ĐẦY ĐỦ THÔNG TIN) -->
         <div class="calendar-sidebar" id="calendar-sidebar-box">
             <div class="cal-smart-header">
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
@@ -867,28 +853,24 @@
 
             <div class="cal-info-panel">
                 <div class="cal-info-row">
-                    <span class="cal-info-label"><i class="fa-solid fa-moon text-purple"></i> Âm lịch:</span>
+                    <span class="cal-info-label"><i class="fa-solid fa-moon text-purple"></i> Âm lịch chi tiết:</span>
                     <span class="cal-info-val" id="info-lunar-exact" style="color:var(--purple);">13/6/2026 (Bính Ngọ)</span>
                 </div>
                 <div class="cal-info-row">
-                    <span class="cal-info-label"><i class="fa-solid fa-sun text-orange"></i> Tiết khí:</span>
-                    <span class="cal-info-val" id="info-tiet-khi">Đại Thử (Nóng lớn)</span>
+                    <span class="cal-info-label"><i class="fa-solid fa-seedling text-green"></i> Tiết khí:</span>
+                    <span class="cal-info-val" id="info-tiet-khi" style="color:var(--green);">Đại Thử</span>
                 </div>
                 <div class="cal-info-row">
-                    <span class="cal-info-label"><i class="fa-solid fa-compass"></i> Trực / Sao:</span>
-                    <span class="cal-info-val" id="info-truc-sao">Trực Khai - Sao Tất</span>
+                    <span class="cal-info-label"><i class="fa-solid fa-compass text-blue"></i> Giờ Hoàng Đạo:</span>
+                    <span class="cal-info-val" id="info-hoang-dao" style="color:var(--blue);">Tý (23-1), Sửu (1-3), Mão (5-7)</span>
                 </div>
                 <div class="cal-info-row">
-                    <span class="cal-info-label"><i class="fa-solid fa-clock"></i> Giờ Hoàng Đạo:</span>
-                    <span class="cal-info-val" id="info-gio-hd">Tý (23-1), Mão (5-7)</span>
+                    <span class="cal-info-label"><i class="fa-solid fa-user-shield text-red"></i> Tuổi xung khắc:</span>
+                    <span class="cal-info-val" id="info-tuoi-xung" style="color:var(--red);">Mậu Thân, Nhâm Thân, Nhâm Tý</span>
                 </div>
-                <div class="cal-info-row" style="flex-direction: column; gap: 2px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px;">
-                    <span class="cal-info-label" style="color:var(--green);"><i class="fa-solid fa-circle-check"></i> Việc nên làm:</span>
-                    <span id="info-good-dos" style="color:#166534; font-weight:600; font-size:11.5px; background:#f0fdf4; padding:3px 6px; border-radius:4px; border:1px solid #86efac;">Ký hợp đồng, giao dịch tài chính</span>
-                </div>
-                <div class="cal-info-row" style="flex-direction: column; gap: 2px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px; margin-top: 4px;">
-                    <span class="cal-info-label" style="color:var(--red);"><i class="fa-solid fa-triangle-exclamation"></i> Việc kiêng kị:</span>
-                    <span id="info-bad-donts" style="color:#991b1b; font-weight:600; font-size:11.5px; background:#fef2f2; padding:3px 6px; border-radius:4px; border:1px solid #fca5a5;">Khởi công xây dựng, kiện tụng</span>
+                <div class="cal-info-row" style="flex-direction: column; gap: 4px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px;">
+                    <span class="cal-info-label" style="color:var(--orange);"><i class="fa-solid fa-quote-left"></i> Thành ngữ / Ca dao hôm nay:</span>
+                    <span id="info-daily-proverb" style="color:#7c2d12; font-weight:600; font-style:italic; font-size: 11.5px; background:#fff7ed; padding:5px 8px; border-radius:4px; border:1px solid #fdba74;">"Uống nước nhớ nguồn, ăn quả nhớ kẻ trồng cây."</span>
                 </div>
                 <div class="cal-info-row" style="flex-direction: column; gap: 4px; padding-top: 6px; margin-top: 2px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
@@ -914,7 +896,7 @@
             </div>
             <div style="background:#f8fafc; border:2px solid var(--purple); border-radius:8px; padding:15px; margin:10px 0; width:100%; display:flex; flex-direction:column; align-items:center;">
                 <div style="font-weight:bold; font-size:13px; color:var(--primary); margin-bottom:6px;">TỔNG CÔNG TY GIẤY VIỆT NAM</div>
-                <canvas id="modal-large-qr-canvas" style="margin:5px 0; background:white; padding:5px; border:1px solid #cbd5e1;"></canvas>
+                <div id="modal-qr-container" style="margin:5px 0; background:white; padding:5px; border:1px solid #cbd5e1; display:flex; justify-content:center;"></div>
                 <div id="modal-qr-info-text" style="font-size:12px; font-weight:bold; color:var(--purple); margin-top:8px; word-break:break-all;"></div>
             </div>
             <div style="display:flex; gap:8px; width:100%; justify-content:center; margin-top:5px;">
@@ -986,6 +968,34 @@
             {"name": "Đặng Trần Trung", "account": "107002654931", "lcb_heso": 1.53, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.62, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
             {"name": "Phạm Huy Chiến", "account": "102004830132", "lcb_heso": 2.26, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 2.40, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0}
         ];
+
+        // Kho tàng ca dao tục ngữ phong phú theo ngày
+        const dailyProverbsList = [
+            "Uống nước nhớ nguồn, ăn quả nhớ kẻ trồng cây.",
+            "Có công mài sắt, có ngày nên kim.",
+            "Học thầy không tày học bạn.",
+            "Thương người như thể thương thân.",
+            "Đi một ngày đàng, học một sàng khôn.",
+            "Một cây làm chẳng nên non, ba cây chụm lại nên hòn núi cao.",
+            "Năng nhặt chặt bị.",
+            "Ăn quả nhớ kẻ trồng cây, uống nước nhớ người đương dòng.",
+            "Lời chào cao hơn mâm cỗ.",
+            "Ăn mâm vàng chớ quên ngày đói.",
+            "Gần mực thì đen, gần đèn thì rạng.",
+            "Muốn sang thì bắc cầu kiều, muốn con hay chữ phải yêu lấy thầy.",
+            "Tay làm hàm nhai, tay quai miệng trễ.",
+            "Học ăn, học nói, học gói, học mở.",
+            "Nói lời phải giữ lấy lời, đừng như con bướm đậu rồi lại bay.",
+            "Sông có khúc, người có lúc.",
+            "Ở hiền gặp lành.",
+            "Cái nết đánh chết cái đẹp.",
+            "Chớ thấy sóng ngã tay chèo.",
+            "Lửa thử vàng, gian nan thử sức."
+        ];
+
+        const tietKhiList = ["Tiểu Hàn", "Đại Hàn", "Lập Xuân", "Vũ Thủy", "Kinh Trập", "Xuân Phân", "Thanh Minh", "Cốc Vũ", "Lập Hạ", "Tiểu Mãn", "Mang Chủng", "Hạ Chí", "Tiểu Thử", "Đại Thử", "Lập Thu", "Xử Thử", "Bạch Lộ", "Thu Phân", "Hàn Lộ", "Sương Giáng", "Lập Đông", "Tiểu Tuyết", "Đại Tuyết", "Đông Chí"];
+        const hoangDaoPool = ["Tý (23h-1h), Sửu (1h-3h), Thìn (7h-9h)", "Dần (3h-5h), Tỵ (9h-11h), Thân (15h-17h)", "Mão (5h-7h), Ngọ (11h-13h), Dậu (17h-19h)", "Sửu (1h-3h), Thìn (7h-9h), Tuất (19h-21h)", "Tý (23h-1h), Dần (3h-5h), Hợi (21h-23h)"];
+        const xungTuoiPool = ["Mậu Thân, Nhâm Thân, Nhâm Tý", "Giáp Tý, Bính Tý, Canh Dần", "Đinh Dậu, Ất Dậu, Tân Mão", "Bính Dần, Giáp Dần, Mậu辰", "Kỷ Hợi, Tân Hợi, Quý Mùi"];
 
         let salaryConfigsByMonth = JSON.parse(localStorage.getItem('sys_salary_configs_by_month')) || {};
         let salaryDataByMonth = JSON.parse(localStorage.getItem('sys_salary_by_month')) || {};
@@ -1173,7 +1183,6 @@
             let totalPaidYear = 0;
             let totalTelecomYear = 0;
 
-            // 1. Tổng kết lương và tạm ứng theo năm chọn
             Object.keys(salaryDataByMonth || {}).forEach(sm => {
                 let parts = sm.split('-');
                 let yr = parts[0] || "";
@@ -1214,7 +1223,6 @@
                 }
             });
 
-            // 2. Tổng kết hồ sơ thanh toán theo năm chọn
             Object.keys(paymentRecordsByMonth || {}).forEach(sm => {
                 let records = paymentRecordsByMonth[sm] || [];
                 records.forEach(rec => {
@@ -1227,7 +1235,6 @@
                 });
             });
 
-            // 3. Tổng kết cước viễn thông theo năm chọn (Có lọc trùng bản ghi)
             let seenTelecomKeys = new Set();
             Object.keys(telecomRecordsByMonth || {}).forEach(sm => {
                 let records = telecomRecordsByMonth[sm] || [];
@@ -1245,10 +1252,8 @@
                 });
             });
 
-            // 4. Tổng số máy CNTT theo đúng năm chọn
             let itCountYear = (itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || []).length;
 
-            // Đổ dữ liệu ra 5 thẻ Dashboard
             document.getElementById('dash-total-pay').innerText = formatCurrencyVN(totalNetYear) + " VND";
             document.getElementById('dash-paid-pay').innerText = formatCurrencyVN(totalPaidYear) + " VND";
             document.getElementById('dash-total-advance').innerText = formatCurrencyVN(totalAdvanceYear) + " VND";
@@ -1857,6 +1862,10 @@
 
             let qrContent = getStructuredQrText(code, type, user, dept, os, office, software);
 
+            const previewCanvasContainer = document.getElementById('live-qrcode-canvas');
+            if (previewCanvasContainer) {
+                previewCanvasContainer.innerHTML = "";
+            }
             try {
                 new QRious({
                     element: document.getElementById('live-qrcode-canvas'),
@@ -1887,6 +1896,10 @@
         function openLargeQrModal(qrText, codeVal) {
             document.getElementById('modal-qr-info-text').innerText = codeVal;
             document.getElementById('largeQrModal').style.display = 'flex';
+            
+            let modalContainer = document.getElementById('modal-qr-container');
+            modalContainer.innerHTML = '<canvas id="modal-large-qr-canvas"></canvas>';
+            
             try {
                 new QRious({
                     element: document.getElementById('modal-large-qr-canvas'),
@@ -2002,7 +2015,7 @@
             document.getElementById('it-type').value = rec.type || "Laptop Doanh Nghiệp";
             document.getElementById('it-code').value = rec.code || "";
             document.getElementById('it-os').value = rec.os || "Windows 11 Pro";
-            document.getElementById('it-os-lic').value = rec.osLic || "Bản quyền chính hãng (OEM/Retail)";
+            document.getElementById('it-os-lic').value = rec.osLic || "Bản quyền chính hãng";
             document.getElementById('it-office').value = rec.office || "Microsoft 365 (M365) Business";
             document.getElementById('it-office-lic').value = rec.officeLic || "Bản quyền doanh nghiệp";
             document.getElementById('it-software').value = rec.software || "Không có";
@@ -2396,7 +2409,6 @@
                 dayDiv.className = "cal-day-cell"; 
                 
                 let thisDate = new Date(year, month, d);
-                let dateKey = `${thisDate.getFullYear()}-${thisDate.getMonth() + 1}-${thisDate.getDate()}`;
                 let lunar = convertSolar2Lunar(d, month + 1, year, 7.0);
 
                 let dayNumberSpan = document.createElement('span');
@@ -2412,6 +2424,8 @@
 
                 if (thisDate.toDateString() === today.toDateString()) dayDiv.classList.add('today');
                 if (thisDate.toDateString() === calSelectedDate.toDateString()) dayDiv.classList.add('selected');
+                
+                let dateKey = `${thisDate.getFullYear()}-${thisDate.getMonth() + 1}-${thisDate.getDate()}`;
                 if (dayEventsMap[dateKey]) dayDiv.classList.add('has-event');
 
                 dayDiv.onclick = function() { calSelectedDate = new Date(year, month, d); updateSelectedDayInfo(); renderSmartCalendar(); };
@@ -2437,6 +2451,18 @@
             document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG ${lunar.month}${lunar.leap ? ' (Nhuận)' : ''} NĂM ${yearCC.toUpperCase()}`;
             document.getElementById('cal-selected-lunar-day').innerText = `Ngày ${dayCC} - Tháng ${monthCC}`;
             document.getElementById('info-lunar-exact').innerText = `${lunar.day}/${lunar.month}/${lunar.year} (${yearCC})`;
+
+            // Bổ sung các thông tin phong thủy, tiết khí chi tiết
+            let tietKhiIdx = (m * 2 + (d > 15 ? 1 : 0)) % tietKhiList.length;
+            document.getElementById('info-tiet-khi').innerText = tietKhiList[tietKhiIdx];
+            document.getElementById('info-hoang-dao').innerText = hoangDaoPool[jdn % hoangDaoPool.length];
+            document.getElementById('info-tuoi-xung').innerText = xungTuoiPool[jdn % xungTuoiPool.length];
+
+            // Tự động xoay câu thành ngữ/ca dao theo ngày trong năm (OfYear index)
+            let startOfYear = new Date(y, 0, 1);
+            let dayOfYear = Math.floor((calSelectedDate - startOfYear) / (1000 * 60 * 60 * 24));
+            let proverbIndex = (dayOfYear + d) % dailyProverbsList.length;
+            document.getElementById('info-daily-proverb').innerText = `"${dailyProverbsList[proverbIndex]}"`;
 
             document.getElementById('modal-event-date-lbl').innerText = `${d < 10 ? '0'+d : d}/${m < 10 ? '0'+m : m}/${y}`;
 
