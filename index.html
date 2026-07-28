@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>HỆ THỐNG QUẢN TRỊ NHÂN SỰ & CHẤM CÔNG - VINAPACO ENTERPRISE</title>
+    <title>HỆ THỐNG QUẢN TRỊ DOANH NGHIỆP - VINAPACO ENTERPRISE</title>
     <link rel="icon" href="data:,">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
@@ -125,7 +125,7 @@
         <div style="display:flex; align-items:center; gap:8px; flex-wrap: wrap;">
             <div>
                 <span class="status-dot"></span>
-                <span id="sys-status-text">Đã đồng bộ cơ sở dữ liệu nhân sự Tổng công ty Giấy Việt Nam</span>
+                <span id="sys-status-text">Đã đồng bộ cơ sở dữ liệu doanh nghiệp Tổng công ty Giấy Việt Nam</span>
             </div>
             <div class="year-selector-box">
                 <i class="fa-solid fa-calendar-check"></i>
@@ -150,11 +150,11 @@
     <div class="workspace" id="main-workspace">
         <div class="main-body">
             <div class="header">
-                <h1>TỔNG CÔNG TY GIẤY VIỆT NAM (VINAPACO) - QUẢN TRỊ NHÂN SỰ & CÔNG PHÉP</h1>
+                <h1>TỔNG CÔNG TY GIẤY VIỆT NAM (VINAPACO) - HỆ THỐNG QUẢN TRỊ DOANH NGHIỆP</h1>
                 <div class="live-clock-box" id="live-system-clock">--:--:-- --/--/----</div>
             </div>
 
-            <!-- 6 THẺ THỐNG KÊ TỔNG QUAN NHÂN SỰ -->
+            <!-- 6 THẺ THỐNG KÊ TỔNG QUAN -->
             <div class="stat-grid">
                 <div class="stat-card">
                     <div class="stat-info">
@@ -200,11 +200,16 @@
                 </div>
             </div>
 
+            <!-- THANH ĐIỀU HƯỚNG TẤT CẢ CÁC TAB -->
             <div class="nav-tabs">
                 <button type="button" class="nav-tab active" data-tab="overview" onclick="switchMainTab('overview')"><i class="fa-solid fa-chart-pie"></i> Tổng Quan & Biến Động</button>
                 <button type="button" class="nav-tab" data-tab="directory" onclick="switchMainTab('directory')"><i class="fa-solid fa-address-book"></i> Danh Sách CBNV & Chi Tiết</button>
                 <button type="button" class="nav-tab" data-tab="retire" onclick="switchMainTab('retire')"><i class="fa-solid fa-person-walking-arrow-right"></i> Dự Báo Nghỉ Hưu</button>
-                <button type="button" class="nav-tab" data-tab="leave" onclick="switchMainTab('leave')"><i class="fa-solid fa-calendar-check"></i> Quản Lý Công Phép (Khối Gián Tiếp)</button>
+                <button type="button" class="nav-tab" data-tab="leave" onclick="switchMainTab('leave')"><i class="fa-solid fa-calendar-check"></i> Quản Lý Công Phép</button>
+                <button type="button" class="nav-tab" data-tab="salary" onclick="switchMainTab('salary')"><i class="fa-solid fa-money-check-dollar"></i> Tính Lương</button>
+                <button type="button" class="nav-tab" data-tab="payment" onclick="switchMainTab('payment')"><i class="fa-solid fa-file-invoice-dollar"></i> Hồ Sơ Thanh Toán</button>
+                <button type="button" class="nav-tab" data-tab="telecom" onclick="switchMainTab('telecom')"><i class="fa-solid fa-phone-volume"></i> Cước Viễn Thông</button>
+                <button type="button" class="nav-tab" data-tab="it" onclick="switchMainTab('it')"><i class="fa-solid fa-laptop"></i> Thiết Bị Công Nghệ</button>
             </div>
 
             <!-- TAB 1: TỔNG QUAN & BIẾN ĐỘNG NHÂN SỰ -->
@@ -212,7 +217,7 @@
                 <div class="main-card">
                     <div class="card-title">
                         <span><i class="fa-solid fa-chart-column"></i> PHÂN TÍCH BIẾN ĐỘNG & CƠ CẤU NHÂN SỰ VINAPACO</span>
-                        <button type="button" class="btn btn-primary" style="padding:6px 12px; font-size:12px;" onclick="exportHrAnalyticsReport()"><i class="fa-solid fa-file-word"></i> 📄 Xuất Báo Cáo Nhân Sự Word</button>
+                        <button type="button" class="btn btn-primary" style="padding:6px 12px; font-size:12px;" onclick="exportHrAnalyticsReport()"><i class="fa-solid fa-file-word"></i> Xuất Báo Cáo Nhân Sự Word</button>
                     </div>
 
                     <div class="analytics-grid">
@@ -307,7 +312,7 @@
                 </div>
             </div>
 
-            <!-- TAB 4: QUẢN LÝ CÔNG PHÉP (KHỐI GIÁN TIẾP) -->
+            <!-- TAB 4: QUẢN LÝ CÔNG PHÉP -->
             <div id="tab-leave" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--green);">
@@ -326,7 +331,6 @@
                             <li><b>Lao động làm việc trong điều kiện bình thường:</b> 12 ngày phép/năm (thâm niên cứ đủ 5 năm được cộng thêm 1 ngày phép).</li>
                             <li><b>Lao động làm nghề, công việc nặng nhọc, độc hại, nguy hiểm (NNĐH):</b> 14 - 16 ngày phép/năm tùy bậc độc hại.</li>
                             <li><b>An toàn viên / Cán bộ chuyên trách:</b> Được hỗ trợ thêm ngày phép phục vụ công tác kiểm tra an toàn định kỳ.</li>
-                            <li>Hệ thống tự động tính toán số phép năm được hưởng dựa trên thâm niên, điều kiện độc hại và trạng thái thực tế.</li>
                         </ul>
                     </div>
 
@@ -347,6 +351,130 @@
                                 </tr>
                             </thead>
                             <tbody id="tbody-leave-management"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 5: TÍNH LƯƠNG -->
+            <div id="tab-salary" class="tab-content">
+                <div class="main-card">
+                    <div class="card-title" style="border-left-color: var(--purple);">
+                        <span><i class="fa-solid fa-money-check-dollar"></i> BẢNG TÍNH LƯƠNG & THU NHẬP CBNV</span>
+                        <button type="button" class="btn btn-purple" style="padding:6px 10px; font-size:12px;" onclick="alert('Đã xuất bảng lương thành công!')"><i class="fa-solid fa-file-excel"></i> Xuất Bảng Lương</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="main-table">
+                            <thead>
+                                <tr style="background-color: #cbd5e1;">
+                                    <th>STT</th>
+                                    <th>Họ và Tên</th>
+                                    <th>Đơn vị</th>
+                                    <th>Lương cơ bản</th>
+                                    <th>Hệ số lương</th>
+                                    <th>Phụ cấp độc hại</th>
+                                    <th>Lương thực lĩnh</th>
+                                    <th style="text-align: center;">Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-salary-mgmt">
+                                <tr><td class="text-center font-bold">1</td><td class="font-bold">NGUYỄN VĂN AN</td><td class="text-center">11.1</td><td>8,500,000 đ</td><td class="text-center">3.66</td><td>750,000 đ</td><td class="font-bold" style="color:var(--green);">12,450,000 đ</td><td class="text-center"><span class="badge badge-success">Đã duyệt</span></td></tr>
+                                <tr><td class="text-center font-bold">2</td><td class="font-bold">TRẦN THỊ THANH</td><td class="text-center">10</td><td>7,800,000 đ</td><td class="text-center">3.33</td><td>0 đ</td><td class="font-bold" style="color:var(--green);">10,800,000 đ</td><td class="text-center"><span class="badge badge-success">Đã duyệt</span></td></tr>
+                                <tr><td class="text-center font-bold">3</td><td class="font-bold">VŨ THỊ THU</td><td class="text-center">14.0</td><td>8,000,000 đ</td><td class="text-center">3.46</td><td>0 đ</td><td class="font-bold" style="color:var(--green);">11,100,000 đ</td><td class="text-center"><span class="badge badge-success">Đã duyệt</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 6: HỒ SƠ THANH TOÁN -->
+            <div id="tab-payment" class="tab-content">
+                <div class="main-card">
+                    <div class="card-title" style="border-left-color: var(--blue);">
+                        <span><i class="fa-solid fa-file-invoice-dollar"></i> HỒ SƠ QUẢN LÝ THANH TOÁN & TÀI CHÍNH</span>
+                        <button type="button" class="btn btn-primary" style="padding:6px 10px; font-size:12px;" onclick="alert('Đã tạo hồ sơ thanh toán mới!')"><i class="fa-solid fa-plus"></i> Lập Hồ Sơ</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="main-table">
+                            <thead>
+                                <tr style="background-color: #cbd5e1;">
+                                    <th>STT</th>
+                                    <th>Mã chứng từ</th>
+                                    <th>Nội dung thanh toán</th>
+                                    <th>Bộ phận đề xuất</th>
+                                    <th>Số tiền đề nghị</th>
+                                    <th>Ngày lập</th>
+                                    <th style="text-align: center;">Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="text-center font-bold">1</td><td class="font-bold">PT-2026-081</td><td>Thanh toán chi phí vật tư sửa chữa nhà máy giấy</td><td class="text-center">Phân Xưởng Cơ Khí</td><td class="font-bold" style="color:var(--blue);">45,200,000 đ</td><td class="text-center">20/07/2026</td><td class="text-center"><span class="badge badge-info">Chờ duyệt Kế toán trưởng</span></td></tr>
+                                <tr><td class="text-center font-bold">2</td><td class="font-bold">PT-2026-082</td><td>Mua sắm văn phòng phẩm quý 3/2026</td><td class="text-center">Phòng TCHC</td><td class="font-bold" style="color:var(--blue);">8,500,000 đ</td><td class="text-center">22/07/2026</td><td class="text-center"><span class="badge badge-success">Đã chi trả</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 7: CƯỚC VIỄN THÔNG -->
+            <div id="tab-payment" class="tab-content" id="tab-telecom" style="display:none;">
+                <!-- Sẽ chuyển qua xử lý tab -->
+            </div>
+            
+            <div id="tab-telecom" class="tab-content">
+                <div class="main-card">
+                    <div class="card-title" style="border-left-color: var(--orange);">
+                        <span><i class="fa-solid fa-phone-volume"></i> QUẢN LÝ CƯỚC VIỄN THÔNG & THUÊ BAO</span>
+                        <button type="button" class="btn btn-orange" style="padding:6px 10px; font-size:12px;" onclick="alert('Đã cập nhật dữ liệu cước viễn thông!')"><i class="fa-solid fa-rotate"></i> Cập Nhật Cước</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="main-table">
+                            <thead>
+                                <tr style="background-color: #cbd5e1;">
+                                    <th>STT</th>
+                                    <th>Họ và Tên CBNV</th>
+                                    <th>Số thuê bao</th>
+                                    <th>Đơn vị</th>
+                                    <th>Định mức cước</th>
+                                    <th>Cước phát sinh thực tế</th>
+                                    <th>Vượt định mức (Nộp lại)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="text-center font-bold">1</td><td class="font-bold">Tạ Đức Long (Tổng Giám đốc)</td><td class="text-center">0912xxxxxx</td><td class="text-center">Ban Tổng Giám đốc</td><td>500,000 đ</td><td>420,000 đ</td><td style="color:var(--green);">0 đ</td></tr>
+                                <tr><td class="text-center font-bold">2</td><td class="font-bold">Nguyễn Văn An</td><td class="text-center">0983xxxxxx</td><td class="text-center">Phòng KCLT</td><td>300,000 đ</td><td>345,000 đ</td><td style="color:var(--red); font-weight:bold;">45,000 đ</td></tr>
+                                <tr><td class="text-center font-bold">3</td><td class="font-bold">Vũ Thị Thu</td><td class="text-center">0904xxxxxx</td><td class="text-center">Phòng TCHC</td><td>300,000 đ</td><td>280,000 đ</td><td style="color:var(--green);">0 đ</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 8: THIẾT BỊ CÔNG NGHỆ -->
+            <div id="tab-it" class="tab-content">
+                <div class="main-card">
+                    <div class="card-title" style="border-left-color: #0d9488;">
+                        <span><i class="fa-solid fa-laptop"></i> QUẢN LÝ THIẾT BỊ CNTT & MÃ QR TÀI SẢN</span>
+                        <button type="button" class="btn btn-teal" style="padding:6px 10px; font-size:12px;" onclick="alert('Đã tạo mã QR cho thiết bị thành công!')"><i class="fa-solid fa-qrcode"></i> Tạo Mã QR Thiết Bị</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="main-table">
+                            <thead>
+                                <tr style="background-color: #cbd5e1;">
+                                    <th>STT</th>
+                                    <th>Mã tài sản</th>
+                                    <th>Tên thiết bị / Cấu hình</th>
+                                    <th>Người sử dụng</th>
+                                    <th>Vị trí phòng ban</th>
+                                    <th>Tình trạng</th>
+                                    <th style="text-align:center;">Mã QR</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="text-center font-bold">1</td><td class="font-bold">IT-LAP-001</td><td>Dell Latitude 5430 (Core i7, 16GB, SSD 512GB)</td><td>Tạ Đức Long</td><td class="text-center">Phòng Tổng Giám đốc</td><td><span class="badge badge-success">Đang sử dụng tốt</span></td><td class="text-center"><i class="fa-solid fa-qrcode" style="font-size:20px; color:var(--blue);"></i></td></tr>
+                                <tr><td class="text-center font-bold">2</td><td class="font-bold">IT-PC-015</td><td>HP ProDesk 400 G7 (Core i5, 8GB, SSD 256GB)</td><td>Trần Thị Thanh</td><td class="text-center">Phòng Tài chính Kế toán</td><td><span class="badge badge-success">Đang sử dụng tốt</span></td><td class="text-center"><i class="fa-solid fa-qrcode" style="font-size:20px; color:var(--blue);"></i></td></tr>
+                                <tr><td class="text-center font-bold">3</td><td class="font-bold">IT-PRN-003</td><td>Máy in Canon LBP 2900</td><td>Văn phòng chung TCHC</td><td class="text-center">Phòng TCHC</td><td><span class="badge badge-warning">Cần đổ mực</span></td><td class="text-center"><i class="fa-solid fa-qrcode" style="font-size:20px; color:var(--blue);"></i></td></tr>
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -498,6 +626,7 @@
         let leaveRecordsMap = JSON.parse(localStorage.getItem('sys_vinapaco_leaves')) || {};
 
         const defaultEmployees = [
+            {"name": "TẠ ĐỨC LONG", "gender": "Nam", "dob": "1975-05-12", "bhxh": "8200000001", "cccd": "025175000001", "dept": "01", "safety": "X", "toxic": "", "job": "Tổng Giám đốc, Ban Tổng Giám đốc", "block": "Gián tiếp"},
             {"name": "TRIỆU THỊ NĂM", "gender": "Nữ", "dob": "1969-08-10", "bhxh": "8298010513", "cccd": "025169015152", "dept": "14.2", "safety": "", "toxic": "", "job": "Công nhân nguội sửa chữa cơ khí, Phân xưởng Cơ khí", "block": "Trực tiếp"},
             {"name": "NGUYỄN THỊ THẠCH", "gender": "Nữ", "dob": "1974-08-01", "bhxh": "8200102787", "cccd": "042174013492", "dept": "10", "safety": "", "toxic": "", "job": "Thủ kho giấy thành phẩm, Tổng kho", "block": "Gián tiếp"},
             {"name": "NGÔ THỊ THU LAN", "gender": "Nữ", "dob": "1969-09-01", "bhxh": "8200102773", "cccd": "025169012622", "dept": "11.1", "safety": "", "toxic": "1", "job": "Công nhân vận hành máy bóc vỏ gỗ, Phân xưởng Nguyên liệu", "block": "Trực tiếp"},
@@ -506,8 +635,7 @@
             {"name": "TRẦN THỊ THANH", "gender": "Nữ", "dob": "1985-11-20", "bhxh": "8207654321", "cccd": "025185005678", "dept": "10", "safety": "", "toxic": "", "job": "Kế toán tổng hợp, Phòng Tài chính Kế toán", "block": "Gián tiếp"},
             {"name": "PHẠM TIẾN LONG", "gender": "Nam", "dob": "1978-03-12", "bhxh": "8209876543", "cccd": "025178009876", "dept": "13.0", "safety": "X", "toxic": "1", "job": "Trưởng ca sản xuất giấy, Phân xưởng Giấy", "block": "Trực tiếp"},
             {"name": "HOÀNG MẠNH HÙNG", "gender": "Nam", "dob": "1990-07-25", "bhxh": "8201122334", "cccd": "025190001122", "dept": "12.0", "safety": "", "toxic": "1", "job": "Vận hành lò hơi, Phân xưởng Động lực", "block": "Trực tiếp"},
-            {"name": "VŨ THỊ THU", "gender": "Nữ", "dob": "1988-12-05", "bhxh": "8205566778", "cccd": "025188005566", "dept": "14.0", "safety": "", "toxic": "", "job": "Chuyên viên Nhân sự, Phòng TCHC", "block": "Gián tiếp"},
-            {"name": "ĐẶNG TRẦN TRUNG", "gender": "Nam", "dob": "1983-09-18", "bhxh": "8209988776", "cccd": "025183009988", "dept": "16.0", "safety": "X", "toxic": "", "job": "Kỹ sư cơ điện, Xí nghiệp Cơ điện", "block": "Gián tiếp"}
+            {"name": "VŨ THỊ THU", "gender": "Nữ", "dob": "1988-12-05", "bhxh": "8205566778", "cccd": "025188005566", "dept": "14.0", "safety": "", "toxic": "", "job": "Chuyên viên Nhân sự, Phòng TCHC", "block": "Gián tiếp"}
         ];
 
         if (employeeList.length === 0) {
@@ -786,7 +914,7 @@
                 alert("⚠️ Vui lòng cập nhật đường dẫn CLOUD_SCRIPT_API_URL trong mã nguồn trước khi đồng bộ!");
                 return;
             }
-            alert("⏳ Đang đồng bộ dữ liệu nhân sự lên Google Drive...");
+            alert("⏳ Đang đồng bộ dữ liệu lên Google Drive...");
             try {
                 let payload = {
                     action: "sync_hr_data",
@@ -814,7 +942,7 @@
                 alert("⚠️ Vui lòng cập nhật đường dẫn CLOUD_SCRIPT_API_URL trong mã nguồn trước khi tải!");
                 return;
             }
-            alert("⏳ Đang tải dữ liệu nhân sự từ Google Drive...");
+            alert("⏳ Đang tải dữ liệu từ Google Drive...");
             try {
                 let response = await fetch(`${CLOUD_SCRIPT_API_URL}?action=load_data`);
                 let result = await response.json();
