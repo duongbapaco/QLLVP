@@ -740,8 +740,11 @@
                                 <div class="form-group">
                                     <label style="color: #6d28d9; font-size: 11px;">Hệ điều hành</label>
                                     <select id="it-os" style="border-color: #d8b4fe; padding: 5px 7px; height: 32px;" onchange="updateLiveQRPreview()">
-                                        <option value="Windows 11 Pro / Home" selected>Win 11 Pro</option>
-                                        <option value="Windows 10 Pro / Home">Win 10 Pro</option>
+                                        <option value="Windows 11 Pro / Home">Windows 11</option>
+                                        <option value="Windows 10 Pro / Home" selected>Windows 10</option>
+                                        <option value="Windows 8.1 Pro">Windows 8.1</option>
+                                        <option value="Windows 8">Windows 8</option>
+                                        <option value="Windows 7 Professional / Ultimate">Windows 7</option>
                                         <option value="macOS Apple Silicon / Intel">macOS</option>
                                         <option value="Linux / Ubuntu / Fedora">Linux</option>
                                     </select>
@@ -749,25 +752,29 @@
                                 <div class="form-group">
                                     <label style="color: #6d28d9; font-size: 11px;">Bản quyền HĐH <span style="color:var(--red);">*</span></label>
                                     <select id="it-os-lic" style="border-color: #d8b4fe; padding: 5px 7px; height: 32px; font-size: 10.5px;" onchange="updateLiveQRPreview()">
-                                        <option value="⚠️ Chưa có bản quyền HĐH (Chưa Active)" selected>⚠️ Chưa Active</option>
-                                        <option value="Bản quyền chính hãng OEM/Retail">Đã Active</option>
+                                        <option value="Chưa kích hoạt OEM" selected>⚠️ Chưa kích hoạt OEM</option>
+                                        <option value="Kích hoạt OEM">Kích hoạt OEM</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label style="color: #6d28d9; font-size: 11px;">Bộ Office</label>
                                     <select id="it-office" style="border-color: #d8b4fe; padding: 5px 7px; height: 32px;" onchange="updateLiveQRPreview()">
-                                        <option value="Microsoft 365 (M365) Business Standard" selected>M365 Standard</option>
+                                        <option value="Microsoft 365 (M365) Business Standard">Microsoft 365 (M365)</option>
                                         <option value="Office 2024 / Office LTSC 2024">Office 2024</option>
-                                        <option value="Office 2021 (Pro Plus / Home & Business)">Office 2021</option>
+                                        <option value="Office 2021 (Pro Plus / Home & Business)" selected>Office 2021</option>
                                         <option value="Office 2019 (Pro Plus / Home & Business)">Office 2019</option>
-                                        <option value="LibreOffice / WPS Office (Miễn phí)">LibreOffice</option>
+                                        <option value="Office 2016 (Pro Plus / Home & Business)">Office 2016</option>
+                                        <option value="Office 2013 (Pro Plus / Home & Business)">Office 2013</option>
+                                        <option value="Office 2010 (Pro Plus / Home & Business)">Office 2010</option>
+                                        <option value="Office 2007 (Enterprise / Professional)">Office 2007</option>
+                                        <option value="LibreOffice / WPS Office (Miễn phí)">LibreOffice / WPS</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label style="color: #6d28d9; font-size: 11px;">BQ Office <span style="color:var(--red);">*</span></label>
                                     <select id="it-office-lic" style="border-color: #d8b4fe; padding: 5px 7px; height: 32px; font-size: 10.5px;" onchange="updateLiveQRPreview()">
-                                        <option value="⚠️ Chưa có bản quyền Office" selected>⚠️ Chưa BQ</option>
-                                        <option value="Bản quyền doanh nghiệp chính hãng">Đã có BQ</option>
+                                        <option value="Chưa kích hoạt OEM" selected>⚠️ Chưa kích hoạt OEM</option>
+                                        <option value="Kích hoạt OEM">Kích hoạt OEM</option>
                                     </select>
                                 </div>
                             </div>
@@ -776,43 +783,59 @@
                                 <div class="form-group">
                                     <label style="color: #6d28d9; font-size: 11px;">Đồ họa / CAD</label>
                                     <select id="it-software" style="border-color: #d8b4fe; padding: 5px 7px; height: 32px;" onchange="updateLiveQRPreview()">
-                                        <option value="⚠️ Chưa có bản quyền phần mềm / Crack" selected>⚠️ Crack</option>
-                                        <option value="🚫 Không có (Văn phòng cơ bản)">🚫 Không</option>
-                                        <option value="AutoCAD (Đủ phiên bản 2007-2026)">AutoCAD</option>
-                                        <option value="SolidWorks (Đủ phiên bản 2007-2026)">SolidWorks</option>
+                                        <option value="🚫 Không có (Văn phòng cơ bản)">🚫 Không có</option>
+                                        <option value="AutoCAD 2026">AutoCAD 2026</option>
+                                        <option value="AutoCAD 2025">AutoCAD 2025</option>
+                                        <option value="AutoCAD 2024">AutoCAD 2024</option>
+                                        <option value="AutoCAD 2023">AutoCAD 2023</option>
+                                        <option value="AutoCAD 2022">AutoCAD 2022</option>
+                                        <option value="AutoCAD 2021">AutoCAD 2021</option>
+                                        <option value="AutoCAD 2020">AutoCAD 2020</option>
+                                        <option value="AutoCAD 2019">AutoCAD 2019</option>
+                                        <option value="AutoCAD 2018">AutoCAD 2018</option>
+                                        <option value="AutoCAD 2017">AutoCAD 2017</option>
+                                        <option value="AutoCAD 2016">AutoCAD 2016</option>
+                                        <option value="AutoCAD 2015">AutoCAD 2015</option>
+                                        <option value="AutoCAD 2014">AutoCAD 2014</option>
+                                        <option value="AutoCAD 2013">AutoCAD 2013</option>
+                                        <option value="AutoCAD 2012">AutoCAD 2012</option>
+                                        <option value="AutoCAD 2011">AutoCAD 2011</option>
+                                        <option value="AutoCAD 2010">AutoCAD 2010</option>
+                                        <option value="AutoCAD 2009">AutoCAD 2009</option>
+                                        <option value="AutoCAD 2008">AutoCAD 2008</option>
+                                        <option value="AutoCAD 2007">AutoCAD 2007</option>
+                                        <option value="SolidWorks (Các phiên bản)">SolidWorks</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label style="color: #6d28d9; font-size: 11px;">ASIA ERP</label>
                                     <select id="it-asia" style="border-color: #d8b4fe; padding: 5px 7px; height: 32px;" onchange="updateLiveQRPreview()">
-                                        <option value="⚠️ Chưa có bản quyền ASIA / Crack" selected>⚠️ Crack</option>
                                         <option value="🚫 Không">🚫 Không</option>
-                                        <option value="ASIA Enterprise ERP (Kế toán - Kho)">ASIA Enterprise</option>
+                                        <option value="ASIA Enterprise ERP (Kế toán - Kho)" selected>ASIA Enterprise</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label style="color: #6d28d9; font-size: 11px;">QUASOFT</label>
                                     <select id="it-quasoft" style="border-color: #d8b4fe; padding: 5px 7px; height: 32px;" onchange="updateLiveQRPreview()">
-                                        <option value="⚠️ Chưa có bản quyền Quasoft / Crack" selected>⚠️ Crack</option>
                                         <option value="🚫 Không">🚫 Không</option>
-                                        <option value="Quasoft Warehouse & Material Management">Quasoft Kho</option>
+                                        <option value="Quasoft Warehouse & Material Management" selected>Quasoft Kho</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label style="color: #6d28d9; font-size: 11px;">CloudOffice</label>
                                     <select id="it-cloudoffice" style="border-color: #d8b4fe; padding: 5px 7px; height: 32px;" onchange="updateLiveQRPreview()">
-                                        <option value="✅ Có (Đã tích hợp Web/App)" selected>✅ Có</option>
                                         <option value="🚫 Không">🚫 Không</option>
+                                        <option value="CloudOffice Web/App (Đã tích hợp)" selected>CloudOffice</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div style="display: grid; grid-template-columns: 1fr 1fr 120px 130px; gap: 8px; margin-bottom: 8px;">
                                 <div class="form-group">
-                                    <label style="color: #6d28d9; font-size: 11px;">Bản quyền Phần mềm/CAD <span style="color:var(--red);">*</span></label>
+                                    <label style="color: #6d28d9; font-size: 11px;">BQ Phần mềm / Nghiệp vụ <span style="color:var(--red);">*</span></label>
                                     <select id="it-soft-lic" style="border-color: #d8b4fe; padding: 5px 7px; height: 32px; font-size: 10.5px;" onchange="updateLiveQRPreview()">
-                                        <option value="⚠️ Chưa có bản quyền phần mềm / Crack" selected>⚠️ Chưa có BQ</option>
-                                        <option value="Bản quyền chính hãng doanh nghiệp">Chính hãng</option>
+                                        <option value="Chưa tích hợp bản quyền" selected>⚠️ Chưa tích hợp bản quyền</option>
+                                        <option value="Đã tích hợp bản quyền">Đã tích hợp bản quyền</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -2342,15 +2365,15 @@
             document.getElementById('it-dept').value = rec.dept || "";
             document.getElementById('it-type').value = rec.type || "Laptop Doanh Nghiệp";
             document.getElementById('it-code').value = rec.code || "";
-            document.getElementById('it-os').value = rec.os || "Windows 11 Pro / Home";
-            document.getElementById('it-os-lic').value = rec.osLic || "⚠️ Chưa có bản quyền HĐH (Chưa Active)";
-            document.getElementById('it-office').value = rec.office || "Microsoft 365 (M365) Business Standard";
-            document.getElementById('it-office-lic').value = rec.officeLic || "⚠️ Chưa có bản quyền Office";
-            document.getElementById('it-software').value = rec.software || "⚠️ Chưa có bản quyền phần mềm / Crack";
-            document.getElementById('it-asia').value = rec.asia || "⚠️ Chưa có bản quyền ASIA / Crack";
-            document.getElementById('it-quasoft').value = rec.quasoft || "⚠️ Chưa có bản quyền Quasoft / Crack";
-            document.getElementById('it-cloudoffice').value = rec.cloudoffice || "✅ Có (Đã tích hợp Web/App)";
-            document.getElementById('it-soft-lic').value = rec.softLic || "⚠️ Chưa có bản quyền phần mềm / Crack";
+            document.getElementById('it-os').value = rec.os || "Windows 10 Pro / Home";
+            document.getElementById('it-os-lic').value = rec.osLic || "Chưa kích hoạt OEM";
+            document.getElementById('it-office').value = rec.office || "Office 2021 (Pro Plus / Home & Business)";
+            document.getElementById('it-office-lic').value = rec.officeLic || "Chưa kích hoạt OEM";
+            document.getElementById('it-software').value = rec.software || "🚫 Không có (Văn phòng cơ bản)";
+            document.getElementById('it-asia').value = rec.asia || "ASIA Enterprise ERP (Kế toán - Kho)";
+            document.getElementById('it-quasoft').value = rec.quasoft || "Quasoft Warehouse & Material Management";
+            document.getElementById('it-cloudoffice').value = rec.cloudoffice || "CloudOffice Web/App (Đã tích hợp)";
+            document.getElementById('it-soft-lic').value = rec.softLic || "Chưa tích hợp bản quyền";
             document.getElementById('it-specs').value = rec.specs || "";
             document.getElementById('it-date').value = rec.dateVal || "";
             document.getElementById('it-status').value = rec.status || "Tốt - Đang sử dụng";
