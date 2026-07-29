@@ -2863,6 +2863,7 @@
             saveAs(blob, fileName);
         }
 
+        // --- THUẬT TOÁN ĐỔI ÂM DƯƠNG LỊCH HOÀN CHỈNH ---
         const PI = Math.PI;
         function INT(d) { return Math.floor(d); }
         function jdFromDate(dd, mm, yy) {
@@ -2916,256 +2917,217 @@
             let k = INT((a11 - 2415020.75933) / 29.53058868 + 0.5);
             let last = 0;
             let i = 1;
-            let arc = getSunLongitude(getNewMoonDay(k, timeZone), timeZone);
+            let arc = INT(getSunLongitude(a11, timeZone) / 30);
             while (true) {
-                let lastArc = arc;
-                k++;
-                let nm = getNewMoonDay(k, timeZone);
-                arc = getSunLongitude(nm, timeZone);
-                if (Math.abs(arc - lastArc) > 200) {
-                    let diff = Math.abs(arc - lastArc);
-                    if (arc < lastArc) arc += 360;
-                    else lastArc += 360;
+                let lastNm = getNewMoonDay(k + i, timeZone);
+                let newArc = INT(getSunLongitude(lastNm, timeZone) / 30);
+                if (arc === newArc) {
+                    last = i;
                 }
-                let m = INT(arc / 30);
-                if (m === last) {
-                    return i;
-                }
-                last = m;
+                arc = newArc;
+                if (i >= 13) break;
                 i++;
-                if (i >= 14) break;
             }
-            return 0;
+            return last;
         }
         function convertSolar2Lunar(dd, mm, yy, timeZone) {
             let dayNumber = jdFromDate(dd, mm, yy);
             let k = INT((dayNumber - 2415020.75933) / 29.53058868);
-            let nm = getNewMoonDay(k, timeZone);
-            if (nm > dayNumber) {
-                k--;
-                nm = getNewMoonDay(k, timeZone);
+            let monthStart = getNewMoonDay(k, timeZone);
+            if (monthStart > dayNumber) {
+                monthStart = getNewMoonDay(k - 1, timeZone);
             }
             let a11 = getLunarMonth11(yy, timeZone);
             let b11 = a11;
-            if (a11 >= nm) {
+            let lunarYear = yy;
+            if (a11 >= monthStart) {
+                lunarYear = yy - 1;
                 a11 = getLunarMonth11(yy - 1, timeZone);
             } else {
                 b11 = getLunarMonth11(yy + 1, timeZone);
             }
-            let lunarMonth = INT((nm - a11) / 29.5 + 0.5) + 11;
-            let leap = 0;
-            let leapMonthDiff = getLeapMonthOffset(a11, timeZone);
-            if (leapMonthDiff > 0) {
-                let leapMoonDay = getNewMoonDay(k, timeZone);
-                if (dayNumber >= leapMoonDay) {
-                    lunarMonth = INT((leapMoonDay - a11) / 29.5 + 0.5) + 11;
-                    if (lunarMonth > 12) lunarMonth -= 12;
-                    let leapMonth = leapMonthDiff;
-                    if (lunarMonth === leapMonth) leap = 1;
+            let lunarDay = dayNumber - monthStart + 1;
+            let diff = INT((monthStart - a11) / 29);
+            let lunarLeap = 0;
+            let lunarMonth = diff + 11;
+            if (b11 - a11 > 365) {
+                let leapMonthDiff = getLeapMonthOffset(a11, timeZone);
+                if (diff >= leapMonthDiff) {
+                    lunarMonth = diff + 10;
+                    if (diff === leapMonthDiff) {
+                        lunarLeap = 1;
+                    }
                 }
             }
-            if (lunarMonth > 12) lunarMonth -= 12;
-            let lunarDay = dayNumber - nm + 1;
-            let lunarYear = yy;
-            if (lunarMonth === 11 && lunarDay >= 1 && dayNumber < a11) lunarYear = yy - 1;
-            if (lunarMonth >= 1 && lunarMonth <= 3 && dayNumber >= b11) lunarYear = yy + 1;
-            return { day: lunarDay, month: lunarMonth, year: lunarYear, leap: leap };
-        }
-
-        const stemNames = ["Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ", "Canh", "Tân", "Nhâm", "Quý"];
-        const branchNames = ["Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi", "Thân", "Dậu", "Tuất", "Hợi"];
-        
-        function getYearCanChi(year) {
-            let stem = stemNames[(year + 6) % 10];
-            let branch = branchNames[(year + 8) % 12];
-            return `${stem} ${branch}`;
-        }
-        function getMonthCanChi(lunarMonth, lunarYear) {
-            let yearStemIdx = (lunarYear + 6) % 10;
-            let monthStemIdx = (yearStemIdx % 5 * 2 + lunarMonth + 1) % 10;
-            let monthBranchIdx = (lunarMonth + 1) % 12;
-            return `${stemNames[monthStemIdx]} ${branchNames[monthBranchIdx]}`;
-        }
-        function getDayCanChi(jdn) {
-            let stem = stemNames[(jdn + 9) % 10];
-            let branch = branchNames[(jdn + 1) % 12];
-            return `${stem} ${branch}`;
-        }
-
-        function renderSmartCalendar() {
-            let year = calViewDate.getFullYear(), month = calViewDate.getMonth();
-            const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
-            document.getElementById('cal-header-title').innerText = `${monthNames[month]} / ${year}`;
-            
-            const container = document.getElementById('cal-mini-days-container'); container.innerHTML = "";
-            let firstDayIndex = new Date(year, month, 1).getDay(), totalDays = new Date(year, month + 1, 0).getDate();
-
-            for (let i = 0; i < firstDayIndex; i++) { container.appendChild(document.createElement('div')); }
-
-            let today = new Date();
-            for (let d = 1; d <= totalDays; d++) {
-                let dayDiv = document.createElement('div');
-                dayDiv.className = "cal-day-cell"; 
-                
-                let thisDate = new Date(year, month, d);
-                let lunar = convertSolar2Lunar(d, month + 1, year, 7.0);
-
-                let dayNumberSpan = document.createElement('span');
-                dayNumberSpan.innerText = d;
-                dayNumberSpan.style.fontWeight = "bold";
-                dayNumberSpan.style.fontSize = "12px";
-                dayDiv.appendChild(dayNumberSpan);
-
-                let lunarSubSpan = document.createElement('span');
-                lunarSubSpan.className = "lunar-sub-txt";
-                lunarSubSpan.innerText = lunar.day === 1 ? `${lunar.month}/${lunar.day}` : lunar.day;
-                dayDiv.appendChild(lunarSubSpan);
-
-                if (thisDate.toDateString() === today.toDateString()) dayDiv.classList.add('today');
-                if (thisDate.toDateString() === calSelectedDate.toDateString()) dayDiv.classList.add('selected');
-                
-                let dateKey = `${thisDate.getFullYear()}-${thisDate.getMonth() + 1}-${thisDate.getDate()}`;
-                if (dayEventsMap[dateKey]) dayDiv.classList.add('has-event');
-
-                dayDiv.onclick = function() { calSelectedDate = new Date(year, month, d); updateSelectedDayInfo(); renderSmartCalendar(); };
-                container.appendChild(dayDiv);
+            if (lunarMonth > 12) {
+                lunarMonth = lunarMonth - 12;
             }
-            updateSelectedDayInfo();
+            if (lunarMonth >= 11 && diff < 4) {
+                lunarYear = yy - 1;
+            }
+            return [lunarDay, lunarMonth, lunarYear, lunarLeap];
         }
 
-        function updateSelectedDayInfo() {
+        const CAN = ["Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ", "Canh", "Tân", "Nhâm", "Quý"];
+        const CHI = ["Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi", "Thân", "Dậu", "Tuất", "Hợi"];
+        const TIET_KHI = ["Xuân Phân", "Thanh Minh", "Cốc Vũ", "Lập Hạ", "Tiểu Mãn", "Mang Chủng", "Hạ Chí", "Tiểu Thử", "Đại Thử", "Lập Thu", "Xử Thử", "Bạch Lộ", "Thu Phân", "Hàn Lộ", "Sương Giáng", "Lập Đông", "Tiểu Tuyết", "Đại Tuyết", "Đông Chí", "Tiểu Hàn", "Đại Hàn", "Lập Xuân", "Vũ Thủy", "Kinh Trập"];
+        const CA_DAO_PROVERBS = [
+            "Uống nước nhớ nguồn, ăn quả nhớ kẻ trồng cây.",
+            "Muốn lành nghề phải ham học hỏi, muốn giỏi giang phải chịu rèn luyện.",
+            "Đồng thanh tương ứng, đồng khí tương cầu.",
+            "Kiên trì nhẫn nại, việc gì cũng xong.",
+            "Một cây làm chẳng nên non, ba cây chụm lại nên hòn núi cao.",
+            "Lao động là vinh quang, sáng tạo là chìa khóa phát triển."
+        ];
+
+        function getCanChiDay(jd) {
+            let canIdx = (jd + 9) % 10;
+            let chiIdx = (jd + 1) % 12;
+            return `${CAN[canIdx]} ${CHI[chiIdx]}`;
+        }
+
+        function getCanChiYear(year) {
+            let canIdx = (year + 6) % 10;
+            let chiIdx = (year + 8) % 12;
+            return `${CAN[canIdx]} ${CHI[chiIdx]}`;
+        }
+
+        function getCanChiMonth(lunarMonth, lunarYear) {
+            let canYearIdx = (lunarYear + 6) % 10;
+            let firstMonthCanIdx = (canYearIdx * 2 + 1) % 10;
+            let canIdx = (firstMonthCanIdx + lunarMonth - 1) % 10;
+            let chiIdx = (lunarMonth + 1) % 12;
+            return `${CAN[canIdx]} ${CHI[chiIdx]}`;
+        }
+
+        function renderSmartCalendarSidebar() {
+            let y = calViewDate.getFullYear();
+            let m = calViewDate.getMonth();
+            const monthNames = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+            document.getElementById('cal-header-title').innerText = `THÁNG ${monthNames[m]} / ${y}`;
+
+            let daysContainer = document.getElementById('cal-mini-days-container');
+            daysContainer.innerHTML = "";
+
+            let firstDayIndex = new Date(y, m, 1).getDay();
+            let totalDays = new Date(y, m + 1, 0).getDate();
+
+            for (let i = 0; i < firstDayIndex; i++) {
+                daysContainer.innerHTML += `<div></div>`;
+            }
+
+            for (let d = 1; d <= totalDays; d++) {
+                let curDate = new Date(y, m, d);
+                let isToday = (d === todaySystemDate.getDate() && m === todaySystemDate.getMonth() && y === todaySystemDate.getFullYear());
+                let isSelected = (d === calSelectedDate.getDate() && m === calSelectedDate.getMonth() && y === calSelectedDate.getFullYear());
+                
+                let dateKey = `${y}-${(m + 1).toString().padStart(2, '0')}-${d.toString().padStart(2, '0')}`;
+                let hasEvent = !!dayEventsMap[dateKey];
+
+                let lunarArr = convertSolar2Lunar(d, m + 1, y, 7);
+                let lunarText = `${lunarArr[0]}/${lunarArr[1]}`;
+
+                daysContainer.innerHTML += `
+                    <div class="cal-day-cell ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''} ${hasEvent ? 'has-event' : ''}" onclick="selectCalendarDay(${d}, ${m}, ${y})">
+                        <span>${d}</span>
+                        <span class="lunar-sub-txt">${lunarText}</span>
+                    </div>
+                `;
+            }
+
+            updateCalendarBlockDetail();
+        }
+
+        function changeCalendarMonth(dir) {
+            calViewDate.setMonth(calViewDate.getMonth() + dir);
+            renderSmartCalendarSidebar();
+        }
+
+        function resetCalendarToToday() {
+            calViewDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), 1);
+            calSelectedDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), todaySystemDate.getDate());
+            renderSmartCalendarSidebar();
+        }
+
+        function selectCalendarDay(d, m, y) {
+            calSelectedDate = new Date(y, m, d);
+            renderSmartCalendarSidebar();
+        }
+
+        function updateCalendarBlockDetail() {
+            let d = calSelectedDate.getDate();
+            let m = calSelectedDate.getMonth() + 1;
+            let y = calSelectedDate.getFullYear();
+            let jd = jdFromDate(d, m, y);
+
             const dowNames = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
-            let d = calSelectedDate.getDate(), m = calSelectedDate.getMonth() + 1, y = calSelectedDate.getFullYear();
-            let dowStr = dowNames[calSelectedDate.getDay()];
-            
-            document.getElementById('cal-selected-dow').innerText = dowStr;
+            document.getElementById('cal-selected-dow').innerText = dowNames[calSelectedDate.getDay()];
             document.getElementById('cal-selected-day').innerText = d;
 
-            let lunar = convertSolar2Lunar(d, m, y, 7.0);
-            let jdn = jdFromDate(d, m, y);
-            let yearCC = getYearCanChi(lunar.year);
-            let monthCC = getMonthCanChi(lunar.month, lunar.year);
-            let dayCC = getDayCanChi(jdn);
+            let lunarArr = convertSolar2Lunar(d, m, y, 7);
+            let lunarDay = lunarArr[0];
+            let lunarMonth = lunarArr[1];
+            let lunarYear = lunarArr[2];
+            let lunarLeap = lunarArr[3];
 
-            document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG ${lunar.month}${lunar.leap ? ' (Nhuận)' : ''} NĂM ${yearCC.toUpperCase()}`;
-            document.getElementById('cal-selected-lunar-day').innerText = `Ngày ${dayCC} - Tháng ${monthCC}`;
-            document.getElementById('info-lunar-exact').innerText = `${lunar.day}/${lunar.month}/${lunar.year} (${yearCC})`;
+            let canChiDay = getCanChiDay(jd);
+            let canChiMonth = getCanChiMonth(lunarMonth, lunarYear);
+            let canChiYear = getCanChiYear(lunarYear);
 
-            let tietKhiIdx = (m * 2 + (d > 15 ? 1 : 0)) % tietKhiList.length;
-            document.getElementById('info-tiet-khi').innerText = tietKhiList[tietKhiIdx];
-            document.getElementById('info-hoang-dao').innerText = hoangDaoPool[jdn % hoangDaoPool.length];
-            document.getElementById('info-huong-xuat-hanh').innerText = huongXuatHanhPool[jdn % huongXuatHanhPool.length];
-            document.getElementById('info-viec-nen-lam').innerText = viecNenLamPool[jdn % viecNenLamPool.length];
-            document.getElementById('info-viec-kieng-ki').innerText = viecKiengKiPool[jdn % viecKiengKiPool.length];
-            document.getElementById('info-tuoi-xung').innerText = xungTuoiPool[jdn % xungTuoiPool.length];
+            document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG ${lunarMonth}${lunarLeap ? ' Nhuận' : ''} NĂM ${canChiYear.toUpperCase()}`;
+            document.getElementById('cal-selected-lunar-day').innerText = `Ngày ${canChiDay} - Tháng ${canChiMonth}`;
 
-            let startOfYear = new Date(y, 0, 1);
-            let dayOfYear = Math.floor((calSelectedDate - startOfYear) / (1000 * 60 * 60 * 24));
-            let proverbIndex = (dayOfYear + d) % dailyProverbsList.length;
-            document.getElementById('info-daily-proverb').innerText = `"${dailyProverbsList[proverbIndex]}"`;
+            document.getElementById('info-lunar-exact').innerText = `${lunarDay}/${lunarMonth}/${lunarYear} (${canChiYear})`;
+            
+            let sunLong = getSunLongitude(jd, 7);
+            let tietIdx = INT(sunLong / 15);
+            document.getElementById('info-tiet-khi').innerText = TIET_KHI[tietIdx % 24];
 
-            document.getElementById('modal-event-date-lbl').innerText = `${d < 10 ? '0'+d : d}/${m < 10 ? '0'+m : m}/${y}`;
+            let proverbIdx = (d + m) % CA_DAO_PROVERBS.length;
+            document.getElementById('info-daily-proverb').innerText = `"${CA_DAO_PROVERBS[proverbIdx]}"`;
 
-            let dateKey = `${y}-${m}-${d}`;
-            let eventText = dayEventsMap[dateKey] || "Không có sự kiện";
-            let eventEl = document.getElementById('info-event-note');
-            eventEl.innerText = eventText;
-            eventEl.style.color = dayEventsMap[dateKey] ? "var(--blue)" : "#475569";
-        }
-
-        const tietKhiList = ["Tiểu Hàn", "Đại Hàn", "Lập Xuân", "Vũ Thủy", "Kinh Trập", "Xuân Phân", "Thanh Minh", "Cốc Vũ", "Lập Hạ", "Tiểu Mãn", "Mang Chủng", "Hạ Chí", "Tiểu Thử", "Đại Thử", "Lập Thu", "Xử Thử", "Bạch Lộ", "Thu Phân", "Hàn Lộ", "Sương Giáng", "Lập Đông", "Tiểu Tuyết", "Đại Tuyết", "Đông Chí"];
-        const hoangDaoPool = ["Tý (23h-1h), Sửu (1h-3h), Thìn (7h-9h)", "Dần (3h-5h), Tỵ (9h-11h), Thân (15h-17h)", "Mão (5h-7h), Ngọ (11h-13h), Dậu (17h-19h)", "Sửu (1h-3h), Thìn (7h-9h), Tuất (19h-21h)", "Tý (23h-1h), Dần (3h-5h), Hợi (21h-23h)"];
-        const xungTuoiPool = ["Mậu Thân, Nhâm Thân, Nhâm Tý", "Giáp Tý, Bính Tý, Canh Dần", "Đinh Dậu, Ất Dậu, Tân Mão", "Bính Dần, Giáp Dần, Mậu Thân", "Kỷ Hợi, Tân Hợi, Quý Mùi"];
-        const huongXuatHanhPool = [
-            "Hỷ thần: Đông Bắc - Tài thần: Nam",
-            "Hỷ thần: Tây Bắc - Tài thần: Đông Nam",
-            "Hỷ thần: Tây Nam - Tài thần: Bắc",
-            "Hỷ thần: Chính Nam - Tài thần: Tây",
-            "Hỷ thần: Đông Nam - Tài thần: Tây Bắc",
-            "Hỷ thần: Chính Đông - Tài thần: Tây Nam"
-        ];
-        const viecNenLamPool = [
-            "Ký kết hợp đồng, giao dịch, mở kho, xuất hàng",
-            "Cúng tế, cầu phúc, họp bàn chiến lược, khai trương",
-            "Sửa chữa nhà cửa, an táng, giao dịch tài chính",
-            "Nhậm chức, nhận việc mới, đi công tác, ký kết",
-            "Đào móng, xây dựng, cất nóc, mua sắm trang thiết bị",
-            "Thăm hỏi, đàm phán, ký kết văn bản hành chính"
-        ];
-        const viecKiengKiPool = [
-            "Mai táng, kiện tụng lớn, động thổ xây dựng",
-            "Xuất hành đi xa hướng xấu, tranh chấp pháp lý",
-            "Ký kết hợp đồng giá trị lớn, kiện tụng",
-            "Khởi công xây dựng, nhậm chức, tranh chấp",
-            "Cưới hỏi, an táng, tranh chấp kiện tụng",
-            "Khai trương, xuất kho lượng lớn, kiện tụng"
-        ];
-        const dailyProverbsList = [
-            "Uống nước nhớ nguồn, ăn quả nhớ kẻ trồng cây.",
-            "Có công mài sắt, có ngày nên kim.",
-            "Học thầy không tày học bạn.",
-            "Thương người như thể thương thân.",
-            "Đi một ngày đàng, học một sàng khôn."
-        ];
-
-        function changeCalendarMonth(direction) { calViewDate.setMonth(calViewDate.getMonth() + direction); renderSmartCalendar(); }
-        
-        function resetCalendarToToday() { 
-            todaySystemDate = new Date();
-            calViewDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), 1); 
-            calSelectedDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), todaySystemDate.getDate()); 
-            renderSmartCalendar(); 
-        }
-
-        function openEventModal() { document.getElementById('eventModal').style.display = 'flex'; }
-        function closeEventModal() { document.getElementById('eventModal').style.display = 'none'; }
-        
-        function saveDayEvent() {
-            let d = calSelectedDate.getDate(), m = calSelectedDate.getMonth() + 1, y = calSelectedDate.getFullYear();
-            let dateKey = `${y}-${m}-${d}`, text = document.getElementById('modal-event-text').value.trim();
-            if (text) dayEventsMap[dateKey] = text; else delete dayEventsMap[dateKey];
-            localStorage.setItem('sys_day_events_map', JSON.stringify(dayEventsMap));
-            closeEventModal(); renderSmartCalendar();
-            triggerAutoSync();
-        }
-
-        function openMainSalaryGoogleSheet() { window.open(GOOGLE_SHEET_VIEW_URL, '_blank'); }
-
-        function triggerAutoSync() {
-            if (autoSyncTimer) clearTimeout(autoSyncTimer);
-            autoSyncTimer = setTimeout(() => {
-                silentSyncToCloud();
-            }, 1500);
-        }
-
-        async function silentSyncToCloud() {
-            let notifyBox = document.getElementById('syncNotifyBox');
-            try {
-                let payload = {
-                    action: "sync_salary_data_pro",
-                    sheetUrl: GOOGLE_SHEET_VIEW_URL,
-                    allSalaries: salaryDataByMonth || {},
-                    allPayments: paymentRecordsByMonth || {},
-                    allTelecoms: telecomRecordsByMonth || {},
-                    allItAssets: itAssetRecordsByYear || {},
-                    allConfigs: salaryConfigsByMonth || {}
-                };
-                const response = await fetch(GOOGLE_SCRIPT_API_URL, { 
-                    method: "POST", 
-                    headers: { "Content-Type": "text/plain;charset=utf-8" }, 
-                    body: JSON.stringify(payload) 
-                });
-                const result = await response.json();
-                if (result.status === "success") {
-                    notifyBox.style.display = "block";
-                    notifyBox.style.background = "#dcfce7";
-                    notifyBox.style.color = "#166534";
-                    notifyBox.innerText = "☁️ Đã tự động đồng bộ thay đổi lên mây thành công!";
-                    setTimeout(() => { notifyBox.style.display = "none"; }, 2500);
-                }
-            } catch (err) {
-                console.error("Auto-sync background error:", err);
+            let dateKey = `${y}-${m.toString().padStart(2, '0')}-${d.toString().padStart(2, '0')}`;
+            let eventNote = dayEventsMap[dateKey];
+            let noteBox = document.getElementById('info-event-note');
+            if (eventNote) {
+                noteBox.innerText = eventNote;
+                noteBox.style.color = "var(--red)";
+                noteBox.style.background = "#fef2f2";
+                noteBox.style.borderColor = "#fca5a5";
+            } else {
+                noteBox.innerText = "Không có sự kiện";
+                noteBox.style.color = "var(--blue)";
+                noteBox.style.background = "#eff6ff";
+                noteBox.style.borderColor = "#93c5fd";
             }
+        }
+
+        function openEventModal() {
+            let dateStr = `${calSelectedDate.getDate().toString().padStart(2, '0')}/${(calSelectedDate.getMonth() + 1).toString().padStart(2, '0')}/${calSelectedDate.getFullYear()}`;
+            document.getElementById('modal-event-date-lbl').innerText = dateStr;
+            
+            let dateKey = `${calSelectedDate.getFullYear()}-${(calSelectedDate.getMonth() + 1).toString().padStart(2, '0')}-${calSelectedDate.getDate().toString().padStart(2, '0')}`;
+            document.getElementById('modal-event-text').value = dayEventsMap[dateKey] || "";
+            document.getElementById('eventModal').style.display = 'flex';
+        }
+
+        function closeEventModal() {
+            document.getElementById('eventModal').style.display = 'none';
+        }
+
+        function saveDayEvent() {
+            let dateKey = `${calSelectedDate.getFullYear()}-${(calSelectedDate.getMonth() + 1).toString().padStart(2, '0')}-${calSelectedDate.getDate().toString().padStart(2, '0')}`;
+            let text = document.getElementById('modal-event-text').value.trim();
+            
+            if (text) {
+                dayEventsMap[dateKey] = text;
+            } else {
+                delete dayEventsMap[dateKey];
+            }
+
+            localStorage.setItem('sys_day_events_map', JSON.stringify(dayEventsMap));
+            closeEventModal();
+            renderSmartCalendarSidebar();
         }
 
         function openConfigUrlModal() {
@@ -3173,60 +3135,150 @@
             document.getElementById('cfg-sheet-url').value = GOOGLE_SHEET_VIEW_URL;
             document.getElementById('configUrlModal').style.display = 'flex';
         }
-        function closeConfigUrlModal() { document.getElementById('configUrlModal').style.display = 'none'; }
-        function saveConfigUrls() {
-            GOOGLE_SCRIPT_API_URL = document.getElementById('cfg-script-url').value.trim() || HARDCODED_SCRIPT_API;
-            GOOGLE_SHEET_VIEW_URL = document.getElementById('cfg-sheet-url').value.trim() || DEFAULT_GOOGLE_SHEET_URL;
-            localStorage.setItem('sys_cfg_script_url', GOOGLE_SCRIPT_API_URL);
-            localStorage.setItem('sys_cfg_sheet_url', GOOGLE_SHEET_VIEW_URL);
-            closeConfigUrlModal();
-            alert("✅ Đã lưu cấu hình liên kết thành công!");
+
+        function closeConfigUrlModal() {
+            document.getElementById('configUrlModal').style.display = 'none';
         }
 
-        async function loadDataFromCloudServer() {
+        function saveConfigUrls() {
+            let scriptUrl = document.getElementById('cfg-script-url').value.trim();
+            let sheetUrl = document.getElementById('cfg-sheet-url').value.trim();
+
+            if (scriptUrl) {
+                GOOGLE_SCRIPT_API_URL = scriptUrl;
+                localStorage.setItem('sys_cfg_script_url', scriptUrl);
+            }
+            if (sheetUrl) {
+                GOOGLE_SHEET_VIEW_URL = sheetUrl;
+                localStorage.setItem('sys_cfg_sheet_url', sheetUrl);
+            }
+
+            closeConfigUrlModal();
+            alert("✅ Đã lưu thông tin cấu hình URL thành công!");
+        }
+
+        function openMainSalaryGoogleSheet() {
+            window.open(GOOGLE_SHEET_VIEW_URL, '_blank');
+        }
+
+        function triggerAutoSync() {
+            document.getElementById('cloud-status-dot').style.backgroundColor = "#ea580c";
+            document.getElementById('cloud-status-text').innerText = "Đang chờ đồng bộ dữ liệu...";
+            
+            if (autoSyncTimer) clearTimeout(autoSyncTimer);
+            autoSyncTimer = setTimeout(() => {
+                syncDataToCloudServer();
+            }, 3000);
+        }
+
+        async function syncDataToCloudServer() {
             let notifyBox = document.getElementById('syncNotifyBox');
             notifyBox.style.display = "block";
             notifyBox.style.background = "#eff6ff";
-            notifyBox.style.color = "#1d4ed8";
-            notifyBox.innerText = "⏳ Đang tải dữ liệu từ mây về...";
+            notifyBox.style.color = "var(--blue)";
+            notifyBox.innerText = "⏳ Đang đồng bộ toàn bộ dữ liệu lên Mây (Google Sheets API)...";
+
+            let sm = document.getElementById('filter-month').value;
+            let payload = {
+                action: "sync_all_system_data",
+                month: sm,
+                year: CURRENT_SELECTED_YEAR,
+                salaryConfig: salaryConfigsByMonth[sm] || {},
+                salaryData: salaryDataByMonth[sm] || [],
+                paymentRecords: paymentRecordsByMonth[sm] || [],
+                telecomRecords: telecomRecordsByMonth[sm] || [],
+                itAssetRecords: itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [],
+                leaveData: leaveDataByYear[CURRENT_SELECTED_YEAR] || {}
+            };
+
             try {
-                let response = await fetch(`${GOOGLE_SCRIPT_API_URL}?action=get_all_data`);
-                let res = await response.json();
-                if (res && res.status === "success") {
-                    if (res.allSalaries) { salaryDataByMonth = res.allSalaries; localStorage.setItem('sys_salary_by_month', JSON.stringify(salaryDataByMonth)); }
-                    if (res.allPayments) { paymentRecordsByMonth = res.allPayments; localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth)); }
-                    if (res.allTelecoms) { telecomRecordsByMonth = res.allTelecoms; localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth)); }
-                    if (res.allItAssets) { itAssetRecordsByYear = res.allItAssets; localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear)); }
-                    if (res.allConfigs) { salaryConfigsByMonth = res.allConfigs; localStorage.setItem('sys_salary_configs_by_month', JSON.stringify(salaryConfigsByMonth)); }
-                    
-                    handleMonthChangeSelect();
-                    renderItAssetTable();
-                    renderLeaveTable();
-                    notifyBox.innerText = "✅ Tải dữ liệu từ mây thành công!";
-                    setTimeout(() => { notifyBox.style.display = "none"; }, 2500);
-                } else {
-                    throw new Error("Không thể đồng bộ dữ liệu.");
-                }
+                const response = await fetch(GOOGLE_SCRIPT_API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                
+                document.getElementById('cloud-status-dot').style.backgroundColor = "var(--green)";
+                document.getElementById('cloud-status-text').innerText = "Đã bật Tự động Đồng bộ Mây (Auto-Sync)";
+                
+                notifyBox.style.background = "#f0fdf4";
+                notifyBox.style.color = "var(--green)";
+                notifyBox.innerText = "✅ Đồng bộ mây thành công lúc " + new Date().toLocaleTimeString('vi-VN');
+                setTimeout(() => { notifyBox.style.display = "none"; }, 4000);
             } catch (err) {
-                notifyBox.style.background = "#ffeeee";
-                notifyBox.style.color = "#b91c1c";
-                notifyBox.innerText = "⚠️ Lỗi kết nối mây: " + err.message;
+                document.getElementById('cloud-status-dot').style.backgroundColor = "var(--red)";
+                document.getElementById('cloud-status-text').innerText = "Lỗi đồng bộ mây!";
+                
+                notifyBox.style.background = "#fef2f2";
+                notifyBox.style.color = "var(--red)";
+                notifyBox.innerText = "⚠️ Đồng bộ mây thất bại (Đã lưu nội bộ LocalStorage): " + err.message;
             }
         }
 
-        window.onload = function() {
-            let clockEl = document.getElementById('live-system-clock');
-            setInterval(() => {
-                let now = new Date();
-                clockEl.innerText = now.toLocaleTimeString('vi-VN') + ' ' + now.toLocaleDateString('vi-VN');
-            }, 1000);
+        async function loadDataFromCloudServer() {
+            let sm = document.getElementById('filter-month').value;
+            if (!confirm(`Tải dữ liệu mây cho kỳ ${sm} và năm ${CURRENT_SELECTED_YEAR}? Dữ liệu hiện tại sẽ được cập nhật.`)) return;
 
-            generateNewItCode();
+            let notifyBox = document.getElementById('syncNotifyBox');
+            notifyBox.style.display = "block";
+            notifyBox.style.background = "#eff6ff";
+            notifyBox.style.color = "var(--blue)";
+            notifyBox.innerText = "⏳ Đang lấy dữ liệu từ Mây...";
+
+            try {
+                let url = `${GOOGLE_SCRIPT_API_URL}?action=get_system_data&month=${sm}&year=${CURRENT_SELECTED_YEAR}`;
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data && data.status === "success") {
+                    if (data.salaryData) salaryDataByMonth[sm] = data.salaryData;
+                    if (data.salaryConfig) salaryConfigsByMonth[sm] = data.salaryConfig;
+                    if (data.paymentRecords) paymentRecordsByMonth[sm] = data.paymentRecords;
+                    if (data.telecomRecords) telecomRecordsByMonth[sm] = data.telecomRecords;
+                    if (data.itAssetRecords) itAssetRecordsByYear[CURRENT_SELECTED_YEAR] = data.itAssetRecords;
+                    if (data.leaveData) leaveDataByYear[CURRENT_SELECTED_YEAR] = data.leaveData;
+
+                    localStorage.setItem('sys_salary_by_month', JSON.stringify(salaryDataByMonth));
+                    localStorage.setItem('sys_salary_configs_by_month', JSON.stringify(salaryConfigsByMonth));
+                    localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
+                    localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth));
+                    localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
+                    localStorage.setItem('sys_leave_data_by_year', JSON.stringify(leaveDataByYear));
+
+                    handleMonthChangeSelect();
+                    renderItAssetTable();
+                    renderLeaveTable();
+
+                    notifyBox.style.background = "#f0fdf4";
+                    notifyBox.style.color = "var(--green)";
+                    notifyBox.innerText = "✅ Tải dữ liệu từ Mây thành công!";
+                    setTimeout(() => { notifyBox.style.display = "none"; }, 4000);
+                } else {
+                    throw new Error(data.message || "Không lấy được dữ liệu");
+                }
+            } catch (err) {
+                notifyBox.style.background = "#fef2f2";
+                notifyBox.style.color = "var(--red)";
+                notifyBox.innerText = "⚠️ Tải mây thất bại: " + err.message;
+            }
+        }
+
+        // --- KHỞI TẠO ĐỒNG HOỒ HỆ THỐNG VÀ KHỞI CHẠY LẦN ĐẦU ---
+        setInterval(() => {
+            let now = new Date();
+            let timeStr = now.toLocaleTimeString('vi-VN');
+            let dateStr = now.toLocaleDateString('vi-VN');
+            document.getElementById('live-system-clock').innerText = `${timeStr} ${dateStr}`;
+        }, 1000);
+
+        window.onload = function() {
             handleMonthChangeSelect();
             renderItAssetTable();
             renderLeaveTable();
-            renderSmartCalendar();
-            updateGlobalDashboardSummary();
+            renderSmartCalendarSidebar();
+            generateNewItCode();
+            updateLiveQRPreview();
         };
     </script>
 </body>
