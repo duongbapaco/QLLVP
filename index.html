@@ -81,8 +81,8 @@
         
         .form-group { display: flex; flex-direction: column; gap: 3px; position: relative; }
         .form-group label { font-weight: bold; color: #000000; font-size: 11.5px; white-space: nowrap; }
-        .form-group input, .form-group select { padding: 6px 8px; border: 1.5px solid #475569; border-radius: 4px; font-size: 13px; font-weight: bold; outline: none; background: #fff; color: #000; width: 100%; font-family: 'Times New Roman', Times, serif; min-height: 34px; }
-        .form-group input:focus, .form-group select:focus { border-color: var(--blue); background-color: #eff6ff; }
+        .form-group input, .form-group select, .form-group textarea { padding: 6px 8px; border: 1.5px solid #475569; border-radius: 4px; font-size: 13px; font-weight: bold; outline: none; background: #fff; color: #000; width: 100%; font-family: 'Times New Roman', Times, serif; min-height: 34px; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--blue); background-color: #eff6ff; }
 
         .btn { padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; gap: 5px; font-size: 12.5px; font-family: 'Times New Roman', Times, serif; min-height: 34px; touch-action: manipulation; white-space: nowrap; }
         .btn-primary { background: var(--blue); color: white; }
@@ -470,14 +470,17 @@
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--purple);">
                         <span><i class="fa-solid fa-calendar-alt" style="color:var(--purple);"></i> QUẢN LÝ CÔNG PHÉP CỦA VĂN PHÒNG - NĂM <span class="lbl-current-year">2025</span></span>
-                        <button type="button" class="btn btn-primary" style="padding: 5px 10px; font-size: 11.5px;" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Thêm nhân sự từ Bảng Lương</button>
+                        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                            <button type="button" class="btn btn-purple" style="padding: 5px 10px; font-size: 11.5px;" onclick="openLeaveRequestModal()"><i class="fa-solid fa-file-pen"></i> 📝 Đăng Ký Nghỉ Phép</button>
+                            <button type="button" class="btn btn-primary" style="padding: 5px 10px; font-size: 11.5px;" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Thêm NV từ Lương</button>
+                        </div>
                     </div>
                     <div style="background: #faf5ff; border: 1.5px solid #d8b4fe; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
                         <div style="font-weight: bold; color: #6d28d9; font-size: 12.5px; margin-bottom: 6px;">
                             <i class="fa-solid fa-circle-info"></i> Hướng dẫn quản lý công phép:
                         </div>
                         <p style="font-size: 12px; color: #475569; line-height: 1.4;">
-                            Danh sách nhân sự dưới đây được đồng bộ tự động theo chính xác danh sách cán bộ ở Bảng Lương. Bạn có thể theo dõi số ngày phép năm, phép tồn năm trước, số ngày phép đã nghỉ và số phép còn lại của từng cán bộ.
+                            Danh sách nhân sự dưới đây được đồng bộ tự động theo chính xác danh sách cán bộ ở Bảng Lương. Sử dụng nút <b>"Đăng Ký Nghỉ Phép"</b> để lập phiếu xin nghỉ chuyên nghiệp; hệ thống sẽ tự động trừ phép và đồng bộ ngày nghỉ (P) sang bảng lương tháng tương ứng.
                         </p>
                     </div>
                     <div class="table-responsive">
@@ -1032,6 +1035,70 @@
             
             <div style="text-align: center; margin-top: 10px;">
                 <button type="button" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 11.5px; min-height: 34px;" onclick="resetCalendarToToday()"><i class="fa-solid fa-calendar-day"></i> Quay Về Hôm Nay</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL FORM ĐĂNG KÝ XIN NGHỈ PHÉP CHUYÊN NGHIỆP -->
+    <div id="leaveRequestModal" class="modal" onclick="closeLeaveRequestModal()">
+        <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 600px;">
+            <div class="card-title" style="border-left-color: var(--purple); font-size: 14px; justify-content: space-between;">
+                <span><i class="fa-solid fa-file-pen" style="color:var(--purple);"></i> ĐƠN ĐĂNG KÝ NGHỈ PHÉP / NGHỈ VIỆT RIÊNG</span>
+                <button type="button" onclick="closeLeaveRequestModal()" style="background:none; border:none; font-size:16px; cursor:pointer; font-weight:bold;">✕</button>
+            </div>
+            
+            <div style="background: #faf5ff; border: 1.5px solid #d8b4fe; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label style="color:var(--purple);">Chọn Cán Bộ Nhân Viên <span style="color:var(--red);">*</span></label>
+                        <select id="leave-req-staff" style="border-color:#d8b4fe;" onchange="updateLeaveRequestInfo()">
+                            <!-- Load tự động từ bảng lương -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label style="color:var(--purple);">Loại nghỉ phép <span style="color:var(--red);">*</span></label>
+                        <select id="leave-req-type" style="border-color:#d8b4fe;">
+                            <option value="Phép năm (P)" selected>Nghỉ phép năm (P)</option>
+                            <option value="Nghỉ ốm / Thai sản">Nghỉ ốm / Chế độ</option>
+                            <option value="Nghỉ việc riêng (Không lương)">Nghỉ việc riêng</option>
+                            <option value="Nghỉ chế độ Lễ / Tết">Nghỉ Lễ / Tết</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label style="color:var(--purple);">Số phép còn lại hiện tại:</label>
+                        <input type="text" id="leave-req-remaining" readonly style="background:#f3e8ff; color:var(--purple); font-weight:bold; border-color:#d8b4fe; text-align:center;" value="0">
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr 100px; gap: 10px; margin-bottom: 10px; align-items: end;">
+                    <div class="form-group">
+                        <label style="color:var(--purple);">Từ ngày:</label>
+                        <input type="date" id="leave-req-from" style="border-color:#d8b4fe;" onchange="calculateLeaveDaysCount()">
+                    </div>
+                    <div class="form-group">
+                        <label style="color:var(--purple);">Đến ngày:</label>
+                        <input type="date" id="leave-req-to" style="border-color:#d8b4fe;" onchange="calculateLeaveDaysCount()">
+                    </div>
+                    <div class="form-group">
+                        <label style="color:var(--purple);">Số ngày nghỉ:</label>
+                        <input type="number" id="leave-req-days" value="1" min="0.5" step="0.5" style="border-color:#d8b4fe; background:#fef08a; text-align:center; font-weight:800;">
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 10px;">
+                    <label style="color:var(--purple);">Lý do xin nghỉ chi tiết:</label>
+                    <textarea id="leave-req-reason" rows="2" style="border-color:#d8b4fe; resize:none;" placeholder="Nhập lý do xin nghỉ việc..."></textarea>
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 4px;">
+                    <label style="color:var(--purple);">Người bàn giao công việc khi vắng mặt:</label>
+                    <input type="text" id="leave-req-handoff" style="border-color:#d8b4fe;" placeholder="Họ tên người nhận bàn giao công việc...">
+                </div>
+            </div>
+
+            <div style="text-align:right; display:flex; justify-content:flex-end; gap:8px;">
+                <button type="button" class="btn btn-gray" onclick="closeLeaveRequestModal()">Hủy bỏ</button>
+                <button type="button" class="btn btn-purple" onclick="submitLeaveRequestForm()"><i class="fa-solid fa-floppy-disk"></i> Lưu & Cập Nhật Công Phép</button>
             </div>
         </div>
     </div>
@@ -1770,7 +1837,7 @@
             }
         }
 
-        // --- CÁC HÀM XỬ LÝ CHO TAB QUẢN LÝ CÔNG PHÉP (ĐỒNG BỘ THEO DANH SÁCH LƯƠNG) ---
+        // --- CÁC HÀM XỬ LÝ CHO TAB QUẢN LÝ CÔNG PHÉP & FORM ĐĂNG KÝ ---
         function renderLeaveTable() {
             let sm = document.getElementById('filter-month').value;
             let currentStaffs = salaryDataByMonth[sm] || default16Staffs;
@@ -1826,6 +1893,97 @@
                 leaveDataByYear[CURRENT_SELECTED_YEAR][nameKey][field] = parseFloat(val) || 0;
             }
             renderLeaveTable();
+            triggerAutoSync();
+        }
+
+        function openLeaveRequestModal() {
+            let sm = document.getElementById('filter-month').value;
+            let currentStaffs = salaryDataByMonth[sm] || default16Staffs;
+            let selectEl = document.getElementById('leave-req-staff');
+            selectEl.innerHTML = "";
+            currentStaffs.forEach(st => {
+                selectEl.innerHTML += `<option value="${st.name}">${st.name}</option>`;
+            });
+
+            let todayIso = new Date().toISOString().split('T')[0];
+            document.getElementById('leave-req-from').value = todayIso;
+            document.getElementById('leave-req-to').value = todayIso;
+            document.getElementById('leave-req-days').value = 1;
+            document.getElementById('leave-req-reason').value = "";
+            document.getElementById('leave-req-handoff').value = "";
+
+            updateLeaveRequestInfo();
+            document.getElementById('leaveRequestModal').style.display = 'flex';
+        }
+
+        function closeLeaveRequestModal() {
+            document.getElementById('leaveRequestModal').style.display = 'none';
+        }
+
+        function updateLeaveRequestInfo() {
+            let staffName = document.getElementById('leave-req-staff').value;
+            if (!leaveDataByYear[CURRENT_SELECTED_YEAR]) leaveDataByYear[CURRENT_SELECTED_YEAR] = {};
+            let yearLeaveMap = leaveDataByYear[CURRENT_SELECTED_YEAR];
+            if (yearLeaveMap[staffName]) {
+                let item = yearLeaveMap[staffName];
+                let conLai = (parseFloat(item.ton_cu || 0) + parseFloat(item.nam_moi || 12)) - parseFloat(item.da_nghi || 0);
+                document.getElementById('leave-req-remaining').value = conLai + " ngày phép";
+            } else {
+                document.getElementById('leave-req-remaining').value = "12 ngày phép";
+            }
+        }
+
+        function calculateLeaveDaysCount() {
+            let fromDate = new Date(document.getElementById('leave-req-from').value);
+            let toDate = new Date(document.getElementById('leave-req-to').value);
+            if (!isNaN(fromDate) && !isNaN(toDate) && toDate >= fromDate) {
+                let diffTime = Math.abs(toDate - fromDate);
+                let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+                // Trừ chủ nhật
+                let sundayCount = 0;
+                let cur = new Date(fromDate);
+                while (cur <= toDate) {
+                    if (cur.getDay() === 0) sundayCount++;
+                    cur.setDate(cur.getDate() + 1);
+                }
+                let totalWorkingDays = Math.max(0.5, diffDays - sundayCount);
+                document.getElementById('leave-req-days').value = totalWorkingDays;
+            }
+        }
+
+        function submitLeaveRequestForm() {
+            let staffName = document.getElementById('leave-req-staff').value;
+            let leaveType = document.getElementById('leave-req-type').value;
+            let numDays = parseFloat(document.getElementById('leave-req-days').value) || 1;
+            let reason = document.getElementById('leave-req-reason').value.trim() || "Việc cá nhân";
+            let handoff = document.getElementById('leave-req-handoff').value.trim();
+
+            if (!staffName) { alert("Vui lòng chọn nhân sự xin nghỉ phép!"); return; }
+
+            // Cập nhật số ngày đã nghỉ (P) vào bảng lương của tháng đang chọn
+            let sm = document.getElementById('filter-month').value;
+            let currentStaffs = salaryDataByMonth[sm] || default16Staffs;
+            let foundStaff = currentStaffs.find(s => s.name === staffName);
+            if (foundStaff) {
+                foundStaff.P = (foundStaff.P !== undefined ? parseFloat(foundStaff.P) : 0) + numDays;
+            }
+
+            // Cập nhật vào danh sách phép năm
+            if (!leaveDataByYear[CURRENT_SELECTED_YEAR]) leaveDataByYear[CURRENT_SELECTED_YEAR] = {};
+            if (!leaveDataByYear[CURRENT_SELECTED_YEAR][staffName]) {
+                leaveDataByYear[CURRENT_SELECTED_YEAR][staffName] = { ton_cu: 0, nam_moi: 12, da_nghi: 0, note: "" };
+            }
+            let item = leaveDataByYear[CURRENT_SELECTED_YEAR][staffName];
+            item.da_nghi = (parseFloat(item.da_nghi) || 0) + numDays;
+            item.note = `${leaveType}: ${reason} (Bàn giao: ${handoff || 'Không'})`;
+
+            localStorage.setItem('sys_leave_data_by_year', JSON.stringify(leaveDataByYear));
+            localStorage.setItem('sys_salary_by_month', JSON.stringify(salaryDataByMonth));
+
+            calculateSalaryLogic();
+            renderLeaveTable();
+            closeLeaveRequestModal();
+            alert(`✅ Đã phê duyệt và cập nhật ${numDays} ngày nghỉ cho ${staffName} thành công!`);
             triggerAutoSync();
         }
 
