@@ -706,12 +706,12 @@
                     </div>
                     
                     <!-- THIẾT KẾ CÂN ĐỐI ĐỘ RỘNG CÁC Ô NHẬP LIỆU THÔNG MINH, HIỂN THỊ RÕ RÀNG TRẠNG THÁI BẢN QUYỀN -->
-                    <div style="display: grid; grid-template-columns: 1fr 280px; gap: 12px; background: #faf5ff; border: 1.5px solid #d8b4fe; padding: 12px; border-radius: 6px; margin-bottom: 12px; align-items: start;">
-                        <div>
+                    <div style="display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 12px; background: #faf5ff; border: 1.5px solid #d8b4fe; padding: 12px; border-radius: 6px; margin-bottom: 12px; align-items: start;">
+                        <div style="min-width: 0; width: 100%;">
                             <input type="hidden" id="edit-it-index" value="-1">
                             
                             <!-- HÀNG 1: THÔNG TIN CHÍNH -->
-                            <div style="display: grid; grid-template-columns: 1.8fr 2fr 1fr 1.2fr; gap: 8px; margin-bottom: 8px;">
+                            <div style="display: grid; grid-template-columns: minmax(140px, 1.8fr) minmax(140px, 2fr) minmax(110px, 1fr) minmax(110px, 1.2fr); gap: 8px; margin-bottom: 8px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9; font-size: 11px;">Người sử dụng <span style="color:var(--red);">*</span></label>
                                     <input type="text" id="it-user" value="Nguyễn Văn An" placeholder="Họ tên..." style="border-color: #d8b4fe; padding: 5px 7px; height: 32px;" oninput="updateLiveQRPreview()">
@@ -739,7 +739,7 @@
                             </div>
                             
                             <!-- HÀNG 2: HỆ ĐIỀU HÀNH & BỘ OFFICE (Ghi rõ tường minh Đã có bản quyền / Chưa có bản quyền) -->
-                            <div style="display: grid; grid-template-columns: 1.5fr 2fr 1.5fr 2fr; gap: 8px; margin-bottom: 8px;">
+                            <div style="display: grid; grid-template-columns: minmax(110px, 1.2fr) minmax(140px, 1.8fr) minmax(110px, 1.2fr) minmax(140px, 1.8fr); gap: 8px; margin-bottom: 8px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9; font-size: 11px;">Hệ điều hành</label>
                                     <select id="it-os" style="border-color: #d8b4fe; padding: 5px 7px; height: 32px;" onchange="updateLiveQRPreview()">
@@ -783,7 +783,7 @@
                             </div>
 
                             <!-- HÀNG 3: CÁC PHẦN MỀM NGHIỆP VỤ & BẢN QUYỀN TÁCH BIỆT RÕ RÀNG -->
-                            <div style="display: grid; grid-template-columns: 1.2fr 1.6fr 1.6fr 1.6fr; gap: 8px; margin-bottom: 8px;">
+                            <div style="display: grid; grid-template-columns: repeat(4, minmax(110px, 1fr)); gap: 8px; margin-bottom: 8px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9; font-size: 11px;">Đồ họa / CAD</label>
                                     <select id="it-software" style="border-color: #d8b4fe; padding: 5px 6px; height: 32px; font-size: 11px;" onchange="updateLiveQRPreview()">
@@ -795,33 +795,33 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label style="color: #6d28d9; font-size: 11px;">Phần mềm ASIA ERP <span style="color:var(--red);">*</span></label>
+                                    <label style="color: #6d28d9; font-size: 11px;">Phần mềm ASIA <span style="color:var(--red);">*</span></label>
                                     <select id="it-asia" style="border-color: #d8b4fe; padding: 5px 6px; height: 32px; font-size: 11px;" onchange="updateLiveQRPreview()">
-                                        <option value="🚫 Không cài đặt">🚫 Không cài đặt</option>
-                                        <option value="ASIA Enterprise (Chưa có bản quyền)">⚠️ ASIA (Chưa có bản quyền)</option>
-                                        <option value="ASIA Enterprise (Đã có bản quyền)" selected>✅ ASIA (Đã có bản quyền)</option>
+                                        <option value="🚫 Không cài đặt">🚫 Không cài</option>
+                                        <option value="ASIA Enterprise (Chưa có bản quyền)">⚠️ ASIA (Chưa BQ)</option>
+                                        <option value="ASIA Enterprise (Đã có bản quyền)" selected>✅ ASIA (Đã BQ)</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label style="color: #6d28d9; font-size: 11px;">Phần mềm Quasoft <span style="color:var(--red);">*</span></label>
                                     <select id="it-quasoft" style="border-color: #d8b4fe; padding: 5px 6px; height: 32px; font-size: 11px;" onchange="updateLiveQRPreview()">
-                                        <option value="🚫 Không cài đặt">🚫 Không cài đặt</option>
-                                        <option value="Quasoft Kho (Chưa có bản quyền)">⚠️ Quasoft (Chưa có bản quyền)</option>
-                                        <option value="Quasoft Kho (Đã có bản quyền)" selected>✅ Quasoft (Đã có bản quyền)</option>
+                                        <option value="🚫 Không cài đặt">🚫 Không cài</option>
+                                        <option value="Quasoft Kho (Chưa có bản quyền)">⚠️ Quasoft (Chưa BQ)</option>
+                                        <option value="Quasoft Kho (Đã có bản quyền)" selected>✅ Quasoft (Đã BQ)</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label style="color: #6d28d9; font-size: 11px;">Phần mềm CloudOffice <span style="color:var(--red);">*</span></label>
+                                    <label style="color: #6d28d9; font-size: 11px;">CloudOffice <span style="color:var(--red);">*</span></label>
                                     <select id="it-cloudoffice" style="border-color: #d8b4fe; padding: 5px 6px; height: 32px; font-size: 11px;" onchange="updateLiveQRPreview()">
-                                        <option value="🚫 Không cài đặt">🚫 Không cài đặt</option>
-                                        <option value="CloudOffice (Chưa có bản quyền)">⚠️ CloudOffice (Chưa có bản quyền)</option>
-                                        <option value="CloudOffice (Đã có bản quyền)" selected>✅ CloudOffice (Đã có bản quyền)</option>
+                                        <option value="🚫 Không cài đặt">🚫 Không cài</option>
+                                        <option value="CloudOffice (Chưa có bản quyền)">⚠️ Cloud (Chưa BQ)</option>
+                                        <option value="CloudOffice (Đã có bản quyền)" selected>✅ Cloud (Đã BQ)</option>
                                     </select>
                                 </div>
                             </div>
 
                             <!-- HÀNG 4: CẤU HÌNH, NGÀY BÀN GIAO & TRẠNG THÁI -->
-                            <div style="display: grid; grid-template-columns: 2.2fr 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+                            <div style="display: grid; grid-template-columns: minmax(160px, 2.2fr) minmax(110px, 1fr) minmax(110px, 1fr); gap: 8px; margin-bottom: 8px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9; font-size: 11px;">Cấu hình phần cứng chi tiết</label>
                                     <input type="text" id="it-specs" value="Dell Latitude, Core i5, 16GB RAM, 512GB SSD" style="border-color: #d8b4fe; padding: 5px 7px; height: 32px;">
