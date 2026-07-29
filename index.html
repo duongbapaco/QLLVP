@@ -705,7 +705,6 @@
                         <span><i class="fa-solid fa-laptop" style="color:var(--purple);"></i> QUẢN LÝ TÀI SẢN & KIỂM KÊ CNTT (<span class="lbl-current-year">2025</span>)</span>
                     </div>
                     
-                    <!-- THIẾT KẾ CO GỌN THÔNG MINH BẰNG FLEXBOX ĐẢM BẢO KHÔNG TRÀN KHUNG VÀ LUÔN CÂN ĐỐI KHI CHUYỂN NĂM -->
                     <div style="display: flex; gap: 12px; background: #faf5ff; border: 1.5px solid #d8b4fe; padding: 12px; border-radius: 6px; margin-bottom: 12px; align-items: flex-start; flex-wrap: wrap;">
                         <div style="flex: 1; min-width: 280px;">
                             <input type="hidden" id="edit-it-index" value="-1">
@@ -2251,6 +2250,26 @@
             }
         }
 
+        function openLargeQrModalFromTable(idx) {
+            let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
+            let filterDept = document.getElementById('filter-dept-select').value;
+            let filterOs = document.getElementById('filter-os-select').value;
+            let filterOffice = document.getElementById('filter-office-select').value;
+            
+            let filteredRecords = records.filter(r => {
+                let matchD = (filterDept === "ALL" || r.dept === filterDept);
+                let matchO = (filterOs === "ALL" || r.os === filterOs);
+                let matchOff = (filterOffice === "ALL" || r.office === filterOffice);
+                return matchD && matchO && matchOff;
+            });
+
+            let rec = filteredRecords[idx];
+            if (!rec) return;
+
+            let qrTextStr = getStructuredQrText(rec.code, rec.type, rec.user, rec.dept, rec.os, rec.office, rec.software, rec.asia, rec.quasoft, rec.cloudoffice);
+            openLargeQrModal(qrTextStr, rec.code);
+        }
+
         function closeLargeQrModal() {
             document.getElementById('largeQrModal').style.display = 'none';
         }
@@ -2434,11 +2453,7 @@
             const tbody = document.getElementById('tbody-it-assets'); tbody.innerHTML = "";
             filteredRecords.forEach((rec, idx) => {
                 let canvasId = `qr-canvas-${CURRENT_SELECTED_YEAR}-${idx}`;
-                let qrTextStr = getStructuredQrText(rec.code, rec.type, rec.user, rec.dept, rec.os, rec.office, rec.software, rec.asia, rec.quasoft, rec.cloudoffice);
                 
-                let safeQrText = qrTextStr.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                let safeCode = (rec.code || '').replace(/'/g, "\\'");
-
                 let asiaColor = (rec.asia && rec.asia.includes('Chưa')) ? 'var(--red)' : 'var(--green)';
                 let quasoftColor = (rec.quasoft && rec.quasoft.includes('Chưa')) ? 'var(--red)' : 'var(--green)';
                 let cloudColor = (rec.cloudoffice && rec.cloudoffice.includes('Chưa')) ? 'var(--red)' : 'var(--green)';
@@ -2460,7 +2475,7 @@
                     <td>${rec.dept}</td>
                     <td class="text-center">${rec.dateVal || '-'}</td>
                     <td><span style="color:var(--green); font-weight:bold;">${rec.status}</span></td>
-                    <td class="text-center" style="cursor:pointer;" title="Bấm để phóng to và in" onclick="openLargeQrModal('${safeQrText}', '${safeCode}')">
+                    <td class="text-center" style="cursor:pointer;" title="Bấm để phóng to và in" onclick="openLargeQrModalFromTable(${idx})">
                         <canvas id="${canvasId}" style="width:48px; height:48px; display:inline-block; background:white; padding:2px; border:1px solid #cbd5e1; border-radius:4px;"></canvas>
                     </td>
                     <td class="text-center">
