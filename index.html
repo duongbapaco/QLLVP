@@ -779,65 +779,45 @@
                                 </div>
                             </div>
 
+                            <!-- ĐÃ TÁCH RIÊNG BẢN QUYỀN CHO TỪNG PHẦN MỀM NGHIỆP VỤ -->
                             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; margin-bottom: 8px;">
                                 <div class="form-group">
-                                    <label style="color: #6d28d9; font-size: 11px;">Đồ họa / CAD</label>
-                                    <select id="it-software" style="border-color: #d8b4fe; padding: 5px 7px; height: 32px;" onchange="updateLiveQRPreview()">
-                                        <option value="🚫 Không có (Văn phòng cơ bản)">🚫 Không có</option>
+                                    <label style="color: #6d28d9; font-size: 10.5px;">Đồ họa / CAD</label>
+                                    <select id="it-software" style="border-color: #d8b4fe; padding: 5px 4px; height: 32px; font-size: 11px;" onchange="updateLiveQRPreview()">
+                                        <option value="🚫 Không có" selected>🚫 Không có</option>
                                         <option value="AutoCAD 2026">AutoCAD 2026</option>
                                         <option value="AutoCAD 2025">AutoCAD 2025</option>
                                         <option value="AutoCAD 2024">AutoCAD 2024</option>
-                                        <option value="AutoCAD 2023">AutoCAD 2023</option>
-                                        <option value="AutoCAD 2022">AutoCAD 2022</option>
-                                        <option value="AutoCAD 2021">AutoCAD 2021</option>
-                                        <option value="AutoCAD 2020">AutoCAD 2020</option>
-                                        <option value="AutoCAD 2019">AutoCAD 2019</option>
-                                        <option value="AutoCAD 2018">AutoCAD 2018</option>
-                                        <option value="AutoCAD 2017">AutoCAD 2017</option>
-                                        <option value="AutoCAD 2016">AutoCAD 2016</option>
-                                        <option value="AutoCAD 2015">AutoCAD 2015</option>
-                                        <option value="AutoCAD 2014">AutoCAD 2014</option>
-                                        <option value="AutoCAD 2013">AutoCAD 2013</option>
-                                        <option value="AutoCAD 2012">AutoCAD 2012</option>
-                                        <option value="AutoCAD 2011">AutoCAD 2011</option>
-                                        <option value="AutoCAD 2010">AutoCAD 2010</option>
-                                        <option value="AutoCAD 2009">AutoCAD 2009</option>
-                                        <option value="AutoCAD 2008">AutoCAD 2008</option>
-                                        <option value="AutoCAD 2007">AutoCAD 2007</option>
-                                        <option value="SolidWorks (Các phiên bản)">SolidWorks</option>
+                                        <option value="SolidWorks">SolidWorks</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label style="color: #6d28d9; font-size: 11px;">ASIA ERP</label>
-                                    <select id="it-asia" style="border-color: #d8b4fe; padding: 5px 7px; height: 32px;" onchange="updateLiveQRPreview()">
+                                    <label style="color: #6d28d9; font-size: 10.5px;">ASIA ERP & BQ <span style="color:var(--red);">*</span></label>
+                                    <select id="it-asia" style="border-color: #d8b4fe; padding: 5px 4px; height: 32px; font-size: 10.5px;" onchange="updateLiveQRPreview()">
                                         <option value="🚫 Không">🚫 Không</option>
-                                        <option value="ASIA Enterprise ERP (Kế toán - Kho)" selected>ASIA Enterprise</option>
+                                        <option value="ASIA Enterprise (Chưa BQ)">ASIA (Chưa BQ)</option>
+                                        <option value="ASIA Enterprise (Đã BQ)" selected>ASIA (Đã BQ)</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label style="color: #6d28d9; font-size: 11px;">QUASOFT</label>
-                                    <select id="it-quasoft" style="border-color: #d8b4fe; padding: 5px 7px; height: 32px;" onchange="updateLiveQRPreview()">
+                                    <label style="color: #6d28d9; font-size: 10.5px;">QUASOFT & BQ <span style="color:var(--red);">*</span></label>
+                                    <select id="it-quasoft" style="border-color: #d8b4fe; padding: 5px 4px; height: 32px; font-size: 10.5px;" onchange="updateLiveQRPreview()">
                                         <option value="🚫 Không">🚫 Không</option>
-                                        <option value="Quasoft Warehouse & Material Management" selected>Quasoft Kho</option>
+                                        <option value="Quasoft Kho (Chưa BQ)">Quasoft (Chưa BQ)</option>
+                                        <option value="Quasoft Kho (Đã BQ)" selected>Quasoft (Đã BQ)</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label style="color: #6d28d9; font-size: 11px;">CloudOffice</label>
-                                    <select id="it-cloudoffice" style="border-color: #d8b4fe; padding: 5px 7px; height: 32px;" onchange="updateLiveQRPreview()">
+                                    <label style="color: #6d28d9; font-size: 10.5px;">CloudOffice & BQ <span style="color:var(--red);">*</span></label>
+                                    <select id="it-cloudoffice" style="border-color: #d8b4fe; padding: 5px 4px; height: 32px; font-size: 10.5px;" onchange="updateLiveQRPreview()">
                                         <option value="🚫 Không">🚫 Không</option>
-                                        <option value="CloudOffice Web/App (Đã tích hợp)" selected>CloudOffice</option>
+                                        <option value="CloudOffice (Chưa BQ)">CloudOffice (Chưa BQ)</option>
+                                        <option value="CloudOffice (Đã BQ)" selected>CloudOffice (Đã BQ)</option>
                                     </select>
                                 </div>
                             </div>
 
-                            <div style="display: grid; grid-template-columns: 1fr 1fr 120px 130px; gap: 8px; margin-bottom: 8px;">
-                                <div class="form-group">
-                                    <label style="color: #6d28d9; font-size: 11px;">BQ Phần mềm / Nghiệp vụ <span style="color:var(--red);">*</span></label>
-                                    <select id="it-soft-lic" style="border-color: #d8b4fe; padding: 5px 7px; height: 32px; font-size: 10.5px;" onchange="updateLiveQRPreview()">
-                                        <option value="Chưa tích hợp bản quyền" selected>⚠️ Chưa tích hợp bản quyền</option>
-                                        <option value="Đã tích hợp bản quyền">Đã tích hợp bản quyền</option>
-                                    </select>
-                                </div>
+                            <div style="display: grid; grid-template-columns: 1fr 120px 130px; gap: 8px; margin-bottom: 8px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9; font-size: 11px;">Cấu hình phần cứng</label>
                                     <input type="text" id="it-specs" value="Dell Latitude, Core i5, 16GB RAM, 512GB SSD" style="border-color: #d8b4fe; padding: 5px 7px; height: 32px;">
@@ -921,7 +901,7 @@
                                     <th>Cấu hình</th>
                                     <th>HĐH & Bản quyền</th>
                                     <th>Office & Bản quyền</th>
-                                    <th>Phần mềm (AutoCAD / ASIA / Quasoft / CloudOffice)</th>
+                                    <th>Phần mềm chuyên dụng & Bản quyền riêng</th>
                                     <th>Người dùng</th>
                                     <th>Phòng ban</th>
                                     <th>Ngày bàn giao</th>
@@ -1503,8 +1483,15 @@
                     plugins: {
                         legend: { display: false },
                         datalabels: {
-                            anchor: 'end',
-                            align: 'top',
+                            anchor: function(context) {
+                                // Đưa nhãn vào giữa cột cho cột cao (Thanh toán VP / Cước) để hiển thị nổi bật chữ trắng, cột thấp để phía trên
+                                let val = context.dataset.data[context.dataIndex];
+                                return val > 200000000 ? 'center' : 'end';
+                            },
+                            align: function(context) {
+                                let val = context.dataset.data[context.dataIndex];
+                                return val > 200000000 ? 'center' : 'top';
+                            },
                             offset: 4,
                             formatter: function(value) {
                                 if (value <= 0) return '0';
@@ -1512,15 +1499,19 @@
                             },
                             font: {
                                 weight: 'bold',
-                                size: 12,
+                                size: 11.5,
                                 family: 'Times New Roman'
                             },
-                            color: '#0f172a'
+                            color: function(context) {
+                                let val = context.dataset.data[context.dataIndex];
+                                return val > 200000000 ? '#ffffff' : '#0f172a';
+                            }
                         }
                     },
                     scales: {
                         y: { 
                             beginAtZero: true,
+                            suggestedMax: 680000000, // Mở rộng trần trục Y để không bị cắt nhãn cột Thanh Toán VP
                             grid: { color: '#e2e8f0' },
                             ticks: {
                                 font: { size: 11, family: 'Times New Roman', weight: 'bold' },
@@ -2177,7 +2168,7 @@
             let cleanQuasoft = removeVietnameseAccents(quasoft || "Khong");
             let cleanCloud = removeVietnameseAccents(cloudoffice || "Co");
             
-            return `TỔNG CÔNG TY GIẤY VIỆT NAM - IT ASSET\n[Ma TS]: ${cleanCode}\n[Loai]: ${cleanType}\n[Nguoi dung]: ${cleanUser}\n[Phong ban]: ${cleanDept}\n[HDH]: ${cleanOs}\n[Office]: ${cleanOffice}\n[Phan mem Do hoa/CAD/Solid]: ${cleanSoftware}\n[ASIA]: ${cleanAsia}\n[Quasoft]: ${cleanQuasoft}\n[CloudOffice]: ${cleanCloud}`;
+            return `TỔNG CÔNG TY GIẤY VIỆT NAM - IT ASSET\n[Ma TS]: ${cleanCode}\n[Loai]: ${cleanType}\n[Nguoi dung]: ${cleanUser}\n[Phong ban]: ${cleanDept}\n[HDH]: ${cleanOs}\n[Office]: ${cleanOffice}\n[CAD]: ${cleanSoftware}\n[ASIA & BQ]: ${cleanAsia}\n[Quasoft & BQ]: ${cleanQuasoft}\n[CloudOffice & BQ]: ${cleanCloud}`;
         }
 
         function updateLiveQRPreview() {
@@ -2306,13 +2297,12 @@
             let asia = document.getElementById('it-asia').value;
             let quasoft = document.getElementById('it-quasoft').value;
             let cloudoffice = document.getElementById('it-cloudoffice').value;
-            let softLic = document.getElementById('it-soft-lic').value;
             let specs = document.getElementById('it-specs').value.trim(), dateVal = document.getElementById('it-date').value, status = document.getElementById('it-status').value;
 
             if (!code || !user || !dept) { alert("⚠️ Vui lòng nhập đầy đủ Người sử dụng và Phòng ban để tạo mã QR chuẩn xác phục vụ kiểm kê!"); return; }
             if (!itAssetRecordsByYear[CURRENT_SELECTED_YEAR]) itAssetRecordsByYear[CURRENT_SELECTED_YEAR] = [];
             
-            let recordObj = { user, dept, type, code, os, osLic, office, officeLic, software, asia, quasoft, cloudoffice, softLic, specs, dateVal, status };
+            let recordObj = { user, dept, type, code, os, osLic, office, officeLic, software, asia, quasoft, cloudoffice, specs, dateVal, status };
 
             if (editIndex >= 0) {
                 let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR];
@@ -2369,11 +2359,10 @@
             document.getElementById('it-os-lic').value = rec.osLic || "Chưa kích hoạt OEM";
             document.getElementById('it-office').value = rec.office || "Office 2021 (Pro Plus / Home & Business)";
             document.getElementById('it-office-lic').value = rec.officeLic || "Chưa kích hoạt OEM";
-            document.getElementById('it-software').value = rec.software || "🚫 Không có (Văn phòng cơ bản)";
-            document.getElementById('it-asia').value = rec.asia || "ASIA Enterprise ERP (Kế toán - Kho)";
-            document.getElementById('it-quasoft').value = rec.quasoft || "Quasoft Warehouse & Material Management";
-            document.getElementById('it-cloudoffice').value = rec.cloudoffice || "CloudOffice Web/App (Đã tích hợp)";
-            document.getElementById('it-soft-lic').value = rec.softLic || "Chưa tích hợp bản quyền";
+            document.getElementById('it-software').value = rec.software || "🚫 Không có";
+            document.getElementById('it-asia').value = rec.asia || "ASIA Enterprise (Đã BQ)";
+            document.getElementById('it-quasoft').value = rec.quasoft || "Quasoft Kho (Đã BQ)";
+            document.getElementById('it-cloudoffice').value = rec.cloudoffice || "CloudOffice (Đã BQ)";
             document.getElementById('it-specs').value = rec.specs || "";
             document.getElementById('it-date').value = rec.dateVal || "";
             document.getElementById('it-status').value = rec.status || "Tốt - Đang sử dụng";
@@ -2447,6 +2436,10 @@
                 let safeQrText = qrTextStr.replace(/'/g, "\\'").replace(/"/g, '&quot;');
                 let safeCode = (rec.code || '').replace(/'/g, "\\'");
 
+                let asiaColor = (rec.asia && rec.asia.includes('Chưa')) ? 'var(--red)' : 'var(--green)';
+                let quasoftColor = (rec.quasoft && rec.quasoft.includes('Chưa')) ? 'var(--red)' : 'var(--green)';
+                let cloudColor = (rec.cloudoffice && rec.cloudoffice.includes('Chưa')) ? 'var(--red)' : 'var(--green)';
+
                 tbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${idx + 1}</td>
                     <td class="text-center font-bold" style="color:var(--purple);">${rec.code}</td>
@@ -2454,7 +2447,12 @@
                     <td>${rec.specs}</td>
                     <td>${rec.os} <br><span style="color:${rec.osLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.osLic}]</span></td>
                     <td>${rec.office} <br><span style="color:${rec.officeLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.officeLic}]</span></td>
-                    <td><span style="color:var(--blue);">Đồ họa/CAD/Solid: ${rec.software}</span><br><span style="color:var(--green);">ASIA: ${rec.asia || 'Không'}</span> | <span style="color:var(--orange);">Quasoft: ${rec.quasoft || 'Không'}</span><br><span style="color:var(--purple);">CloudOffice: ${rec.cloudoffice || 'Có'}</span><br><span style="color:${rec.softLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.softLic}]</span></td>
+                    <td>
+                        <span style="color:var(--blue);">CAD/Đồ họa: ${rec.software}</span><br>
+                        <span style="color:${asiaColor};">• ${rec.asia || 'ASIA (Không)'}</span><br>
+                        <span style="color:${quasoftColor};">• ${rec.quasoft || 'Quasoft (Không)'}</span><br>
+                        <span style="color:${cloudColor};">• ${rec.cloudoffice || 'CloudOffice (Không)'}</span>
+                    </td>
                     <td class="font-bold">${rec.user}</td>
                     <td>${rec.dept}</td>
                     <td class="text-center">${rec.dateVal || '-'}</td>
@@ -2545,7 +2543,7 @@
                         <td style="border: 1px solid black; padding: 6px;">${r.specs}</td>
                         <td style="border: 1px solid black; padding: 6px;">${r.os} (${r.osLic})</td>
                         <td style="border: 1px solid black; padding: 6px;">${r.office} (${r.officeLic})</td>
-                        <td style="border: 1px solid black; padding: 6px;">CAD/Solid: ${r.software} | ASIA: ${r.asia} | Quasoft: ${r.quasoft} | CloudOffice: ${r.cloudoffice} (${r.softLic})</td>
+                        <td style="border: 1px solid black; padding: 6px;">CAD: ${r.software} | ${r.asia} | ${r.quasoft} | ${r.cloudoffice}</td>
                         <td style="border: 1px solid black; padding: 6px; font-weight: bold;">${r.user}</td>
                         <td style="border: 1px solid black; padding: 6px;">${r.dept}</td>
                         <td style="border: 1px solid black; padding: 6px; text-align: center;">${r.status}</td>
