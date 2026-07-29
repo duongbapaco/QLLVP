@@ -207,6 +207,7 @@
             <div class="nav-tabs">
                 <button type="button" class="nav-tab active" data-tab="dashboard" onclick="switchMainTab('dashboard')"><i class="fa-solid fa-chart-pie"></i> 📊 Dashboard & Biểu Đồ 3D</button>
                 <button type="button" class="nav-tab" data-tab="salary" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Tính Lương</button>
+                <button type="button" class="nav-tab" data-tab="leave" onclick="switchMainTab('leave')"><i class="fa-solid fa-calendar-alt"></i> Quản Lý Công Phép</button>
                 <button type="button" class="nav-tab" data-tab="payment" onclick="switchMainTab('payment')"><i class="fa-solid fa-file-invoice"></i> Hồ Sơ TT</button>
                 <button type="button" class="nav-tab" data-tab="telecom" onclick="switchMainTab('telecom')"><i class="fa-solid fa-globe"></i> Cước Viễn Thông</button>
                 <button type="button" class="nav-tab" data-tab="it-assets" onclick="switchMainTab('it-assets')"><i class="fa-solid fa-laptop"></i> Thiết Bị CNTT</button>
@@ -225,6 +226,7 @@
                         </div>
                         <div style="display: flex; gap: 6px; flex-wrap: wrap;">
                             <button type="button" class="btn btn-primary" style="padding: 5px 10px; font-size: 11.5px;" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Bảng Lương</button>
+                            <button type="button" class="btn btn-purple" style="padding: 5px 10px; font-size: 11.5px;" onclick="switchMainTab('leave')"><i class="fa-solid fa-calendar-alt"></i> Công Phép</button>
                             <button type="button" class="btn btn-green" style="padding: 5px 10px; font-size: 11.5px;" onclick="switchMainTab('payment')"><i class="fa-solid fa-file-invoice-dollar"></i> Thanh Toán VP</button>
                             <button type="button" class="btn btn-orange" style="padding: 5px 10px; font-size: 11.5px;" onclick="switchMainTab('telecom')"><i class="fa-solid fa-wifi"></i> Cước Mạng</button>
                             <button type="button" class="btn btn-purple" style="padding: 5px 10px; font-size: 11.5px;" onclick="switchMainTab('it-assets')"><i class="fa-solid fa-laptop-code"></i> Thiết Bị CNTT</button>
@@ -459,6 +461,42 @@
                             <div class="signature-note">(Ký, ghi rõ họ tên)</div>
                             <div class="signature-name" id="disp-signer-name">Nguyễn Thị Tuyết Nhung</div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB MỚI: QUẢN LÝ CÔNG PHÉP VĂN PHÒNG (LIÊN KẾT TRỰC TIẾP DANH SÁCH LƯƠNG) -->
+            <div id="tab-leave" class="tab-content">
+                <div class="main-card">
+                    <div class="card-title" style="border-left-color: var(--purple);">
+                        <span><i class="fa-solid fa-calendar-alt" style="color:var(--purple);"></i> QUẢN LÝ CÔNG PHÉP CỦA VĂN PHÒNG - NĂM <span class="lbl-current-year">2025</span></span>
+                        <button type="button" class="btn btn-primary" style="padding: 5px 10px; font-size: 11.5px;" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Thêm nhân sự từ Bảng Lương</button>
+                    </div>
+                    <div style="background: #faf5ff; border: 1.5px solid #d8b4fe; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
+                        <div style="font-weight: bold; color: #6d28d9; font-size: 12.5px; margin-bottom: 6px;">
+                            <i class="fa-solid fa-circle-info"></i> Hướng dẫn quản lý công phép:
+                        </div>
+                        <p style="font-size: 12px; color: #475569; line-height: 1.4;">
+                            Danh sách nhân sự dưới đây được đồng bộ tự động theo chính xác danh sách cán bộ ở Bảng Lương. Bạn có thể theo dõi số ngày phép năm, phép tồn năm trước, số ngày phép đã nghỉ và số phép còn lại của từng cán bộ.
+                        </p>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="main-table" id="main-leave-table">
+                            <thead>
+                                <tr style="background-color: #e9d5ff; color:#581c87;">
+                                    <th style="width: 40px;">STT</th>
+                                    <th style="min-width: 180px;">HỌ VÀ TÊN (Đồng bộ Bảng Lương)</th>
+                                    <th style="min-width: 130px;">Phòng Ban / Bộ Phận</th>
+                                    <th style="width: 90px; background:#fef08a;">Phép Tồn Cũ</th>
+                                    <th style="width: 90px; background:#bfdbfe;">Phép Năm Mới</th>
+                                    <th style="width: 90px; background:#fed7aa;">Tổng Phép Được Nghỉ</th>
+                                    <th style="width: 90px; background:#fca5a5;">Đã Nghỉ (P)</th>
+                                    <th style="width: 90px; background:#dcfce7; color:#166534;">Còn Lại</th>
+                                    <th style="min-width: 150px;">Ghi chú / Lý do</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-leave"></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -781,33 +819,17 @@
                                 </div>
                             </div>
 
-                            <!-- HÀNG 3: ĐỒ HỌA/CAD (2007 - MỚI NHẤT), ASIA, QUASOFT, CLOUDOFFICE -->
+                            <!-- HÀNG 3: ĐỒ HỌA/CAD, ASIA, QUASOFT, CLOUDOFFICE -->
                             <div style="display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;">
                                 <div class="form-group" style="flex: 1.2; min-width: 130px;">
-                                    <label style="color: #6d28d9; font-size: 11px;">Đồ họa / CAD (2007-Mới nhất)</label>
+                                    <label style="color: #6d28d9; font-size: 11px;">Đồ họa / CAD</label>
                                     <select id="it-software" style="border-color: #d8b4fe; padding: 5px 6px; height: 32px; font-size: 11px;" onchange="updateLiveQRPreview()">
                                         <option value="🚫 Không có" selected>🚫 Không có</option>
-                                        <option value="AutoCAD 2026 / Mới nhất">AutoCAD 2026 (Mới nhất)</option>
+                                        <option value="AutoCAD 2026 / Mới nhất">AutoCAD 2026</option>
                                         <option value="AutoCAD 2025">AutoCAD 2025</option>
                                         <option value="AutoCAD 2024">AutoCAD 2024</option>
-                                        <option value="AutoCAD 2023">AutoCAD 2023</option>
-                                        <option value="AutoCAD 2022">AutoCAD 2022</option>
                                         <option value="AutoCAD 2021">AutoCAD 2021</option>
-                                        <option value="AutoCAD 2020">AutoCAD 2020</option>
-                                        <option value="AutoCAD 2019">AutoCAD 2019</option>
-                                        <option value="AutoCAD 2018">AutoCAD 2018</option>
-                                        <option value="AutoCAD 2017">AutoCAD 2017</option>
-                                        <option value="AutoCAD 2016">AutoCAD 2016</option>
-                                        <option value="AutoCAD 2015">AutoCAD 2015</option>
-                                        <option value="AutoCAD 2014">AutoCAD 2014</option>
-                                        <option value="AutoCAD 2013">AutoCAD 2013</option>
-                                        <option value="AutoCAD 2012">AutoCAD 2012</option>
-                                        <option value="AutoCAD 2011">AutoCAD 2011</option>
-                                        <option value="AutoCAD 2010">AutoCAD 2010</option>
-                                        <option value="AutoCAD 2009">AutoCAD 2009</option>
-                                        <option value="AutoCAD 2008">AutoCAD 2008</option>
-                                        <option value="AutoCAD 2007">AutoCAD 2007</option>
-                                        <option value="SolidWorks / SketchUp / Adobe CC">SolidWorks / Adobe CC</option>
+                                        <option value="SolidWorks / Adobe CC">SolidWorks / Adobe CC</option>
                                     </select>
                                 </div>
                                 <div class="form-group" style="flex: 1; min-width: 115px;">
@@ -862,7 +884,7 @@
                             </div>
                         </div>
 
-                        <!-- KHU VỰC QR TRỰC TIẾP CÓ SỬ DỤNG CHỈ SỐ DÒNG (IDX) HOẶC HÀM XEM LỚN -->
+                        <!-- KHU VỰC QR TRỰC TIẾP -->
                         <div style="border: 2px dashed var(--purple); border-radius: 6px; background: white; padding: 10px; width: 200px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: space-between; margin: 0 auto;">
                             <div style="font-weight: bold; color: var(--purple); font-size: 11px; text-align: center; border-bottom: 1px solid #e2e8f0; width: 100%; padding-bottom: 4px;"><i class="fa-solid fa-qrcode"></i> 📱 TEM QR TRỰC TIẾP</div>
                             <div style="text-align: center; width: 100%;">
@@ -1099,57 +1121,7 @@
             {"name": "Phạm Huy Chiến", "account": "102004830132", "lcb_heso": 2.26, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 2.40, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0}
         ];
 
-        const dailyProverbsList = [
-            "Uống nước nhớ nguồn, ăn quả nhớ kẻ trồng cây.",
-            "Có công mài sắt, có ngày nên kim.",
-            "Học thầy không tày học bạn.",
-            "Thương người như thể thương thân.",
-            "Đi một ngày đàng, học một sàng khôn.",
-            "Một cây làm chẳng nên non, ba cây chụm lại nên hòn núi cao.",
-            "Năng nhặt chặt bị.",
-            "Ăn quả nhớ kẻ trồng cây, uống nước nhớ người đương dòng.",
-            "Lời chào cao hơn mâm cỗ.",
-            "Ăn mâm vàng chớ quên ngày đói.",
-            "Gần mực thì đen, gần đèn thì rạng.",
-            "Muốn sang thì bắc cầu kiều, muốn con hay chữ phải yêu lấy thầy.",
-            "Tay làm hàm nhai, tay quai miệng trễ.",
-            "Học ăn, học nói, học gói, học mở.",
-            "Nói lời phải giữ lấy lời, đừng như con bướm đậu rồi lại bay.",
-            "Sông có khúc, người có lúc.",
-            "Ở hiền gặp lành.",
-            "Cái nết đánh chết cái đẹp.",
-            "Chớ thấy sóng ngã tay chèo.",
-            "Lửa thử vàng, gian nan thử sức."
-        ];
-
-        const tietKhiList = ["Tiểu Hàn", "Đại Hàn", "Lập Xuân", "Vũ Thủy", "Kinh Trập", "Xuân Phân", "Thanh Minh", "Cốc Vũ", "Lập Hạ", "Tiểu Mãn", "Mang Chủng", "Hạ Chí", "Tiểu Thử", "Đại Thử", "Lập Thu", "Xử Thử", "Bạch Lộ", "Thu Phân", "Hàn Lộ", "Sương Giáng", "Lập Đông", "Tiểu Tuyết", "Đại Tuyết", "Đông Chí"];
-        const hoangDaoPool = ["Tý (23h-1h), Sửu (1h-3h), Thìn (7h-9h)", "Dần (3h-5h), Tỵ (9h-11h), Thân (15h-17h)", "Mão (5h-7h), Ngọ (11h-13h), Dậu (17h-19h)", "Sửu (1h-3h), Thìn (7h-9h), Tuất (19h-21h)", "Tý (23h-1h), Dần (3h-5h), Hợi (21h-23h)"];
-        const xungTuoiPool = ["Mậu Thân, Nhâm Thân, Nhâm Tý", "Giáp Tý, Bính Tý, Canh Dần", "Đinh Dậu, Ất Dậu, Tân Mão", "Bính Dần, Giáp Dần, Mậu Thân", "Kỷ Hợi, Tân Hợi, Quý Mùi"];
-        const huongXuatHanhPool = [
-            "Hỷ thần: Đông Bắc - Tài thần: Nam",
-            "Hỷ thần: Tây Bắc - Tài thần: Đông Nam",
-            "Hỷ thần: Tây Nam - Tài thần: Bắc",
-            "Hỷ thần: Chính Nam - Tài thần: Tây",
-            "Hỷ thần: Đông Nam - Tài thần: Tây Bắc",
-            "Hỷ thần: Chính Đông - Tài thần: Tây Nam"
-        ];
-        const viecNenLamPool = [
-            "Ký kết hợp đồng, giao dịch, mở kho, xuất hàng",
-            "Cúng tế, cầu phúc, họp bàn chiến lược, khai trương",
-            "Sửa chữa nhà cửa, an táng, giao dịch tài chính",
-            "Nhậm chức, nhận việc mới, đi công tác, ký kết",
-            "Đào móng, xây dựng, cất nóc, mua sắm trang thiết bị",
-            "Thăm hỏi, đàm phán, ký kết văn bản hành chính"
-        ];
-        const viecKiengKiPool = [
-            "Mai táng, kiện tụng lớn, động thổ xây dựng",
-            "Xuất hành đi xa hướng xấu, tranh chấp pháp lý",
-            "Ký kết hợp đồng giá trị lớn, kiện tụng",
-            "Khởi công xây dựng, nhậm chức, tranh chấp",
-            "Cưới hỏi, an táng, tranh chấp kiện tụng",
-            "Khai trương, xuất kho lượng lớn, kiện tụng"
-        ];
-
+        let leaveDataByYear = JSON.parse(localStorage.getItem('sys_leave_data_by_year')) || {};
         let salaryConfigsByMonth = JSON.parse(localStorage.getItem('sys_salary_configs_by_month')) || {};
         let salaryDataByMonth = JSON.parse(localStorage.getItem('sys_salary_by_month')) || {};
         let paymentRecordsByMonth = JSON.parse(localStorage.getItem('sys_payment_records_by_month')) || {};
@@ -1163,6 +1135,20 @@
 
         let activePickerId = null;
         let pickerCurrentDate = new Date();
+
+        function switchMainTab(tabId) {
+            document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            let targetBtn = document.querySelector(`.nav-tab[data-tab="${tabId}"]`);
+            if (targetBtn) targetBtn.classList.add('active');
+            let targetContent = document.getElementById(`tab-${tabId}`);
+            if (targetContent) targetContent.classList.add('active');
+
+            if (tabId === 'leave') {
+                renderLeaveTable();
+            }
+        }
 
         function toggleCalendarSidebar() {
             let sidebar = document.getElementById('calendar-sidebar-box');
@@ -1598,6 +1584,7 @@
             document.getElementById('filter-month').value = `${CURRENT_SELECTED_YEAR}-07`;
             handleMonthChangeSelect();
             renderItAssetTable();
+            renderLeaveTable();
             updateGlobalDashboardSummary();
         }
 
@@ -1637,6 +1624,7 @@
             calculateSalaryLogic();
             renderPaymentTable();
             renderTelecomTable();
+            renderLeaveTable();
         }
 
         function handleConfigChangeLive() {
@@ -1745,6 +1733,7 @@
             document.getElementById('v-total-thuc').innerText = formatCurrencyVN(T_net) + " VND";
             
             updateGlobalDashboardSummary();
+            renderLeaveTable();
         }
 
         function updateSalaryRowValue(index, field, val) {
@@ -1779,6 +1768,65 @@
                 calculateSalaryLogic();
                 triggerAutoSync();
             }
+        }
+
+        // --- CÁC HÀM XỬ LÝ CHO TAB QUẢN LÝ CÔNG PHÉP (ĐỒNG BỘ THEO DANH SÁCH LƯƠNG) ---
+        function renderLeaveTable() {
+            let sm = document.getElementById('filter-month').value;
+            let currentStaffs = salaryDataByMonth[sm] || default16Staffs;
+
+            if (!leaveDataByYear[CURRENT_SELECTED_YEAR]) {
+                leaveDataByYear[CURRENT_SELECTED_YEAR] = {};
+            }
+            let yearLeaveMap = leaveDataByYear[CURRENT_SELECTED_YEAR];
+
+            const tbody = document.getElementById('tbody-leave');
+            tbody.innerHTML = "";
+
+            currentStaffs.forEach((staff, idx) => {
+                let nameKey = staff.name || `Nhân sự ${idx + 1}`;
+                if (!yearLeaveMap[nameKey]) {
+                    yearLeaveMap[nameKey] = { ton_cu: 0, nam_moi: 12, da_nghi: staff.P !== undefined ? staff.P : 0, note: "Phép năm" };
+                } else {
+                    yearLeaveMap[nameKey].da_nghi = staff.P !== undefined ? staff.P : yearLeaveMap[nameKey].da_nghi;
+                }
+
+                let item = yearLeaveMap[nameKey];
+                let tonCu = parseFloat(item.ton_cu) || 0;
+                let namMoi = parseFloat(item.nam_moi) || 12;
+                let tongPhep = tonCu + namMoi;
+                let daNghi = parseFloat(item.da_nghi) || 0;
+                let conLai = tongPhep - daNghi;
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="text-center font-bold">${idx + 1}</td>
+                        <td style="font-weight: bold; color: var(--primary);">${nameKey}</td>
+                        <td>Văn phòng</td>
+                        <td class="text-center"><input class="inp-table inp-num-day" type="number" value="${tonCu}" onchange="updateLeaveData('${nameKey}', 'ton_cu', this.value)"></td>
+                        <td class="text-center"><input class="inp-table inp-num-day" type="number" value="${namMoi}" onchange="updateLeaveData('${nameKey}', 'nam_moi', this.value)"></td>
+                        <td class="text-center font-bold" style="background:#fed7aa;">${tongPhep}</td>
+                        <td class="text-center font-bold" style="background:#fca5a5; color:#7f1d1d;">${daNghi} <span style="font-size:9px; font-weight:normal;">(Đồng bộ Lương)</span></td>
+                        <td class="text-center font-bold" style="background:#dcfce7; color:#166534; font-size:13.5px;">${conLai}</td>
+                        <td><input class="inp-table" type="text" value="${item.note || ''}" oninput="updateLeaveData('${nameKey}', 'note', this.value)"></td>
+                    </tr>
+                `;
+            });
+            localStorage.setItem('sys_leave_data_by_year', JSON.stringify(leaveDataByYear));
+        }
+
+        function updateLeaveData(nameKey, field, val) {
+            if (!leaveDataByYear[CURRENT_SELECTED_YEAR]) leaveDataByYear[CURRENT_SELECTED_YEAR] = {};
+            if (!leaveDataByYear[CURRENT_SELECTED_YEAR][nameKey]) {
+                leaveDataByYear[CURRENT_SELECTED_YEAR][nameKey] = { ton_cu: 0, nam_moi: 12, da_nghi: 0, note: "" };
+            }
+            if (field === 'note') {
+                leaveDataByYear[CURRENT_SELECTED_YEAR][nameKey][field] = val;
+            } else {
+                leaveDataByYear[CURRENT_SELECTED_YEAR][nameKey][field] = parseFloat(val) || 0;
+            }
+            renderLeaveTable();
+            triggerAutoSync();
         }
 
         async function addNewPaymentRecord() {
@@ -2867,6 +2915,41 @@
             eventEl.style.color = dayEventsMap[dateKey] ? "var(--blue)" : "#475569";
         }
 
+        const tietKhiList = ["Tiểu Hàn", "Đại Hàn", "Lập Xuân", "Vũ Thủy", "Kinh Trập", "Xuân Phân", "Thanh Minh", "Cốc Vũ", "Lập Hạ", "Tiểu Mãn", "Mang Chủng", "Hạ Chí", "Tiểu Thử", "Đại Thử", "Lập Thu", "Xử Thử", "Bạch Lộ", "Thu Phân", "Hàn Lộ", "Sương Giáng", "Lập Đông", "Tiểu Tuyết", "Đại Tuyết", "Đông Chí"];
+        const hoangDaoPool = ["Tý (23h-1h), Sửu (1h-3h), Thìn (7h-9h)", "Dần (3h-5h), Tỵ (9h-11h), Thân (15h-17h)", "Mão (5h-7h), Ngọ (11h-13h), Dậu (17h-19h)", "Sửu (1h-3h), Thìn (7h-9h), Tuất (19h-21h)", "Tý (23h-1h), Dần (3h-5h), Hợi (21h-23h)"];
+        const xungTuoiPool = ["Mậu Thân, Nhâm Thân, Nhâm Tý", "Giáp Tý, Bính Tý, Canh Dần", "Đinh Dậu, Ất Dậu, Tân Mão", "Bính Dần, Giáp Dần, Mậu Thân", "Kỷ Hợi, Tân Hợi, Quý Mùi"];
+        const huongXuatHanhPool = [
+            "Hỷ thần: Đông Bắc - Tài thần: Nam",
+            "Hỷ thần: Tây Bắc - Tài thần: Đông Nam",
+            "Hỷ thần: Tây Nam - Tài thần: Bắc",
+            "Hỷ thần: Chính Nam - Tài thần: Tây",
+            "Hỷ thần: Đông Nam - Tài thần: Tây Bắc",
+            "Hỷ thần: Chính Đông - Tài thần: Tây Nam"
+        ];
+        const viecNenLamPool = [
+            "Ký kết hợp đồng, giao dịch, mở kho, xuất hàng",
+            "Cúng tế, cầu phúc, họp bàn chiến lược, khai trương",
+            "Sửa chữa nhà cửa, an táng, giao dịch tài chính",
+            "Nhậm chức, nhận việc mới, đi công tác, ký kết",
+            "Đào móng, xây dựng, cất nóc, mua sắm trang thiết bị",
+            "Thăm hỏi, đàm phán, ký kết văn bản hành chính"
+        ];
+        const viecKiengKiPool = [
+            "Mai táng, kiện tụng lớn, động thổ xây dựng",
+            "Xuất hành đi xa hướng xấu, tranh chấp pháp lý",
+            "Ký kết hợp đồng giá trị lớn, kiện tụng",
+            "Khởi công xây dựng, nhậm chức, tranh chấp",
+            "Cưới hỏi, an táng, tranh chấp kiện tụng",
+            "Khai trương, xuất kho lượng lớn, kiện tụng"
+        ];
+        const dailyProverbsList = [
+            "Uống nước nhớ nguồn, ăn quả nhớ kẻ trồng cây.",
+            "Có công mài sắt, có ngày nên kim.",
+            "Học thầy không tày học bạn.",
+            "Thương người như thể thương thân.",
+            "Đi một ngày đàng, học một sàng khôn."
+        ];
+
         function changeCalendarMonth(direction) { calViewDate.setMonth(calViewDate.getMonth() + direction); renderSmartCalendar(); }
         
         function resetCalendarToToday() { 
@@ -2927,120 +3010,66 @@
             }
         }
 
-        async function syncDataToCloudServer() {
-            let notifyBox = document.getElementById('syncNotifyBox');
-            notifyBox.style.display = "block";
-            notifyBox.style.background = "#ffffff";
-            notifyBox.style.color = "#0f172a";
-            notifyBox.innerText = "⏳ Đang đồng bộ toàn bộ dữ liệu lên mây...";
-            try {
-                let payload = {
-                    action: "sync_salary_data_pro",
-                    sheetUrl: GOOGLE_SHEET_VIEW_URL,
-                    allSalaries: salaryDataByMonth || {},
-                    allPayments: paymentRecordsByMonth || {},
-                    allTelecoms: telecomRecordsByMonth || {},
-                    allItAssets: itAssetRecordsByYear || {},
-                    allConfigs: salaryConfigsByMonth || {}
-                };
-                const response = await fetch(GOOGLE_SCRIPT_API_URL, { 
-                    method: "POST", 
-                    headers: { "Content-Type": "text/plain;charset=utf-8" }, 
-                    body: JSON.stringify(payload) 
-                });
-                const result = await response.json();
-                if (result.status === "success") {
-                    notifyBox.innerText = "🎉 Đồng bộ thành công!";
-                    setTimeout(() => { notifyBox.style.display = "none"; }, 4000);
-                } else { 
-                    throw new Error(result.message); 
-                }
-            } catch (err) {
-                notifyBox.innerText = "❌ Lỗi: " + err.message;
-            }
+        function openConfigUrlModal() {
+            document.getElementById('cfg-script-url').value = GOOGLE_SCRIPT_API_URL;
+            document.getElementById('cfg-sheet-url').value = GOOGLE_SHEET_VIEW_URL;
+            document.getElementById('configUrlModal').style.display = 'flex';
+        }
+        function closeConfigUrlModal() { document.getElementById('configUrlModal').style.display = 'none'; }
+        function saveConfigUrls() {
+            GOOGLE_SCRIPT_API_URL = document.getElementById('cfg-script-url').value.trim() || HARDCODED_SCRIPT_API;
+            GOOGLE_SHEET_VIEW_URL = document.getElementById('cfg-sheet-url').value.trim() || DEFAULT_GOOGLE_SHEET_URL;
+            localStorage.setItem('sys_cfg_script_url', GOOGLE_SCRIPT_API_URL);
+            localStorage.setItem('sys_cfg_sheet_url', GOOGLE_SHEET_VIEW_URL);
+            closeConfigUrlModal();
+            alert("✅ Đã lưu cấu hình liên kết thành công!");
         }
 
         async function loadDataFromCloudServer() {
             let notifyBox = document.getElementById('syncNotifyBox');
             notifyBox.style.display = "block";
-            notifyBox.style.background = "#ffffff";
-            notifyBox.style.color = "#0f172a";
-            notifyBox.innerText = "⏳ Đang tải dữ liệu mới nhất từ mây về...";
-            
+            notifyBox.style.background = "#eff6ff";
+            notifyBox.style.color = "#1d4ed8";
+            notifyBox.innerText = "⏳ Đang tải dữ liệu từ mây về...";
             try {
-                let fetchUrl = `${GOOGLE_SCRIPT_API_URL}?sheetUrl=${encodeURIComponent(GOOGLE_SHEET_VIEW_URL)}&action=load_data`;
-                const response = await fetch(fetchUrl);
-                const result = await response.json();
-                
-                if (result.status === "success") {
-                    if (result.salaries && Object.keys(result.salaries).length > 0) {
-                        salaryDataByMonth = result.salaries; 
-                        localStorage.setItem('sys_salary_by_month', JSON.stringify(salaryDataByMonth)); 
-                    }
-                    if (result.payments && Object.keys(result.payments).length > 0) {
-                        paymentRecordsByMonth = result.payments; 
-                        localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth)); 
-                    }
-                    if (result.telecoms && Object.keys(result.telecoms).length > 0) {
-                        telecomRecordsByMonth = result.telecoms; 
-                        localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth)); 
-                    }
-                    if (result.itAssets && Object.keys(result.itAssets).length > 0) {
-                        itAssetRecordsByYear = result.itAssets; 
-                        localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear)); 
-                    }
-                    if (result.configs && Object.keys(result.configs).length > 0) {
-                        salaryConfigsByMonth = result.configs; 
-                        localStorage.setItem('sys_salary_configs_by_month', JSON.stringify(salaryConfigsByMonth)); 
-                    }
-
+                let response = await fetch(`${GOOGLE_SCRIPT_API_URL}?action=get_all_data`);
+                let res = await response.json();
+                if (res && res.status === "success") {
+                    if (res.allSalaries) { salaryDataByMonth = res.allSalaries; localStorage.setItem('sys_salary_by_month', JSON.stringify(salaryDataByMonth)); }
+                    if (res.allPayments) { paymentRecordsByMonth = res.allPayments; localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth)); }
+                    if (res.allTelecoms) { telecomRecordsByMonth = res.allTelecoms; localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth)); }
+                    if (res.allItAssets) { itAssetRecordsByYear = res.allItAssets; localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear)); }
+                    if (res.allConfigs) { salaryConfigsByMonth = res.allConfigs; localStorage.setItem('sys_salary_configs_by_month', JSON.stringify(salaryConfigsByMonth)); }
+                    
                     handleMonthChangeSelect();
-                    renderPaymentTable();
-                    renderTelecomTable();
                     renderItAssetTable();
-                    updateGlobalDashboardSummary();
-
-                    notifyBox.innerText = "🎉 Tải dữ liệu thành công!";
-                    setTimeout(() => { notifyBox.style.display = "none"; }, 4000);
-                } else { 
-                    throw new Error(result.message || "Không tìm thấy dữ liệu."); 
+                    renderLeaveTable();
+                    notifyBox.innerText = "✅ Tải dữ liệu từ mây thành công!";
+                    setTimeout(() => { notifyBox.style.display = "none"; }, 2500);
+                } else {
+                    throw new Error("Không thể đồng bộ dữ liệu.");
                 }
-            } catch (err) { 
-                notifyBox.innerText = "❌ Lỗi tải: " + err.message; 
+            } catch (err) {
+                notifyBox.style.background = "#ffeeee";
+                notifyBox.style.color = "#b91c1c";
+                notifyBox.innerText = "⚠️ Lỗi kết nối mây: " + err.message;
             }
         }
 
-        function switchMainTab(name) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-tabs .nav-tab').forEach(b => b.classList.remove('active'));
-            document.getElementById('tab-' + name).classList.add('active');
-            document.querySelector(`.nav-tabs .nav-tab[data-tab="${name}"]`).classList.add('active');
-            if(name === 'dashboard') {
-                updateGlobalDashboardSummary();
-            }
-        }
+        window.onload = function() {
+            let clockEl = document.getElementById('live-system-clock');
+            setInterval(() => {
+                let now = new Date();
+                clockEl.innerText = now.toLocaleTimeString('vi-VN') + ' ' + now.toLocaleDateString('vi-VN');
+            }, 1000);
 
-        function openConfigUrlModal() { document.getElementById('cfg-script-url').value = GOOGLE_SCRIPT_API_URL; document.getElementById('cfg-sheet-url').value = GOOGLE_SHEET_VIEW_URL; document.getElementById('configUrlModal').style.display = 'flex'; }
-        function closeConfigUrlModal() { document.getElementById('configUrlModal').style.display = 'none'; }
-        function saveConfigUrls() { 
-            GOOGLE_SCRIPT_API_URL = document.getElementById('cfg-script-url').value.trim(); 
-            GOOGLE_SHEET_VIEW_URL = document.getElementById('cfg-sheet-url').value.trim(); 
-            localStorage.setItem('sys_cfg_script_url', GOOGLE_SCRIPT_API_URL); 
-            localStorage.setItem('sys_cfg_sheet_url', GOOGLE_SHEET_VIEW_URL); 
-            closeConfigUrlModal(); alert("Lưu cấu hình thành công!"); 
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            setInterval(() => { document.getElementById('live-system-clock').innerText = new Date().toLocaleString('vi-VN'); }, 1000);
-            
-            loadDataFromCloudServer();
-
-            handleGlobalYearChange();
             generateNewItCode();
+            handleMonthChangeSelect();
             renderItAssetTable();
-            resetCalendarToToday();
-            calculateTaxPro();
-        });
+            renderLeaveTable();
+            renderSmartCalendar();
+            updateGlobalDashboardSummary();
+        };
     </script>
 </body>
 </html>
