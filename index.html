@@ -705,12 +705,12 @@
                         <span><i class="fa-solid fa-laptop" style="color:var(--purple);"></i> QUẢN LÝ TÀI SẢN & KIỂM KÊ CNTT (<span class="lbl-current-year">2025</span>)</span>
                     </div>
                     
-                    <!-- THIẾT KẾ CÂN ĐỐI ĐỘ RỘNG CÁC Ô NHẬP LIỆU THÔNG MINH, KHÔNG BỊ TRÀN HAY VIẾT TẮT -->
+                    <!-- THIẾT KẾ CÂN ĐỐI ĐỘ RỘNG CÁC Ô NHẬP LIỆU THÔNG MINH, HIỂN THỊ RÕ RÀNG TRẠNG THÁI BẢN QUYỀN -->
                     <div style="display: grid; grid-template-columns: 1fr 280px; gap: 12px; background: #faf5ff; border: 1.5px solid #d8b4fe; padding: 12px; border-radius: 6px; margin-bottom: 12px; align-items: start;">
                         <div>
                             <input type="hidden" id="edit-it-index" value="-1">
                             
-                            <!-- HÀNG 1: THÔNG TIN CHÍNH (Được phân chia độ rộng hợp lý theo nội dung) -->
+                            <!-- HÀNG 1: THÔNG TIN CHÍNH -->
                             <div style="display: grid; grid-template-columns: 1.8fr 2fr 1fr 1.2fr; gap: 8px; margin-bottom: 8px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9; font-size: 11px;">Người sử dụng <span style="color:var(--red);">*</span></label>
@@ -738,8 +738,8 @@
                                 </div>
                             </div>
                             
-                            <!-- HÀNG 2: HỆ ĐIỀU HÀNH & BỘ OFFICE (Mở rộng thoải mái tên bản quyền, không bị thu hẹp) -->
-                            <div style="display: grid; grid-template-columns: 1.6fr 1.8fr 1.6fr 1.8fr; gap: 8px; margin-bottom: 8px;">
+                            <!-- HÀNG 2: HỆ ĐIỀU HÀNH & BỘ OFFICE (Ghi rõ tường minh Đã có bản quyền / Chưa có bản quyền) -->
+                            <div style="display: grid; grid-template-columns: 1.5fr 2fr 1.5fr 2fr; gap: 8px; margin-bottom: 8px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9; font-size: 11px;">Hệ điều hành</label>
                                     <select id="it-os" style="border-color: #d8b4fe; padding: 5px 7px; height: 32px;" onchange="updateLiveQRPreview()">
@@ -755,8 +755,8 @@
                                 <div class="form-group">
                                     <label style="color: #6d28d9; font-size: 11px;">Bản quyền HĐH <span style="color:var(--red);">*</span></label>
                                     <select id="it-os-lic" style="border-color: #d8b4fe; padding: 5px 7px; height: 32px; font-size: 11px;" onchange="updateLiveQRPreview()">
-                                        <option value="Chưa kích hoạt OEM" selected>⚠️ Chưa kích hoạt OEM</option>
-                                        <option value="Kích hoạt OEM">Kích hoạt OEM</option>
+                                        <option value="Chưa kích hoạt bản quyền OEM" selected>⚠️ Chưa có bản quyền OEM</option>
+                                        <option value="Đã kích hoạt bản quyền OEM">✅ Đã có bản quyền OEM</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -774,16 +774,16 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label style="color: #6d28d9; font-size: 11px;">BQ Office <span style="color:var(--red);">*</span></label>
+                                    <label style="color: #6d28d9; font-size: 11px;">Bản quyền Office <span style="color:var(--red);">*</span></label>
                                     <select id="it-office-lic" style="border-color: #d8b4fe; padding: 5px 7px; height: 32px; font-size: 11px;" onchange="updateLiveQRPreview()">
-                                        <option value="Chưa kích hoạt OEM" selected>⚠️ Chưa kích hoạt OEM</option>
-                                        <option value="Kích hoạt OEM">Kích hoạt OEM</option>
+                                        <option value="Chưa kích hoạt bản quyền OEM" selected>⚠️ Chưa có bản quyền OEM</option>
+                                        <option value="Đã kích hoạt bản quyền OEM">✅ Đã có bản quyền OEM</option>
                                     </select>
                                 </div>
                             </div>
 
-                            <!-- HÀNG 3: CÁC PHẦN MỀM NGHIỆP VỤ & BẢN QUYỀN TÁCH BIỆT -->
-                            <div style="display: grid; grid-template-columns: 1.3fr 1.6fr 1.6fr 1.6fr; gap: 8px; margin-bottom: 8px;">
+                            <!-- HÀNG 3: CÁC PHẦN MỀM NGHIỆP VỤ & BẢN QUYỀN TÁCH BIỆT RÕ RÀNG -->
+                            <div style="display: grid; grid-template-columns: 1.2fr 1.6fr 1.6fr 1.6fr; gap: 8px; margin-bottom: 8px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9; font-size: 11px;">Đồ họa / CAD</label>
                                     <select id="it-software" style="border-color: #d8b4fe; padding: 5px 6px; height: 32px; font-size: 11px;" onchange="updateLiveQRPreview()">
@@ -795,27 +795,27 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label style="color: #6d28d9; font-size: 11px;">ASIA ERP & BQ <span style="color:var(--red);">*</span></label>
+                                    <label style="color: #6d28d9; font-size: 11px;">Phần mềm ASIA ERP <span style="color:var(--red);">*</span></label>
                                     <select id="it-asia" style="border-color: #d8b4fe; padding: 5px 6px; height: 32px; font-size: 11px;" onchange="updateLiveQRPreview()">
-                                        <option value="🚫 Không">🚫 Không</option>
-                                        <option value="ASIA Enterprise (Chưa BQ)">ASIA (Chưa BQ)</option>
-                                        <option value="ASIA Enterprise (Đã BQ)" selected>ASIA (Đã BQ)</option>
+                                        <option value="🚫 Không cài đặt">🚫 Không cài đặt</option>
+                                        <option value="ASIA Enterprise (Chưa có bản quyền)">⚠️ ASIA (Chưa có bản quyền)</option>
+                                        <option value="ASIA Enterprise (Đã có bản quyền)" selected>✅ ASIA (Đã có bản quyền)</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label style="color: #6d28d9; font-size: 11px;">QUASOFT & BQ <span style="color:var(--red);">*</span></label>
+                                    <label style="color: #6d28d9; font-size: 11px;">Phần mềm Quasoft <span style="color:var(--red);">*</span></label>
                                     <select id="it-quasoft" style="border-color: #d8b4fe; padding: 5px 6px; height: 32px; font-size: 11px;" onchange="updateLiveQRPreview()">
-                                        <option value="🚫 Không">🚫 Không</option>
-                                        <option value="Quasoft Kho (Chưa BQ)">Quasoft (Chưa BQ)</option>
-                                        <option value="Quasoft Kho (Đã BQ)" selected>Quasoft (Đã BQ)</option>
+                                        <option value="🚫 Không cài đặt">🚫 Không cài đặt</option>
+                                        <option value="Quasoft Kho (Chưa có bản quyền)">⚠️ Quasoft (Chưa có bản quyền)</option>
+                                        <option value="Quasoft Kho (Đã có bản quyền)" selected>✅ Quasoft (Đã có bản quyền)</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label style="color: #6d28d9; font-size: 11px;">CloudOffice & BQ <span style="color:var(--red);">*</span></label>
+                                    <label style="color: #6d28d9; font-size: 11px;">Phần mềm CloudOffice <span style="color:var(--red);">*</span></label>
                                     <select id="it-cloudoffice" style="border-color: #d8b4fe; padding: 5px 6px; height: 32px; font-size: 11px;" onchange="updateLiveQRPreview()">
-                                        <option value="🚫 Không">🚫 Không</option>
-                                        <option value="CloudOffice (Chưa BQ)">CloudOffice (Chưa BQ)</option>
-                                        <option value="CloudOffice (Đã BQ)" selected>CloudOffice (Đã BQ)</option>
+                                        <option value="🚫 Không cài đặt">🚫 Không cài đặt</option>
+                                        <option value="CloudOffice (Chưa có bản quyền)">⚠️ CloudOffice (Chưa có bản quyền)</option>
+                                        <option value="CloudOffice (Đã có bản quyền)" selected>✅ CloudOffice (Đã có bản quyền)</option>
                                     </select>
                                 </div>
                             </div>
@@ -905,7 +905,7 @@
                                     <th>Cấu hình</th>
                                     <th>HĐH & Bản quyền</th>
                                     <th>Office & Bản quyền</th>
-                                    <th>Phần mềm chuyên dụng & Bản quyền riêng</th>
+                                    <th>Phần mềm nghiệp vụ & Bản quyền</th>
                                     <th>Người dùng</th>
                                     <th>Phòng ban</th>
                                     <th>Ngày bàn giao</th>
@@ -2171,7 +2171,7 @@
             let cleanQuasoft = removeVietnameseAccents(quasoft || "Khong");
             let cleanCloud = removeVietnameseAccents(cloudoffice || "Co");
             
-            return `TỔNG CÔNG TY GIẤY VIỆT NAM - IT ASSET\n[Ma TS]: ${cleanCode}\n[Loai]: ${cleanType}\n[Nguoi dung]: ${cleanUser}\n[Phong ban]: ${cleanDept}\n[HDH]: ${cleanOs}\n[Office]: ${cleanOffice}\n[CAD]: ${cleanSoftware}\n[ASIA & BQ]: ${cleanAsia}\n[Quasoft & BQ]: ${cleanQuasoft}\n[CloudOffice & BQ]: ${cleanCloud}`;
+            return `TỔNG CÔNG TY GIẤY VIỆT NAM - IT ASSET\n[Ma TS]: ${cleanCode}\n[Loai]: ${cleanType}\n[Nguoi dung]: ${cleanUser}\n[Phong ban]: ${cleanDept}\n[HDH]: ${cleanOs}\n[Office]: ${cleanOffice}\n[CAD]: ${cleanSoftware}\n[ASIA]: ${cleanAsia}\n[Quasoft]: ${cleanQuasoft}\n[CloudOffice]: ${cleanCloud}`;
         }
 
         function updateLiveQRPreview() {
@@ -2359,13 +2359,13 @@
             document.getElementById('it-type').value = rec.type || "Laptop Doanh Nghiệp";
             document.getElementById('it-code').value = rec.code || "";
             document.getElementById('it-os').value = rec.os || "Windows 10 Pro / Home";
-            document.getElementById('it-os-lic').value = rec.osLic || "Chưa kích hoạt OEM";
+            document.getElementById('it-os-lic').value = rec.osLic || "Chưa kích hoạt bản quyền OEM";
             document.getElementById('it-office').value = rec.office || "Office 2021 (Pro Plus / Home & Business)";
-            document.getElementById('it-office-lic').value = rec.officeLic || "Chưa kích hoạt OEM";
+            document.getElementById('it-office-lic').value = rec.officeLic || "Chưa kích hoạt bản quyền OEM";
             document.getElementById('it-software').value = rec.software || "🚫 Không có";
-            document.getElementById('it-asia').value = rec.asia || "ASIA Enterprise (Đã BQ)";
-            document.getElementById('it-quasoft').value = rec.quasoft || "Quasoft Kho (Đã BQ)";
-            document.getElementById('it-cloudoffice').value = rec.cloudoffice || "CloudOffice (Đã BQ)";
+            document.getElementById('it-asia').value = rec.asia || "ASIA Enterprise (Đã có bản quyền)";
+            document.getElementById('it-quasoft').value = rec.quasoft || "Quasoft Kho (Đã có bản quyền)";
+            document.getElementById('it-cloudoffice').value = rec.cloudoffice || "CloudOffice (Đã có bản quyền)";
             document.getElementById('it-specs').value = rec.specs || "";
             document.getElementById('it-date').value = rec.dateVal || "";
             document.getElementById('it-status').value = rec.status || "Tốt - Đang sử dụng";
@@ -2452,9 +2452,9 @@
                     <td>${rec.office} <br><span style="color:${rec.officeLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.officeLic}]</span></td>
                     <td>
                         <span style="color:var(--blue);">CAD/Đồ họa: ${rec.software}</span><br>
-                        <span style="color:${asiaColor};">• ${rec.asia || 'ASIA (Không)'}</span><br>
-                        <span style="color:${quasoftColor};">• ${rec.quasoft || 'Quasoft (Không)'}</span><br>
-                        <span style="color:${cloudColor};">• ${rec.cloudoffice || 'CloudOffice (Không)'}</span>
+                        <span style="color:${asiaColor};">• ${rec.asia || 'ASIA (Không cài)'}</span><br>
+                        <span style="color:${quasoftColor};">• ${rec.quasoft || 'Quasoft (Không cài)'}</span><br>
+                        <span style="color:${cloudColor};">• ${rec.cloudoffice || 'CloudOffice (Không cài)'}</span>
                     </td>
                     <td class="font-bold">${rec.user}</td>
                     <td>${rec.dept}</td>
@@ -2561,7 +2561,7 @@
                     <title>Bao Cao Kiem Ke CNTT</title>
                     <style>
                         body { font-family: 'Times New Roman', Times, serif; font-size: 12pt; line-height: 1.3; color: #000000; margin: 20mm; }
-                        .header-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                        .header-table { width: 100%; border-collapse: collapse; margin-bottom: 20mm; }
                         .header-table td { width: 50%; vertical-align: top; text-align: center; font-size: 12pt; }
                         h1 { text-align: center; font-size: 15pt; text-transform: uppercase; font-weight: bold; margin-top: 15px; margin-bottom: 5px; }
                         .sub-title { text-align: center; font-size: 13pt; font-weight: bold; margin-bottom: 20px; color: #333; }
@@ -2595,7 +2595,7 @@
                                 <th>Cấu hình phần cứng</th>
                                 <th>Hệ điều hành</th>
                                 <th>Bộ Office</th>
-                                <th>Phần mềm chuyên dụng & Bản quyền</th>
+                                <th>Phần mềm nghiệp vụ & Bản quyền</th>
                                 <th>Người sử dụng</th>
                                 <th>Phòng ban</th>
                                 <th>Trạng thái</th>
