@@ -1829,7 +1829,6 @@
                                 let sum = context.dataset.data.reduce((a, b) => a + b, 0);
                                 let value = context.dataset.data[context.dataIndex];
                                 let percentage = sum > 0 ? (value * 100) / sum : 0;
-                                // Nếu tỷ trọng nhỏ hơn 8% thì tự động đổi chữ sang màu Đen đậm để dễ đọc
                                 return percentage < 8 ? '#0f172a' : '#ffffff';
                             },
                             font: {
@@ -3388,6 +3387,24 @@
             }, 4000);
         }
 
+        // 🚀 Hàm tải ngầm tự động từ mây không cần người dùng thao tác
+        async function loadDataFromCloudServerSilently() {
+            try {
+                const response = await fetch(`${GOOGLE_SCRIPT_API_URL}?action=get_all_data&year=${CURRENT_SELECTED_YEAR}`);
+                const result = await response.json();
+                if (result && result.status === "success" && result.data) {
+                    if (result.data.salaryConfigs) salaryConfigsByMonth = result.data.salaryConfigs;
+                    if (result.data.salaryData) salaryDataByMonth = result.data.salaryData;
+                    if (result.data.paymentData) paymentRecordsByMonth = result.data.paymentData;
+                    if (result.data.telecomData) telecomRecordsByMonth = result.data.telecomData;
+                    if (result.data.itAssetData) itAssetRecordsByYear = result.data.itAssetData;
+                    if (result.data.leaveData) leaveDataByYear = result.data.leaveData;
+                }
+            } catch (err) {
+                console.warn("Sử dụng dữ liệu cache cục bộ.");
+            }
+        }
+
         async function loadDataFromCloudServer() {
             let notifyBox = document.getElementById('syncNotifyBox');
             notifyBox.style.display = "block";
@@ -3426,7 +3443,7 @@
             setTimeout(() => { notifyBox.style.display = "none"; }, 4000);
         }
 
-        window.onload = function() {
+        window.onload = async function() {
             let realNow = new Date();
             calViewDate = new Date(realNow.getFullYear(), realNow.getMonth(), 1);
             calSelectedDate = new Date(realNow.getFullYear(), realNow.getMonth(), realNow.getDate());
@@ -3444,6 +3461,9 @@
                 let dateStr = now.toLocaleDateString('vi-VN');
                 document.getElementById('live-system-clock').innerText = `${timeStr} - ${dateStr}`;
             }, 1000);
+
+            // 🚀 Tự động tải dữ liệu ngầm từ mây khi mở trang trên bất kỳ máy nào
+            await loadDataFromCloudServerSilently();
 
             let sm = document.getElementById('filter-month').value;
             if (!salaryDataByMonth[sm] || salaryDataByMonth[sm].length === 0) {
