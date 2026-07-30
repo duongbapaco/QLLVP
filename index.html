@@ -179,8 +179,8 @@
                 <i class="fa-solid fa-calendar-check"></i>
                 <label for="global-year-picker">NĂM:</label>
                 <select id="global-year-picker" onchange="handleGlobalYearChange()">
-                    <option value="2025" selected>Năm 2025 (Thuế 10% - Đã cố định chuẩn 599.069.520đ)</option>
-                    <option value="2026">Năm 2026 (Thuế 8%)</option>
+                    <option value="2025">Năm 2025 (Thuế 10% - Đã cố định chuẩn 599.069.520đ)</option>
+                    <option value="2026" selected>Năm 2026 (Thuế 8%)</option>
                     <option value="2027">Năm 2027 (Linh hoạt)</option>
                     <option value="2028">Năm 2028 (Linh hoạt)</option>
                     <option value="2029">Năm 2029 (Linh hoạt)</option>
@@ -215,7 +215,7 @@
             <div id="tab-dashboard" class="tab-content active">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--blue);">
-                        <span><i class="fa-solid fa-gauge-high" style="color:var(--blue);"></i> TỔNG QUAN ĐIỀU HÀNH & BIỂU ĐỒ 3D TRỰC QUAN NĂM <span class="lbl-current-year">2025</span></span>
+                        <span><i class="fa-solid fa-gauge-high" style="color:var(--blue);"></i> TỔNG QUAN ĐIỀU HÀNH & BIỂU ĐỒ 3D TRỰC QUAN NĂM <span class="lbl-current-year">2026</span></span>
                     </div>
 
                     <div class="dash-quick-actions">
@@ -271,7 +271,7 @@
                     <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 12px; margin-bottom: 12px;">
                         <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 8px;">
                             <div style="font-weight: bold; color: var(--primary); font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
-                                <span><i class="fa-solid fa-chart-column" style="color:var(--blue);"></i> Biểu đồ Cột Động Chi phí & Tài chính năm <span class="lbl-current-year">2025</span></span>
+                                <span><i class="fa-solid fa-chart-column" style="color:var(--blue);"></i> Biểu đồ Cột Động Chi phí & Tài chính năm <span class="lbl-current-year">2026</span></span>
                             </div>
                             <div style="position: relative; height: 300px; width: 100%;">
                                 <canvas id="financeBarChart"></canvas>
@@ -290,7 +290,7 @@
                     <!-- BẢNG TỰ ĐỘNG TÁCH THUẾ LINH HOẠT THEO NĂM -->
                     <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
                         <div style="font-weight: bold; color: #c2410c; font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
-                            <span><i class="fa-solid fa-calculator"></i> 🧮 BẢNG TỰ ĐỘNG TÁCH THUẾ LINH HOẠT (NĂM <span class="lbl-current-year">2025</span>)</span>
+                            <span><i class="fa-solid fa-calculator"></i> 🧮 BẢNG TỰ ĐỘNG TÁCH THUẾ LINH HOẠT (NĂM <span class="lbl-current-year">2026</span>)</span>
                             <span id="dash-tax-badge-count" style="font-size: 11.5px; background: #ffedd5; padding: 2px 6px; border-radius: 4px; border: 1px solid #f97316;">0 hồ sơ đã phân tích</span>
                         </div>
                         <div class="table-responsive" style="max-height: 250px; overflow-y: auto; border-color: #fdba74;">
@@ -317,7 +317,7 @@
             <div id="tab-salary" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--blue);">
-                        <span><i class="fa-solid fa-pen-to-square" style="color:var(--blue);"></i> CẤU HÌNH LƯƠNG THÁNG - NĂM <span class="lbl-current-year">2025</span></span>
+                        <span><i class="fa-solid fa-pen-to-square" style="color:var(--blue);"></i> CẤU HÌNH LƯƠNG THÁNG - NĂM <span class="lbl-current-year">2026</span></span>
                     </div>
                     
                     <div class="config-toolbar-container" style="margin-bottom: 8px;">
@@ -332,7 +332,7 @@
                             </div>
                             <div class="form-group" style="flex: 1.5; min-width: 160px; max-width: 230px;">
                                 <label style="color:var(--orange);"><i class="fa-solid fa-file-signature"></i> Tên BẢNG LƯƠNG:</label>
-                                <input type="text" id="config-sheet-title" value="LƯƠNG THÁNG 07/2025" oninput="handleConfigChangeLive()">
+                                <input type="text" id="config-sheet-title" value="LƯƠNG THÁNG 07/2026" oninput="handleConfigChangeLive()">
                             </div>
                         </div>
 
@@ -340,7 +340,7 @@
                             <div style="display: flex; gap: 8px; flex-wrap: wrap; flex: 1;">
                                 <div class="form-group" style="width: 135px; flex-shrink: 0;">
                                     <label style="color:var(--blue);"><i class="fa-regular fa-calendar-days"></i> Kỳ báo cáo</label>
-                                    <input type="month" id="filter-month" value="2025-07" onchange="handleMonthChangeSelect()" style="font-size: 13px; padding: 6px 8px;">
+                                    <input type="month" id="filter-month" value="2026-07" onchange="handleMonthChangeSelect()" style="font-size: 13px; padding: 6px 8px;">
                                 </div>
                                 <div class="form-group" style="width: 90px; flex-shrink: 0;">
                                     <label style="color:var(--orange);">Tối thiểu vùng</label>
@@ -467,7 +467,7 @@
             <div id="tab-leave" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--purple);">
-                        <span><i class="fa-solid fa-calendar-alt" style="color:var(--purple);"></i> QUẢN LÝ CÔNG PHÉP CỦA VĂN PHÒNG - NĂM <span class="lbl-current-year">2025</span></span>
+                        <span><i class="fa-solid fa-calendar-alt" style="color:var(--purple);"></i> QUẢN LÝ CÔNG PHÉP CỦA VĂN PHÒNG - NĂM <span class="lbl-current-year">2026</span></span>
                         <div style="display: flex; gap: 6px; flex-wrap: wrap;">
                             <button type="button" class="btn btn-purple" style="padding: 5px 10px; font-size: 11.5px;" onclick="openLeaveRequestModal()"><i class="fa-solid fa-file-pen"></i> 📝 Đăng Ký Nghỉ Phép</button>
                             <button type="button" class="btn btn-primary" style="padding: 5px 10px; font-size: 11.5px;" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Thêm NV từ Lương</button>
@@ -506,7 +506,7 @@
             <div id="tab-payment" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--green);">
-                        <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--green);"></i> LẬP HỒ SƠ ĐỀ NGHỊ THANH TOÁN VĂN PHÒNG (<span class="lbl-current-year">2025</span>)</span>
+                        <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--green);"></i> LẬP HỒ SƠ ĐỀ NGHỊ THANH TOÁN VĂN PHÒNG (<span class="lbl-current-year">2026</span>)</span>
                         <a href="https://drive.google.com" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Drive</a>
                     </div>
 
@@ -524,8 +524,8 @@
                                 <select id="tax-rate-select" onchange="calculateTaxPro()" style="border-color:#86efac;">
                                     <option value="0">0% (Không chịu thuế)</option>
                                     <option value="5">5% (Thiết yếu)</option>
-                                    <option value="8">8% (Giảm thuế GTGT)</option>
-                                    <option value="10" selected>10% (Chuẩn GTGT / Năm 2025)</option>
+                                    <option value="8" selected>8% (Giảm thuế GTGT / Năm 2026)</option>
+                                    <option value="10">10% (Chuẩn GTGT)</option>
                                     <option value="5.5">5.5% (Thuế nhà thầu 5%+5%)</option>
                                     <option value="10.5">10.5% (Thuế nhà thầu 10%+5%)</option>
                                 </select>
@@ -550,7 +550,7 @@
                         <div class="grid-form" style="margin-bottom: 10px;">
                             <div class="form-group" style="grid-column: span 2;">
                                 <label>Nội dung thanh toán:</label>
-                                <input type="text" id="pay-content" placeholder="Ví dụ: Thanh toán VPP tháng 07/2025...">
+                                <input type="text" id="pay-content" placeholder="Ví dụ: Thanh toán VPP tháng 07/2026...">
                             </div>
                             <div class="form-group">
                                 <label>Đơn vị thụ hưởng:</label>
@@ -559,7 +559,7 @@
                             <div class="form-group">
                                 <label><i class="fa-solid fa-calendar-days" style="color:var(--green);"></i> Thời gian:</label>
                                 <div style="position:relative;">
-                                    <input type="text" id="pay-date-time" value="27/07/2025" readonly onclick="togglePicker('payment-date-popup')" style="cursor:pointer; background:#ffffff; font-weight:bold; color:var(--green);">
+                                    <input type="text" id="pay-date-time" value="27/07/2026" readonly onclick="togglePicker('payment-date-popup')" style="cursor:pointer; background:#ffffff; font-weight:bold; color:var(--green);">
                                     <div id="payment-date-popup" class="custom-popup-calendar"></div>
                                 </div>
                             </div>
@@ -625,7 +625,7 @@
                     </div>
 
                     <div class="card-title" style="font-size: 13px; margin-top: 12px;">
-                        <span>DANH SÁCH HỒ SƠ THANH TOÁN TRONG NĂM <span class="lbl-current-year">2025</span></span>
+                        <span>DANH SÁCH HỒ SƠ THANH TOÁN TRONG NĂM <span class="lbl-current-year">2026</span></span>
                         <span id="pay-total-sum" style="color: var(--green);">Tổng: 0 VND</span>
                     </div>
                     <div class="table-responsive">
@@ -656,7 +656,7 @@
             <div id="tab-telecom" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--orange);">
-                        <span><i class="fa-solid fa-wifi" style="color:var(--orange);"></i> QUẢN LÝ CƯỚC MẠNG & INTERNET (<span class="lbl-current-year">2025</span>)</span>
+                        <span><i class="fa-solid fa-wifi" style="color:var(--orange);"></i> QUẢN LÝ CƯỚC MẠNG & INTERNET (<span class="lbl-current-year">2026</span>)</span>
                         <a href="https://drive.google.com" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Drive</a>
                     </div>
                     <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
@@ -690,7 +690,7 @@
                             <div class="form-group">
                                 <label style="color: #c2410c;"><i class="fa-solid fa-calendar-days"></i> Kỳ cước:</label>
                                 <div style="position:relative;">
-                                    <input type="text" id="tele-period" value="Tháng 07/2025" readonly onclick="togglePicker('telecom-period-popup')" style="cursor:pointer; background:#ffffff; border-color:#fdba74; font-weight:bold; color:#c2410c;">
+                                    <input type="text" id="tele-period" value="Tháng 07/2026" readonly onclick="togglePicker('telecom-period-popup')" style="cursor:pointer; background:#ffffff; border-color:#fdba74; font-weight:bold; color:#c2410c;">
                                     <div id="telecom-period-popup" class="custom-popup-calendar"></div>
                                 </div>
                             </div>
@@ -713,7 +713,7 @@
                     </div>
 
                     <div class="card-title" style="font-size: 13px; margin-top: 12px;">
-                        <span>DANH SÁCH CƯỚC VIỄN THÔNG & INTERNET TRONG NĂM <span class="lbl-current-year">2025</span></span>
+                        <span>DANH SÁCH CƯỚC VIỄN THÔNG & INTERNET TRONG NĂM <span class="lbl-current-year">2026</span></span>
                         <span id="tele-total-sum" style="color: var(--orange);">Tổng cước: 0 VND</span>
                     </div>
                     <div class="table-responsive">
@@ -741,7 +741,7 @@
             <div id="tab-it-assets" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--purple);">
-                        <span><i class="fa-solid fa-laptop" style="color:var(--purple);"></i> KHO THIẾT BỊ & KIỂM KÊ TÀI SẢN (<span class="lbl-current-year">2025</span>)</span>
+                        <span><i class="fa-solid fa-laptop" style="color:var(--purple);"></i> KHO THIẾT BỊ & KIỂM KÊ TÀI SẢN (<span class="lbl-current-year">2026</span>)</span>
                     </div>
                     
                     <div style="display: flex; gap: 12px; background: #faf5ff; border: 1.5px solid #d8b4fe; padding: 12px; border-radius: 6px; margin-bottom: 12px; align-items: flex-start; flex-wrap: wrap;">
@@ -1010,7 +1010,7 @@
                     </div>
 
                     <div class="card-title" style="font-size: 13px; margin-top: 12px;">
-                        <span>KHO THIẾT BỊ & KIỂM KÊ TÀI SẢN NĂM <span class="lbl-current-year">2025</span></span>
+                        <span>KHO THIẾT BỊ & KIỂM KÊ TÀI SẢN NĂM <span class="lbl-current-year">2026</span></span>
                         <span id="it-total-count" style="color: var(--purple);">Tổng: 0 Thiết bị</span>
                     </div>
                     <div class="table-responsive">
@@ -1043,12 +1043,12 @@
         <div class="calendar-sidebar" id="calendar-sidebar-box">
             <div class="cal-smart-header">
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
-                <span id="cal-header-title">THÁNG 07 / 2025</span>
+                <span id="cal-header-title">THÁNG 07 / 2026</span>
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
 
             <div class="calendar-block-view">
-                <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM ẤT TỴ</div>
+                <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
                 <div class="calendar-block-body">
                     <div style="font-size:11.5px; color:#334155; font-weight:bold; text-transform:uppercase;" id="cal-selected-dow">Thứ Hai</div>
                     <div style="font-size:55px; font-weight:900; color:#dc2626; line-height:1; margin:3px 0;" id="cal-selected-day">27</div>
@@ -1070,7 +1070,7 @@
             <div class="cal-info-panel">
                 <div class="cal-info-row">
                     <span class="cal-info-label"><i class="fa-solid fa-moon text-purple"></i> Âm lịch chi tiết:</span>
-                    <span class="cal-info-val" id="info-lunar-exact" style="color:var(--purple);">3/6/2025 (Ất Tỵ)</span>
+                    <span class="cal-info-val" id="info-lunar-exact" style="color:var(--purple);">3/6/2026 (Bính Ngọ)</span>
                 </div>
                 <div class="cal-info-row">
                     <span class="cal-info-label"><i class="fa-solid fa-seedling text-green"></i> Tiết khí:</span>
@@ -1201,7 +1201,7 @@
     <!-- MODAL ĐẶT LỊCH SỰ KIỆN -->
     <div id="eventModal" class="modal" onclick="closeEventModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:420px;">
-            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">27/07/2025</span></div>
+            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">27/07/2026</span></div>
             <div class="form-group" style="margin-bottom: 10px;">
                 <label>Nội dung sự kiện / Công việc:</label>
                 <textarea id="modal-event-text" class="inp-table" style="height: 75px; resize: none;" placeholder="Ví dụ: Họp giao ban..."></textarea>
@@ -1239,7 +1239,7 @@
         let GOOGLE_SHEET_VIEW_URL = localStorage.getItem('sys_cfg_sheet_url') || DEFAULT_GOOGLE_SHEET_URL; 
         let GOOGLE_SCRIPT_API_URL = localStorage.getItem('sys_cfg_script_url') || HARDCODED_SCRIPT_API; 
 
-        let CURRENT_SELECTED_YEAR = "2025";
+        let CURRENT_SELECTED_YEAR = "2026";
         let isAmountManual = false;
         let autoSyncTimer = null;
         let barChartInstance = null;
@@ -1259,7 +1259,7 @@
             "Cái nết đánh chết cái đẹp.",
             "Chớ thấy sóng ngã mà ngèo tay chèo.",
             "Lời chào cao hơn mâm cỗ.",
-            "Tiền nào cu của nấy.",
+            "Tiền nào của nấy.",
             "Muốn biết phải hỏi, muốn giỏi phải học.",
             "Ăn kỹ no lâu, cày sâu lúa tốt.",
             "Giữ vàng giữ ngọc chẳng thà giữ lấy một lời.",
@@ -1589,7 +1589,6 @@
                 });
             });
 
-            // CỐ ĐỊNH CHÍNH XÁC SỐ LIỆU NĂM 2025 THEO YÊU CẦU
             if (CURRENT_SELECTED_YEAR === "2025") {
                 totalPaidYear = 599069520;
                 totalTaxYear = Math.round(599069520 - (599069520 / 1.1));
@@ -2982,28 +2981,148 @@
             saveAs(blob, `BaoCao_KiemKe_KhoThietBi_${CURRENT_SELECTED_YEAR}.doc`);
         }
 
+        /* --- THUẬT TOÁN ĐỔI LỊCH ÂM DƯƠNG CHUẨN XÁC (Hồ Ngọc Đức) --- */
+        const TIMEZONE = 7.0;
+
+        function jdn(dd, mm, yy) {
+            let a = Math.floor((14 - mm) / 12);
+            let y = yy + 4800 - a;
+            let m = mm + 12 * a - 3;
+            let jd = dd + Math.floor((153 * m + 2) / 5) + 365 * y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
+            if (jd < 2299161) {
+                jd = dd + Math.floor((153 * m + 2) / 5) + 365 * y + Math.floor(y / 4) - 32083;
+            }
+            return jd;
+        }
+
+        function fromJDN(jd) {
+            let a, b, c, d, e, m;
+            if (jd < 2299161) {
+                b = 0;
+                c = jd + 32082;
+            } else {
+                a = Math.floor((jd - 1867216.25) / 36524.25);
+                b = jd + 1 + a - Math.floor(a / 4);
+                c = b + 1524;
+            }
+            d = Math.floor((c - 122.1) / 365.25);
+            e = Math.floor(365.25 * d);
+            m = Math.floor((c - e) / 30.6001);
+            let day = c - e - Math.floor(30.6001 * m);
+            let month = m < 14 ? m - 1 : m - 13;
+            let year = month > 2 ? d - 4716 : d - 4715;
+            return { day: day, month: month, year: year };
+        }
+
+        function getNewMoonDay(k, timeZone) {
+            let T = k / 123685.3273525;
+            let T2 = T * T;
+            let T3 = T2 * T;
+            let dr = Math.PI / 180;
+            let Jd1 = 2415020.75933 + 29.53058868 * k + 0.0001178 * T2 - 0.000000155 * T3;
+            let M = 359.2242 + 29.10535608 * k - 0.0000333 * T2 - 0.00000347 * T3;
+            let Mprime = 306.0253 + 385.81691806 * k + 0.0107306 * T2 + 0.00001236 * T3;
+            let F = 21.2964 + 390.67050646 * k - 0.0016528 * T2 - 0.00000239 * T3;
+            let C1 = (0.1734 - 0.000393 * T) * Math.sin(M * dr) + 0.0021 * Math.sin(2 * M * dr);
+            C1 -= 0.4068 * Math.sin(Mprime * dr) + 0.0161 * Math.sin(2 * Mprime * dr);
+            C1 -= 0.0004 * Math.sin(3 * Mprime * dr);
+            C1 += 0.0104 * Math.sin(2 * F * dr) - 0.0051 * Math.sin((M + Mprime) * dr);
+            C1 -= 0.0024 * Math.sin((M - Mprime) * dr) + 0.0004 * Math.sin((2 * F + M) * dr);
+            C1 -= 0.0004 * Math.sin((2 * F - M) * dr) + 0.0001 * Math.sin((2 * F + Mprime) * dr);
+            C1 -= 0.0001 * Math.sin((2 * F - Mprime) * dr) + 0.0001 * Math.sin((3 * M) * dr);
+            let deltat = 0;
+            if (T < 0) {
+                deltat = (0.5 + 0.41 * T + 0.000 * T2);
+            } else {
+                deltat = (0.5 + 0.20 * T - 0.010 * T2);
+            }
+            let JdNew = Jd1 + C1 - deltat / 86400.0;
+            return Math.floor(JdNew + 0.5 + timeZone / 24.0);
+        }
+
+        function getSunLongitude(jdnVal, timeZone) {
+            let T = (jdnVal - 2451545.0 - timeZone / 24.0) / 36525.0;
+            let T2 = T * T;
+            let dr = Math.PI / 180;
+            let L0 = 280.46646 + 36000.76983 * T + 0.0003032 * T2;
+            let M = 357.52911 + 35999.05029 * T - 0.0001537 * T2;
+            let C = (1.914602 - 0.004817 * T - 0.000014 * T2) * Math.sin(M * dr);
+            C += (0.019993 - 0.000101 * T) * Math.sin(2 * M * dr) + 0.000289 * Math.sin(3 * M * dr);
+            let L = L0 + C;
+            while (L < 0) L += 360;
+            while (L >= 360) L -= 360;
+            return Math.floor(L / 30);
+        }
+
+        function getLunarMonth11(yy, timeZone) {
+            let off = jdn(31, 12, yy) - 2415021;
+            let k = Math.floor(off / 29.53058868);
+            let nm = getNewMoonDay(k, timeZone);
+            let sunLong = getSunLongitude(nm, timeZone);
+            if (sunLong >= 9) {
+                nm = getNewMoonDay(k - 1, timeZone);
+            }
+            return nm;
+        }
+
+        function getLeapMonthOffset(a11, timeZone) {
+            let k = Math.floor((a11 - 2415020.75933) / 29.53058868 + 0.5);
+            let last = 0;
+            let i = 1;
+            let arc = getSunLongitude(getNewMoonDay(k + i, timeZone), timeZone);
+            let first = arc;
+            do {
+                last = arc;
+                i++;
+                arc = getSunLongitude(getNewMoonDay(k + i, timeZone), timeZone);
+            } while (arc !== first && i < 14);
+            return i - 1;
+        }
+
         function solarToLunar(solarYear, solarMonth, solarDay) {
-            let a = Math.floor((14 - solarMonth) / 12);
-            let y = solarYear + 4800 - a;
-            let m = solarMonth + 12 * a - 3;
-            let jd = solarDay + Math.floor((153 * m + 2) / 5) + 365 * y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
-            
-            let lDay = ((solarDay * 11) % 29) + 1;
-            let lMonth = ((solarMonth + Math.floor(solarDay / 15)) % 12) + 1;
-            let lYear = solarYear;
-            if (solarMonth < 2) lYear--;
+            let jd = jdn(solarDay, solarMonth, solarYear);
+            let k = Math.floor((jd - 2415020.75933) / 29.53058868);
+            let nm = getNewMoonDay(k, TIMEZONE);
+            if (nm > jd) {
+                nm = getNewMoonDay(k - 1, TIMEZONE);
+            }
+            let monthStart = nm;
+            let a11 = getLunarMonth11(solarYear, TIMEZONE);
+            let b11 = a11;
+            if (a11 >= monthStart) {
+                b11 = getLunarMonth11(solarYear - 1, TIMEZONE);
+            } else {
+                a11 = getLunarMonth11(solarYear + 1, TIMEZONE);
+            }
+            let lunarYear = solarYear;
+            if (a11 >= monthStart) lunarYear = solarYear - 1;
+            let diff = Math.floor((monthStart - b11) / 29.5);
+            let leap = 0;
+            let lunarMonth = diff + 11;
+            if (b11 !== a11) {
+                let leapMonthDiff = getLeapMonthOffset(b11, TIMEZONE);
+                if (diff >= leapMonthDiff) {
+                    lunarMonth = diff + 10;
+                    if (diff === leapMonthDiff) leap = 1;
+                }
+            }
+            if (lunarMonth > 12) {
+                lunarMonth -= 12;
+                lunarYear++;
+            }
+            let lunarDay = jd - monthStart + 1;
 
             const canArr = ["Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ", "Canh", "Tân", "Nhâm", "Quý"];
             const chiArr = ["Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi", "Thân", "Dậu", "Tuất", "Hợi"];
             
-            let canYear = canArr[(lYear + 6) % 10];
-            let chiYear = chiArr[(lYear + 8) % 12];
+            let canYear = canArr[(lunarYear + 6) % 10];
+            let chiYear = chiArr[(lunarYear + 8) % 12];
 
             return {
-                day: lDay > 30 ? 30 : lDay,
-                month: lMonth,
-                year: lYear,
-                leap: 0,
+                day: lunarDay,
+                month: lunarMonth,
+                year: lunarYear,
+                leap: leap,
                 canChiYear: `${canYear} ${chiYear}`
             };
         }
@@ -3027,7 +3146,6 @@
 
             let today = new Date();
             for (let d = 1; d <= totalDays; d++) {
-                let cellDate = new Date(y, m, d);
                 let isToday = (d === today.getDate() && m === today.getMonth() && y === today.getFullYear());
                 let isSelected = (d === calSelectedDate.getDate() && m === calSelectedDate.getMonth() && y === calSelectedDate.getFullYear());
                 let dateKey = `${d}/${m + 1}/${y}`;
