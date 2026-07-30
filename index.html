@@ -518,7 +518,7 @@
                         </div>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; align-items: end;">
                             <div class="form-group">
-                                <label style="color:#166534;">Số tiền (Đã gồm thuế):</label>
+                                <label style="color:#166534;" id="tax-input-label">Số tiền (Tổng sau thuế):</label>
                                 <input type="text" id="tax-input-amount" value="0" placeholder="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="calculateTaxPro()" style="border-color:#86efac;">
                             </div>
                             <div class="form-group">
@@ -534,13 +534,13 @@
                             </div>
                             <div class="form-group">
                                 <label style="color:#166534;">Phương thức tính:</label>
-                                <select id="tax-mode-select" onchange="calculateTaxPro()" style="border-color:#86efac;">
+                                <select id="tax-mode-select" onchange="onTaxModeChange()" style="border-color:#86efac;">
                                     <option value="extract" selected>Tính ngược tách thuế từ tổng</option>
-                                    <option value="add">Cộng thuế vào gốc</option>
+                                    <option value="add">Tính xuôi cộng thuế vào gốc</option>
                                 </select>
                             </div>
                             <div class="form-group" style="background: #ffffff; padding: 6px 10px; border: 1.5px solid #86efac; border-radius: 4px;">
-                                <div style="font-size: 10.5px; color: #475569; font-weight: bold;">Kết quả tính ngược (Làm tròn):</div>
+                                <div style="font-size: 10.5px; color: #475569; font-weight: bold;" id="tax-result-title-1">Kết quả tính ngược (Làm tròn):</div>
                                 <div style="font-size: 12px; color: var(--red); font-weight: bold;" id="tax-result-tax">Thuế: 0 VND</div>
                                 <div style="font-size: 12.5px; color: var(--green); font-weight: 800;" id="tax-result-total">Tiền gốc: 0 VND</div>
                             </div>
@@ -1367,23 +1367,39 @@
             }
         }
 
+        function onTaxModeChange() {
+            let mode = document.getElementById('tax-mode-select').value;
+            let labelEl = document.getElementById('tax-input-label');
+            let titleEl = document.getElementById('tax-result-title-1');
+            if (mode === 'extract') {
+                labelEl.innerText = "Số tiền (Tổng sau thuế):";
+                titleEl.innerText = "Kết quả tính ngược (Làm tròn):";
+            } else {
+                labelEl.innerText = "Số tiền (Tiền gốc trước thuế):";
+                titleEl.innerText = "Kết quả tính xuôi (Làm tròn):";
+            }
+            calculateTaxPro();
+        }
+
         function calculateTaxPro() {
-            let totalAmount = parseCurrencyVN(document.getElementById('tax-input-amount').value);
+            let inputAmount = parseCurrencyVN(document.getElementById('tax-input-amount').value);
             let rate = parseFloat(document.getElementById('tax-rate-select').value) || 0;
             let mode = document.getElementById('tax-mode-select').value;
-            let taxAmount = 0, baseAmount = 0;
+            let taxAmount = 0, baseAmount = 0, totalAmount = 0;
 
             if (mode === 'extract') {
+                totalAmount = inputAmount;
                 baseAmount = Math.round(totalAmount / (1 + rate / 100));
                 taxAmount = Math.round(totalAmount - baseAmount);
+                document.getElementById('tax-result-tax').innerText = `Thuế (Làm tròn): ${formatCurrencyVN(taxAmount)} VND`;
+                document.getElementById('tax-result-total').innerText = `Tiền gốc: ${formatCurrencyVN(baseAmount)} VND`;
             } else {
-                baseAmount = totalAmount;
+                baseAmount = inputAmount;
                 taxAmount = Math.round(baseAmount * (rate / 100));
                 totalAmount = baseAmount + taxAmount;
+                document.getElementById('tax-result-tax').innerText = `Thuế (Làm tròn): ${formatCurrencyVN(taxAmount)} VND`;
+                document.getElementById('tax-result-total').innerText = `Tổng sau thuế: ${formatCurrencyVN(totalAmount)} VND`;
             }
-
-            document.getElementById('tax-result-tax').innerText = `Thuế (Làm tròn): ${formatCurrencyVN(taxAmount)} VND`;
-            document.getElementById('tax-result-total').innerText = `Tiền gốc: ${formatCurrencyVN(baseAmount)} VND`;
         }
 
         function getTaxRateForYear(yearStr) {
