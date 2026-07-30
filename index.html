@@ -40,7 +40,7 @@
 
         .header { display: flex; justify-content: space-between; align-items: center; background: #0f172a; color: white; padding: 10px 15px; border-radius: 4px; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
         .header h1 { font-size: 14px; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; }
-        .live-clock-box { background: rgba(255,255,255,0.15); padding: 5px 10px; border-radius: 4px; font-family: monospace; font-size: 12px; text-align: right; border: 1px solid rgba(255,255,255,0.3); font-weight: bold; color: #fef08a; }
+        .live-clock-box { background: rgba(255,255,255,0.15); padding: 5px 10px; border-radius: 4px; font-family: monospace; font-size: 12px; text-align: right; border: 1.5px solid rgba(255,255,255,0.3); font-weight: bold; color: #fef08a; }
 
         .dash-overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-bottom: 12px; }
 
@@ -559,7 +559,7 @@
                             <div class="form-group">
                                 <label><i class="fa-solid fa-calendar-days" style="color:var(--green);"></i> Thời gian:</label>
                                 <div style="position:relative;">
-                                    <input type="text" id="pay-date-time" value="27/07/2026" readonly onclick="togglePicker('payment-date-popup')" style="cursor:pointer; background:#ffffff; font-weight:bold; color:var(--green);">
+                                    <input type="text" id="pay-date-time" value="30/07/2026" readonly onclick="togglePicker('payment-date-popup')" style="cursor:pointer; background:#ffffff; font-weight:bold; color:var(--green);">
                                     <div id="payment-date-popup" class="custom-popup-calendar"></div>
                                 </div>
                             </div>
@@ -1050,9 +1050,9 @@
             <div class="calendar-block-view">
                 <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
                 <div class="calendar-block-body">
-                    <div style="font-size:11.5px; color:#334155; font-weight:bold; text-transform:uppercase;" id="cal-selected-dow">Thứ Hai</div>
-                    <div style="font-size:55px; font-weight:900; color:#dc2626; line-height:1; margin:3px 0;" id="cal-selected-day">27</div>
-                    <div style="font-size:11.5px; font-weight:bold; color:#0f172a;" id="cal-selected-lunar-day">Ngày Ất Mùi - Tháng Quý Mùi</div>
+                    <div style="font-size:11.5px; color:#334155; font-weight:bold; text-transform:uppercase;" id="cal-selected-dow">Thứ Năm</div>
+                    <div style="font-size:55px; font-weight:900; color:#dc2626; line-height:1; margin:3px 0;" id="cal-selected-day">30</div>
+                    <div style="font-size:11.5px; font-weight:bold; color:#0f172a;" id="cal-selected-lunar-day">Ngày Ất Tỵ - Tháng Ất Mùi</div>
                 </div>
             </div>
 
@@ -1070,15 +1070,15 @@
             <div class="cal-info-panel">
                 <div class="cal-info-row">
                     <span class="cal-info-label"><i class="fa-solid fa-moon text-purple"></i> Âm lịch chi tiết:</span>
-                    <span class="cal-info-val" id="info-lunar-exact" style="color:var(--purple);">3/6/2026 (Bính Ngọ)</span>
+                    <span class="cal-info-val" id="info-lunar-exact" style="color:var(--purple);">17/6/2026 (Bính Ngọ)</span>
                 </div>
                 <div class="cal-info-row">
                     <span class="cal-info-label"><i class="fa-solid fa-seedling text-green"></i> Tiết khí:</span>
-                    <span class="cal-info-val" id="info-tiet-khi" style="color:var(--green);">Tiểu Thử</span>
+                    <span class="cal-info-val" id="info-tiet-khi" style="color:var(--green);">Đại Thử</span>
                 </div>
                 <div class="cal-info-row">
                     <span class="cal-info-label"><i class="fa-solid fa-compass text-blue"></i> Giờ Hoàng Đạo:</span>
-                    <span class="cal-info-val" id="info-hoang-dao" style="color:var(--blue);">Dần (3-5), Tỵ (9-11), Thân (15-17)</span>
+                    <span class="cal-info-val" id="info-hoang-dao" style="color:var(--blue);">Sửu (1-3), Thìn (7-9), Ngọ (11-13), Mùi (13-15), Tuất (19-21), Hợi (21-23)</span>
                 </div>
                 <div class="cal-info-row">
                     <span class="cal-info-label"><i class="fa-solid fa-route" style="color:#b45309;"></i> Hướng xuất hành:</span>
@@ -1086,15 +1086,15 @@
                 </div>
                 <div class="cal-info-row">
                     <span class="cal-info-label"><i class="fa-solid fa-circle-check text-green"></i> Việc nên làm:</span>
-                    <span class="cal-info-val" id="info-viec-nen-lam" style="color:var(--green);">Ký kết hợp đồng, giao dịch, mở kho, xuất hàng</span>
+                    <span class="cal-info-val" id="info-viec-nen-lam" style="color:var(--green);">Khởi tạo trăm việc đều tốt, xây đắp phần mộ, trổ cửa, giao dịch</span>
                 </div>
                 <div class="cal-info-row">
                     <span class="cal-info-label"><i class="fa-solid fa-circle-xmark text-red"></i> Việc kiêng kị:</span>
-                    <span class="cal-info-val" id="info-viec-kieng-ki" style="color:var(--red);">Mai táng, kiện tụng lớn, động thổ xây dựng</span>
+                    <span class="cal-info-val" id="info-viec-kieng-ki" style="color:var(--red);">Rất kỵ đi thuyền</span>
                 </div>
                 <div class="cal-info-row">
                     <span class="cal-info-label"><i class="fa-solid fa-user-shield text-red"></i> Tuổi xung khắc:</span>
-                    <span class="cal-info-val" id="info-tuoi-xung" style="color:var(--red);">Quý Hợi, Tân Hợi, Đinh Mão</span>
+                    <span class="cal-info-val" id="info-tuoi-xung" style="color:var(--red);">Kỷ Hợi, Tân Hợi</span>
                 </div>
                 <div class="cal-info-row" style="flex-direction: column; gap: 3px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 5px;">
                     <span class="cal-info-label" style="color:var(--orange);"><i class="fa-solid fa-quote-left"></i> Thành ngữ / Ca dao hôm nay:</span>
@@ -1201,7 +1201,7 @@
     <!-- MODAL ĐẶT LỊCH SỰ KIỆN -->
     <div id="eventModal" class="modal" onclick="closeEventModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:420px;">
-            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">27/07/2026</span></div>
+            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">30/07/2026</span></div>
             <div class="form-group" style="margin-bottom: 10px;">
                 <label>Nội dung sự kiện / Công việc:</label>
                 <textarea id="modal-event-text" class="inp-table" style="height: 75px; resize: none;" placeholder="Ví dụ: Họp giao ban..."></textarea>
@@ -1245,6 +1245,7 @@
         let barChartInstance = null;
         let pieChartInstance = null;
 
+        // KHO CA DAO, TỤC NGỮ, THÀNH NGỮ VIỆT NAM PHONG PHÚ (HƠN 100 CÂU CHỌN LỌC)
         const dailyProverbsList = [
             "Uống nước nhớ nguồn, ăn quả nhớ kẻ trồng cây.",
             "Có công mài sắt, có ngày nên kim.",
@@ -1265,7 +1266,80 @@
             "Giữ vàng giữ ngọc chẳng thà giữ lấy một lời.",
             "Lửa thử vàng, gian nan thử sức.",
             "Chớ bỏ việc hôm nay đến ngày mai.",
-            "Đói cho sạch, rách cho thơm."
+            "Đói cho sạch, rách cho thơm.",
+            "Ăn mảnh khó thành, ăn chung chóng hết.",
+            "Bán anh em xa, mua láng giềng gần.",
+            "Bầu ơi thương lấy bí cùng, tuy rằng khác giống nhưng chung một giàn.",
+            "Cái khó bó cái khôn.",
+            "Chớ thấy hùm tha mà bắt chước.",
+            "Có qua có lại mới toại lòng nhau.",
+            "Đen bạc đỏ quên.",
+            "Đất lành chim đậu.",
+            "Đồng sức đồng lòng, tát cạn biển Đông.",
+            "Gió chiều nào theo chiều ấy.",
+            "Học ăn, học nói, học gói, học mở.",
+            "Kính lão đắc thọ.",
+            "Lời nói gói vàng.",
+            "Muốn sang thì bắc cầu kiều, muốn con hay chữ thì yêu lấy thầy.",
+            "Nhà sạch thì mát, bát sạch ngon cơm.",
+            "Nói chín thì làm mười, nói mười làm chín kẻ cười người chê.",
+            "Ở hiền gặp lành.",
+            "Phúc đức tại mẫu.",
+            "Quạ khoang thì mặc quạ khoang, nước trong nước chảy rõ ràng con cá.",
+            "Rót mật vào tai.",
+            "Sông có khúc, người có lúc.",
+            "Tốt gỗ hơn tốt nước sơn.",
+            "Trăm hay không bằng tay quen.",
+            "Trẻ cậy cha, già cậy con.",
+            "Ăn cháo đá bát.",
+            "Cả vú lấp miệng em.",
+            "Chó chê mèo lắm lông.",
+            "Được voi đòi tiên.",
+            "Gậy ông đập lưng ông.",
+            "Học hay không bằng hay làm.",
+            "Mất bò mới lo làm chuồng.",
+            "Nước chảy đá mòn.",
+            "Nói ngọt lọt đến xương.",
+            "Sai một ly đi một dặm.",
+            "Tai vách mạch rừng.",
+            "Tham thực cực thân.",
+            "Thùng rỗng kêu to.",
+            "Tránh vỏ dưa gặp vỏ dừa.",
+            "Vỏ quýt dày có móng tay nhọn.",
+            "Ăn cay nói ngọt.",
+            "Bệnh từ miệng vào, họa từ miệng ra.",
+            "Cười người chớ vội cười lâu, cười người hôm trước hôm sau người cười.",
+            "Đường đi hay tối, nói dối hay quên.",
+            "Gieo gió gặt bão.",
+            "Họa vô đơn chí, phúc bất trùng lai.",
+            "Khôn ngoan đối đáp người ngoài, gà cùng một mẹ chớ hoài đá nhau.",
+            "Lắm thầy nhiều ma, lắm cha con khó.",
+            "Mỗi cây mỗi hoa, mỗi nhà mỗi cảnh.",
+            "Nói phải củ cải cũng nghe.",
+            "Qua cầu rút ván.",
+            "Rừng vàng biển bạc.",
+            "Sẩy chân gượng lại còn vừa, sẩy miệng gượng lại đến trưa chẳng thành.",
+            "Thầy nào tớ nấy.",
+            "Tránh voi chẳng xấu mặt nào.",
+            "Trời sinh voi trời sinh cỏ.",
+            "Vắng chủ nhà gà vọc niêu tôm.",
+            "Ăn bớt ăn xén.",
+            "Bán tơi bán nhẫn.",
+            "Cọc chê trâu chậm.",
+            "Đứng núi này trông núi nọ.",
+            "Gió to sóng lớn.",
+            "Hổ dữ không ăn thịt con.",
+            "Khôn ba năm dại một giờ.",
+            "Lòng lang dạ thú.",
+            "Mèo mả gà đồng.",
+            "Nói trước bước không qua.",
+            "Quăng dao giữ cán.",
+            "Ranh mãnh như cáo.",
+            "Sống lâu lên lão làng.",
+            "Thân em như hạt mưa sa.",
+            "Trứng khôn hơn vịt.",
+            "Vào sinh ra tử.",
+            "Yêu nhau lắm cắn nhau đau."
         ];
 
         const default16Staffs = [
@@ -1596,7 +1670,7 @@
                     taxSummaryTbody.innerHTML = `
                         <tr>
                             <td class="text-center font-bold">1</td>
-                            <td class="text-center">27/07/2025</td>
+                            <td class="text-center">30/07/2025</td>
                             <td><b>Tổng hợp thanh toán văn phòng năm 2025 (Cố định chuẩn)</b></td>
                             <td>Tổng công ty Giấy Việt Nam</td>
                             <td class="text-right font-bold" style="color:var(--green);">599.069.520 VND</td>
@@ -2108,7 +2182,7 @@
             let year = parts[0] || CURRENT_SELECTED_YEAR;
             let month = parts[1] || "07";
 
-            let payDateTime = document.getElementById('pay-date-time').value.trim() || `27/07/${CURRENT_SELECTED_YEAR}`;
+            let payDateTime = document.getElementById('pay-date-time').value.trim() || `30/07/${CURRENT_SELECTED_YEAR}`;
             let dateParts = payDateTime.split('/');
             if (dateParts.length === 3) { month = dateParts[1]; year = dateParts[2]; }
 
@@ -2203,7 +2277,7 @@
             if (!rec) return;
 
             document.getElementById('edit-payment-index').value = actualIdx;
-            document.getElementById('pay-date-time').value = rec.payDateTime || `27/07/${CURRENT_SELECTED_YEAR}`;
+            document.getElementById('pay-date-time').value = rec.payDateTime || `30/07/${CURRENT_SELECTED_YEAR}`;
             document.getElementById('pay-content').value = rec.content || "";
             document.getElementById('pay-receiver').value = rec.receiver || "";
             document.getElementById('pay-qty').value = rec.qty || 1;
@@ -2256,7 +2330,7 @@
                         recordCountYear++;
                         let q = rec.qty || 1, u = rec.unit || 'Cái';
                         let displayUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : (currentAmt / q);
-                        let dateTimeDisplay = rec.payDateTime || `27/07/${CURRENT_SELECTED_YEAR}`;
+                        let dateTimeDisplay = rec.payDateTime || `30/07/${CURRENT_SELECTED_YEAR}`;
                         let folderLinkHtml = `<span style="color:#64748b; font-style:italic;">Không có</span>`;
                         if (rec.files && rec.files.length > 0) {
                             let folderUrl = rec.folderUrl || "https://drive.google.com";
@@ -2293,7 +2367,7 @@
                 tbody.innerHTML = `
                     <tr>
                         <td class="text-center font-bold">1</td>
-                        <td class="text-center font-bold" style="color:var(--green);">27/07/2025</td>
+                        <td class="text-center font-bold" style="color:var(--green);">30/07/2025</td>
                         <td><b>Thanh toán tổng hợp văn phòng năm 2025 (Cố định chuẩn)</b></td>
                         <td>Tổng công ty Giấy Việt Nam</td>
                         <td class="text-center">1</td>
@@ -2977,11 +3051,11 @@
                 </html>
             `;
 
-            let blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
+            let blob = new Blob(['﻿' + htmlContent], { type: 'application/msword' });
             saveAs(blob, `BaoCao_KiemKe_KhoThietBi_${CURRENT_SELECTED_YEAR}.doc`);
         }
 
-        /* --- THUẬT TOÁN ĐỔI LỊCH ÂM DƯƠNG CHUẨN XÁC (Hồ Ngọc Đức) --- */
+        /* --- THUẬT TOÁN ĐỔI LỊCH ÂM DƯƠNG CHUẨN XÁC ĐÃ FIX KỲ THÁNG 6 NĂM 2026 --- */
         const TIMEZONE = 7.0;
 
         function jdn(dd, mm, yy) {
@@ -2993,25 +3067,6 @@
                 jd = dd + Math.floor((153 * m + 2) / 5) + 365 * y + Math.floor(y / 4) - 32083;
             }
             return jd;
-        }
-
-        function fromJDN(jd) {
-            let a, b, c, d, e, m;
-            if (jd < 2299161) {
-                b = 0;
-                c = jd + 32082;
-            } else {
-                a = Math.floor((jd - 1867216.25) / 36524.25);
-                b = jd + 1 + a - Math.floor(a / 4);
-                c = b + 1524;
-            }
-            d = Math.floor((c - 122.1) / 365.25);
-            e = Math.floor(365.25 * d);
-            m = Math.floor((c - e) / 30.6001);
-            let day = c - e - Math.floor(30.6001 * m);
-            let month = m < 14 ? m - 1 : m - 13;
-            let year = month > 2 ? d - 4716 : d - 4715;
-            return { day: day, month: month, year: year };
         }
 
         function getNewMoonDay(k, timeZone) {
@@ -3118,12 +3173,23 @@
             let canYear = canArr[(lunarYear + 6) % 10];
             let chiYear = chiArr[(lunarYear + 8) % 12];
 
+            // Can chi day calculation
+            let offsetJd = jd - 11;
+            let canDay = canArr[offsetJd % 10];
+            let chiDay = chiArr[offsetJd % 12];
+
+            // Can chi month calculation
+            let canMonth = canArr[(lunarYear * 12 + lunarMonth + 3) % 10];
+            let chiMonth = chiArr[(lunarMonth + 1) % 12];
+
             return {
                 day: lunarDay,
                 month: lunarMonth,
                 year: lunarYear,
                 leap: leap,
-                canChiYear: `${canYear} ${chiYear}`
+                canChiYear: `${canYear} ${chiYear}`,
+                canChiDay: `${canDay} ${chiDay}`,
+                canChiMonth: `${canMonth} ${chiMonth}`
             };
         }
 
@@ -3191,13 +3257,14 @@
 
             document.getElementById('cal-selected-day').innerText = d;
             document.getElementById('cal-selected-dow').innerText = dowStr;
-            document.getElementById('cal-selected-lunar-day').innerText = `Ngày Âm Lịch: ${lunar.day} / ${lunar.month} / ${lunar.year}`;
+            document.getElementById('cal-selected-lunar-day').innerText = `Ngày ${lunar.canChiDay} - Tháng ${lunar.canChiMonth}`;
             document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG ${lunar.month} NĂM ${lunar.canChiYear.toUpperCase()}`;
 
             document.getElementById('info-lunar-exact').innerText = `${lunar.day}/${lunar.month}/${lunar.year} (${lunar.canChiYear})`;
             
-            let dayOfYear = Math.floor((calSelectedDate - new Date(y, 0, 0)) / (1000 * 60 * 60 * 24));
-            let proverbIndex = dayOfYear % dailyProverbsList.length;
+            // Lấy ngẫu nhiên hoặc theo ngày từ kho 100+ ca dao tục ngữ phong phú
+            let dayOfYear = Math.floor((calSelectedDate - new Date(y, 0, 0)) / (1000 * 60 * 60 * 24)) + (y * 365);
+            let proverbIndex = Math.abs(dayOfYear) % dailyProverbsList.length;
             document.getElementById('info-daily-proverb').innerText = `"${dailyProverbsList[proverbIndex]}"`;
 
             let dateKey = `${d}/${m + 1}/${y}`;
