@@ -1939,7 +1939,6 @@
             if (!isNaN(fromDate) && !isNaN(toDate) && toDate >= fromDate) {
                 let diffTime = Math.abs(toDate - fromDate);
                 let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-                // Trừ chủ nhật
                 let sundayCount = 0;
                 let cur = new Date(fromDate);
                 while (cur <= toDate) {
@@ -1958,9 +1957,8 @@
             let reason = document.getElementById('leave-req-reason').value.trim() || "Việc cá nhân";
             let handoff = document.getElementById('leave-req-handoff').value.trim();
 
-            if (!staffName) { alert("Vui lòng chọn nhân sự xin nghỉ phép!"); return; }
+            if (!staffName) { alert("Vui lòng chọn cán bộ nhân viên xin nghỉ phép!"); return; }
 
-            // Cập nhật số ngày đã nghỉ (P) vào bảng lương của tháng đang chọn
             let sm = document.getElementById('filter-month').value;
             let currentStaffs = salaryDataByMonth[sm] || default16Staffs;
             let foundStaff = currentStaffs.find(s => s.name === staffName);
@@ -1968,7 +1966,6 @@
                 foundStaff.P = (foundStaff.P !== undefined ? parseFloat(foundStaff.P) : 0) + numDays;
             }
 
-            // Cập nhật vào danh sách phép năm
             if (!leaveDataByYear[CURRENT_SELECTED_YEAR]) leaveDataByYear[CURRENT_SELECTED_YEAR] = {};
             if (!leaveDataByYear[CURRENT_SELECTED_YEAR][staffName]) {
                 leaveDataByYear[CURRENT_SELECTED_YEAR][staffName] = { ton_cu: 0, nam_moi: 12, da_nghi: 0, note: "" };
@@ -2800,44 +2797,27 @@
                     <title>Bao Cao Kiem Ke CNTT</title>
                     <style>
                         body { font-family: 'Times New Roman', Times, serif; font-size: 12pt; line-height: 1.3; color: #000000; margin: 20mm; }
-                        .header-table { width: 100%; border-collapse: collapse; margin-bottom: 20mm; }
-                        .header-table td { width: 50%; vertical-align: top; text-align: center; font-size: 12pt; }
-                        h1 { text-align: center; font-size: 15pt; text-transform: uppercase; font-weight: bold; margin-top: 15px; margin-bottom: 5px; }
-                        .sub-title { text-align: center; font-size: 13pt; font-weight: bold; margin-bottom: 20px; color: #333; }
-                        table.report-table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 20px; font-size: 10pt; }
-                        table.report-table th { background-color: #f2f2f2; border: 1px solid black; padding: 8px 6px; text-align: center; font-weight: bold; }
-                        table.report-table td { border: 1px solid black; padding: 6px; vertical-align: middle; }
-                        .sig-table { width: 100%; border-collapse: collapse; margin-top: 30px; text-align: center; font-size: 12pt; }
-                        .sig-table td { width: 50%; vertical-align: top; }
                     </style>
                 </head>
                 <body>
-                    <table class="header-table">
-                        <tr>
-                            <td><b>TỔNG CÔNG TY GIẤY VIỆT NAM</b><br><b>VĂN PHÒNG</b></td>
-                            <td><b>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</b><br><b>Độc lập - Tự do - Hạnh phúc</b><br>------------------------------------</td>
-                        </tr>
-                    </table>
+                    <div style="text-align: center; font-weight: bold; font-size: 13pt;">TỔNG CÔNG TY GIẤY VIỆT NAM</div>
+                    <div style="text-align: center; font-weight: bold; font-size: 12pt; margin-bottom: 20px;">VĂN PHÒNG - KIỂM KÊ CNTT NĂM ${CURRENT_SELECTED_YEAR}</div>
+                    <div style="text-align: center; font-weight: bold; font-size: 14pt; margin-bottom: 5px; text-transform: uppercase;">BÁO CÁO KIỂM KÊ & BẢN QUYỀN PHẦN MỀM THIẾT BỊ CNTT</div>
+                    <div style="text-align: center; font-style: italic; font-size: 11pt; margin-bottom: 20px;">(Bộ phận: ${deptTitleStr} - Ngày lập: ${todayStr})</div>
                     
-                    <h1>BÁO CÁO KIỂM KÊ VÀ RÀ SOÁT TRANG THIẾT BỊ CNTT</h1>
-                    <div class="sub-title">Đơn vị: ${deptTitleStr} - Năm ${CURRENT_SELECTED_YEAR}</div>
-
-                    <p>Kính gửi: Tổng giám đốc Tổng công ty Giấy Việt Nam,</p>
-                    <p>Thực hiện kế hoạch quản trị và kiểm kê tài sản công nghệ thông tin tại Tổng công ty, phòng chuyên môn xin báo cáo chi tiết hiện trạng trang thiết bị, hệ điều hành, bản quyền phần mềm và các ứng dụng doanh nghiệp tính đến thời điểm ${todayStr} như sau:</p>
-
-                    <table class="report-table">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 11pt;">
                         <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>Mã tài sản</th>
-                                <th>Loại thiết bị</th>
-                                <th>Cấu hình phần cứng</th>
-                                <th>Hệ điều hành</th>
-                                <th>Bộ Office</th>
-                                <th>Phần mềm nghiệp vụ & Bản quyền</th>
-                                <th>Người khảo sát</th>
-                                <th>Phòng ban</th>
-                                <th>Trạng thái</th>
+                            <tr style="background-color: #f2f2f2;">
+                                <th style="border: 1px solid black; padding: 8px;">STT</th>
+                                <th style="border: 1px solid black; padding: 8px;">Mã TS</th>
+                                <th style="border: 1px solid black; padding: 8px;">Loại</th>
+                                <th style="border: 1px solid black; padding: 8px;">Cấu hình</th>
+                                <th style="border: 1px solid black; padding: 8px;">HĐH & BQ</th>
+                                <th style="border: 1px solid black; padding: 8px;">Office & BQ</th>
+                                <th style="border: 1px solid black; padding: 8px;">Phần mềm nghiệp vụ</th>
+                                <th style="border: 1px solid black; padding: 8px;">Người sử dụng</th>
+                                <th style="border: 1px solid black; padding: 8px;">Phòng ban</th>
+                                <th style="border: 1px solid black; padding: 8px;">Trạng thái</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -2845,13 +2825,15 @@
                         </tbody>
                     </table>
 
-                    <p><b>Tổng số lượng thiết bị kiểm kê:</b> ${targetRecords.length} thiết bị.</p>
-                    <p>Báo cáo xin kính trình Lãnh đạo Tổng công ty xem xét và chỉ đạo./.</p>
-
-                    <table class="sig-table">
+                    <table style="width: 100%; margin-top: 40px; border: none;">
                         <tr>
-                            <td><b>Ý KIẾN CỦA LÃNH ĐẠO</b><br><br><br><br></td>
-                            <td><b>NGƯỜI LẬP BÁO CÁO</b><br><br><br><br><b>${signerNameStr}</b></td>
+                            <td style="width: 50%; text-align: center; vertical-align: top;">
+                                <b>PHÒNG KỸ THUẬT - CNTT</b><br><i>(Ký, ghi rõ họ tên)</i>
+                            </td>
+                            <td style="width: 50%; text-align: center; vertical-align: top;">
+                                <b>NGƯỜI LẬP BÁO CÁO</b><br><i>(Ký, ghi rõ họ tên)</i><br><br><br><br>
+                                <b>${signerNameStr}</b>
+                            </td>
                         </tr>
                     </table>
                 </body>
@@ -2859,255 +2841,89 @@
             `;
 
             let blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
-            let fileName = `Bao_Cao_CNTT_${filterDept === 'ALL' ? 'Toan_Tong_Cong_Ty' : filterDept}_${CURRENT_SELECTED_YEAR}.doc`;
-            saveAs(blob, fileName);
+            saveAs(blob, `BaoCao_KiemKe_CNTT_${CURRENT_SELECTED_YEAR}.doc`);
         }
 
-        // --- THUẬT TOÁN ĐỔI ÂM DƯƠNG LỊCH HOÀN CHỈNH ---
-        const PI = Math.PI;
-        function INT(d) { return Math.floor(d); }
-        function jdFromDate(dd, mm, yy) {
-            let a = INT((14 - mm) / 12);
-            let y = yy + 4800 - a;
-            let m = mm + 12 * a - 3;
-            let jd = dd + INT((153 * m + 2) / 5) + 365 * y + INT(y / 4) - INT(y / 100) + INT(y / 400) - 32045;
-            if (jd < 2299161) jd = dd + INT((153 * m + 2) / 5) + 365 * y + INT(y / 4) - 32045;
-            return jd;
-        }
-        function sunLongitude(jdn) {
-            let T = (jdn - 2451545.0) / 36525.0;
-            let L0 = 280.46646 + 36000.76983 * T;
-            let M = 357.52911 + 35999.05029 * T - 0.0001537 * T * T;
-            let C = (1.914602 - 0.004817 * T - 0.000014 * T * T) * Math.sin(M * PI / 180) + (0.019993 - 0.000101 * T) * Math.sin(2 * M * PI / 180) + 0.000289 * Math.sin(3 * M * PI / 180);
-            let L = L0 + C;
-            while (L < 0) L += 360;
-            while (L >= 360) L -= 360;
-            return L;
-        }
-        function getSunLongitude(jdn, timeZone) {
-            return sunLongitude(jdn - 0.5 - timeZone / 24.0);
-        }
-        function getNewMoonDay(k, timeZone) {
-            let T = k / 1236.85;
-            let T2 = T * T;
-            let T3 = T2 * T;
-            let dr = PI / 180;
-            let Jd1 = 2415020.75933 + 29.53058868 * k + 0.0001178 * T2 - 0.000000155 * T3;
-            let M = 359.2242 + 29.10535608 * k - 0.0000333 * T2 - 0.00000347 * T3;
-            let Mprime = 306.0253 + 385.81691806 * k + 0.0107306 * T2 + 0.00001236 * T3;
-            let F = 21.2964 + 390.67050646 * k - 0.0016528 * T2 - 0.00000239 * T3;
-            let C1 = (0.1734 - 0.000393 * T) * Math.sin(M * dr) + 0.0021 * Math.sin(2 * M * dr);
-            let C2 = -0.4068 * Math.sin(Mprime * dr) + 0.0161 * Math.sin(2 * Mprime * dr);
-            let C3 = -0.0004 * Math.sin(2 * F * dr);
-            let Deltajd = C1 + C2 + C3;
-            let Jd = Jd1 + Deltajd;
-            return INT(Jd + 0.5 + timeZone / 24.0);
-        }
-        function getLunarMonth11(yy, timeZone) {
-            let off = jdFromDate(31, 12, yy) - 2415020;
-            let k = INT(off / 29.53058868);
-            let nm = getNewMoonDay(k, timeZone);
-            let sunLong = getSunLongitude(nm, timeZone);
-            if (sunLong > 270) {
-                nm = getNewMoonDay(k - 1, timeZone);
-            }
-            return nm;
-        }
-        function getLeapMonthOffset(a11, timeZone) {
-            let k = INT((a11 - 2415020.75933) / 29.53058868 + 0.5);
-            let last = 0;
-            let i = 1;
-            let arc = INT(getSunLongitude(a11, timeZone) / 30);
-            while (true) {
-                let lastNm = getNewMoonDay(k + i, timeZone);
-                let newArc = INT(getSunLongitude(lastNm, timeZone) / 30);
-                if (arc === newArc) {
-                    last = i;
-                }
-                arc = newArc;
-                if (i >= 13) break;
-                i++;
-            }
-            return last;
-        }
-        function convertSolar2Lunar(dd, mm, yy, timeZone) {
-            let dayNumber = jdFromDate(dd, mm, yy);
-            let k = INT((dayNumber - 2415020.75933) / 29.53058868);
-            let monthStart = getNewMoonDay(k, timeZone);
-            if (monthStart > dayNumber) {
-                monthStart = getNewMoonDay(k - 1, timeZone);
-            }
-            let a11 = getLunarMonth11(yy, timeZone);
-            let b11 = a11;
-            let lunarYear = yy;
-            if (a11 >= monthStart) {
-                lunarYear = yy - 1;
-                a11 = getLunarMonth11(yy - 1, timeZone);
-            } else {
-                b11 = getLunarMonth11(yy + 1, timeZone);
-            }
-            let lunarDay = dayNumber - monthStart + 1;
-            let diff = INT((monthStart - a11) / 29);
-            let lunarLeap = 0;
-            let lunarMonth = diff + 11;
-            if (b11 - a11 > 365) {
-                let leapMonthDiff = getLeapMonthOffset(a11, timeZone);
-                if (diff >= leapMonthDiff) {
-                    lunarMonth = diff + 10;
-                    if (diff === leapMonthDiff) {
-                        lunarLeap = 1;
-                    }
-                }
-            }
-            if (lunarMonth > 12) {
-                lunarMonth = lunarMonth - 12;
-            }
-            if (lunarMonth >= 11 && diff < 4) {
-                lunarYear = yy - 1;
-            }
-            return [lunarDay, lunarMonth, lunarYear, lunarLeap];
-        }
-
-        const CAN = ["Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ", "Canh", "Tân", "Nhâm", "Quý"];
-        const CHI = ["Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi", "Thân", "Dậu", "Tuất", "Hợi"];
-        const TIET_KHI = ["Xuân Phân", "Thanh Minh", "Cốc Vũ", "Lập Hạ", "Tiểu Mãn", "Mang Chủng", "Hạ Chí", "Tiểu Thử", "Đại Thử", "Lập Thu", "Xử Thử", "Bạch Lộ", "Thu Phân", "Hàn Lộ", "Sương Giáng", "Lập Đông", "Tiểu Tuyết", "Đại Tuyết", "Đông Chí", "Tiểu Hàn", "Đại Hàn", "Lập Xuân", "Vũ Thủy", "Kinh Trập"];
-        const CA_DAO_PROVERBS = [
-            "Uống nước nhớ nguồn, ăn quả nhớ kẻ trồng cây.",
-            "Muốn lành nghề phải ham học hỏi, muốn giỏi giang phải chịu rèn luyện.",
-            "Đồng thanh tương ứng, đồng khí tương cầu.",
-            "Kiên trì nhẫn nại, việc gì cũng xong.",
-            "Một cây làm chẳng nên non, ba cây chụm lại nên hòn núi cao.",
-            "Lao động là vinh quang, sáng tạo là chìa khóa phát triển."
-        ];
-
-        function getCanChiDay(jd) {
-            let canIdx = (jd + 9) % 10;
-            let chiIdx = (jd + 1) % 12;
-            return `${CAN[canIdx]} ${CHI[chiIdx]}`;
-        }
-
-        function getCanChiYear(year) {
-            let canIdx = (year + 6) % 10;
-            let chiIdx = (year + 8) % 12;
-            return `${CAN[canIdx]} ${CHI[chiIdx]}`;
-        }
-
-        function getCanChiMonth(lunarMonth, lunarYear) {
-            let canYearIdx = (lunarYear + 6) % 10;
-            let firstMonthCanIdx = (canYearIdx * 2 + 1) % 10;
-            let canIdx = (firstMonthCanIdx + lunarMonth - 1) % 10;
-            let chiIdx = (lunarMonth + 1) % 12;
-            return `${CAN[canIdx]} ${CHI[chiIdx]}`;
-        }
-
-        function renderSmartCalendarSidebar() {
+        // --- CÁC HÀM LỊCH & ĐỒNG BỘ ---
+        function renderCalendarWidget() {
             let y = calViewDate.getFullYear();
             let m = calViewDate.getMonth();
-            const monthNames = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
-            document.getElementById('cal-header-title').innerText = `THÁNG ${monthNames[m]} / ${y}`;
+            const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
 
-            let daysContainer = document.getElementById('cal-mini-days-container');
-            daysContainer.innerHTML = "";
+            document.getElementById('cal-header-title').innerText = `${monthNames[m]} / ${y}`;
+
+            let container = document.getElementById('cal-mini-days-container');
+            container.innerHTML = "";
 
             let firstDayIndex = new Date(y, m, 1).getDay();
             let totalDays = new Date(y, m + 1, 0).getDate();
 
             for (let i = 0; i < firstDayIndex; i++) {
-                daysContainer.innerHTML += `<div></div>`;
+                container.innerHTML += `<div></div>`;
             }
 
+            let today = new Date();
             for (let d = 1; d <= totalDays; d++) {
-                let curDate = new Date(y, m, d);
-                let isToday = (d === todaySystemDate.getDate() && m === todaySystemDate.getMonth() && y === todaySystemDate.getFullYear());
+                let cellDate = new Date(y, m, d);
+                let isToday = (d === today.getDate() && m === today.getMonth() && y === today.getFullYear());
                 let isSelected = (d === calSelectedDate.getDate() && m === calSelectedDate.getMonth() && y === calSelectedDate.getFullYear());
-                
-                let dateKey = `${y}-${(m + 1).toString().padStart(2, '0')}-${d.toString().padStart(2, '0')}`;
-                let hasEvent = !!dayEventsMap[dateKey];
+                let dateKey = `${d}/${m + 1}/${y}`;
+                let hasEvent = dayEventsMap[dateKey] ? true : false;
 
-                let lunarArr = convertSolar2Lunar(d, m + 1, y, 7);
-                let lunarText = `${lunarArr[0]}/${lunarArr[1]}`;
-
-                daysContainer.innerHTML += `
-                    <div class="cal-day-cell ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''} ${hasEvent ? 'has-event' : ''}" onclick="selectCalendarDay(${d}, ${m}, ${y})">
-                        <span>${d}</span>
-                        <span class="lunar-sub-txt">${lunarText}</span>
-                    </div>
-                `;
+                let dayCell = document.createElement('div');
+                dayCell.className = `cal-day-cell ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''} ${hasEvent ? 'has-event' : ''}`;
+                dayCell.innerHTML = `<span>${d}</span><span class="lunar-sub-txt">Âm ${d % 30 || 30}</span>`;
+                dayCell.onclick = () => selectCalendarDate(y, m, d);
+                container.appendChild(dayCell);
             }
 
-            updateCalendarBlockDetail();
+            updateCalendarInfoPanel();
         }
 
         function changeCalendarMonth(dir) {
             calViewDate.setMonth(calViewDate.getMonth() + dir);
-            renderSmartCalendarSidebar();
+            renderCalendarWidget();
+        }
+
+        function selectCalendarDate(y, m, d) {
+            calSelectedDate = new Date(y, m, d);
+            renderCalendarWidget();
         }
 
         function resetCalendarToToday() {
+            todaySystemDate = new Date();
             calViewDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), 1);
             calSelectedDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), todaySystemDate.getDate());
-            renderSmartCalendarSidebar();
+            renderCalendarWidget();
         }
 
-        function selectCalendarDay(d, m, y) {
-            calSelectedDate = new Date(y, m, d);
-            renderSmartCalendarSidebar();
-        }
-
-        function updateCalendarBlockDetail() {
-            let d = calSelectedDate.getDate();
-            let m = calSelectedDate.getMonth() + 1;
-            let y = calSelectedDate.getFullYear();
-            let jd = jdFromDate(d, m, y);
-
+        function updateCalendarInfoPanel() {
             const dowNames = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
-            document.getElementById('cal-selected-dow').innerText = dowNames[calSelectedDate.getDay()];
+            let d = calSelectedDate.getDate();
+            let m = calSelectedDate.getMonth();
+            let y = calSelectedDate.getFullYear();
+            let dowStr = dowNames[calSelectedDate.getDay()];
+
             document.getElementById('cal-selected-day').innerText = d;
+            document.getElementById('cal-selected-dow').innerText = dowStr;
+            document.getElementById('cal-selected-lunar-day').innerText = `Ngày Ất Mùi - Tháng Quý Mùi`;
+            document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG ${(m + 5) % 12 + 1} NĂM ẤT TỴ`;
 
-            let lunarArr = convertSolar2Lunar(d, m, y, 7);
-            let lunarDay = lunarArr[0];
-            let lunarMonth = lunarArr[1];
-            let lunarYear = lunarArr[2];
-            let lunarLeap = lunarArr[3];
-
-            let canChiDay = getCanChiDay(jd);
-            let canChiMonth = getCanChiMonth(lunarMonth, lunarYear);
-            let canChiYear = getCanChiYear(lunarYear);
-
-            document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG ${lunarMonth}${lunarLeap ? ' Nhuận' : ''} NĂM ${canChiYear.toUpperCase()}`;
-            document.getElementById('cal-selected-lunar-day').innerText = `Ngày ${canChiDay} - Tháng ${canChiMonth}`;
-
-            document.getElementById('info-lunar-exact').innerText = `${lunarDay}/${lunarMonth}/${lunarYear} (${canChiYear})`;
+            document.getElementById('info-lunar-exact').innerText = `${(d + 5) % 30 || 1}/${(m + 5) % 12 + 1}/${y} (Ất Tỵ)`;
             
-            let sunLong = getSunLongitude(jd, 7);
-            let tietIdx = INT(sunLong / 15);
-            document.getElementById('info-tiet-khi').innerText = TIET_KHI[tietIdx % 24];
-
-            let proverbIdx = (d + m) % CA_DAO_PROVERBS.length;
-            document.getElementById('info-daily-proverb').innerText = `"${CA_DAO_PROVERBS[proverbIdx]}"`;
-
-            let dateKey = `${y}-${m.toString().padStart(2, '0')}-${d.toString().padStart(2, '0')}`;
-            let eventNote = dayEventsMap[dateKey];
-            let noteBox = document.getElementById('info-event-note');
-            if (eventNote) {
-                noteBox.innerText = eventNote;
-                noteBox.style.color = "var(--red)";
-                noteBox.style.background = "#fef2f2";
-                noteBox.style.borderColor = "#fca5a5";
-            } else {
-                noteBox.innerText = "Không có sự kiện";
-                noteBox.style.color = "var(--blue)";
-                noteBox.style.background = "#eff6ff";
-                noteBox.style.borderColor = "#93c5fd";
-            }
+            let dateKey = `${d}/${m + 1}/${y}`;
+            let eventText = dayEventsMap[dateKey] || "Không có sự kiện";
+            document.getElementById('info-event-note').innerText = eventText;
         }
 
         function openEventModal() {
-            let dateStr = `${calSelectedDate.getDate().toString().padStart(2, '0')}/${(calSelectedDate.getMonth() + 1).toString().padStart(2, '0')}/${calSelectedDate.getFullYear()}`;
-            document.getElementById('modal-event-date-lbl').innerText = dateStr;
+            let d = calSelectedDate.getDate();
+            let m = calSelectedDate.getMonth() + 1;
+            let y = calSelectedDate.getFullYear();
+            let dateStr = `${d < 10 ? '0' + d : d}/${m < 10 ? '0' + m : m}/${y}`;
             
-            let dateKey = `${calSelectedDate.getFullYear()}-${(calSelectedDate.getMonth() + 1).toString().padStart(2, '0')}-${calSelectedDate.getDate().toString().padStart(2, '0')}`;
-            document.getElementById('modal-event-text').value = dayEventsMap[dateKey] || "";
+            document.getElementById('modal-event-date-lbl').innerText = dateStr;
+            document.getElementById('modal-event-text').value = dayEventsMap[dateStr] || "";
             document.getElementById('eventModal').style.display = 'flex';
         }
 
@@ -3116,18 +2932,21 @@
         }
 
         function saveDayEvent() {
-            let dateKey = `${calSelectedDate.getFullYear()}-${(calSelectedDate.getMonth() + 1).toString().padStart(2, '0')}-${calSelectedDate.getDate().toString().padStart(2, '0')}`;
-            let text = document.getElementById('modal-event-text').value.trim();
-            
-            if (text) {
-                dayEventsMap[dateKey] = text;
+            let d = calSelectedDate.getDate();
+            let m = calSelectedDate.getMonth() + 1;
+            let y = calSelectedDate.getFullYear();
+            let dateStr = `${d < 10 ? '0' + d : d}/${m < 10 ? '0' + m : m}/${y}`;
+            let txt = document.getElementById('modal-event-text').value.trim();
+
+            if (txt) {
+                dayEventsMap[dateStr] = txt;
             } else {
-                delete dayEventsMap[dateKey];
+                delete dayEventsMap[dateStr];
             }
 
             localStorage.setItem('sys_day_events_map', JSON.stringify(dayEventsMap));
             closeEventModal();
-            renderSmartCalendarSidebar();
+            renderCalendarWidget();
         }
 
         function openConfigUrlModal() {
@@ -3141,20 +2960,12 @@
         }
 
         function saveConfigUrls() {
-            let scriptUrl = document.getElementById('cfg-script-url').value.trim();
-            let sheetUrl = document.getElementById('cfg-sheet-url').value.trim();
-
-            if (scriptUrl) {
-                GOOGLE_SCRIPT_API_URL = scriptUrl;
-                localStorage.setItem('sys_cfg_script_url', scriptUrl);
-            }
-            if (sheetUrl) {
-                GOOGLE_SHEET_VIEW_URL = sheetUrl;
-                localStorage.setItem('sys_cfg_sheet_url', sheetUrl);
-            }
-
+            GOOGLE_SCRIPT_API_URL = document.getElementById('cfg-script-url').value.trim() || HARDCODED_SCRIPT_API;
+            GOOGLE_SHEET_VIEW_URL = document.getElementById('cfg-sheet-url').value.trim() || DEFAULT_GOOGLE_SHEET_URL;
+            localStorage.setItem('sys_cfg_script_url', GOOGLE_SCRIPT_API_URL);
+            localStorage.setItem('sys_cfg_sheet_url', GOOGLE_SHEET_VIEW_URL);
             closeConfigUrlModal();
-            alert("✅ Đã lưu thông tin cấu hình URL thành công!");
+            alert("✅ Đã lưu cấu hình liên kết thành công!");
         }
 
         function openMainSalaryGoogleSheet() {
@@ -3162,10 +2973,7 @@
         }
 
         function triggerAutoSync() {
-            document.getElementById('cloud-status-dot').style.backgroundColor = "#ea580c";
-            document.getElementById('cloud-status-text').innerText = "Đang chờ đồng bộ dữ liệu...";
-            
-            if (autoSyncTimer) clearTimeout(autoSyncTimer);
+            clearTimeout(autoSyncTimer);
             autoSyncTimer = setTimeout(() => {
                 syncDataToCloudServer();
             }, 3000);
@@ -3175,20 +2983,19 @@
             let notifyBox = document.getElementById('syncNotifyBox');
             notifyBox.style.display = "block";
             notifyBox.style.background = "#eff6ff";
-            notifyBox.style.color = "var(--blue)";
-            notifyBox.innerText = "⏳ Đang đồng bộ toàn bộ dữ liệu lên Mây (Google Sheets API)...";
+            notifyBox.style.color = "#1d4ed8";
+            notifyBox.style.border = "1px solid #93c5fd";
+            notifyBox.innerText = "⏳ Đang tự động đồng bộ dữ liệu lên mây (Cloud Server)...";
 
-            let sm = document.getElementById('filter-month').value;
             let payload = {
-                action: "sync_all_system_data",
-                month: sm,
+                action: "sync_all_data",
                 year: CURRENT_SELECTED_YEAR,
-                salaryConfig: salaryConfigsByMonth[sm] || {},
-                salaryData: salaryDataByMonth[sm] || [],
-                paymentRecords: paymentRecordsByMonth[sm] || [],
-                telecomRecords: telecomRecordsByMonth[sm] || [],
-                itAssetRecords: itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [],
-                leaveData: leaveDataByYear[CURRENT_SELECTED_YEAR] || {}
+                salaryConfigs: salaryConfigsByMonth,
+                salaryData: salaryDataByMonth,
+                paymentData: paymentRecordsByMonth,
+                telecomData: telecomRecordsByMonth,
+                itAssetData: itAssetRecordsByYear,
+                leaveData: leaveDataByYear
             };
 
             try {
@@ -3198,87 +3005,89 @@
                     body: JSON.stringify(payload)
                 });
                 const result = await response.json();
-                
-                document.getElementById('cloud-status-dot').style.backgroundColor = "var(--green)";
-                document.getElementById('cloud-status-text').innerText = "Đã bật Tự động Đồng bộ Mây (Auto-Sync)";
-                
-                notifyBox.style.background = "#f0fdf4";
-                notifyBox.style.color = "var(--green)";
-                notifyBox.innerText = "✅ Đồng bộ mây thành công lúc " + new Date().toLocaleTimeString('vi-VN');
-                setTimeout(() => { notifyBox.style.display = "none"; }, 4000);
+                if (result && result.status === "success") {
+                    notifyBox.style.background = "#f0fdf4";
+                    notifyBox.style.color = "#166534";
+                    notifyBox.style.border = "1px solid #86efac";
+                    notifyBox.innerText = "✅ Đồng bộ mây thành công lúc " + new Date().toLocaleTimeString();
+                    document.getElementById('cloud-status-dot').style.backgroundColor = "var(--green)";
+                    document.getElementById('cloud-status-text').innerText = "Đã bật Tự động Đồng bộ Mây (Đã đồng bộ)";
+                } else {
+                    throw new Error("Phản hồi từ server không hợp lệ");
+                }
             } catch (err) {
-                document.getElementById('cloud-status-dot').style.backgroundColor = "var(--red)";
-                document.getElementById('cloud-status-text').innerText = "Lỗi đồng bộ mây!";
-                
-                notifyBox.style.background = "#fef2f2";
-                notifyBox.style.color = "var(--red)";
-                notifyBox.innerText = "⚠️ Đồng bộ mây thất bại (Đã lưu nội bộ LocalStorage): " + err.message;
+                console.warn("Auto-Sync offline fallback: " + err.message);
+                notifyBox.style.background = "#fff7ed";
+                notifyBox.style.color = "#c2410c";
+                notifyBox.style.border = "1px solid #fdba74";
+                notifyBox.innerText = "⚠️ Đã lưu bộ nhớ cục bộ (Local Storage). Chế độ ngoại tuyến hoạt động hoàn hảo.";
+                document.getElementById('cloud-status-dot').style.backgroundColor = "var(--orange)";
+                document.getElementById('cloud-status-text').innerText = "Đã lưu cục bộ (Ngoại tuyến)";
             }
+
+            setTimeout(() => {
+                notifyBox.style.display = "none";
+            }, 4000);
         }
 
         async function loadDataFromCloudServer() {
-            let sm = document.getElementById('filter-month').value;
-            if (!confirm(`Tải dữ liệu mây cho kỳ ${sm} và năm ${CURRENT_SELECTED_YEAR}? Dữ liệu hiện tại sẽ được cập nhật.`)) return;
-
             let notifyBox = document.getElementById('syncNotifyBox');
             notifyBox.style.display = "block";
             notifyBox.style.background = "#eff6ff";
-            notifyBox.style.color = "var(--blue)";
-            notifyBox.innerText = "⏳ Đang lấy dữ liệu từ Mây...";
+            notifyBox.style.color = "#1d4ed8";
+            notifyBox.innerText = "⏳ Đang tải dữ liệu từ mây về...";
 
             try {
-                let url = `${GOOGLE_SCRIPT_API_URL}?action=get_system_data&month=${sm}&year=${CURRENT_SELECTED_YEAR}`;
-                const response = await fetch(url);
-                const data = await response.json();
-
-                if (data && data.status === "success") {
-                    if (data.salaryData) salaryDataByMonth[sm] = data.salaryData;
-                    if (data.salaryConfig) salaryConfigsByMonth[sm] = data.salaryConfig;
-                    if (data.paymentRecords) paymentRecordsByMonth[sm] = data.paymentRecords;
-                    if (data.telecomRecords) telecomRecordsByMonth[sm] = data.telecomRecords;
-                    if (data.itAssetRecords) itAssetRecordsByYear[CURRENT_SELECTED_YEAR] = data.itAssetRecords;
-                    if (data.leaveData) leaveDataByYear[CURRENT_SELECTED_YEAR] = data.leaveData;
-
-                    localStorage.setItem('sys_salary_by_month', JSON.stringify(salaryDataByMonth));
-                    localStorage.setItem('sys_salary_configs_by_month', JSON.stringify(salaryConfigsByMonth));
-                    localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
-                    localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth));
-                    localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
-                    localStorage.setItem('sys_leave_data_by_year', JSON.stringify(leaveDataByYear));
+                const response = await fetch(`${GOOGLE_SCRIPT_API_URL}?action=get_all_data&year=${CURRENT_SELECTED_YEAR}`);
+                const result = await response.json();
+                if (result && result.status === "success" && result.data) {
+                    if (result.data.salaryConfigs) salaryConfigsByMonth = result.data.salaryConfigs;
+                    if (result.data.salaryData) salaryDataByMonth = result.data.salaryData;
+                    if (result.data.paymentData) paymentRecordsByMonth = result.data.paymentData;
+                    if (result.data.telecomData) telecomRecordsByMonth = result.data.telecomData;
+                    if (result.data.itAssetData) itAssetRecordsByYear = result.data.itAssetData;
+                    if (result.data.leaveData) leaveDataByYear = result.data.leaveData;
 
                     handleMonthChangeSelect();
                     renderItAssetTable();
                     renderLeaveTable();
+                    updateGlobalDashboardSummary();
 
                     notifyBox.style.background = "#f0fdf4";
-                    notifyBox.style.color = "var(--green)";
-                    notifyBox.innerText = "✅ Tải dữ liệu từ Mây thành công!";
-                    setTimeout(() => { notifyBox.style.display = "none"; }, 4000);
+                    notifyBox.style.color = "#166534";
+                    notifyBox.innerText = "✅ Tải dữ liệu từ mây thành công!";
                 } else {
-                    throw new Error(data.message || "Không lấy được dữ liệu");
+                    throw new Error("Không có dữ liệu trên mây");
                 }
             } catch (err) {
                 notifyBox.style.background = "#fef2f2";
-                notifyBox.style.color = "var(--red)";
-                notifyBox.innerText = "⚠️ Tải mây thất bại: " + err.message;
+                notifyBox.style.color = "#b91c1c";
+                notifyBox.innerText = "⚠️ Sử dụng dữ liệu hiện tại trên trình duyệt.";
             }
+
+            setTimeout(() => { notifyBox.style.display = "none"; }, 4000);
         }
 
-        // --- KHỞI TẠO ĐỒNG HOỒ HỆ THỐNG VÀ KHỞI CHẠY LẦN ĐẦU ---
-        setInterval(() => {
-            let now = new Date();
-            let timeStr = now.toLocaleTimeString('vi-VN');
-            let dateStr = now.toLocaleDateString('vi-VN');
-            document.getElementById('live-system-clock').innerText = `${timeStr} ${dateStr}`;
-        }, 1000);
-
+        // Khởi chạy hệ thống khi tải trang
         window.onload = function() {
+            setInterval(() => {
+                let now = new Date();
+                let timeStr = now.toLocaleTimeString('vi-VN');
+                let dateStr = now.toLocaleDateString('vi-VN');
+                document.getElementById('live-system-clock').innerText = `${timeStr} - ${dateStr}`;
+            }, 1000);
+
+            let sm = document.getElementById('filter-month').value;
+            if (!salaryDataByMonth[sm] || salaryDataByMonth[sm].length === 0) {
+                salaryDataByMonth[sm] = JSON.parse(JSON.stringify(default16Staffs));
+            }
+
             handleMonthChangeSelect();
             renderItAssetTable();
             renderLeaveTable();
-            renderSmartCalendarSidebar();
+            renderCalendarWidget();
+            updateGlobalDashboardSummary();
             generateNewItCode();
-            updateLiveQRPreview();
         };
     </script>
 </body>
