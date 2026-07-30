@@ -1671,7 +1671,6 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    // THÊM KHOẢNG ĐỆM PHÍA TRÊN ĐỂ KHÔNG BỊ CHE LẤP SỐ LIỆU CỘT CAO
                     layout: {
                         padding: {
                             top: 25
@@ -1702,7 +1701,6 @@
                     scales: {
                         y: { 
                             beginAtZero: true,
-                            // TỰ ĐỘNG NỚI RỘNG TRỤC Y CHO THOÁNG KHÔNG GIAN PHÍA TRÊN CỘT
                             suggestedMax: function(context) {
                                 let maxVal = Math.max(...context.chart.data.datasets[0].data);
                                 return maxVal > 0 ? maxVal * 1.15 : 100;
@@ -2679,8 +2677,10 @@
             
             let recordObj = { user, dept, type, code, os, osLic, office, officeLic, software, asia, quasoft, cloudoffice, specs, dateVal, status };
 
+            let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR];
+
             if (editIndex >= 0) {
-                let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR];
+                // CẬP NHẬT CHÍNH XÁC THEO MẢNG LỌC HIỆN TẠI
                 let filterDept = document.getElementById('filter-dept-select').value;
                 let filterType = document.getElementById('filter-type-select').value;
                 let filterOs = document.getElementById('filter-os-select').value;
@@ -2694,10 +2694,12 @@
 
                 let targetRec = filtered[editIndex];
                 let realIdx = records.indexOf(targetRec);
-                if (realIdx > -1) records[realIdx] = recordObj;
+                if (realIdx > -1) {
+                    records[realIdx] = recordObj;
+                }
                 cancelEditItAsset();
             } else {
-                itAssetRecordsByYear[CURRENT_SELECTED_YEAR].push(recordObj);
+                records.push(recordObj);
                 clearItAssetForm();
             }
 
@@ -2724,8 +2726,7 @@
             let rec = targetRecords[idx];
             if (!rec) return;
 
-            let realIdx = records.indexOf(rec);
-            document.getElementById('edit-it-index').value = realIdx;
+            document.getElementById('edit-it-index').value = idx;
             document.getElementById('it-user').value = rec.user || "";
             document.getElementById('it-dept').value = rec.dept || "";
             document.getElementById('it-type').value = rec.type || "Laptop Doanh Nghiệp";
@@ -2816,10 +2817,10 @@
                     <td class="text-center font-bold" style="color:var(--purple);">${rec.code}</td>
                     <td><b>${rec.type}</b></td>
                     <td>${rec.specs}</td>
-                    <td>${rec.os} <br><span style="color:${rec.osLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.osLic}]</span></td>
-                    <td>${rec.office} <br><span style="color:${rec.officeLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.officeLic}]</span></td>
+                    <td>${rec.os} <br><span style="color:${rec.osLic && rec.osLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.osLic || 'Đã có BQ'}]</span></td>
+                    <td>${rec.office} <br><span style="color:${rec.officeLic && rec.officeLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.officeLic || 'Đã có BQ'}]</span></td>
                     <td>
-                        <span style="color:var(--blue);">CAD/Đồ họa: ${rec.software}</span><br>
+                        <span style="color:var(--blue);">CAD/Đồ họa: ${rec.software || '🚫 Không có'}</span><br>
                         <span style="color:${asiaColor};">• ASIA: ${rec.asia || 'Chưa có BQ'}</span><br>
                         <span style="color:${quasoftColor};">• Quasoft: ${rec.quasoft || 'Chưa có BQ'}</span><br>
                         <span style="color:${cloudColor};">• Cloudoffice: ${rec.cloudoffice || 'Chưa có BQ'}</span>
