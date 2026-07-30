@@ -1822,13 +1822,19 @@
                         datalabels: {
                             formatter: (value, ctx) => {
                                 let sum = ctx.dataset.data.reduce((a, b) => a + b, 0);
-                                let percentage = sum > 0 ? ((value * 100) / sum).toFixed(1) + "%" : "0%";
-                                return percentage;
+                                let percentage = sum > 0 ? ((value * 100) / sum).toFixed(1) : 0;
+                                return percentage + "%";
                             },
-                            color: '#ffffff',
+                            color: (context) => {
+                                let sum = context.dataset.data.reduce((a, b) => a + b, 0);
+                                let value = context.dataset.data[context.dataIndex];
+                                let percentage = sum > 0 ? (value * 100) / sum : 0;
+                                // Nếu tỷ trọng nhỏ hơn 8% thì tự động đổi chữ sang màu Đen đậm để dễ đọc
+                                return percentage < 8 ? '#0f172a' : '#ffffff';
+                            },
                             font: {
                                 weight: 'bold',
-                                size: 12,
+                                size: 11,
                                 family: 'Times New Roman'
                             }
                         }
@@ -3421,7 +3427,6 @@
         }
 
         window.onload = function() {
-            // TỰ ĐỘNG KHỞI TẠO ĐÚNG THỜI GIAN THỰC (THÁNG 07/2026)
             let realNow = new Date();
             calViewDate = new Date(realNow.getFullYear(), realNow.getMonth(), 1);
             calSelectedDate = new Date(realNow.getFullYear(), realNow.getMonth(), realNow.getDate());
