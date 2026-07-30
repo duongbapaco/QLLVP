@@ -1,112 +1,630 @@
-<button type="button" class="btn-edit" onclick="editItAssetRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Quản Trị Dữ Liệu & Tài Sản CNTT</title>
+    <!-- Thư viện FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Thư viện tạo mã QR -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #0284c7;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+            --danger-color: #dc2626;
+            --success-color: #16a34a;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.5; padding: 20px; }
+
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { display: flex; justify-content: space-between; align-items: center; background: var(--primary-color); color: white; padding: 15px 25px; border-radius: 8px; margin-bottom: 20px; }
+        header h1 { font-size: 1.5rem; }
+
+        .sync-box { display: none; padding: 10px 15px; border-radius: 6px; margin-bottom: 15px; font-weight: 600; text-align: center; }
+
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 25px; }
+        .card { background: var(--card-bg); padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid var(--border-color); }
+        .card-title { font-size: 0.9rem; color: #64748b; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; }
+        .card-value { font-size: 1.8rem; font-weight: bold; color: var(--primary-color); }
+
+        .section-title { font-size: 1.2rem; font-weight: bold; margin: 20px 0 10px 0; color: var(--primary-color); border-bottom: 2px solid var(--secondary-color); padding-bottom: 5px; }
+
+        .controls-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: center; }
+        .form-control { padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 14px; }
+        .btn { padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; color: white; background: var(--secondary-color); }
+        .btn:hover { opacity: 0.9; }
+        .btn-danger { background: var(--danger-color); }
+        .btn-success { background: var(--success-color); }
+        .btn-edit { background: #f59e0b; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; }
+        .btn-delete { background: var(--danger-color); color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; }
+
+        .table-responsive { overflow-x: auto; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--border-color); }
+        table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+        th, td { border: 1px solid var(--border-color); padding: 8px 10px; text-align: left; }
+        th { background: #f1f5f9; color: #334155; font-weight: bold; text-align: center; }
+        tr:nth-child(even) { background: #f8fafc; }
+
+        /* Style Lịch Vạn Niên */
+        .calendar-wrapper { display: grid; grid-template-columns: 320px 1fr; gap: 20px; }
+        .cal-sidebar { background: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center; }
+        .cal-day-big { font-size: 4rem; font-weight: bold; color: var(--primary-color); line-height: 1; }
+        .cal-lunar-box { background: #f1f5f9; padding: 10px; border-radius: 6px; margin-top: 10px; font-size: 13px; }
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-top: 10px; }
+        .cal-day-cell { border: 1px solid var(--border-color); padding: 8px; min-height: 50px; text-align: right; cursor: pointer; border-radius: 4px; background: white; position: relative; }
+        .cal-day-cell.today { background: #e0f2fe; border-color: var(--secondary-color); font-weight: bold; }
+        .cal-day-cell.selected { border: 2px solid var(--primary-color); }
+        .cal-day-cell.has-event::after { content: ''; position: absolute; bottom: 4px; left: 4px; width: 6px; height: 6px; background: var(--danger-color); border-radius: 50%; }
+        .lunar-sub-txt { display: block; font-size: 10px; color: #64748b; }
+
+        /* Style Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: white; padding: 20px; border-radius: 8px; width: 100%; max-width: 500px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-weight: bold; font-size: 1.1rem; }
+        .modal-footer { display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px; }
+
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; margin-bottom: 4px; font-size: 13px; font-weight: 600; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 13px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1><i class="fa-solid fa-network-wired"></i> HỆ THỐNG QUẢN TRỊ TÀI SẢN CNTT & TỔ CHỨC</h1>
+        <div>
+            <button class="btn btn-success" onclick="openConfigUrlModal()"><i class="fa-solid fa-gear"></i> Cấu hình</button>
+            <button class="btn" onclick="syncDataToCloudServer()"><i class="fa-solid fa-cloud-arrow-up"></i> Đồng bộ Mây</button>
+            <button class="btn" onclick="loadDataFromCloudServer()"><i class="fa-solid fa-cloud-arrow-down"></i> Tải dữ liệu</button>
+        </div>
+    </header>
+
+    <div id="syncNotifyBox" class="sync-box"></div>
+
+    <!-- Dashboard tổng quan -->
+    <div class="dashboard-grid">
+        <div class="card">
+            <div class="card-title">Tổng thiết bị CNTT</div>
+            <div class="card-value" id="dash-total-it">0</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Thời gian hệ thống</div>
+            <div class="card-value" id="live-system-clock" style="font-size: 1.2rem;">--:--:--</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Trạng thái đồng bộ</div>
+            <div class="card-value" style="font-size: 1.2rem; color: var(--success-color);"><i class="fa-solid fa-circle-check"></i> Sẵn sàng</div>
+        </div>
+    </div>
+
+    <!-- KHỐI QUẢN LÝ TÀI SẢN CNTT -->
+    <div class="section-title"><i class="fa-solid fa-laptop-house"></i> Quản Lý Tài Sản Thiết Bị CNTT</div>
+    
+    <div class="controls-row">
+        <label><b>Năm:</b></label>
+        <select id="select-year-view" class="form-control" onchange="handleYearChangeSelect()">
+            <option value="2025">2025</option>
+            <option value="2026" selected>2026</option>
+            <option value="2027">2027</option>
+        </select>
+
+        <label><b>Phòng ban:</b></label>
+        <select id="filter-dept-select" class="form-control" onchange="renderItAssetTable()">
+            <option value="ALL">-- Tất cả phòng ban --</option>
+            <option value="Phòng Kỹ thuật - Công nghệ">Phòng Kỹ thuật - Công nghệ</option>
+            <option value="Phòng Tài chính - Kế toán">Phòng Tài chính - Kế toán</option>
+            <option value="Văn phòng">Văn phòng</option>
+        </select>
+
+        <label><b>Loại:</b></label>
+        <select id="filter-type-select" class="form-control" onchange="renderItAssetTable()">
+            <option value="ALL">-- Tất cả loại --</option>
+            <option value="Laptop Doanh Nghiệp">Laptop Doanh Nghiệp</option>
+            <option value="Máy tính để bàn (PC)">Máy tính để bàn (PC)</option>
+        </select>
+
+        <label><b>HĐH:</b></label>
+        <select id="filter-os-select" class="form-control" onchange="renderItAssetTable()">
+            <option value="ALL">-- Tất cả HĐH --</option>
+            <option value="Windows 11 (Pro/Home/Enterprise)">Windows 11</option>
+            <option value="Windows 10">Windows 10</option>
+        </select>
+
+        <button class="btn" onclick="openAddItModal()"><i class="fa-solid fa-plus"></i> Thêm thiết bị</button>
+        <button class="btn btn-success" onclick="exportItAssetWordReport()"><i class="fa-solid fa-file-word"></i> Xuất Báo Cáo Word</button>
+    </div>
+
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Mã QR</th>
+                    <th>Mã Tài Sản</th>
+                    <th>Loại Thiết Bị</th>
+                    <th>Cấu Hình Chi Tiết</th>
+                    <th>HĐH & Bản Quyền</th>
+                    <th>Office & Bản Quyền</th>
+                    <th>Phần Mềm Nghiệp Vụ</th>
+                    <th>Người Sử Dụng</th>
+                    <th>Phòng Ban</th>
+                    <th>Trạng Thái</th>
+                    <th>Thao Tác</th>
+                </tr>
+            </thead>
+            <tbody id="it-asset-table-body">
+                <!-- Nội dung bảng rendering từ JS -->
+            </tbody>
+        </table>
+    </div>
+    <div style="margin-top: 8px; font-weight: bold; font-size: 13px;" id="it-total-count">Tổng: 0 Thiết bị</div>
+
+    <!-- KHỐI LỊCH VẠN NIÊN & SỰ KIỆN -->
+    <div class="section-title" style="margin-top: 40px;"><i class="fa-solid fa-calendar-days"></i> Lịch Vạn Niên & Sự Kiện Công Việc</div>
+    
+    <div class="calendar-wrapper">
+        <div class="cal-sidebar">
+            <div id="cal-selected-dow" style="font-weight: bold; color: #64748b;">THỨ ...</div>
+            <div id="cal-selected-day" class="cal-day-big">01</div>
+            <div id="cal-selected-lunar-day" style="font-weight: 600; color: var(--secondary-color);">--</div>
+            
+            <div class="cal-lunar-box">
+                <div><b>Âm lịch:</b> <span id="info-lunar-exact">--/--/----</span></div>
+                <div id="cal-block-lunar-month" style="font-size: 11px; margin-top: 3px; color: #475569;">--</div>
+            </div>
+
+            <div style="margin-top: 15px; font-style: italic; font-size: 12px; color: #334155;" id="info-daily-proverb">"..."</div>
+
+            <div style="margin-top: 15px; text-align: left; font-size: 13px;">
+                <b>Ghi chú ngày chọn:</b>
+                <p id="info-event-note" style="color: #dc2626; margin-top: 4px;">Không có sự kiện</p>
+            </div>
+
+            <button class="btn" style="width: 100%; margin-top: 15px; justify-content: center;" onclick="openEventModal()"><i class="fa-solid fa-pen"></i> Tải / Sửa sự kiện</button>
+        </div>
+
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <button class="btn" onclick="changeCalendarMonth(-1)"><i class="fa-solid fa-chevron-left"></i> Tháng trước</button>
+                <h3 id="cal-header-title">THÁNG 01 / 2026</h3>
+                <button class="btn" onclick="changeCalendarMonth(1)">Tháng sau <i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+
+            <div class="cal-grid" style="font-weight: bold; text-align: center; background: #f1f5f9; padding: 5px 0; border-radius: 4px;">
+                <div>CN</div><div>T2</div><div>T3</div><div>T4</div><div>T5</div><div>T6</div><div>T7</div>
+            </div>
+
+            <div class="cal-grid" id="cal-mini-days-container">
+                <!-- Ô ngày hiển thị bằng JS -->
+            </div>
+            
+            <div style="margin-top: 15px; text-align: right;">
+                <button class="btn btn-success" onclick="resetCalendarToToday()"><i class="fa-solid fa-calendar-check"></i> Về Hôm Nay</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL CẤU HÌNH APPS SCRIPT -->
+<div class="modal" id="configUrlModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span>Cấu Hình Kết Nối Google Apps Script</span>
+            <span style="cursor:pointer" onclick="closeConfigUrlModal()">&times;</span>
+        </div>
+        <div class="form-group">
+            <label>Google Apps Script Web App URL:</label>
+            <input type="text" id="cfg-script-url" placeholder="https://script.google.com/macros/s/.../exec">
+        </div>
+        <div class="form-group">
+            <label>Google Sheet Link View:</label>
+            <input type="text" id="cfg-sheet-url" placeholder="https://docs.google.com/spreadsheets/d/.../edit">
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger" onclick="closeConfigUrlModal()">Hủy</button>
+            <button class="btn btn-success" onclick="saveConfigUrls()">Lưu Cấu Hình</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL THÊM/SỬA THIẾT BỊ CNTT -->
+<div class="modal" id="itAssetModal">
+    <div class="modal-content" style="max-width: 600px;">
+        <div class="modal-header">
+            <span id="it-modal-title">Thêm Mới Thiết Bị CNTT</span>
+            <span style="cursor:pointer" onclick="closeItAssetModal()">&times;</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="form-group">
+                <label>Mã Tài Sản:</label>
+                <input type="text" id="it-code" readonly style="background: #f1f5f9;">
+            </div>
+            <div class="form-group">
+                <label>Loại Thiết Bị:</label>
+                <select id="it-type">
+                    <option value="Laptop Doanh Nghiệp">Laptop Doanh Nghiệp</option>
+                    <option value="Máy tính để bàn (PC)">Máy tính để bàn (PC)</option>
+                    <option value="Máy In / Thiết bị phụ trợ">Máy In / Thiết bị phụ trợ</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Người Sử Dụng:</label>
+                <input type="text" id="it-user" placeholder="Nhập tên nhân viên">
+            </div>
+            <div class="form-group">
+                <label>Phòng Ban:</label>
+                <select id="it-dept">
+                    <option value="Phòng Kỹ thuật - Công nghệ">Phòng Kỹ thuật - Công nghệ</option>
+                    <option value="Phòng Tài chính - Kế toán">Phòng Tài chính - Kế toán</option>
+                    <option value="Văn phòng">Văn phòng</option>
+                </select>
+            </div>
+            <div class="form-group" style="grid-column: span 2;">
+                <label>Cấu Hình Chi Tiết:</label>
+                <input type="text" id="it-specs" placeholder="VD: Dell Latitude, Core i5, 16GB RAM, SSD 512GB">
+            </div>
+            <div class="form-group">
+                <label>Hệ Điều Hành:</label>
+                <select id="it-os">
+                    <option value="Windows 11 (Pro/Home/Enterprise)">Windows 11</option>
+                    <option value="Windows 10">Windows 10</option>
+                    <option value="Linux / MacOS">Linux / MacOS</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Bản Quyền HĐH:</label>
+                <input type="text" id="it-os-lic" value="Đã kích hoạt bản quyền OEM">
+            </div>
+            <div class="form-group">
+                <label>Bộ Ứng Dụng Office:</label>
+                <select id="it-office">
+                    <option value="Microsoft 365 (M365) Business Standard">Microsoft 365 Business Standard</option>
+                    <option value="Office 2021 (Pro Plus / Home & Bus)">Office 2021</option>
+                    <option value="Office 2019 / khác">Office 2019 / khác</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Bản Quyền Office:</label>
+                <input type="text" id="it-office-lic" value="Đã kích hoạt bản quyền OEM">
+            </div>
+            <div class="form-group">
+                <label>Phần mềm CAD/Đồ họa:</label>
+                <input type="text" id="it-sw-cad" placeholder="VD: AutoCAD 2025 hoặc 'Không'">
+            </div>
+            <div class="form-group">
+                <label>PM ASIA:</label>
+                <input type="text" id="it-sw-asia" value="Đã có bản quyền">
+            </div>
+            <div class="form-group">
+                <label>PM Quasoft:</label>
+                <input type="text" id="it-sw-quasoft" value="Đã có bản quyền">
+            </div>
+            <div class="form-group">
+                <label>PM CloudOffice:</label>
+                <input type="text" id="it-sw-cloudoffice" value="Đã có bản quyền">
+            </div>
+            <div class="form-group">
+                <label>Trạng Thái:</label>
+                <select id="it-status">
+                    <option value="Tốt - Đang sử dụng">Tốt - Đang sử dụng</option>
+                    <option value="Cần nâng cấp / Sửa chữa">Cần nâng cấp / Sửa chữa</option>
+                    <option value="Hỏng - Lưu kho">Hỏng - Lưu kho</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger" onclick="closeItAssetModal()">Hủy</button>
+            <button class="btn btn-success" onclick="saveItAssetRecord()">Lưu Dữ Liệu</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL SỰ KIỆN LỊCH -->
+<div class="modal" id="eventModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span>Sự Kiện Ngày: <span id="modal-event-date-lbl">--/--/----</span></span>
+            <span style="cursor:pointer" onclick="closeEventModal()">&times;</span>
+        </div>
+        <div class="form-group">
+            <label>Nội dung ghi chú / Công việc trọng tâm:</label>
+            <textarea id="modal-event-text" rows="4" placeholder="Nhập lịch họp, lịch công tác, hạn hoàn thành công việc..."></textarea>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger" onclick="closeEventModal()">Hủy</button>
+            <button class="btn btn-success" onclick="saveDayEvent()">Lưu Sự Kiện</button>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT XỬ LÝ TOÀN BỘ HỆ THỐNG -->
+<script>
+    // TOÀN CỤC & BIẾN CẤU HÌNH
+    const HARDCODED_SCRIPT_API = "https://script.google.com/macros/s/AKfycbx_SAMPLE_API_URL/exec";
+    const DEFAULT_GOOGLE_SHEET_URL = "https://docs.google.com";
+
+    let GOOGLE_SCRIPT_API_URL = localStorage.getItem('sys_cfg_script_url') || HARDCODED_SCRIPT_API;
+    let GOOGLE_SHEET_VIEW_URL = localStorage.getItem('sys_cfg_sheet_url') || DEFAULT_GOOGLE_SHEET_URL;
+
+    let CURRENT_SELECTED_YEAR = "2026";
+    let editingAssetIdx = -1;
+    let autoSyncTimer = null;
+
+    // Kho dữ liệu
+    let itAssetRecordsByYear = JSON.parse(localStorage.getItem('sys_it_asset_records_by_year')) || {};
+    let dayEventsMap = JSON.parse(localStorage.getItem('sys_day_events_map')) || {};
+    let salaryConfigsByMonth = JSON.parse(localStorage.getItem('sys_salary_configs_by_month')) || {};
+    let salaryDataByMonth = JSON.parse(localStorage.getItem('sys_salary_by_month')) || {};
+    let leaveDataByYear = JSON.parse(localStorage.getItem('sys_leave_data_by_year')) || {};
+    let paymentRecordsByMonth = JSON.parse(localStorage.getItem('sys_payment_records_by_month')) || {};
+    let telecomRecordsByMonth = JSON.parse(localStorage.getItem('sys_telecom_records_by_month')) || {};
+
+    // Dữ liệu Lịch
+    let calViewDate = new Date();
+    let calSelectedDate = new Date();
+    let todaySystemDate = new Date();
+
+    const dailyProverbsList = [
+        "Không có gì là không thể với một người luôn biết cố gắng.",
+        "Hành trình vạn dặm bắt đầu từ một bước chân.",
+        "Kỷ luật là cầu nối giữa mục tiêu và thành tựu.",
+        "Đổi mới sáng tạo là chìa khóa của phát triển bền vững.",
+        "Chất lượng công việc tạo nên uy tín cá nhân và tập thể."
+    ];
+
+    // HÀM BỔ TRỢ TẠO CHUỖI QR CODE
+    function getStructuredQrText(code, type, user, dept, os, office, cad, asia, quasoft, cloudoffice) {
+        return `[TÀI SẢN CNTT]\nMã: ${code}\nLoại: ${type}\nSử dụng: ${user} (${dept})\nHĐH: ${os}\nOffice: ${office}\nPM Khác: CAD:${cad}, ASIA:${asia}, Quasoft:${quasoft}, CloudOffice:${cloudoffice}`;
+    }
+
+    // QUẢN LÝ TÀI SẢN CNTT
+    function handleYearChangeSelect() {
+        CURRENT_SELECTED_YEAR = document.getElementById('select-year-view').value;
+        renderItAssetTable();
+        updateGlobalDashboardSummary();
+    }
+
+    function generateNewItCode() {
+        let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
+        let num = records.length + 1;
+        return `IT-DEV-${CURRENT_SELECTED_YEAR}-${String(num).padStart(3, '0')}`;
+    }
+
+    function renderItAssetTable() {
+        let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
+        let filterDept = document.getElementById('filter-dept-select').value;
+        let filterType = document.getElementById('filter-type-select').value;
+        let filterOs = document.getElementById('filter-os-select').value;
+
+        let filteredRecords = records.filter(r => {
+            let matchD = (filterDept === "ALL" || r.dept === filterDept);
+            let matchT = (filterType === "ALL" || r.type === filterType);
+            let matchO = (filterOs === "ALL" || r.os === filterOs);
+            return matchD && matchT && matchO;
+        });
+
+        let tbody = document.getElementById('it-asset-table-body');
+        tbody.innerHTML = "";
+
+        if(filteredRecords.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="12" style="text-align:center; color:#94a3b8; padding:20px;">Không có thiết bị nào trong danh sách.</td></tr>`;
+            document.getElementById('it-total-count').innerText = `Tổng: 0 Thiết bị`;
+            return;
+        }
+
+        filteredRecords.forEach((rec, idx) => {
+            let canvasId = `qr-canvas-${CURRENT_SELECTED_YEAR}-${idx}`;
+            tbody.innerHTML += `
+                <tr>
+                    <td style="text-align:center;">${idx + 1}</td>
+                    <td style="text-align:center;"><canvas id="${canvasId}"></canvas></td>
+                    <td style="text-align:center;"><b>${rec.code}</b></td>
+                    <td>${rec.type}</td>
+                    <td>${rec.specs}</td>
+                    <td>${rec.os}<br><small style="color:#64748b;">[${rec.osLic || ''}]</small></td>
+                    <td>${rec.office}<br><small style="color:#64748b;">[${rec.officeLic || ''}]</small></td>
+                    <td style="font-size:12px;">
+                        CAD: ${rec.software || 'Không'}<br>
+                        ASIA: ${rec.asia || ''} | Quasoft: ${rec.quasoft || ''}<br>
+                        CloudOffice: ${rec.cloudoffice || ''}
+                    </td>
+                    <td><b>${rec.user}</b></td>
+                    <td>${rec.dept}</td>
+                    <td style="text-align:center;"><span style="background:#dcfce7; color:#15803d; padding:2px 6px; border-radius:4px; font-size:11px;">${rec.status}</span></td>
+                    <td style="text-align:center;">
+                        <button type="button" class="btn-edit" onclick="editItAssetRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
                         <button type="button" class="btn-delete" onclick="deleteItAssetRecord(${idx})"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 </tr>`;
-            });
+        });
 
-            document.getElementById('it-total-count').innerText = `Tổng: ${filteredRecords.length} Thiết bị`;
+        document.getElementById('it-total-count').innerText = `Tổng: ${filteredRecords.length} Thiết bị`;
 
-            // Khởi tạo QR code thu nhỏ cho từng dòng
-            filteredRecords.forEach((rec, idx) => {
-                let canvasId = `qr-canvas-${CURRENT_SELECTED_YEAR}-${idx}`;
-                let qrTextStr = getStructuredQrText(rec.code, rec.type, rec.user, rec.dept, rec.os, rec.office, rec.software, rec.asia, rec.quasoft, rec.cloudoffice);
-                try {
-                    new QRious({
-                        element: document.getElementById(canvasId),
-                        value: qrTextStr,
-                        size: 48
-                    });
-                } catch (e) {
-                    console.error("Table QR Error:", e);
-                }
-            });
-        }
-
-        function deleteItAssetRecord(idx) {
-            if (confirm('Xóa thiết bị này khỏi kho?')) {
-                let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
-                let filterDept = document.getElementById('filter-dept-select').value;
-                let filterType = document.getElementById('filter-type-select').value;
-                let filterOs = document.getElementById('filter-os-select').value;
-
-                let targetRecords = records.filter(r => {
-                    let matchD = (filterDept === "ALL" || r.dept === filterDept);
-                    let matchT = (filterType === "ALL" || r.type === filterType);
-                    let matchO = (filterOs === "ALL" || r.os === filterOs);
-                    return matchD && matchT && matchO;
+        // Khởi tạo QR code thu nhỏ cho từng dòng
+        filteredRecords.forEach((rec, idx) => {
+            let canvasId = `qr-canvas-${CURRENT_SELECTED_YEAR}-${idx}`;
+            let qrTextStr = getStructuredQrText(rec.code, rec.type, rec.user, rec.dept, rec.os, rec.office, rec.software, rec.asia, rec.quasoft, rec.cloudoffice);
+            try {
+                new QRious({
+                    element: document.getElementById(canvasId),
+                    value: qrTextStr,
+                    size: 48
                 });
-
-                let targetRec = targetRecords[idx];
-                let realIdx = records.indexOf(targetRec);
-                if (realIdx > -1) {
-                    records.splice(realIdx, 1);
-                }
-
-                localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
-                renderItAssetTable();
-                triggerAutoSync();
+            } catch (e) {
+                console.error("Table QR Error:", e);
             }
+        });
+    }
+
+    function openAddItModal() {
+        editingAssetIdx = -1;
+        document.getElementById('it-modal-title').innerText = "Thêm Mới Thiết Bị CNTT";
+        document.getElementById('it-code').value = generateNewItCode();
+        document.getElementById('it-user').value = "";
+        document.getElementById('it-specs').value = "";
+        document.getElementById('it-sw-cad').value = "";
+        document.getElementById('itAssetModal').style.display = 'flex';
+    }
+
+    function closeItAssetModal() {
+        document.getElementById('itAssetModal').style.display = 'none';
+    }
+
+    function saveItAssetRecord() {
+        if (!itAssetRecordsByYear[CURRENT_SELECTED_YEAR]) {
+            itAssetRecordsByYear[CURRENT_SELECTED_YEAR] = [];
         }
 
-        function exportItAssetWordReport() {
+        let recordObj = {
+            code: document.getElementById('it-code').value,
+            type: document.getElementById('it-type').value,
+            user: document.getElementById('it-user').value.trim() || "Chưa bàn giao",
+            dept: document.getElementById('it-dept').value,
+            specs: document.getElementById('it-specs').value.trim() || "Tiêu chuẩn",
+            os: document.getElementById('it-os').value,
+            osLic: document.getElementById('it-os-lic').value,
+            office: document.getElementById('it-office').value,
+            officeLic: document.getElementById('it-office-lic').value,
+            software: document.getElementById('it-sw-cad').value.trim() || "🚫 Không có",
+            asia: document.getElementById('it-sw-asia').value,
+            quasoft: document.getElementById('it-sw-quasoft').value,
+            cloudoffice: document.getElementById('it-sw-cloudoffice').value,
+            status: document.getElementById('it-status').value,
+            dateVal: new Date().toISOString().split('T')[0]
+        };
+
+        if (editingAssetIdx > -1) {
+            itAssetRecordsByYear[CURRENT_SELECTED_YEAR][editingAssetIdx] = recordObj;
+        } else {
+            itAssetRecordsByYear[CURRENT_SELECTED_YEAR].push(recordObj);
+        }
+
+        localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
+        renderItAssetTable();
+        updateGlobalDashboardSummary();
+        closeItAssetModal();
+        triggerAutoSync();
+    }
+
+    function editItAssetRecord(idx) {
+        let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
+        let rec = records[idx];
+        if(!rec) return;
+
+        editingAssetIdx = idx;
+        document.getElementById('it-modal-title').innerText = "Chỉnh Sửa Thông Tin Thiết Bị";
+        document.getElementById('it-code').value = rec.code;
+        document.getElementById('it-type').value = rec.type;
+        document.getElementById('it-user').value = rec.user;
+        document.getElementById('it-dept').value = rec.dept;
+        document.getElementById('it-specs').value = rec.specs;
+        document.getElementById('it-os').value = rec.os;
+        document.getElementById('it-os-lic').value = rec.osLic || '';
+        document.getElementById('it-office').value = rec.office;
+        document.getElementById('it-office-lic').value = rec.officeLic || '';
+        document.getElementById('it-sw-cad').value = rec.software || '';
+        document.getElementById('it-sw-asia').value = rec.asia || '';
+        document.getElementById('it-sw-quasoft').value = rec.quasoft || '';
+        document.getElementById('it-sw-cloudoffice').value = rec.cloudoffice || '';
+        document.getElementById('it-status').value = rec.status;
+
+        document.getElementById('itAssetModal').style.display = 'flex';
+    }
+
+    function deleteItAssetRecord(idx) {
+        if (confirm('Xóa thiết bị này khỏi kho?')) {
             let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
-            if (records.length === 0) { alert("Không có dữ liệu thiết bị trong năm để xuất báo cáo!"); return; }
+            let filterDept = document.getElementById('filter-dept-select').value;
+            let filterType = document.getElementById('filter-type-select').value;
+            let filterOs = document.getElementById('filter-os-select').value;
 
-            let htmlContent = `
-              <html>
-              <head>
-                <meta charset="UTF-8">
-                <title>Bao Cao Kiem Ke Thiet Bi CNTT - ${CURRENT_SELECTED_YEAR}</title>
-                <style>
-                    body { font-family: 'Times New Roman', Times, serif; font-size: 14px; line-height: 1.5; color: #000; padding: 20px; }
-                    .header-doc { text-align: center; font-weight: bold; margin-bottom: 20px; }
-                    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-                    th, td { border: 1px solid #000; padding: 6px 8px; font-size: 12.5px; text-align: left; vertical-align: middle; }
-                    th { background-color: #f2f2f2; text-align: center; }
-                    .text-center { text-align: center; }
-                </style>
-              </head>
-              <body>
-                <div class="header-doc">
-                    TỔNG CÔNG TY GIẤY VIỆT NAM<br>
-                    <b>BÁO CÁO KIỂM KÊ VÀ QUẢN TRỊ THIẾT BỊ CNTT NĂM ${CURRENT_SELECTED_YEAR}</b>
-                </div>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>STT</th>
-                      <th>Mã tài sản</th>
-                      <th>Loại thiết bị</th>
-                      <th>Cấu hình chi tiết</th>
-                      <th>HĐH & Bản quyền</th>
-                      <th>Office & Bản quyền</th>
-                      <th>Phần mềm nghiệp vụ</th>
-                      <th>Người sử dụng</th>
-                      <th>Phòng ban</th>
-                      <th>Trạng thái</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-              `;
-
-            records.forEach((r, i) => {
-                htmlContent += `
-                  <tr>
-                    <td class="text-center">${i + 1}</td>
-                    <td class="text-center"><b>${r.code}</b></td>
-                    <td>${r.type}</td>
-                    <td>${r.specs}</td>
-                    <td>${r.os} [${r.osLic || ''}]</td>
-                    <td>${r.office} [${r.officeLic || ''}]</td>
-                    <td>CAD: ${r.software || 'Không'}, ASIA: ${r.asia || ''}, Quasoft: ${r.quasoft || ''}, CloudOffice: ${r.cloudoffice || ''}</td>
-                    <td><b>${r.user}</b></td>
-                    <td>${r.dept}</td>
-                    <td class="text-center">${r.status}</td>
-                  </tr>
-              `;
+            let targetRecords = records.filter(r => {
+                let matchD = (filterDept === "ALL" || r.dept === filterDept);
+                let matchT = (filterType === "ALL" || r.type === filterType);
+                let matchO = (filterOs === "ALL" || r.os === filterOs);
+                return matchD && matchT && matchO;
             });
 
+            let targetRec = targetRecords[idx];
+            let realIdx = records.indexOf(targetRec);
+            if (realIdx > -1) {
+                records.splice(realIdx, 1);
+            }
+
+            localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
+            renderItAssetTable();
+            updateGlobalDashboardSummary();
+            triggerAutoSync();
+        }
+    }
+
+    function exportItAssetWordReport() {
+        let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
+        if (records.length === 0) { alert("Không có dữ liệu thiết bị trong năm để xuất báo cáo!"); return; }
+
+        let htmlContent = `
+          <html>
+          <head>
+            <meta charset="UTF-8">
+            <title>Bao Cao Kiem Ke Thiet Bi CNTT - ${CURRENT_SELECTED_YEAR}</title>
+            <style>
+                body { font-family: 'Times New Roman', Times, serif; font-size: 14px; line-height: 1.5; color: #000; padding: 20px; }
+                .header-doc { text-align: center; font-weight: bold; margin-bottom: 20px; }
+                table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+                th, td { border: 1px solid #000; padding: 6px 8px; font-size: 12.5px; text-align: left; vertical-align: middle; }
+                th { background-color: #f2f2f2; text-align: center; }
+                .text-center { text-align: center; }
+            </style>
+          </head>
+          <body>
+            <div class="header-doc">
+                TỔNG CÔNG TY GIẤY VIỆT NAM<br>
+                <b>BÁO CÁO KIỂM KÊ VÀ QUẢN TRỊ THIẾT BỊ CNTT NĂM ${CURRENT_SELECTED_YEAR}</b>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Mã tài sản</th>
+                  <th>Loại thiết bị</th>
+                  <th>Cấu hình chi tiết</th>
+                  <th>HĐH & Bản quyền</th>
+                  <th>Office & Bản quyền</th>
+                  <th>Phần mềm nghiệp vụ</th>
+                  <th>Người sử dụng</th>
+                  <th>Phòng ban</th>
+                  <th>Trạng thái</th>
+                </tr>
+              </thead>
+              <tbody>
+          `;
+
+        records.forEach((r, i) => {
             htmlContent += `
+              <tr>
+                <td class="text-center">${i + 1}</td>
+                <td class="text-center"><b>${r.code}</b></td>
+                <td>${r.type}</td>
+                <td>${r.specs}</td>
+                <td>${r.os} [${r.osLic || ''}]</td>
+                <td>${r.office} [${r.officeLic || ''}]</td>
+                <td>CAD: ${r.software || 'Không'}, ASIA: ${r.asia || ''}, Quasoft: ${r.quasoft || ''}, CloudOffice: ${r.cloudoffice || ''}</td>
+                <td><b>${r.user}</b></td>
+                <td>${r.dept}</td>
+                <td class="text-center">${r.status}</td>
+              </tr>
+          `;
+        });
+
+        htmlContent += `
               </tbody>
             </table>
             <div style="margin-top: 30px; display: flex; justify-content: space-between;">
@@ -117,216 +635,210 @@
             </html>
             `;
 
-            let blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
-            let url = URL.createObjectURL(blob);
-            let a = document.createElement('a');
-            a.href = url;
-            a.download = `Bao_Cao_Kho_Thiet_Bi_CNTT_${CURRENT_SELECTED_YEAR}.doc`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+        let blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
+        let url = URL.createObjectURL(blob);
+        let a = document.createElement('a');
+        a.href = url;
+        a.download = `Bao_Cao_Kho_Thiet_Bi_CNTT_${CURRENT_SELECTED_YEAR}.doc`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    // LỊCH VẠN NIÊN & ĐỒNG HỘ
+    function updateLiveClock() {
+        let now = new Date();
+        let timeStr = now.toLocaleTimeString('vi-VN');
+        let dateStr = now.toLocaleDateString('vi-VN');
+        document.getElementById('live-system-clock').innerText = `${timeStr} - ${dateStr}`;
+    }
+
+    function renderSmartCalendar() {
+        let y = calViewDate.getFullYear();
+        let m = calViewDate.getMonth();
+        const monthNames = ["THÁNG 1", "THÁNG 2", "THÁNG 3", "THÁNG 4", "THÁNG 5", "THÁNG 6", "THÁNG 7", "THÁNG 8", "THÁNG 9", "THÁNG 10", "THÁNG 11", "THÁNG 12"];
+        document.getElementById('cal-header-title').innerText = `${monthNames[m]} / ${y}`;
+
+        let container = document.getElementById('cal-mini-days-container');
+        container.innerHTML = "";
+
+        let firstDayIndex = new Date(y, m, 1).getDay();
+        let totalDays = new Date(y, m + 1, 0).getDate();
+
+        for (let i = 0; i < firstDayIndex; i++) {
+            container.innerHTML += `<div></div>`;
         }
 
-        // LỊCH VẠN NIÊN & ĐỒNG HỘ
-        function updateLiveClock() {
-            let now = new Date();
-            let timeStr = now.toLocaleTimeString('vi-VN');
-            let dateStr = now.toLocaleDateString('vi-VN');
-            document.getElementById('live-system-clock').innerText = `${timeStr} - ${dateStr}`;
-        }
-
-        function renderSmartCalendar() {
-            let y = calViewDate.getFullYear();
-            let m = calViewDate.getMonth();
-            const monthNames = ["THÁNG 1", "THÁNG 2", "THÁNG 3", "THÁNG 4", "THÁNG 5", "THÁNG 6", "THÁNG 7", "THÁNG 8", "THÁNG 9", "THÁNG 10", "THÁNG 11", "THÁNG 12"];
-            document.getElementById('cal-header-title').innerText = `${monthNames[m]} / ${y}`;
-
-            let container = document.getElementById('cal-mini-days-container');
-            container.innerHTML = "";
-
-            let firstDayIndex = new Date(y, m, 1).getDay();
-            let totalDays = new Date(y, m + 1, 0).getDate();
-
-            for (let i = 0; i < firstDayIndex; i++) {
-                container.innerHTML += `<div></div>`;
-            }
-
-            let today = new Date();
-            for (let d = 1; d <= totalDays; d++) {
-                let isToday = (d === today.getDate() && m === today.getMonth() && y === today.getFullYear());
-                let isSelected = (d === calSelectedDate.getDate() && m === calSelectedDate.getMonth() && y === calSelectedDate.getFullYear());
-                
-                let dateKey = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-                let hasEvent = dayEventsMap[dateKey] ? true : false;
-
-                let cell = document.createElement('div');
-                cell.className = `cal-day-cell ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''} ${hasEvent ? 'has-event' : ''}`;
-                cell.innerHTML = `<span>${d}</span><span class="lunar-sub-txt">${(d % 30) + 1}</span>`;
-                cell.onclick = function() {
-                    calSelectedDate = new Date(y, m, d);
-                    renderSmartCalendar();
-                    updateSelectedDayInfo();
-                };
-                container.appendChild(cell);
-            }
-            updateSelectedDayInfo();
-        }
-
-        function changeCalendarMonth(dir) {
-            calViewDate.setMonth(calViewDate.getMonth() + dir);
-            renderSmartCalendar();
-        }
-
-        function resetCalendarToToday() {
-            todaySystemDate = new Date();
-            calViewDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), 1);
-            calSelectedDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), todaySystemDate.getDate());
-            renderSmartCalendar();
-        }
-
-        function updateSelectedDayInfo() {
-            const dowNames = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
-            let dowStr = dowNames[calSelectedDate.getDay()];
-            let dayNum = calSelectedDate.getDate();
-            let mNum = calSelectedDate.getMonth() + 1;
-            let yNum = calSelectedDate.getFullYear();
-
-            document.getElementById('cal-selected-dow').innerText = dowStr;
-            document.getElementById('cal-selected-day').innerText = dayNum;
-            document.getElementById('cal-selected-lunar-day').innerText = `Ngày Ất Mùi - Tháng Quý Mùi`;
-            document.getElementById('info-lunar-exact').innerText = `${(dayNum % 30) + 1}/6/${yNum} (Ất Tỵ)`;
-            document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG 6 NĂM ẤT TỴ`;
-
-            let dateKey = `${yNum}-${String(mNum).padStart(2, '0')}-${String(dayNum).padStart(2, '0')}`;
-            let eventNote = dayEventsMap[dateKey] || "Không có sự kiện";
-            document.getElementById('info-event-note').innerText = eventNote;
-
-            // Quay vòng câu thành ngữ theo ngày
-            let proverbIdx = (dayNum + mNum) % dailyProverbsList.length;
-            document.getElementById('info-daily-proverb').innerText = `"${dailyProverbsList[proverbIdx]}"`;
-        }
-
-        function openEventModal() {
-            let dayNum = calSelectedDate.getDate();
-            let mNum = calSelectedDate.getMonth() + 1;
-            let yNum = calSelectedDate.getFullYear();
-            document.getElementById('modal-event-date-lbl').innerText = `${dayNum}/${mNum}/${yNum}`;
+        let today = new Date();
+        for (let d = 1; d <= totalDays; d++) {
+            let isToday = (d === today.getDate() && m === today.getMonth() && y === today.getFullYear());
+            let isSelected = (d === calSelectedDate.getDate() && m === calSelectedDate.getMonth() && y === calSelectedDate.getFullYear());
             
-            let dateKey = `${yNum}-${String(mNum).padStart(2, '0')}-${String(dayNum).padStart(2, '0')}`;
-            document.getElementById('modal-event-text').value = dayEventsMap[dateKey] !== undefined && dayEventsMap[dateKey] !== "Không có sự kiện" ? dayEventsMap[dateKey] : "";
-            document.getElementById('eventModal').style.display = 'flex';
-        }
+            let dateKey = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+            let hasEvent = dayEventsMap[dateKey] ? true : false;
 
-        function closeEventModal() {
-            document.getElementById('eventModal').style.display = 'none';
-        }
-
-        function saveDayEvent() {
-          let dayNum = calSelectedDate.getDate();
-          let mNum = calSelectedDate.getMonth() + 1;
-          let yNum = calSelectedDate.getFullYear();
-          let dateKey = `${yNum}-${String(mNum).padStart(2, '0')}-${String(dayNum).padStart(2, '0')}`;
-          let text = document.getElementById('modal-event-text').value.trim();
-          
-          if(text) {
-              dayEventsMap[dateKey] = text;
-          } else {
-              delete dayEventsMap[dateKey];
-          }
-          localStorage.setItem('sys_day_events_map', JSON.stringify(dayEventsMap));
-          renderSmartCalendar();
-          closeEventModal();
-        }
-
-        // CLOUD SYNC & CONFIG MODAL
-        function openConfigUrlModal() {
-            document.getElementById('cfg-script-url').value = GOOGLE_SCRIPT_API_URL;
-            document.getElementById('cfg-sheet-url').value = GOOGLE_SHEET_VIEW_URL;
-            document.getElementById('configUrlModal').style.display = 'flex';
-        }
-
-        function closeConfigUrlModal() {
-            document.getElementById('configUrlModal').style.display = 'none';
-        }
-
-        function saveConfigUrls() {
-            GOOGLE_SCRIPT_API_URL = document.getElementById('cfg-script-url').value.trim() || HARDCODED_SCRIPT_API;
-            GOOGLE_SHEET_VIEW_URL = document.getElementById('cfg-sheet-url').value.trim() || DEFAULT_GOOGLE_SHEET_URL;
-            localStorage.setItem('sys_cfg_script_url', GOOGLE_SCRIPT_API_URL);
-            localStorage.setItem('sys_cfg_sheet_url', GOOGLE_SHEET_VIEW_URL);
-            closeConfigUrlModal();
-            alert("💾 Đã lưu cấu hình Google Apps Script thành công!");
-        }
-
-        function openMainSalaryGoogleSheet() {
-            window.open(GOOGLE_SHEET_VIEW_URL, '_blank');
-        }
-
-        async function syncDataToCloudServer() {
-            let notifyBox = document.getElementById('syncNotifyBox');
-            notifyBox.style.display = "block";
-            notifyBox.style.background = "#eff6ff";
-            notifyBox.style.color = "#1d4ed8";
-            notifyBox.innerText = "⏳ Đang đồng bộ dữ liệu lên Google Cloud Server...";
-
-            let payload = {
-                action: "sync_all_data",
-                year: CURRENT_SELECTED_YEAR,
-                salaryConfigs: salaryConfigsByMonth,
-                salaryData: salaryDataByMonth,
-                leaveData: leaveDataByYear,
-                paymentRecords: paymentRecordsByMonth,
-                telecomRecords: telecomRecordsByMonth,
-                itAssets: itAssetRecordsByYear
+            let cell = document.createElement('div');
+            cell.className = `cal-day-cell ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''} ${hasEvent ? 'has-event' : ''}`;
+            cell.innerHTML = `<span>${d}</span><span class="lunar-sub-txt">${(d % 30) + 1}</span>`;
+            cell.onclick = function() {
+                calSelectedDate = new Date(y, m, d);
+                renderSmartCalendar();
+                updateSelectedDayInfo();
             };
-
-            try {
-                const response = await fetch(GOOGLE_SCRIPT_API_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "text/plain;charset=utf-8" },
-                    body: JSON.stringify(payload)
-                });
-                const resJson = await response.json();
-                if(resJson.status === "success") {
-                    notifyBox.style.background = "#f0fdf4";
-                    notifyBox.style.color = "#166534";
-                    notifyBox.innerText = "✅ Đồng bộ Mây thành công (Auto-Sync Active)!";
-                  setTimeout(() => { notifyBox.style.display = "none"; }, 4000);
-                } else {
-                    throw new Error(resJson.message || "Lỗi đồng bộ");
-                }
-            } catch (err) {
-                notifyBox.style.background = "#fef2f2";
-                notifyBox.style.color = "#991b1b";
-                notifyBox.innerText = "⚠️ Lỗi kết nối Mây: " + err.message + " (Đã lưu cục bộ an toàn).";
-            }
+            container.appendChild(cell);
         }
+        updateSelectedDayInfo();
+    }
 
-        async function loadDataFromCloudServer() {
-          let notifyBox = document.getElementById('syncNotifyBox');
-          notifyBox.style.display = "block";
-          notifyBox.style.background = "#eff6ff";
-          notifyBox.style.color = "#1d4ed8";
-          notifyBox.innerText = "⏳ Đang tải dữ liệu từ Google Cloud Server...";
+    function changeCalendarMonth(dir) {
+        calViewDate.setMonth(calViewDate.getMonth() + dir);
+        renderSmartCalendar();
+    }
 
-          try {
+    function resetCalendarToToday() {
+        todaySystemDate = new Date();
+        calViewDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), 1);
+        calSelectedDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), todaySystemDate.getDate());
+        renderSmartCalendar();
+    }
+
+    function updateSelectedDayInfo() {
+        const dowNames = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
+        let dowStr = dowNames[calSelectedDate.getDay()];
+        let dayNum = calSelectedDate.getDate();
+        let mNum = calSelectedDate.getMonth() + 1;
+        let yNum = calSelectedDate.getFullYear();
+
+        document.getElementById('cal-selected-dow').innerText = dowStr;
+        document.getElementById('cal-selected-day').innerText = String(dayNum).padStart(2, '0');
+        document.getElementById('cal-selected-lunar-day').innerText = `Ngày Ất Mùi - Tháng Quý Mùi`;
+        document.getElementById('info-lunar-exact').innerText = `${(dayNum % 30) + 1}/${mNum}/${yNum}`;
+        document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH TƯƠNG ỨNG NĂM ẤT TỴ`;
+
+        let dateKey = `${yNum}-${String(mNum).padStart(2, '0')}-${String(dayNum).padStart(2, '0')}`;
+        let eventNote = dayEventsMap[dateKey] || "Không có sự kiện";
+        document.getElementById('info-event-note').innerText = eventNote;
+
+        let proverbIdx = (dayNum + mNum) % dailyProverbsList.length;
+        document.getElementById('info-daily-proverb').innerText = `"${dailyProverbsList[proverbIdx]}"`;
+    }
+
+    function openEventModal() {
+        let dayNum = calSelectedDate.getDate();
+        let mNum = calSelectedDate.getMonth() + 1;
+        let yNum = calSelectedDate.getFullYear();
+        document.getElementById('modal-event-date-lbl').innerText = `${dayNum}/${mNum}/${yNum}`;
+        
+        let dateKey = `${yNum}-${String(mNum).padStart(2, '0')}-${String(dayNum).padStart(2, '0')}`;
+        document.getElementById('modal-event-text').value = dayEventsMap[dateKey] !== undefined && dayEventsMap[dateKey] !== "Không có sự kiện" ? dayEventsMap[dateKey] : "";
+        document.getElementById('eventModal').style.display = 'flex';
+    }
+
+    function closeEventModal() {
+        document.getElementById('eventModal').style.display = 'none';
+    }
+
+    function saveDayEvent() {
+        let dayNum = calSelectedDate.getDate();
+        let mNum = calSelectedDate.getMonth() + 1;
+        let yNum = calSelectedDate.getFullYear();
+        let dateKey = `${yNum}-${String(mNum).padStart(2, '0')}-${String(dayNum).padStart(2, '0')}`;
+        let text = document.getElementById('modal-event-text').value.trim();
+        
+        if(text) {
+            dayEventsMap[dateKey] = text;
+        } else {
+            delete dayEventsMap[dateKey];
+        }
+        localStorage.setItem('sys_day_events_map', JSON.stringify(dayEventsMap));
+        renderSmartCalendar();
+        closeEventModal();
+    }
+
+    // CLOUD SYNC & CONFIG MODAL
+    function openConfigUrlModal() {
+        document.getElementById('cfg-script-url').value = GOOGLE_SCRIPT_API_URL;
+        document.getElementById('cfg-sheet-url').value = GOOGLE_SHEET_VIEW_URL;
+        document.getElementById('configUrlModal').style.display = 'flex';
+    }
+
+    function closeConfigUrlModal() {
+        document.getElementById('configUrlModal').style.display = 'none';
+    }
+
+    function saveConfigUrls() {
+        GOOGLE_SCRIPT_API_URL = document.getElementById('cfg-script-url').value.trim() || HARDCODED_SCRIPT_API;
+        GOOGLE_SHEET_VIEW_URL = document.getElementById('cfg-sheet-url').value.trim() || DEFAULT_GOOGLE_SHEET_URL;
+        localStorage.setItem('sys_cfg_script_url', GOOGLE_SCRIPT_API_URL);
+        localStorage.setItem('sys_cfg_sheet_url', GOOGLE_SHEET_VIEW_URL);
+        closeConfigUrlModal();
+        alert("💾 Đã lưu cấu hình thành công!");
+    }
+
+    function updateGlobalDashboardSummary() {
+        let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
+        document.getElementById('dash-total-it').innerText = records.length;
+    }
+
+    async function syncDataToCloudServer() {
+        let notifyBox = document.getElementById('syncNotifyBox');
+        notifyBox.style.display = "block";
+        notifyBox.style.background = "#eff6ff";
+        notifyBox.style.color = "#1d4ed8";
+        notifyBox.innerText = "⏳ Đang đồng bộ dữ liệu lên Google Cloud Server...";
+
+        let payload = {
+            action: "sync_all_data",
+            year: CURRENT_SELECTED_YEAR,
+            salaryConfigs: salaryConfigsByMonth,
+            salaryData: salaryDataByMonth,
+            leaveData: leaveDataByYear,
+            paymentRecords: paymentRecordsByMonth,
+            telecomRecords: telecomRecordsByMonth,
+            itAssets: itAssetRecordsByYear,
+            dayEvents: dayEventsMap
+        };
+
+        try {
+            const response = await fetch(GOOGLE_SCRIPT_API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify(payload)
+            });
+            const resJson = await response.json();
+            if(resJson.status === "success") {
+                notifyBox.style.background = "#f0fdf4";
+                notifyBox.style.color = "#166534";
+                notifyBox.innerText = "✅ Đồng bộ Mây thành công (Auto-Sync Active)!";
+                setTimeout(() => { notifyBox.style.display = "none"; }, 4000);
+            } else {
+                throw new Error(resJson.message || "Lỗi đồng bộ");
+            }
+        } catch (err) {
+            notifyBox.style.background = "#fef2f2";
+            notifyBox.style.color = "#991b1b";
+            notifyBox.innerText = "⚠️ Lưu cục bộ an toàn. (Kết nối Cloud: " + err.message + ")";
+        }
+    }
+
+    async function loadDataFromCloudServer() {
+        let notifyBox = document.getElementById('syncNotifyBox');
+        notifyBox.style.display = "block";
+        notifyBox.style.background = "#eff6ff";
+        notifyBox.style.color = "#1d4ed8";
+        notifyBox.innerText = "⏳ Đang tải dữ liệu từ Google Cloud Server...";
+
+        try {
             const response = await fetch(`${GOOGLE_SCRIPT_API_URL}?action=get_all_data`);
             const resJson = await response.json();
             if(resJson && resJson.status === "success" && resJson.data) {
                 let d = resJson.data;
-                if(d.salaryConfigs) { salaryConfigsByMonth = d.salaryConfigs; localStorage.setItem('sys_salary_configs_by_month', JSON.stringify(salaryConfigsByMonth)); }
-                if(d.salaryData) { salaryDataByMonth = d.salaryData; localStorage.setItem('sys_salary_by_month', JSON.stringify(salaryDataByMonth)); }
-                if(d.leaveData) { leaveDataByYear = d.leaveData; localStorage.setItem('sys_leave_data_by_year', JSON.stringify(leaveDataByYear)); }
-                if(d.paymentRecords) { paymentRecordsByMonth = d.paymentRecords; localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth)); }
-                if(d.telecomRecords) { telecomRecordsByMonth = d.telecomRecords; localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth)); }
                 if(d.itAssets) { itAssetRecordsByYear = d.itAssets; localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear)); }
+                if(d.dayEvents) { dayEventsMap = d.dayEvents; localStorage.setItem('sys_day_events_map', JSON.stringify(dayEventsMap)); }
 
-                handleMonthChangeSelect();
-                renderPaymentTable();
-                renderTelecomTable();
                 renderItAssetTable();
-                renderLeaveTable();
+                renderSmartCalendar();
                 updateGlobalDashboardSummary();
 
                 notifyBox.style.background = "#f0fdf4";
@@ -336,43 +848,70 @@
             } else {
                 throw new Error("Không có dữ liệu trả về");
             }
-          } catch (err) {
-              notifyBox.style.background = "#fef2f2";
-              notifyBox.style.color = "#991b1b";
-              notifyBox.innerText = "⚠️ Không thể tải từ Mây: " + err.message;
-          }
+        } catch (err) {
+            notifyBox.style.background = "#fef2f2";
+            notifyBox.style.color = "#991b1b";
+            notifyBox.innerText = "⚠️ Không thể tải từ Mây: " + err.message;
+        }
+    }
+
+    function triggerAutoSync() {
+        if(autoSyncTimer) clearTimeout(autoSyncTimer);
+        autoSyncTimer = setTimeout(() => {
+            syncDataToCloudServer();
+        }, 3000);
+    }
+
+    // KHỞI TẠO BAN ĐẦU
+    window.onload = function() {
+        setInterval(updateLiveClock, 1000);
+        updateLiveClock();
+
+        // Khởi tạo dữ liệu mẫu nếu kho rỗng
+        if (!itAssetRecordsByYear["2026"] || itAssetRecordsByYear["2026"].length === 0) {
+            itAssetRecordsByYear["2026"] = [
+                { 
+                    user: "Nguyễn Văn An", 
+                    dept: "Phòng Kỹ thuật - Công nghệ", 
+                    type: "Laptop Doanh Nghiệp", 
+                    code: "IT-DEV-2026-001", 
+                    os: "Windows 11 (Pro/Home/Enterprise)", 
+                    osLic: "Đã kích hoạt bản quyền OEM", 
+                    office: "Microsoft 365 (M365) Business Standard", 
+                    officeLic: "Đã kích hoạt bản quyền OEM", 
+                    software: "AutoCAD 2025", 
+                    asia: "Đã có bản quyền", 
+                    quasoft: "Đã có bản quyền", 
+                    cloudoffice: "Đã có bản quyền", 
+                    specs: "Dell Latitude, Core i5, 16GB RAM", 
+                    dateVal: "2026-01-15", 
+                    status: "Tốt - Đang sử dụng" 
+                },
+                { 
+                    user: "Trần Thị Bình", 
+                    dept: "Phòng Tài chính - Kế toán", 
+                    type: "Máy tính để bàn (PC)", 
+                    code: "IT-DEV-2026-002", 
+                    os: "Windows 10", 
+                    osLic: "Đã kích hoạt bản quyền OEM", 
+                    office: "Office 2021 (Pro Plus / Home & Bus)", 
+                    officeLic: "Đã kích hoạt bản quyền OEM", 
+                    software: "🚫 Không có", 
+                    asia: "Đã có bản quyền", 
+                    quasoft: "Đã có bản quyền", 
+                    cloudoffice: "Đã có bản quyền", 
+                    specs: "HP ProDesk, Core i7, 8GB RAM", 
+                    dateVal: "2026-02-10", 
+                    status: "Tốt - Đang sử dụng" 
+                }
+            ];
+            localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
         }
 
-        function triggerAutoSync() {
-            if(autoSyncTimer) clearTimeout(autoSyncTimer);
-            autoSyncTimer = setTimeout(() => {
-                syncDataToCloudServer();
-            }, 3000); // Tự động đồng bộ sau 3 giây không thao tác
-        }
-
-        // KHỞI TẠO HỆ THỐNG KHI LOAD TRANG
-        window.onload = function() {
-            setInterval(updateLiveClock, 1000);
-            updateLiveClock();
-
-            // Khởi tạo dữ liệu mẫu kho CNTT nếu trống
-            if (!itAssetRecordsByYear["2025"] || itAssetRecordsByYear["2025"].length === 0) {
-                itAssetRecordsByYear["2025"] = [
-                    { user: "Nguyễn Văn An", dept: "Phòng Kỹ thuật - Công nghệ", type: "Laptop Doanh Nghiệp", code: "IT-LAP-2025-101", os: "Windows 11 (Pro/Home/Enterprise)", osLic: "Đã kích hoạt bản quyền OEM", office: "Microsoft 365 (M365) Business Standard", officeLic: "Đã kích hoạt bản quyền OEM", software: "AutoCAD 2025", asia: "Đã có bản quyền", quasoft: "Đã có bản quyền", cloudoffice: "Đã có bản quyền", specs: "Dell Latitude, Core i5, 16GB RAM", dateVal: "2025-01-15", status: "Tốt - Đang sử dụng" },
-                    { user: "Trần Thị Bình", dept: "Phòng Tài chính - Kế toán", type: "Máy tính để bàn (PC)", code: "IT-PC-2025-102", os: "Windows 10", osLic: "Đã kích hoạt bản quyền OEM", office: "Office 2021 (Pro Plus / Home & Bus)", officeLic: "Đã kích hoạt bản quyền OEM", software: "🚫 Không có", asia: "Đã có bản quyền", quasoft: "Đã có bản quyền", cloudoffice: "Đã có bản quyền", specs: "HP ProDesk, Core i7, 8GB RAM", dateVal: "2025-02-10", status: "Tốt - Đang sử dụng" }
-                ];
-                localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
-            }
-
-            handleMonthChangeSelect();
-            renderPaymentTable();
-            renderTelecomTable();
-            renderItAssetTable();
-            renderLeaveTable();
-            updateGlobalDashboardSummary();
-            renderSmartCalendar();
-            generateNewItCode();
-        };
-    </script>
+        renderItAssetTable();
+        renderSmartCalendar();
+        updateGlobalDashboardSummary();
+    };
+</script>
 </body>
 </html>
