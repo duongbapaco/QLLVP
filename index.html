@@ -1371,9 +1371,15 @@
         let itAssetRecordsByYear = JSON.parse(localStorage.getItem('sys_it_asset_records_by_year')) || {};
         let dayEventsMap = JSON.parse(localStorage.getItem('sys_day_events_map')) || {};
 
-        let todaySystemDate = new Date();
-        let calViewDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), 1);
-        let calSelectedDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), todaySystemDate.getDate());
+        // Khởi tạo thời gian chuẩn tuyệt đối theo múi giờ Việt Nam (UTC+7) để chống lệch ngày/tháng Âm lịch khi F5
+        let realNow = new Date();
+        let localTime = realNow.getTime();
+        let localOffset = realNow.getTimezoneOffset() * 60000;
+        let utcTime = localTime + localOffset;
+        let vietnamTime = new Date(utcTime + (3600000 * 7));
+
+        let calViewDate = new Date(vietnamTime.getFullYear(), vietnamTime.getMonth(), 1);
+        let calSelectedDate = new Date(vietnamTime.getFullYear(), vietnamTime.getMonth(), vietnamTime.getDate());
 
         let activePickerId = null;
         let pickerCurrentDate = new Date();
@@ -2143,7 +2149,6 @@
 
         function updateLeaveRequestInfo() {
             let staffName = document.getElementById('leave-req-staff').value;
-            let sm = document.getElementById('filter-month').value;
             let currentYearMonths = Object.keys(salaryDataByMonth || {}).filter(m => m.startsWith(CURRENT_SELECTED_YEAR));
             let totalUsed = 0;
             currentYearMonths.forEach(m => {
@@ -3271,9 +3276,14 @@
         }
 
         function resetCalendarToToday() {
-            todaySystemDate = new Date();
-            calViewDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), 1);
-            calSelectedDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), todaySystemDate.getDate());
+            let rNow = new Date();
+            let lTime = rNow.getTime();
+            let lOffset = rNow.getTimezoneOffset() * 60000;
+            let uTime = lTime + lOffset;
+            let vnTime = new Date(uTime + (3600000 * 7));
+
+            calViewDate = new Date(vnTime.getFullYear(), vnTime.getMonth(), 1);
+            calSelectedDate = new Date(vnTime.getFullYear(), vnTime.getMonth(), vnTime.getDate());
             renderCalendarWidget();
         }
 
@@ -3472,12 +3482,17 @@
         }
 
         window.onload = async function() {
-            let realNow = new Date();
-            calViewDate = new Date(realNow.getFullYear(), realNow.getMonth(), 1);
-            calSelectedDate = new Date(realNow.getFullYear(), realNow.getMonth(), realNow.getDate());
+            let rNow = new Date();
+            let lTime = rNow.getTime();
+            let lOffset = rNow.getTimezoneOffset() * 60000;
+            let uTime = lTime + lOffset;
+            let vietnamTime = new Date(uTime + (3600000 * 7));
 
-            let mStr = String(realNow.getMonth() + 1).padStart(2, '0');
-            let yStr = realNow.getFullYear();
+            calViewDate = new Date(vietnamTime.getFullYear(), vietnamTime.getMonth(), 1);
+            calSelectedDate = new Date(vietnamTime.getFullYear(), vietnamTime.getMonth(), vietnamTime.getDate());
+
+            let mStr = String(vietnamTime.getMonth() + 1).padStart(2, '0');
+            let yStr = vietnamTime.getFullYear();
             CURRENT_SELECTED_YEAR = String(yStr);
             document.getElementById('global-year-picker').value = CURRENT_SELECTED_YEAR;
             document.querySelectorAll('.lbl-current-year').forEach(el => el.innerText = CURRENT_SELECTED_YEAR);
