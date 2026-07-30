@@ -1245,7 +1245,6 @@
         let barChartInstance = null;
         let pieChartInstance = null;
 
-        // KHO CA DAO, TỤC NGỮ, THÀNH NGỮ VIỆT NAM PHONG PHÚ (HƠN 100 CÂU CHỌN LỌC)[cite: 3]
         const dailyProverbsList = [
             "Uống nước nhớ nguồn, ăn quả nhớ kẻ trồng cây.",
             "Có công mài sắt, có ngày nên kim.",
@@ -3055,7 +3054,7 @@
             saveAs(blob, `BaoCao_KiemKe_KhoThietBi_${CURRENT_SELECTED_YEAR}.doc`);
         }
 
-        /* --- THUẬT TOÁN ĐỔI LỊCH ÂM DƯƠNG CHUẨN XÁC ĐÃ FIX KỲ THÁNG 6 NĂM 2026 --- */
+        /* --- THUẬT TOÁN ĐỔI LỊCH ÂM DƯƠNG CHUẨN XÁC --- */
         const TIMEZONE = 7.0;
 
         function jdn(dd, mm, yy) {
@@ -3422,6 +3421,18 @@
         }
 
         window.onload = function() {
+            // TỰ ĐỘNG KHỞI TẠO ĐÚNG THỜI GIAN THỰC (THÁNG 07/2026)
+            let realNow = new Date();
+            calViewDate = new Date(realNow.getFullYear(), realNow.getMonth(), 1);
+            calSelectedDate = new Date(realNow.getFullYear(), realNow.getMonth(), realNow.getDate());
+
+            let mStr = String(realNow.getMonth() + 1).padStart(2, '0');
+            let yStr = realNow.getFullYear();
+            CURRENT_SELECTED_YEAR = String(yStr);
+            document.getElementById('global-year-picker').value = CURRENT_SELECTED_YEAR;
+            document.querySelectorAll('.lbl-current-year').forEach(el => el.innerText = CURRENT_SELECTED_YEAR);
+            document.getElementById('filter-month').value = `${yStr}-${mStr}`;
+
             setInterval(() => {
                 let now = new Date();
                 let timeStr = now.toLocaleTimeString('vi-VN');
