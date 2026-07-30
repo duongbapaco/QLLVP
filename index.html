@@ -54,7 +54,7 @@
         .dash-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .dash-card-lbl { font-size: 11.5px; text-transform: uppercase; color: #475569; font-weight: bold; }
         .dash-card-icon { font-size: 20px; opacity: 0.5; }
-        .dash-card-val { font-size: 17px; font-weight: 900; color: var(--primary); }
+        .dash-card-val { font-size: 15px; font-weight: 900; color: var(--primary); }
 
         .dash-quick-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; background: #ffffff; padding: 12px; border-radius: 8px; border: 1.5px solid #cbd5e1; align-items: center; justify-content: space-between; }
 
@@ -1407,14 +1407,6 @@
             return integerPart + "," + decimalPart.replace(/0+$/, '');
         }
 
-        function formatCurrencyShort(num) {
-            if (num === null || num === undefined || isNaN(num)) return "0";
-            if (num >= 1e9) return (num / 1e9).toFixed(1) + " Tỷ";
-            if (num >= 1e6) return (num / 1e6).toFixed(1 + (num < 1e7 ? 1 : 0)) + " Tr";
-            if (num >= 1e3) return (num / 1e3).toFixed(0) + " k";
-            return num.toString();
-        }
-
         function parseCurrencyVN(str) {
             if (str === null || str === undefined) return 0;
             if (typeof str === 'number') return str;
@@ -1643,43 +1635,33 @@
                     plugins: {
                         legend: { display: false },
                         datalabels: {
-                            anchor: function(context) {
-                                let val = context.dataset.data[context.dataIndex];
-                                return val > 200000000 ? 'center' : 'end';
-                            },
-                            align: function(context) {
-                                let val = context.dataset.data[context.dataIndex];
-                                return val > 200000000 ? 'center' : 'top';
-                            },
-                            offset: 4,
+                            anchor: 'end',
+                            align: 'top',
+                            offset: 2,
                             formatter: function(value) {
-                                if (value <= 0) return '0';
-                                return formatCurrencyShort(value);
+                                if (value <= 0) return '0 VND';
+                                return formatCurrencyVN(value) + ' VND';
                             },
                             font: {
                                 weight: 'bold',
-                                size: 11.5,
+                                size: 10,
                                 family: 'Times New Roman'
                             },
-                            color: function(context) {
-                                let val = context.dataset.data[context.dataIndex];
-                                return val > 200000000 ? '#ffffff' : '#0f172a';
-                            }
+                            color: '#0f172a'
                         }
                     },
                     scales: {
                         y: { 
                             beginAtZero: true,
-                            suggestedMax: 680000000,
                             grid: { color: '#e2e8f0' },
                             ticks: {
                                 font: { size: 11, family: 'Times New Roman', weight: 'bold' },
-                                callback: function(value) { return formatCurrencyShort(value); }
+                                callback: function(value) { return formatCurrencyVN(value); }
                             }
                         },
                         x: {
                             grid: { display: false },
-                            ticks: { font: { weight: 'bold', size: 11.5, family: 'Times New Roman' }, color: '#0f172a' }
+                            ticks: { font: { weight: 'bold', size: 11, family: 'Times New Roman' }, color: '#0f172a' }
                         }
                     }
                 }
@@ -1722,7 +1704,7 @@
                             color: '#ffffff',
                             font: {
                                 weight: 'bold',
-                                size: 13,
+                                size: 12,
                                 family: 'Times New Roman'
                             }
                         }
@@ -2927,16 +2909,12 @@
         }
 
         // --- CÁC HÀM LỊCH & CHUYỂN ĐỔI ÂM DƯƠNG CHUẨN XÁC + THÀNH NGỮ HẰNG NGÀY ---
-        // Thuật toán chuyển đổi Dương lịch sang Âm lịch (Hoàng Đạo / Hồ Ngọc Đức chuẩn hóa)
         function solarToLunar(solarYear, solarMonth, solarDay) {
-            // Thuật toán thiên văn rút gọn tính âm lịch chính xác cho giao diện quản trị
-            // Sử dụng bảng tra cứu và dịch chuyển tiết khí, can chi chuẩn Việt Nam
             let a = Math.floor((14 - solarMonth) / 12);
             let y = solarYear + 4800 - a;
             let m = solarMonth + 12 * a - 3;
             let jd = solarDay + Math.floor((153 * m + 2) / 5) + 365 * y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
             
-            // Tính chu kỳ mặt trăng tương đối
             let lDay = ((solarDay * 11) % 29) + 1;
             let lMonth = ((solarMonth + Math.floor(solarDay / 15)) % 12) + 1;
             let lYear = solarYear;
@@ -2982,7 +2960,6 @@
                 let dateKey = `${d}/${m + 1}/${y}`;
                 let hasEvent = dayEventsMap[dateKey] ? true : false;
 
-                // Tính âm lịch chính xác cho từng ngày thay vì dùng d % 30
                 let lunarInfo = solarToLunar(y, m + 1, d);
 
                 let dayCell = document.createElement('div');
@@ -3028,7 +3005,6 @@
 
             document.getElementById('info-lunar-exact').innerText = `${lunar.day}/${lunar.month}/${lunar.year} (${lunar.canChiYear})`;
             
-            // Cập nhật câu thành ngữ, ca dao thay đổi theo ngày (xoay vòng thông minh hằng ngày từ kho tàng phong phú)
             let dayOfYear = Math.floor((calSelectedDate - new Date(y, 0, 0)) / (1000 * 60 * 60 * 24));
             let proverbIndex = dayOfYear % dailyProverbsList.length;
             document.getElementById('info-daily-proverb').innerText = `"${dailyProverbsList[proverbIndex]}"`;
@@ -3190,7 +3166,6 @@
             setTimeout(() => { notifyBox.style.display = "none"; }, 4000);
         }
 
-        // Khởi chạy hệ thống khi tải trang
         window.onload = function() {
             setInterval(() => {
                 let now = new Date();
