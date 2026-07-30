@@ -42,9 +42,7 @@
         .header h1 { font-size: 14px; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; }
         .live-clock-box { background: rgba(255,255,255,0.15); padding: 5px 10px; border-radius: 4px; font-family: monospace; font-size: 12px; text-align: right; border: 1px solid rgba(255,255,255,0.3); font-weight: bold; color: #fef08a; }
 
-        .dash-overview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px; }
-        @media (max-width: 1024px) { .dash-overview-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 600px) { .dash-overview-grid { grid-template-columns: 1fr; } }
+        .dash-overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-bottom: 12px; }
 
         .dash-card-pro { background: white; padding: 14px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.08); border: 1.5px solid #cbd5f1; border-left: 6px solid var(--blue); display: flex; flex-direction: column; justify-content: space-between; }
         .dash-card-pro.green { border-left-color: var(--green); }
@@ -54,7 +52,7 @@
         .dash-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .dash-card-lbl { font-size: 11.5px; text-transform: uppercase; color: #475569; font-weight: bold; }
         .dash-card-icon { font-size: 20px; opacity: 0.5; }
-        .dash-card-val { font-size: 15px; font-weight: 900; color: var(--primary); }
+        .dash-card-val { font-size: 14px; font-weight: 900; color: var(--primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         .dash-quick-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; background: #ffffff; padding: 12px; border-radius: 8px; border: 1.5px solid #cbd5e1; align-items: center; justify-content: space-between; }
 
@@ -2511,26 +2509,10 @@
             updateLiveQRPreview();
         }
 
-        function removeVietnameseAccents(str) {
-            if (!str) return "";
-            return str.normalize('NFD')
-                      .replace(/[\u0300-\u036f]/g, '')
-                      .replace(/đ/g, 'd').replace(/Đ/g, 'D');
-        }
-
         function getStructuredQrText(code, type, user, dept, os, office, software, asia, quasoft, cloudoffice) {
             let cleanCode = code || `IT-TS-${CURRENT_SELECTED_YEAR}`;
-            let cleanType = removeVietnameseAccents(type || "Thiet bi");
-            let cleanUser = removeVietnameseAccents(user || "Chua ro");
-            let cleanDept = removeVietnameseAccents(dept || "Chua ro");
-            let cleanOs = removeVietnameseAccents(os || "Win");
-            let cleanOffice = removeVietnameseAccents(office || "Office");
-            let cleanSoftware = removeVietnameseAccents(software || "Khong");
-            let cleanAsia = removeVietnameseAccents(asia || "Khong");
-            let cleanQuasoft = removeVietnameseAccents(quasoft || "Khong");
-            let cleanCloud = removeVietnameseAccents(cloudoffice || "Co");
-            
-            return `TỔNG CÔNG TY GIẤY VIỆT NAM - KHO THIẾT BỊ\n[Ma TS]: ${cleanCode}\n[Loai]: ${cleanType}\n[Nguoi su dung]: ${cleanUser}\n[Phong ban]: ${cleanDept}\n[HDH]: ${cleanOs}\n[Office]: ${cleanOffice}\n[CAD/Do hoạ]: ${cleanSoftware}\n[ASIA]: ${cleanAsia}\n[Quasoft]: ${cleanQuasoft}\n[Cloudoffice]: ${cleanCloud}`;
+            let baseAppUrl = GOOGLE_SCRIPT_API_URL.split('/exec')[0] + '/exec';
+            return `${baseAppUrl}?action=view_asset&code=${encodeURIComponent(cleanCode)}&year=${CURRENT_SELECTED_YEAR}`;
         }
 
         function updateLiveQRPreview() {
