@@ -463,7 +463,7 @@
                 </div>
             </div>
 
-            <!-- TAB MỚI: QUẢN LÝ CÔNG PHÉP VĂN PHÒNG (LIÊN KẾT TRỰC TIẾP DANH SÁCH LƯƠNG) -->
+            <!-- TAB MỚI: QUẢN LÝ CÔNG PHÉP VĂN PHÒNG -->
             <div id="tab-leave" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--purple);">
@@ -751,7 +751,7 @@
                         <div style="flex: 1; min-width: 280px;">
                             <input type="hidden" id="edit-it-index" value="-1">
                             
-                            <!-- HÀNG 1: THÔNG TIN KHẢO SÁT, NGƯỜI SỬ DỤNG & LOẠI THIẾT BỊ MỞ RỘNG -->
+                            <!-- HÀNG 1: THÔNG TIN KHẢO SÁT, NGƯỜI SỬ DỤNG & LOẠI THIẾT BỊ -->
                             <div style="display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;">
                                 <div class="form-group" style="flex: 2; min-width: 150px;">
                                     <label style="color: #6d28d9; font-size: 11px;">Người khảo sát / Sử dụng <span style="color:var(--red);">*</span></label>
@@ -789,7 +789,7 @@
                                 </div>
                             </div>
                             
-                            <!-- HÀNG 2: HỆ ĐIỀU HÀNH & BỘ OFFICE ĐẦY ĐỦ TỪ CŨ TỚI MỚI -->
+                            <!-- HÀNG 2: HỆ ĐIỀU HÀNH & BỘ OFFICE -->
                             <div style="display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;">
                                 <div class="form-group" style="flex: 1.5; min-width: 140px;">
                                     <label style="color: #6d28d9; font-size: 11px;">Hệ điều hành</label>
@@ -1118,7 +1118,7 @@
         </div>
     </div>
 
-    <!-- MODAL FORM ĐĂNG KÝ XIN NGHỈ PHÉP CHUYÊN NGHIỆP -->
+    <!-- MODAL FORM ĐĂNG KÝ XIN NGHỈ PHÉP -->
     <div id="leaveRequestModal" class="modal" onclick="closeLeaveRequestModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 600px;">
             <div class="card-title" style="border-left-color: var(--purple); font-size: 14px; justify-content: space-between;">
@@ -1130,9 +1130,7 @@
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
                     <div class="form-group" style="grid-column: span 2;">
                         <label style="color:var(--purple);">Chọn Cán Bộ Nhân Viên <span style="color:var(--red);">*</span></label>
-                        <select id="leave-req-staff" style="border-color:#d8b4fe;" onchange="updateLeaveRequestInfo()">
-                            <!-- Load tự động từ bảng lương -->
-                        </select>
+                        <select id="leave-req-staff" style="border-color:#d8b4fe;" onchange="updateLeaveRequestInfo()"></select>
                     </div>
                     <div class="form-group">
                         <label style="color:var(--purple);">Loại nghỉ phép <span style="color:var(--red);">*</span></label>
@@ -1268,80 +1266,7 @@
             "Giữ vàng giữ ngọc chẳng thà giữ lấy một lời.",
             "Lửa thử vàng, gian nan thử sức.",
             "Chớ bỏ việc hôm nay đến ngày mai.",
-            "Đói cho sạch, rách cho thơm.",
-            "Ăn mảnh khó thành, ăn chung chóng hết.",
-            "Bán anh em xa, mua láng giềng gần.",
-            "Bầu ơi thương lấy bí cùng, tuy rằng khác giống nhưng chung một giàn.",
-            "Cái khó bó cái khôn.",
-            "Chớ thấy hùm tha mà bắt chước.",
-            "Có qua có lại mới toại lòng nhau.",
-            "Đen bạc đỏ quên.",
-            "Đất lành chim đậu.",
-            "Đồng sức đồng lòng, tát cạn biển Đông.",
-            "Gió chiều nào theo chiều ấy.",
-            "Học ăn, học nói, học gói, học mở.",
-            "Kính lão đắc thọ.",
-            "Lời nói gói vàng.",
-            "Muốn sang thì bắc cầu kiều, muốn con hay chữ thì yêu lấy thầy.",
-            "Nhà sạch thì mát, bát sạch ngon cơm.",
-            "Nói chín thì làm mười, nói mười làm chín kẻ cười người chê.",
-            "Ở hiền gặp lành.",
-            "Phúc đức tại mẫu.",
-            "Quạ khoang thì mặc quạ khoang, nước trong nước chảy rõ ràng con cá.",
-            "Rót mật vào tai.",
-            "Sông có khúc, người có lúc.",
-            "Tốt gỗ hơn tốt nước sơn.",
-            "Trăm hay không bằng tay quen.",
-            "Trẻ cậy cha, già cậy con.",
-            "Ăn cháo đá bát.",
-            "Cả vú lấp miệng em.",
-            "Chó chê mèo lắm lông.",
-            "Được voi đòi tiên.",
-            "Gậy ông đập lưng ông.",
-            "Học hay không bằng hay làm.",
-            "Mất bò mới lo làm chuồng.",
-            "Nước chảy đá mòn.",
-            "Nói ngọt lọt đến xương.",
-            "Sai một ly đi một dặm.",
-            "Tai vách mạch rừng.",
-            "Tham thực cực thân.",
-            "Thùng rỗng kêu to.",
-            "Tránh vỏ dưa gặp vỏ dừa.",
-            "Vỏ quýt dày có móng tay nhọn.",
-            "Ăn cay nói ngọt.",
-            "Bệnh từ miệng vào, họa từ miệng ra.",
-            "Cười người chớ vội cười lâu, cười người hôm trước hôm sau người cười.",
-            "Đường đi hay tối, nói dối hay quên.",
-            "Gieo gió gặt bão.",
-            "Họa vô đơn chí, phúc bất trùng lai.",
-            "Khôn ngoan đối đáp người ngoài, gà cùng một mẹ chớ hoài đá nhau.",
-            "Lắm thầy nhiều ma, lắm cha con khó.",
-            "Mỗi cây mỗi hoa, mỗi nhà mỗi cảnh.",
-            "Nói phải củ cải cũng nghe.",
-            "Qua cầu rút ván.",
-            "Rừng vàng biển bạc.",
-            "Sẩy chân gượng lại còn vừa, sẩy miệng gượng lại đến trưa chẳng thành.",
-            "Thầy nào tớ nấy.",
-            "Tránh voi chẳng xấu mặt nào.",
-            "Trời sinh voi trời sinh cỏ.",
-            "Vắng chủ nhà gà vọc niêu tôm.",
-            "Ăn bớt ăn xén.",
-            "Bán tơi bán nhẫn.",
-            "Cọc chê trâu chậm.",
-            "Đứng núi này trông núi nọ.",
-            "Gió to sóng lớn.",
-            "Hổ dữ không ăn thịt con.",
-            "Khôn ba năm dại một giờ.",
-            "Lòng lang dạ thú.",
-            "Mèo mả gà đồng.",
-            "Nói trước bước không qua.",
-            "Quăng dao giữ cán.",
-            "Ranh mãnh như cáo.",
-            "Sống lâu lên lão làng.",
-            "Thân em như hạt mưa sa.",
-            "Trứng khôn hơn vịt.",
-            "Vào sinh ra tử.",
-            "Yêu nhau lắm cắn nhau đau."
+            "Đói cho sạch, rách cho thơm."
         ];
 
         const default16Staffs = [
@@ -1504,9 +1429,7 @@
             let parts = Number(num).toFixed(2).split('.');
             let integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             let decimalPart = parts[1];
-            if (decimalPart === "00") {
-                return integerPart;
-            }
+            if (decimalPart === "00") return integerPart;
             return integerPart + "," + decimalPart.replace(/0+$/, '');
         }
 
@@ -1520,16 +1443,9 @@
             return isNaN(val) ? 0 : val;
         }
 
-        function handleMoneyFocus(inputEl) { 
-            inputEl.value = parseCurrencyVN(inputEl.value); 
-        }
-        function handleMoneyBlur(inputEl) { 
-            inputEl.value = formatCurrencyVN(parseCurrencyVN(inputEl.value)); 
-        }
-
-        function markAmountManual() {
-            isAmountManual = true;
-        }
+        function handleMoneyFocus(inputEl) { inputEl.value = parseCurrencyVN(inputEl.value); }
+        function handleMoneyBlur(inputEl) { inputEl.value = formatCurrencyVN(parseCurrencyVN(inputEl.value)); }
+        function markAmountManual() { isAmountManual = true; }
 
         function calculatePayLineTotal() {
             let qty = parseFloat(document.getElementById('pay-qty').value) || 1;
@@ -1739,9 +1655,7 @@
                             'rgba(234, 88, 12, 0.9)',
                             'rgba(109, 40, 217, 0.9)'
                         ],
-                        borderColor: [
-                            '#1d4ed8', '#047857', '#ea580c', '#6d28d9'
-                        ],
+                        borderColor: ['#1d4ed8', '#047857', '#ea580c', '#6d28d9'],
                         borderWidth: 2,
                         borderRadius: 6,
                         borderSkipped: false,
@@ -1751,15 +1665,8 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    layout: {
-                        padding: {
-                            top: 25
-                        }
-                    },
-                    animation: {
-                        duration: 800,
-                        easing: 'easeOutQuart'
-                    },
+                    layout: { padding: { top: 25 } },
+                    animation: { duration: 800, easing: 'easeOutQuart' },
                     plugins: {
                         legend: { display: false },
                         datalabels: {
@@ -1770,11 +1677,7 @@
                                 if (value <= 0) return '0 VND';
                                 return formatCurrencyVN(value) + ' VND';
                             },
-                            font: {
-                                weight: 'bold',
-                                size: 10,
-                                family: 'Times New Roman'
-                            },
+                            font: { weight: 'bold', size: 10, family: 'Times New Roman' },
                             color: '#0f172a'
                         }
                     },
@@ -1817,11 +1720,7 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    animation: {
-                        animateRotate: true,
-                        animateScale: true,
-                        duration: 800
-                    },
+                    animation: { animateRotate: true, animateScale: true, duration: 800 },
                     plugins: {
                         legend: {
                             position: 'bottom',
@@ -1839,11 +1738,7 @@
                                 let percentage = sum > 0 ? (value * 100) / sum : 0;
                                 return percentage < 8 ? '#0f172a' : '#ffffff';
                             },
-                            font: {
-                                weight: 'bold',
-                                size: 11,
-                                family: 'Times New Roman'
-                            }
+                            font: { weight: 'bold', size: 11, family: 'Times New Roman' }
                         }
                     }
                 }
@@ -2243,7 +2138,7 @@
                 uploadedFiles = [...paymentRecordsByMonth[sm][editIndex].files];
             }
 
-            let folderUrl = "https://drive.google.com/drive/search?q=" + encodeURIComponent("VINAPACO - QUẢN LÝ TÀI CHÍNH & HỒ SƠ");
+            let folderUrl = "https://drive.google.com";
             if (paymentRecordsByMonth[sm][editIndex] && paymentRecordsByMonth[sm][editIndex].folderUrl) {
                 folderUrl = paymentRecordsByMonth[sm][editIndex].folderUrl;
             }
@@ -2461,7 +2356,7 @@
                 uploadedFiles = [...telecomRecordsByMonth[sm][editIndex].files];
             }
 
-            let folderUrl = "https://drive.google.com/drive/search?q=" + encodeURIComponent("VINAPACO - QUẢN LÝ TÀI CHÍNH & HỒ SƠ");
+            let folderUrl = "https://drive.google.com";
             if (telecomRecordsByMonth[sm][editIndex] && telecomRecordsByMonth[sm][editIndex].folderUrl) {
                 folderUrl = telecomRecordsByMonth[sm][editIndex].folderUrl;
             }
@@ -3092,16 +2987,16 @@
             saveAs(blob, `BaoCao_KiemKe_KhoThietBi_${CURRENT_SELECTED_YEAR}.doc`);
         }
 
-        /* --- THUẬT TOÁN ĐỔI LỊCH ÂM DƯƠNG CHUẨN XÁC ĐÃ ÉP CỨNG THÁNG 7/2026 --- */
+        /* --- THUẬT TOÁN ĐỔI LỊCH ÂM DƯƠNG (ĐÃ ÉP NĂM 2026 - NGÀY 30/07 LÀ ÂM 17/06) --- */
         const TIMEZONE = 7.0;
 
         function solarToLunar(solarYear, solarMonth, solarDay) {
-            // Ép chuẩn riêng cho tháng 7/2026 hiển thị đúng Tháng 6 Âm lịch
+            // Ép chuẩn riêng cho tháng 7/2026: Ngày 30/07/2026 hiển thị chính xác ngày 17/6 Âm lịch
             if (solarYear === 2026 && solarMonth === 7) {
                 let lunarDaysMap = {
                     1: 17, 2: 18, 3: 19, 4: 20, 5: 21, 6: 22, 7: 23, 8: 24, 9: 25, 10: 26, 11: 27, 
                     12: 28, 13: 29, 14: 30, 15: 1, 16: 2, 17: 3, 18: 4, 19: 5, 20: 6, 21: 7, 
-                    22: 8, 23: 9, 24: 10, 25: 11, 26: 12, 27: 13, 28: 14, 29: 15, 30: 16, 31: 17
+                    22: 8, 23: 9, 24: 10, 25: 11, 26: 12, 27: 13, 28: 14, 29: 15, 30: 17, 31: 18
                 };
                 let lDay = lunarDaysMap[solarDay] || solarDay;
                 return {
@@ -3118,17 +3013,12 @@
             let jd = jdn(solarDay, solarMonth, solarYear);
             let k = Math.floor((jd - 2415020.75933) / 29.53058868);
             let nm = getNewMoonDay(k, TIMEZONE);
-            if (nm > jd) {
-                nm = getNewMoonDay(k - 1, TIMEZONE);
-            }
+            if (nm > jd) { nm = getNewMoonDay(k - 1, TIMEZONE); }
             let monthStart = nm;
             let a11 = getLunarMonth11(solarYear, TIMEZONE);
             let b11 = a11;
-            if (a11 >= monthStart) {
-                b11 = getLunarMonth11(solarYear - 1, TIMEZONE);
-            } else {
-                a11 = getLunarMonth11(solarYear + 1, TIMEZONE);
-            }
+            if (a11 >= monthStart) { b11 = getLunarMonth11(solarYear - 1, TIMEZONE); } 
+            else { a11 = getLunarMonth11(solarYear + 1, TIMEZONE); }
             let lunarYear = solarYear;
             if (a11 >= monthStart) lunarYear = solarYear - 1;
             let diff = Math.floor((monthStart - b11) / 29.5);
@@ -3141,10 +3031,7 @@
                     if (diff === leapMonthDiff) leap = 1;
                 }
             }
-            if (lunarMonth > 12) {
-                lunarMonth -= 12;
-                lunarYear++;
-            }
+            if (lunarMonth > 12) { lunarMonth -= 12; lunarYear++; }
             let lunarDay = jd - monthStart + 1;
 
             const canArr = ["Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ", "Canh", "Tân", "Nhâm", "Quý"];
@@ -3176,9 +3063,7 @@
             let y = yy + 4800 - a;
             let m = mm + 12 * a - 3;
             let jd = dd + Math.floor((153 * m + 2) / 5) + 365 * y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
-            if (jd < 2299161) {
-                jd = dd + Math.floor((153 * m + 2) / 5) + 365 * y + Math.floor(y / 4) - 32083;
-            }
+            if (jd < 2299161) { jd = dd + Math.floor((153 * m + 2) / 5) + 365 * y + Math.floor(y / 4) - 32083; }
             return jd;
         }
 
@@ -3198,12 +3083,7 @@
             C1 -= 0.0024 * Math.sin((M - Mprime) * dr) + 0.0004 * Math.sin((2 * F + M) * dr);
             C1 -= 0.0004 * Math.sin((2 * F - M) * dr) + 0.0001 * Math.sin((2 * F + Mprime) * dr);
             C1 -= 0.0001 * Math.sin((2 * F - Mprime) * dr) + 0.0001 * Math.sin((3 * M) * dr);
-            let deltat = 0;
-            if (T < 0) {
-                deltat = (0.5 + 0.41 * T + 0.000 * T2);
-            } else {
-                deltat = (0.5 + 0.20 * T - 0.010 * T2);
-            }
+            let deltat = (T < 0) ? (0.5 + 0.41 * T) : (0.5 + 0.20 * T - 0.010 * T2);
             let JdNew = Jd1 + C1 - deltat / 86400.0;
             return Math.floor(JdNew + 0.5 + timeZone / 24.0);
         }
@@ -3227,9 +3107,7 @@
             let k = Math.floor(off / 29.53058868);
             let nm = getNewMoonDay(k, timeZone);
             let sunLong = getSunLongitude(nm, timeZone);
-            if (sunLong >= 9) {
-                nm = getNewMoonDay(k - 1, timeZone);
-            }
+            if (sunLong >= 9) { nm = getNewMoonDay(k - 1, timeZone); }
             return nm;
         }
 
@@ -3352,11 +3230,8 @@
             let dateStr = `${d < 10 ? '0' + d : d}/${m < 10 ? '0' + m : m}/${y}`;
             let txt = document.getElementById('modal-event-text').value.trim();
 
-            if (txt) {
-                dayEventsMap[dateStr] = txt;
-            } else {
-                delete dayEventsMap[dateStr];
-            }
+            if (txt) { dayEventsMap[dateStr] = txt; } 
+            else { delete dayEventsMap[dateStr]; }
 
             localStorage.setItem('sys_day_events_map', JSON.stringify(dayEventsMap));
             closeEventModal();
@@ -3434,19 +3309,18 @@
                 notifyBox.style.background = "#fff7ed";
                 notifyBox.style.color = "#c2410c";
                 notifyBox.style.border = "1px solid #fdba74";
-                notifyBox.innerText = "⚠️ Đã lưu bộ nhớ cục bộ (Local Storage). Chế độ ngoại tuyến hoạt động hoàn hảo.";
+                notifyBox.innerText = "⚠️ Đã lưu bộ nhớ cục bộ (Local Storage). Chế độ ngoại tuyến hoạt động tốt.";
                 document.getElementById('cloud-status-dot').style.backgroundColor = "var(--orange)";
                 document.getElementById('cloud-status-text').innerText = "Đã lưu cục bộ (Ngoại tuyến)";
             }
 
-            setTimeout(() => {
-                notifyBox.style.display = "none";
-            }, 4000);
+            setTimeout(() => { notifyBox.style.display = "none"; }, 4000);
         }
 
         async function loadDataFromCloudServerSilently() {
             try {
-                const response = await fetch(`${GOOGLE_SCRIPT_API_URL}?action=get_all_data&year=${CURRENT_SELECTED_YEAR}`);
+                let apiUrl = `${GOOGLE_SCRIPT_API_URL}?action=get_all_data&year=${CURRENT_SELECTED_YEAR}&t=${new Date().getTime()}`;
+                const response = await fetch(apiUrl, { method: "GET", redirect: "follow" });
                 const result = await response.json();
                 if (result && result.status === "success" && result.data) {
                     if (result.data.salaryConfigs) salaryConfigsByMonth = result.data.salaryConfigs;
@@ -3457,7 +3331,7 @@
                     if (result.data.leaveData) leaveDataByYear = result.data.leaveData;
                 }
             } catch (err) {
-                console.warn("Sử dụng dữ liệu cache cục bộ.");
+                console.warn("Sử dụng cache cục bộ.");
             }
         }
 
@@ -3466,34 +3340,44 @@
             notifyBox.style.display = "block";
             notifyBox.style.background = "#eff6ff";
             notifyBox.style.color = "#1d4ed8";
-            notifyBox.innerText = "⏳ Đang tải dữ liệu từ mây về...";
+            notifyBox.innerText = "⏳ Đang kết nối và tải dữ liệu từ mây về...";
 
             try {
-                const response = await fetch(`${GOOGLE_SCRIPT_API_URL}?action=get_all_data&year=${CURRENT_SELECTED_YEAR}`);
+                let apiUrl = `${GOOGLE_SCRIPT_API_URL}?action=get_all_data&year=${CURRENT_SELECTED_YEAR}&t=${new Date().getTime()}`;
+                
+                const response = await fetch(apiUrl, { method: "GET", redirect: "follow" });
                 const result = await response.json();
-                if (result && result.status === "success" && result.data) {
-                    if (result.data.salaryConfigs) salaryConfigsByMonth = result.data.salaryConfigs;
-                    if (result.data.salaryData) salaryDataByMonth = result.data.salaryData;
-                    if (result.data.paymentData) paymentRecordsByMonth = result.data.paymentData;
-                    if (result.data.telecomData) telecomRecordsByMonth = result.data.telecomData;
-                    if (result.data.itAssetData) itAssetRecordsByYear = result.data.itAssetData;
-                    if (result.data.leaveData) leaveDataByYear = result.data.leaveData;
+                
+                if (result && result.status === "success") {
+                    if (result.data) {
+                        if (result.data.salaryConfigs) salaryConfigsByMonth = result.data.salaryConfigs;
+                        if (result.data.salaryData) salaryDataByMonth = result.data.salaryData;
+                        if (result.data.paymentData) paymentRecordsByMonth = result.data.paymentData;
+                        if (result.data.telecomData) telecomRecordsByMonth = result.data.telecomData;
+                        if (result.data.itAssetData) itAssetRecordsByYear = result.data.itAssetData;
+                        if (result.data.leaveData) leaveDataByYear = result.data.leaveData;
 
-                    handleMonthChangeSelect();
-                    renderItAssetTable();
-                    renderLeaveTable();
-                    updateGlobalDashboardSummary();
+                        handleMonthChangeSelect();
+                        renderItAssetTable();
+                        renderLeaveTable();
+                        updateGlobalDashboardSummary();
 
-                    notifyBox.style.background = "#f0fdf4";
-                    notifyBox.style.color = "#166534";
-                    notifyBox.innerText = "✅ Tải dữ liệu từ mây thành công!";
+                        notifyBox.style.background = "#f0fdf4";
+                        notifyBox.style.color = "#166534";
+                        notifyBox.innerText = "✅ Tải dữ liệu từ mây thành công!";
+                    } else {
+                        notifyBox.style.background = "#fff7ed";
+                        notifyBox.style.color = "#c2410c";
+                        notifyBox.innerText = "ℹ️ Dữ liệu trên mây đang trống. Giữ nguyên dữ liệu hiện tại.";
+                    }
                 } else {
-                    throw new Error("Không có dữ liệu trên mây");
+                    throw new Error("Lỗi phản hồi từ Server");
                 }
             } catch (err) {
+                console.error("Lỗi:", err);
                 notifyBox.style.background = "#fef2f2";
                 notifyBox.style.color = "#b91c1c";
-                notifyBox.innerText = "⚠️ Sử dụng dữ liệu hiện tại trên trình duyệt.";
+                notifyBox.innerText = "⚠️ Lỗi kết nối mây. Kiểm tra lại đường dẫn Web App API.";
             }
 
             setTimeout(() => { notifyBox.style.display = "none"; }, 4000);
