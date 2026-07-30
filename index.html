@@ -467,7 +467,7 @@
             <div id="tab-leave" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--purple);">
-                        <span><i class="fa-solid fa-calendar-alt" style="color:var(--purple);"></i> QUẢN LÝ CÔNG PHÉP CỦA VĂN PHÒNG - NĂM <span class="lbl-current-year">2026</span></span>
+                        <span><i class="fa-solid fa-calendar-alt" style="color:var(--purple);"></i> QUẢN LÝ CÔNG PHÉP VĂN PHÒNG (LUẬT LAO ĐỘNG: 12 NGÀY/NĂM) - NĂM <span class="lbl-current-year">2026</span></span>
                         <div style="display: flex; gap: 6px; flex-wrap: wrap;">
                             <button type="button" class="btn btn-purple" style="padding: 5px 10px; font-size: 11.5px;" onclick="openLeaveRequestModal()"><i class="fa-solid fa-file-pen"></i> 📝 Đăng Ký Nghỉ Phép</button>
                             <button type="button" class="btn btn-primary" style="padding: 5px 10px; font-size: 11.5px;" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Thêm NV từ Lương</button>
@@ -475,10 +475,12 @@
                     </div>
                     <div style="background: #faf5ff; border: 1.5px solid #d8b4fe; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
                         <div style="font-weight: bold; color: #6d28d9; font-size: 12.5px; margin-bottom: 6px;">
-                            <i class="fa-solid fa-circle-info"></i> Hướng dẫn quản lý công phép:
+                            <i class="fa-solid fa-circle-info"></i> Nguyên tắc quản lý công phép tự động:
                         </div>
                         <p style="font-size: 12px; color: #475569; line-height: 1.4;">
-                            Danh sách nhân sự dưới đây được đồng bộ tự động theo chính xác danh sách cán bộ ở Bảng Lương. Sử dụng nút <b>"Đăng Ký Nghỉ Phép"</b> để lập phiếu xin nghỉ chuyên nghiệp; hệ thống sẽ tự động trừ phép và đồng bộ ngày nghỉ (P) sang bảng lương tháng tương ứng.
+                            1. Định mức phép năm chuẩn theo Luật Lao động là <b>12 ngày/năm</b>.<br>
+                            2. Số phép đã nghỉ (P) tại các bảng lương trong <b>12 tháng</b> của năm sẽ được tự động tổng hợp và trừ vào quỹ phép.<br>
+                            3. Hệ thống sẽ **tự động cảnh báo** (bằng màu sắc và nhãn chú ý) khi nhân sự sắp hết phép hoặc đã dùng vượt quá định mức cho phép.
                         </p>
                     </div>
                     <div class="table-responsive">
@@ -486,13 +488,14 @@
                             <thead>
                                 <tr style="background-color: #e9d5ff; color:#581c87;">
                                     <th style="width: 40px;">STT</th>
-                                    <th style="min-width: 180px;">HỌ VÀ TÊN (Đồng bộ Bảng Lương)</th>
+                                    <th style="min-width: 180px;">HỌ VÀ TÊN</th>
                                     <th style="min-width: 130px;">Phòng Ban / Bộ Phận</th>
                                     <th style="width: 90px; background:#fef08a;">Phép Tồn Cũ</th>
                                     <th style="width: 90px; background:#bfdbfe;">Phép Năm Mới</th>
-                                    <th style="width: 90px; background:#fed7aa;">Tổng Phép Được Nghỉ</th>
-                                    <th style="width: 90px; background:#fca5a5;">Đã Nghỉ (P)</th>
-                                    <th style="width: 90px; background:#dcfce7; color:#166534;">Còn Lại</th>
+                                    <th style="width: 90px; background:#fed7aa;">Tổng Phép Quỹ</th>
+                                    <th style="width: 110px; background:#fca5a5;">Tổng Đã Nghỉ (12 Tháng) (P)</th>
+                                    <th style="width: 100px; background:#dcfce7; color:#166534;">Còn Lại</th>
+                                    <th style="min-width: 170px;">Cảnh báo trạng thái phép</th>
                                     <th style="min-width: 150px;">Ghi chú / Lý do</th>
                                 </tr>
                             </thead>
@@ -2035,8 +2038,21 @@
         }
 
         function renderLeaveTable() {
-            let sm = document.getElementById('filter-month').value;
-            let currentStaffs = salaryDataByMonth[sm] || default16Staffs;
+            let currentYearMonths = Object.keys(salaryDataByMonth || {}).filter(sm => sm.startsWith(CURRENT_SELECTED_YEAR));
+            let totalLeaveUsedPerStaff = {};
+
+            currentYearMonths.forEach(sm => {
+                let staffList = salaryDataByMonth[sm] || [];
+                staffList.forEach(st => {
+                    let nameKey = st.name;
+                    let pVal = st.P !== undefined ? parseFloat(st.P) : 0;
+                    if (!totalLeaveUsedPerStaff[nameKey]) totalLeaveUsedPerStaff[nameKey] = 0;
+                    totalLeaveUsedPerStaff[nameKey] += pVal;
+                });
+            });
+
+            let currentMonth = document.getElementById('filter-month').value;
+            let currentStaffs = salaryDataByMonth[currentMonth] || default16Staffs;
 
             if (!leaveDataByYear[CURRENT_SELECTED_YEAR]) {
                 leaveDataByYear[CURRENT_SELECTED_YEAR] = {};
@@ -2048,18 +2064,26 @@
 
             currentStaffs.forEach((staff, idx) => {
                 let nameKey = staff.name || `Nhân sự ${idx + 1}`;
+                let totalUsedFromSalary = totalLeaveUsedPerStaff[nameKey] !== undefined ? totalLeaveUsedPerStaff[nameKey] : (staff.P !== undefined ? staff.P : 0);
+
                 if (!yearLeaveMap[nameKey]) {
-                    yearLeaveMap[nameKey] = { ton_cu: 0, nam_moi: 12, da_nghi: staff.P !== undefined ? staff.P : 0, note: "Phép năm" };
-                } else {
-                    yearLeaveMap[nameKey].da_nghi = staff.P !== undefined ? staff.P : yearLeaveMap[nameKey].da_nghi;
+                    yearLeaveMap[nameKey] = { ton_cu: 0, nam_moi: 12, note: "Phép năm chuẩn" };
                 }
 
                 let item = yearLeaveMap[nameKey];
                 let tonCu = parseFloat(item.ton_cu) || 0;
-                let namMoi = parseFloat(item.nam_moi) || 12;
+                let namMoi = parseFloat(item.nam_moi) || 12; 
                 let tongPhep = tonCu + namMoi;
-                let daNghi = parseFloat(item.da_nghi) || 0;
-                let conLai = tongPhep - daNghi;
+                let conLai = tongPhep - totalUsedFromSalary;
+
+                let warningHtml = "";
+                if (conLai < 0) {
+                    warningHtml = `<span style="color:var(--red); font-weight:bold; background:#fee2e2; padding:2px 6px; border-radius:4px; border:1px solid #fca5a5;">⚠️ Đã dùng vượt mức (${Math.abs(conLai)} ngày)</span>`;
+                } else if (conLai <= 2) {
+                    warningHtml = `<span style="color:#c2410c; font-weight:bold; background:#ffedd5; padding:2px 6px; border-radius:4px; border:1px solid #fdba74;">🔔 Sắp hết phép (Còn ít)</span>`;
+                } else {
+                    warningHtml = `<span style="color:var(--green); font-weight:bold;">✅ Trong hạn mức</span>`;
+                }
 
                 tbody.innerHTML += `
                     <tr>
@@ -2069,8 +2093,9 @@
                         <td class="text-center"><input class="inp-table inp-num-day" type="number" value="${tonCu}" onchange="updateLeaveData('${nameKey}', 'ton_cu', this.value)"></td>
                         <td class="text-center"><input class="inp-table inp-num-day" type="number" value="${namMoi}" onchange="updateLeaveData('${nameKey}', 'nam_moi', this.value)"></td>
                         <td class="text-center font-bold" style="background:#fed7aa;">${tongPhep}</td>
-                        <td class="text-center font-bold" style="background:#fca5a5; color:#7f1d1d;">${daNghi} <span style="font-size:9px; font-weight:normal;">(Đồng bộ Lương)</span></td>
+                        <td class="text-center font-bold" style="background:#fca5a5; color:#7f1d1d;">${totalUsedFromSalary} <span style="font-size:9px; font-weight:normal;">(12 tháng)</span></td>
                         <td class="text-center font-bold" style="background:#dcfce7; color:#166534; font-size:13.5px;">${conLai}</td>
+                        <td class="text-center">${warningHtml}</td>
                         <td><input class="inp-table" type="text" value="${item.note || ''}" oninput="updateLeaveData('${nameKey}', 'note', this.value)"></td>
                     </tr>
                 `;
@@ -2081,7 +2106,7 @@
         function updateLeaveData(nameKey, field, val) {
             if (!leaveDataByYear[CURRENT_SELECTED_YEAR]) leaveDataByYear[CURRENT_SELECTED_YEAR] = {};
             if (!leaveDataByYear[CURRENT_SELECTED_YEAR][nameKey]) {
-                leaveDataByYear[CURRENT_SELECTED_YEAR][nameKey] = { ton_cu: 0, nam_moi: 12, da_nghi: 0, note: "" };
+                leaveDataByYear[CURRENT_SELECTED_YEAR][nameKey] = { ton_cu: 0, nam_moi: 12, note: "" };
             }
             if (field === 'note') {
                 leaveDataByYear[CURRENT_SELECTED_YEAR][nameKey][field] = val;
@@ -2118,15 +2143,20 @@
 
         function updateLeaveRequestInfo() {
             let staffName = document.getElementById('leave-req-staff').value;
+            let sm = document.getElementById('filter-month').value;
+            let currentYearMonths = Object.keys(salaryDataByMonth || {}).filter(m => m.startsWith(CURRENT_SELECTED_YEAR));
+            let totalUsed = 0;
+            currentYearMonths.forEach(m => {
+                let stList = salaryDataByMonth[m] || [];
+                let found = stList.find(s => s.name === staffName);
+                if (found && found.P) totalUsed += parseFloat(found.P);
+            });
+
             if (!leaveDataByYear[CURRENT_SELECTED_YEAR]) leaveDataByYear[CURRENT_SELECTED_YEAR] = {};
-            let yearLeaveMap = leaveDataByYear[CURRENT_SELECTED_YEAR];
-            if (yearLeaveMap[staffName]) {
-                let item = yearLeaveMap[staffName];
-                let conLai = (parseFloat(item.ton_cu || 0) + parseFloat(item.nam_moi || 12)) - parseFloat(item.da_nghi || 0);
-                document.getElementById('leave-req-remaining').value = conLai + " ngày phép";
-            } else {
-                document.getElementById('leave-req-remaining').value = "12 ngày phép";
-            }
+            let item = leaveDataByYear[CURRENT_SELECTED_YEAR][staffName] || { ton_cu: 0, nam_moi: 12 };
+            let tongQuy = (parseFloat(item.ton_cu) || 0) + (parseFloat(item.nam_moi) || 12);
+            let conLai = tongQuy - totalUsed;
+            document.getElementById('leave-req-remaining').value = conLai + " ngày phép";
         }
 
         function calculateLeaveDaysCount() {
@@ -2164,10 +2194,9 @@
 
             if (!leaveDataByYear[CURRENT_SELECTED_YEAR]) leaveDataByYear[CURRENT_SELECTED_YEAR] = {};
             if (!leaveDataByYear[CURRENT_SELECTED_YEAR][staffName]) {
-                leaveDataByYear[CURRENT_SELECTED_YEAR][staffName] = { ton_cu: 0, nam_moi: 12, da_nghi: 0, note: "" };
+                leaveDataByYear[CURRENT_SELECTED_YEAR][staffName] = { ton_cu: 0, nam_moi: 12, note: "" };
             }
             let item = leaveDataByYear[CURRENT_SELECTED_YEAR][staffName];
-            item.da_nghi = (parseFloat(item.da_nghi) || 0) + numDays;
             item.note = `${leaveType}: ${reason} (Bàn giao: ${handoff || 'Không'})`;
 
             localStorage.setItem('sys_leave_data_by_year', JSON.stringify(leaveDataByYear));
@@ -2176,7 +2205,7 @@
             calculateSalaryLogic();
             renderLeaveTable();
             closeLeaveRequestModal();
-            alert(`✅ Đã phê duyệt và cập nhật ${numDays} ngày nghỉ cho ${staffName} thành công!`);
+            alert(`✅ Đã phê duyệt và cộng thêm ${numDays} ngày nghỉ (P) vào bảng lương tháng ${sm} cho ${staffName} thành công!`);
             triggerAutoSync();
         }
 
@@ -3387,7 +3416,6 @@
             }, 4000);
         }
 
-        // 🚀 Hàm tải ngầm tự động từ mây không cần người dùng thao tác
         async function loadDataFromCloudServerSilently() {
             try {
                 const response = await fetch(`${GOOGLE_SCRIPT_API_URL}?action=get_all_data&year=${CURRENT_SELECTED_YEAR}`);
@@ -3462,7 +3490,6 @@
                 document.getElementById('live-system-clock').innerText = `${timeStr} - ${dateStr}`;
             }, 1000);
 
-            // 🚀 Tự động tải dữ liệu ngầm từ mây khi mở trang trên bất kỳ máy nào
             await loadDataFromCloudServerSilently();
 
             let sm = document.getElementById('filter-month').value;
