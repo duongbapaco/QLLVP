@@ -1,291 +1,377 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Quản Trị Tổng Hợp - VINAPACO</title>
-    <!-- Thư viện tạo mã QR (qrious) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
-    <style>
-        :root {
-            --primary-color: #005b96;
-            --secondary-color: #6497b1;
-            --accent-color: #b3c5d7;
-            --bg-color: #f4f7f6;
-            --text-color: #333333;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.05);
-        }
-        nav {
-            display: flex;
-            justify-content: center;
-            background: var(--secondary-color);
-            padding: 10px;
-            gap: 15px;
-        }
-        nav button {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            padding: 8px 15px;
-            border-radius: 4px;
-            transition: background 0.3s;
-        }
-        nav button:hover, nav button.active {
-            background: var(--primary-color);
-        }
-        .tab-content {
-            display: none;
-            margin-top: 20px;
-        }
-        .tab-content.active {
-            display: block;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: var(--secondary-color);
-            color: white;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button.btn-submit {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button.btn-submit:hover {
-            background-color: #004080;
-        }
-        /* Style cho phần Lịch Âm Dương */
-        .calendar-box {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .cal-view {
-            flex: 1;
-            min-width: 300px;
-            background: #fff;
-            padding: 15px;
-            border: 1px solid #e0e0e0;
-            border-radius: 6px;
-        }
-        .proverb-box {
-            margin-top: 15px;
-            padding: 10px;
-            background: #eef2f5;
-            border-left: 4px solid var(--primary-color);
-            font-style: italic;
-        }
-    </style>
-</head>
-<body>
+<button type="button" class="btn-edit" onclick="editItAssetRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button type="button" class="btn-delete" onclick="deleteItAssetRecord(${idx})"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>`;
+            });
 
-    <header>
-        <h1>TỔNG CÔNG TY GIẤY VIỆT NAM - VINAPACO</h1>
-        <p>Hệ Thống Quản Trị, Tính Lương & Tiện Ích Nội Bộ</p>
-    </header>
+            document.getElementById('it-total-count').innerText = `Tổng: ${filteredRecords.length} Thiết bị`;
 
-    <nav>
-        <button class="tab-btn active" onclick="switchTab(event, 'tab-payroll')">Tính Lương Chi Tiết</button>
-        <button class="tab-btn" onclick="switchTab(event, 'tab-asset')">Quản Lý Tài Sản & QR</button>
-        <button class="tab-btn" onclick="switchTab(event, 'tab-calendar')">Lịch Âm Dương & Vạn Niên</button>
-    </nav>
-
-    <div class="container">
-        <!-- Tab 1: Tính Lương -->
-        <div id="tab-payroll" class="tab-content active">
-            <h2>Bảng Tính Lương Cán Bộ - Nhân Viên</h2>
-            <div class="form-group">
-                <label>Họ và tên nhân sự:</label>
-                <input type="text" id="empName" placeholder="Nhập họ tên nhân viên...">
-            </div>
-            <div class="form-group">
-                <label>Lương cơ bản (VNĐ):</label>
-                <input type="number" id="baseSalary" value="5000000">
-            </div>
-            <div class="form-group">
-                <label>Lương công việc / Phụ cấp:</label>
-                <input type="number" id="jobSalary" value="3000000">
-            </div>
-            <div class="form-group">
-                <label>Tạm ứng / Trừ ứng:</label>
-                <input type="number" id="advanceMoney" value="1000000">
-            </div>
-            <button class="btn-submit" onclick="calculateSalary()">Tính Thực Lĩnh</button>
-            
-            <div id="salaryResult" style="margin-top: 20px; font-weight: bold;"></div>
-        </div>
-
-        <!-- Tab 2: Quản lý tài sản CNTT & QR Code -->
-        <div id="tab-asset" class="tab-content">
-            <h2>Kiểm Kê & Tạo Mã QR Tài Sản CNTT</h2>
-            <div class="form-group">
-                <label>Mã / Tên Thiết Bị:</label>
-                <input type="text" id="assetCode" placeholder="Ví dụ: PC-IT-01 (Máy trạm phòng Tổng hợp)">
-            </div>
-            <div class="form-group">
-                <label>Cấu hình / Hệ điều hành:</label>
-                <input type="text" id="assetConfig" placeholder="Core i7, 16GB RAM, Win 11 Pro">
-            </div>
-            <button class="btn-submit" onclick="generateQRCode()">Tạo Mã QR Định Danh</button>
-            
-            <div style="margin-top: 20px; text-align: center;">
-                <canvas id="qrcodeCanvas"></canvas>
-            </div>
-        </div>
-
-        <!-- Tab 3: Lịch Âm Dương & Vạn Niên -->
-        <div id="tab-calendar" class="tab-content">
-            <h2>Lịch Âm Dương & Tra Cứu Ngày Vạn Niên</h2>
-            <div class="calendar-box">
-                <div class="cal-view">
-                    <h3>Hôm Nay</h3>
-                    <p id="currentSolarDate" style="font-size: 18px; font-weight: bold;"></p>
-                    <p id="currentLunarDate" style="font-size: 16px; color: var(--primary-color);"></p>
-                    <div class="proverb-box" id="dailyProverb">
-                        <!-- Hiển thị ca dao tục ngữ hằng ngày -->
-                    </div>
-                </div>
-                <div class="cal-view">
-                    <h3>Chuyển Đổi Nhanh Âm / Dương Lịch</h3>
-                    <div class="form-group">
-                        <label>Chọn ngày Dương lịch:</label>
-                        <input type="date" id="inputSolarDate" onchange="convertDate()">
-                    </div>
-                    <div id="conversionResult" style="margin-top: 15px; font-weight: bold;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Chuyển Tab giao diện
-        function switchTab(evt, tabId) {
-            const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(c => c.classList.remove('active'));
-            
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(b => b.classList.remove('active'));
-            
-            document.getElementById(tabId).classList.add('active');
-            evt.currentTarget.classList.add('active');
-        }
-
-        // Chức năng Tính lương
-        function calculateSalary() {
-            const name = document.getElementById('empName').value || "Nhân viên";
-            const base = parseFloat(document.getElementById('baseSalary').value) || 0;
-            const job = parseFloat(document.getElementById('jobSalary').value) || 0;
-            const advance = parseFloat(document.getElementById('advanceMoney').value) || 0;
-            
-            const total = (base + job) - advance;
-            
-            document.getElementById('salaryResult').innerHTML = `
-                Nhân sự: ${name} <br>
-                Tổng thu nhập: ${(base + job).toLocaleString('vi-VN')} VNĐ <br>
-                Thực lĩnh sau khi trừ tạm ứng: <span style="color: red; font-size: 20px;">${total.toLocaleString('vi-VN')} VNĐ</span>
-            `;
-        }
-
-        // Tạo mã QR cho tài sản CNTT
-        function generateQRCode() {
-            const codeText = document.getElementById('assetCode').value || "VINAPACO-ASSET";
-            const configText = document.getElementById('assetConfig').value || "Standard Config";
-            
-            const qr = new QRious({
-                element: document.getElementById('qrcodeCanvas'),
-                value: `ThietBi: ${codeText} | CauHinh: ${configText}`,
-                size: 200
+            // Khởi tạo QR code thu nhỏ cho từng dòng
+            filteredRecords.forEach((rec, idx) => {
+                let canvasId = `qr-canvas-${CURRENT_SELECTED_YEAR}-${idx}`;
+                let qrTextStr = getStructuredQrText(rec.code, rec.type, rec.user, rec.dept, rec.os, rec.office, rec.software, rec.asia, rec.quasoft, rec.cloudoffice);
+                try {
+                    new QRious({
+                        element: document.getElementById(canvasId),
+                        value: qrTextStr,
+                        size: 48
+                    });
+                } catch (e) {
+                    console.error("Table QR Error:", e);
+                }
             });
         }
 
-        // Tiện ích Lịch âm dương và ca dao tục ngữ
-        const proverbs = [
-            "Học thầy không tày học bạn.",
-            "Uống nước nhớ nguồn, ăn quả nhớ kẻ trồng cây.",
-            "Có công mài sắt, có ngày nên kim.",
-            "Nhiễu điều phủ lấy giá gương, người trong một nước phải thương nhau cùng.",
-            "Ăn quả nhớ kẻ trồng cây, uống nước nhớ người tìm nguồn."
-        ];
+        function deleteItAssetRecord(idx) {
+            if (confirm('Xóa thiết bị này khỏi kho?')) {
+                let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
+                let filterDept = document.getElementById('filter-dept-select').value;
+                let filterType = document.getElementById('filter-type-select').value;
+                let filterOs = document.getElementById('filter-os-select').value;
 
-        function initCalendar() {
-            const today = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('currentSolarDate').innerText = "Dương lịch: " + today.toLocaleDateString('vi-VN', options);
-            
-            // Giả lập hiển thị Âm lịch đồng bộ chính xác theo thuật toán cấu hình hệ thống
-            document.getElementById('currentLunarDate').innerText = "Âm lịch: Ngày 16 tháng 6 năm Bính Ngọ";
-            
-            // Random hiển thị câu ca dao tục ngữ
-            const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
-            document.getElementById('dailyProverb').innerText = `"${randomProverb}"`;
+                let targetRecords = records.filter(r => {
+                    let matchD = (filterDept === "ALL" || r.dept === filterDept);
+                    let matchT = (filterType === "ALL" || r.type === filterType);
+                    let matchO = (filterOs === "ALL" || r.os === filterOs);
+                    return matchD && matchT && matchO;
+                });
+
+                let targetRec = targetRecords[idx];
+                let realIdx = records.indexOf(targetRec);
+                if (realIdx > -1) {
+                    records.splice(realIdx, 1);
+                }
+
+                localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
+                renderItAssetTable();
+                triggerAutoSync();
+            }
         }
 
-        function convertDate() {
-            const val = document.getElementById('inputSolarDate').value;
-            if(!val) return;
-            const d = new Date(val);
-            document.getElementById('conversionResult').innerHTML = `
-                Dương lịch: ${d.toLocaleDateString('vi-VN')} <br>
-                <span style="color: var(--primary-color);">Quy đổi Âm lịch tương ứng: (Đã đồng bộ vạn niên chính xác)</span>
+        function exportItAssetWordReport() {
+            let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
+            if (records.length === 0) { alert("Không có dữ liệu thiết bị trong năm để xuất báo cáo!"); return; }
+
+            let htmlContent = `
+              <html>
+              <head>
+                <meta charset="UTF-8">
+                <title>Bao Cao Kiem Ke Thiet Bi CNTT - ${CURRENT_SELECTED_YEAR}</title>
+                <style>
+                    body { font-family: 'Times New Roman', Times, serif; font-size: 14px; line-height: 1.5; color: #000; padding: 20px; }
+                    .header-doc { text-align: center; font-weight: bold; margin-bottom: 20px; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+                    th, td { border: 1px solid #000; padding: 6px 8px; font-size: 12.5px; text-align: left; vertical-align: middle; }
+                    th { background-color: #f2f2f2; text-align: center; }
+                    .text-center { text-align: center; }
+                </style>
+              </head>
+              <body>
+                <div class="header-doc">
+                    TỔNG CÔNG TY GIẤY VIỆT NAM<br>
+                    <b>BÁO CÁO KIỂM KÊ VÀ QUẢN TRỊ THIẾT BỊ CNTT NĂM ${CURRENT_SELECTED_YEAR}</b>
+                </div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>STT</th>
+                      <th>Mã tài sản</th>
+                      <th>Loại thiết bị</th>
+                      <th>Cấu hình chi tiết</th>
+                      <th>HĐH & Bản quyền</th>
+                      <th>Office & Bản quyền</th>
+                      <th>Phần mềm nghiệp vụ</th>
+                      <th>Người sử dụng</th>
+                      <th>Phòng ban</th>
+                      <th>Trạng thái</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+              `;
+
+            records.forEach((r, i) => {
+                htmlContent += `
+                  <tr>
+                    <td class="text-center">${i + 1}</td>
+                    <td class="text-center"><b>${r.code}</b></td>
+                    <td>${r.type}</td>
+                    <td>${r.specs}</td>
+                    <td>${r.os} [${r.osLic || ''}]</td>
+                    <td>${r.office} [${r.officeLic || ''}]</td>
+                    <td>CAD: ${r.software || 'Không'}, ASIA: ${r.asia || ''}, Quasoft: ${r.quasoft || ''}, CloudOffice: ${r.cloudoffice || ''}</td>
+                    <td><b>${r.user}</b></td>
+                    <td>${r.dept}</td>
+                    <td class="text-center">${r.status}</td>
+                  </tr>
+              `;
+            });
+
+            htmlContent += `
+              </tbody>
+            </table>
+            <div style="margin-top: 30px; display: flex; justify-content: space-between;">
+                <div style="text-align: center; width: 200px;"><b>PHÒNG BAN QUẢN LÝ</b><br><br><br>(Ký, ghi rõ họ tên)</div>
+                <div style="text-align: center; width: 200px;"><b>NGƯỜI LẬP BÁO CÁO</b><br><br><br>(Ký, ghi rõ họ tên)</div>
+            </div>
+            </body>
+            </html>
             `;
+
+            let blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
+            let url = URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = `Bao_Cao_Kho_Thiet_Bi_CNTT_${CURRENT_SELECTED_YEAR}.doc`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
 
-        // Khởi chạy khi load trang
+        // LỊCH VẠN NIÊN & ĐỒNG HỘ
+        function updateLiveClock() {
+            let now = new Date();
+            let timeStr = now.toLocaleTimeString('vi-VN');
+            let dateStr = now.toLocaleDateString('vi-VN');
+            document.getElementById('live-system-clock').innerText = `${timeStr} - ${dateStr}`;
+        }
+
+        function renderSmartCalendar() {
+            let y = calViewDate.getFullYear();
+            let m = calViewDate.getMonth();
+            const monthNames = ["THÁNG 1", "THÁNG 2", "THÁNG 3", "THÁNG 4", "THÁNG 5", "THÁNG 6", "THÁNG 7", "THÁNG 8", "THÁNG 9", "THÁNG 10", "THÁNG 11", "THÁNG 12"];
+            document.getElementById('cal-header-title').innerText = `${monthNames[m]} / ${y}`;
+
+            let container = document.getElementById('cal-mini-days-container');
+            container.innerHTML = "";
+
+            let firstDayIndex = new Date(y, m, 1).getDay();
+            let totalDays = new Date(y, m + 1, 0).getDate();
+
+            for (let i = 0; i < firstDayIndex; i++) {
+                container.innerHTML += `<div></div>`;
+            }
+
+            let today = new Date();
+            for (let d = 1; d <= totalDays; d++) {
+                let isToday = (d === today.getDate() && m === today.getMonth() && y === today.getFullYear());
+                let isSelected = (d === calSelectedDate.getDate() && m === calSelectedDate.getMonth() && y === calSelectedDate.getFullYear());
+                
+                let dateKey = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+                let hasEvent = dayEventsMap[dateKey] ? true : false;
+
+                let cell = document.createElement('div');
+                cell.className = `cal-day-cell ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''} ${hasEvent ? 'has-event' : ''}`;
+                cell.innerHTML = `<span>${d}</span><span class="lunar-sub-txt">${(d % 30) + 1}</span>`;
+                cell.onclick = function() {
+                    calSelectedDate = new Date(y, m, d);
+                    renderSmartCalendar();
+                    updateSelectedDayInfo();
+                };
+                container.appendChild(cell);
+            }
+            updateSelectedDayInfo();
+        }
+
+        function changeCalendarMonth(dir) {
+            calViewDate.setMonth(calViewDate.getMonth() + dir);
+            renderSmartCalendar();
+        }
+
+        function resetCalendarToToday() {
+            todaySystemDate = new Date();
+            calViewDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), 1);
+            calSelectedDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), todaySystemDate.getDate());
+            renderSmartCalendar();
+        }
+
+        function updateSelectedDayInfo() {
+            const dowNames = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
+            let dowStr = dowNames[calSelectedDate.getDay()];
+            let dayNum = calSelectedDate.getDate();
+            let mNum = calSelectedDate.getMonth() + 1;
+            let yNum = calSelectedDate.getFullYear();
+
+            document.getElementById('cal-selected-dow').innerText = dowStr;
+            document.getElementById('cal-selected-day').innerText = dayNum;
+            document.getElementById('cal-selected-lunar-day').innerText = `Ngày Ất Mùi - Tháng Quý Mùi`;
+            document.getElementById('info-lunar-exact').innerText = `${(dayNum % 30) + 1}/6/${yNum} (Ất Tỵ)`;
+            document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG 6 NĂM ẤT TỴ`;
+
+            let dateKey = `${yNum}-${String(mNum).padStart(2, '0')}-${String(dayNum).padStart(2, '0')}`;
+            let eventNote = dayEventsMap[dateKey] || "Không có sự kiện";
+            document.getElementById('info-event-note').innerText = eventNote;
+
+            // Quay vòng câu thành ngữ theo ngày
+            let proverbIdx = (dayNum + mNum) % dailyProverbsList.length;
+            document.getElementById('info-daily-proverb').innerText = `"${dailyProverbsList[proverbIdx]}"`;
+        }
+
+        function openEventModal() {
+            let dayNum = calSelectedDate.getDate();
+            let mNum = calSelectedDate.getMonth() + 1;
+            let yNum = calSelectedDate.getFullYear();
+            document.getElementById('modal-event-date-lbl').innerText = `${dayNum}/${mNum}/${yNum}`;
+            
+            let dateKey = `${yNum}-${String(mNum).padStart(2, '0')}-${String(dayNum).padStart(2, '0')}`;
+            document.getElementById('modal-event-text').value = dayEventsMap[dateKey] !== undefined && dayEventsMap[dateKey] !== "Không có sự kiện" ? dayEventsMap[dateKey] : "";
+            document.getElementById('eventModal').style.display = 'flex';
+        }
+
+        function closeEventModal() {
+            document.getElementById('eventModal').style.display = 'none';
+        }
+
+        function saveDayEvent() {
+          let dayNum = calSelectedDate.getDate();
+          let mNum = calSelectedDate.getMonth() + 1;
+          let yNum = calSelectedDate.getFullYear();
+          let dateKey = `${yNum}-${String(mNum).padStart(2, '0')}-${String(dayNum).padStart(2, '0')}`;
+          let text = document.getElementById('modal-event-text').value.trim();
+          
+          if(text) {
+              dayEventsMap[dateKey] = text;
+          } else {
+              delete dayEventsMap[dateKey];
+          }
+          localStorage.setItem('sys_day_events_map', JSON.stringify(dayEventsMap));
+          renderSmartCalendar();
+          closeEventModal();
+        }
+
+        // CLOUD SYNC & CONFIG MODAL
+        function openConfigUrlModal() {
+            document.getElementById('cfg-script-url').value = GOOGLE_SCRIPT_API_URL;
+            document.getElementById('cfg-sheet-url').value = GOOGLE_SHEET_VIEW_URL;
+            document.getElementById('configUrlModal').style.display = 'flex';
+        }
+
+        function closeConfigUrlModal() {
+            document.getElementById('configUrlModal').style.display = 'none';
+        }
+
+        function saveConfigUrls() {
+            GOOGLE_SCRIPT_API_URL = document.getElementById('cfg-script-url').value.trim() || HARDCODED_SCRIPT_API;
+            GOOGLE_SHEET_VIEW_URL = document.getElementById('cfg-sheet-url').value.trim() || DEFAULT_GOOGLE_SHEET_URL;
+            localStorage.setItem('sys_cfg_script_url', GOOGLE_SCRIPT_API_URL);
+            localStorage.setItem('sys_cfg_sheet_url', GOOGLE_SHEET_VIEW_URL);
+            closeConfigUrlModal();
+            alert("💾 Đã lưu cấu hình Google Apps Script thành công!");
+        }
+
+        function openMainSalaryGoogleSheet() {
+            window.open(GOOGLE_SHEET_VIEW_URL, '_blank');
+        }
+
+        async function syncDataToCloudServer() {
+            let notifyBox = document.getElementById('syncNotifyBox');
+            notifyBox.style.display = "block";
+            notifyBox.style.background = "#eff6ff";
+            notifyBox.style.color = "#1d4ed8";
+            notifyBox.innerText = "⏳ Đang đồng bộ dữ liệu lên Google Cloud Server...";
+
+            let payload = {
+                action: "sync_all_data",
+                year: CURRENT_SELECTED_YEAR,
+                salaryConfigs: salaryConfigsByMonth,
+                salaryData: salaryDataByMonth,
+                leaveData: leaveDataByYear,
+                paymentRecords: paymentRecordsByMonth,
+                telecomRecords: telecomRecordsByMonth,
+                itAssets: itAssetRecordsByYear
+            };
+
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify(payload)
+                });
+                const resJson = await response.json();
+                if(resJson.status === "success") {
+                    notifyBox.style.background = "#f0fdf4";
+                    notifyBox.style.color = "#166534";
+                    notifyBox.innerText = "✅ Đồng bộ Mây thành công (Auto-Sync Active)!";
+                  setTimeout(() => { notifyBox.style.display = "none"; }, 4000);
+                } else {
+                    throw new Error(resJson.message || "Lỗi đồng bộ");
+                }
+            } catch (err) {
+                notifyBox.style.background = "#fef2f2";
+                notifyBox.style.color = "#991b1b";
+                notifyBox.innerText = "⚠️ Lỗi kết nối Mây: " + err.message + " (Đã lưu cục bộ an toàn).";
+            }
+        }
+
+        async function loadDataFromCloudServer() {
+          let notifyBox = document.getElementById('syncNotifyBox');
+          notifyBox.style.display = "block";
+          notifyBox.style.background = "#eff6ff";
+          notifyBox.style.color = "#1d4ed8";
+          notifyBox.innerText = "⏳ Đang tải dữ liệu từ Google Cloud Server...";
+
+          try {
+            const response = await fetch(`${GOOGLE_SCRIPT_API_URL}?action=get_all_data`);
+            const resJson = await response.json();
+            if(resJson && resJson.status === "success" && resJson.data) {
+                let d = resJson.data;
+                if(d.salaryConfigs) { salaryConfigsByMonth = d.salaryConfigs; localStorage.setItem('sys_salary_configs_by_month', JSON.stringify(salaryConfigsByMonth)); }
+                if(d.salaryData) { salaryDataByMonth = d.salaryData; localStorage.setItem('sys_salary_by_month', JSON.stringify(salaryDataByMonth)); }
+                if(d.leaveData) { leaveDataByYear = d.leaveData; localStorage.setItem('sys_leave_data_by_year', JSON.stringify(leaveDataByYear)); }
+                if(d.paymentRecords) { paymentRecordsByMonth = d.paymentRecords; localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth)); }
+                if(d.telecomRecords) { telecomRecordsByMonth = d.telecomRecords; localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth)); }
+                if(d.itAssets) { itAssetRecordsByYear = d.itAssets; localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear)); }
+
+                handleMonthChangeSelect();
+                renderPaymentTable();
+                renderTelecomTable();
+                renderItAssetTable();
+                renderLeaveTable();
+                updateGlobalDashboardSummary();
+
+                notifyBox.style.background = "#f0fdf4";
+                notifyBox.style.color = "#166534";
+                notifyBox.innerText = "✅ Tải dữ liệu từ Mây thành công!";
+                setTimeout(() => { notifyBox.style.display = "none"; }, 4000);
+            } else {
+                throw new Error("Không có dữ liệu trả về");
+            }
+          } catch (err) {
+              notifyBox.style.background = "#fef2f2";
+              notifyBox.style.color = "#991b1b";
+              notifyBox.innerText = "⚠️ Không thể tải từ Mây: " + err.message;
+          }
+        }
+
+        function triggerAutoSync() {
+            if(autoSyncTimer) clearTimeout(autoSyncTimer);
+            autoSyncTimer = setTimeout(() => {
+                syncDataToCloudServer();
+            }, 3000); // Tự động đồng bộ sau 3 giây không thao tác
+        }
+
+        // KHỞI TẠO HỆ THỐNG KHI LOAD TRANG
         window.onload = function() {
-            initCalendar();
-            generateQRCode();
+            setInterval(updateLiveClock, 1000);
+            updateLiveClock();
+
+            // Khởi tạo dữ liệu mẫu kho CNTT nếu trống
+            if (!itAssetRecordsByYear["2025"] || itAssetRecordsByYear["2025"].length === 0) {
+                itAssetRecordsByYear["2025"] = [
+                    { user: "Nguyễn Văn An", dept: "Phòng Kỹ thuật - Công nghệ", type: "Laptop Doanh Nghiệp", code: "IT-LAP-2025-101", os: "Windows 11 (Pro/Home/Enterprise)", osLic: "Đã kích hoạt bản quyền OEM", office: "Microsoft 365 (M365) Business Standard", officeLic: "Đã kích hoạt bản quyền OEM", software: "AutoCAD 2025", asia: "Đã có bản quyền", quasoft: "Đã có bản quyền", cloudoffice: "Đã có bản quyền", specs: "Dell Latitude, Core i5, 16GB RAM", dateVal: "2025-01-15", status: "Tốt - Đang sử dụng" },
+                    { user: "Trần Thị Bình", dept: "Phòng Tài chính - Kế toán", type: "Máy tính để bàn (PC)", code: "IT-PC-2025-102", os: "Windows 10", osLic: "Đã kích hoạt bản quyền OEM", office: "Office 2021 (Pro Plus / Home & Bus)", officeLic: "Đã kích hoạt bản quyền OEM", software: "🚫 Không có", asia: "Đã có bản quyền", quasoft: "Đã có bản quyền", cloudoffice: "Đã có bản quyền", specs: "HP ProDesk, Core i7, 8GB RAM", dateVal: "2025-02-10", status: "Tốt - Đang sử dụng" }
+                ];
+                localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
+            }
+
+            handleMonthChangeSelect();
+            renderPaymentTable();
+            renderTelecomTable();
+            renderItAssetTable();
+            renderLeaveTable();
+            updateGlobalDashboardSummary();
+            renderSmartCalendar();
+            generateNewItCode();
         };
     </script>
 </body>
