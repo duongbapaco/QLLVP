@@ -1245,7 +1245,7 @@
         let barChartInstance = null;
         let pieChartInstance = null;
 
-        // KHO CA DAO, TỤC NGỮ, THÀNH NGỮ VIỆT NAM PHONG PHÚ (HƠN 100 CÂU CHỌN LỌC)
+        // KHO CA DAO, TỤC NGỮ, THÀNH NGỮ VIỆT NAM PHONG PHÚ (HƠN 100 CÂU CHỌN LỌC)[cite: 3]
         const dailyProverbsList = [
             "Uống nước nhớ nguồn, ăn quả nhớ kẻ trồng cây.",
             "Có công mài sắt, có ngày nên kim.",
@@ -3173,12 +3173,10 @@
             let canYear = canArr[(lunarYear + 6) % 10];
             let chiYear = chiArr[(lunarYear + 8) % 12];
 
-            // Can chi day calculation
             let offsetJd = jd - 11;
             let canDay = canArr[offsetJd % 10];
             let chiDay = chiArr[offsetJd % 12];
 
-            // Can chi month calculation
             let canMonth = canArr[(lunarYear * 12 + lunarMonth + 3) % 10];
             let chiMonth = chiArr[(lunarMonth + 1) % 12];
 
@@ -3262,7 +3260,6 @@
 
             document.getElementById('info-lunar-exact').innerText = `${lunar.day}/${lunar.month}/${lunar.year} (${lunar.canChiYear})`;
             
-            // Lấy ngẫu nhiên hoặc theo ngày từ kho 100+ ca dao tục ngữ phong phú
             let dayOfYear = Math.floor((calSelectedDate - new Date(y, 0, 0)) / (1000 * 60 * 60 * 24)) + (y * 365);
             let proverbIndex = Math.abs(dayOfYear) % dailyProverbsList.length;
             document.getElementById('info-daily-proverb').innerText = `"${dailyProverbsList[proverbIndex]}"`;
