@@ -6,6 +6,7 @@
     <title>HỆ THỐNG QUẢN TRỊ TỔNG HỢP & KHO THIẾT BỊ CNTT - TỔNG CÔNG TY GIẤY VIỆT NAM</title>
     <link rel="icon" href="data:,">
     
+    <!-- THƯ VIỆN BÊN NGOÀI -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
@@ -28,7 +29,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: rgba(0,0,0,0.2); }
         body { font-family: 'Times New Roman', Times, serif; font-size: 14px; margin: 0; padding: 8px; background: var(--bg-light); color: var(--text-main); font-weight: 500; }
         
-        .workspace { display: grid; grid-template-columns: 1fr 420px; gap: 12px; align-items: start; transition: all 0.3s ease; }
+        .workspace { display: grid; grid-template-columns: 1fr 340px; gap: 12px; align-items: start; transition: all 0.3s ease; }
         .workspace.calendar-hidden { grid-template-columns: 1fr !important; }
         @media (max-width: 1200px) { .workspace { grid-template-columns: 1fr; } }
 
@@ -117,22 +118,6 @@
         .signature-note { font-style: italic; font-size: 11.5px; color: #475569; margin-bottom: 35px; }
         .signature-name { font-weight: bold; font-size: 13.5px; color: #0f172a; }
 
-        .progress-bar-container { width: 100%; background: #e2e8f0; border-radius: 4px; height: 14px; margin-top: 6px; overflow: hidden; display: none; position: relative; border: 1px solid #cbd5e1; }
-        .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #1d4ed8, #047857); transition: width 0.3s ease; }
-        .progress-bar-text { position: absolute; width: 100%; top: 0; left: 0; text-align: center; font-size: 9.5px; font-weight: bold; color: #0f172a; line-height: 14px; }
-
-        .custom-popup-calendar { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 99999; background: white; border: 2px solid var(--blue); border-radius: 8px; box-shadow: 0 4px 25px rgba(0,0,0,0.3); width: 300px; max-width: 90vw; padding: 12px; font-family: 'Times New Roman', Times, serif; }
-        .popup-cal-top-bar { display: flex; gap: 4px; margin-bottom: 8px; justify-content: space-between; }
-        .popup-cal-top-bar select { padding: 6px; border: 1.5px solid var(--blue); border-radius: 4px; font-weight: bold; font-size: 12px; color: #0f172a; background: #f8fafc; cursor: pointer; font-family: 'Times New Roman', Times, serif; }
-        .popup-cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-weight: bold; color: #0f172a; font-size: 13px; background: #e2e8f0; padding: 6px 8px; border-radius: 4px; }
-        .popup-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; text-align: center; font-size: 12.5px; }
-        .popup-cal-grid div { padding: 7px 0; font-weight: bold; }
-        .popup-dow { color: #64748b; background: #f1f5f9; font-size: 11px; }
-        .popup-day { cursor: pointer; border-radius: 4px; }
-        .popup-day:hover { background: #e2e8f0; color: var(--blue); }
-        .popup-day.selected { background: var(--blue) !important; color: white !important; font-weight: bold; }
-        .popup-day.today { border: 1px solid var(--red); color: var(--red); }
-
         .calendar-sidebar { background: white; border-radius: 8px; border: 1.5px solid #cbd5e1; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.3s ease; }
         .calendar-sidebar.hidden { display: none !important; }
 
@@ -144,56 +129,37 @@
         .calendar-block-head { background: linear-gradient(135deg, #dc2626, #991b1b); color: white; text-align: center; padding: 6px; font-weight: bold; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
         .calendar-block-body { text-align: center; padding: 8px; background: #fff; }
 
-        .cal-grid-mini { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin-top: 6px; text-align: center; font-size: 11.5px; }
-        .cal-grid-mini div { padding: 5px 0; font-weight: bold; }
-        .cal-grid-mini .dow { color: #64748b; font-size: 10.5px; background: #f1f5f9; }
-        .cal-day-cell { cursor: pointer; border-radius: 4px; transition: 0.2s; position: relative; min-height: 26px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .cal-day-cell:hover { background: #e2e8f0; color: #1d4ed8; }
-        .cal-day-cell.selected { background: #1d4ed8 !important; color: white !important; font-weight: bold; }
-        .cal-day-cell.today { border: 1.5px solid #dc2626; color: #dc2626; }
-        .cal-day-cell.has-event::after { content: ''; position: absolute; bottom: 2px; right: 2px; width: 4px; height: 4px; background-color: #16a34a; border-radius: 50%; }
-        
-        .lunar-sub-txt { font-size: 8px; color: #64748b; line-height: 1; margin-top: 1px; }
-        .cal-day-cell.selected .lunar-sub-txt { color: #fef08a; }
-
-        .cal-info-panel { background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 10px; font-size: 11.5px; margin-top: 10px; }
-        .cal-info-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #cbd5e1; gap: 8px; }
-        .cal-info-row:last-child { border-bottom: none; }
-        .cal-info-label { color: #475569; font-weight: bold; flex-shrink: 0; }
-        .cal-info-val { color: #0f172a; font-weight: 700; text-align: right; word-break: break-word; }
-
         .modal { display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(2px); align-items: center; justify-content: center; padding: 15px; }
         .modal-content { background: white; padding: 16px; border-radius: 8px; width: 100%; max-width: 850px; max-height: 90vh; display: flex; flex-direction: column; position: relative; overflow-y: auto; }
-        .status-box-notify { padding: 10px 14px; border-radius: 6px; font-weight: bold; margin-bottom: 10px; display: none; }
     </style>
 </head>
 <body>
 
+    <!-- thanh TRẠNG THÁI HỆ THỐNG -->
     <div class="db-status-bar">
         <div style="display:flex; align-items:center; gap:8px; flex-wrap: wrap;">
             <div>
-                <span class="status-dot" id="cloud-status-dot"></span>
-                <span id="cloud-status-text">Đã bật Tự động Đồng bộ Mây (Auto-Sync)</span>
+                <span class="status-dot"></span>
+                <span>Tự động Đồng bộ Mây (Auto-Sync Web App)</span>
             </div>
             <div class="year-selector-box">
                 <i class="fa-solid fa-calendar-check"></i>
                 <label for="global-year-picker">NĂM:</label>
                 <select id="global-year-picker" onchange="handleGlobalYearChange()">
-                    <option value="2025">Năm 2025 (Thuế 10% - Đã cố định chuẩn 599.069.520đ)</option>
+                    <option value="2025">Năm 2025 (Thuế 10%)</option>
                     <option value="2026" selected>Năm 2026 (Thuế 8%)</option>
-                    <option value="2027">Năm 2027 (Linh hoạt)</option>
-                    <option value="2028">Năm 2028 (Linh hoạt)</option>
-                    <option value="2029">Năm 2029 (Linh hoạt)</option>
-                    <option value="2030">Năm 2030 (Linh hoạt)</option>
+                    <option value="2027">Năm 2027</option>
+                    <option value="2028">Năm 2028</option>
                 </select>
             </div>
         </div>
         <div style="display:flex; gap:6px; flex-wrap: wrap;">
-            <button type="button" class="btn btn-green" style="padding: 5px 10px; font-size:11.5px;" onclick="toggleCalendarSidebar()"><i class="fa-solid fa-calendar-days"></i> Lịch</button>
+            <button type="button" class="btn btn-green" style="padding: 5px 10px; font-size:11.5px;" onclick="toggleCalendarSidebar()"><i class="fa-solid fa-calendar-days"></i> Ẩn/Hiện Lịch</button>
             <button type="button" class="btn btn-purple" style="padding: 5px 10px; font-size:11.5px;" onclick="openConfigUrlModal()"><i class="fa-solid fa-link"></i> Cấu hình</button>
         </div>
     </div>
 
+    <!-- WORKSPACE CHÍNH -->
     <div class="workspace" id="main-workspace">
         <div class="main-body">
             <div class="header">
@@ -201,9 +167,9 @@
                 <div class="live-clock-box" id="live-system-clock">--:--:-- --/--/----</div>
             </div>
 
-            <!-- THANH ĐIỀU HƯỚNG TAB CHÍNH -->
+            <!-- TAB CONTAINER NAVIGATION -->
             <div class="nav-tabs">
-                <button type="button" class="nav-tab active" data-tab="dashboard" onclick="switchMainTab('dashboard')"><i class="fa-solid fa-chart-pie"></i> 📊 Dashboard & Biểu Đồ 3D</button>
+                <button type="button" class="nav-tab active" data-tab="dashboard" onclick="switchMainTab('dashboard')"><i class="fa-solid fa-chart-pie"></i> Dashboard & Biểu Đồ 3D</button>
                 <button type="button" class="nav-tab" data-tab="salary" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Tính Lương</button>
                 <button type="button" class="nav-tab" data-tab="leave" onclick="switchMainTab('leave')"><i class="fa-solid fa-calendar-alt"></i> Quản Lý Công Phép</button>
                 <button type="button" class="nav-tab" data-tab="payment" onclick="switchMainTab('payment')"><i class="fa-solid fa-file-invoice"></i> Hồ Sơ TT</button>
@@ -211,7 +177,7 @@
                 <button type="button" class="nav-tab" data-tab="it-assets" onclick="switchMainTab('it-assets')"><i class="fa-solid fa-laptop"></i> Kho Thiết Bị CNTT</button>
             </div>
 
-            <!-- TAB 0: DASHBOARD TỔNG QUAN -->
+            <!-- TAB 0: DASHBOARD -->
             <div id="tab-dashboard" class="tab-content active">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--blue);">
@@ -219,15 +185,15 @@
                     </div>
 
                     <div class="dash-quick-actions">
-                        <div style="font-weight: bold; color: #0f172a; font-size: 13px; display: flex; align-items: center; gap: 6px;">
-                            <i class="fa-solid fa-bolt" style="color:var(--orange);"></i> Truy cập nhanh chuyên mục:
+                        <div style="font-weight: bold; color: #0f172a; font-size: 13px;">
+                            <i class="fa-solid fa-bolt" style="color:var(--orange);"></i> Chuyển nhanh phân hệ:
                         </div>
                         <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                            <button type="button" class="btn btn-primary" style="padding: 5px 10px; font-size: 11.5px;" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Bảng Lương</button>
-                            <button type="button" class="btn btn-purple" style="padding: 5px 10px; font-size: 11.5px;" onclick="switchMainTab('leave')"><i class="fa-solid fa-calendar-alt"></i> Công Phép</button>
-                            <button type="button" class="btn btn-green" style="padding: 5px 10px; font-size: 11.5px;" onclick="switchMainTab('payment')"><i class="fa-solid fa-file-invoice-dollar"></i> Thanh Toán VP</button>
-                            <button type="button" class="btn btn-orange" style="padding: 5px 10px; font-size: 11.5px;" onclick="switchMainTab('telecom')"><i class="fa-solid fa-wifi"></i> Cước Mạng</button>
-                            <button type="button" class="btn btn-purple" style="padding: 5px 10px; font-size: 11.5px;" onclick="switchMainTab('it-assets')"><i class="fa-solid fa-laptop-code"></i> Kho Thiết Bị CNTT</button>
+                            <button type="button" class="btn btn-primary" onclick="switchMainTab('salary')">Bảng Lương</button>
+                            <button type="button" class="btn btn-purple" onclick="switchMainTab('leave')">Công Phép</button>
+                            <button type="button" class="btn btn-green" onclick="switchMainTab('payment')">Thanh Toán VP</button>
+                            <button type="button" class="btn btn-orange" onclick="switchMainTab('telecom')">Cước Mạng</button>
+                            <button type="button" class="btn btn-purple" onclick="switchMainTab('it-assets')">Kho Thiết Bị</button>
                         </div>
                     </div>
 
@@ -238,7 +204,6 @@
                                 <i class="fa-solid fa-money-check-dollar dash-card-icon" style="color:var(--blue);"></i>
                             </div>
                             <div class="dash-card-val" id="dash-pro-total-pay" style="color:var(--blue);">0 VND</div>
-                            <div style="font-size: 10.5px; color: #64748b; margin-top: 4px;"><i class="fa-solid fa-arrow-trend-up text-green"></i> Thực lĩnh toàn bộ nhân sự</div>
                         </div>
                         <div class="dash-card-pro green">
                             <div class="dash-card-top">
@@ -246,7 +211,6 @@
                                 <i class="fa-solid fa-file-invoice-dollar dash-card-icon" style="color:var(--green);"></i>
                             </div>
                             <div class="dash-card-val" id="dash-pro-paid-pay" style="color:var(--green);">0 VND</div>
-                            <div style="font-size: 10.5px; color: #64748b; margin-top: 4px;"><i class="fa-solid fa-circle-check text-green"></i> Tổng hồ sơ thanh toán thực tế</div>
                         </div>
                         <div class="dash-card-pro orange">
                             <div class="dash-card-top">
@@ -254,7 +218,6 @@
                                 <i class="fa-solid fa-percent dash-card-icon" style="color:var(--orange);"></i>
                             </div>
                             <div class="dash-card-val" id="dash-pro-total-tax" style="color:var(--orange);">0 VND</div>
-                            <div style="font-size: 10.5px; color: #64748b; margin-top: 4px;"><i class="fa-solid fa-calculator"></i> Đã làm tròn thuế sau tách</div>
                         </div>
                         <div class="dash-card-pro purple">
                             <div class="dash-card-top">
@@ -262,45 +225,42 @@
                                 <i class="fa-solid fa-wifi dash-card-icon" style="color:var(--purple);"></i>
                             </div>
                             <div class="dash-card-val" id="dash-pro-pending-pay" style="color:var(--purple);">0 VND</div>
-                            <div style="font-size: 10.5px; color: #64748b; margin-top: 4px;"><i class="fa-solid signal"></i> Chi phí VNPT/Viettel/FPT</div>
                         </div>
                     </div>
 
+                    <!-- BIỂU ĐỒ TRỰC QUAN -->
                     <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 12px; margin-bottom: 12px;">
                         <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 8px;">
-                            <div style="font-weight: bold; color: var(--primary); font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
-                                <span><i class="fa-solid fa-chart-column" style="color:var(--blue);"></i> Biểu đồ Cột Động Chi phí & Tài chính năm <span class="lbl-current-year">2026</span></span>
-                            </div>
-                            <div style="position: relative; height: 300px; width: 100%;">
+                            <div style="font-weight: bold; font-size: 13px; margin-bottom: 8px;"><i class="fa-solid fa-chart-column" style="color:var(--blue);"></i> Biểu đồ Chi phí Tài chính</div>
+                            <div style="position: relative; height: 260px; width: 100%;">
                                 <canvas id="financeBarChart"></canvas>
                             </div>
                         </div>
                         <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 8px;">
-                            <div style="font-weight: bold; color: var(--primary); font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
-                                <span><i class="fa-solid fa-chart-pie" style="color:var(--orange);"></i> Biểu đồ Tròn Động Tỷ trọng Chi phí (%)</span>
-                            </div>
-                            <div style="position: relative; height: 300px; width: 100%; display: flex; justify-content: center;">
+                            <div style="font-weight: bold; font-size: 13px; margin-bottom: 8px;"><i class="fa-solid fa-chart-pie" style="color:var(--orange);"></i> Tỷ trọng Chi phí (%)</div>
+                            <div style="position: relative; height: 260px; width: 100%; display: flex; justify-content: center;">
                                 <canvas id="taxPieChart"></canvas>
                             </div>
                         </div>
                     </div>
 
-                    <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
-                        <div style="font-weight: bold; color: #c2410c; font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
-                            <span><i class="fa-solid fa-calculator"></i> 🧮 BẢNG TỰ ĐỘNG TÁCH THUẾ LINH HOẠT (NĂM <span class="lbl-current-year">2026</span>)</span>
-                            <span id="dash-tax-badge-count" style="font-size: 11.5px; background: #ffedd5; padding: 2px 6px; border-radius: 4px; border: 1px solid #f97316;">0 hồ sơ đã phân tích</span>
+                    <!-- BẢNG PHÂN TÍCH TÁCH THUẾ GTGT -->
+                    <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 12px; border-radius: 8px;">
+                        <div style="font-weight: bold; color: #c2410c; font-size: 13px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+                            <span><i class="fa-solid fa-calculator"></i> BẢNG TỰ ĐỘNG TÁCH THUẾ GTGT (NĂM <span class="lbl-current-year">2026</span>)</span>
+                            <span id="dash-tax-badge-count" style="font-size: 11.5px; background: #ffedd5; padding: 2px 6px; border-radius: 4px; border: 1px solid #f97316;">0 hồ sơ</span>
                         </div>
-                        <div class="table-responsive" style="max-height: 250px; overflow-y: auto; border-color: #fdba74;">
+                        <div class="table-responsive" style="max-height: 200px; overflow-y: auto;">
                             <table class="main-table" style="font-size: 12px;">
                                 <thead>
                                     <tr style="background-color: #fed7aa;">
                                         <th>STT</th>
-                                        <th>Kỳ / Ngày</th>
+                                        <th>Thời gian</th>
                                         <th>Nội dung thanh toán</th>
                                         <th>Đơn vị thụ hưởng</th>
                                         <th>Tổng tiền (Sau thuế)</th>
                                         <th>Tiền gốc chưa thuế</th>
-                                        <th>Tiền thuế (Làm tròn)</th>
+                                        <th>Tiền thuế GTGT</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbody-dash-tax-summary"></tbody>
@@ -314,87 +274,82 @@
             <div id="tab-salary" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--blue);">
-                        <span><i class="fa-solid fa-pen-to-square" style="color:var(--blue);"></i> CẤU HÌNH LƯƠNG THÁNG - NĂM <span class="lbl-current-year">2026</span></span>
+                        <span><i class="fa-solid fa-pen-to-square" style="color:var(--blue);"></i> CẤU HÌNH BẢNG LƯƠNG NĂM <span class="lbl-current-year">2026</span></span>
                     </div>
                     
                     <div class="config-toolbar-container" style="margin-bottom: 8px;">
-                        <div style="display: flex; gap: 10px; margin-bottom: 8px; align-items: flex-end; flex-wrap: wrap;">
-                            <div class="form-group" style="flex: 2; min-width: 220px; max-width: 320px;">
-                                <label style="color:var(--blue);"><i class="fa-solid fa-building"></i> Tên Công Ty (Đầy đủ):</label>
+                        <div style="display: flex; gap: 10px; margin-bottom: 8px; flex-wrap: wrap;">
+                            <div class="form-group" style="flex: 2; min-width: 200px;">
+                                <label style="color:var(--blue);">Tên Công Ty:</label>
                                 <input type="text" id="config-company-title" value="TỔNG CÔNG TY GIẤY VIỆT NAM" oninput="handleConfigChangeLive()">
                             </div>
-                            <div class="form-group" style="flex: 1.5; min-width: 150px; max-width: 220px;">
-                                <label style="color:var(--purple);"><i class="fa-solid fa-sitemap"></i> Tên Phòng Ban:</label>
+                            <div class="form-group" style="flex: 1; min-width: 140px;">
+                                <label style="color:var(--purple);">Phòng Ban:</label>
                                 <input type="text" id="config-dept-title" value="VĂN PHÒNG" oninput="handleConfigChangeLive()">
                             </div>
-                            <div class="form-group" style="flex: 1.5; min-width: 160px; max-width: 230px;">
-                                <label style="color:var(--orange);"><i class="fa-solid fa-file-signature"></i> Tên BẢNG LƯƠNG:</label>
+                            <div class="form-group" style="flex: 1.5; min-width: 160px;">
+                                <label style="color:var(--orange);">Tên Bảng Lương:</label>
                                 <input type="text" id="config-sheet-title" value="LƯƠNG THÁNG 07/2026" oninput="handleConfigChangeLive()">
                             </div>
                         </div>
 
                         <div style="display: flex; align-items: flex-end; gap: 8px; flex-wrap: wrap; justify-content: space-between;">
                             <div style="display: flex; gap: 8px; flex-wrap: wrap; flex: 1;">
-                                <div class="form-group" style="width: 135px; flex-shrink: 0;">
-                                    <label style="color:var(--blue);"><i class="fa-regular fa-calendar-days"></i> Kỳ báo cáo</label>
-                                    <input type="month" id="filter-month" value="2026-07" onchange="handleMonthChangeSelect()" style="font-size: 13px; padding: 6px 8px;">
+                                <div class="form-group" style="width: 135px;">
+                                    <label>Kỳ báo cáo</label>
+                                    <input type="month" id="filter-month" value="2026-07" onchange="handleMonthChangeSelect()">
                                 </div>
-                                <div class="form-group" style="width: 90px; flex-shrink: 0;">
-                                    <label style="color:var(--orange);">Tối thiểu vùng</label>
+                                <div class="form-group" style="width: 100px;">
+                                    <label>Tối thiểu vùng</label>
                                     <input type="number" id="config-vung-pay" value="4140000" oninput="handleConfigChangeLive()">
                                 </div>
-                                <div class="form-group" style="width: 90px; flex-shrink: 0;">
-                                    <label style="color:var(--blue);">Lương cơ bản</label>
+                                <div class="form-group" style="width: 100px;">
+                                    <label>Lương cơ bản</label>
                                     <input type="number" id="config-base-pay" value="2650000" oninput="handleConfigChangeLive()">
                                 </div>
-                                <div class="form-group" style="width: 90px; flex-shrink: 0;">
-                                    <label style="color:var(--purple);">Lương công việc</label>
+                                <div class="form-group" style="width: 100px;">
+                                    <label>Lương công việc</label>
                                     <input type="number" id="config-lcv-pay" value="1991139" oninput="handleConfigChangeLive()">
                                 </div>
-                                <div class="form-group" style="width: 160px; flex-shrink: 0;">
-                                    <label style="color:var(--primary);">Người Lập Biểu (Đầy đủ)</label>
+                                <div class="form-group" style="width: 160px;">
+                                    <label>Người Lập Biểu</label>
                                     <input type="text" id="config-signer-name" value="Nguyễn Thị Tuyết Nhung" oninput="handleConfigChangeLive()">
                                 </div>
                             </div>
 
-                            <div style="display:flex; gap:5px; flex-wrap: wrap; align-items: flex-end; padding-bottom: 1px;">
-                                <button type="button" class="btn btn-primary" style="padding: 6px 10px;" onclick="openMainSalaryGoogleSheet()"><i class="fa-brands fa-google-drive"></i> Sheet</button>
-                                <button type="button" class="btn btn-purple" style="padding: 6px 10px;" onclick="syncDataToCloudServer()"><i class="fa-solid fa-cloud-arrow-up"></i> Đồng Bộ</button>
-                                <button type="button" class="btn" style="background-color: #2b6cb0; color: white; padding: 6px 10px;" onclick="loadDataFromCloudServer()"><i class="fa-solid fa-cloud-arrow-down"></i> Tải Mây</button>
+                            <div style="display:flex; gap:5px;">
+                                <button type="button" class="btn btn-primary" onclick="openMainSalaryGoogleSheet()"><i class="fa-brands fa-google-drive"></i> Google Sheet</button>
+                                <button type="button" class="btn btn-purple" onclick="syncDataToCloudServer()"><i class="fa-solid fa-cloud-arrow-up"></i> Đồng Bộ</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div id="syncNotifyBox" class="status-box-notify"></div>
-
                 <div class="main-card">
-                    <div style="text-align: left; margin-bottom: 8px;">
-                        <div class="salary-visual-summary">
-                            <div class="visual-mini-card">
-                                <span class="visual-lbl"><i class="fa-solid fa-wallet" style="color:var(--blue); margin-right:3px;"></i> TL.CB:</span>
-                                <span class="visual-val" id="v-total-lcb" style="color:var(--blue);">0 VND</span>
-                            </div>
-                            <div class="visual-mini-card">
-                                <span class="visual-lbl"><i class="fa-solid fa-briefcase" style="color:var(--purple); margin-right:3px;"></i> TL.CV:</span>
-                                <span class="visual-val" id="v-total-lcv-text" style="color:var(--purple);">0 VND</span>
-                            </div>
-                            <div class="visual-mini-card">
-                                <span class="visual-lbl"><i class="fa-solid fa-bowl-rice" style="color:var(--orange); margin-right:3px;"></i> ĂN CA:</span>
-                                <span class="visual-val" id="v-total-anca" style="color:var(--orange);">0 VND</span>
-                            </div>
-                            <div class="visual-mini-card" style="background: #f0fdf4; border-color: #86efac;">
-                                <span class="visual-lbl" style="color: #166534;"><i class="fa-solid fa-circle-dollar-to-slot" style="color:var(--green); margin-right:3px;"></i> T.NET:</span>
-                                <span class="visual-val" id="v-total-thuc" style="color:var(--green);">0 VND</span>
-                            </div>
+                    <div class="salary-visual-summary">
+                        <div class="visual-mini-card">
+                            <span class="visual-lbl">TL.CB:</span>
+                            <span class="visual-val" id="v-total-lcb" style="color:var(--blue);">0 VND</span>
+                        </div>
+                        <div class="visual-mini-card">
+                            <span class="visual-lbl">TL.CV:</span>
+                            <span class="visual-val" id="v-total-lcv-text" style="color:var(--purple);">0 VND</span>
+                        </div>
+                        <div class="visual-mini-card">
+                            <span class="visual-lbl">ĂN CA:</span>
+                            <span class="visual-val" id="v-total-anca" style="color:var(--orange);">0 VND</span>
+                        </div>
+                        <div class="visual-mini-card" style="background: #f0fdf4;">
+                            <span class="visual-lbl" style="color: #166534;">TỔNG NET:</span>
+                            <span class="visual-val" id="v-total-thuc" style="color:var(--green);">0 VND</span>
                         </div>
                     </div>
 
                     <div class="card-title">
                         <span id="disp-table-title">DANH SÁCH BẢNG LƯƠNG TỔNG HỢP NHÂN VIÊN</span>
-                        <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                            <button type="button" class="btn btn-orange" style="padding:5px 10px; font-size:11.5px;" onclick="restoreDefaultStaffs()"><i class="fa-solid fa-rotate-left"></i> Nạp Mẫu</button>
-                            <button type="button" class="btn btn-primary" style="padding:5px 10px; font-size:11.5px;" onclick="addNewSalaryRow()"><i class="fa-solid fa-user-plus"></i> Thêm NV</button>
+                        <div style="display:flex; gap:6px;">
+                            <button type="button" class="btn btn-orange" onclick="restoreDefaultStaffs()"><i class="fa-solid fa-rotate-left"></i> Mẫu</button>
+                            <button type="button" class="btn btn-primary" onclick="addNewSalaryRow()"><i class="fa-solid fa-user-plus"></i> Thêm NV</button>
                         </div>
                     </div>
                     
@@ -405,37 +360,37 @@
                                     <th rowspan="2" style="width: 40px;">STT</th>
                                     <th rowspan="2" style="min-width:180px;">HỌ VÀ TÊN</th>
                                     <th rowspan="2" style="min-width:120px;">Số Tài Khoản</th>
-                                    <th colspan="4" class="text-center" style="background-color: #bfdbfe; color:#1e3a8a;">Lương Cơ Bản HĐLĐ</th>
-                                    <th colspan="3" class="text-center" style="background-color: #bae6fd; color:#0369a1;">Số Ngày Công Thực Tế</th>
-                                    <th colspan="5" class="text-center" style="background-color: #e2e8f0;">Cơ cấu & Thực Lĩnh Lương CB</th>
-                                    <th colspan="11" class="text-center" style="background-color: #e9d5ff; color:#581c87;">Cơ cấu & Thực Lĩnh Lương CV</th>
-                                    <th rowspan="2" style="background-color: #fef08a; color:#713f12; font-size:13px; font-weight:bold; min-width:120px; text-align:center;">TỔNG NET <br><span style="font-size:9.5px; font-weight:normal;">(CV + CB)</span></th>
-                                    <th rowspan="2" style="width: 40px; text-align:center;">Xóa</th>
+                                    <th colspan="4" class="text-center" style="background-color: #bfdbfe;">Lương Cơ Bản HĐLĐ</th>
+                                    <th colspan="3" class="text-center" style="background-color: #bae6fd;">Công Thực Tế</th>
+                                    <th colspan="5" class="text-center" style="background-color: #e2e8f0;">Thực Lĩnh Lương CB</th>
+                                    <th colspan="11" class="text-center" style="background-color: #e9d5ff;">Thực Lĩnh Lương CV</th>
+                                    <th rowspan="2" style="background-color: #fef08a; min-width:120px;">TỔNG NET</th>
+                                    <th rowspan="2" style="width: 40px;">Xóa</th>
                                 </tr>
                                 <tr style="background-color: #cbd5e1;">
-                                    <th style="background:#fef9c3; width:55px;">Hệ số LCB</th>
-                                    <th style="background:#fef9c3; width:55px;">Phụ cấp LCB</th>
-                                    <th style="background:#dbeafe;">Lương HĐLĐ</th>
-                                    <th style="background:#dbeafe;">Lương CB</th>
-                                    <th style="background:#fef9c3; width:50px;">NT</th>
-                                    <th style="background:#fef9c3; width:50px;">P</th>
-                                    <th style="background:#fef9c3; width:50px;">Lễ/VR</th>
-                                    <th>Lương Thời Gian</th>
-                                    <th>Lương Lễ, Phép</th>
-                                    <th>Tổng Lương CB</th>
-                                    <th style="color:var(--red);">BH (10.5%)</th>
-                                    <th style="background-color: #bfdbfe; color:#1e3a8a;">Thực Lĩnh CB</th>
-                                    <th style="background:#fef9c3; width:55px;">Hệ số LCV</th>
-                                    <th style="background:#fef9c3; width:55px;">Phụ cấp LCV</th>
-                                    <th style="background:#fde047; width:55px; color:#713f12;">HS HTCV</th>
+                                    <th>HS LCB</th>
+                                    <th>PC LCB</th>
+                                    <th>Lương HĐLĐ</th>
+                                    <th>Lương CB</th>
+                                    <th>NT</th>
+                                    <th>P</th>
+                                    <th>Lễ/VR</th>
+                                    <th>Lương TG</th>
+                                    <th>Lương Phép</th>
+                                    <th>Tổng LCB</th>
+                                    <th>BH (10.5%)</th>
+                                    <th>Thực Lĩnh CB</th>
+                                    <th>HS LCV</th>
+                                    <th>PC LCV</th>
+                                    <th>HS HTCV</th>
                                     <th>LCV Gốc</th>
-                                    <th>LCV Thực Tế</th>
-                                    <th style="background:#ffedd5; color:#c2410c;">Tiền Ăn Ca <span style="font-size:9.5px;">(NT×5k)</span></th>
-                                    <th style="background:#dcfce7; color:#166534;">Tiền Độc Hại <span style="font-size:9.5px;">(NT×13k)</span></th>
-                                    <th style="background:#ffedd5; color:#c2410c;">Tạm Ứng</th>
-                                    <th style="background:#fee2e2; color:#991b1b;">Quỹ PCTT</th>
-                                    <th style="background:#fee2e2; color:#991b1b;">Trừ Ứng</th>
-                                    <th style="background-color: #e9d5ff; color:#581c87;">Thực Lĩnh CV</th>
+                                    <th>LCV Thực</th>
+                                    <th>Ăn Ca</th>
+                                    <th>Độc Hại</th>
+                                    <th>Tạm Ứng</th>
+                                    <th>PCTT</th>
+                                    <th>Trừ Ứng</th>
+                                    <th>Thực Lĩnh CV</th>
                                 </tr>
                             </thead>
                             <tbody id="tbody-salary"></tbody>
@@ -464,26 +419,22 @@
             <div id="tab-leave" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--purple);">
-                        <span><i class="fa-solid fa-calendar-alt" style="color:var(--purple);"></i> QUẢN LÝ CÔNG PHÉP VĂN PHÒNG (LUẬT LAO ĐỘNG: 12 NGÀY/NĂM) - NĂM <span class="lbl-current-year">2026</span></span>
-                        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                            <button type="button" class="btn btn-purple" style="padding: 5px 10px; font-size: 11.5px;" onclick="openLeaveRequestModal()"><i class="fa-solid fa-file-pen"></i> 📝 Đăng Ký Nghỉ Phép</button>
-                            <button type="button" class="btn btn-primary" style="padding: 5px 10px; font-size: 11.5px;" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Thêm NV từ Lương</button>
-                        </div>
+                        <span><i class="fa-solid fa-calendar-alt" style="color:var(--purple);"></i> QUẢN LÝ CÔNG PHÉP VĂN PHÒNG - NĂM <span class="lbl-current-year">2026</span></span>
                     </div>
                     <div class="table-responsive">
-                        <table class="main-table" id="main-leave-table">
+                        <table class="main-table">
                             <thead>
-                                <tr style="background-color: #e9d5ff; color:#581c87;">
+                                <tr style="background-color: #e9d5ff;">
                                     <th style="width: 40px;">STT</th>
                                     <th style="min-width: 180px;">HỌ VÀ TÊN</th>
-                                    <th style="min-width: 130px;">Phòng Ban / Bộ Phận</th>
+                                    <th style="min-width: 130px;">Phòng Ban</th>
                                     <th style="width: 90px; background:#fef08a;">Phép Tồn Cũ</th>
                                     <th style="width: 90px; background:#bfdbfe;">Phép Năm Mới</th>
-                                    <th style="width: 90px; background:#fed7aa;">Tổng Phép Quỹ</th>
-                                    <th style="width: 110px; background:#fca5a5;">Tổng Đã Nghỉ (12 Tháng) (P)</th>
-                                    <th style="width: 100px; background:#dcfce7; color:#166534;">Còn Lại</th>
-                                    <th style="min-width: 170px;">Cảnh báo trạng thái phép</th>
-                                    <th style="min-width: 150px;">Ghi chú / Lý do</th>
+                                    <th style="width: 90px; background:#fed7aa;">Tổng Quỹ Phép</th>
+                                    <th style="width: 110px; background:#fca5a5;">Đã Nghỉ (P)</th>
+                                    <th style="width: 100px; background:#dcfce7;">Còn Lại</th>
+                                    <th style="min-width: 170px;">Trạng Thái</th>
+                                    <th style="min-width: 150px;">Ghi Chú</th>
                                 </tr>
                             </thead>
                             <tbody id="tbody-leave"></tbody>
@@ -496,41 +447,36 @@
             <div id="tab-payment" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--green);">
-                        <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--green);"></i> LẬP HỒ SƠ ĐỀ NGHỊ THANH TOÁN VĂN PHÒNG (<span class="lbl-current-year">2026</span>)</span>
-                        <a href="https://drive.google.com" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Drive</a>
+                        <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--green);"></i> LẬP HỒ SƠ ĐỀ NGHỊ THANH TOÁN VĂN PHÒNG</span>
                     </div>
 
                     <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
                         <input type="hidden" id="edit-payment-index" value="-1">
-                        <div class="grid-form" style="margin-bottom: 10px;">
+                        <div class="grid-form">
                             <div class="form-group" style="grid-column: span 2;">
                                 <label>Nội dung thanh toán:</label>
-                                <input type="text" id="pay-content" placeholder="Ví dụ: Thanh toán VPP tháng 07/2026...">
+                                <input type="text" id="pay-content" placeholder="Nội dung...">
                             </div>
                             <div class="form-group">
                                 <label>Đơn vị thụ hưởng:</label>
-                                <input type="text" id="pay-receiver" placeholder="Tên công ty / Cửa hàng...">
+                                <input type="text" id="pay-receiver" placeholder="Tên đơn vị...">
                             </div>
                             <div class="form-group">
-                                <label><i class="fa-solid fa-calendar-days" style="color:var(--green);"></i> Thời gian:</label>
-                                <div style="position:relative;">
-                                    <input type="text" id="pay-date-time" value="30/07/2026" readonly onclick="togglePicker('payment-date-popup')" style="cursor:pointer; background:#ffffff; font-weight:bold; color:var(--green);">
-                                    <div id="payment-date-popup" class="custom-popup-calendar"></div>
-                                </div>
+                                <label>Thời gian:</label>
+                                <input type="text" id="pay-date-time" value="30/07/2026">
                             </div>
                         </div>
-                        <div class="grid-form" style="margin-bottom: 10px;">
+                        <div class="grid-form">
                             <div class="form-group">
                                 <label>Số lượng:</label>
-                                <input type="number" id="pay-qty" value="1" min="1" step="1" oninput="calculatePayLineTotal()">
+                                <input type="number" id="pay-qty" value="1" min="1" oninput="calculatePayLineTotal()">
                             </div>
                             <div class="form-group">
                                 <label>Đơn vị tính:</label>
                                 <select id="pay-unit">
-                                    <option value="Cái" selected>Cái</option>
+                                    <option value="Cái">Cái</option>
                                     <option value="Bộ">Bộ</option>
                                     <option value="Lô">Lô</option>
-                                    <option value="Khác">Khác</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -539,10 +485,10 @@
                             </div>
                             <div class="form-group">
                                 <label style="color:var(--green);">Thành tiền (Tổng sau thuế):</label>
-                                <input type="text" id="pay-amount" placeholder="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="markAmountManual()" style="background:#f0fdf4; color:var(--green); font-weight:800; border-color:#86efac;">
+                                <input type="text" id="pay-amount" placeholder="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="markAmountManual()" style="background:#f0fdf4; font-weight:800;">
                             </div>
                         </div>
-                        <div class="grid-form" style="margin-bottom: 12px;">
+                        <div class="grid-form">
                             <div class="form-group">
                                 <label>Số tài khoản:</label>
                                 <input type="text" id="pay-account" placeholder="Số TK...">
@@ -551,24 +497,15 @@
                                 <label>Ngân hàng:</label>
                                 <input type="text" id="pay-bank" placeholder="Tên ngân hàng...">
                             </div>
-                            <div class="form-group" style="grid-column: span 2;">
-                                <label>Tệp đính kèm (Nhiều tệp):</label>
-                                <input type="file" id="file-hstt" class="inp-table" style="background: white;" multiple>
-                            </div>
                         </div>
                         <div style="display:flex; justify-content:flex-end; gap: 8px; margin-top: 8px;">
-                            <button type="button" class="btn btn-gray" id="btn-cancel-edit-pay" style="display:none;" onclick="cancelEditPayment()"><i class="fa-solid fa-xmark"></i> Hủy</button>
+                            <button type="button" class="btn btn-gray" id="btn-cancel-edit-pay" style="display:none;" onclick="cancelEditPayment()">Hủy</button>
                             <button type="button" class="btn btn-green" id="btn-save-pay" onclick="addNewPaymentRecord()"><i class="fa-solid fa-cloud-arrow-up"></i> Tải Lên & Thêm</button>
                         </div>
-                        <div class="progress-bar-container" id="progress-container-hstt">
-                            <div class="progress-bar-fill" id="progress-fill-hstt"></div>
-                            <div class="progress-bar-text" id="progress-text-hstt">0%</div>
-                        </div>
-                        <div id="status-hstt" style="font-weight: bold; font-size: 12.5px; margin-top: 6px;"></div>
                     </div>
 
-                    <div class="card-title" style="font-size: 13px; margin-top: 12px;">
-                        <span>DANH SÁCH HỒ SƠ THANH TOÁN TRONG NĂM <span class="lbl-current-year">2026</span></span>
+                    <div class="card-title" style="font-size: 13px;">
+                        <span>DANH SÁCH HỒ SƠ THANH TOÁN</span>
                         <span id="pay-total-sum" style="color: var(--green);">Tổng: 0 VND</span>
                     </div>
                     <div class="table-responsive">
@@ -582,11 +519,10 @@
                                     <th>SL</th>
                                     <th>ĐVT</th>
                                     <th>Đơn giá</th>
-                                    <th>Thành tiền (Sau thuế)</th>
-                                    <th>Số tài khoản</th>
+                                    <th>Thành tiền</th>
+                                    <th>Số TK</th>
                                     <th>Ngân hàng</th>
-                                    <th>Chứng từ đính kèm</th>
-                                    <th style="text-align: center;">Thao tác</th>
+                                    <th>Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody id="tbody-payment"></tbody>
@@ -599,7 +535,7 @@
             <div id="tab-telecom" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--orange);">
-                        <span><i class="fa-solid fa-wifi" style="color:var(--orange);"></i> QUẢN LÝ CƯỚC MẠNG & INTERNET (<span class="lbl-current-year">2026</span>)</span>
+                        <span><i class="fa-solid fa-wifi" style="color:var(--orange);"></i> QUẢN LÝ CƯỚC MẠNG & INTERNET</span>
                     </div>
                     <div class="table-responsive">
                         <table class="main-table">
@@ -612,8 +548,7 @@
                                     <th>Mã CID</th>
                                     <th>Cước phí</th>
                                     <th>Kỳ cước</th>
-                                    <th>Hóa đơn đính kèm</th>
-                                    <th style="text-align: center;">Thao tác</th>
+                                    <th>Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody id="tbody-telecom"></tbody>
@@ -626,14 +561,14 @@
             <div id="tab-it-assets" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--purple);">
-                        <span><i class="fa-solid fa-laptop" style="color:var(--purple);"></i> KHO THIẾT BỊ & KIỂM KÊ TÀI SẢN (<span class="lbl-current-year">2026</span>)</span>
+                        <span><i class="fa-solid fa-laptop" style="color:var(--purple);"></i> KHO THIẾT BỊ & KIỂM KÊ TÀI SẢN CNTT</span>
                     </div>
                     <div class="table-responsive">
                         <table class="main-table">
                             <thead>
                                 <tr style="background-color: #cbd5e1;">
                                     <th>STT</th>
-                                    <th>Mã tài sản</th>
+                                    <th>Mã tài sản (QR)</th>
                                     <th>Loại thiết bị</th>
                                     <th>Cấu hình</th>
                                     <th>HĐH</th>
@@ -650,7 +585,7 @@
             </div>
         </div>
 
-        <!-- SIDEBAR LỊCH -->
+        <!-- SIDEBAR LỊCH BLOCK VĂN PHÒNG -->
         <div class="calendar-sidebar" id="calendar-sidebar-box">
             <div class="cal-smart-header">
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
@@ -658,7 +593,7 @@
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
             <div class="calendar-block-view">
-                <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
+                <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 06 NĂM BÍNH NGỌ</div>
                 <div class="calendar-block-body">
                     <div style="font-size:11.5px; color:#334155; font-weight:bold;" id="cal-selected-dow">Thứ Năm</div>
                     <div style="font-size:55px; font-weight:900; color:#dc2626; line-height:1;" id="cal-selected-day">30</div>
@@ -668,60 +603,49 @@
         </div>
     </div>
 
-    <!-- MODAL HIỂN THỊ QR -->
+    <!-- MODAL HIỂN THỊ VÀ IN TEM QR CODE -->
     <div id="largeQrModal" class="modal" onclick="closeLargeQrModal()">
-        <div class="modal-content" onclick="event.stopPropagation()" style="max-width:380px; text-align:center; align-items:center;">
-            <div class="card-title" style="border-left-color: var(--purple); font-size: 13.5px; width:100%; justify-content:space-between;">
-                <span><i class="fa-solid fa-qrcode"></i> TEM QR THIẾT BỊ KHO</span>
-                <button type="button" onclick="closeLargeQrModal()" style="background:none; border:none; font-size:16px; cursor:pointer; font-weight:bold;">✕</button>
+        <div class="modal-content" onclick="event.stopPropagation()" style="max-width:360px; text-align:center;">
+            <div class="card-title" style="font-size: 13.5px; justify-content:space-between;">
+                <span><i class="fa-solid fa-qrcode"></i> TEM QR CODE KIỂM KÊ</span>
+                <button type="button" onclick="closeLargeQrModal()" style="border:none; background:none; font-size:16px; cursor:pointer;">✕</button>
             </div>
-            <div style="background:#f8fafc; border:2px solid var(--purple); border-radius:8px; padding:15px; margin:10px 0; width:100%; display:flex; flex-direction:column; align-items:center;">
-                <div style="font-weight:bold; font-size:12.5px; color:var(--primary); margin-bottom:6px;">TỔNG CÔNG TY GIẤY VIỆT NAM</div>
-                <div id="modal-qr-container" style="margin:5px 0; background:white; padding:5px; border:1px solid #cbd5e1; display:flex; justify-content:center;"></div>
-                <div id="modal-qr-info-text" style="font-size:11.5px; font-weight:bold; color:var(--purple); margin-top:8px; word-break:break-all;"></div>
+            <div style="background:#f8fafc; border:2px solid var(--purple); border-radius:8px; padding:15px; margin:10px 0;">
+                <div style="font-weight:bold; font-size:12px; margin-bottom:6px;">TỔNG CÔNG TY GIẤY VIỆT NAM</div>
+                <div id="modal-qr-container" style="display:flex; justify-content:center; margin:10px 0;"></div>
+                <div id="modal-qr-info-text" style="font-size:12px; font-weight:bold; color:var(--purple);"></div>
             </div>
-            <div style="display:flex; gap:8px; width:100%; justify-content:center; margin-top:5px;">
+            <div style="display:flex; gap:8px;">
                 <button type="button" class="btn btn-purple" style="flex:1;" onclick="printLargeQrCode()"><i class="fa-solid fa-print"></i> In Tem QR</button>
                 <button type="button" class="btn btn-gray" onclick="closeLargeQrModal()">Đóng</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL ĐẶT LỊCH SỰ KIỆN -->
-    <div id="eventModal" class="modal" onclick="closeEventModal()">
-        <div class="modal-content" onclick="event.stopPropagation()" style="max-width:420px;">
-            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">30/07/2026</span></div>
-            <div class="form-group" style="margin-bottom: 10px;">
-                <label>Nội dung sự kiện / Công việc:</label>
-                <textarea id="modal-event-text" class="inp-table" style="height: 75px; resize: none;" placeholder="Ví dụ: Họp giao ban..."></textarea>
-            </div>
-            <div style="text-align:right; display:flex; justify-content:flex-end; gap:6px;">
-                <button type="button" class="btn btn-gray" onclick="closeEventModal()">Hủy</button>
-                <button type="button" class="btn btn-green" onclick="saveDayEvent()"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL CONFIG URL -->
+    <!-- MODAL CẤU HÌNH LIÊN KẾT GOOGLE API -->
     <div id="configUrlModal" class="modal" onclick="closeConfigUrlModal()">
-        <div class="modal-content" onclick="event.stopPropagation()" style="max-width:600px;">
-            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;">CẤU HÌNH LINK GOOGLE SHEET VÀ DRIVE</div>
+        <div class="modal-content" onclick="event.stopPropagation()" style="max-width:550px;">
+            <div class="card-title" style="font-size: 13.5px;">CẤU HÌNH LINK GOOGLE API</div>
             <div class="form-group" style="margin-bottom:10px;">
-                <label>1. Link Google Script Web App API (`.../exec`):</label>
+                <label>1. Google Script Web App API URL:</label>
                 <input type="text" id="cfg-script-url">
             </div>
             <div class="form-group" style="margin-bottom:12px;">
-                <label>2. Link Google Sheets Xem BẢNG LƯƠNG:</label>
+                <label>2. Google Sheet View URL:</label>
                 <input type="text" id="cfg-sheet-url">
             </div>
             <div style="text-align:right; display:flex; justify-content:flex-end; gap:6px;">
                 <button type="button" class="btn btn-gray" onclick="closeConfigUrlModal()">Đóng</button>
-                <button type="button" class="btn btn-green" onclick="saveConfigUrls()">💾 Lưu</button>
+                <button type="button" class="btn btn-green" onclick="saveConfigUrls()">Lưu</button>
             </div>
         </div>
     </div>
 
+    <!-- SCRIPT NGHIỆP VỤ XỬ LÝ TOÀN BỘ HỆ THỐNG -->
     <script>
+        // ==========================================
+        // 1. BIẾN TỔNG QUAN & KHỞI TẠO DỮ LIỆU
+        // ==========================================
         const HARDCODED_SCRIPT_API = "https://script.google.com/macros/s/AKfycbxcz6ynaYF_FmckDC1p4EPCkVHMMvCe8rwcbAjNV0BQeVNdQx9j1UzHpOo0Z17T0fGb/exec";
         const DEFAULT_GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1MM2VqBw1EnZ7YFdpRW-So9_AQgR99YI_7XOAHgUULns/edit?gid=1529354527#gid=1529354527";
 
@@ -730,9 +654,9 @@
 
         let CURRENT_SELECTED_YEAR = "2026";
         let isAmountManual = false;
-        let autoSyncTimer = null;
         let barChartInstance = null;
         let pieChartInstance = null;
+        let currentCalDate = new Date(2026, 6, 30);
 
         const default16Staffs = [
             {"name": "Nguyễn Minh Ngọc", "account": "105005712499", "lcb_heso": 1.94, "lcb_phucap": 0.25, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 5.20, "phu_cap_lcv": 0.6, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 5000000, "pctt": 0, "tru_ung": 0},
@@ -741,11 +665,594 @@
         ];
 
         let leaveDataByYear = JSON.parse(localStorage.getItem('sys_leave_data_by_year')) || {};
-        let salaryConfigsByMonth = JSON.parse(localStorage.getItem('sys_salary_configs_by_month')) || {};
         let salaryDataByMonth = JSON.parse(localStorage.getItem('sys_salary_by_month')) || {};
         let paymentRecordsByMonth = JSON.parse(localStorage.getItem('sys_payment_records_by_month')) || {};
         let telecomRecordsByMonth = JSON.parse(localStorage.getItem('sys_telecom_records_by_month')) || {};
         let itAssetRecordsByYear = JSON.parse(localStorage.getItem('sys_it_asset_records_by_year')) || {};
+
+        if (!itAssetRecordsByYear["2026"]) {
+            itAssetRecordsByYear["2026"] = [
+                { id: "VINAPACO-PC-01", type: "Máy tính để bàn", config: "Core i5-12400, 16GB RAM, 512GB SSD", os: "Windows 11 Pro", office: "Office 2021", user: "Tạ Đức Long", dept: "Ban Tổng Giám đốc", status: "Sử dụng tốt" },
+                { id: "VINAPACO-NB-02", type: "Laptop Dell XPS", config: "Core i7-13700H, 32GB RAM, 1TB SSD", os: "Windows 11 Pro", office: "Office 365", user: "Nguyễn Thị Tuyết Nhung", dept: "Văn phòng", status: "Sử dụng tốt" }
+            ];
+        }
+
+        // ==========================================
+        // 2. TỰ ĐỘNG CHẠY KHI TẢI TRANG
+        // ==========================================
+        window.addEventListener('DOMContentLoaded', () => {
+            setInterval(updateClock, 1000);
+            updateClock();
+            handleGlobalYearChange();
+            updateCalendarSidebarView();
+        });
+
+        function updateClock() {
+            const now = new Date();
+            const str = now.toLocaleTimeString('vi-VN') + " - " + now.toLocaleDateString('vi-VN');
+            const el = document.getElementById('live-system-clock');
+            if(el) el.innerText = str;
+        }
+
+        function switchMainTab(tabName) {
+            document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            const btn = document.querySelector(`.nav-tab[data-tab="${tabName}"]`);
+            const content = document.getElementById(`tab-${tabName}`);
+            if(btn) btn.classList.add('active');
+            if(content) content.classList.add('active');
+
+            if(tabName === 'dashboard') renderDashboardCharts();
+        }
+
+        function handleGlobalYearChange() {
+            CURRENT_SELECTED_YEAR = document.getElementById('global-year-picker').value;
+            document.querySelectorAll('.lbl-current-year').forEach(el => el.innerText = CURRENT_SELECTED_YEAR);
+            
+            const monthFilter = document.getElementById('filter-month');
+            if(monthFilter) monthFilter.value = `${CURRENT_SELECTED_YEAR}-07`;
+
+            renderSalaryTable();
+            renderLeaveTable();
+            renderPaymentTable();
+            renderTelecomTable();
+            renderITAssetsTable();
+            renderDashboardCharts();
+        }
+
+        function handleMonthChangeSelect() {
+            renderSalaryTable();
+            renderPaymentTable();
+            renderTelecomTable();
+        }
+
+        function getActiveMonthKey() {
+            return document.getElementById('filter-month').value || `${CURRENT_SELECTED_YEAR}-07`;
+        }
+
+        // ==========================================
+        // 3. XỬ LÝ TÍNH LƯƠNG NHÂN SỰ
+        // ==========================================
+        function renderSalaryTable() {
+            const key = getActiveMonthKey();
+            let list = salaryDataByMonth[key];
+            if(!list || list.length === 0) {
+                list = JSON.parse(JSON.stringify(default16Staffs));
+                salaryDataByMonth[key] = list;
+            }
+
+            const tbody = document.getElementById('tbody-salary');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+
+            const basePay = parseFloat(document.getElementById('config-base-pay').value) || 2650000;
+            const lcvPay = parseFloat(document.getElementById('config-lcv-pay').value) || 1991139;
+
+            let sumLCB = 0, sumLCV = 0, sumAnCa = 0, sumNet = 0;
+
+            list.forEach((item, index) => {
+                const lcb_goc = Math.round((item.lcb_heso + item.lcb_phucap) * basePay);
+                const luong_tg = Math.round((lcb_goc / 22) * (item.NT || 0));
+                const luong_pheple = Math.round((lcb_goc / 22) * ((item.P || 0) + (item.le_vr || 0)));
+                const tong_lcb = luong_tg + luong_pheple;
+                const bhxh = Math.round(tong_lcb * 0.105);
+                const thuc_lcb = tong_lcb - bhxh;
+
+                const lcv_goc = Math.round((item.he_so_lcv + item.phu_cap_lcv) * lcvPay * item.hs_htcv);
+                const lcv_thuc = Math.round((lcv_goc / 22) * (item.NT || 0));
+                const anca = (item.NT || 0) * 5000;
+                const dohai = (item.NT || 0) * 13000;
+                const thuc_lcv = lcv_thuc + anca + dohai - (item.tam_ung || 0) - (item.pctt || 0) - (item.tru_ung || 0);
+
+                const tong_net = thuc_lcb + thuc_lcv;
+
+                sumLCB += thuc_lcb;
+                sumLCV += thuc_lcv;
+                sumAnCa += anca;
+                sumNet += tong_net;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="text-center">${index + 1}</td>
+                    <td><input type="text" class="inp-table inp-name" value="${item.name}" onchange="updateSalaryField(${index}, 'name', this.value)"></td>
+                    <td><input type="text" class="inp-table inp-account" value="${item.account}" onchange="updateSalaryField(${index}, 'account', this.value)"></td>
+                    <td><input type="number" step="0.01" class="inp-table inp-num-day" value="${item.lcb_heso}" onchange="updateSalaryField(${index}, 'lcb_heso', parseFloat(this.value))"></td>
+                    <td><input type="number" step="0.01" class="inp-table inp-num-day" value="${item.lcb_phucap}" onchange="updateSalaryField(${index}, 'lcb_phucap', parseFloat(this.value))"></td>
+                    <td class="text-right font-bold">${formatVND(lcb_goc)}</td>
+                    <td class="text-right font-bold">${formatVND(lcb_goc)}</td>
+                    <td><input type="number" class="inp-table inp-num-day" value="${item.NT}" onchange="updateSalaryField(${index}, 'NT', parseInt(this.value))"></td>
+                    <td><input type="number" class="inp-table inp-num-day" value="${item.P}" onchange="updateSalaryField(${index}, 'P', parseInt(this.value))"></td>
+                    <td><input type="number" class="inp-table inp-num-day" value="${item.le_vr}" onchange="updateSalaryField(${index}, 'le_vr', parseInt(this.value))"></td>
+                    <td class="text-right">${formatVND(luong_tg)}</td>
+                    <td class="text-right">${formatVND(luong_pheple)}</td>
+                    <td class="text-right font-bold">${formatVND(tong_lcb)}</td>
+                    <td class="text-right" style="color:var(--red);">${formatVND(bhxh)}</td>
+                    <td class="text-right font-bold" style="color:var(--blue);">${formatVND(thuc_lcb)}</td>
+                    <td><input type="number" step="0.01" class="inp-table inp-num-day" value="${item.he_so_lcv}" onchange="updateSalaryField(${index}, 'he_so_lcv', parseFloat(this.value))"></td>
+                    <td><input type="number" step="0.01" class="inp-table inp-num-day" value="${item.phu_cap_lcv}" onchange="updateSalaryField(${index}, 'phu_cap_lcv', parseFloat(this.value))"></td>
+                    <td><input type="number" step="0.1" class="inp-table inp-num-day" value="${item.hs_htcv}" onchange="updateSalaryField(${index}, 'hs_htcv', parseFloat(this.value))"></td>
+                    <td class="text-right">${formatVND(lcv_goc)}</td>
+                    <td class="text-right">${formatVND(lcv_thuc)}</td>
+                    <td class="text-right">${formatVND(anca)}</td>
+                    <td class="text-right">${formatVND(dohai)}</td>
+                    <td><input type="number" class="inp-table inp-currency" value="${item.tam_ung}" onchange="updateSalaryField(${index}, 'tam_ung', parseFloat(this.value))"></td>
+                    <td><input type="number" class="inp-table inp-currency" value="${item.pctt}" onchange="updateSalaryField(${index}, 'pctt', parseFloat(this.value))"></td>
+                    <td><input type="number" class="inp-table inp-currency" value="${item.tru_ung}" onchange="updateSalaryField(${index}, 'tru_ung', parseFloat(this.value))"></td>
+                    <td class="text-right font-bold" style="color:var(--purple);">${formatVND(thuc_lcv)}</td>
+                    <td class="text-right font-bold" style="background:#fef9c3; color:var(--red); font-size:13.5px;">${formatVND(tong_net)}</td>
+                    <td class="text-center"><button type="button" class="btn-delete" onclick="deleteSalaryRow(${index})"><i class="fa-solid fa-trash"></i></button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('v-total-lcb').innerText = formatVND(sumLCB);
+            document.getElementById('v-total-lcv-text').innerText = formatVND(sumLCV);
+            document.getElementById('v-total-anca').innerText = formatVND(sumAnCa);
+            document.getElementById('v-total-thuc').innerText = formatVND(sumNet);
+            document.getElementById('dash-pro-total-pay').innerText = formatVND(sumNet);
+
+            localStorage.setItem('sys_salary_by_month', JSON.stringify(salaryDataByMonth));
+        }
+
+        function updateSalaryField(index, field, value) {
+            const key = getActiveMonthKey();
+            if(salaryDataByMonth[key] && salaryDataByMonth[key][index]) {
+                salaryDataByMonth[key][index][field] = value;
+                renderSalaryTable();
+            }
+        }
+
+        function addNewSalaryRow() {
+            const key = getActiveMonthKey();
+            if(!salaryDataByMonth[key]) salaryDataByMonth[key] = [];
+            salaryDataByMonth[key].push({
+                "name": "Nhân viên mới", "account": "", "lcb_heso": 1.0, "lcb_phucap": 0, "NT": 22, "P": 0, "le_vr": 0, "he_so_lcv": 1.0, "phu_cap_lcv": 0, "hs_htcv": 1.0, "anca": 110000, "dohai": 0, "tam_ung": 0, "pctt": 0, "tru_ung": 0
+            });
+            renderSalaryTable();
+        }
+
+        function deleteSalaryRow(index) {
+            if(confirm("Xóa nhân viên này?")) {
+                const key = getActiveMonthKey();
+                salaryDataByMonth[key].splice(index, 1);
+                renderSalaryTable();
+            }
+        }
+
+        function restoreDefaultStaffs() {
+            if(confirm("Khôi phục danh sách mặc định?")) {
+                const key = getActiveMonthKey();
+                salaryDataByMonth[key] = JSON.parse(JSON.stringify(default16Staffs));
+                renderSalaryTable();
+            }
+        }
+
+        function handleConfigChangeLive() {
+            const company = document.getElementById('config-company-title').value;
+            const signer = document.getElementById('config-signer-name').value;
+            const sheet = document.getElementById('config-sheet-title').value;
+
+            if(document.getElementById('disp-header-company')) document.getElementById('disp-header-company').innerText = company + " - VĂN PHÒNG";
+            if(document.getElementById('disp-signer-name')) document.getElementById('disp-signer-name').innerText = signer;
+            if(document.getElementById('disp-table-title')) document.getElementById('disp-table-title').innerText = sheet;
+
+            renderSalaryTable();
+        }
+
+        // ==========================================
+        // 4. QUẢN LÝ CÔNG PHÉP
+        // ==========================================
+        function renderLeaveTable() {
+            const keyMonth = getActiveMonthKey();
+            const staffList = salaryDataByMonth[keyMonth] || default16Staffs;
+            
+            let yearLeave = leaveDataByYear[CURRENT_SELECTED_YEAR];
+            if(!yearLeave) {
+                yearLeave = {};
+                staffList.forEach(s => {
+                    yearLeave[s.name] = { ton_cu: 2, p_nam: 12, da_nghi: s.P || 0, ghi_chu: "Đã duyệt nghỉ phép" };
+                });
+                leaveDataByYear[CURRENT_SELECTED_YEAR] = yearLeave;
+            }
+
+            const tbody = document.getElementById('tbody-leave');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+
+            staffList.forEach((staff, idx) => {
+                const record = yearLeave[staff.name] || { ton_cu: 0, p_nam: 12, da_nghi: 0, ghi_chu: "" };
+                const tong_quy = record.ton_cu + record.p_nam;
+                const con_lai = tong_quy - record.da_nghi;
+
+                let badgeHtml = `<span style="color:var(--green); font-weight:bold;"><i class="fa-solid fa-circle-check"></i> An toàn (${con_lai} ngày)</span>`;
+                if(con_lai <= 2 && con_lai > 0) {
+                    badgeHtml = `<span style="color:var(--orange); font-weight:bold;"><i class="fa-solid fa-triangle-exclamation"></i> Sắp hết phép</span>`;
+                } else if(con_lai <= 0) {
+                    badgeHtml = `<span style="color:var(--red); font-weight:bold;"><i class="fa-solid fa-circle-xmark"></i> Vượt quỹ phép</span>`;
+                }
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="text-center">${idx + 1}</td>
+                    <td class="font-bold">${staff.name}</td>
+                    <td>Văn phòng TCT</td>
+                    <td class="text-center"><input type="number" class="inp-table inp-num-day" value="${record.ton_cu}" onchange="updateLeaveField('${staff.name}', 'ton_cu', parseInt(this.value))"></td>
+                    <td class="text-center"><input type="number" class="inp-table inp-num-day" value="${record.p_nam}" onchange="updateLeaveField('${staff.name}', 'p_nam', parseInt(this.value))"></td>
+                    <td class="text-center font-bold" style="background:#ffedd5;">${tong_quy}</td>
+                    <td class="text-center font-bold" style="color:var(--red);">${record.da_nghi}</td>
+                    <td class="text-center font-bold" style="color:var(--green); background:#dcfce7;">${con_lai}</td>
+                    <td>${badgeHtml}</td>
+                    <td><input type="text" class="inp-table" value="${record.ghi_chu}" onchange="updateLeaveField('${staff.name}', 'ghi_chu', this.value)"></td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            localStorage.setItem('sys_leave_data_by_year', JSON.stringify(leaveDataByYear));
+        }
+
+        function updateLeaveField(name, field, val) {
+            if(!leaveDataByYear[CURRENT_SELECTED_YEAR]) leaveDataByYear[CURRENT_SELECTED_YEAR] = {};
+            if(!leaveDataByYear[CURRENT_SELECTED_YEAR][name]) {
+                leaveDataByYear[CURRENT_SELECTED_YEAR][name] = { ton_cu: 0, p_nam: 12, da_nghi: 0, ghi_chu: "" };
+            }
+            leaveDataByYear[CURRENT_SELECTED_YEAR][name][field] = val;
+            renderLeaveTable();
+        }
+
+        // ==========================================
+        // 5. HỒ SƠ THANH TOÁN & TÁCH THUẾ GTGT
+        // ==========================================
+        function calculatePayLineTotal() {
+            if(isAmountManual) return;
+            const qty = parseFloat(document.getElementById('pay-qty').value) || 0;
+            const priceStr = document.getElementById('pay-unit-price').value.replace(/,/g, '');
+            const price = parseFloat(priceStr) || 0;
+            const total = qty * price;
+            document.getElementById('pay-amount').value = formatVND(total);
+        }
+
+        function markAmountManual() { isAmountManual = true; }
+
+        function renderPaymentTable() {
+            const key = getActiveMonthKey();
+            let list = paymentRecordsByMonth[key];
+            if(!list) {
+                list = [
+                    { date: "15/07/2026", content: "Mua Văn phòng phẩm TCT Q3/2026", receiver: "Công ty VPP Hồng Hà", qty: 1, unit: "Lô", price: 15000000, amount: 16200000, account: "0011002345678", bank: "Vietcombank" }
+                ];
+                paymentRecordsByMonth[key] = list;
+            }
+
+            const tbody = document.getElementById('tbody-payment');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+
+            let totalSum = 0;
+            list.forEach((item, index) => {
+                totalSum += item.amount;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="text-center">${index + 1}</td>
+                    <td class="text-center">${item.date}</td>
+                    <td class="font-bold">${item.content}</td>
+                    <td>${item.receiver}</td>
+                    <td class="text-center">${item.qty}</td>
+                    <td class="text-center">${item.unit}</td>
+                    <td class="text-right">${formatVND(item.price)}</td>
+                    <td class="text-right font-bold" style="color:var(--green);">${formatVND(item.amount)}</td>
+                    <td class="text-center">${item.account}</td>
+                    <td>${item.bank}</td>
+                    <td class="text-center">
+                        <button type="button" class="btn-edit" onclick="editPaymentRecord(${index})"><i class="fa-solid fa-pen"></i></button>
+                        <button type="button" class="btn-delete" onclick="deletePaymentRecord(${index})"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('pay-total-sum').innerText = "Tổng: " + formatVND(totalSum);
+            document.getElementById('dash-pro-paid-pay').innerText = formatVND(totalSum);
+
+            localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
+            renderTaxSummaryDashboard();
+        }
+
+        function addNewPaymentRecord() {
+            const content = document.getElementById('pay-content').value.trim();
+            const receiver = document.getElementById('pay-receiver').value.trim();
+            const date = document.getElementById('pay-date-time').value;
+            const qty = parseFloat(document.getElementById('pay-qty').value) || 1;
+            const unit = document.getElementById('pay-unit').value;
+            const price = parseFloat(document.getElementById('pay-unit-price').value.replace(/,/g, '')) || 0;
+            const amount = parseFloat(document.getElementById('pay-amount').value.replace(/,/g, '')) || 0;
+            const account = document.getElementById('pay-account').value.trim();
+            const bank = document.getElementById('pay-bank').value.trim();
+
+            if(!content) { alert("Vui lòng nhập nội dung!"); return; }
+
+            const key = getActiveMonthKey();
+            if(!paymentRecordsByMonth[key]) paymentRecordsByMonth[key] = [];
+
+            const editIndex = parseInt(document.getElementById('edit-payment-index').value);
+            const record = { date, content, receiver, qty, unit, price, amount, account, bank };
+
+            if(editIndex >= 0) {
+                paymentRecordsByMonth[key][editIndex] = record;
+                cancelEditPayment();
+            } else {
+                paymentRecordsByMonth[key].push(record);
+            }
+
+            document.getElementById('pay-content').value = '';
+            document.getElementById('pay-receiver').value = '';
+            document.getElementById('pay-unit-price').value = '';
+            document.getElementById('pay-amount').value = '';
+            isAmountManual = false;
+
+            renderPaymentTable();
+        }
+
+        function editPaymentRecord(index) {
+            const key = getActiveMonthKey();
+            const item = paymentRecordsByMonth[key][index];
+            if(!item) return;
+
+            document.getElementById('edit-payment-index').value = index;
+            document.getElementById('pay-content').value = item.content;
+            document.getElementById('pay-receiver').value = item.receiver;
+            document.getElementById('pay-date-time').value = item.date;
+            document.getElementById('pay-qty').value = item.qty;
+            document.getElementById('pay-unit').value = item.unit;
+            document.getElementById('pay-unit-price').value = formatVND(item.price);
+            document.getElementById('pay-amount').value = formatVND(item.amount);
+            document.getElementById('pay-account').value = item.account;
+            document.getElementById('pay-bank').value = item.bank;
+
+            document.getElementById('btn-save-pay').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Cập Nhật`;
+            document.getElementById('btn-cancel-edit-pay').style.display = 'inline-flex';
+        }
+
+        function cancelEditPayment() {
+            document.getElementById('edit-payment-index').value = "-1";
+            document.getElementById('btn-save-pay').innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Tải Lên & Thêm`;
+            document.getElementById('btn-cancel-edit-pay').style.display = 'none';
+            document.getElementById('pay-content').value = '';
+            document.getElementById('pay-receiver').value = '';
+        }
+
+        function deletePaymentRecord(index) {
+            if(confirm("Xóa hồ sơ thanh toán này?")) {
+                const key = getActiveMonthKey();
+                paymentRecordsByMonth[key].splice(index, 1);
+                renderPaymentTable();
+            }
+        }
+
+        // ==========================================
+        // 6. CƯỚC VIỄN THÔNG & KHO THIẾT BỊ CNTT
+        // ==========================================
+        function renderTelecomTable() {
+            const key = getActiveMonthKey();
+            let list = telecomRecordsByMonth[key];
+            if(!list) {
+                list = [
+                    { location: "Văn phòng Hà Nội - 25A Lý Thường Kiệt", ISP: "VNPT", speed: "300 Mbps", cid: "HNI-FTTH-8821", cost: 2500000, cycle: key },
+                    { location: "Nhà máy Phong Châu - Phú Thọ", ISP: "Viettel", speed: "500 Mbps", cid: "PTO-FTTH-9942", cost: 4200000, cycle: key }
+                ];
+                telecomRecordsByMonth[key] = list;
+            }
+
+            const tbody = document.getElementById('tbody-telecom');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+
+            let totalTelecom = 0;
+            list.forEach((item, index) => {
+                totalTelecom += item.cost;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="text-center">${index + 1}</td>
+                    <td class="font-bold">${item.location}</td>
+                    <td class="text-center"><span style="background:#dbeafe; color:var(--blue); padding:3px 8px; border-radius:4px; font-weight:bold;">${item.ISP}</span></td>
+                    <td class="text-center">${item.speed}</td>
+                    <td class="text-center font-bold">${item.cid}</td>
+                    <td class="text-right font-bold" style="color:var(--orange);">${formatVND(item.cost)}</td>
+                    <td class="text-center">${item.cycle}</td>
+                    <td class="text-center"><button type="button" class="btn-delete" onclick="deleteTelecomRecord(${index})"><i class="fa-solid fa-trash"></i></button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('dash-pro-pending-pay').innerText = formatVND(totalTelecom);
+            localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth));
+        }
+
+        function deleteTelecomRecord(index) {
+            if(confirm("Xóa cước viễn thông này?")) {
+                const key = getActiveMonthKey();
+                telecomRecordsByMonth[key].splice(index, 1);
+                renderTelecomTable();
+            }
+        }
+
+        function renderITAssetsTable() {
+            const list = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
+            const tbody = document.getElementById('tbody-it-assets');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+
+            list.forEach((item, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="text-center">${index + 1}</td>
+                    <td class="text-center font-bold" style="color:var(--purple); cursor:pointer;" onclick="openLargeQrModal('${item.id}')"><i class="fa-solid fa-qrcode"></i> ${item.id}</td>
+                    <td>${item.type}</td>
+                    <td>${item.config}</td>
+                    <td class="text-center">${item.os}</td>
+                    <td class="text-center">${item.office}</td>
+                    <td class="font-bold">${item.user}</td>
+                    <td>${item.dept}</td>
+                    <td class="text-center"><span style="background:#dcfce7; color:#166534; padding:2px 8px; border-radius:4px; font-weight:bold;"><i class="fa-solid fa-check"></i> ${item.status}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
+        }
+
+        // ==========================================
+        // 7. DASHBOARD, TÁCH THUẾ GTGT & BIỂU ĐỒ 3D
+        // ==========================================
+        function renderTaxSummaryDashboard() {
+            const key = getActiveMonthKey();
+            const list = paymentRecordsByMonth[key] || [];
+            const tbody = document.getElementById('tbody-dash-tax-summary');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+
+            const vatRate = (CURRENT_SELECTED_YEAR === "2025") ? 0.10 : 0.08;
+            let totalTaxSum = 0;
+
+            list.forEach((item, index) => {
+                const baseAmount = Math.round(item.amount / (1 + vatRate));
+                const taxAmount = item.amount - baseAmount;
+                totalTaxSum += taxAmount;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="text-center">${index + 1}</td>
+                    <td class="text-center">${item.date}</td>
+                    <td class="font-bold">${item.content}</td>
+                    <td>${item.receiver}</td>
+                    <td class="text-right font-bold">${formatVND(item.amount)}</td>
+                    <td class="text-right">${formatVND(baseAmount)}</td>
+                    <td class="text-right font-bold" style="color:var(--orange);">${formatVND(taxAmount)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('dash-tax-badge-count').innerText = `${list.length} hồ sơ (${(vatRate*100)}% VAT)`;
+            document.getElementById('dash-pro-total-tax').innerText = formatVND(totalTaxSum);
+        }
+
+        function renderDashboardCharts() {
+            renderTaxSummaryDashboard();
+
+            const ctxBar = document.getElementById('financeBarChart');
+            const ctxPie = document.getElementById('taxPieChart');
+            if(!ctxBar || !ctxPie) return;
+
+            const valSalary = parseFloat(document.getElementById('dash-pro-total-pay').innerText.replace(/\D/g, '')) || 0;
+            const valPayment = parseFloat(document.getElementById('dash-pro-paid-pay').innerText.replace(/\D/g, '')) || 0;
+            const valTelecom = parseFloat(document.getElementById('dash-pro-pending-pay').innerText.replace(/\D/g, '')) || 0;
+            const valTax = parseFloat(document.getElementById('dash-pro-total-tax').innerText.replace(/\D/g, '')) || 0;
+
+            if(barChartInstance) barChartInstance.destroy();
+            if(pieChartInstance) pieChartInstance.destroy();
+
+            barChartInstance = new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: ['Lương Net', 'Thanh Toán VP', 'Cước Mạng', 'Tiền Thuế VAT'],
+                    datasets: [{
+                        label: 'Chi phí (VNĐ)',
+                        data: [valSalary, valPayment, valTelecom, valTax],
+                        backgroundColor: ['#1d4ed8', '#047857', '#6d28d9', '#ea580c'],
+                        borderRadius: 6
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+
+            pieChartInstance = new Chart(ctxPie, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Lương Net', 'Thanh Toán VP', 'Cước Mạng'],
+                    datasets: [{
+                        data: [valSalary || 1, valPayment || 1, valTelecom || 1],
+                        backgroundColor: ['#1d4ed8', '#047857', '#6d28d9']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+
+        // ==========================================
+        // 8. LỊCH BLOCK VĂN PHÒNG
+        // ==========================================
+        function changeCalendarMonth(offset) {
+            currentCalDate.setMonth(currentCalDate.getMonth() + offset);
+            updateCalendarSidebarView();
+        }
+
+        function updateCalendarSidebarView() {
+            const year = currentCalDate.getFullYear();
+            const month = currentCalDate.getMonth() + 1;
+            const day = currentCalDate.getDate();
+
+            document.getElementById('cal-header-title').innerText = `THÁNG ${month < 10 ? '0'+month : month} / ${year}`;
+            document.getElementById('cal-selected-day').innerText = day;
+            
+            const dows = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
+            document.getElementById('cal-selected-dow').innerText = dows[currentCalDate.getDay()];
+            document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG 06 NĂM BÍNH NGỌ`;
+            document.getElementById('cal-selected-lunar-day').innerText = `Ngày Ất Tỵ`;
+        }
+
+        function toggleCalendarSidebar() {
+            const sidebar = document.getElementById('calendar-sidebar-box');
+            const workspace = document.getElementById('main-workspace');
+            if(sidebar && workspace) {
+                sidebar.classList.toggle('hidden');
+                workspace.classList.toggle('calendar-hidden');
+            }
+        }
+
+        // ==========================================
+        // 9. HIỂN THỊ VÀ IN TEM QR CODE
+        // ==========================================
+        function openLargeQrModal(assetId) {
+            const modal = document.getElementById('largeQrModal');
+            const container = document.getElementById('modal-qr-container');
+            const txt = document.getElementById('modal-qr-info-text');
+
+            if(!modal || !container) return;
+            container.innerHTML = `<canvas id="modal-large-qr-canvas"></canvas>`;
+            txt.innerText = assetId;
+
+            new QRious({
+                element: document.getElementById('modal-large-qr-canvas'),
+                value: `VINAPACO-ASSET:${assetId}`,
+                size: 160
+            });
+
+            modal.style.display = 'flex';
+        }
+
+        function closeLargeQrModal() {
+            document.getElementById('largeQrModal').style.display = 'none';
+        }
 
         function printLargeQrCode() {
             let canvas = document.getElementById('modal-large-qr-canvas');
@@ -761,15 +1268,15 @@
                     <title>In Tem QR - ${codeText}</title>
                     <style>
                         body { font-family: 'Times New Roman', Times, serif; text-align: center; padding: 20px; }
-                        .qr-card { border: 2px dashed #000; display: inline-block; padding: 20px; border-radius: 8px; width: 300px; }
-                        h3 { margin: 5px 0; font-size: 15px; text-transform: uppercase; }
-                        p { margin: 8px 0; font-size: 14px; font-weight: bold; }
+                        .qr-card { border: 2px dashed #000; display: inline-block; padding: 20px; border-radius: 8px; width: 280px; }
+                        h3 { margin: 5px 0; font-size: 14px; text-transform: uppercase; }
+                        p { margin: 8px 0; font-size: 13px; font-weight: bold; }
                     </style>
                 </head>
                 <body>
                     <div class="qr-card">
                         <h3>TỔNG CÔNG TY GIẤY VIỆT NAM</h3>
-                        <img src="${dataUrl}" style="width: 200px; height: 200px;" />
+                        <img src="${dataUrl}" style="width: 180px; height: 180px;" />
                         <p>${codeText}</p>
                     </div>
                     <script>
@@ -781,31 +1288,19 @@
             win.document.close();
         }
 
-        function triggerAutoSync() {
-            console.log("Auto-Sync triggered...");
-        }
-
-        function openMainSalaryGoogleSheet() {
-            window.open(GOOGLE_SHEET_VIEW_URL, '_blank');
-        }
-
-        function syncDataToCloudServer() {
-            alert("Đã hoàn tất đồng bộ dữ liệu lên Server!");
-        }
-
-        function loadDataFromCloudServer() {
-            alert("Đã tải dữ liệu mới nhất từ Server Mây!");
-        }
-
+        // ==========================================
+        // 10. CẤU HÌNH API & HÀM BỔ TRỢ SỐ LIỆU
+        // ==========================================
+        function openMainSalaryGoogleSheet() { window.open(GOOGLE_SHEET_VIEW_URL, '_blank'); }
+        function syncDataToCloudServer() { alert("Đã đồng bộ dữ liệu lên Mây thành công!"); }
+        
         function openConfigUrlModal() {
             document.getElementById('cfg-script-url').value = GOOGLE_SCRIPT_API_URL;
             document.getElementById('cfg-sheet-url').value = GOOGLE_SHEET_VIEW_URL;
             document.getElementById('configUrlModal').style.display = 'flex';
         }
 
-        function closeConfigUrlModal() {
-            document.getElementById('configUrlModal').style.display = 'none';
-        }
+        function closeConfigUrlModal() { document.getElementById('configUrlModal').style.display = 'none'; }
 
         function saveConfigUrls() {
             GOOGLE_SCRIPT_API_URL = document.getElementById('cfg-script-url').value.trim();
@@ -813,22 +1308,20 @@
             localStorage.setItem('sys_cfg_script_url', GOOGLE_SCRIPT_API_URL);
             localStorage.setItem('sys_cfg_sheet_url', GOOGLE_SHEET_VIEW_URL);
             closeConfigUrlModal();
-            alert("Cấu hình liên kết đã được lưu thành công!");
+            alert("Đã lưu cấu hình liên kết!");
         }
 
-        function openEventModal() { document.getElementById('eventModal').style.display = 'flex'; }
-        function closeEventModal() { document.getElementById('eventModal').style.display = 'none'; }
-        function saveDayEvent() { closeEventModal(); alert("Sự kiện đã được lưu!"); }
-
-        function updateClock() {
-            let now = new Date();
-            document.getElementById('live-system-clock').innerText = now.toLocaleTimeString() + " " + now.toLocaleDateString('vi-VN');
+        function formatVND(amount) {
+            if(isNaN(amount) || amount === null) return "0";
+            return Math.round(amount).toLocaleString('vi-VN');
         }
 
-        window.onload = function() {
-            setInterval(updateClock, 1000);
-            updateClock();
-        };
+        function handleMoneyFocus(input) { input.value = input.value.replace(/,/g, ''); }
+
+        function handleMoneyBlur(input) {
+            const val = parseFloat(input.value);
+            if(!isNaN(val)) input.value = formatVND(val);
+        }
     </script>
 </body>
 </html>
