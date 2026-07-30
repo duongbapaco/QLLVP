@@ -123,8 +123,8 @@
 
         .custom-popup-calendar { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 99999; background: white; border: 2px solid var(--blue); border-radius: 8px; box-shadow: 0 4px 25px rgba(0,0,0,0.3); width: 300px; max-width: 90vw; padding: 12px; font-family: 'Times New Roman', Times, serif; }
         .popup-cal-top-bar { display: flex; gap: 4px; margin-bottom: 8px; justify-content: space-between; }
-        .popup-cal-top-bar select { padding: 6px; border: 1.5px solid var(--blue); border-radius: 4px; font-weight: bold; font-size: 12px; color: var(--primary); background: #f8fafc; cursor: pointer; font-family: 'Times New Roman', Times, serif; }
-        .popup-cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-weight: bold; color: var(--primary); font-size: 13px; background: #e2e8f0; padding: 6px 8px; border-radius: 4px; }
+        .popup-cal-top-bar select { padding: 6px; border: 1.5px solid var(--blue); border-radius: 4px; font-weight: bold; font-size: 12px; color: #0f172a; background: #f8fafc; cursor: pointer; font-family: 'Times New Roman', Times, serif; }
+        .popup-cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-weight: bold; color: #0f172a; font-size: 13px; background: #e2e8f0; padding: 6px 8px; border-radius: 4px; }
         .popup-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; text-align: center; font-size: 12.5px; }
         .popup-cal-grid div { padding: 7px 0; font-weight: bold; }
         .popup-dow { color: #64748b; background: #f1f5f9; font-size: 11px; }
@@ -1671,6 +1671,12 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    // THÊM KHOẢNG ĐỆM PHÍA TRÊN ĐỂ KHÔNG BỊ CHE LẤP SỐ LIỆU CỘT CAO
+                    layout: {
+                        padding: {
+                            top: 25
+                        }
+                    },
                     animation: {
                         duration: 800,
                         easing: 'easeOutQuart'
@@ -1696,6 +1702,11 @@
                     scales: {
                         y: { 
                             beginAtZero: true,
+                            // TỰ ĐỘNG NỚI RỘNG TRỤC Y CHO THOÁNG KHÔNG GIAN PHÍA TRÊN CỘT
+                            suggestedMax: function(context) {
+                                let maxVal = Math.max(...context.chart.data.datasets[0].data);
+                                return maxVal > 0 ? maxVal * 1.15 : 100;
+                            },
                             grid: { color: '#e2e8f0' },
                             ticks: {
                                 font: { size: 11, family: 'Times New Roman', weight: 'bold' },
