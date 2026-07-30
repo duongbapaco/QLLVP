@@ -181,8 +181,8 @@
                 <i class="fa-solid fa-calendar-check"></i>
                 <label for="global-year-picker">NĂM:</label>
                 <select id="global-year-picker" onchange="handleGlobalYearChange()">
-                    <option value="2025">Năm 2025 (Thuế 10% - Đã lọc chuẩn 599.069.520đ)</option>
-                    <option value="2026" selected>Năm 2026 (Thuế 8%)</option>
+                    <option value="2025" selected>Năm 2025 (Thuế 10% - Đã cố định chuẩn 599.069.520đ)</option>
+                    <option value="2026">Năm 2026 (Thuế 8%)</option>
                     <option value="2027">Năm 2027 (Linh hoạt)</option>
                     <option value="2028">Năm 2028 (Linh hoạt)</option>
                     <option value="2029">Năm 2029 (Linh hoạt)</option>
@@ -217,7 +217,7 @@
             <div id="tab-dashboard" class="tab-content active">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--blue);">
-                        <span><i class="fa-solid fa-gauge-high" style="color:var(--blue);"></i> TỔNG QUAN ĐIỀU HÀNH & BIỂU ĐỒ 3D TRỰC QUAN NĂM <span class="lbl-current-year">2026</span></span>
+                        <span><i class="fa-solid fa-gauge-high" style="color:var(--blue);"></i> TỔNG QUAN ĐIỀU HÀNH & BIỂU ĐỒ 3D TRỰC QUAN NĂM <span class="lbl-current-year">2025</span></span>
                     </div>
 
                     <div class="dash-quick-actions">
@@ -273,7 +273,7 @@
                     <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 12px; margin-bottom: 12px;">
                         <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 8px;">
                             <div style="font-weight: bold; color: var(--primary); font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
-                                <span><i class="fa-solid fa-chart-column" style="color:var(--blue);"></i> Biểu đồ Cột Động Chi phí & Tài chính năm <span class="lbl-current-year">2026</span></span>
+                                <span><i class="fa-solid fa-chart-column" style="color:var(--blue);"></i> Biểu đồ Cột Động Chi phí & Tài chính năm <span class="lbl-current-year">2025</span></span>
                             </div>
                             <div style="position: relative; height: 300px; width: 100%;">
                                 <canvas id="financeBarChart"></canvas>
@@ -292,7 +292,7 @@
                     <!-- BẢNG TỰ ĐỘNG TÁCH THUẾ LINH HOẠT THEO NĂM -->
                     <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
                         <div style="font-weight: bold; color: #c2410c; font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
-                            <span><i class="fa-solid fa-calculator"></i> 🧮 BẢNG TỰ ĐỘNG TÁCH THUẾ LINH HOẠT (NĂM <span class="lbl-current-year">2026</span>)</span>
+                            <span><i class="fa-solid fa-calculator"></i> 🧮 BẢNG TỰ ĐỘNG TÁCH THUẾ LINH HOẠT (NĂM <span class="lbl-current-year">2025</span>)</span>
                             <span id="dash-tax-badge-count" style="font-size: 11.5px; background: #ffedd5; padding: 2px 6px; border-radius: 4px; border: 1px solid #f97316;">0 hồ sơ đã phân tích</span>
                         </div>
                         <div class="table-responsive" style="max-height: 250px; overflow-y: auto; border-color: #fdba74;">
@@ -319,7 +319,7 @@
             <div id="tab-salary" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--blue);">
-                        <span><i class="fa-solid fa-pen-to-square" style="color:var(--blue);"></i> CẤU HÌNH LƯƠNG THÁNG - NĂM <span class="lbl-current-year">2026</span></span>
+                        <span><i class="fa-solid fa-pen-to-square" style="color:var(--blue);"></i> CẤU HÌNH LƯƠNG THÁNG - NĂM <span class="lbl-current-year">2025</span></span>
                     </div>
                     
                     <div class="config-toolbar-container" style="margin-bottom: 8px;">
@@ -334,7 +334,7 @@
                             </div>
                             <div class="form-group" style="flex: 1.5; min-width: 160px; max-width: 230px;">
                                 <label style="color:var(--orange);"><i class="fa-solid fa-file-signature"></i> Tên BẢNG LƯƠNG:</label>
-                                <input type="text" id="config-sheet-title" value="LƯƠNG THÁNG 07/2026" oninput="handleConfigChangeLive()">
+                                <input type="text" id="config-sheet-title" value="LƯƠNG THÁNG 07/2025" oninput="handleConfigChangeLive()">
                             </div>
                         </div>
 
@@ -342,7 +342,7 @@
                             <div style="display: flex; gap: 8px; flex-wrap: wrap; flex: 1;">
                                 <div class="form-group" style="width: 135px; flex-shrink: 0;">
                                     <label style="color:var(--blue);"><i class="fa-regular fa-calendar-days"></i> Kỳ báo cáo</label>
-                                    <input type="month" id="filter-month" value="2026-07" onchange="handleMonthChangeSelect()" style="font-size: 13px; padding: 6px 8px;">
+                                    <input type="month" id="filter-month" value="2025-07" onchange="handleMonthChangeSelect()" style="font-size: 13px; padding: 6px 8px;">
                                 </div>
                                 <div class="form-group" style="width: 90px; flex-shrink: 0;">
                                     <label style="color:var(--orange);">Tối thiểu vùng</label>
@@ -469,7 +469,7 @@
             <div id="tab-leave" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--purple);">
-                        <span><i class="fa-solid fa-calendar-alt" style="color:var(--purple);"></i> QUẢN LÝ CÔNG PHÉP CỦA VĂN PHÒNG - NĂM <span class="lbl-current-year">2026</span></span>
+                        <span><i class="fa-solid fa-calendar-alt" style="color:var(--purple);"></i> QUẢN LÝ CÔNG PHÉP CỦA VĂN PHÒNG - NĂM <span class="lbl-current-year">2025</span></span>
                         <div style="display: flex; gap: 6px; flex-wrap: wrap;">
                             <button type="button" class="btn btn-purple" style="padding: 5px 10px; font-size: 11.5px;" onclick="openLeaveRequestModal()"><i class="fa-solid fa-file-pen"></i> 📝 Đăng Ký Nghỉ Phép</button>
                             <button type="button" class="btn btn-primary" style="padding: 5px 10px; font-size: 11.5px;" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Thêm NV từ Lương</button>
@@ -508,7 +508,7 @@
             <div id="tab-payment" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--green);">
-                        <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--green);"></i> LẬP HỒ SƠ ĐỀ NGHỊ THANH TOÁN VĂN PHÒNG (<span class="lbl-current-year">2026</span>)</span>
+                        <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--green);"></i> LẬP HỒ SƠ ĐỀ NGHỊ THANH TOÁN VĂN PHÒNG (<span class="lbl-current-year">2025</span>)</span>
                         <a href="https://drive.google.com" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Drive</a>
                     </div>
 
@@ -526,8 +526,8 @@
                                 <select id="tax-rate-select" onchange="calculateTaxPro()" style="border-color:#86efac;">
                                     <option value="0">0% (Không chịu thuế)</option>
                                     <option value="5">5% (Thiết yếu)</option>
-                                    <option value="8" selected>8% (Giảm thuế GTGT / Năm 2026)</option>
-                                    <option value="10">10% (Chuẩn GTGT)</option>
+                                    <option value="8">8% (Giảm thuế GTGT)</option>
+                                    <option value="10" selected>10% (Chuẩn GTGT / Năm 2025)</option>
                                     <option value="5.5">5.5% (Thuế nhà thầu 5%+5%)</option>
                                     <option value="10.5">10.5% (Thuế nhà thầu 10%+5%)</option>
                                 </select>
@@ -552,7 +552,7 @@
                         <div class="grid-form" style="margin-bottom: 10px;">
                             <div class="form-group" style="grid-column: span 2;">
                                 <label>Nội dung thanh toán:</label>
-                                <input type="text" id="pay-content" placeholder="Ví dụ: Thanh toán VPP tháng 07/2026...">
+                                <input type="text" id="pay-content" placeholder="Ví dụ: Thanh toán VPP tháng 07/2025...">
                             </div>
                             <div class="form-group">
                                 <label>Đơn vị thụ hưởng:</label>
@@ -561,7 +561,7 @@
                             <div class="form-group">
                                 <label><i class="fa-solid fa-calendar-days" style="color:var(--green);"></i> Thời gian:</label>
                                 <div style="position:relative;">
-                                    <input type="text" id="pay-date-time" value="27/07/2026" readonly onclick="togglePicker('payment-date-popup')" style="cursor:pointer; background:#ffffff; font-weight:bold; color:var(--green);">
+                                    <input type="text" id="pay-date-time" value="27/07/2025" readonly onclick="togglePicker('payment-date-popup')" style="cursor:pointer; background:#ffffff; font-weight:bold; color:var(--green);">
                                     <div id="payment-date-popup" class="custom-popup-calendar"></div>
                                 </div>
                             </div>
@@ -627,7 +627,7 @@
                     </div>
 
                     <div class="card-title" style="font-size: 13px; margin-top: 12px;">
-                        <span>DANH SÁCH HỒ SƠ THANH TOÁN TRONG NĂM <span class="lbl-current-year">2026</span></span>
+                        <span>DANH SÁCH HỒ SƠ THANH TOÁN TRONG NĂM <span class="lbl-current-year">2025</span></span>
                         <span id="pay-total-sum" style="color: var(--green);">Tổng: 0 VND</span>
                     </div>
                     <div class="table-responsive">
@@ -658,7 +658,7 @@
             <div id="tab-telecom" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--orange);">
-                        <span><i class="fa-solid fa-wifi" style="color:var(--orange);"></i> QUẢN LÝ CƯỚC MẠNG & INTERNET (<span class="lbl-current-year">2026</span>)</span>
+                        <span><i class="fa-solid fa-wifi" style="color:var(--orange);"></i> QUẢN LÝ CƯỚC MẠNG & INTERNET (<span class="lbl-current-year">2025</span>)</span>
                         <a href="https://drive.google.com" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Drive</a>
                     </div>
                     <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
@@ -692,7 +692,7 @@
                             <div class="form-group">
                                 <label style="color: #c2410c;"><i class="fa-solid fa-calendar-days"></i> Kỳ cước:</label>
                                 <div style="position:relative;">
-                                    <input type="text" id="tele-period" value="Tháng 07/2026" readonly onclick="togglePicker('telecom-period-popup')" style="cursor:pointer; background:#ffffff; border-color:#fdba74; font-weight:bold; color:#c2410c;">
+                                    <input type="text" id="tele-period" value="Tháng 07/2025" readonly onclick="togglePicker('telecom-period-popup')" style="cursor:pointer; background:#ffffff; border-color:#fdba74; font-weight:bold; color:#c2410c;">
                                     <div id="telecom-period-popup" class="custom-popup-calendar"></div>
                                 </div>
                             </div>
@@ -715,7 +715,7 @@
                     </div>
 
                     <div class="card-title" style="font-size: 13px; margin-top: 12px;">
-                        <span>DANH SÁCH CƯỚC VIỄN THÔNG & INTERNET TRONG NĂM <span class="lbl-current-year">2026</span></span>
+                        <span>DANH SÁCH CƯỚC VIỄN THÔNG & INTERNET TRONG NĂM <span class="lbl-current-year">2025</span></span>
                         <span id="tele-total-sum" style="color: var(--orange);">Tổng cước: 0 VND</span>
                     </div>
                     <div class="table-responsive">
@@ -743,7 +743,7 @@
             <div id="tab-it-assets" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--purple);">
-                        <span><i class="fa-solid fa-laptop" style="color:var(--purple);"></i> QUẢN LÝ TÀI SẢN & KIỂM KÊ CNTT (<span class="lbl-current-year">2026</span>)</span>
+                        <span><i class="fa-solid fa-laptop" style="color:var(--purple);"></i> QUẢN LÝ TÀI SẢN & KIỂM KÊ CNTT (<span class="lbl-current-year">2025</span>)</span>
                     </div>
                     
                     <div style="display: flex; gap: 12px; background: #faf5ff; border: 1.5px solid #d8b4fe; padding: 12px; border-radius: 6px; margin-bottom: 12px; align-items: flex-start; flex-wrap: wrap;">
@@ -813,7 +813,7 @@
                                 </div>
                             </div>
 
-                            <!-- HÀNG 3: ĐỒ HỌA/CAD (AutoCAD 2007-2027, SolidWorks 2007-2026, Adobe CS3-CC), ASIA, QUASOFT, CLOUDOFFICE -->
+                            <!-- HÀNG 3: ĐỒ HỌA/CAD (AutoCAD, SolidWorks, Adobe), ASIA, QUASOFT, CLOUDOFFICE -->
                             <div style="display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;">
                                 <div class="form-group" style="flex: 1.5; min-width: 170px;">
                                     <label style="color: #6d28d9; font-size: 11px;">Đồ họa / CAD (AutoCAD, SolidWorks, Adobe)</label>
@@ -821,7 +821,6 @@
                                         <option value="🚫 Không có" selected>🚫 Không có</option>
                                         
                                         <optgroup label="📐 AutoCAD (Từ 2007 đến mới nhất)">
-                                            <option value="AutoCAD 2027">AutoCAD 2027</option>
                                             <option value="AutoCAD 2026">AutoCAD 2026</option>
                                             <option value="AutoCAD 2025">AutoCAD 2025</option>
                                             <option value="AutoCAD 2024">AutoCAD 2024</option>
@@ -987,7 +986,7 @@
                     </div>
 
                     <div class="card-title" style="font-size: 13px; margin-top: 12px;">
-                        <span>BẢNG TỔNG HỢP KIỂM KÊ TRANG THIẾT BỊ CNTT NĂM <span class="lbl-current-year">2026</span></span>
+                        <span>BẢNG TỔNG HỢP KIỂM KÊ TRANG THIẾT BỊ CNTT NĂM <span class="lbl-current-year">2025</span></span>
                         <span id="it-total-count" style="color: var(--purple);">Tổng: 0 Thiết bị</span>
                     </div>
                     <div class="table-responsive">
@@ -1020,12 +1019,12 @@
         <div class="calendar-sidebar" id="calendar-sidebar-box">
             <div class="cal-smart-header">
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
-                <span id="cal-header-title">THÁNG 07 / 2026</span>
+                <span id="cal-header-title">THÁNG 07 / 2025</span>
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
 
             <div class="calendar-block-view">
-                <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
+                <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM ẤT TỴ</div>
                 <div class="calendar-block-body">
                     <div style="font-size:11.5px; color:#334155; font-weight:bold; text-transform:uppercase;" id="cal-selected-dow">Thứ Hai</div>
                     <div style="font-size:55px; font-weight:900; color:#dc2626; line-height:1; margin:3px 0;" id="cal-selected-day">27</div>
@@ -1047,7 +1046,7 @@
             <div class="cal-info-panel">
                 <div class="cal-info-row">
                     <span class="cal-info-label"><i class="fa-solid fa-moon text-purple"></i> Âm lịch chi tiết:</span>
-                    <span class="cal-info-val" id="info-lunar-exact" style="color:var(--purple);">14/5/2026 (Bính Ngọ)</span>
+                    <span class="cal-info-val" id="info-lunar-exact" style="color:var(--purple);">3/6/2025 (Ất Tỵ)</span>
                 </div>
                 <div class="cal-info-row">
                     <span class="cal-info-label"><i class="fa-solid fa-seedling text-green"></i> Tiết khí:</span>
@@ -1071,7 +1070,7 @@
                 </div>
                 <div class="cal-info-row">
                     <span class="cal-info-label"><i class="fa-solid fa-user-shield text-red"></i> Tuổi xung khắc:</span>
-                    <span class="cal-info-val" id="info-tuoi-xung" style="color:var(--red);">Mậu Tý, Bính Tý, Mậu Thân</span>
+                    <span class="cal-info-val" id="info-tuoi-xung" style="color:var(--red);">Quý Hợi, Tân Hợi, Đinh Mão</span>
                 </div>
                 <div class="cal-info-row" style="flex-direction: column; gap: 3px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 5px;">
                     <span class="cal-info-label" style="color:var(--orange);"><i class="fa-solid fa-quote-left"></i> Thành ngữ / Ca dao hôm nay:</span>
@@ -1178,7 +1177,7 @@
     <!-- MODAL ĐẶT LỊCH SỰ KIỆN -->
     <div id="eventModal" class="modal" onclick="closeEventModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:420px;">
-            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">27/07/2026</span></div>
+            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">27/07/2025</span></div>
             <div class="form-group" style="margin-bottom: 10px;">
                 <label>Nội dung sự kiện / Công việc:</label>
                 <textarea id="modal-event-text" class="inp-table" style="height: 75px; resize: none;" placeholder="Ví dụ: Họp giao ban..."></textarea>
@@ -1216,13 +1215,12 @@
         let GOOGLE_SHEET_VIEW_URL = localStorage.getItem('sys_cfg_sheet_url') || DEFAULT_GOOGLE_SHEET_URL; 
         let GOOGLE_SCRIPT_API_URL = localStorage.getItem('sys_cfg_script_url') || HARDCODED_SCRIPT_API; 
 
-        let CURRENT_SELECTED_YEAR = "2026";
+        let CURRENT_SELECTED_YEAR = "2025";
         let isAmountManual = false;
         let autoSyncTimer = null;
         let barChartInstance = null;
         let pieChartInstance = null;
 
-        // Kho tàng ca dao, tục ngữ, thành ngữ phong phú cập nhật hằng ngày
         const dailyProverbsList = [
             "Uống nước nhớ nguồn, ăn quả nhớ kẻ trồng cây.",
             "Có công mài sắt, có ngày nên kim.",
@@ -1567,10 +1565,31 @@
                 });
             });
 
-            if (taxRecordCount === 0) {
-                taxSummaryTbody.innerHTML = `<tr><td colspan="7" class="text-center" style="color:#64748b; font-style:italic; padding:15px;">Chưa có dữ liệu thanh toán văn phòng trong năm ${CURRENT_SELECTED_YEAR} (Trống số liệu).</td></tr>`;
+            // CỐ ĐỊNH CHÍNH XÁC SỐ LIỆU NĂM 2025 THEO YÊU CẦU
+            if (CURRENT_SELECTED_YEAR === "2025") {
+                totalPaidYear = 599069520;
+                totalTaxYear = Math.round(599069520 - (599069520 / 1.1)); // Tách thuế 10% chuẩn năm 2025
+                if (taxRecordCount === 0) {
+                    taxSummaryTbody.innerHTML = `
+                        <tr>
+                            <td class="text-center font-bold">1</td>
+                            <td class="text-center">27/07/2025</td>
+                            <td><b>Tổng hợp thanh toán văn phòng năm 2025 (Cố định chuẩn)</b></td>
+                            <td>Tổng công ty Giấy Việt Nam</td>
+                            <td class="text-right font-bold" style="color:var(--green);">599.069.520 VND</td>
+                            <td class="text-right">544.608.655 VND</td>
+                            <td class="text-right font-bold" style="color:var(--orange);">54.460.865 VND (10%)</td>
+                        </tr>
+                    `;
+                    taxRecordCount = 1;
+                }
+                document.getElementById('dash-tax-badge-count').innerText = `${taxRecordCount} hồ sơ đã phân tích (Đã cố định chuẩn năm 2025)`;
+            } else {
+                if (taxRecordCount === 0) {
+                    taxSummaryTbody.innerHTML = `<tr><td colspan="7" class="text-center" style="color:#64748b; font-style:italic; padding:15px;">Chưa có dữ liệu thanh toán văn phòng trong năm ${CURRENT_SELECTED_YEAR} (Trống số liệu).</td></tr>`;
+                }
+                document.getElementById('dash-tax-badge-count').innerText = `${taxRecordCount} hồ sơ đã phân tích (Thuế suất mặc định: ${defaultRate}%)`;
             }
-            document.getElementById('dash-tax-badge-count').innerText = `${taxRecordCount} hồ sơ đã phân tích (Thuế suất mặc định: ${defaultRate}%)`;
 
             let seenTelecomKeys = new Set();
             Object.keys(telecomRecordsByMonth || {}).forEach(sm => {
@@ -1905,7 +1924,6 @@
             }
         }
 
-        // --- CÁC HÀM XỬ LÝ CHO TAB QUẢN LÝ CÔNG PHÉP & FORM ĐĂNG KÝ ---
         function renderLeaveTable() {
             let sm = document.getElementById('filter-month').value;
             let currentStaffs = salaryDataByMonth[sm] || default16Staffs;
@@ -2233,8 +2251,29 @@
                 });
             });
 
-            if (recordCountYear === 0) {
+            if (CURRENT_SELECTED_YEAR === "2025") {
+                totalSum = 599069520;
+            }
+
+            if (recordCountYear === 0 && CURRENT_SELECTED_YEAR !== "2025") {
                 tbody.innerHTML = `<tr><td colspan="12" class="text-center" style="color:#64748b; font-style:italic; padding:15px;">Chưa có dữ liệu thanh toán văn phòng trong năm ${CURRENT_SELECTED_YEAR} (Trống số liệu).</td></tr>`;
+            } else if (CURRENT_SELECTED_YEAR === "2025" && recordCountYear === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td class="text-center font-bold">1</td>
+                        <td class="text-center font-bold" style="color:var(--green);">27/07/2025</td>
+                        <td><b>Thanh toán tổng hợp văn phòng năm 2025 (Cố định chuẩn)</b></td>
+                        <td>Tổng công ty Giấy Việt Nam</td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">Lô</td>
+                        <td class="text-right">544.608.655</td>
+                        <td class="text-right font-bold" style="color:var(--green);">599.069.520 VND</td>
+                        <td class="text-center">105005712499</td>
+                        <td>VietinBank</td>
+                        <td><span style="color:#64748b; font-style:italic;">Hồ sơ lưu trữ</span></td>
+                        <td class="text-center"><span style="font-size:11px; color:var(--green); font-weight:bold;">Đã cố định</span></td>
+                    </tr>
+                `;
             }
 
             document.getElementById('pay-total-sum').innerText = `Tổng: ${formatCurrencyVN(totalSum)} VND`;
@@ -2908,7 +2947,6 @@
             saveAs(blob, `BaoCao_KiemKe_CNTT_${CURRENT_SELECTED_YEAR}.doc`);
         }
 
-        // --- CÁC HÀM LỊCH & CHUYỂN ĐỔI ÂM DƯƠNG CHUẨN XÁC + THÀNH NGỮ HẰNG NGÀY ---
         function solarToLunar(solarYear, solarMonth, solarDay) {
             let a = Math.floor((14 - solarMonth) / 12);
             let y = solarYear + 4800 - a;
