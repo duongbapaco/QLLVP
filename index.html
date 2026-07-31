@@ -979,7 +979,8 @@
                             <div class="form-group">
                                 <label style="color: #166534;">Chủng loại mực nhập</label>
                                 <select id="import-ink-model" style="border-color: #86efac;">
-                                    <option value="Mực in dùng cho máy in Laser 5200 (HP Q7516A)" selected>Mực in dùng cho máy in Laser 5200 (HP Q7516A)</option>
+                                    <option value="Mực CBT Q5949A (Cho máy in Canon 3300)" selected>Mực CBT Q5949A (Cho máy in Canon 3300)</option>
+                                    <option value="Mực in dùng cho máy in Laser 5200 (HP Q7516A)">Mực in dùng cho máy in Laser 5200 (HP Q7516A)</option>
                                     <option value="Mực Canon 303 (Cho Canon LBP 2900 / 3000)">Mực Canon 303 (Canon 2900)</option>
                                     <option value="Mực HP 85A (CE285A)">Mực HP 85A (CE285A)</option>
                                     <option value="Mực HP 12A (Q2612A)">Mực HP 12A (Q2612A)</option>
@@ -1049,7 +1050,8 @@
                             <div class="form-group">
                                 <label style="color: #1e3a8a;">Chủng loại mực cấp</label>
                                 <select id="ink-model" style="border-color: #93c5fd;">
-                                    <option value="Mực in dùng cho máy in Laser 5200 (HP Q7516A)" selected>Mực in dùng cho máy in Laser 5200 (HP Q7516A)</option>
+                                    <option value="Mực CBT Q5949A (Cho máy in Canon 3300)" selected>Mực CBT Q5949A (Cho máy in Canon 3300)</option>
+                                    <option value="Mực in dùng cho máy in Laser 5200 (HP Q7516A)">Mực in dùng cho máy in Laser 5200 (HP Q7516A)</option>
                                     <option value="Mực Canon 303 (Cho Canon LBP 2900 / 3000)">Mực Canon 303 (Canon 2900)</option>
                                     <option value="Mực HP 85A (CE285A)">Mực HP 85A (CE285A)</option>
                                     <option value="Mực HP 12A (Q2612A)">Mực HP 12A (Q2612A)</option>
@@ -1081,7 +1083,7 @@
                         <div style="display: flex; gap: 10px; align-items: center; justify-content: space-between; border-top: 1px dashed #93c5fd; padding-top: 10px; flex-wrap: wrap;">
                             <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
                                 <label style="color: #1e3a8a;">Ghi chú / Mục đích sử dụng:</label>
-                                <input type="text" id="ink-note" placeholder="Dùng cho máy in Laser 5200..." style="border-color: #93c5fd;">
+                                <input type="text" id="ink-note" placeholder="Dùng cho máy in Canon 3300..." style="border-color: #93c5fd;">
                             </div>
                             <div style="display:flex; gap:6px;">
                                 <button type="button" class="btn btn-gray" id="btn-cancel-edit-ink" style="display:none;" onclick="cancelEditInk()"><i class="fa-solid fa-xmark"></i> Hủy</button>
@@ -3067,6 +3069,7 @@
 
             // Thêm các loại mực chuẩn vào bảng cân đối để người dùng dễ theo dõi ngay cả khi kho chưa nhập
             const standardInkModels = [
+                "Mực CBT Q5949A (Cho máy in Canon 3300)",
                 "Mực in dùng cho máy in Laser 5200 (HP Q7516A)",
                 "Mực Canon 303 (Cho Canon LBP 2900 / 3000)",
                 "Mực HP 85A (CE285A)",
