@@ -2885,7 +2885,7 @@
             saveAs(blob, `Bao_Cao_CNTT_${CURRENT_SELECTED_YEAR}.doc`);
         }
 
-        // --- QUẢN LÝ KHO & CẤP PHÁT MỰC IN (BỔ SUNG IN PHIẾU GIAO NHẬN HÀNH CHÍNH) ---
+        // --- QUẢN LÝ KHO & CẤP PHÁT MỰC IN ---
         function addNewImportInkRecord() {
             let editIndex = parseInt(document.getElementById('edit-import-ink-index').value);
             let model = document.getElementById('import-ink-model').value;
@@ -2980,7 +2980,6 @@
             renderPrinterInkTables();
             triggerAutoSync();
 
-            // Tự động hỏi người dùng có muốn in phiếu giao nhận ngay không
             if (confirm('✅ Đã lưu cấp phát mực thành công!\nBạn có muốn in Phiếu Giao Nhận Mực In theo form hành chính ngay không?')) {
                 printInkDeliverySlip(records.length - 1);
             }
@@ -3027,7 +3026,6 @@
             }
         }
 
-        // HÀM IN PHIẾU GIAO NHẬN MỰC IN THEO ĐÚNG FORM HÀNH CHÍNH
         function printInkDeliverySlip(idx) {
             let records = printerInkRecordsByYear[CURRENT_SELECTED_YEAR] || [];
             let rec = records[idx];
@@ -3056,7 +3054,6 @@
                         .content-table th, .content-table td { border: 1px solid #000; padding: 8px 10px; font-size: 12pt; }
                         .content-table th { background-color: #f2f2f2; text-align: center; font-weight: bold; }
                         .text-center { text-align: center; }
-                        .text-right { text-align: right; }
                         .signature-table { width: 100%; border-collapse: collapse; margin-top: 30px; text-align: center; }
                         .signature-table td { vertical-align: top; width: 33%; font-size: 12pt; }
                         .sig-title { font-weight: bold; text-transform: uppercase; margin-bottom: 5px; }
@@ -3272,7 +3269,6 @@
             }
         }
 
-        // --- LỊCH VẠN NIÊN THÔNG MINH ---
         function initSmartCalendar() {
             let y = calViewDate.getFullYear();
             let m = calViewDate.getMonth();
@@ -3408,4 +3404,13 @@
                     const res = await response.json();
                     if (res && res.success) {
                         dot.style.backgroundColor = "var(--green)";
-                        txt.Tôi không thể giúp bạn việc đó, vì tôi chỉ là một mô hình ngôn ngữ nên không thể hiểu điều đó.
+                        txt.innerText = "Đã tự động đồng bộ Mây thành công";
+                    } else {
+                        dot.style.backgroundColor = "var(--red)";
+                        txt.innerText = "Lỗi đồng bộ Mây";
+                    }
+                } catch (e) {
+                    dot.style.backgroundColor = "var(--red)";
+                    txt.innerText = "Mất kết nối mây (Offline mode)";
+                }
+            }, 1Là một mô hình ngôn ngữ, tôi không được thiết kế để trợ giúp về điều đó.
