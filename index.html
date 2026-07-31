@@ -728,7 +728,7 @@
                 </div>
             </div>
 
-            <!-- TAB 4: KHO THIẾT BỊ CNTT (ĐẦY ĐỦ PHIÊN BẢN PHẦN MỀM: SOLIDWORKS, AUTOCAD, ADOBE, ASIA, CLOUDOFFICE) -->
+            <!-- TAB 4: KHO THIẾT BỊ CNTT (ĐẦY ĐỦ PHIÊN BẢN PHẦN MỀM: SOLIDWORKS, AUTOCAD, ADOBE, ASIA, CLOUDOFFICE & TRẠNG THÁI BẢN QUYỀN) -->
             <div id="tab-it-assets" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--purple);">
@@ -795,7 +795,7 @@
                                         <option value="Không cài đặt">Không cài</option>
                                     </select>
                                 </div>
-                                <div class="form-group" style="flex: 1.5; min-width: 160px;">
+                                <div class="form-group" style="flex: 1.5; min-width: 155px;">
                                     <label style="color: #6d28d9; font-size: 11px;">SolidWorks (2007 - Mới nhất)</label>
                                     <select id="it-solidworks" style="border-color: #d8b4fe; padding: 5px 6px; height: 32px; font-size: 11px;" onchange="updateLiveQRPreview()">
                                         <option value="🚫 Không cài đặt" selected>🚫 Không cài đặt</option>
@@ -813,7 +813,7 @@
                                         <option value="SolidWorks 2007 - 2009">SolidWorks 2007 - 2009</option>
                                     </select>
                                 </div>
-                                <div class="form-group" style="flex: 1.5; min-width: 160px;">
+                                <div class="form-group" style="flex: 1.5; min-width: 155px;">
                                     <label style="color: #6d28d9; font-size: 11px;">AutoCAD (2007 - Mới nhất)</label>
                                     <select id="it-autocad" style="border-color: #d8b4fe; padding: 5px 6px; height: 32px; font-size: 11px;" onchange="updateLiveQRPreview()">
                                         <option value="🚫 Không cài đặt" selected>🚫 Không cài đặt</option>
@@ -831,7 +831,7 @@
                                         <option value="AutoCAD 2007 - 2009">AutoCAD 2007 - 2009</option>
                                     </select>
                                 </div>
-                                <div class="form-group" style="flex: 1.3; min-width: 150px;">
+                                <div class="form-group" style="flex: 1.3; min-width: 145px;">
                                     <label style="color: #6d28d9; font-size: 11px;">Adobe Suite (CS3 - CC)</label>
                                     <select id="it-adobe" style="border-color: #d8b4fe; padding: 5px 6px; height: 32px; font-size: 11px;" onchange="updateLiveQRPreview()">
                                         <option value="🚫 Không cài đặt" selected>🚫 Không cài đặt</option>
@@ -845,33 +845,41 @@
                                 </div>
                             </div>
 
-                            <!-- HÀNG PHẦN MỀM DOANH NGHIỆP: ASIA/QUASOFT & CLOUDOFFICIAL -->
+                            <!-- HÀNG PHẦN MỀM DOANH NGHIỆP: ASIA, CLOUDOFFICE & TRẠNG THÁI BẢN QUYỀN (ƯU TIÊN CHƯA CÓ) -->
                             <div style="display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;">
-                                <div class="form-group" style="flex: 1.5; min-width: 170px;">
+                                <div class="form-group" style="flex: 1.4; min-width: 160px;">
                                     <label style="color: #6d28d9; font-size: 11px;">Phần mềm ASIA / Quasoft</label>
                                     <select id="it-asia" style="border-color: #d8b4fe; padding: 5px 6px; height: 32px; font-size: 11px;">
                                         <option value="Đã có bản quyền ASIA/Quasoft" selected>✅ Đã có BQ ASIA/Quasoft</option>
-                                        <option value="Chưa có bản quyền">⚠️ Chưa có BQ</option>
+                                        <option value="Chưa có bản quyền ASIA/Quasoft">⚠️ Chưa có BQ ASIA</option>
                                         <option value="🚫 Không cài đặt">🚫 Không cài</option>
                                     </select>
                                 </div>
-                                <div class="form-group" style="flex: 1.5; min-width: 170px;">
+                                <div class="form-group" style="flex: 1.4; min-width: 160px;">
                                     <label style="color: #6d28d9; font-size: 11px;">Phần mềm CloudOffice</label>
                                     <select id="it-cloudoffice" style="border-color: #d8b4fe; padding: 5px 6px; height: 32px; font-size: 11px;">
-                                        <option value="Đã cấu hình & sử dụng CloudOffice" selected>✅ Đã cấu hình CloudOffice</option>
+                                        <option value="Đã có bản quyền CloudOffice" selected>✅ Đã có BQ CloudOffice</option>
+                                        <option value="Chưa có bản quyền CloudOffice">⚠️ Chưa có BQ CloudOffice</option>
                                         <option value="Đang tập huấn sử dụng">🔄 Đang tập huấn</option>
                                         <option value="🚫 Không sử dụng">🚫 Không sử dụng</option>
                                     </select>
                                 </div>
-                                <div class="form-group" style="flex: 2; min-width: 180px;">
+                                <div class="form-group" style="flex: 1.3; min-width: 155px; background: #fffbeb; padding: 2px 4px; border-radius: 4px; border: 1.5px solid #fde047;">
+                                    <label style="color: #b45309; font-size: 11px; font-weight: bold;"><i class="fa-solid fa-shield-halved"></i> Bản quyền phần mềm</label>
+                                    <select id="it-license-status" style="border-color: #fde047; padding: 4px 6px; height: 28px; font-size: 11px; background: #ffffff; color: #b45309; font-weight: bold;">
+                                        <option value="⚠️ Chưa có bản quyền" selected>⚠️ Chưa có bản quyền</option>
+                                        <option value="🔒 Đã có bản quyền">🔒 Đã có bản quyền</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="flex: 1.8; min-width: 170px;">
                                     <label style="color: #6d28d9; font-size: 11px;">Cấu hình / Thông số chi tiết phần cứng</label>
                                     <input type="text" id="it-specs" value="Dell Latitude, Core i5, 16GB RAM, 512GB SSD" style="border-color: #d8b4fe; padding: 5px 7px; height: 32px;">
                                 </div>
-                                <div class="form-group" style="flex: 1; min-width: 110px;">
-                                    <label style="color: #6d28d9; font-size: 11px;">Ngày bàn giao</label>
+                                <div class="form-group" style="flex: 0.9; min-width: 100px;">
+                                    <label style="color: #6d28d9; font-size: 11px;">Ngày giao</label>
                                     <input type="date" id="it-date" style="border-color: #d8b4fe; padding: 5px 7px; height: 32px;">
                                 </div>
-                                <div class="form-group" style="flex: 1; min-width: 110px;">
+                                <div class="form-group" style="flex: 0.9; min-width: 100px;">
                                     <label style="color: #6d28d9; font-size: 11px;">Trạng thái</label>
                                     <select id="it-status" style="border-color: #d8b4fe; padding: 5px 7px; height: 32px;">
                                         <option value="Tốt - Đang sử dụng">Tốt - Sử dụng</option>
@@ -928,7 +936,7 @@
                     </div>
 
                     <div class="card-title" style="font-size: 13px; margin-top: 12px;">
-                        <span>KHO THIẾT BỊ & PHẦN MỀM NĂM <span class="lbl-current-year">2026</span></span>
+                        <span>KHO THIẾT BỊ & PHẦN MỀM NĂM <span class="lbl-current-year">2026</span> (ƯU TIÊN HIỂN THỊ CHƯA CÓ BẢN QUYỀN LÊN ĐẦU)</span>
                         <span id="it-total-count" style="color: var(--purple);">Tổng: 0 Thiết bị</span>
                     </div>
                     <div class="table-responsive">
@@ -938,15 +946,16 @@
                                     <th style="width: 40px;">STT</th>
                                     <th style="width: 100px;">Mã tài sản</th>
                                     <th style="width: 100px;">Loại thiết bị</th>
-                                    <th style="min-width: 130px;">Cấu hình</th>
-                                    <th style="min-width: 120px;">HĐH & Office</th>
-                                    <th style="min-width: 130px;">CAD, SW & Adobe</th>
-                                    <th style="min-width: 120px;">ASIA & CloudOffice</th>
-                                    <th style="min-width: 120px;">Người sử dụng</th>
-                                    <th style="min-width: 120px;">Phòng ban</th>
-                                    <th style="width: 75px;">Ngày giao</th>
-                                    <th style="width: 80px;">Trạng thái</th>
-                                    <th style="width: 65px;">QR Code</th>
+                                    <th style="min-width: 120px;">Cấu hình</th>
+                                    <th style="min-width: 110px;">HĐH & Office</th>
+                                    <th style="min-width: 120px;">CAD, SW & Adobe</th>
+                                    <th style="min-width: 130px;">ASIA & CloudOffice</th>
+                                    <th style="min-width: 110px; background:#fef08a; color:#713f12;">Bản quyền PM</th>
+                                    <th style="min-width: 110px;">Người sử dụng</th>
+                                    <th style="min-width: 110px;">Phòng ban</th>
+                                    <th style="width: 70px;">Ngày giao</th>
+                                    <th style="width: 75px;">Trạng thái</th>
+                                    <th style="width: 60px;">QR Code</th>
                                     <th style="width: 65px; text-align: center;">Hành động</th>
                                 </tr>
                             </thead>
@@ -2512,6 +2521,13 @@
                 return matchD && matchT;
             });
 
+            // Sắp xếp ưu tiên "Chưa có bản quyền" lên đầu giống bảng hiển thị chính
+            filteredRecords.sort((a, b) => {
+                let aUnlicensed = (a.licenseStatus || "").includes("Chưa có") ? 0 : 1;
+                let bUnlicensed = (b.licenseStatus || "").includes("Chưa có") ? 0 : 1;
+                return aUnlicensed - bUnlicensed;
+            });
+
             let rec = filteredRecords[idx];
             if (!rec) return;
             openLargeQrModal(getStructuredQrText(rec.code, rec.type, rec.user, rec.dept, rec.os, rec.office, rec.solidworks, rec.autocad, rec.adobe), rec.code);
@@ -2546,6 +2562,7 @@
             let adobe = document.getElementById('it-adobe').value;
             let asia = document.getElementById('it-asia').value;
             let cloudoffice = document.getElementById('it-cloudoffice').value;
+            let licenseStatus = document.getElementById('it-license-status').value;
             let specs = document.getElementById('it-specs').value.trim();
             let dateVal = document.getElementById('it-date').value;
             let status = document.getElementById('it-status').value;
@@ -2553,13 +2570,20 @@
             if (!code || !user || !dept) { alert("⚠️ Nhập đủ Người sử dụng và Phòng ban!"); return; }
             if (!itAssetRecordsByYear[CURRENT_SELECTED_YEAR]) itAssetRecordsByYear[CURRENT_SELECTED_YEAR] = [];
             
-            let recordObj = { user, dept, type, code, os, office, solidworks, autocad, adobe, asia, cloudoffice, specs, dateVal, status };
+            let recordObj = { user, dept, type, code, os, office, solidworks, autocad, adobe, asia, cloudoffice, licenseStatus, specs, dateVal, status };
             let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR];
 
             if (editIndex >= 0) {
                 let filterDept = document.getElementById('filter-dept-select').value;
                 let filterType = document.getElementById('filter-type-select').value;
                 let filtered = records.filter(r => (filterDept === "ALL" || r.dept === filterDept) && (filterType === "ALL" || r.type === filterType));
+                
+                filtered.sort((a, b) => {
+                    let aUn = (a.licenseStatus || "").includes("Chưa có") ? 0 : 1;
+                    let bUn = (b.licenseStatus || "").includes("Chưa có") ? 0 : 1;
+                    return aUn - bUn;
+                });
+
                 let targetRec = filtered[editIndex];
                 if (targetRec) {
                     let realIdx = records.indexOf(targetRec);
@@ -2585,6 +2609,13 @@
             let filterDept = document.getElementById('filter-dept-select').value;
             let filterType = document.getElementById('filter-type-select').value;
             let targetRecords = records.filter(r => (filterDept === "ALL" || r.dept === filterDept) && (filterType === "ALL" || r.type === filterType));
+            
+            targetRecords.sort((a, b) => {
+                let aUn = (a.licenseStatus || "").includes("Chưa có") ? 0 : 1;
+                let bUn = (b.licenseStatus || "").includes("Chưa có") ? 0 : 1;
+                return aUn - bUn;
+            });
+
             let rec = targetRecords[idx];
             if (!rec) return;
 
@@ -2599,7 +2630,8 @@
             document.getElementById('it-autocad').value = rec.autocad || "🚫 Không cài đặt";
             document.getElementById('it-adobe').value = rec.adobe || "🚫 Không cài đặt";
             document.getElementById('it-asia').value = rec.asia || "Đã có bản quyền ASIA/Quasoft";
-            document.getElementById('it-cloudoffice').value = rec.cloudoffice || "Đã cấu hình & sử dụng CloudOffice";
+            document.getElementById('it-cloudoffice').value = rec.cloudoffice || "Đã có bản quyền CloudOffice";
+            document.getElementById('it-license-status').value = rec.licenseStatus || "⚠️ Chưa có bản quyền";
             document.getElementById('it-specs').value = rec.specs || "";
             document.getElementById('it-date').value = rec.dateVal || "";
             document.getElementById('it-status').value = rec.status || "Tốt - Đang sử dụng";
@@ -2622,6 +2654,7 @@
             document.getElementById('it-dept').value = "Phòng Kỹ thuật - Công nghệ";
             document.getElementById('it-specs').value = "Dell Latitude, Core i5, 16GB RAM, 512GB SSD";
             document.getElementById('it-date').value = "";
+            document.getElementById('it-license-status').value = "⚠️ Chưa có bản quyền";
             generateNewItCode();
         }
 
@@ -2631,6 +2664,13 @@
                 let filterDept = document.getElementById('filter-dept-select').value;
                 let filterType = document.getElementById('filter-type-select').value;
                 let targetRecords = records.filter(r => (filterDept === "ALL" || r.dept === filterDept) && (filterType === "ALL" || r.type === filterType));
+                
+                targetRecords.sort((a, b) => {
+                    let aUn = (a.licenseStatus || "").includes("Chưa có") ? 0 : 1;
+                    let bUn = (b.licenseStatus || "").includes("Chưa có") ? 0 : 1;
+                    return aUn - bUn;
+                });
+
                 let recToDelete = targetRecords[idx];
                 if (recToDelete) {
                     let realIdx = records.indexOf(recToDelete);
@@ -2665,10 +2705,23 @@
             let filterType = document.getElementById('filter-type-select').value;
 
             let filteredRecords = records.filter(r => (filterDept === "ALL" || r.dept === filterDept) && (filterType === "ALL" || r.type === filterType));
+
+            // ⭐ YÊU CẦU: ƯU TIÊN HIỂN THỊ "CHƯA CÓ BẢN QUYỀN" LÊN TRÊN HÀNG ĐẦU ⭐
+            filteredRecords.sort((a, b) => {
+                let aUnlicensed = (a.licenseStatus || "").includes("Chưa có") ? 0 : 1;
+                let bUnlicensed = (b.licenseStatus || "").includes("Chưa có") ? 0 : 1;
+                return aUnlicensed - bUnlicensed;
+            });
+
             const tbody = document.getElementById('tbody-it-assets');
             tbody.innerHTML = "";
 
             filteredRecords.forEach((rec, idx) => {
+                let licStatus = rec.licenseStatus || "⚠️ Chưa có bản quyền";
+                let licBadgeStyle = licStatus.includes("Chưa có") 
+                    ? "background: #fef2f2; color: #b91c1c; border: 1px solid #fca5a5; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 11px;" 
+                    : "background: #f0fdf4; color: #166534; border: 1px solid #86efac; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 11px;";
+
                 tbody.innerHTML += `
                     <tr>
                         <td class="text-center font-bold">${idx + 1}</td>
@@ -2677,7 +2730,8 @@
                         <td>${rec.specs || '-'}</td>
                         <td style="font-size:11px;"><div><b>HĐH:</b> ${rec.os}</div><div><b>Office:</b> ${rec.office}</div></td>
                         <td style="font-size:11px;"><div><b>CAD:</b> ${rec.autocad || 'Không'}</div><div><b>SW:</b> ${rec.solidworks}</div><div><b>Adobe:</b> ${rec.adobe}</div></td>
-                        <td style="font-size:11px;"><div><b>ASIA:</b> ${rec.asia}</div><div><b>CloudOffice:</b> ${rec.cloudoffice || 'Đã cấu hình'}</div></td>
+                        <td style="font-size:11px;"><div><b>ASIA:</b> ${rec.asia}</div><div><b>CloudOffice:</b> ${rec.cloudoffice || 'Đã có bản quyền'}</div></td>
+                        <td class="text-center"><span style="${licBadgeStyle}">${licStatus}</span></td>
                         <td><b>${rec.user}</b></td>
                         <td>${rec.dept}</td>
                         <td class="text-center">${rec.dateVal || '-'}</td>
@@ -2696,9 +2750,19 @@
         function exportItAssetWordReport() {
             let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
             if (records.length === 0) { alert("Chưa có dữ liệu thiết bị!"); return; }
-            let htmlContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><style>body { font-family: 'Times New Roman', serif; font-size: 12pt; } table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid #000; padding: 6px; font-size: 11pt; text-align: left; } th { background: #f2f2f2; text-align: center; }</style></head><body><h3>TỔNG CÔNG TY GIẤY VIỆT NAM</h3><h2>BÁO CÁO KIỂM KÊ KHO NĂM ${CURRENT_SELECTED_YEAR}</h2><table><thead><tr><th>STT</th><th>Mã tài sản</th><th>Loại</th><th>Cấu hình</th><th>Phần mềm</th><th>Sử dụng</th><th>Phòng ban</th><th>Trạng thái</th></tr></thead><tbody>`;
-            records.forEach((r, i) => {
-                htmlContent += `<tr><td style="text-align:center;">${i + 1}</td><td><b>${r.code}</b></td><td>${r.type}</td><td>${r.specs}</td><td>HĐH: ${r.os}<br>Office: ${r.office}<br>CAD: ${r.autocad}<br>SW: ${r.solidworks}<br>Adobe: ${r.adobe}<br>ASIA: ${r.asia}<br>CloudOffice: ${r.cloudoffice}</td><td><b>${r.user}</b></td><td>${r.dept}</td><td style="text-align:center;">${r.status}</td></tr>`;
+            
+            // Sắp xếp ưu tiên bản quyền trước khi xuất báo cáo Word
+            let exportRecords = [...records].sort((a, b) => {
+                let aUn = (a.licenseStatus || "").includes("Chưa có") ? 0 : 1;
+                let bUn = (b.licenseStatus || "").includes("Chưa có") ? 0 : 1;
+                return aUn - bUn;
+            });
+
+            let htmlContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><style>body { font-family: 'Times New Roman', serif; font-size: 12pt; } table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid #000; padding: 6px; font-size: 11pt; text-align: left; } th { background: #f2f2f2; text-align: center; }</style></head><body><h3>TỔNG CÔNG TY GIẤY VIỆT NAM</h3><h2>BÁO CÁO KIỂM KÊ KHO NĂM ${CURRENT_SELECTED_YEAR} (ƯU TIÊN CHƯA CÓ BẢN QUYỀN)</h2><table><thead><tr><th>STT</th><th>Mã tài sản</th><th>Loại</th><th>Cấu hình</th><th>Phần mềm & Bản quyền</th><th>Sử dụng</th><th>Phòng ban</th><th>Trạng thái</th></tr></thead><tbody>`;
+            
+            exportRecords.forEach((r, i) => {
+                let lic = r.licenseStatus || "⚠️ Chưa có bản quyền";
+                htmlContent += `<tr><td style="text-align:center;">${i + 1}</td><td><b>${r.code}</b></td><td>${r.type}</td><td>${r.specs}</td><td>HĐH: ${r.os}<br>Office: ${r.office}<br>CAD: ${r.autocad}<br>SW: ${r.solidworks}<br>Adobe: ${r.adobe}<br>ASIA: ${r.asia}<br>CloudOffice: ${r.cloudoffice}<br><b>Bản quyền: ${lic}</b></td><td><b>${r.user}</b></td><td>${r.dept}</td><td style="text-align:center;">${r.status}</td></tr>`;
             });
             htmlContent += `</tbody></table></body></html>`;
             let blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
