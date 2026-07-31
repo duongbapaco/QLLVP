@@ -2171,7 +2171,6 @@
                 folderUrl = paymentRecordsByMonth[sm][editIndex].folderUrl;
             }
 
-            // Xử lý chọn nhiều file đưa chung vào một thư mục trên Drive
             if (fileInput.files.length > 0) {
                 let progressContainer = document.getElementById('progress-container-hstt');
                 let progressFill = document.getElementById('progress-fill-hstt');
@@ -2201,7 +2200,7 @@
                             year: year, 
                             month: month, 
                             category: "1. Hồ sơ thanh toán", 
-                            folderSubName: content, // Gom chung theo nội dung hồ sơ
+                            folderSubName: content,
                             fileName: file.name, 
                             mimeType: file.type, 
                             fileData: base64Data 
@@ -2400,7 +2399,6 @@
                 folderUrl = telecomRecordsByMonth[sm][editIndex].folderUrl;
             }
 
-            // Xử lý chọn nhiều file cước viễn thông đưa vào chung một thư mục trên Drive
             if (fileInput.files.length > 0) {
                 let progressContainer = document.getElementById('progress-container-vt');
                 let progressFill = document.getElementById('progress-fill-vt');
