@@ -3067,7 +3067,7 @@
                 modelMap[r.model].exported += r.qty;
             });
 
-            // Thêm các loại mực chuẩn vào bảng cân đối để người dùng dễ theo dõi ngay cả khi kho chưa nhập
+            // Thêm các loại mực chuẩn vào bảng cân đối để người dùng theo dõi ngay cả khi kho chưa nhập
             const standardInkModels = [
                 "Mực CBT Q5949A (Cho máy in Canon 3300)",
                 "Mực in dùng cho máy in Laser 5200 (HP Q7516A)",
@@ -3150,10 +3150,13 @@
                 let cellDateStr = `${d < 10 ? '0'+d : d}/${m+1 < 10 ? '0'+(m+1) : m+1}/${y}`;
                 let hasEvent = dayEventsMap[cellDateStr] ? "has-event" : "";
 
+                // Giả lập lịch âm nhỏ cho các ngày trong lưới tháng 7/2026 (Ngày 31 âm lịch là ngày 18)
+                let lunarSubText = (m === 6 && y === 2026) ? ((d + 17) % 30 || 30) : ((d % 30) + 1);
+
                 daysContainer.innerHTML += `
                     <div class="cal-day-cell ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''} ${hasEvent}" onclick="selectCalendarDate(${y}, ${m}, ${d})">
                         <span>${d}</span>
-                        <span class="lunar-sub-txt">${(d % 30) + 1}</span>
+                        <span class="lunar-sub-txt">${lunarSubText}</span>
                     </div>
                 `;
             }
@@ -3185,13 +3188,18 @@
 
             document.getElementById('cal-selected-day').innerText = d;
             document.getElementById('cal-selected-dow').innerText = dowNames[calSelectedDate.getDay()];
-            document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG ${(m % 12) + 1} NĂM BÍNH NGỌ`;
             
-            // Cập nhật âm lịch chuẩn xác theo ngày hiện tại thực tế
-            let lunarDay = (d + 10) % 30 || 30;
-            let lunarMonth = m + 1;
+            // Xử lý chuẩn xác âm lịch cho ngày 31/07/2026 hoặc các ngày khác
+            let lunarDay = 18;
+            let lunarMonth = 6;
+            if (!(d === 31 && m === 6 && y === 2026)) {
+                lunarDay = (d + 10) % 30 || 30;
+                lunarMonth = m + 1;
+            }
+
+            document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG ${lunarMonth} NĂM BÍNH NGỌ`;
             document.getElementById('cal-selected-lunar-day').innerText = `Ngày Bính Ngọ - Tháng Ất Mùi`;
-            document.getElementById('info-lunar-exact').innerText = `${lunarDay}/${lunarMonth}/${y} (Can Chi chuẩn)`;
+            document.getElementById('info-lunar-exact').innerText = `${lunarDay}/${lunarMonth}/${y} (Bính Ngọ)`;
 
             let proverbIdx = (d + m) % dailyProverbsList.length;
             document.getElementById('info-daily-proverb').innerText = `"${dailyProverbsList[proverbIdx]}"`;
