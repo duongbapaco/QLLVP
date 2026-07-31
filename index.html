@@ -600,8 +600,8 @@
                                 <input type="text" id="pay-bank" placeholder="Tên ngân hàng...">
                             </div>
                             <div class="form-group" style="grid-column: span 2;">
-                                <label>Tệp đính kèm (Chọn 1 tệp mới nhất khi Sửa):</label>
-                                <input type="file" id="file-hstt" class="inp-table" style="background: white;">
+                                <label>Tệp đính kèm (Cho phép chọn NHIỀU TỆP cùng lúc):</label>
+                                <input type="file" id="file-hstt" class="inp-table" style="background: white;" multiple>
                             </div>
                         </div>
                         <div style="display:flex; justify-content:flex-end; gap: 8px; margin-top: 8px;">
@@ -688,8 +688,8 @@
                         </div>
                         <div style="display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; border-top: 1px dashed #fdba74; padding-top: 10px;">
                             <div style="display: flex; gap: 8px; align-items: center; flex: 1; flex-wrap: wrap;">
-                                <label style="font-weight: bold; color: #c2410c; white-space: nowrap;"><i class="fa-solid fa-file-arrow-up"></i> Hóa đơn (Chọn 1 tệp mới nhất khi Sửa):</label>
-                                <input type="file" id="file-vt" class="inp-table" style="background: white; border-color: #fdba74; max-width: 320px;">
+                                <label style="font-weight: bold; color: #c2410c; white-space: nowrap;"><i class="fa-solid fa-file-arrow-up"></i> Hóa đơn (Chọn nhiều tệp):</label>
+                                <input type="file" id="file-vt" class="inp-table" style="background: white; border-color: #fdba74; max-width: 320px;" multiple>
                             </div>
                             <div style="display:flex; gap:6px;">
                                 <button type="button" class="btn btn-gray" id="btn-cancel-edit-tele" style="display:none;" onclick="cancelEditTelecom()"><i class="fa-solid fa-xmark"></i> Hủy</button>
@@ -717,7 +717,7 @@
                                     <th>Băng thông</th>
                                     <th>Mã CID</th>
                                     <th>Cước phí</th>
-                                    <th>K kỳ cước</th>
+                                    <th>Kỳ cước</th>
                                     <th>Hóa đơn đính kèm</th>
                                     <th style="text-align: center;">Thao tác</th>
                                 </tr>
@@ -2171,51 +2171,57 @@
                 folderUrl = paymentRecordsByMonth[sm][editIndex].folderUrl;
             }
 
+            // Xử lý chọn nhiều file để upload
             if (fileInput.files.length > 0) {
                 let progressContainer = document.getElementById('progress-container-hstt');
                 let progressFill = document.getElementById('progress-fill-hstt');
                 let progressText = document.getElementById('progress-text-hstt');
 
                 progressContainer.style.display = "block";
-                statusLabel.innerText = "⏳ Đang tải tệp lên Drive chính xác vào thư mục đã tạo...";
+                statusLabel.innerText = "⏳ Đang tải các tệp lên Drive chính xác vào thư mục đã tạo...";
 
-                // Khi sửa hoặc thêm mới, lấy đúng tệp mới nhất người dùng chọn
-                let file = fileInput.files[0];
-                let percent = 100;
-                progressFill.style.width = percent + "%";
-                progressText.innerText = `Đang tải tệp lên...`;
+                let totalFiles = fileInput.files.length;
+                let newUploadedList = [];
 
-                let base64Data = await new Promise((resolve) => {
-                    let reader = new FileReader();
-                    reader.onload = (e) => resolve(e.target.result);
-                    reader.readAsDataURL(file);
-                });
+                for (let i = 0; i < totalFiles; i++) {
+                    let file = fileInput.files[i];
+                    let percent = Math.round(((i + 1) / totalFiles) * 100);
+                    progressFill.style.width = percent + "%";
+                    progressText.innerText = `Đang tải tệp ${i + 1}/${totalFiles}: ${file.name}`;
 
-                try {
-                    let payload = { 
-                        action: "upload_attachment_folder", 
-                        year: year, 
-                        month: month, 
-                        category: "1. Hồ sơ thanh toán", 
-                        fileName: "[" + content + "] " + file.name, 
-                        mimeType: file.type, 
-                        fileData: base64Data 
-                    };
-                    const response = await fetch(GOOGLE_SCRIPT_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
-                    const result = await response.json();
-                    
-                    let newFileObj = { fileName: file.name, fileUrl: result.fileUrl || DRIVE_ROOT_FOLDER_URL };
-                    if (editIndex >= 0) {
-                        uploadedFiles = [newFileObj]; // Khi sửa chỉ giữ lại file mới nhất
-                    } else {
-                        uploadedFiles.push(newFileObj);
+                    let base64Data = await new Promise((resolve) => {
+                        let reader = new FileReader();
+                        reader.onload = (e) => resolve(e.target.result);
+                        reader.readAsDataURL(file);
+                    });
+
+                    try {
+                        let payload = { 
+                            action: "upload_attachment_folder", 
+                            year: year, 
+                            month: month, 
+                            category: "1. Hồ sơ thanh toán", 
+                            fileName: "[" + content + "] " + file.name, 
+                            mimeType: file.type, 
+                            fileData: base64Data 
+                        };
+                        const response = await fetch(GOOGLE_SCRIPT_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
+                        const result = await response.json();
+                        
+                        newUploadedList.push({ fileName: file.name, fileUrl: result.fileUrl || DRIVE_ROOT_FOLDER_URL });
+                        if (result && result.folderUrl) folderUrl = result.folderUrl;
+                    } catch (err) {
+                        console.error("Lỗi: " + err.message);
                     }
-                    if (result && result.folderUrl) folderUrl = result.folderUrl;
-                } catch (err) {
-                    console.error("Lỗi: " + err.message);
+                }
+
+                if (editIndex >= 0) {
+                    uploadedFiles = newUploadedList; // Khi sửa, lấy đúng danh sách file mới nhất
+                } else {
+                    uploadedFiles = uploadedFiles.concat(newUploadedList);
                 }
                 
-                progressText.innerText = "Hoàn tất!";
+                progressText.innerText = "Hoàn tất tải lên tất cả các tệp!";
                 setTimeout(() => { progressContainer.style.display = "none"; progressFill.style.width = "0%"; }, 3000);
             }
 
@@ -2301,8 +2307,11 @@
                         let folderLinkHtml = `<a href="${DRIVE_ROOT_FOLDER_URL}" target="_blank" rel="noopener noreferrer" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục Gốc</a>`;
                         if (rec.files && rec.files.length > 0) {
                             let folderUrl = rec.folderUrl || DRIVE_ROOT_FOLDER_URL;
-                            let fileObj = rec.files[0];
-                            folderLinkHtml = `<a href="${fileObj.fileUrl || folderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link"><i class="fa-solid fa-folder-open"></i> Mở Thư Mục / Tệp</a>`;
+                            folderLinkHtml = `<div style="display:flex; gap:4px; flex-wrap:wrap;">`;
+                            rec.files.forEach((fObj, fIdx) => {
+                                folderLinkHtml += `<a href="${fObj.fileUrl || folderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="font-size:11px; padding:3px 6px;" title="${fObj.fileName}"><i class="fa-solid fa-folder-open"></i> Tệp ${fIdx + 1}</a>`;
+                            });
+                            folderLinkHtml += `</div>`;
                         }
 
                         tbody.innerHTML += `<tr>
@@ -2396,47 +2405,54 @@
                 folderUrl = telecomRecordsByMonth[sm][editIndex].folderUrl;
             }
 
+            // Xử lý chọn nhiều file để upload cước viễn thông
             if (fileInput.files.length > 0) {
                 let progressContainer = document.getElementById('progress-container-vt');
                 let progressFill = document.getElementById('progress-fill-vt');
                 let progressText = document.getElementById('progress-text-vt');
 
                 progressContainer.style.display = "block";
-                statusLabel.innerText = "⏳ Đang tải hóa đơn cước lên Drive vào thư mục chuẩn...";
+                statusLabel.innerText = "⏳ Đang tải các hóa đơn cước lên Drive vào thư mục chuẩn...";
 
-                let file = fileInput.files[0];
-                let percent = 100;
-                progressFill.style.width = percent + "%";
-                progressText.innerText = `Đang tải tệp lên...`;
+                let totalFiles = fileInput.files.length;
+                let newUploadedList = [];
 
-                let base64Data = await new Promise((resolve) => {
-                    let reader = new FileReader();
-                    reader.onload = (e) => resolve(e.target.result);
-                    reader.readAsDataURL(file);
-                });
+                for (let i = 0; i < totalFiles; i++) {
+                    let file = fileInput.files[i];
+                    let percent = Math.round(((i + 1) / totalFiles) * 100);
+                    progressFill.style.width = percent + "%";
+                    progressText.innerText = `Đang tải tệp ${i + 1}/${totalFiles}: ${file.name}`;
 
-                try {
-                    let payload = { 
-                        action: "upload_attachment_folder", 
-                        year: year, 
-                        month: month, 
-                        category: "2. Cước Viễn thông & Internet", 
-                        fileName: "[Cước " + provider + " - " + cid + "] " + file.name, 
-                        mimeType: file.type, 
-                        fileData: base64Data 
-                    };
-                    const response = await fetch(GOOGLE_SCRIPT_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
-                    const result = await response.json();
-                    
-                    let newFileObj = { fileName: file.name, fileUrl: result.fileUrl || DRIVE_ROOT_FOLDER_URL };
-                    if (editIndex >= 0) {
-                        uploadedFiles = [newFileObj];
-                    } else {
-                        uploadedFiles.push(newFileObj);
+                    let base64Data = await new Promise((resolve) => {
+                        let reader = new FileReader();
+                        reader.onload = (e) => resolve(e.target.result);
+                        reader.readAsDataURL(file);
+                    });
+
+                    try {
+                        let payload = { 
+                            action: "upload_attachment_folder", 
+                            year: year, 
+                            month: month, 
+                            category: "2. Cước Viễn thông & Internet", 
+                            fileName: "[Cước " + provider + " - " + cid + "] " + file.name, 
+                            mimeType: file.type, 
+                            fileData: base64Data 
+                        };
+                        const response = await fetch(GOOGLE_SCRIPT_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
+                        const result = await response.json();
+                        
+                        newUploadedList.push({ fileName: file.name, fileUrl: result.fileUrl || DRIVE_ROOT_FOLDER_URL });
+                        if (result && result.folderUrl) folderUrl = result.folderUrl;
+                    } catch (err) {
+                        console.error("Lỗi: " + err.message);
                     }
-                    if (result && result.folderUrl) folderUrl = result.folderUrl;
-                } catch (err) {
-                    console.error("Lỗi: " + err.message);
+                }
+
+                if (editIndex >= 0) {
+                    uploadedFiles = newUploadedList;
+                } else {
+                    uploadedFiles = uploadedFiles.concat(newUploadedList);
                 }
                 
                 progressText.innerText = "Hoàn tất!";
@@ -2506,8 +2522,11 @@
                             let folderLinkHtml = `<a href="${DRIVE_ROOT_FOLDER_URL}" target="_blank" rel="noopener noreferrer" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục Gốc</a>`;
                             if (rec.files && rec.files.length > 0) {
                                 let folderUrl = rec.folderUrl || DRIVE_ROOT_FOLDER_URL;
-                                let fileObj = rec.files[0];
-                                folderLinkHtml = `<a href="${fileObj.fileUrl || folderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link"><i class="fa-solid fa-folder-open"></i> Mở Thư Mục / Tệp</a>`;
+                                folderLinkHtml = `<div style="display:flex; gap:4px; flex-wrap:wrap;">`;
+                                rec.files.forEach((fObj, fIdx) => {
+                                    folderLinkHtml += `<a href="${fObj.fileUrl || folderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="font-size:11px; padding:3px 6px;" title="${fObj.fileName}"><i class="fa-solid fa-folder-open"></i> Tệp ${fIdx + 1}</a>`;
+                                });
+                                folderLinkHtml += `</div>`;
                             }
 
                             tbody.innerHTML += `<tr>
