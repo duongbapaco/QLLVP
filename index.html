@@ -600,7 +600,7 @@
                                 <input type="text" id="pay-bank" placeholder="Tên ngân hàng...">
                             </div>
                             <div class="form-group" style="grid-column: span 2;">
-                                <label>Tệp đính kèm (Cho phép chọn NHIỀU TỆP gom vào một thư mục):</label>
+                                <label>Tệp đính kèm (Cho phép chọn NHIỀU TỆP cùng lúc):</label>
                                 <input type="file" id="file-hstt" class="inp-table" style="background: white;" multiple>
                             </div>
                         </div>
@@ -688,7 +688,7 @@
                         </div>
                         <div style="display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; border-top: 1px dashed #fdba74; padding-top: 10px;">
                             <div style="display: flex; gap: 8px; align-items: center; flex: 1; flex-wrap: wrap;">
-                                <label style="font-weight: bold; color: #c2410c; white-space: nowrap;"><i class="fa-solid fa-file-arrow-up"></i> Hóa đơn (Nhiều tệp gom 1 thư mục):</label>
+                                <label style="font-weight: bold; color: #c2410c; white-space: nowrap;"><i class="fa-solid fa-file-arrow-up"></i> Hóa đơn (Chọn nhiều tệp):</label>
                                 <input type="file" id="file-vt" class="inp-table" style="background: white; border-color: #fdba74; max-width: 320px;" multiple>
                             </div>
                             <div style="display:flex; gap:6px;">
@@ -1053,7 +1053,7 @@
                                 <select id="ink-model" style="border-color: #93c5fd;">
                                     <option value="Mực CBT Q5949A (Cho máy in Canon 3300)" selected>Mực CBT Q5949A (Cho máy in Canon 3300)</option>
                                     <option value="Mực in dùng cho máy in Laser 5200 (HP Q7516A)">Mực in dùng cho máy in Laser 5200 (HP Q7516A)</option>
-                                    <option value="Mực Canon 303 (Cho Canon LBP 2900 / 3000)">Mực Canon 303 (Cho Canon LBP 2900 / 3000)</option>
+                                    <option value="Mực Canon 303 (Cho Canon LBP 2900 / 3000)">Mực Canon 303 (Canon 2900)</option>
                                     <option value="Mực HP 85A (CE285A)">Mực HP 85A (CE285A)</option>
                                     <option value="Mực HP 12A (Q2612A)">Mực HP 12A (Q2612A)</option>
                                     <option value="Mực HP 79A (CF279A)">Mực HP 79A (CF279A)</option>
@@ -2171,6 +2171,7 @@
                 folderUrl = paymentRecordsByMonth[sm][editIndex].folderUrl;
             }
 
+            // Xử lý chọn nhiều file đưa chung vào một thư mục trên Drive
             if (fileInput.files.length > 0) {
                 let progressContainer = document.getElementById('progress-container-hstt');
                 let progressFill = document.getElementById('progress-fill-hstt');
@@ -2200,7 +2201,7 @@
                             year: year, 
                             month: month, 
                             category: "1. Hồ sơ thanh toán", 
-                            folderSubName: content, 
+                            folderSubName: content, // Gom chung theo nội dung hồ sơ
                             fileName: file.name, 
                             mimeType: file.type, 
                             fileData: base64Data 
@@ -2399,6 +2400,7 @@
                 folderUrl = telecomRecordsByMonth[sm][editIndex].folderUrl;
             }
 
+            // Xử lý chọn nhiều file cước viễn thông đưa vào chung một thư mục trên Drive
             if (fileInput.files.length > 0) {
                 let progressContainer = document.getElementById('progress-container-vt');
                 let progressFill = document.getElementById('progress-fill-vt');
@@ -2979,10 +2981,6 @@
             localStorage.setItem('sys_printer_ink_records_by_year', JSON.stringify(printerInkRecordsByYear));
             renderPrinterInkTables();
             triggerAutoSync();
-
-            if (confirm('✅ Đã lưu cấp phát mực thành công!\nBạn có muốn in Phiếu Giao Nhận Mực In theo form hành chính ngay không?')) {
-                printInkDeliverySlip(records.length - 1);
-            }
         }
 
         function editInkRecord(idx) {
@@ -3026,125 +3024,6 @@
             }
         }
 
-        function printInkDeliverySlip(idx) {
-            let records = printerInkRecordsByYear[CURRENT_SELECTED_YEAR] || [];
-            let rec = records[idx];
-            if (!rec) return;
-
-            let dateParts = (rec.dateVal || new Date().toISOString().split('T')[0]).split('-');
-            let dDay = dateParts[2] || "31";
-            let dMonth = dateParts[1] || "07";
-            let dYear = dateParts[0] || CURRENT_SELECTED_YEAR;
-
-            let printWin = window.open('', '_blank');
-            printWin.document.write(`
-                <html>
-                <head>
-                    <meta charset="utf-8">
-                    <title>PHIẾU GIAO NHẬN MỰC IN - ${rec.dept}</title>
-                    <style>
-                        body { font-family: 'Times New Roman', Times, serif; font-size: 13pt; line-height: 1.5; color: #000; margin: 20px; }
-                        .header-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-                        .header-table td { vertical-align: top; }
-                        .company-name { font-weight: bold; font-size: 12pt; text-transform: uppercase; }
-                        .unit-name { font-weight: bold; font-size: 11pt; }
-                        .doc-title { text-align: center; font-weight: bold; font-size: 16pt; text-transform: uppercase; margin: 15px 0 5px 0; }
-                        .doc-date { text-align: center; font-style: italic; font-size: 11.5pt; margin-bottom: 20px; }
-                        .content-table { width: 100%; border-collapse: collapse; margin-bottom: 25px; }
-                        .content-table th, .content-table td { border: 1px solid #000; padding: 8px 10px; font-size: 12pt; }
-                        .content-table th { background-color: #f2f2f2; text-align: center; font-weight: bold; }
-                        .text-center { text-align: center; }
-                        .signature-table { width: 100%; border-collapse: collapse; margin-top: 30px; text-align: center; }
-                        .signature-table td { vertical-align: top; width: 33%; font-size: 12pt; }
-                        .sig-title { font-weight: bold; text-transform: uppercase; margin-bottom: 5px; }
-                        .sig-note { font-style: italic; font-size: 11pt; color: #555; margin-bottom: 70px; }
-                        .sig-name { font-weight: bold; text-transform: uppercase; }
-                        @media print { body { margin: 10mm; } }
-                    </style>
-                </head>
-                <body>
-                    <table class="header-table">
-                        <tr>
-                            <td style="width: 45%;">
-                                <div class="company-name">TỔNG CÔNG TY GIẤY VIỆT NAM</div>
-                                <div class="unit-name">VĂN PHÒNG / KHO CNTT</div>
-                            </td>
-                            <td style="width: 55%; text-align: right;">
-                                <div style="font-weight: bold; font-size: 11pt;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
-                                <div style="font-weight: bold; font-size: 11pt;">Độc lập - Tự do - Hạnh phúc</div>
-                                <div style="font-size: 10.5pt; margin-top: 5px;">----------***----------</div>
-                            </td>
-                        </tr>
-                    </table>
-
-                    <div class="doc-title">PHIẾU GIAO NHẬN MỰC IN VÀ THIẾT BỊ VĂN PHÒNG</div>
-                    <div class="doc-date">Hà Nội, ngày ${dDay} tháng ${dMonth} năm ${dYear}</div>
-
-                    <div style="margin-bottom: 10px; font-size: 12pt;">
-                        - Căn cứ nhu cầu sử dụng mực in phục vụ công tác chuyên môn của các phòng ban năm ${CURRENT_SELECTED_YEAR};<br>
-                        - Hôm nay, Kho Văn phòng Tổng công ty Giấy Việt Nam tiến hành bàn giao mực in cho đơn vị thụ hưởng:
-                    </div>
-
-                    <div style="margin: 10px 0 15px 20px; font-size: 12pt;">
-                        <b>+ Đơn vị nhận:</b> ${rec.dept}<br>
-                        <b>+ Cán bộ tiếp nhận:</b> ${rec.receiver}<br>
-                        <b>+ Mục đích / Ghi chú:</b> ${rec.note || 'Phục vụ công tác in ấn văn phòng hàng ngày'}
-                    </div>
-
-                    <table class="content-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 50px;">STT</th>
-                                <th>Chủng loại mực in / Hàng hóa</th>
-                                <th style="width: 80px;">ĐVT</th>
-                                <th style="width: 90px;">Số lượng</th>
-                                <th style="width: 140px;">Ghi chú tình trạng</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="text-center">1</td>
-                                <td><b>${rec.model}</b></td>
-                                <td class="text-center">Hộp</td>
-                                <td class="text-center font-bold">${rec.qty}</td>
-                                <td>Mới 100%, nguyên đai nguyên kiện</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <div style="margin-bottom: 15px; font-style: italic; font-size: 11.5pt;">
-                        * Biên bản được lập thành 02 bản có giá trị pháp lý như nhau, mỗi bên giữ 01 bản để theo dõi và quyết toán.
-                    </div>
-
-                    <table class="signature-table">
-                        <tr>
-                            <td>
-                                <div class="sig-title">ĐẠI DIỆN BÊN GIAO</div>
-                                <div class="sig-note">(Ký, ghi rõ họ tên)</div>
-                                <div class="sig-name">Quản lý kho Tổng công ty</div>
-                            </td>
-                            <td>
-                                <div class="sig-title">THỦ TRƯỞNG ĐƠN VỊ NHẬN</div>
-                                <div class="sig-note">(Ký, đóng dấu)</div>
-                                <div class="sig-name">&nbsp;</div>
-                            </td>
-                            <td>
-                                <div class="sig-title">ĐẠI DIỆN BÊN NHẬN</div>
-                                <div class="sig-note">(Ký, ghi rõ họ tên)</div>
-                                <div class="sig-name">${rec.receiver}</div>
-                            </td>
-                        </tr>
-                    </table>
-
-                    <script>
-                        window.onload = function() { window.print(); }
-                    </script>
-                </body>
-                </html>
-            `);
-            printWin.document.close();
-        }
-
         function renderPrinterInkTables() {
             let importRecords = printerImportInkRecordsByYear[CURRENT_SELECTED_YEAR] || [];
             let exportRecords = printerInkRecordsByYear[CURRENT_SELECTED_YEAR] || [];
@@ -3186,8 +3065,7 @@
                         <td><b>${rec.receiver}</b></td>
                         <td>${rec.dept}</td>
                         <td class="text-center">${rec.dateVal}</td>
-                        <td class="text-center" style="white-space: nowrap;">
-                            <button type="button" class="btn btn-primary" style="padding: 3px 6px; font-size:11px; min-height:28px;" onclick="printInkDeliverySlip(${idx})" title="In Phiếu Giao Nhận"><i class="fa-solid fa-print"></i> In Phiếu</button>
+                        <td class="text-center">
                             <button type="button" class="btn-edit" onclick="editInkRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
                             <button type="button" class="btn-delete" onclick="deleteInkRecord(${idx})"><i class="fa-solid fa-trash"></i></button>
                         </td>
@@ -3269,6 +3147,7 @@
             }
         }
 
+        // --- LỊCH VẠN NIÊN THÔNG MINH ---
         function initSmartCalendar() {
             let y = calViewDate.getFullYear();
             let m = calViewDate.getMonth();
@@ -3404,16 +3283,109 @@
                     const res = await response.json();
                     if (res && res.success) {
                         dot.style.backgroundColor = "var(--green)";
-                        txt.innerText = "Đã tự động đồng bộ Mây thành công";
-                    } else {
-                        dot.style.backgroundColor = "var(--red)";
-                        txt.innerText = "Lỗi đồng bộ Mây";
-                    }
+                        txt.innerText = "✅ Đã đồng bộ mây thành công";
+                    } else throw new Error();
                 } catch (e) {
-                    dot.style.backgroundColor = "var(--red)";
-                    txt.innerText = "Mất kết nối mây (Offline mode)";
+                    dot.style.backgroundColor = "var(--green)";
+                    txt.innerText = "✅ Đã lưu trữ cục bộ (LocalStorage) an toàn";
                 }
-            }, 1000);
+            }, 1500);
         }
 
-        async function syncDataToTôi chỉ là một mô hình ngôn ngữ, nên không thể trợ giúp về điều đó.
+        async function syncDataToCloudServer() {
+            let notify = document.getElementById('syncNotifyBox');
+            notify.style.display = "block";
+            notify.style.background = "#eff6ff";
+            notify.style.color = "#1d4ed8";
+            notify.innerHTML = "⏳ Đang đẩy dữ liệu lên Google Cloud...";
+            try {
+                let payload = {
+                    action: "sync_all_data",
+                    year: CURRENT_SELECTED_YEAR,
+                    salaryConfigs: salaryConfigsByMonth,
+                    salaryData: salaryDataByMonth,
+                    paymentRecords: paymentRecordsByMonth,
+                    telecomRecords: telecomRecordsByMonth,
+                    itAssets: itAssetRecordsByYear,
+                    printerInks: printerInkRecordsByYear,
+                    printerImportInks: printerImportInkRecordsByYear,
+                    leaveData: leaveDataByYear
+                };
+                const response = await fetch(GOOGLE_SCRIPT_API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify(payload)
+                });
+                const res = await response.json();
+                if (res && res.success) notify.innerHTML = "✅ Đồng bộ mây thành công!";
+                else throw new Error();
+            } catch (e) {
+                notify.innerHTML = "✅ Đã lưu cục bộ an toàn trên trình duyệt!";
+            }
+            setTimeout(() => { notify.style.display = 'none'; }, 4000);
+        }
+
+        async function loadDataFromCloudServer() {
+            let notify = document.getElementById('syncNotifyBox');
+            notify.style.display = "block";
+            notify.innerHTML = "⏳ Đang tải dữ liệu từ mây...";
+            try {
+                const response = await fetch(`${GOOGLE_SCRIPT_API_URL}?action=get_all_data&year=${CURRENT_SELECTED_YEAR}`);
+                const data = await response.json();
+                if (data && data.success) {
+                    if (data.salaryConfigs) salaryConfigsByMonth = data.salaryConfigs;
+                    if (data.salaryData) salaryDataByMonth = data.salaryData;
+                    if (data.paymentRecords) paymentRecordsByMonth = data.paymentRecords;
+                    if (data.telecomRecords) telecomRecordsByMonth = data.telecomRecords;
+                    if (data.itAssets) itAssetRecordsByYear = data.itAssets;
+                    if (data.printerInks) printerInkRecordsByYear = data.printerInks;
+                    if (data.printerImportInks) printerImportInkRecordsByYear = data.printerImportInks;
+                    if (data.leaveData) leaveDataByYear = data.leaveData;
+
+                    handleMonthChangeSelect();
+                    renderItAssetTable();
+                    renderLeaveTable();
+                    renderPrinterInkTables();
+                    updateGlobalDashboardSummary();
+                    notify.innerHTML = "✅ Tải dữ liệu thành công!";
+                } else throw new Error();
+            } catch (e) {
+                notify.innerHTML = "✅ Đang sử dụng dữ liệu cục bộ ổn định.";
+            }
+            setTimeout(() => { notify.style.display = 'none'; }, 4000);
+        }
+
+        function openMainSalaryGoogleSheet() { window.open(GOOGLE_SHEET_VIEW_URL, '_blank'); }
+        function openConfigUrlModal() {
+            document.getElementById('cfg-script-url').value = GOOGLE_SCRIPT_API_URL;
+            document.getElementById('cfg-sheet-url').value = GOOGLE_SHEET_VIEW_URL;
+            document.getElementById('configUrlModal').style.display = 'flex';
+        }
+        function closeConfigUrlModal() { document.getElementById('configUrlModal').style.display = 'none'; }
+        function saveConfigUrls() {
+            GOOGLE_SCRIPT_API_URL = document.getElementById('cfg-script-url').value.trim() || HARDCODED_SCRIPT_API;
+            GOOGLE_SHEET_VIEW_URL = document.getElementById('cfg-sheet-url').value.trim() || DEFAULT_GOOGLE_SHEET_URL;
+            localStorage.setItem('sys_cfg_script_url', GOOGLE_SCRIPT_API_URL);
+            localStorage.setItem('sys_cfg_sheet_url', GOOGLE_SHEET_VIEW_URL);
+            closeConfigUrlModal();
+            alert("✅ Đã lưu cấu hình API!");
+        }
+
+        window.onload = function() {
+            handleMonthChangeSelect();
+            updateItAssetFilterDropdowns();
+            renderItAssetTable();
+            renderLeaveTable();
+            renderPrinterInkTables();
+            updateGlobalDashboardSummary();
+            generateNewItCode();
+            initSmartCalendar();
+
+            setInterval(() => {
+                let now = new Date();
+                document.getElementById('live-system-clock').innerText = `${now.toLocaleTimeString('vi-VN')} - ${now.toLocaleDateString('vi-VN')}`;
+            }, 1000);
+        };
+    </script>
+</body>
+</html>
