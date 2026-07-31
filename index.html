@@ -91,7 +91,7 @@
         .btn-delete { background: #fef2f2; color: #b91c1c; border: 1.5px solid #fca5a5; padding: 5px 8px; font-size: 11.5px; border-radius: 4px; cursor: pointer; font-weight: bold; min-height: 30px; }
         .btn-edit { background: #eff6ff; color: #1d4ed8; border: 1.5px solid #93c5fd; padding: 5px 8px; font-size: 11.5px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 4px; min-height: 30px; }
         
-        .btn-drive-link { display: inline-flex; align-items: center; gap: 4px; background: #e0f2fe; color: #0369a1; border: 1.5px solid #7dd3fc; padding: 5px 8px; font-size: 11.5px; border-radius: 4px; font-weight: bold; text-decoration: none; cursor: pointer; white-space: nowrap; min-height: 32px; }
+        .btn-drive-link { display: inline-flex; align-items: center; gap: 5px; background: #e0f2fe; color: #0369a1; border: 1.5px solid #7dd3fc; padding: 5px 10px; font-size: 12px; border-radius: 4px; font-weight: bold; text-decoration: none; cursor: pointer; white-space: nowrap; min-height: 32px; }
 
         .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 8px; width: 100%; border: 1.5px solid #475569; border-radius: 4px; background: #fff; }
         .main-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; color: #000000; }
@@ -633,7 +633,7 @@
                                     <th>Thành tiền (Sau thuế)</th>
                                     <th>Số tài khoản</th>
                                     <th>Ngân hàng</th>
-                                    <th>Chứng từ đính kèm</th>
+                                    <th>Thư mục chứng từ</th>
                                     <th style="text-align: center;">Thao tác</th>
                                 </tr>
                             </thead>
@@ -718,7 +718,7 @@
                                     <th>Mã CID</th>
                                     <th>Cước phí</th>
                                     <th>Kỳ cước</th>
-                                    <th>Hóa đơn đính kèm</th>
+                                    <th>Thư mục hóa đơn</th>
                                     <th style="text-align: center;">Thao tác</th>
                                 </tr>
                             </thead>
@@ -2171,14 +2171,14 @@
                 folderUrl = paymentRecordsByMonth[sm][editIndex].folderUrl;
             }
 
-            // Xử lý chọn nhiều file để upload
+            // Xử lý chọn nhiều file đưa chung vào một thư mục trên Drive
             if (fileInput.files.length > 0) {
                 let progressContainer = document.getElementById('progress-container-hstt');
                 let progressFill = document.getElementById('progress-fill-hstt');
                 let progressText = document.getElementById('progress-text-hstt');
 
                 progressContainer.style.display = "block";
-                statusLabel.innerText = "⏳ Đang tải các tệp lên Drive chính xác vào thư mục đã tạo...";
+                statusLabel.innerText = "⏳ Đang gom chung các tệp vào cùng một thư mục trên Drive...";
 
                 let totalFiles = fileInput.files.length;
                 let newUploadedList = [];
@@ -2201,7 +2201,8 @@
                             year: year, 
                             month: month, 
                             category: "1. Hồ sơ thanh toán", 
-                            fileName: "[" + content + "] " + file.name, 
+                            folderSubName: content, // Gom chung theo nội dung hồ sơ
+                            fileName: file.name, 
                             mimeType: file.type, 
                             fileData: base64Data 
                         };
@@ -2216,12 +2217,12 @@
                 }
 
                 if (editIndex >= 0) {
-                    uploadedFiles = newUploadedList; // Khi sửa, lấy đúng danh sách file mới nhất
+                    uploadedFiles = uploadedFiles.concat(newUploadedList);
                 } else {
                     uploadedFiles = uploadedFiles.concat(newUploadedList);
                 }
                 
-                progressText.innerText = "Hoàn tất tải lên tất cả các tệp!";
+                progressText.innerText = "Hoàn tất!";
                 setTimeout(() => { progressContainer.style.display = "none"; progressFill.style.width = "0%"; }, 3000);
             }
 
@@ -2240,7 +2241,7 @@
 
             localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
             renderPaymentTable();
-            statusLabel.innerText = "✅ Thêm hồ sơ thành công vào Drive!";
+            statusLabel.innerText = "✅ Lưu hồ sơ & Thư mục đính kèm thành công!";
             triggerAutoSync();
         }
 
@@ -2304,15 +2305,9 @@
                         let displayUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : (currentAmt / q);
                         let dateTimeDisplay = rec.payDateTime || `31/07/${CURRENT_SELECTED_YEAR}`;
                         
-                        let folderLinkHtml = `<a href="${DRIVE_ROOT_FOLDER_URL}" target="_blank" rel="noopener noreferrer" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục Gốc</a>`;
-                        if (rec.files && rec.files.length > 0) {
-                            let folderUrl = rec.folderUrl || DRIVE_ROOT_FOLDER_URL;
-                            folderLinkHtml = `<div style="display:flex; gap:4px; flex-wrap:wrap;">`;
-                            rec.files.forEach((fObj, fIdx) => {
-                                folderLinkHtml += `<a href="${fObj.fileUrl || folderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="font-size:11px; padding:3px 6px;" title="${fObj.fileName}"><i class="fa-solid fa-folder-open"></i> Tệp ${fIdx + 1}</a>`;
-                            });
-                            folderLinkHtml += `</div>`;
-                        }
+                        let folderUrl = rec.folderUrl || DRIVE_ROOT_FOLDER_URL;
+                        let fileCount = rec.files ? rec.files.length : 0;
+                        let folderLinkHtml = `<a href="${folderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link"><i class="fa-solid fa-folder-open" style="color:var(--orange);"></i> Mở Thư Mục (${fileCount} tệp)</a>`;
 
                         tbody.innerHTML += `<tr>
                             <td class="text-center font-bold">${globalIndex++}</td>
@@ -2325,7 +2320,7 @@
                             <td class="text-right font-bold" style="color:var(--green);">${formatCurrencyVN(currentAmt)} VND</td>
                             <td class="text-center">${rec.account || '-'}</td>
                             <td>${rec.bank || '-'}</td>
-                            <td>${folderLinkHtml}</td>
+                            <td class="text-center">${folderLinkHtml}</td>
                             <td class="text-center">
                                 <button type="button" class="btn-edit" onclick="editPaymentRecord('${sm}', ${actualIdx})"><i class="fa-solid fa-pen-to-square"></i></button>
                                 <button type="button" class="btn-delete" onclick="deletePaymentRecord('${sm}', ${actualIdx})"><i class="fa-solid fa-trash"></i></button>
@@ -2352,7 +2347,7 @@
                         <td class="text-right font-bold" style="color:var(--green);">599.069.520 VND</td>
                         <td class="text-center">105005712499</td>
                         <td>VietinBank</td>
-                        <td><a href="${DRIVE_ROOT_FOLDER_URL}" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục</a></td>
+                        <td class="text-center"><a href="${DRIVE_ROOT_FOLDER_URL}" target="_blank" class="btn-drive-link"><i class="fa-solid fa-folder-open"></i> Mở Thư Mục</a></td>
                         <td class="text-center"><span style="font-size:11px; color:var(--green); font-weight:bold;">Đã cố định</span></td>
                     </tr>
                 `;
@@ -2405,14 +2400,14 @@
                 folderUrl = telecomRecordsByMonth[sm][editIndex].folderUrl;
             }
 
-            // Xử lý chọn nhiều file để upload cước viễn thông
+            // Xử lý chọn nhiều file cước viễn thông đưa vào chung một thư mục trên Drive
             if (fileInput.files.length > 0) {
                 let progressContainer = document.getElementById('progress-container-vt');
                 let progressFill = document.getElementById('progress-fill-vt');
                 let progressText = document.getElementById('progress-text-vt');
 
                 progressContainer.style.display = "block";
-                statusLabel.innerText = "⏳ Đang tải các hóa đơn cước lên Drive vào thư mục chuẩn...";
+                statusLabel.innerText = "⏳ Đang gom chung hóa đơn cước vào thư mục trên Drive...";
 
                 let totalFiles = fileInput.files.length;
                 let newUploadedList = [];
@@ -2435,7 +2430,8 @@
                             year: year, 
                             month: month, 
                             category: "2. Cước Viễn thông & Internet", 
-                            fileName: "[Cước " + provider + " - " + cid + "] " + file.name, 
+                            folderSubName: `Cước ${provider} - ${cid} - ${period}`, 
+                            fileName: file.name, 
                             mimeType: file.type, 
                             fileData: base64Data 
                         };
@@ -2450,7 +2446,7 @@
                 }
 
                 if (editIndex >= 0) {
-                    uploadedFiles = newUploadedList;
+                    uploadedFiles = uploadedFiles.concat(newUploadedList);
                 } else {
                     uploadedFiles = uploadedFiles.concat(newUploadedList);
                 }
@@ -2471,7 +2467,7 @@
             fileInput.value = "";
             localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth));
             renderTelecomTable(); 
-            statusLabel.innerText = "✅ Lưu cước thành công!";
+            statusLabel.innerText = "✅ Lưu cước & Thư mục hóa đơn thành công!";
             triggerAutoSync();
         }
 
@@ -2519,15 +2515,9 @@
                             seenTableKeys.add(uniqueKey);
                             totalTelecom += rec.amount;
                             
-                            let folderLinkHtml = `<a href="${DRIVE_ROOT_FOLDER_URL}" target="_blank" rel="noopener noreferrer" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục Gốc</a>`;
-                            if (rec.files && rec.files.length > 0) {
-                                let folderUrl = rec.folderUrl || DRIVE_ROOT_FOLDER_URL;
-                                folderLinkHtml = `<div style="display:flex; gap:4px; flex-wrap:wrap;">`;
-                                rec.files.forEach((fObj, fIdx) => {
-                                    folderLinkHtml += `<a href="${fObj.fileUrl || folderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="font-size:11px; padding:3px 6px;" title="${fObj.fileName}"><i class="fa-solid fa-folder-open"></i> Tệp ${fIdx + 1}</a>`;
-                                });
-                                folderLinkHtml += `</div>`;
-                            }
+                            let folderUrl = rec.folderUrl || DRIVE_ROOT_FOLDER_URL;
+                            let fileCount = rec.files ? rec.files.length : 0;
+                            let folderLinkHtml = `<a href="${folderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link"><i class="fa-solid fa-folder-open" style="color:var(--orange);"></i> Mở Thư Mục (${fileCount} tệp)</a>`;
 
                             tbody.innerHTML += `<tr>
                                 <td class="text-center font-bold">${globalIndex++}</td>
@@ -2537,7 +2527,7 @@
                                 <td class="text-center font-bold">${rec.cid}</td>
                                 <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(rec.amount)} VND</td>
                                 <td class="text-center">${rec.period}</td>
-                                <td>${folderLinkHtml}</td>
+                                <td class="text-center">${folderLinkHtml}</td>
                                 <td class="text-center">
                                     <button type="button" class="btn-edit" onclick="editTelecomRecord('${sm}', ${actualIdx})"><i class="fa-solid fa-pen-to-square"></i></button>
                                     <button type="button" class="btn-delete" onclick="deleteTelecomRecord('${sm}', ${actualIdx})"><i class="fa-solid fa-trash"></i></button>
