@@ -717,7 +717,7 @@
                                     <th>Băng thông</th>
                                     <th>Mã CID</th>
                                     <th>Cước phí</th>
-                                    <th>Kỳ cước</th>
+                                    <th>K kỳ cước</th>
                                     <th>Hóa đơn đính kèm</th>
                                     <th style="text-align: center;">Thao tác</th>
                                 </tr>
@@ -728,7 +728,7 @@
                 </div>
             </div>
 
-            <!-- TAB 4: KHO THIẾT BỊ CNTT (ĐẦY ĐỦ PHIÊN BẢN PHẦN MỀM: SOLIDWORKS, AUTOCAD, ADOBE, ASIA, CLOUDOFFICE & TRẠNG THÁI BẢN QUYỀN) -->
+            <!-- TAB 4: KHO THIẾT BỊ CNTT -->
             <div id="tab-it-assets" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--purple);">
@@ -769,7 +769,6 @@
                                 </div>
                             </div>
                             
-                            <!-- HÀNG PHẦN MỀM ĐẦY ĐỦ: HĐH, OFFICE, SOLIDWORKS, AUTOCAD, ADOBE -->
                             <div style="display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;">
                                 <div class="form-group" style="flex: 1.2; min-width: 140px;">
                                     <label style="color: #6d28d9; font-size: 11px;">Hệ điều hành</label>
@@ -845,7 +844,6 @@
                                 </div>
                             </div>
 
-                            <!-- HÀNG PHẦN MỀM DOANH NGHIỆP: ASIA, CLOUDOFFICE & TRẠNG THÁI BẢN QUYỀN (ƯU TIÊN CHƯA CÓ) -->
                             <div style="display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;">
                                 <div class="form-group" style="flex: 1.4; min-width: 160px;">
                                     <label style="color: #6d28d9; font-size: 11px;">Phần mềm ASIA / Quasoft</label>
@@ -895,7 +893,6 @@
                             </div>
                         </div>
 
-                        <!-- KHU VỰC QR TRỰC TIẾP -->
                         <div style="border: 2px dashed var(--purple); border-radius: 6px; background: white; padding: 10px; width: 200px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: space-between; margin: 0 auto;">
                             <div style="font-weight: bold; color: var(--purple); font-size: 11px; text-align: center; border-bottom: 1px solid #e2e8f0; width: 100%; padding-bottom: 4px;"><i class="fa-solid fa-qrcode"></i> 📱 TEM QR TRỰC TIẾP</div>
                             <div style="text-align: center; width: 100%;">
@@ -965,86 +962,182 @@
                 </div>
             </div>
 
-            <!-- TAB 5: QUẢN LÝ CẤP PHÁT MỰC IN VĂN PHÒNG (ĐẦY ĐỦ TỪ CANON 2900 ĐẾN MÁY A3 ĐA NĂNG) -->
+            <!-- TAB 5: QUẢN LÝ KHO NHẬP & CẤP PHÁT MỰC IN VĂN PHÒNG (CÓ CẢNH BÁO SẮP HẾT) -->
             <div id="tab-printer-ink" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--green);">
                         <span><i class="fa-solid fa-print" style="color:var(--green);"></i> QUẢN LÝ KHO & CẤP PHÁT MỰC IN VĂN PHÒNG (<span class="lbl-current-year">2026</span>)</span>
                     </div>
 
+                    <!-- KHU VỰC 1: NHẬP MỰC VÀO KHO -->
                     <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
-                        <input type="hidden" id="edit-ink-index" value="-1">
+                        <div style="font-weight: bold; color: #166534; font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                            <i class="fa-solid fa-warehouse"></i> 📥 NHẬP MỰC IN VÀO KHO TỔNG CÔNG TY
+                        </div>
+                        <input type="hidden" id="edit-import-ink-index" value="-1">
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-bottom: 10px; align-items: end;">
                             <div class="form-group">
-                                <label style="color: #166534;">Mã / Loại mực in</label>
-                                <select id="ink-model" style="border-color: #86efac;">
-                                    <option value="Mực Canon 303 (Cho Canon LBP 2900 / 3000)" selected>Mực Canon 303 (Canon 2900 huyền thoại)</option>
+                                <label style="color: #166534;">Chủng loại mực nhập</label>
+                                <select id="import-ink-model" style="border-color: #86efac;">
+                                    <option value="Mực Canon 303 (Cho Canon LBP 2900 / 3000)" selected>Mực Canon 303 (Canon 2900)</option>
                                     <option value="Mực HP 85A (CE285A)">Mực HP 85A (CE285A)</option>
                                     <option value="Mực HP 12A (Q2612A)">Mực HP 12A (Q2612A)</option>
                                     <option value="Mực HP 79A (CF279A)">Mực HP 79A (CF279A)</option>
                                     <option value="Mực Canon 337 (Cho LBP 151dw/212dw)">Mực Canon 337 (Cho LBP 151dw/212dw)</option>
                                     <option value="Mực Canon 052 (Cho LBP 214/215)">Mực Canon 052 (Cho LBP 214/215)</option>
                                     <option value="Mực Brother TN-2385 / TN-B022">Mực Brother TN-2385 / TN-B022</option>
-                                    <option value="Mực máy in A3 đa năng (Ricoh / Toshiba / Canon)">🖨️ Mực máy in A3 đa năng (Ricoh / Toshiba)</option>
-                                    <option value="Mực máy in màu Epson / Canon A4-A3">Mực màu in phun Epson / Canon</option>
+                                    <option value="Mực máy in A3 đa năng (Ricoh / Toshiba)">🖨️ Mực máy in A3 đa năng (Ricoh / Toshiba)</option>
                                     <option value="Mực khác (Ghi chú chi tiết)">Mực khác (Ghi chú chi tiết)</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label style="color: #166534;">Số lượng cấp phát</label>
-                                <input type="number" id="ink-qty" value="1" min="1" step="1" style="border-color: #86efac; font-weight: bold; text-align: center;">
+                                <label style="color: #166534;">Số lượng nhập (Hộp)</label>
+                                <input type="number" id="import-ink-qty" value="10" min="1" step="1" style="border-color: #86efac; font-weight: bold; text-align: center;">
                             </div>
                             <div class="form-group">
-                                <label style="color: #166534;">Người nhận mực</label>
-                                <input type="text" id="ink-receiver" placeholder="Họ tên người nhận..." style="border-color: #86efac;">
+                                <label style="color: #166534;">Nhà cung cấp</label>
+                                <input type="text" id="import-ink-supplier" value="Công ty CP Công nghệ Long Phúc A" style="border-color: #86efac;">
                             </div>
                             <div class="form-group">
-                                <label style="color: #166534;">Bộ phận / Phòng ban</label>
-                                <input type="text" id="ink-dept" value="Phòng Hành chính - Tổng hợp" style="border-color: #86efac;">
-                            </div>
-                            <div class="form-group">
-                                <label style="color: #166534;"><i class="fa-solid fa-calendar-days"></i> Ngày cấp:</label>
-                                <input type="date" id="ink-date" style="border-color: #86efac;">
+                                <label style="color: #166534;"><i class="fa-solid fa-calendar-days"></i> Ngày nhập:</label>
+                                <input type="date" id="import-ink-date" style="border-color: #86efac;">
                             </div>
                         </div>
                         <div style="display: flex; gap: 10px; align-items: center; justify-content: space-between; border-top: 1px dashed #86efac; padding-top: 10px; flex-wrap: wrap;">
                             <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
-                                <label style="color: #166534;">Ghi chú / Mục đích sử dụng:</label>
-                                <input type="text" id="ink-note" placeholder="Dùng cho máy in Canon 2900 phòng tổng hợp, máy A3 photo tầng 2..." style="border-color: #86efac;">
+                                <label style="color: #166534;">Số hóa đơn / Chứng từ / Ghi chú:</label>
+                                <input type="text" id="import-ink-note" placeholder="Ví dụ: Theo HĐ số 130 ngày 30/07/2026..." style="border-color: #86efac;">
                             </div>
                             <div style="display:flex; gap:6px;">
-                                <button type="button" class="btn btn-gray" id="btn-cancel-edit-ink" style="display:none;" onclick="cancelEditInk()"><i class="fa-solid fa-xmark"></i> Hủy</button>
-                                <button type="button" class="btn btn-green" id="btn-save-ink" onclick="addNewInkRecord()"><i class="fa-solid fa-floppy-disk"></i> Lưu & Cấp Phát Mực</button>
+                                <button type="button" class="btn btn-gray" id="btn-cancel-edit-import" style="display:none;" onclick="cancelEditImportInk()"><i class="fa-solid fa-xmark"></i> Hủy</button>
+                                <button type="button" class="btn btn-green" id="btn-save-import" onclick="addNewImportInkRecord()"><i class="fa-solid fa-boxes-stacked"></i> Nhập Kho Mực</button>
                             </div>
                         </div>
                     </div>
 
-                    <div class="card-title" style="font-size: 13px; margin-top: 12px;">
-                        <span>DANH SÁCH CẤP PHÁT MỰC IN TRONG NĂM <span class="lbl-current-year">2026</span></span>
-                        <span id="ink-total-count" style="color: var(--green);">Tổng: 0 hộp</span>
+                    <!-- BẢNG TỔNG HỢP TỒN KHO & CẢNH BÁO SẮP HẾT MỰC -->
+                    <div style="background: #fffbeb; border: 1.5px solid #fde047; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
+                        <div style="font-weight: bold; color: #b45309; font-size: 13px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                            <span><i class="fa-solid fa-triangle-exclamation" style="color:#d97706;"></i> 📊 BẢNG CÂN ĐỐI TỒN KHO & CẢNH BÁO MỰC IN SẮP HẾT (Mức tối thiểu: 3 hộp)</span>
+                            <span id="ink-alert-badge" style="font-size: 11px; background: #fee2e2; color: #b91c1c; padding: 2px 8px; border-radius: 4px; border: 1px solid #fca5a5; font-weight: bold;">0 mục cần đặt mua</span>
+                        </div>
+                        <div class="table-responsive" style="max-height: 220px; overflow-y: auto; border-color: #fde047;">
+                            <table class="main-table" style="font-size: 12px;">
+                                <thead>
+                                    <tr style="background-color: #fef08a; color: #713f12;">
+                                        <th>STT</th>
+                                        <th>Chủng loại mực in</th>
+                                        <th style="text-align:center;">Tổng Nhập</th>
+                                        <th style="text-align:center;">Đã Cấp Phát</th>
+                                        <th style="text-align:center; background:#fde047;">Tồn Kho Thực Tế</th>
+                                        <th>Trạng thái & Cảnh báo đặt hàng</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-ink-balance"></tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="table-responsive">
-                        <table class="main-table">
-                            <thead>
-                                <tr style="background-color: #cbd5e1;">
-                                    <th style="width: 40px;">STT</th>
-                                    <th>Mã / Loại mực in</th>
-                                    <th style="width: 80px; text-align:center;">Số lượng</th>
-                                    <th>Người nhận</th>
-                                    <th>Bộ phận / Phòng ban</th>
-                                    <th style="width: 100px; text-align:center;">Ngày cấp phát</th>
-                                    <th>Ghi chú</th>
-                                    <th style="width: 90px; text-align: center;">Thao tác</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tbody-printer-ink"></tbody>
-                        </table>
+
+                    <!-- KHU VỰC 2: CẤP PHÁT MỰC IN -->
+                    <div style="background: #eff6ff; border: 1.5px solid #93c5fd; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
+                        <div style="font-weight: bold; color: #1e3a8a; font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                            <i class="fa-solid fa-file-export"></i> 📤 CẤP PHÁT MỰC IN CHO CÁC PHÒNG BAN
+                        </div>
+                        <input type="hidden" id="edit-ink-index" value="-1">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-bottom: 10px; align-items: end;">
+                            <div class="form-group">
+                                <label style="color: #1e3a8a;">Chủng loại mực cấp</label>
+                                <select id="ink-model" style="border-color: #93c5fd;">
+                                    <option value="Mực Canon 303 (Cho Canon LBP 2900 / 3000)" selected>Mực Canon 303 (Canon 2900)</option>
+                                    <option value="Mực HP 85A (CE285A)">Mực HP 85A (CE285A)</option>
+                                    <option value="Mực HP 12A (Q2612A)">Mực HP 12A (Q2612A)</option>
+                                    <option value="Mực HP 79A (CF279A)">Mực HP 79A (CF279A)</option>
+                                    <option value="Mực Canon 337 (Cho LBP 151dw/212dw)">Mực Canon 337 (Cho LBP 151dw/212dw)</option>
+                                    <option value="Mực Canon 052 (Cho LBP 214/215)">Mực Canon 052 (Cho LBP 214/215)</option>
+                                    <option value="Mực Brother TN-2385 / TN-B022">Mực Brother TN-2385 / TN-B022</option>
+                                    <option value="Mực máy in A3 đa năng (Ricoh / Toshiba)">🖨️ Mực máy in A3 đa năng (Ricoh / Toshiba)</option>
+                                    <option value="Mực khác (Ghi chú chi tiết)">Mực khác (Ghi chú chi tiết)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label style="color: #1e3a8a;">Số lượng cấp</label>
+                                <input type="number" id="ink-qty" value="1" min="1" step="1" style="border-color: #93c5fd; font-weight: bold; text-align: center;">
+                            </div>
+                            <div class="form-group">
+                                <label style="color: #1e3a8a;">Người nhận mực</label>
+                                <input type="text" id="ink-receiver" placeholder="Họ tên người nhận..." style="border-color: #93c5fd;">
+                            </div>
+                            <div class="form-group">
+                                <label style="color: #1e3a8a;">Bộ phận / Phòng ban</label>
+                                <input type="text" id="ink-dept" value="Phòng Hành chính - Tổng hợp" style="border-color: #93c5fd;">
+                            </div>
+                            <div class="form-group">
+                                <label style="color: #1e3a8a;"><i class="fa-solid fa-calendar-days"></i> Ngày cấp:</label>
+                                <input type="date" id="ink-date" style="border-color: #93c5fd;">
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px; align-items: center; justify-content: space-between; border-top: 1px dashed #93c5fd; padding-top: 10px; flex-wrap: wrap;">
+                            <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
+                                <label style="color: #1e3a8a;">Ghi chú / Mục đích sử dụng:</label>
+                                <input type="text" id="ink-note" placeholder="Dùng cho máy in Canon 2900 phòng tổng hợp..." style="border-color: #93c5fd;">
+                            </div>
+                            <div style="display:flex; gap:6px;">
+                                <button type="button" class="btn btn-gray" id="btn-cancel-edit-ink" style="display:none;" onclick="cancelEditInk()"><i class="fa-solid fa-xmark"></i> Hủy</button>
+                                <button type="button" class="btn btn-primary" id="btn-save-ink" onclick="addNewInkRecord()"><i class="fa-solid fa-floppy-disk"></i> Lưu & Cấp Phát Mực</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px;">
+                        <div>
+                            <div class="card-title" style="font-size: 13px;">
+                                <span>LỊCH SỬ NHẬP KHO MỰC NĂM <span class="lbl-current-year">2026</span></span>
+                                <span id="import-ink-total-count" style="color: var(--green);">Tổng: 0 hộp</span>
+                            </div>
+                            <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                                <table class="main-table" style="font-size: 12px;">
+                                    <thead>
+                                        <tr style="background-color: #cbd5e1;">
+                                            <th>STT</th>
+                                            <th>Chủng loại mực</th>
+                                            <th style="text-align:center;">SL</th>
+                                            <th>Nhà cung cấp</th>
+                                            <th>Ngày nhập</th>
+                                            <th style="text-align: center;">Thao tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody-printer-import-ink"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="card-title" style="font-size: 13px;">
+                                <span>LỊCH SỬ CẤP PHÁT MỰC NĂM <span class="lbl-current-year">2026</span></span>
+                                <span id="ink-total-count" style="color: var(--blue);">Tổng: 0 hộp</span>
+                            </div>
+                            <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                                <table class="main-table" style="font-size: 12px;">
+                                    <thead>
+                                        <tr style="background-color: #cbd5e1;">
+                                            <th>STT</th>
+                                            <th>Chủng loại mực</th>
+                                            <th style="text-align:center;">SL</th>
+                                            <th>Người nhận</th>
+                                            <th>Bộ phận</th>
+                                            <th>Ngày cấp</th>
+                                            <th style="text-align: center;">Thao tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody-printer-ink"></tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- LỊCH VẠN NIÊN THÔNG MINH (ĐỒNG BỘ TRỰC TUYẾN 100%) -->
+        <!-- LỊCH VẠN NIÊN THÔNG MINH -->
         <div class="calendar-sidebar" id="calendar-sidebar-box">
             <div class="cal-smart-header">
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
@@ -1116,7 +1209,7 @@
         </div>
     </div>
 
-    <!-- MODAL FORM ĐĂNG KÝ XIN NGHỈ PHÉP -->
+    <!-- MODAL ĐĂNG KÝ XIN NGHỈ PHÉP -->
     <div id="leaveRequestModal" class="modal" onclick="closeLeaveRequestModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 600px;">
             <div class="card-title" style="border-left-color: var(--purple); font-size: 14px; justify-content: space-between;">
@@ -1277,9 +1370,10 @@
         let telecomRecordsByMonth = JSON.parse(localStorage.getItem('sys_telecom_records_by_month')) || {};
         let itAssetRecordsByYear = JSON.parse(localStorage.getItem('sys_it_asset_records_by_year')) || {};
         let printerInkRecordsByYear = JSON.parse(localStorage.getItem('sys_printer_ink_records_by_year')) || {};
+        let printerImportInkRecordsByYear = JSON.parse(localStorage.getItem('sys_printer_import_ink_records_by_year')) || {};
         let dayEventsMap = JSON.parse(localStorage.getItem('sys_day_events_map')) || {};
 
-        let vietnamTime = new Date(); // Đồng bộ thời gian thực hiện tại
+        let vietnamTime = new Date();
         let calViewDate = new Date(vietnamTime.getFullYear(), vietnamTime.getMonth(), 1);
         let calSelectedDate = new Date(vietnamTime.getFullYear(), vietnamTime.getMonth(), vietnamTime.getDate());
 
@@ -1297,7 +1391,7 @@
 
             if (tabId === 'leave') renderLeaveTable();
             else if (tabId === 'it-assets') { updateItAssetFilterDropdowns(); renderItAssetTable(); }
-            else if (tabId === 'printer-ink') renderPrinterInkTable();
+            else if (tabId === 'printer-ink') renderPrinterInkTables();
         }
 
         function toggleCalendarSidebar() {
@@ -1692,7 +1786,7 @@
             handleMonthChangeSelect();
             renderItAssetTable();
             renderLeaveTable();
-            renderPrinterInkTable();
+            renderPrinterInkTables();
             updateGlobalDashboardSummary();
         }
 
@@ -1733,7 +1827,7 @@
             renderPaymentTable();
             renderTelecomTable();
             renderLeaveTable();
-            renderPrinterInkTable();
+            renderPrinterInkTables();
         }
 
         function handleConfigChangeLive() {
@@ -2521,7 +2615,6 @@
                 return matchD && matchT;
             });
 
-            // Sắp xếp ưu tiên "Chưa có bản quyền" lên đầu giống bảng hiển thị chính
             filteredRecords.sort((a, b) => {
                 let aUnlicensed = (a.licenseStatus || "").includes("Chưa có") ? 0 : 1;
                 let bUnlicensed = (b.licenseStatus || "").includes("Chưa có") ? 0 : 1;
@@ -2706,7 +2799,6 @@
 
             let filteredRecords = records.filter(r => (filterDept === "ALL" || r.dept === filterDept) && (filterType === "ALL" || r.type === filterType));
 
-            // ⭐ YÊU CẦU: ƯU TIÊN HIỂN THỊ "CHƯA CÓ BẢN QUYỀN" LÊN TRÊN HÀNG ĐẦU ⭐
             filteredRecords.sort((a, b) => {
                 let aUnlicensed = (a.licenseStatus || "").includes("Chưa có") ? 0 : 1;
                 let bUnlicensed = (b.licenseStatus || "").includes("Chưa có") ? 0 : 1;
@@ -2751,7 +2843,6 @@
             let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
             if (records.length === 0) { alert("Chưa có dữ liệu thiết bị!"); return; }
             
-            // Sắp xếp ưu tiên bản quyền trước khi xuất báo cáo Word
             let exportRecords = [...records].sort((a, b) => {
                 let aUn = (a.licenseStatus || "").includes("Chưa có") ? 0 : 1;
                 let bUn = (b.licenseStatus || "").includes("Chưa có") ? 0 : 1;
@@ -2769,7 +2860,74 @@
             saveAs(blob, `Bao_Cao_CNTT_${CURRENT_SELECTED_YEAR}.doc`);
         }
 
-        // --- QUẢN LÝ CẤP PHÁT MỰC IN ---
+        // --- QUẢN LÝ KHO & CẤP PHÁT MỰC IN ---
+        function addNewImportInkRecord() {
+            let editIndex = parseInt(document.getElementById('edit-import-ink-index').value);
+            let model = document.getElementById('import-ink-model').value;
+            let qty = parseInt(document.getElementById('import-ink-qty').value) || 1;
+            let supplier = document.getElementById('import-ink-supplier').value.trim();
+            let dateVal = document.getElementById('import-ink-date').value || new Date().toISOString().split('T')[0];
+            let note = document.getElementById('import-ink-note').value.trim();
+
+            if (!supplier) { alert("Vui lòng nhập nhà cung cấp mực!"); return; }
+            if (!printerImportInkRecordsByYear[CURRENT_SELECTED_YEAR]) printerImportInkRecordsByYear[CURRENT_SELECTED_YEAR] = [];
+
+            let importObj = { model, qty, supplier, dateVal, note };
+            let records = printerImportInkRecordsByYear[CURRENT_SELECTED_YEAR];
+
+            if (editIndex >= 0) {
+                records[editIndex] = importObj;
+                cancelEditImportInk();
+            } else {
+                records.push(importObj);
+                clearImportInkForm();
+            }
+
+            localStorage.setItem('sys_printer_import_ink_records_by_year', JSON.stringify(printerImportInkRecordsByYear));
+            renderPrinterInkTables();
+            triggerAutoSync();
+        }
+
+        function editImportInkRecord(idx) {
+            let records = printerImportInkRecordsByYear[CURRENT_SELECTED_YEAR] || [];
+            let rec = records[idx];
+            if (!rec) return;
+
+            document.getElementById('edit-import-ink-index').value = idx;
+            document.getElementById('import-ink-model').value = rec.model;
+            document.getElementById('import-ink-qty').value = rec.qty;
+            document.getElementById('import-ink-supplier').value = rec.supplier;
+            document.getElementById('import-ink-date').value = rec.dateVal;
+            document.getElementById('import-ink-note').value = rec.note;
+
+            document.getElementById('btn-save-import').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Cập Nhật Nhập`;
+            document.getElementById('btn-cancel-edit-import').style.display = "inline-flex";
+            window.scrollTo({ top: 200, behavior: 'smooth' });
+        }
+
+        function cancelEditImportInk() {
+            document.getElementById('edit-import-ink-index').value = "-1";
+            clearImportInkForm();
+            document.getElementById('btn-save-import').innerHTML = `<i class="fa-solid fa-boxes-stacked"></i> Nhập Kho Mực`;
+            document.getElementById('btn-cancel-edit-import').style.display = "none";
+        }
+
+        function clearImportInkForm() {
+            document.getElementById('import-ink-qty').value = 10;
+            document.getElementById('import-ink-supplier').value = "Công ty CP Công nghệ Long Phúc A";
+            document.getElementById('import-ink-date').value = new Date().toISOString().split('T')[0];
+            document.getElementById('import-ink-note').value = "";
+        }
+
+        function deleteImportInkRecord(idx) {
+            if (confirm('Xóa bản ghi nhập kho mực này?')) {
+                printerImportInkRecordsByYear[CURRENT_SELECTED_YEAR].splice(idx, 1);
+                localStorage.setItem('sys_printer_import_ink_records_by_year', JSON.stringify(printerImportInkRecordsByYear));
+                renderPrinterInkTables();
+                triggerAutoSync();
+            }
+        }
+
         function addNewInkRecord() {
             let editIndex = parseInt(document.getElementById('edit-ink-index').value);
             let model = document.getElementById('ink-model').value;
@@ -2794,7 +2952,7 @@
             }
 
             localStorage.setItem('sys_printer_ink_records_by_year', JSON.stringify(printerInkRecordsByYear));
-            renderPrinterInkTable();
+            renderPrinterInkTables();
             triggerAutoSync();
         }
 
@@ -2830,23 +2988,73 @@
             document.getElementById('ink-note').value = "";
         }
 
-        function renderPrinterInkTable() {
-            let records = printerInkRecordsByYear[CURRENT_SELECTED_YEAR] || [];
-            const tbody = document.getElementById('tbody-printer-ink');
-            tbody.innerHTML = "";
-            let totalQty = 0;
+        function deleteInkRecord(idx) {
+            if (confirm('Xóa bản ghi cấp phát mực này?')) {
+                printerInkRecordsByYear[CURRENT_SELECTED_YEAR].splice(idx, 1);
+                localStorage.setItem('sys_printer_ink_records_by_year', JSON.stringify(printerInkRecordsByYear));
+                renderPrinterInkTables();
+                triggerAutoSync();
+            }
+        }
 
-            records.forEach((rec, idx) => {
-                totalQty += rec.qty;
-                tbody.innerHTML += `
+        function renderPrinterInkTables() {
+            let importRecords = printerImportInkRecordsByYear[CURRENT_SELECTED_YEAR] || [];
+            let exportRecords = printerInkRecordsByYear[CURRENT_SELECTED_YEAR] || [];
+
+            // Nếu chưa có dữ liệu mẫu nhập, nạp dữ liệu chuẩn từ hóa đơn thực tế
+            if (importRecords.length === 0 && CURRENT_SELECTED_YEAR === "2026") {
+                importRecords = [
+                    { model: "Mực Canon 303 (Cho Canon LBP 2900 / 3000)", qty: 25, supplier: "Công ty CP Công nghệ Long Phúc A", dateVal: "2026-04-10", note: "Theo hóa đơn chuẩn" },
+                    { model: "Mực HP 12A (Q2612A)", qty: 15, supplier: "Công ty TNHH TM & DV Kiên Giang", dateVal: "2026-05-15", note: "Trang bị các phòng" },
+                    { model: "Mực Canon 337 (Cho LBP 151dw/212dw)", qty: 10, supplier: "Công ty CP Công nghệ Long Phúc A", dateVal: "2026-06-10", note: "Mực máy in A4 đa năng" }
+                ];
+                printerImportInkRecordsByYear[CURRENT_SELECTED_YEAR] = importRecords;
+            }
+
+            if (exportRecords.length === 0 && CURRENT_SELECTED_YEAR === "2026") {
+                exportRecords = [
+                    { model: "Mực Canon 303 (Cho Canon LBP 2900 / 3000)", qty: 4, receiver: "Nguyễn Văn Nam", dept: "Phòng Kỹ thuật", dateVal: "2026-07-01", note: "In ấn tài liệu kỹ thuật" },
+                    { model: "Mực HP 12A (Q2612A)", qty: 3, receiver: "Vũ Thị Thu", dept: "Phòng Tổng hợp", dateVal: "2026-07-10", note: "Thay cho máy in phòng" }
+                ];
+                printerInkRecordsByYear[CURRENT_SELECTED_YEAR] = exportRecords;
+            }
+
+            // Render bảng Nhập kho
+            const tbodyImport = document.getElementById('tbody-printer-import-ink');
+            tbodyImport.innerHTML = "";
+            let totalImportQty = 0;
+            importRecords.forEach((rec, idx) => {
+                totalImportQty += rec.qty;
+                tbodyImport.innerHTML += `
                     <tr>
                         <td class="text-center font-bold">${idx + 1}</td>
                         <td><b>${rec.model}</b></td>
-                        <td class="text-center font-bold" style="background:#fef9c3;">${rec.qty}</td>
+                        <td class="text-center font-bold" style="background:#f0fdf4; color:#166534;">${rec.qty}</td>
+                        <td>${rec.supplier}</td>
+                        <td class="text-center">${rec.dateVal}</td>
+                        <td class="text-center">
+                            <button type="button" class="btn-edit" onclick="editImportInkRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button type="button" class="btn-delete" onclick="deleteImportInkRecord(${idx})"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+            document.getElementById('import-ink-total-count').innerText = `Tổng: ${totalImportQty} hộp`;
+
+            // Render bảng Cấp phát
+            const tbodyExport = document.getElementById('tbody-printer-ink');
+            tbodyExport.innerHTML = "";
+            let totalExportQty = 0;
+            exportRecords.forEach((rec, idx) => {
+                totalExportQty += rec.qty;
+                tbodyExport.innerHTML += `
+                    <tr>
+                        <td class="text-center font-bold">${idx + 1}</td>
+                        <td><b>${rec.model}</b></td>
+                        <td class="text-center font-bold" style="background:#eff6ff; color:#1e3a8a;">${rec.qty}</td>
                         <td><b>${rec.receiver}</b></td>
                         <td>${rec.dept}</td>
                         <td class="text-center">${rec.dateVal}</td>
-                        <td>${rec.note || '-'}</td>
                         <td class="text-center">
                             <button type="button" class="btn-edit" onclick="editInkRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
                             <button type="button" class="btn-delete" onclick="deleteInkRecord(${idx})"><i class="fa-solid fa-trash"></i></button>
@@ -2854,15 +3062,57 @@
                     </tr>
                 `;
             });
-            document.getElementById('ink-total-count').innerText = `Tổng: ${totalQty} hộp mực`;
-        }
+            document.getElementById('ink-total-count').innerText = `Tổng: ${totalExportQty} hộp`;
 
-        function deleteInkRecord(idx) {
-            if (confirm('Xóa bản ghi cấp phát mực này?')) {
-                printerInkRecordsByYear[CURRENT_SELECTED_YEAR].splice(idx, 1);
-                localStorage.setItem('sys_printer_ink_records_by_year', JSON.stringify(printerInkRecordsByYear));
-                renderPrinterInkTable();
-                triggerAutoSync();
+            // Tổng hợp cân đối tồn kho & cảnh báo sắp hết
+            let modelMap = {};
+            importRecords.forEach(r => {
+                if (!modelMap[r.model]) modelMap[r.model] = { imported: 0, exported: 0 };
+                modelMap[r.model].imported += r.qty;
+            });
+            exportRecords.forEach(r => {
+                if (!modelMap[r.model]) modelMap[r.model] = { imported: 0, exported: 0 };
+                modelMap[r.model].exported += r.qty;
+            });
+
+            const tbodyBalance = document.getElementById('tbody-ink-balance');
+            tbodyBalance.innerHTML = "";
+            let lowStockCount = 0;
+            let bIdx = 1;
+
+            Object.keys(modelMap).forEach(modelName => {
+                let imp = modelMap[modelName].imported;
+                let exp = modelMap[modelName].exported;
+                let stock = imp - exp;
+                let statusHtml = "";
+
+                if (stock <= 3) {
+                    lowStockCount++;
+                    statusHtml = `<span style="background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;">⚠️ Sắp hết / Cần đặt mua ngay!</span>`;
+                } else {
+                    statusHtml = `<span style="background:#f0fdf4; color:#166534; border:1px solid #86efac; padding:2px 6px; border-radius:4px; font-weight:bold;">✅ Tồn kho an toàn</span>`;
+                }
+
+                tbodyBalance.innerHTML += `
+                    <tr>
+                        <td class="text-center font-bold">${bIdx++}</td>
+                        <td><b>${modelName}</b></td>
+                        <td class="text-center font-bold">${imp}</td>
+                        <td class="text-center font-bold">${exp}</td>
+                        <td class="text-center font-bold" style="background:#fef08a; color:#713f12; font-size:13px;">${stock} hộp</td>
+                        <td>${statusHtml}</td>
+                    </tr>
+                `;
+            });
+
+            if (lowStockCount > 0) {
+                document.getElementById('ink-alert-badge').innerHTML = `⚠️ ${lowStockCount} chủng loại cần đặt mua!`;
+                document.getElementById('ink-alert-badge').style.background = "#fee2e2";
+                document.getElementById('ink-alert-badge').style.color = "#b91c1c";
+            } else {
+                document.getElementById('ink-alert-badge').innerHTML = `✅ Tất cả chủng loại đều an toàn`;
+                document.getElementById('ink-alert-badge').style.background = "#f0fdf4";
+                document.getElementById('ink-alert-badge').style.color = "#166534";
             }
         }
 
@@ -2981,6 +3231,7 @@
                         telecomRecords: telecomRecordsByMonth,
                         itAssets: itAssetRecordsByYear,
                         printerInks: printerInkRecordsByYear,
+                        printerImportInks: printerImportInkRecordsByYear,
                         leaveData: leaveDataByYear
                     };
                     const response = await fetch(GOOGLE_SCRIPT_API_URL, {
@@ -3016,6 +3267,7 @@
                     telecomRecords: telecomRecordsByMonth,
                     itAssets: itAssetRecordsByYear,
                     printerInks: printerInkRecordsByYear,
+                    printerImportInks: printerImportInkRecordsByYear,
                     leaveData: leaveDataByYear
                 };
                 const response = await fetch(GOOGLE_SCRIPT_API_URL, {
@@ -3046,12 +3298,13 @@
                     if (data.telecomRecords) telecomRecordsByMonth = data.telecomRecords;
                     if (data.itAssets) itAssetRecordsByYear = data.itAssets;
                     if (data.printerInks) printerInkRecordsByYear = data.printerInks;
+                    if (data.printerImportInks) printerImportInkRecordsByYear = data.printerImportInks;
                     if (data.leaveData) leaveDataByYear = data.leaveData;
 
                     handleMonthChangeSelect();
                     renderItAssetTable();
                     renderLeaveTable();
-                    renderPrinterInkTable();
+                    renderPrinterInkTables();
                     updateGlobalDashboardSummary();
                     notify.innerHTML = "✅ Tải dữ liệu thành công!";
                 } else throw new Error();
@@ -3077,18 +3330,16 @@
             alert("✅ Đã lưu cấu hình API!");
         }
 
-        // Khởi chạy hệ thống lúc trang tải xong
         window.onload = function() {
             handleMonthChangeSelect();
             updateItAssetFilterDropdowns();
             renderItAssetTable();
             renderLeaveTable();
-            renderPrinterInkTable();
+            renderPrinterInkTables();
             updateGlobalDashboardSummary();
             generateNewItCode();
             initSmartCalendar();
 
-            // Đồng hồ thời gian thực
             setInterval(() => {
                 let now = new Date();
                 document.getElementById('live-system-clock').innerText = `${now.toLocaleTimeString('vi-VN')} - ${now.toLocaleDateString('vi-VN')}`;
