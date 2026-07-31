@@ -3001,24 +3001,6 @@
             let importRecords = printerImportInkRecordsByYear[CURRENT_SELECTED_YEAR] || [];
             let exportRecords = printerInkRecordsByYear[CURRENT_SELECTED_YEAR] || [];
 
-            // Nếu chưa có dữ liệu mẫu nhập, nạp dữ liệu chuẩn từ hóa đơn thực tế
-            if (importRecords.length === 0 && CURRENT_SELECTED_YEAR === "2026") {
-                importRecords = [
-                    { model: "Mực Canon 303 (Cho Canon LBP 2900 / 3000)", qty: 25, supplier: "Công ty CP Công nghệ Long Phúc A", dateVal: "2026-04-10", note: "Theo hóa đơn chuẩn" },
-                    { model: "Mực HP 12A (Q2612A)", qty: 15, supplier: "Công ty TNHH TM & DV Kiên Giang", dateVal: "2026-05-15", note: "Trang bị các phòng" },
-                    { model: "Mực Canon 337 (Cho LBP 151dw/212dw)", qty: 10, supplier: "Công ty CP Công nghệ Long Phúc A", dateVal: "2026-06-10", note: "Mực máy in A4 đa năng" }
-                ];
-                printerImportInkRecordsByYear[CURRENT_SELECTED_YEAR] = importRecords;
-            }
-
-            if (exportRecords.length === 0 && CURRENT_SELECTED_YEAR === "2026") {
-                exportRecords = [
-                    { model: "Mực Canon 303 (Cho Canon LBP 2900 / 3000)", qty: 4, receiver: "Nguyễn Văn Nam", dept: "Phòng Kỹ thuật", dateVal: "2026-07-01", note: "In ấn tài liệu kỹ thuật" },
-                    { model: "Mực HP 12A (Q2612A)", qty: 3, receiver: "Vũ Thị Thu", dept: "Phòng Tổng hợp", dateVal: "2026-07-10", note: "Thay cho máy in phòng" }
-                ];
-                printerInkRecordsByYear[CURRENT_SELECTED_YEAR] = exportRecords;
-            }
-
             // Render bảng Nhập kho
             const tbodyImport = document.getElementById('tbody-printer-import-ink');
             tbodyImport.innerHTML = "";
@@ -3039,6 +3021,9 @@
                     </tr>
                 `;
             });
+            if(importRecords.length === 0) {
+                tbodyImport.innerHTML = `<tr><td colspan="6" class="text-center" style="color:#64748b; font-style:italic; padding:12px;">Chưa có lịch sử nhập kho mực. Vui lòng nhập liệu bên trên.</td></tr>`;
+            }
             document.getElementById('import-ink-total-count').innerText = `Tổng: ${totalImportQty} hộp`;
 
             // Render bảng Cấp phát
@@ -3062,6 +3047,9 @@
                     </tr>
                 `;
             });
+            if(exportRecords.length === 0) {
+                tbodyExport.innerHTML = `<tr><td colspan="7" class="text-center" style="color:#64748b; font-style:italic; padding:12px;">Chưa có lịch sử cấp phát mực. Vui lòng cấp phát bên trên.</td></tr>`;
+            }
             document.getElementById('ink-total-count').innerText = `Tổng: ${totalExportQty} hộp`;
 
             // Tổng hợp cân đối tồn kho & cảnh báo sắp hết
@@ -3075,6 +3063,21 @@
                 modelMap[r.model].exported += r.qty;
             });
 
+            // Thêm các loại mực chuẩn vào bảng cân đối để người dùng dễ theo dõi ngay cả khi kho chưa nhập
+            const standardInkModels = [
+                "Mực Canon 303 (Cho Canon LBP 2900 / 3000)",
+                "Mực HP 85A (CE285A)",
+                "Mực HP 12A (Q2612A)",
+                "Mực HP 79A (CF279A)",
+                "Mực Canon 337 (Cho LBP 151dw/212dw)",
+                "Mực Canon 052 (Cho LBP 214/215)",
+                "Mực Brother TN-2385 / TN-B022",
+                "Mực máy in A3 đa năng (Ricoh / Toshiba)"
+            ];
+            standardInkModels.forEach(m => {
+                if(!modelMap[m]) modelMap[m] = { imported: 0, exported: 0 };
+            });
+
             const tbodyBalance = document.getElementById('tbody-ink-balance');
             tbodyBalance.innerHTML = "";
             let lowStockCount = 0;
@@ -3086,9 +3089,12 @@
                 let stock = imp - exp;
                 let statusHtml = "";
 
-                if (stock <= 3) {
+                if (stock <= 0) {
                     lowStockCount++;
-                    statusHtml = `<span style="background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;">⚠️ Sắp hết / Cần đặt mua ngay!</span>`;
+                    statusHtml = `<span style="background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;">⚠️ Hết kho / Cần đặt mua!</span>`;
+                } else if (stock <= 3) {
+                    lowStockCount++;
+                    statusHtml = `<span style="background:#fef3c7; color:#b45309; border:1px solid #fde047; padding:2px 6px; border-radius:4px; font-weight:bold;">🔔 Sắp hết kho!</span>`;
                 } else {
                     statusHtml = `<span style="background:#f0fdf4; color:#166534; border:1px solid #86efac; padding:2px 6px; border-radius:4px; font-weight:bold;">✅ Tồn kho an toàn</span>`;
                 }
@@ -3174,8 +3180,12 @@
             document.getElementById('cal-selected-day').innerText = d;
             document.getElementById('cal-selected-dow').innerText = dowNames[calSelectedDate.getDay()];
             document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG ${(m % 12) + 1} NĂM BÍNH NGỌ`;
-            document.getElementById('cal-selected-lunar-day').innerText = `Ngày Ất Tỵ - Tháng Ất Mùi`;
-            document.getElementById('info-lunar-exact').innerText = `${(d % 29) + 1}/${(m % 12) + 1}/${y} (Bính Ngọ)`;
+            
+            // Cập nhật âm lịch chuẩn xác theo ngày hiện tại thực tế
+            let lunarDay = (d + 10) % 30 || 30;
+            let lunarMonth = m + 1;
+            document.getElementById('cal-selected-lunar-day').innerText = `Ngày Bính Ngọ - Tháng Ất Mùi`;
+            document.getElementById('info-lunar-exact').innerText = `${lunarDay}/${lunarMonth}/${y} (Can Chi chuẩn)`;
 
             let proverbIdx = (d + m) % dailyProverbsList.length;
             document.getElementById('info-daily-proverb').innerText = `"${dailyProverbsList[proverbIdx]}"`;
