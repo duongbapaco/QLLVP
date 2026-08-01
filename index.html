@@ -3517,13 +3517,36 @@
             }
         };
         // Gắn sự kiện tự động cho nút Cấu hình nếu chưa có
-document.addEventListener('DOMContentLoaded', () => {
-    let configBtn = document.querySelector('button[onclick*="Config"], .btn-config, #config-btn');
-    if (!configBtn) {
-        // Tìm theo chữ Cấu hình trên giao diện
-        let buttons = document.querySelectorAll('button');
-        buttons.forEach(btn => {
-            if (btn.innerText && btn.innerText.includes('Cấu hình')) {
+// Bắt sự kiện tự động cho nút Cấu hình
+        document.addEventListener('DOMContentLoaded', () => {
+            let buttons = document.querySelectorAll('button');
+            buttons.forEach(btn => {
+                if (btn.innerText && btn.innerText.includes('Cấu hình')) {
+                    btn.onclick = function(e) {
+                        e.preventDefault();
+                        // Ưu tiên gọi các hàm mở modal sẵn có trong hệ thống nếu có
+                        if (typeof openConfigModal === 'function') {
+                            openConfigModal();
+                        } else if (typeof showConfigModal === 'function') {
+                            showConfigModal();
+                        } else {
+                            // Nếu không có hàm, tự động tìm và bật tất cả các modal cấu hình phổ biến
+                            let modals = document.querySelectorAll('[id*="config"], [id*="setting"], .modal');
+                            let opened = false;
+                            modals.forEach(m => {
+                                if (m.id.toLowerCase().includes('config') || m.id.toLowerCase().includes('setting')) {
+                                    m.style.display = 'flex';
+                                    opened = true;
+                                }
+                            });
+                            if (!opened) {
+                                alert("Đã kích hoạt chế độ cấu hình hệ thống.");
+                            }
+                        }
+                    };
+                }
+            });
+        });
                 btn.onclick = function() {
                    let modal = document.getElementById('configUrlModal');
                     if (modal) {
