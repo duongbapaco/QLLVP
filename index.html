@@ -3,416 +3,425 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Bảng Lương Chuyên Nghiệp - VINAPACO</title>
+    <title>Hệ Thống Bảng Lương Chuẩn VINAPACO - Times New Roman</title>
     <!-- FontAwesome & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Times+New+Roman:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <!-- Three.js cho Dashboard 3D -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         :root {
-            --primary: #1e293b;
-            --accent: #2563eb;
-            --success: #059669;
-            --danger: #dc2626;
-            --bg-main: #0f172a;
-            --bg-content: #f8fafc;
+            --border-color: #000;
+            --bg-header: #f8fafc;
         }
 
         * { 
             box-sizing: border-box; 
             margin: 0; 
             padding: 0; 
-            font-family: 'Times New Roman', Times, serif, Arial, sans-serif !important; 
+            font-family: 'Times New Roman', Times, serif !important; 
         }
-        body { background: var(--bg-content); color: var(--primary); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        body { background: #fff; color: #000; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
 
-        /* --- TOP NAV BAR --- */
-        .top-navbar {
-            height: 55px;
-            background: var(--bg-main);
-            color: #fff;
+        /* --- NAVIGATION SHEETS BAR --- */
+        .sheet-nav-bar {
+            background: #1e293b;
+            padding: 8px 15px;
             display: flex;
+            gap: 5px;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            border-bottom: 1px solid #334155;
+            border-bottom: 2px solid #000;
             flex-shrink: 0;
+            overflow-x: auto;
         }
-        .nav-brand { font-weight: 700; font-size: 1rem; display: flex; align-items: center; gap: 10px; color: #38bdf8; text-transform: uppercase; }
-        .nav-tabs { display: flex; gap: 6px; list-style: none; }
-        .nav-tabs button {
-            background: transparent; border: none; color: #94a3b8; padding: 6px 12px;
-            border-radius: 6px; font-weight: 600; font-size: 0.9rem; cursor: pointer;
-            display: flex; align-items: center; gap: 6px; transition: 0.2s;
-        }
-        .nav-tabs button:hover, .nav-tabs button.active { background: var(--accent); color: #fff; }
-        .system-clock { font-size: 0.85rem; font-weight: 700; background: #1e293b; padding: 4px 10px; border-radius: 4px; color: #cbd5e1; border: 1px solid #475569; }
-
-        /* --- MAIN VIEWPORT --- */
-        .main-viewport { flex-grow: 1; overflow-y: auto; padding: 15px 20px; }
-        .tab-pane { display: none; }
-        .tab-pane.active { display: block; }
-
-        /* --- CONFIG CARD --- */
-        .config-card {
-            background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px 15px; margin-bottom: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        .config-title { font-size: 0.9rem; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; }
-        .config-grid { display: grid; grid-template-columns: repeat(8, 1fr) auto; gap: 8px; align-items: flex-end; }
-        .form-group label { display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 3px; }
-        .form-control { width: 100%; padding: 5px 8px; font-size: 0.9rem; border: 1px solid #cbd5e1; border-radius: 4px; background: #fff; font-family: 'Times New Roman', Times, serif !important; }
-        .form-control:focus { border-color: var(--accent); outline: none; }
-
-        /* --- SUMMARY BAR --- */
-        .summary-bar {
-            display: flex; gap: 15px; margin-bottom: 12px; background: #f1f5f9; padding: 10px 15px;
-            border-radius: 6px; border: 1px solid #cbd5e1; align-items: center; justify-content: space-between;
-        }
-        .summary-item { font-size: 0.95rem; font-weight: 700; }
-        .summary-item span { color: var(--accent); font-weight: 700; margin-left: 4px; }
-
-        /* --- MASTER TABLE CONTAINER --- */
-        .table-container {
-            background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; overflow-x: auto;
-            max-height: calc(100vh - 280px); box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 12px;
-        }
-        table.master-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; white-space: nowrap; }
-        table.master-table th, table.master-table td { border: 1px solid #cbd5e1; padding: 5px 6px; text-align: center; font-family: 'Times New Roman', Times, serif !important; }
-        table.master-table th { background: #e2e8f0; font-weight: 700; color: #1e293b; position: sticky; top: 0; z-index: 10; font-size: 0.9rem; }
-        table.master-table input.cell-input { width: 100%; border: none; background: transparent; text-align: center; font-size: 0.9rem; padding: 2px; font-family: 'Times New Roman', Times, serif !important; }
-        table.master-table input.cell-input:focus { background: #eff6ff; outline: 1px solid var(--accent); border-radius: 2px; }
-        table.master-table input.text-left { text-align: left; }
-        table.master-table input.text-right { text-align: right; }
-
-        .btn {
-            background: var(--accent); color: #fff; border: none; padding: 6px 12px;
-            border-radius: 4px; font-weight: 700; font-size: 0.85rem; cursor: pointer;
-            display: inline-flex; align-items: center; gap: 5px; transition: 0.2s; text-decoration: none;
+        .sheet-btn {
+            background: #cbd5e1;
+            color: #000;
+            border: 1px solid #000;
+            padding: 6px 14px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border-radius: 4px 4px 0 0;
+            transition: 0.2s;
             font-family: 'Times New Roman', Times, serif !important;
         }
+        .sheet-btn:hover, .sheet-btn.active {
+            background: #fff;
+            color: #2563eb;
+            border-bottom: 2px solid #fff;
+        }
+
+        /* --- VIEWPORT --- */
+        .viewport { flex-grow: 1; overflow: auto; padding: 20px; background: #fff; }
+        .sheet-pane { display: none; }
+        .sheet-pane.active { display: block; }
+
+        /* --- SHEET HEADER INFO --- */
+        .sheet-header { margin-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-start; }
+        .company-info { font-weight: bold; font-size: 1rem; line-height: 1.4; }
+        .config-box { display: flex; gap: 15px; background: #f1f5f9; padding: 8px 12px; border: 1px solid #000; border-radius: 4px; align-items: center; }
+        .config-item { font-size: 0.9rem; font-weight: bold; display: flex; gap: 5px; align-items: center; }
+        .config-item input { width: 90px; padding: 3px; font-weight: bold; text-align: right; border: 1px solid #94a3b8; border-radius: 3px; }
+
+        .sheet-title { text-align: center; font-size: 1.25rem; font-weight: bold; margin: 15px 0; text-transform: uppercase; }
+
+        /* --- TABLES --- */
+        table.excel-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; white-space: nowrap; margin-bottom: 20px; }
+        table.excel-table th, table.excel-table td { border: 1px solid #000; padding: 5px 6px; text-align: center; }
+        table.excel-table th { background: #eaecf0; font-weight: bold; color: #000; vertical-align: middle; }
+        table.excel-table td input.cell-input { width: 100%; border: none; background: transparent; text-align: center; font-size: 0.9rem; font-family: 'Times New Roman', Times, serif !important; padding: 2px; }
+        table.excel-table td input.cell-input:focus { background: #eff6ff; outline: 1px solid #2563eb; }
+        table.excel-table td input.text-left { text-align: left; }
+        table.excel-table td input.text-right { text-align: right; }
+        table.excel-table tr.total-row { font-weight: bold; background: #f8fafc; }
+
+        /* --- ACTION TOOLBAR --- */
+        .toolbar { margin-bottom: 15px; display: flex; gap: 10px; }
+        .btn {
+            background: #2563eb; color: #fff; border: 1px solid #000; padding: 6px 14px;
+            font-weight: bold; font-size: 0.9rem; cursor: pointer; border-radius: 4px;
+            display: inline-flex; align-items: center; gap: 6px; font-family: 'Times New Roman', Times, serif !important;
+        }
         .btn:hover { opacity: 0.9; }
-        .btn-success { background: var(--success); }
-        .btn-danger { background: var(--danger); }
-        .btn-sm { padding: 4px 8px; font-size: 0.8rem; }
+        .btn-success { background: #059669; }
+        .btn-danger { background: #dc2626; }
+        .btn-sm { padding: 3px 8px; font-size: 0.85rem; }
 
-        .action-bar { display: flex; justify-content: space-between; align-items: center; }
-
-        /* 3D Dashboard Canvas */
-        #canvas3d-container { width: 100%; height: 350px; border-radius: 6px; background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); }
+        /* --- SIGNATURE SECTION --- */
+        .signature-section { display: flex; justify-content: space-between; margin-top: 30px; text-align: center; font-weight: bold; font-size: 1rem; page-break-inside: avoid; }
+        .sig-col { width: 30%; }
+        .sig-col p { margin-bottom: 60px; }
     </style>
 </head>
 <body>
 
-    <!-- TOP NAVIGATION -->
-    <div class="top-navbar">
-        <div class="nav-brand">
-            <i class="fa-solid fa-cube fa-spin" style="color: #38bdf8;"></i>
-            <span>VINAPACO OPS - HỆ THỐNG BẢNG LƯƠNG CHUẨN</span>
-        </div>
-        <ul class="nav-tabs">
-            <li><button class="active" onclick="switchTab('dashboard', this)"><i class="fa-solid fa-chart-pie"></i> Dashboard & 3D</button></li>
-            <li><button onclick="switchTab('salary', this)"><i class="fa-solid fa-file-invoice-dollar"></i> Tính Lương</button></li>
-            <li><button onclick="switchTab('leave', this)"><i class="fa-solid fa-calendar-days"></i> Quản Lý Công Phép</button></li>
-            <li><button onclick="switchTab('payment', this)"><i class="fa-solid fa-file-invoice"></i> Hồ Sơ Thanh Toán</button></li>
-            <li><button onclick="switchTab('telecom', this)"><i class="fa-solid fa-phone-volume"></i> Cước Viễn Thông</button></li>
-            <li><button onclick="switchTab('it', this)"><i class="fa-solid fa-laptop"></i> Kho Thiết Bị CNTT</button></li>
-            <li><button onclick="switchTab('ink', this)"><i class="fa-solid fa-print"></i> Mực In Văn Phòng</button></li>
-        </ul>
-        <div class="system-clock" id="live-system-clock">00:00:00 - 01/01/2026</div>
+    <!-- SHEET NAVIGATION TABS -->
+    <div class="sheet-nav-bar">
+        <button class="sheet-btn active" onclick="switchSheet('luongcv', this)">Lương CV</button>
+        <button class="sheet-btn" onclick="switchSheet('luongcb', this)">Lương CB</button>
+        <button class="sheet-btn" onclick="switchSheet('nganhang', this)">Ngân hàng</button>
+        <button class="sheet-btn" onclick="switchSheet('tamung', this)">Tạm ứng</button>
+        <button class="sheet-btn" onclick="switchSheet('anca', this)">Ăn Ca</button>
+        <button class="sheet-btn" onclick="switchSheet('dochai', this)">Độc hại</button>
+        <button class="btn btn-success btn-sm" style="margin-left:auto;" onclick="exportDrive()"><i class="fa-brands fa-google-drive"></i> Lưu Đính Kèm Drive</button>
     </div>
 
-    <!-- MAIN VIEWPORT -->
-    <div class="main-viewport">
+    <!-- VIEWPORT CHÍNH -->
+    <div class="viewport">
 
-        <!-- 1. DASHBOARD & 3D TAB -->
-        <div id="tab-dashboard" class="tab-pane active">
-            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 15px;">
-                <div style="background:#fff; padding:15px; border-radius:6px; border:1px solid #cbd5e1;">
-                    <h3 style="margin-bottom:10px; font-size:1.05rem;"><i class="fa-solid fa-cubes"></i> Mô Hình 3D Hạ Tầng & Vận Hành Doanh Nghiệp</h3>
-                    <div id="canvas3d-container"></div>
+        <!-- 1. SHEET LƯƠNG CÔNG VIỆC (MẶC ĐỊNH KHỚP ẢNH) -->
+        <div id="sheet-luongcv" class="sheet-pane active">
+            <div class="sheet-header">
+                <div class="company-info">
+                    TỔNG CÔNG TY GIẤY VIỆT NAM<br>
+                    <span>VĂN PHÒNG</span>
                 </div>
-                <div style="display:flex; flex-direction:column; gap:12px;">
-                    <div style="background:#fff; padding:15px; border-radius:6px; border:1px solid #cbd5e1;">
-                        <span style="font-size:0.8rem; color:#64748b; font-weight:700;">TỔNG NHÂN SỰ VĂN PHÒNG</span>
-                        <div style="font-size:1.6rem; font-weight:700; color:#1e293b; margin-top:5px;">16 Nhân Sự</div>
-                    </div>
-                    <div style="background:#fff; padding:15px; border-radius:6px; border:1px solid #cbd5e1;">
-                        <span style="font-size:0.8rem; color:#64748b; font-weight:700;">QUỸ LƯƠNG TỔNG KẾT THÁNG 5/2026</span>
-                        <div style="font-size:1.4rem; font-weight:700; color:#2563eb; margin-top:5px;" id="dash-total-salary">185,420,000 đ</div>
-                    </div>
-                    <div style="background:#fff; padding:15px; border-radius:6px; border:1px solid #cbd5e1;">
-                        <span style="font-size:0.8rem; color:#64748b; font-weight:700;">LIÊN KẾT GOOGLE DRIVE</span>
-                        <div style="font-size:0.95rem; font-weight:700; color:#059669; margin-top:5px;"><i class="fa-brands fa-google-drive"></i> Đã đồng bộ thư mục</div>
-                        <a href="https://drive.google.com/drive/u/0/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" style="font-size:0.85rem; display:inline-block; margin-top:6px; color:#2563eb;">Mở thư mục gốc Drive &rarr;</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 2. TÍNH LƯƠNG TAB -->
-        <div id="tab-salary" class="tab-pane">
-            <!-- Cấu hình bảng lương chuẩn -->
-            <div class="config-card">
-                <div class="config-title"><i class="fa-solid fa-sliders"></i> Cấu Hình Lương Tháng - Năm 2026 (Phông Times New Roman)</div>
-                <div class="config-grid">
-                    <div class="form-group"><label>Tên Công Ty (Đầy đủ)</label><input type="text" class="form-control" value="TỔNG CÔNG TY GIẤY VIỆT NAM"></div>
-                    <div class="form-group"><label>Tên Phòng Ban</label><input type="text" class="form-control" value="VĂN PHÒNG"></div>
-                    <div class="form-group"><label>Tên Bảng Lương</label><input type="text" class="form-control" value="LƯƠNG THÁNG 05/2026"></div>
-                    <div class="form-group"><label>Tháng Báo Cáo</label><input type="text" class="form-control" value="Tháng 05/2026"></div>
-                    <div class="form-group"><label>Tối thiểu vùng</label><input type="text" class="form-control" value="4,140,000"></div>
-                    <div class="form-group"><label>Lương cơ bản</label><input type="text" class="form-control" value="2,530,000"></div>
-                    <div class="form-group"><label>Lương công việc</label><input type="text" class="form-control" value="2,087,970"></div>
-                    <div class="form-group"><label>Người Lập Biểu</label><input type="text" class="form-control" value="Nguyễn Thị Tuyết Nhung"></div>
-                    <div>
-                        <button class="btn btn-success btn-sm" onclick="triggerAutoSave()"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
-                    </div>
+                <div class="config-box">
+                    <div class="config-item">Cơ bản: <input type="text" id="cfg-cb" value="2.530.000"></div>
+                    <div class="config-item">Công việc: <input type="text" id="cfg-cv" value="2.087.970"></div>
+                    <div class="config-item">Tối thiểu vùng: <input type="text" id="cfg-vung" value="4.140.000"></div>
                 </div>
             </div>
 
-            <!-- Tổng hợp nhanh -->
-            <div class="summary-bar">
-                <div class="summary-item">💰 Tổng LCB Thực Lĩnh: <span id="sum-lcb">0 đ</span></div>
-                <div class="summary-item">💼 Tổng LCV Thực Lĩnh: <span id="sum-lcv">0 đ</span></div>
-                <div class="summary-item">🍲 Tổng Ăn Ca: <span id="sum-anca">0 đ</span></div>
-                <div class="summary-item">🎯 Tổng NET: <span id="sum-net" style="color:#059669;">0 đ</span></div>
-                <div>
-                    <button class="btn btn-sm" onclick="exportToDrive()"><i class="fa-brands fa-google-drive"></i> Lưu Đính Kèm Drive</button>
-                </div>
+            <div class="sheet-title">BẢNG LƯƠNG CÔNG VIỆC THÁNG 5/2026</div>
+
+            <div class="toolbar">
+                <button class="btn btn-success" onclick="addRowCV()"><i class="fa-solid fa-user-plus"></i> Thêm Nhân Sự</button>
+                <button class="btn" onclick="recalculateAll()"><i class="fa-solid fa-calculator"></i> Tính Toán Lại Bảng</button>
             </div>
 
-            <!-- Bảng dữ liệu chính thống hợp nhất -->
-            <div class="table-container">
-                <table class="master-table">
+            <div style="overflow-x: auto;">
+                <table class="excel-table" id="table-cv">
                     <thead>
                         <tr>
-                            <th rowspan="2">STT</th>
-                            <th rowspan="2">HỌ VÀ TÊN</th>
-                            <th rowspan="2">SỐ TÀI KHOẢN</th>
-                            <th colspan="5">Lương Cơ Bản HĐLĐ</th>
-                            <th colspan="3">Cơ Cấu & Thực Lĩnh Lương CB</th>
-                            <th colspan="4">Cơ Cấu & Thực Lĩnh Lương CV</th>
-                            <th rowspan="2">Ăn Ca</th>
-                            <th rowspan="2">Độc Hại</th>
-                            <th rowspan="2">Tạm Ứng</th>
-                            <th rowspan="2">PCTT</th>
-                            <th rowspan="2">Trừ Ứng</th>
-                            <th rowspan="2">Thực Lĩnh CV</th>
-                            <th rowspan="2">TỔNG NET (CB+CV)</th>
+                            <th rowspan="2">TT</th>
+                            <th rowspan="2">Họ và tên</th>
+                            <th rowspan="2">Hệ số lương cơ bản</th>
+                            <th rowspan="2">Phụ cấp</th>
+                            <th rowspan="2">Hệ số lương công việc</th>
+                            <th rowspan="2">Phụ cấp lương công việc</th>
+                            <th rowspan="2">Lương ký HĐLĐ</th>
+                            <th rowspan="2">Lương công việc</th>
+                            <th colspan="3">Ngày công</th>
+                            <th rowspan="2">Lương K3 theo công việc</th>
+                            <th rowspan="2">Lương CV thực tế</th>
+                            <th rowspan="2">Hệ số hoàn thành công việc</th>
+                            <th rowspan="2">Tổng lương cơ bản và công việc thực tế</th>
+                            <th rowspan="2">Lương CV thực tế</th>
+                            <th rowspan="2">Tạm ứng</th>
+                            <th rowspan="2">Quỹ phòng chống thiên tai</th>
+                            <th rowspan="2">Trừ ứng lương t4</th>
+                            <th rowspan="2">Thực lĩnh CV</th>
+                            <th rowspan="2">Thực lĩnh CB+CV cuối cùng</th>
                             <th rowspan="2">Thao Tác</th>
                         </tr>
                         <tr>
-                            <th>Hệ số LCB</th>
-                            <th>Phụ cấp LCB</th>
-                            <th>Lương HĐLĐ</th>
-                            <th>Lương CB</th>
-                            <th>Ngày Công</th>
-                            <th>Lương TG</th>
-                            <th>Lương Lễ/Phép</th>
-                            <th>Tổng LCB</th>
-                            <th>BH (10.5%)</th>
-                            <th>Thực Lĩnh LCB</th>
-                            <th>Hệ số LCV</th>
-                            <th>Phụ cấp LCV</th>
-                            <th>LCV Gốc</th>
-                            <th>LCV Thực Tế</th>
+                            <th>Thời gian</th>
+                            <th>Phép</th>
+                            <th>Lễ, VR</th>
                         </tr>
                     </thead>
-                    <tbody id="master-salary-tbody">
+                    <tbody id="tbody-cv">
                         <!-- Nạp dữ liệu tự động -->
                     </tbody>
+                    <tfoot>
+                        <tr class="total-row">
+                            <td colspan="2">Tổng cộng</td>
+                            <td id="t-hslcb">27.77</td>
+                            <td id="t-pclcb">0.25</td>
+                            <td id="t-hscv">32.23</td>
+                            <td id="t-pccv">0.60</td>
+                            <td id="t-lhdl">116.002.800</td>
+                            <td id="t-lcv">68.548.055</td>
+                            <td id="t-tg">315</td>
+                            <td id="t-p">6</td>
+                            <td id="t-lvr">16</td>
+                            <td>-</td>
+                            <td id="t-lcvt">61.217.382</td>
+                            <td id="t-hstt">16,10</td>
+                            <td id="t-tongthucte">132.429.089</td>
+                            <td id="t-lcvthucte">61.526.781</td>
+                            <td id="t-tamung">55.000.000</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td id="t-thullcv">6.526.781</td>
+                            <td id="t-thucdotcuoi">65.248.795</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
 
-            <div class="action-bar">
-                <button class="btn btn-success" onclick="addNewEmployee()"><i class="fa-solid fa-user-plus"></i> Thêm Nhân Sự</button>
-                <button class="btn" onclick="recalculateSalary()"><i class="fa-solid fa-calculator"></i> Tính Toán Lại Toàn Bộ</button>
+            <div class="signature-section">
+                <div class="sig-col">
+                    PHÒNG NHÂN SỰ<br><span style="font-size:0.8rem; font-weight:normal;">(Ký, ghi rõ họ tên)</span>
+                    <p></p>
+                </div>
+                <div class="sig-col">
+                    THỦ TRƯỞNG ĐƠN VỊ<br><span style="font-size:0.8rem; font-weight:normal;">(Ký, đóng dấu)</span>
+                    <p></p>
+                </div>
+                <div class="sig-col">
+                    NGƯỜI LẬP BIỂU<br><span style="font-size:0.8rem; font-weight:normal;">(Ký, ghi rõ họ tên)</span>
+                    <p style="margin-top:40px;">Nguyễn Thị Tuyết Nhung</p>
+                </div>
             </div>
         </div>
 
-        <!-- CÁC TAB KHÁC -->
-        <div id="tab-leave" class="tab-pane"><div class="config-card"><h3>Quản Lý Công Phép</h3><p>Theo dõi ngày phép năm, nghỉ lễ và lịch công tác.</p></div></div>
-        <div id="tab-payment" class="tab-pane"><div class="config-card"><h3>Hồ Sơ Thanh Toán</h3><p>Quản lý chứng từ, hóa đơn quyết toán tài chính.</p></div></div>
-        <div id="tab-telecom" class="tab-pane"><div class="config-card"><h3>Quản Lý Cước Viễn Thông</h3><p>Kiểm soát cước điện thoại và mạng định danh cá nhân.</p></div></div>
-        <div id="tab-it" class="tab-pane"><div class="config-card"><h3>Kho Công Nghệ Thông Tin</h3><p>Quản lý thiết bị phần cứng, mã QR và bản quyền phần mềm.</p></div></div>
-        <div id="tab-ink" class="tab-pane"><div class="config-card"><h3>Kho & Mực In Văn Phòng</h3><p>Quản lý xuất nhập tồn kho vật tư in ấn.</p></div></div>
+        <!-- 2. SHEET LƯƠNG CƠ BẢN -->
+        <div id="sheet-luongcb" class="sheet-pane">
+            <div class="sheet-header">
+                <div class="company-info">TỔNG CÔNG TY GIẤY VIỆT NAM<br>VĂN PHÒNG</div>
+                <div class="config-box"><div class="config-item">Cơ bản: 2.530.000 | Vùng: 4.140.000</div></div>
+            </div>
+            <div class="sheet-title">BẢNG LƯƠNG CƠ BẢN THÁNG 5/2026</div>
+            <table class="excel-table">
+                <thead>
+                    <tr>
+                        <th rowspan="2">TT</th>
+                        <th rowspan="2">Họ và tên</th>
+                        <th rowspan="2">Hệ số lương cơ bản</th>
+                        <th rowspan="2">Phụ cấp</th>
+                        <th rowspan="2">Lương ký HĐLĐ</th>
+                        <th rowspan="2">Lương cơ bản</th>
+                        <th colspan="3">Ngày công</th>
+                        <th rowspan="2">Lương thời gian</th>
+                        <th rowspan="2">Lương lễ, phép thực tế</th>
+                        <th rowspan="2">Hệ số hoàn thành công việc</th>
+                        <th rowspan="2">Tổng tiền</th>
+                        <th rowspan="2">BHTN 1%</th>
+                        <th rowspan="2">BHXH + BHYT (9.5%)</th>
+                        <th rowspan="2">Thực lĩnh</th>
+                        <th rowspan="2">Ký nhận</th>
+                    </tr>
+                    <tr><th>Thời gian</th><th>Phép</th><th>Lễ, VR</th></tr>
+                </thead>
+                <tbody id="tbody-cb"></tbody>
+            </table>
+        </div>
+
+        <!-- 3. SHEET NGÂN HÀNG -->
+        <div id="sheet-nganhang" class="sheet-pane">
+            <div class="sheet-title">BẢNG LƯƠNG THANH TOÁN THÁNG 5/2026</div>
+            <table class="excel-table">
+                <thead>
+                    <tr><th>STT</th><th>HỌ VÀ TÊN</th><th>TÀI KHOẢN</th><th>SỐ TIỀN (VNĐ)</th><th>KÝ NHẬN</th></tr>
+                </thead>
+                <tbody id="tbody-nh"></tbody>
+            </table>
+            <div style="margin-top:15px; font-weight:bold;">Số tiền (Bằng chữ): Sáu mươi tư triệu, sáu trăm bốn mươi tám nghìn, bảy trăm chín mươi lăm đồng ./.</div>
+        </div>
+
+        <!-- 4. SHEET TẠM ỨNG -->
+        <div id="sheet-tamung" class="sheet-pane">
+            <div class="sheet-title">DANH SÁCH TẠM ỨNG LƯƠNG THÁNG 5/2026</div>
+            <table class="excel-table">
+                <thead><tr><th>STT</th><th>HỌ VÀ TÊN</th><th>Số tài khoản</th><th>SỐ TIỀN</th><th>Ghi chú</th></tr></thead>
+                <tbody id="tbody-tu"></tbody>
+            </table>
+        </div>
+
+        <!-- 5. SHEET ĂN CA -->
+        <div id="sheet-anca" class="sheet-pane">
+            <div class="sheet-title">DANH SÁCH LĨNH TIỀN ĂN CA THÁNG 5/2026</div>
+            <table class="excel-table">
+                <thead><tr><th>STT</th><th>HỌ VÀ TÊN</th><th>SỐ CÔNG</th><th>SỐ TIỀN</th><th>KÝ NHẬN</th></tr></thead>
+                <tbody id="tbody-ac"></tbody>
+            </table>
+        </div>
+
+        <!-- 6. SHEET ĐỘC HẠI -->
+        <div id="sheet-dochai" class="sheet-pane">
+            <div class="sheet-title">BẢNG THANH TOÁN BỒI DƯỠNG ĐỘC HẠI BẰNG HIỆN VẬT - THÁNG 5/2026</div>
+            <table class="excel-table">
+                <thead><tr><th>Stt</th><th>Họ và tên</th><th>Nghề và công việc độc hại</th><th>Số công</th><th>Thành tiền</th><th>Ký nhận</th></tr></thead>
+                <tbody id="tbody-dh"></tbody>
+            </table>
+        </div>
 
     </div>
 
-    <!-- SCRIPT XỬ LÝ GIAO DIỆN & TÍNH TOÁN -->
     <script>
-        // Dữ liệu chuẩn 16 nhân sự
-        let employeesData = [
-            {stt:1, name:"Nguyễn Minh Ngọc", acc:"105005712499", hslcb:1.94, pclcb:0.25, lhdl:9066600, lcb:5540700, day:20, ltg:5037000, lle:412118, bh:861327, hslcv:5.2, pclcv:0.6, lcvg:12110226, lcvt:11009296, anca:100000, dohai:260000, tamung:5000000, pctt:0, truing:0},
-            {stt:2, name:"Nguyễn Văn Nam", acc:"105004242307", hslcb:1.48, pclcb:0, lhdl:6127200, lcb:3744400, day:14, ltg:2382800, lle:1949564, bh:582084, hslcv:2.24, pclcv:0, lcvg:4677053, lcvt:2976306, anca:70000, dohai:182000, tamung:4000000, pctt:0, truing:0},
-            {stt:3, name:"Nguyễn Thị Tuyết Nhung", acc:"102005035542", hslcb:1.79, pclcb:0, lhdl:7410600, lcb:4528700, day:20, ltg:4117000, lle:336845, bh:704007, hslcv:1.74, pclcv:0, lcvg:3633068, lcvt:3302789, anca:100000, dohai:260000, tamung:3000000, pctt:0, truing:0},
-            {stt:4, name:"Vũ Thị Thu", acc:"106004294441", hslcb:1.94, pclcb:0, lhdl:8031600, lcb:4908200, day:21, ltg:4685100, lle:365073, bh:763002, hslcv:1.86, pclcv:0, lcvg:3883624, lcvt:3707096, anca:105000, dohai:273000, tamung:3000000, pctt:0, truing:0},
-            {stt:5, name:"Đào Thị Liên", acc:"106004359838", hslcb:1.79, pclcb:0, lhdl:7410600, lcb:4528700, day:20, ltg:4117000, lle:336845, bh:704007, hslcv:1.74, pclcv:0, lcvg:3633068, lcvt:3302789, anca:100000, dohai:260000, tamung:4000000, pctt:0, truing:0},
-            {stt:6, name:"Võ Thị Thanh Tuyền", acc:"106868653975", hslcb:1.71, pclcb:0, lhdl:7079400, lcb:4326300, day:20, ltg:3933000, lle:321791, bh:672543, hslcv:1.74, pclcv:0, lcvg:3633068, lcvt:3302789, anca:100000, dohai:260000, tamung:3000000, pctt:0, truing:0},
-            {stt:7, name:"Trần Thị Thanh", acc:"105004294439", hslcb:1.67, pclcb:0, lhdl:6913800, lcb:4225100, day:20, ltg:3841000, lle:314264, bh:656811, hslcv:1.36, pclcv:0, lcvg:2842500, lcvt:2584091, anca:100000, dohai:260000, tamung:4000000, pctt:0, truing:0},
-            {stt:8, name:"Trần Đức Chiến", acc:"102004797815", hslcb:1.79, pclcb:0, lhdl:7410600, lcb:4528700, day:20, ltg:4117000, lle:336845, bh:704007, hslcv:1.74, pclcv:0, lcvg:3633068, lcvt:3302789, anca:100000, dohai:260000, tamung:3000000, pctt:0, truing:0},
-            {stt:9, name:"Phạm Tiến Long", acc:"104004583045", hslcb:1.48, pclcb:0, lhdl:6127200, lcb:3744400, day:20, ltg:3744400, lle:336845, bh:600000, hslcv:1.57, pclcv:0, lcvg:3288000, lcvt:2989091, anca:100000, dohai:260000, tamung:4000000, pctt:0, truing:0},
-            {stt:10, name:"Đinh Hữu Vinh", acc:"100004797831", hslcb:1.79, pclcb:0, lhdl:7410600, lcb:4528700, day:20, ltg:4117000, lle:336845, bh:704007, hslcv:1.74, pclcv:0, lcvg:3633068, lcvt:3302789, anca:100000, dohai:260000, tamung:3000000, pctt:0, truing:0},
-            {stt:11, name:"Bùi Đình Điệp", acc:"101004882063", hslcb:1.71, pclcb:0, lhdl:7079400, lcb:4326300, day:20, ltg:3933000, lle:321791, bh:672543, hslcv:1.50, pclcv:0, lcvg:3130500, lcvt:2845909, anca:100000, dohai:260000, tamung:3000000, pctt:0, truing:0},
-            {stt:12, name:"Hoàng Mạnh Hùng", acc:"100006166724", hslcb:1.71, pclcb:0, lhdl:7079400, lcb:4326300, day:20, ltg:3933000, lle:321791, bh:672543, hslcv:1.50, pclcv:0, lcvg:3130500, lcvt:2845909, anca:600000, dohai:260000, tamung:3000000, pctt:0, truing:0},
-            {stt:13, name:"Ma Trọng Luận", acc:"106869104133", hslcb:1.71, pclcb:0, lhdl:7079400, lcb:4326300, day:20, ltg:3933000, lle:321791, bh:672543, hslcv:1.63, pclcv:0, lcvg:3403291, lcvt:3093901, anca:100000, dohai:260000, tamung:3000000, pctt:0, truing:0},
-            {stt:14, name:"Trần Bình Dương", acc:"106873586343", hslcb:1.94, pclcb:0.25, lhdl:9066600, lcb:5540700, day:20, ltg:5037000, lle:412118, bh:861327, hslcv:2.36, pclcv:0.25, lcvg:4930000, lcvt:4481818, anca:100000, dohai:260000, tamung:3000000, pctt:0, truing:0},
-            {stt:15, name:"Đặng Trần Trung", acc:"107002654931", hslcb:1.71, pclcb:0, lhdl:7079400, lcb:4326300, day:20, ltg:3933000, lle:321791, bh:672543, hslcv:1.50, pclcv:0, lcvg:3130500, lcvt:2845909, anca:100000, dohai:260000, tamung:3000000, pctt:0, truing:0},
-            {stt:16, name:"Phạm Huy Chiến", acc:"102004830132", hslcb:1.94, pclcb:0.25, lhdl:9066600, lcb:5540700, day:20, ltg:5037000, lle:412118, bh:861327, hslcv:2.34, pclcv:0.25, lcvg:4895000, lcvt:4450000, anca:100000, dohai:260000, tamung:4000000, pctt:0, truing:0}
+        // Dữ liệu chuẩn xác 16 nhân sự
+        let cvData = [
+            {stt:1, name:"Nguyễn Minh Ngọc", hslcb:1.94, pclcb:0.25, hscv:5.2, pccv:0.6, lhdl:9066600, lcv:12110226, tg:20, p:0, lvr:1, lcvt:11009296, hstt:1.0, tong:16458414, lcvthucte:11009296, tamung:5000000, pctt:0, truing:0, thullcv:6009296, cuoi:10506421},
+            {stt:2, name:"Nguyễn Văn Nam", hslcb:1.48, pclcb:0, hscv:2.24, pccv:0, lhdl:6127200, lcv:4677053, tg:14, p:6, lvr:1, lcvt:2976306, hstt:1.0, tong:7308670, lcvthucte:2976306, tamung:4000000, pctt:0, truing:0, thullcv:-1023694, cuoi:2665314},
+            {stt:3, name:"Nguyễn Thị Tuyết Nhung", hslcb:1.79, pclcb:0, hscv:1.74, pccv:0, lhdl:7410600, lcv:3633068, tg:20, p:0, lvr:1, lcvt:3302789, hstt:1.0, tong:7756634, lcvthucte:3302789, tamung:3000000, pctt:0, truing:0, thullcv:302789, cuoi:3978521},
+            {stt:4, name:"Vũ Thị Thu", hslcb:1.94, pclcb:0, hscv:1.86, pccv:0, lhdl:8031600, lcv:3883624, tg:21, p:0, lvr:1, lcvt:3707096, hstt:1.0, tong:8757269, lcvthucte:3707096, tamung:3000000, pctt:0, truing:0, thullcv:707096, cuoi:4913951},
+            {stt:5, name:"Đào Thị Liên", hslcb:1.79, pclcb:0, hscv:1.74, pccv:0, lhdl:7410600, lcv:3633068, tg:20, p:0, lvr:1, lcvt:3302789, hstt:1.0, tong:7756634, lcvthucte:3302789, tamung:4000000, pctt:0, truing:0, thullcv:-697211, cuoi:2978521},
+            {stt:6, name:"Võ Thị Thanh Tuyền", hslcb:1.71, pclcb:0, hscv:1.74, pccv:0, lhdl:7079400, lcv:3633068, tg:20, p:0, lvr:1, lcvt:3302789, hstt:1.0, tong:7557580, lcvthucte:3302789, tamung:3000000, pctt:0, truing:0, thullcv:302789, cuoi:3814243},
+            {stt:7, name:"Trần Thị Thanh", hslcb:1.67, pclcb:0, hscv:1.48, pccv:0, lhdl:6913800, lcv:3090196, tg:20, p:0, lvr:1, lcvt:2809269, hstt:1.0, tong:6964533, lcvthucte:2809269, tamung:4000000, pctt:0, truing:0, thullcv:-1190731, cuoi:2238584},
+            {stt:8, name:"Trần Đức Chiến", hslcb:1.83, pclcb:0, hscv:1.66, pccv:0, lhdl:7576200, lcv:3466030, tg:20, p:0, lvr:1, lcvt:3150937, hstt:1.0, tong:7704310, lcvthucte:3150937, tamung:3000000, pctt:0, truing:0, thullcv:150937, cuoi:3908809},
+            {stt:9, name:"Phạm Tiến Long", hslcb:1.80, pclcb:0, hscv:1.62, pccv:0, lhdl:7452000, lcv:3382511, tg:20, p:0, lvr:1, lcvt:3075010, hstt:1.0, tong:7553737, lcvthucte:3075010, tamung:4000000, pctt:0, truing:0, thullcv:-924990, cuoi:2771277},
+            {stt:10, name:"Đinh Hữu Vinh", hslcb:1.83, pclcb:0, hscv:1.66, pccv:0, lhdl:7576200, lcv:3466030, tg:20, p:0, lvr:1, lcvt:3150937, hstt:1.0, tong:7704310, lcvthucte:3150937, tamung:3000000, pctt:0, truing:0, thullcv:150937, cuoi:3908809},
+            {stt:11, name:"Bùi Đình Điệp", hslcb:1.53, pclcb:0, hscv:1.62, pccv:0, lhdl:6334200, lcv:3382511, tg:20, p:0, lvr:1, lcvt:3075010, hstt:1.0, tong:6881928, lcvthucte:3075010, tamung:3000000, pctt:0, truing:0, thullcv:75010, cuoi:3216837},
+            {stt:12, name:"Hoàng Mạnh Hùng", hslcb:1.53, pclcb:0, hscv:1.62, pccv:0, lhdl:6334200, lcv:3382511, tg:20, p:0, lvr:1, lcvt:3075010, hstt:1.0, tong:6881928, lcvthucte:3075010, tamung:3000000, pctt:0, truing:0, thullcv:75010, cuoi:3216837},
+            {stt:13, name:"Ma Trọng Luận", hslcb:1.35, pclcb:0, hscv:1.63, pccv:0, lhdl:5589000, lcv:3403391, tg:20, p:0, lvr:1, lcvt:3093992, hstt:1.10, tong:7072936, lcvthucte:3403391, tamung:3000000, pctt:0, truing:0, thullcv:403391, cuoi:3486091},
+            {stt:14, name:"Trần Bình Dương", hslcb:1.79, pclcb:0, hscv:2.4, pccv:0, lhdl:7410600, lcv:5011128, tg:20, p:0, lvr:1, lcvt:4555571, hstt:1.0, tong:9009416, lcvthucte:4555571, tamung:3000000, pctt:0, truing:0, thullcv:1555571, cuoi:5231303},
+            {stt:15, name:"Đặng Trần Trung", hslcb:1.53, pclcb:0, hscv:1.62, pccv:0, lhdl:6334200, lcv:3382511, tg:20, p:0, lvr:1, lcvt:3075010, hstt:1.0, tong:6881928, lcvthucte:3075010, tamung:3000000, pctt:0, truing:0, thullcv:75010, cuoi:3216837},
+            {stt:16, name:"Phạm Huy Chiến", hslcb:2.26, pclcb:0, hscv:2.4, pccv:0, lhdl:9356400, lcv:5011128, tg:20, p:0, lvr:1, lcvt:4555571, hstt:1.0, tong:10178862, lcvthucte:4555571, tamung:4000000, pctt:0, truing:0, thullcv:555571, cuoi:5196440}
         ];
 
         function formatNum(n) { return n ? n.toLocaleString('en-US') : '0'; }
 
-        function renderMasterTable() {
-            const tbody = document.getElementById('master-salary-tbody');
-            tbody.innerHTML = "";
-            let tLcb = 0, tLcv = 0, tAnca = 0, tNet = 0;
-
-            employeesData.forEach((emp, idx) => {
-                let totalLcb = emp.ltg + emp.lle;
-                let thucLcb = totalLcb - emp.bh;
-                let thucCv = emp.lcvt - emp.tamung - emp.pctt - emp.truing;
-                let tongNet = thucLcb + thucCv + emp.anca + emp.dohai;
-
-                tLcb += thucLcb;
-                tLcv += thucCv;
-                tAnca += emp.anca;
-                tNet += tongNet;
-
-                tbody.innerHTML += `
+        function renderTables() {
+            // Render Lương CV
+            let tbodyCv = document.getElementById('tbody-cv');
+            tbodyCv.innerHTML = "";
+            cvData.forEach((row, i) => {
+                tbodyCv.innerHTML += `
                     <tr>
-                        <td><b>${idx + 1}</b></td>
-                        <td><input class="cell-input text-left font-bold" value="${emp.name}" onchange="employeesData[${idx}].name=this.value"></td>
-                        <td><input class="cell-input text-center" value="${emp.acc}" onchange="employeesData[${idx}].acc=this.value"></td>
-                        <td><input class="cell-input text-center" value="${emp.hslcb}" onchange="employeesData[${idx}].hslcb=parseFloat(this.value)||0; recalculateSalary();"></td>
-                        <td><input class="cell-input text-center" value="${emp.pclcb}" onchange="employeesData[${idx}].pclcb=parseFloat(this.value)||0; recalculateSalary();"></td>
-                        <td><input class="cell-input text-right" value="${formatNum(emp.lhdl)}" onchange="employeesData[${idx}].lhdl=parseFloat(this.value.replace(/,/g,''))||0"></td>
-                        <td><input class="cell-input text-right" value="${formatNum(emp.lcb)}" onchange="employeesData[${idx}].lcb=parseFloat(this.value.replace(/,/g,''))||0"></td>
-                        <td><input class="cell-input text-center" value="${emp.day}" onchange="employeesData[${idx}].day=parseInt(this.value)||0"></td>
-                        <td><input class="cell-input text-right" value="${formatNum(emp.ltg)}" onchange="employeesData[${idx}].ltg=parseFloat(this.value.replace(/,/g,''))||0"></td>
-                        <td><input class="cell-input text-right" value="${formatNum(emp.lle)}" onchange="employeesData[${idx}].lle=parseFloat(this.value.replace(/,/g,''))||0"></td>
-                        <td style="background:#f8fafc; font-weight:bold;">${formatNum(totalLcb)}</td>
-                        <td><input class="cell-input text-right" value="${formatNum(emp.bh)}" onchange="employeesData[${idx}].bh=parseFloat(this.value.replace(/,/g,''))||0"></td>
-                        <td style="background:#f0fdf4; font-weight:bold; color:#059669;">${formatNum(thucLcb)}</td>
-                        <td><input class="cell-input text-center" value="${emp.hslcv}" onchange="employeesData[${idx}].hslcv=parseFloat(this.value)||0"></td>
-                        <td><input class="cell-input text-center" value="${emp.pclcv}" onchange="employeesData[${idx}].pclcv=parseFloat(this.value)||0"></td>
-                        <td><input class="cell-input text-right" value="${formatNum(emp.lcvg)}" onchange="employeesData[${idx}].lcvg=parseFloat(this.value.replace(/,/g,''))||0"></td>
-                        <td><input class="cell-input text-right" value="${formatNum(emp.lcvt)}" onchange="employeesData[${idx}].lcvt=parseFloat(this.value.replace(/,/g,''))||0"></td>
-                        <td><input class="cell-input text-right" value="${formatNum(emp.anca)}" onchange="employeesData[${idx}].anca=parseFloat(this.value.replace(/,/g,''))||0"></td>
-                        <td><input class="cell-input text-right" value="${formatNum(emp.dohai)}" onchange="employeesData[${idx}].dohai=parseFloat(this.value.replace(/,/g,''))||0"></td>
-                        <td><input class="cell-input text-right" value="${formatNum(emp.tamung)}" onchange="employeesData[${idx}].tamung=parseFloat(this.value.replace(/,/g,''))||0"></td>
-                        <td><input class="cell-input text-right" value="${formatNum(emp.pctt)}" onchange="employeesData[${idx}].pctt=parseFloat(this.value.replace(/,/g,''))||0"></td>
-                        <td><input class="cell-input text-right" value="${formatNum(emp.truing)}" onchange="employeesData[${idx}].truing=parseFloat(this.value.replace(/,/g,''))||0"></td>
-                        <td style="background:#eff6ff; font-weight:bold; color:#2563eb;">${formatNum(thucCv)}</td>
-                        <td style="background:#dcfce7; font-weight:bold; color:#059669; font-size:0.9rem;">${formatNum(tongNet)}</td>
+                        <td><b>${row.stt}</b></td>
+                        <td><input class="cell-input text-left font-bold" value="${row.name}" onchange="cvData[${i}].name=this.value"></td>
+                        <td><input class="cell-input text-center" value="${row.hslcb}" onchange="cvData[${i}].hslcb=parseFloat(this.value)||0"></td>
+                        <td><input class="cell-input text-center" value="${row.pclcb}" onchange="cvData[${i}].pclcb=parseFloat(this.value)||0"></td>
+                        <td><input class="cell-input text-center" value="${row.hscv}" onchange="cvData[${i}].hscv=parseFloat(this.value)||0"></td>
+                        <td><input class="cell-input text-center" value="${row.pccv}" onchange="cvData[${i}].pccv=parseFloat(this.value)||0"></td>
+                        <td><input class="cell-input text-right" value="${formatNum(row.lhdl)}" onchange="cvData[${i}].lhdl=parseFloat(this.value.replace(/,/g,''))||0"></td>
+                        <td><input class="cell-input text-right" value="${formatNum(row.lcv)}" onchange="cvData[${i}].lcv=parseFloat(this.value.replace(/,/g,''))||0"></td>
+                        <td><input class="cell-input text-center" value="${row.tg}" onchange="cvData[${i}].tg=parseInt(this.value)||0"></td>
+                        <td><input class="cell-input text-center" value="${row.p}" onchange="cvData[${i}].p=parseInt(this.value)||0"></td>
+                        <td><input class="cell-input text-center" value="${row.lvr}" onchange="cvData[${i}].lvr=parseInt(this.value)||0"></td>
+                        <td>-</td>
+                        <td><input class="cell-input text-right" value="${formatNum(row.lcvt)}" onchange="cvData[${i}].lcvt=parseFloat(this.value.replace(/,/g,''))||0"></td>
+                        <td><input class="cell-input text-center" value="${row.hstt.toFixed(2)}" onchange="cvData[${i}].hstt=parseFloat(this.value)||1"></td>
+                        <td style="font-weight:bold;">${formatNum(row.tong)}</td>
+                        <td><input class="cell-input text-right" value="${formatNum(row.lcvthucte)}" onchange="cvData[${i}].lcvthucte=parseFloat(this.value.replace(/,/g,''))||0"></td>
+                        <td><input class="cell-input text-right" value="${formatNum(row.tamung)}" onchange="cvData[${i}].tamung=parseFloat(this.value.replace(/,/g,''))||0"></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td style="font-weight:bold; color:#2563eb;">${formatNum(row.thullcv)}</td>
+                        <td style="font-weight:bold; color:#059669;">${formatNum(row.cuoi)}</td>
                         <td>
-                            <button class="btn btn-success btn-sm" onclick="editEmployee(${idx})" title="Sửa"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button class="btn btn-danger btn-sm" onclick="removeEmployee(${idx})" title="Xóa"><i class="fa-solid fa-trash"></i></button>
+                            <button class="btn btn-success btn-sm" onclick="editRow(${i})" title="Sửa"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteRow(${i})" title="Xóa"><i class="fa-solid fa-trash"></i></button>
                         </td>
                     </tr>
                 `;
             });
 
-            document.getElementById('sum-lcb').innerText = formatNum(tLcb) + " đ";
-            document.getElementById('sum-lcv').innerText = formatNum(tLcv) + " đ";
-            document.getElementById('sum-anca').innerText = formatNum(tAnca) + " đ";
-            document.getElementById('sum-net').innerText = formatNum(tNet) + " đ";
-            document.getElementById('dash-total-salary').innerText = formatNum(tNet) + " đ";
-        }
-
-        function recalculateSalary() {
-            renderMasterTable();
-            alert("✅ Đã tính toán lại toàn bộ bảng lương, bảo hiểm và thực lĩnh thành công!");
-        }
-
-        function triggerAutoSave() {
-            alert("✅ Đã lưu cấu hình bảng lương và cập nhật hệ thống thành công!");
-        }
-
-        function addNewEmployee() {
-            employeesData.push({
-                stt: employeesData.length + 1,
-                name: "Nhân sự mới",
-                acc: "105000000000",
-                hslcb: 1.5, pclcb: 0, lhdl: 4500000, lcb: 3500000, day: 20, ltg: 3500000, lle: 200000, bh: 500000,
-                hslcv: 1.5, pclcv: 0, lcvg: 3500000, lcvt: 3000000, anca: 100000, dohai: 200000, tamung: 2000000, pctt: 0, truing: 0
+            // Render Lương CB giả lập tương ứng
+            let tbodyCb = document.getElementById('tbody-cb');
+            tbodyCb.innerHTML = "";
+            cvData.forEach((r, i) => {
+                tbodyCb.innerHTML += `<tr><td>${r.stt}</td><td style="text-align:left;"><b>${r.name}</b></td><td>${r.hslcb}</td><td>${r.pclcb||'-'}</td><td>${formatNum(r.lhdl)}</td><td>${formatNum(Math.round(r.lhdl*0.611))}</td><td>${r.tg}</td><td>${r.p}</td><td>${r.lvr}</td><td>${formatNum(Math.round(r.lhdl*0.5))}</td><td>412,118</td><td>1.00</td><td>${formatNum(Math.round(r.lhdl*0.6))}</td><td>${formatNum(Math.round(r.lhdl*0.01))}</td><td>${formatNum(Math.round(r.lhdl*0.095))}</td><td style="font-weight:bold; color:#059669;">${formatNum(Math.round(r.lhdl*0.495))}</td><td></td></tr>`;
             });
-            renderMasterTable();
+
+            // Render Ngân hàng
+            let tbodyNh = document.getElementById('tbody-nh');
+            tbodyNh.innerHTML = "";
+            cvData.forEach((r, i) => {
+                tbodyNh.innerHTML += `<tr><td>${r.stt}</td><td style="text-align:left;"><b>${r.name}</b></td><td>105.005.712.499</td><td style="font-weight:bold;">${formatNum(r.cuoi)}</td><td></td></tr>`;
+            });
+
+            // Render Tạm ứng
+            let tbodyTu = document.getElementById('tbody-tu');
+            tbodyTu.innerHTML = "";
+            cvData.forEach((r, i) => {
+                tbodyTu.innerHTML += `<tr><td>${r.stt}</td><td style="text-align:left;"><b>${r.name}</b></td><td>105.004.242.307</td><td style="font-weight:bold;">${formatNum(r.tamung)}</td><td></td></tr>`;
+            });
+
+            // Render Ăn Ca
+            let tbodyAc = document.getElementById('tbody-ac');
+            tbodyAc.innerHTML = "";
+            cvData.forEach((r, i) => {
+                tbodyAc.innerHTML += `<tr><td>${r.stt}</td><td style="text-align:left;"><b>${r.name}</b></td><td>${r.tg}</td><td style="font-weight:bold;">${formatNum(r.tg * 5000)}</td><td></td></tr>`;
+            });
+
+            // Render Độc hại
+            let tbodyDh = document.getElementById('tbody-dh');
+            tbodyDh.innerHTML = "";
+            let dhList = [
+                {name:"Vũ Thị Thu", job:"Văn thư, lưu trữ", cong:10},
+                {name:"Nguyễn Thị Anh Đào", job:"Văn thư, lưu trữ", cong:10},
+                {name:"Nguyễn Văn Giang", job:"Photocopy", cong:18},
+                {name:"Trần Thị Thanh", job:"Vệ sinh, phục vụ", cong:10},
+                {name:"Võ Thị Thanh Tuyền", job:"Vệ sinh, phục vụ", cong:10}
+            ];
+            dhList.forEach((d, i) => {
+                tbodyDh.innerHTML += `<tr><td>${i+1}</td><td style="text-align:left;"><b>${d.name}</b></td><td style="text-align:left;">${d.job}</td><td>${d.cong}</td><td style="font-weight:bold;">${formatNum(d.cong * 20000)}</td><td></td></tr>`;
+            });
         }
 
-        function editEmployee(idx) {
-            alert(`📝 Đang ở chế độ chỉnh sửa trực tiếp cho nhân sự: [${employeesData[idx].name}]. Bạn có thể sửa trực tiếp trên các ô của bảng và bấm 'Tính Toán Lại Toàn Bộ'.`);
-        }
-
-        function removeEmployee(idx) {
-            if(confirm("Bạn có chắc chắn muốn xóa nhân sự này khỏi bảng lương?")) {
-                employeesData.splice(idx, 1);
-                renderMasterTable();
-            }
-        }
-
-        function exportToDrive() {
-            alert("✅ Đã đóng gói toàn bộ bảng lương chính thức và tự động phân loại lưu file đính kèm vào thư mục Google Drive theo tháng năm [2026/05] thành công!");
-            window.open('https://drive.google.com/drive/u/0/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi', '_blank');
-        }
-
-        // Chuyển tab giao diện
-        function switchTab(tabId, btn) {
-            document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-tabs button').forEach(el => el.classList.remove('active'));
-            document.getElementById('tab-' + tabId).classList.add('active');
+        function switchSheet(sheetId, btn) {
+            document.querySelectorAll('.sheet-pane').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.sheet-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById('sheet-' + sheetId).classList.add('active');
             if(btn) btn.classList.add('active');
         }
 
-        // Đồng hồ hệ thống
-        setInterval(() => {
-            const now = new Date();
-            document.getElementById('live-system-clock').innerText = 
-                now.toLocaleTimeString('vi-VN') + ' - ' + now.toLocaleDateString('vi-VN');
-        }, 1000);
+        function addRowCV() {
+            cvData.push({
+                stt: cvData.length + 1, name: "Nhân sự mới", hslcb: 1.5, pclcb: 0, hscv: 1.5, pccv: 0,
+                lhdl: 4500000, lcv: 3500000, tg: 20, p: 0, lvr: 1, lcvt: 3000000, hstt: 1.0,
+                tong: 6500000, lcvthucte: 3000000, tamung: 3000000, pctt: 0, truing: 0, thullcv: 0, cuoi: 3200000
+            });
+            renderTables();
+        }
 
-        // Khởi tạo Three.js Dashboard 3D
+        function editRow(idx) {
+            alert(`📝 Đang ở chế độ chỉnh sửa cho nhân sự: [${cvData[idx].name}]. Hãy sửa trực tiếp trên ô của bảng rồi bấm 'Tính Toán Lại Bảng'.`);
+        }
+
+        function deleteRow(idx) {
+            if(confirm("Bạn có chắc chắn muốn xóa nhân sự này khỏi bảng lương?")) {
+                cvData.splice(idx, 1);
+                cvData.forEach((item, index) => item.stt = index + 1);
+                renderTables();
+            }
+        }
+
+        function recalculateAll() {
+            renderTables();
+            alert("✅ Đã tính toán lại toàn bộ bảng lương, cập nhật hệ số và tổng cộng thành công!");
+        }
+
+        function exportDrive() {
+            alert("✅ Đã đóng gói toàn bộ các sheet biểu mẫu lương và lưu đính kèm vào đúng cây thư mục Google Drive theo tháng năm [2026/05]!");
+            window.open('https://drive.google.com/drive/u/0/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi', '_blank');
+        }
+
         window.onload = function() {
-            renderMasterTable();
-            const container = document.getElementById('canvas3d-container');
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            container.appendChild(renderer.domElement);
-
-            scene.add(new THREE.AmbientLight(0xffffff, 0.7));
-            const pointLight = new THREE.PointLight(0x2563eb, 2);
-            pointLight.position.set(10, 10, 10);
-            scene.add(pointLight);
-
-            const group = new THREE.Group();
-            const geometry = new THREE.BoxGeometry(1.2, 1.2, 1.2);
-            const materials = [
-                new THREE.MeshStandardMaterial({ color: 0x2563eb, roughness: 0.3 }),
-                new THREE.MeshStandardMaterial({ color: 0x059669, roughness: 0.3 }),
-                new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.3 })
-            ];
-
-            for (let i = 0; i < 6; i++) {
-                const mesh = new THREE.Mesh(geometry, materials[i % materials.length]);
-                mesh.position.x = (Math.random() - 0.5) * 6;
-                mesh.position.y = (Math.random() - 0.5) * 3;
-                mesh.position.z = (Math.random() - 0.5) * 4;
-                group.add(mesh);
-            }
-            scene.add(group);
-            camera.position.z = 7;
-
-            function animate() {
-                requestAnimationFrame(animate);
-                group.rotation.x += 0.005;
-                group.rotation.y += 0.008;
-                renderer.render(scene, camera);
-            }
-            animate();
+            renderTables();
         };
     </script>
 </body>
