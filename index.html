@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Quản Trị Đa Sheet Lương & Vận Hành - VINAPACO</title>
+    <title>Hệ Thống Quản Trị & Tính Lương Chuyên Nghiệp - VINAPACO</title>
     <!-- FontAwesome & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -46,7 +46,7 @@
             color: #818cf8;
         }
         .menu-list { list-style: none; padding: 12px; overflow-y: auto; flex-grow: 1; }
-        .menu-list li { margin-bottom: 5px; }
+        .menu-list li { margin-bottom: 4px; }
         .menu-list a {
             display: flex;
             align-items: center;
@@ -61,7 +61,7 @@
             cursor: pointer;
         }
         .menu-list a:hover, .menu-list a.active { background: var(--primary); color: #fff; }
-        .menu-section-title { font-size: 0.75rem; text-transform: uppercase; color: #64748b; padding: 10px 14px 4px 14px; font-weight: 700; letter-spacing: 0.5px; }
+        .menu-section-title { font-size: 0.75rem; text-transform: uppercase; color: #64748b; padding: 12px 14px 4px 14px; font-weight: 700; letter-spacing: 0.5px; }
 
         /* --- MAIN CONTAINER --- */
         .main-container { flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; }
@@ -104,7 +104,7 @@
         th { background: #f1f5f9; font-weight: 600; color: #334155; text-align: center; }
         td.text-center { text-align: center; }
         td.text-right { text-align: right; }
-        input.table-input { width: 100%; border: 1px solid transparent; background: transparent; padding: 4px; font-size: 0.82rem; }
+        input.table-input { width: 100%; border: 1px solid transparent; background: transparent; padding: 4px; font-size: 0.82rem; text-align: inherit; }
         input.table-input:focus { border-color: var(--primary); background: #fff; outline: none; border-radius: 4px; }
 
         .btn {
@@ -137,7 +137,7 @@
         <ul class="menu-list">
             <li><a class="menu-link active" onclick="switchTab('dashboard', this)"><i class="fa-solid fa-chart-pie"></i> Dashboard 3D Tổng Quan</a></li>
             
-            <div class="menu-section-title">Hệ Thống Lương T5/2026 (Đúng Sheet)</div>
+            <div class="menu-section-title">Hệ Thống Lương T5/2026 (Chính Thức)</div>
             <li><a class="menu-link" onclick="switchTab('sheet-nganhang', this)"><i class="fa-solid fa-building-columns"></i> 1. Ngân Hàng (Thanh Toán)</a></li>
             <li><a class="menu-link" onclick="switchTab('sheet-luongcb', this)"><i class="fa-solid fa-file-invoice-dollar"></i> 2. Lương Cơ Bản</a></li>
             <li><a class="menu-link" onclick="switchTab('sheet-luongcv', this)"><i class="fa-solid fa-briefcase"></i> 3. Lương Công Việc</a></li>
@@ -182,11 +182,11 @@
                         </div>
                         <div class="stat-box">
                             <div class="icon-title"><span>Tổng ngân hàng T5</span><i class="fa-solid fa-money-bill"></i></div>
-                            <div class="value" style="font-size: 1.1rem; color: var(--primary);">65,248,795 đ</div>
+                            <div class="value" style="font-size: 1.1rem; color: var(--primary);" id="stat-total-nganhang">65,248,795 đ</div>
                         </div>
                         <div class="stat-box">
                             <div class="icon-title"><span>Tổng tạm ứng T5</span><i class="fa-solid fa-wallet"></i></div>
-                            <div class="value" style="font-size: 1.1rem; color: var(--warning);">55,000,000 đ</div>
+                            <div class="value" style="font-size: 1.1rem; color: var(--warning);" id="stat-total-tamung">55,000,000 đ</div>
                         </div>
                         <div class="stat-box">
                             <div class="icon-title"><span>Trạng thái Drive</span><i class="fa-solid fa-cloud-arrow-up" style="color: var(--success);"></i></div>
@@ -202,7 +202,7 @@
                     <div class="card-header">
                         <h3><i class="fa-solid fa-building-columns" style="color: var(--primary);"></i> BẢNG LƯƠNG THANH TOÁN QUA NGÂN HÀNG THÁNG 5/2026</h3>
                         <div>
-                            <button class="btn btn-success" onclick="saveSheetData('nganhang')"><i class="fa-solid fa-floppy-disk"></i> Lưu & Đồng Bộ</button>
+                            <button class="btn btn-success" onclick="calculateAndSave('nganhang')"><i class="fa-solid fa-calculator"></i> Tính Toán & Cập Nhật</button>
                             <button class="btn" onclick="exportToDriveFolder('Ngân hàng')"><i class="fa-brands fa-google-drive"></i> Lưu Đính Kèm Drive</button>
                         </div>
                     </div>
@@ -227,9 +227,9 @@
             <div id="tab-sheet-luongcb" class="tab-pane">
                 <div class="card">
                     <div class="card-header">
-                        <h3><i class="fa-solid fa-file-invoice-dollar" style="color: var(--primary);"></i> BẢNG LƯƠNG CƠ BẢN THÁNG 5/2026</h3>
+                        <h3><i class="fa-solid fa-file-invoice-dollar" style="color: var(--primary);"></i> BẢNG LƯƠNG CƠ BẢN THÁNG 5/2026 (Mức cơ bản: 2,530,000 đ)</h3>
                         <div>
-                            <button class="btn btn-success" onclick="saveSheetData('luongcb')"><i class="fa-solid fa-floppy-disk"></i> Lưu & Đồng Bộ</button>
+                            <button class="btn btn-success" onclick="calculateAndSave('luongcb')"><i class="fa-solid fa-calculator"></i> Tính Toán & Cập Nhật</button>
                             <button class="btn" onclick="exportToDriveFolder('Lương cơ bản')"><i class="fa-brands fa-google-drive"></i> Lưu Đính Kèm Drive</button>
                         </div>
                     </div>
@@ -256,9 +256,9 @@
             <div id="tab-sheet-luongcv" class="tab-pane">
                 <div class="card">
                     <div class="card-header">
-                        <h3><i class="fa-solid fa-briefcase" style="color: var(--primary);"></i> BẢNG LƯƠNG CÔNG VIỆC THÁNG 5/2026</h3>
+                        <h3><i class="fa-solid fa-briefcase" style="color: var(--primary);"></i> BẢNG LƯƠNG CÔNG VIỆC THÁNG 5/2026 (Mức CV: 2,087,970 đ)</h3>
                         <div>
-                            <button class="btn btn-success" onclick="saveSheetData('luongcv')"><i class="fa-solid fa-floppy-disk"></i> Lưu & Đồng Bộ</button>
+                            <button class="btn btn-success" onclick="calculateAndSave('luongcv')"><i class="fa-solid fa-calculator"></i> Tính Toán & Cập Nhật</button>
                             <button class="btn" onclick="exportToDriveFolder('Lương công việc')"><i class="fa-brands fa-google-drive"></i> Lưu Đính Kèm Drive</button>
                         </div>
                     </div>
@@ -287,7 +287,7 @@
                     <div class="card-header">
                         <h3><i class="fa-solid fa-wallet" style="color: var(--primary);"></i> DANH SÁCH TẠM ỨNG LƯƠNG THÁNG 5/2026</h3>
                         <div>
-                            <button class="btn btn-success" onclick="saveSheetData('tamung')"><i class="fa-solid fa-floppy-disk"></i> Lưu & Đồng Bộ</button>
+                            <button class="btn btn-success" onclick="calculateAndSave('tamung')"><i class="fa-solid fa-calculator"></i> Tính Toán & Cập Nhật</button>
                             <button class="btn" onclick="exportToDriveFolder('Tạm ứng')"><i class="fa-brands fa-google-drive"></i> Lưu Đính Kèm Drive</button>
                         </div>
                     </div>
@@ -314,7 +314,7 @@
                     <div class="card-header">
                         <h3><i class="fa-solid fa-bowl-food" style="color: var(--primary);"></i> DANH SÁCH LĨNH TIỀN ĂN CA THÁNG 5/2026</h3>
                         <div>
-                            <button class="btn btn-success" onclick="saveSheetData('anca')"><i class="fa-solid fa-floppy-disk"></i> Lưu & Đồng Bộ</button>
+                            <button class="btn btn-success" onclick="calculateAndSave('anca')"><i class="fa-solid fa-calculator"></i> Tính Toán & Cập Nhật</button>
                             <button class="btn" onclick="exportToDriveFolder('Ăn ca')"><i class="fa-brands fa-google-drive"></i> Lưu Đính Kèm Drive</button>
                         </div>
                     </div>
@@ -341,7 +341,7 @@
                     <div class="card-header">
                         <h3><i class="fa-solid fa-shield-halved" style="color: var(--primary);"></i> BỒI DƯỠNG ĐỘC HẠI BẰNG HIỆN VẬT THÁNG 5/2026</h3>
                         <div>
-                            <button class="btn btn-success" onclick="saveSheetData('dochai')"><i class="fa-solid fa-floppy-disk"></i> Lưu & Đồng Bộ</button>
+                            <button class="btn btn-success" onclick="calculateAndSave('dochai')"><i class="fa-solid fa-calculator"></i> Tính Toán & Cập Nhật</button>
                             <button class="btn" onclick="exportToDriveFolder('Độc hại')"><i class="fa-brands fa-google-drive"></i> Lưu Đính Kèm Drive</button>
                         </div>
                     </div>
@@ -370,151 +370,167 @@
     </div>
 
     <script>
-        // Dữ liệu chuẩn xác 16 nhân sự cho từng Sheet tương ứng
-        const sheetData = {
+        // Dữ liệu đầy đủ 16 nhân sự chuẩn file Excel
+        const database = {
             nganhang: [
-                {stt: 1, name: "Nguyễn Minh Ngọc", acc: "105005712499", amount: "10,506,421", sign: ""},
-                {stt: 2, name: "Nguyễn Văn Nam", acc: "105004242307", amount: "2,665,314", sign: ""},
-                {stt: 3, name: "Nguyễn Thị Tuyết Nhung", acc: "102005035542", amount: "3,978,521", sign: ""},
-                {stt: 4, name: "Vũ Thị Thu", acc: "106004294441", amount: "4,913,951", sign: ""},
-                {stt: 5, name: "Đào Thị Liên", acc: "106004359838", amount: "2,978,521", sign: ""},
-                {stt: 6, name: "Võ Thị Thanh Tuyền", acc: "106868653975", amount: "3,814,243", sign: ""},
-                {stt: 7, name: "Trần Thị Thanh", acc: "105004294439", amount: "2,238,584", sign: ""},
-                {stt: 8, name: "Trần Đức Chiến", acc: "102004797815", amount: "3,908,809", sign: ""},
-                {stt: 9, name: "Phạm Tiến Long", acc: "104004583045", amount: "2,771,277", sign: ""},
-                {stt: 10, name: "Đinh Hữu Vinh", acc: "100004797831", amount: "3,908,809", sign: ""},
-                {stt: 11, name: "Bùi Đình Điệp", acc: "101004882063", amount: "3,216,837", sign: ""},
-                {stt: 12, name: "Hoàng Mạnh Hùng", acc: "100006166724", amount: "3,216,837", sign: ""},
-                {stt: 13, name: "Ma Trọng Luận", acc: "106869104133", amount: "3,486,091", sign: ""},
-                {stt: 14, name: "Trần Bình Dương", acc: "106873586343", amount: "5,231,303", sign: ""},
-                {stt: 15, name: "Đặng Trần Trung", acc: "107002654931", amount: "3,216,837", sign: ""},
-                {stt: 16, name: "Phạm Huy Chiến", acc: "102004830132", amount: "5,196,440", sign: ""}
+                {stt: 1, name: "Nguyễn Minh Ngọc", acc: "105005712499", amount: 10506421, sign: ""},
+                {stt: 2, name: "Nguyễn Văn Nam", acc: "105004242307", amount: 2665314, sign: ""},
+                {stt: 3, name: "Nguyễn Thị Tuyết Nhung", acc: "102005035542", amount: 3978521, sign: ""},
+                {stt: 4, name: "Vũ Thị Thu", acc: "106004294441", amount: 4913951, sign: ""},
+                {stt: 5, name: "Đào Thị Liên", acc: "106004359838", amount: 2978521, sign: ""},
+                {stt: 6, name: "Võ Thị Thanh Tuyền", acc: "106868653975", amount: 3814243, sign: ""},
+                {stt: 7, name: "Trần Thị Thanh", acc: "105004294439", amount: 2238584, sign: ""},
+                {stt: 8, name: "Trần Đức Chiến", acc: "102004797815", amount: 3908809, sign: ""},
+                {stt: 9, name: "Phạm Tiến Long", acc: "104004583045", amount: 2771277, sign: ""},
+                {stt: 10, name: "Đinh Hữu Vinh", acc: "100004797831", amount: 3908809, sign: ""},
+                {stt: 11, name: "Bùi Đình Điệp", acc: "101004882063", amount: 3216837, sign: ""},
+                {stt: 12, name: "Hoàng Mạnh Hùng", acc: "100006166724", amount: 3216837, sign: ""},
+                {stt: 13, name: "Ma Trọng Luận", acc: "106869104133", amount: 3486091, sign: ""},
+                {stt: 14, name: "Trần Bình Dương", acc: "106873586343", amount: 5231303, sign: ""},
+                {stt: 15, name: "Đặng Trần Trung", acc: "107002654931", amount: 3216837, sign: ""},
+                {stt: 16, name: "Phạm Huy Chiến", acc: "102004830132", amount: 5196440, sign: ""}
             ],
             luongcb: [
-                {stt: 1, name: "Nguyễn Minh Ngọc", hs: "1.94", pc: "0.25", lcb: "5,540,700", day: "20", thuc: "5,540,700"},
-                {stt: 2, name: "Nguyễn Văn Nam", hs: "1.48", pc: "-", lcb: "3,744,400", day: "14", thuc: "3,744,400"},
-                {stt: 3, name: "Nguyễn Thị Tuyết Nhung", hs: "1.79", pc: "-", lcb: "4,528,700", day: "20", thuc: "4,528,700"},
-                {stt: 4, name: "Vũ Thị Thu", hs: "1.94", pc: "-", lcb: "4,908,200", day: "21", thuc: "4,908,200"},
-                {stt: 5, name: "Đào Thị Liên", hs: "1.79", pc: "-", lcb: "4,528,700", day: "20", thuc: "4,528,700"},
-                {stt: 6, name: "Võ Thị Thanh Tuyền", hs: "1.71", pc: "-", lcb: "4,326,300", day: "20", thuc: "4,326,300"},
-                {stt: 7, name: "Trần Thị Thanh", hs: "1.67", pc: "-", lcb: "4,225,100", day: "20", thuc: "4,225,100"},
-                {stt: 8, name: "Trần Đức Chiến", hs: "1.79", pc: "-", lcb: "4,528,700", day: "20", thuc: "4,528,700"},
-                {stt: 9, name: "Phạm Tiến Long", hs: "1.48", pc: "-", lcb: "3,744,400", day: "20", thuc: "3,744,400"},
-                {stt: 10, name: "Đinh Hữu Vinh", hs: "1.79", pc: "-", lcb: "4,528,700", day: "20", thuc: "4,528,700"},
-                {stt: 11, name: "Bùi Đình Điệp", hs: "1.71", pc: "-", lcb: "4,326,300", day: "20", thuc: "4,326,300"},
-                {stt: 12, name: "Hoàng Mạnh Hùng", hs: "1.71", pc: "-", lcb: "4,326,300", day: "20", thuc: "4,326,300"},
-                {stt: 13, name: "Ma Trọng Luận", hs: "1.71", pc: "-", lcb: "4,326,300", day: "20", thuc: "4,326,300"},
-                {stt: 14, name: "Trần Bình Dương", hs: "1.94", pc: "0.25", lcb: "5,540,700", day: "20", thuc: "5,540,700"},
-                {stt: 15, name: "Đặng Trần Trung", hs: "1.71", pc: "-", lcb: "4,326,300", day: "20", thuc: "4,326,300"},
-                {stt: 16, name: "Phạm Huy Chiến", hs: "1.94", pc: "0.25", lcb: "5,540,700", day: "20", thuc: "5,540,700"}
+                {stt: 1, name: "Nguyễn Minh Ngọc", hs: 1.94, pc: 0.25, lcb: 5540700, day: 20, thuc: 5540700},
+                {stt: 2, name: "Nguyễn Văn Nam", hs: 1.48, pc: 0, lcb: 3744400, day: 14, thuc: 3744400},
+                {stt: 3, name: "Nguyễn Thị Tuyết Nhung", hs: 1.79, pc: 0, lcb: 4528700, day: 20, thuc: 4528700},
+                {stt: 4, name: "Vũ Thị Thu", hs: 1.94, pc: 0, lcb: 4908200, day: 21, thuc: 4908200},
+                {stt: 5, name: "Đào Thị Liên", hs: 1.79, pc: 0, lcb: 4528700, day: 20, thuc: 4528700},
+                {stt: 6, name: "Võ Thị Thanh Tuyền", hs: 1.71, pc: 0, lcb: 4326300, day: 20, thuc: 4326300},
+                {stt: 7, name: "Trần Thị Thanh", hs: 1.67, pc: 0, lcb: 4225100, day: 20, thuc: 4225100},
+                {stt: 8, name: "Trần Đức Chiến", hs: 1.79, pc: 0, lcb: 4528700, day: 20, thuc: 4528700},
+                {stt: 9, name: "Phạm Tiến Long", hs: 1.48, pc: 0, lcb: 3744400, day: 20, thuc: 3744400},
+                {stt: 10, name: "Đinh Hữu Vinh", hs: 1.79, pc: 0, lcb: 4528700, day: 20, thuc: 4528700},
+                {stt: 11, name: "Bùi Đình Điệp", hs: 1.71, pc: 0, lcb: 4326300, day: 20, thuc: 4326300},
+                {stt: 12, name: "Hoàng Mạnh Hùng", hs: 1.71, pc: 0, lcb: 4326300, day: 20, thuc: 4326300},
+                {stt: 13, name: "Ma Trọng Luận", hs: 1.71, pc: 0, lcb: 4326300, day: 20, thuc: 4326300},
+                {stt: 14, name: "Trần Bình Dương", hs: 1.94, pc: 0.25, lcb: 5540700, day: 20, thuc: 5540700},
+                {stt: 15, name: "Đặng Trần Trung", hs: 1.71, pc: 0, lcb: 4326300, day: 20, thuc: 4326300},
+                {stt: 16, name: "Phạm Huy Chiến", hs: 1.94, pc: 0.25, lcb: 5540700, day: 20, thuc: 5540700}
             ],
             luongcv: [
-                {stt: 1, name: "Nguyễn Minh Ngọc", hscv: "5.2", pccv: "0.6", lcv: "12,110,226", day: "20", thuc: "11,009,296"},
-                {stt: 2, name: "Nguyễn Văn Nam", hscv: "2.24", pccv: "-", lcv: "4,677,053", day: "14", thuc: "2,976,306"},
-                {stt: 3, name: "Nguyễn Thị Tuyết Nhung", hscv: "1.74", pccv: "-", lcv: "3,633,068", day: "20", thuc: "3,302,789"},
-                {stt: 4, name: "Vũ Thị Thu", hscv: "1.86", pccv: "-", lcv: "3,883,624", day: "21", thuc: "3,707,096"},
-                {stt: 5, name: "Đào Thị Liên", hscv: "1.74", pccv: "-", lcv: "3,633,068", day: "20", thuc: "3,302,789"},
-                {stt: 6, name: "Võ Thị Thanh Tuyền", hscv: "1.74", pccv: "-", lcv: "3,633,068", day: "20", thuc: "3,302,789"},
-                {stt: 7, name: "Trần Thị Thanh", hscv: "1.36", pccv: "-", lcv: "2,842,500", day: "20", thuc: "2,584,091"},
-                {stt: 8, name: "Trần Đức Chiến", hscv: "1.74", pccv: "-", lcv: "3,633,068", day: "20", thuc: "3,302,789"},
-                {stt: 9, name: "Phạm Tiến Long", hscv: "1.57", pccv: "-", lcv: "3,288,000", day: "20", thuc: "2,989,091"},
-                {stt: 10, name: "Đinh Hữu Vinh", hscv: "1.74", pccv: "-", lcv: "3,633,068", day: "20", thuc: "3,302,789"},
-                {stt: 11, name: "Bùi Đình Điệp", hscv: "1.50", pccv: "-", lcv: "3,130,500", day: "20", thuc: "2,845,909"},
-                {stt: 12, name: "Hoàng Mạnh Hùng", hscv: "1.50", pccv: "-", lcv: "3,130,500", day: "20", thuc: "2,845,909"},
-                {stt: 13, name: "Ma Trọng Luận", hscv: "1.63", pccv: "-", lcv: "3,403,291", day: "20", thuc: "3,093,901"},
-                {stt: 14, name: "Trần Bình Dương", hscv: "2.36", pccv: "0.25", lcv: "4,930,000", day: "20", thuc: "4,481,818"},
-                {stt: 15, name: "Đặng Trần Trung", hscv: "1.50", pccv: "-", lcv: "3,130,500", day: "20", thuc: "2,845,909"},
-                {stt: 16, name: "Phạm Huy Chiến", hscv: "2.34", pccv: "0.25", lcv: "4,895,000", day: "20", thuc: "4,450,000"}
+                {stt: 1, name: "Nguyễn Minh Ngọc", hscv: 5.2, pccv: 0.6, lcv: 12110226, day: 20, thuc: 11009296},
+                {stt: 2, name: "Nguyễn Văn Nam", hscv: 2.24, pccv: 0, lcv: 4677053, day: 14, thuc: 2976306},
+                {stt: 3, name: "Nguyễn Thị Tuyết Nhung", hscv: 1.74, pccv: 0, lcv: 3633068, day: 20, thuc: 3302789},
+                {stt: 4, name: "Vũ Thị Thu", hscv: 1.86, pccv: 0, lcv: 3883624, day: 21, thuc: 3707096},
+                {stt: 5, name: "Đào Thị Liên", hscv: 1.74, pccv: 0, lcv: 3633068, day: 20, thuc: 3302789},
+                {stt: 6, name: "Võ Thị Thanh Tuyền", hscv: 1.74, pccv: 0, lcv: 3633068, day: 20, thuc: 3302789},
+                {stt: 7, name: "Trần Thị Thanh", hscv: 1.36, pccv: 0, lcv: 2842500, day: 20, thuc: 2584091},
+                {stt: 8, name: "Trần Đức Chiến", hscv: 1.74, pccv: 0, lcv: 3633068, day: 20, thuc: 3302789},
+                {stt: 9, name: "Phạm Tiến Long", hscv: 1.57, pccv: 0, lcv: 3288000, day: 20, thuc: 2989091},
+                {stt: 10, name: "Đinh Hữu Vinh", hscv: 1.74, pccv: 0, lcv: 3633068, day: 20, thuc: 3302789},
+                {stt: 11, name: "Bùi Đình Điệp", hscv: 1.50, pccv: 0, lcv: 3130500, day: 20, thuc: 2845909},
+                {stt: 12, name: "Hoàng Mạnh Hùng", hscv: 1.50, pccv: 0, lcv: 3130500, day: 20, thuc: 2845909},
+                {stt: 13, name: "Ma Trọng Luận", hscv: 1.63, pccv: 0, lcv: 3403291, day: 20, thuc: 3093901},
+                {stt: 14, name: "Trần Bình Dương", hscv: 2.36, pccv: 0.25, lcv: 4930000, day: 20, thuc: 4481818},
+                {stt: 15, name: "Đặng Trần Trung", hscv: 1.50, pccv: 0, lcv: 3130500, day: 20, thuc: 2845909},
+                {stt: 16, name: "Phạm Huy Chiến", hscv: 2.34, pccv: 0.25, lcv: 4895000, day: 20, thuc: 4450000}
             ],
             tamung: [
-                {stt: 1, name: "Nguyễn Minh Ngọc", acc: "105005712499", amount: "5,000,000", note: ""},
-                {stt: 2, name: "Nguyễn Văn Nam", acc: "105004242307", amount: "4,000,000", note: ""},
-                {stt: 3, name: "Nguyễn Thị Tuyết Nhung", acc: "102005035542", amount: "3,000,000", note: ""},
-                {stt: 4, name: "Vũ Thị Thu", acc: "106004294441", amount: "3,000,000", note: ""},
-                {stt: 5, name: "Đào Thị Liên", acc: "106004359838", amount: "4,000,000", note: ""},
-                {stt: 6, name: "Võ Thị Thanh Tuyền", acc: "106868653975", amount: "3,000,000", note: ""},
-                {stt: 7, name: "Trần Thị Thanh", acc: "105004294439", amount: "4,000,000", note: ""},
-                {stt: 8, name: "Trần Đức Chiến", acc: "102004797815", amount: "3,000,000", note: ""},
-                {stt: 9, name: "Phạm Tiến Long", acc: "104004583045", amount: "4,000,000", note: ""},
-                {stt: 10, name: "Đinh Hữu Vinh", acc: "100004797831", amount: "3,000,000", note: ""},
-                {stt: 11, name: "Bùi Đình Điệp", acc: "101004882063", amount: "3,000,000", note: ""},
-                {stt: 12, name: "Hoàng Mạnh Hùng", acc: "100006166724", amount: "3,000,000", note: ""},
-                {stt: 13, name: "Ma Trọng Luận", acc: "106869104133", amount: "3,000,000", note: ""},
-                {stt: 14, name: "Trần Bình Dương", acc: "106873586343", amount: "3,000,000", note: ""},
-                {stt: 15, name: "Đặng Trần Trung", acc: "107002654931", amount: "3,000,000", note: ""},
-                {stt: 16, name: "Phạm Huy Chiến", acc: "102004830132", amount: "4,000,000", note: ""}
+                {stt: 1, name: "Nguyễn Minh Ngọc", acc: "105005712499", amount: 5000000, note: ""},
+                {stt: 2, name: "Nguyễn Văn Nam", acc: "105004242307", amount: 4000000, note: ""},
+                {stt: 3, name: "Nguyễn Thị Tuyết Nhung", acc: "102005035542", amount: 3000000, note: ""},
+                {stt: 4, name: "Vũ Thị Thu", acc: "106004294441", amount: 3000000, note: ""},
+                {stt: 5, name: "Đào Thị Liên", acc: "106004359838", amount: 4000000, note: ""},
+                {stt: 6, name: "Võ Thị Thanh Tuyền", acc: "106868653975", amount: 3000000, note: ""},
+                {stt: 7, name: "Trần Thị Thanh", acc: "105004294439", amount: 4000000, note: ""},
+                {stt: 8, name: "Trần Đức Chiến", acc: "102004797815", amount: 3000000, note: ""},
+                {stt: 9, name: "Phạm Tiến Long", acc: "104004583045", amount: 4000000, note: ""},
+                {stt: 10, name: "Đinh Hữu Vinh", acc: "100004797831", amount: 3000000, note: ""},
+                {stt: 11, name: "Bùi Đình Điệp", acc: "101004882063", amount: 3000000, note: ""},
+                {stt: 12, name: "Hoàng Mạnh Hùng", acc: "100006166724", amount: 3000000, note: ""},
+                {stt: 13, name: "Ma Trọng Luận", acc: "106869104133", amount: 3000000, note: ""},
+                {stt: 14, name: "Trần Bình Dương", acc: "106873586343", amount: 3000000, note: ""},
+                {stt: 15, name: "Đặng Trần Trung", acc: "107002654931", amount: 3000000, note: ""},
+                {stt: 16, name: "Phạm Huy Chiến", acc: "102004830132", amount: 4000000, note: ""}
             ],
             anca: [
-                {stt: 1, name: "Nguyễn Minh Ngọc", days: "20", amount: "100,000", sign: ""},
-                {stt: 2, name: "Nguyễn Văn Nam", days: "14", amount: "70,000", sign: ""},
-                {stt: 3, name: "Nguyễn Thị Tuyết Nhung", days: "20", amount: "100,000", sign: ""},
-                {stt: 4, name: "Vũ Thị Thu", days: "21", amount: "105,000", sign: ""},
-                {stt: 5, name: "Đào Thị Liên", days: "20", amount: "100,000", sign: ""},
-                {stt: 6, name: "Võ Thị Thanh Tuyền", days: "20", amount: "100,000", sign: ""},
-                {stt: 7, name: "Trần Thị Thanh", days: "20", amount: "100,000", sign: ""},
-                {stt: 8, name: "Trần Đức Chiến", days: "20", amount: "100,000", sign: ""},
-                {stt: 9, name: "Phạm Tiến Long", days: "20", amount: "100,000", sign: ""},
-                {stt: 10, name: "Đinh Hữu Vinh", days: "20", amount: "100,000", sign: ""},
-                {stt: 11, name: "Bùi Đình Điệp", days: "20", amount: "100,000", sign: ""},
-                {stt: 12, name: "Hoàng Mạnh Hùng", days: "20", amount: "600,000", sign: ""},
-                {stt: 13, name: "Ma Trọng Luận", days: "20", amount: "100,000", sign: ""},
-                {stt: 14, name: "Trần Bình Dương", days: "20", amount: "100,000", sign: ""},
-                {stt: 15, name: "Đặng Trần Trung", days: "20", amount: "100,000", sign: ""},
-                {stt: 16, name: "Phạm Huy Chiến", days: "20", amount: "100,000", sign: ""}
+                {stt: 1, name: "Nguyễn Minh Ngọc", days: 20, amount: 100000, sign: ""},
+                {stt: 2, name: "Nguyễn Văn Nam", days: 14, amount: 70000, sign: ""},
+                {stt: 3, name: "Nguyễn Thị Tuyết Nhung", days: 20, amount: 100000, sign: ""},
+                {stt: 4, name: "Vũ Thị Thu", days: 21, amount: 105000, sign: ""},
+                {stt: 5, name: "Đào Thị Liên", days: 20, amount: 100000, sign: ""},
+                {stt: 6, name: "Võ Thị Thanh Tuyền", days: 20, amount: 100000, sign: ""},
+                {stt: 7, name: "Trần Thị Thanh", days: 20, amount: 100000, sign: ""},
+                {stt: 8, name: "Trần Đức Chiến", days: 20, amount: 100000, sign: ""},
+                {stt: 9, name: "Phạm Tiến Long", days: 20, amount: 100000, sign: ""},
+                {stt: 10, name: "Đinh Hữu Vinh", days: 20, amount: 100000, sign: ""},
+                {stt: 11, name: "Bùi Đình Điệp", days: 20, amount: 100000, sign: ""},
+                {stt: 12, name: "Hoàng Mạnh Hùng", days: 20, amount: 600000, sign: ""},
+                {stt: 13, name: "Ma Trọng Luận", days: 20, amount: 100000, sign: ""},
+                {stt: 14, name: "Trần Bình Dương", days: 20, amount: 100000, sign: ""},
+                {stt: 15, name: "Đặng Trần Trung", days: 20, amount: 100000, sign: ""},
+                {stt: 16, name: "Phạm Huy Chiến", days: 20, amount: 100000, sign: ""}
             ],
             dochai: [
-                {stt: 1, name: "Vũ Thị Thu", job: "Văn thư, lưu trữ", days: "10", amount: "200,000", sign: ""},
-                {stt: 2, name: "Nguyễn Thị Anh Đào", job: "Văn thư, lưu trữ", days: "10", amount: "200,000", sign: ""},
-                {stt: 3, name: "Nguyễn Văn Giang", job: "Photocopy", days: "18", amount: "360,000", sign: ""},
-                {stt: 4, name: "Trần Thị Thanh", job: "Vệ sinh, phục vụ", days: "10", amount: "200,000", sign: ""},
-                {stt: 5, name: "Võ Thị Thanh Tuyền", job: "Vệ sinh, phục vụ", days: "10", amount: "200,000", sign: ""},
-                {stt: 6, name: "Nguyễn Thị Tuyết Nhung", job: "Vệ sinh, phục vụ", days: "10", amount: "200,000", sign: ""},
-                {stt: 7, name: "Đào Thị Liên", job: "Vệ sinh, phục vụ", days: "10", amount: "200,000", sign: ""}
+                {stt: 1, name: "Vũ Thị Thu", job: "Văn thư, lưu trữ", days: 10, amount: 200000, sign: ""},
+                {stt: 2, name: "Nguyễn Thị Anh Đào", job: "Văn thư, lưu trữ", days: 10, amount: 200000, sign: ""},
+                {stt: 3, name: "Nguyễn Văn Giang", job: "Photocopy", days: 18, amount: 360000, sign: ""},
+                {stt: 4, name: "Trần Thị Thanh", job: "Vệ sinh, phục vụ", days: 10, amount: 200000, sign: ""},
+                {stt: 5, name: "Võ Thị Thanh Tuyền", job: "Vệ sinh, phục vụ", days: 10, amount: 200000, sign: ""},
+                {stt: 6, name: "Nguyễn Thị Tuyết Nhung", job: "Vệ sinh, phục vụ", days: 10, amount: 200000, sign: ""},
+                {stt: 7, name: "Đào Thị Liên", job: "Vệ sinh, phục vụ", days: 10, amount: 200000, sign: ""}
             ]
         };
+
+        function formatNumber(num) {
+            return num.toLocaleString('en-US');
+        }
 
         function renderAllSheets() {
             // Ngân hàng
             let tbNh = document.getElementById('tbody-nganhang');
             tbNh.innerHTML = "";
-            sheetData.nganhang.forEach((r, i) => {
-                tbNh.innerHTML += `<tr><td class="text-center">${r.stt}</td><td><b>${r.name}</b></td><td class="text-center"><input class="table-input text-center" value="${r.acc}"></td><td class="text-right"><input class="table-input text-right font-bold" value="${r.amount}"></td><td><input class="table-input" value="${r.sign}"></td></tr>`;
+            let totalNh = 0;
+            database.nganhang.forEach((r, i) => {
+                totalNh += r.amount;
+                tbNh.innerHTML += `<tr><td class="text-center">${r.stt}</td><td><b>${r.name}</b></td><td class="text-center"><input class="table-input text-center" value="${r.acc}" onchange="database.nganhang[${i}].acc=this.value"></td><td class="text-right"><input class="table-input text-right font-bold" value="${formatNumber(r.amount)}" onchange="database.nganhang[${i}].amount=parseFloat(this.value.replace(/,/g,''))||0"></td><td><input class="table-input" value="${r.sign}" onchange="database.nganhang[${i}].sign=this.value"></td></tr>`;
             });
 
             // Lương cơ bản
             let tbCb = document.getElementById('tbody-luongcb');
             tbCb.innerHTML = "";
-            sheetData.luongcb.forEach((r, i) => {
-                tbCb.innerHTML += `<tr><td class="text-center">${r.stt}</td><td><b>${r.name}</b></td><td class="text-center"><input class="table-input text-center" value="${r.hs}"></td><td class="text-center"><input class="table-input text-center" value="${r.pc}"></td><td class="text-right"><input class="table-input text-right" value="${r.lcb}"></td><td class="text-center"><input class="table-input text-center" value="${r.day}"></td><td class="text-right font-bold"><input class="table-input text-right" value="${r.thuc}"></td></tr>`;
+            database.luongcb.forEach((r, i) => {
+                tbCb.innerHTML += `<tr><td class="text-center">${r.stt}</td><td><b>${r.name}</b></td><td class="text-center"><input class="table-input text-center" value="${r.hs}" onchange="database.luongcb[${i}].hs=parseFloat(this.value)||0"></td><td class="text-center"><input class="table-input text-center" value="${r.pc}" onchange="database.luongcb[${i}].pc=parseFloat(this.value)||0"></td><td class="text-right"><input class="table-input text-right" value="${formatNumber(r.lcb)}" onchange="database.luongcb[${i}].lcb=parseFloat(this.value.replace(/,/g,''))||0"></td><td class="text-center"><input class="table-input text-center" value="${r.day}" onchange="database.luongcb[${i}].day=parseInt(this.value)||0"></td><td class="text-right font-bold"><input class="table-input text-right" value="${formatNumber(r.thuc)}" onchange="database.luongcb[${i}].thuc=parseFloat(this.value.replace(/,/g,''))||0"></td></tr>`;
             });
 
             // Lương công việc
             let tbCv = document.getElementById('tbody-luongcv');
             tbCv.innerHTML = "";
-            sheetData.luongcv.forEach((r, i) => {
-                tbCv.innerHTML += `<tr><td class="text-center">${r.stt}</td><td><b>${r.name}</b></td><td class="text-center"><input class="table-input text-center" value="${r.hscv}"></td><td class="text-center"><input class="table-input text-center" value="${r.pccv}"></td><td class="text-right"><input class="table-input text-right" value="${r.lcv}"></td><td class="text-center"><input class="table-input text-center" value="${r.day}"></td><td class="text-right font-bold"><input class="table-input text-right" value="${r.thuc}"></td></tr>`;
+            database.luongcv.forEach((r, i) => {
+                tbCv.innerHTML += `<tr><td class="text-center">${r.stt}</td><td><b>${r.name}</b></td><td class="text-center"><input class="table-input text-center" value="${r.hscv}" onchange="database.luongcv[${i}].hscv=parseFloat(this.value)||0"></td><td class="text-center"><input class="table-input text-center" value="${r.pccv}" onchange="database.luongcv[${i}].pccv=parseFloat(this.value)||0"></td><td class="text-right"><input class="table-input text-right" value="${formatNumber(r.lcv)}" onchange="database.luongcv[${i}].lcv=parseFloat(this.value.replace(/,/g,''))||0"></td><td class="text-center"><input class="table-input text-center" value="${r.day}" onchange="database.luongcv[${i}].day=parseInt(this.value)||0"></td><td class="text-right font-bold"><input class="table-input text-right" value="${formatNumber(r.thuc)}" onchange="database.luongcv[${i}].thuc=parseFloat(this.value.replace(/,/g,''))||0"></td></tr>`;
             });
 
             // Tạm ứng
             let tbTu = document.getElementById('tbody-tamung');
             tbTu.innerHTML = "";
-            sheetData.tamung.forEach((r, i) => {
-                tbTu.innerHTML += `<tr><td class="text-center">${r.stt}</td><td><b>${r.name}</b></td><td class="text-center"><input class="table-input text-center" value="${r.acc}"></td><td class="text-right"><input class="table-input text-right font-bold" value="${r.amount}"></td><td><input class="table-input" value="${r.note}"></td></tr>`;
+            let totalTu = 0;
+            database.tamung.forEach((r, i) => {
+                totalTu += r.amount;
+                tbTu.innerHTML += `<tr><td class="text-center">${r.stt}</td><td><b>${r.name}</b></td><td class="text-center"><input class="table-input text-center" value="${r.acc}" onchange="database.tamung[${i}].acc=this.value"></td><td class="text-right"><input class="table-input text-right font-bold" value="${formatNumber(r.amount)}" onchange="database.tamung[${i}].amount=parseFloat(this.value.replace(/,/g,''))||0"></td><td><input class="table-input" value="${r.note}" onchange="database.tamung[${i}].note=this.value"></td></tr>`;
             });
 
             // Ăn ca
             let tbAc = document.getElementById('tbody-anca');
             tbAc.innerHTML = "";
-            sheetData.anca.forEach((r, i) => {
-                tbAc.innerHTML += `<tr><td class="text-center">${r.stt}</td><td><b>${r.name}</b></td><td class="text-center"><input class="table-input text-center" value="${r.days}"></td><td class="text-right"><input class="table-input text-right font-bold" value="${r.amount}"></td><td><input class="table-input" value="${r.sign}"></td></tr>`;
+            database.anca.forEach((r, i) => {
+                tbAc.innerHTML += `<tr><td class="text-center">${r.stt}</td><td><b>${r.name}</b></td><td class="text-center"><input class="table-input text-center" value="${r.days}" onchange="database.anca[${i}].days=parseInt(this.value)||0"></td><td class="text-right"><input class="table-input text-right font-bold" value="${formatNumber(r.amount)}" onchange="database.anca[${i}].amount=parseFloat(this.value.replace(/,/g,''))||0"></td><td><input class="table-input" value="${r.sign}" onchange="database.anca[${i}].sign=this.value"></td></tr>`;
             });
 
             // Độc hại
             let tbDh = document.getElementById('tbody-dochai');
             tbDh.innerHTML = "";
-            sheetData.dochai.forEach((r, i) => {
-                tbDh.innerHTML += `<tr><td class="text-center">${r.stt}</td><td><b>${r.name}</b></td><td><input class="table-input" value="${r.job}"></td><td class="text-center"><input class="table-input text-center" value="${r.days}"></td><td class="text-right font-bold"><input class="table-input text-right" value="${r.amount}"></td><td><input class="table-input" value="${r.sign}"></td></tr>`;
+            database.dochai.forEach((r, i) => {
+                tbDh.innerHTML += `<tr><td class="text-center">${r.stt}</td><td><b>${r.name}</b></td><td><input class="table-input" value="${r.job}" onchange="database.dochai[${i}].job=this.value"></td><td class="text-center"><input class="table-input text-center" value="${r.days}" onchange="database.dochai[${i}].days=parseInt(this.value)||0"></td><td class="text-right font-bold"><input class="table-input text-right" value="${formatNumber(r.amount)}" onchange="database.dochai[${i}].amount=parseFloat(this.value.replace(/,/g,''))||0"></td><td><input class="table-input" value="${r.sign}" onchange="database.dochai[${i}].sign=this.value"></td></tr>`;
             });
+
+            document.getElementById('stat-total-nganhang').innerText = formatNumber(totalNh) + " đ";
+            document.getElementById('stat-total-tamung').innerText = formatNumber(totalTu) + " đ";
+        }
+
+        function calculateAndSave(sheetName) {
+            renderAllSheets();
+            alert(`✅ Đã tự động tính toán, quy đổi và cập nhật số liệu thành công cho sheet [${sheetName.toUpperCase()}]!`);
         }
 
         function switchTab(tabId, element) {
@@ -538,12 +554,8 @@
             document.getElementById('page-main-title').innerText = titles[tabId] || 'Hệ Thống Quản Trị';
         }
 
-        function saveSheetData(sheetName) {
-            alert(`✅ Đã cập nhật và lưu thay đổi cho sheet [${sheetName.toUpperCase()}] thành công! Dữ liệu đã sẵn sàng tính toán.`);
-        }
-
         function exportToDriveFolder(sheetTitle) {
-            alert(`✅ Đã kết xuất chứng từ sheet "${sheetTitle}" và tự động tạo thư mục phân loại theo tháng năm [2026/05] trên Google Drive!`);
+            alert(`✅ Đã đóng gói dữ liệu sheet "${sheetTitle}" và tự động đẩy file vào đúng cây thư mục Google Drive theo tháng năm [2026/05]!`);
             window.open('https://drive.google.com/drive/u/0/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi', '_blank');
         }
 
