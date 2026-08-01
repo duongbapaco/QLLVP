@@ -3546,19 +3546,17 @@
                     };
                 }
             });
-        });
-                btn.onclick = function() {
-                   let modal = document.getElementById('configUrlModal');
-                    if (modal) {
-                        modal.style.display = 'flex';
-                    } else {
-                        alert("Hệ thống cấu hình API và thông số chung.");
-                    }
-                };
-            }
-        });
-    }
+      
 });
+        // Định nghĩa hàm openConfigUrlModal để khớp trực tiếp với nút bấm trên HTML
+        function openConfigUrlModal() {
+            let modal = document.getElementById('configUrlModal');
+            if (modal) {
+                modal.style.display = 'flex';
+            } else {
+                alert("Không tìm thấy khung cấu hình (configUrlModal) trên giao diện.");
+            }
+        }
     </script>
 </body>
 </html>
