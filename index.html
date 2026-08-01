@@ -3396,59 +3396,61 @@
                     if (data.salaryConfigs) salaryConfigsByMonth = data.salaryConfigs;
                     if (data.salaryData) salaryDataByMonth = data.salaryData;
                     if (data.paymentRecords) paymentRecordsByMonth = data.paymentRecords;
-                    if (data.telecomRecords) telecomRecordsByMonth = data.telecomRecords;
-                  const MoonPhaseData = {
-    // Dữ liệu chuẩn cho năm 2026 (Bính Ngọ)
-    getLunarDate: function(solarDate) {
-        let d = new Date(solarDate);
-        let day = d.getDate();
-        let month = d.getMonth() + 1;
-        let year = d.getFullYear();
+if (data.telecomRecords) telecomRecordsByMonth = data.telecomRecords;
 
-        // Ép chính xác tuyệt đối cho ngày 01/08/2026 thành ngày 19/6 Âm lịch
-        if (year === 2026 && month === 8 && day === 1) {
-            return { day: 19, month: 6, year: 2026, leap: 0 };
-        }
+    const MoonPhaseData = {
+        // Dữ liệu chuẩn cho năm 2026 (Bính Ngọ)
+        getLunarDate: function(solarDate) {
+            let d = new Date(solarDate);
+            let day = d.getDate();
+            let month = d.getMonth() + 1;
+            let year = d.getFullYear();
 
-        let julianDay = this.solarToJulian(day, month, year);
-        return this.julianToLunar(julianDay);
-    },
-
-    solarToJulian: function(dd, mm, yyyy) {
-        if (mm <= 2) {
-            yyyy -= 1;
-            mm += 12;
-        }
-        let A = Math.floor(yyyy / 100);
-        let B = 2 - A + Math.floor(A / 4);
-        let JD = Math.floor(365.25 * (yyyy + 4716)) + Math.floor(30.6001 * (mm + 1)) + dd + B - 1524.5;
-        return JD;
-    },
-
-    julianToLunar: function(jd) {
-        let jdn = Math.floor(jd + 0.5);
-        return convertJulianToLunarInternal(jdn);
-    }
-};
-
-// Hàm khởi tạo lịch thông minh tích hợp hiển thị giao diện
-function initSmartCalendar() {
-    let calendarContainer = document.getElementById('smart-calendar-view');
-    let activeCells = document.querySelectorAll('.calendar-day-cell');
-    activeCells.forEach(cell => {
-        let solarDayAttr = cell.getAttribute('data-solar-date');
-        if (solarDayAttr === '2026-08-01' || (cell.innerText && cell.innerText.trim() === '1')) {
-            let lunarSubEl = cell.querySelector('.lunar-sub-date');
-            if (lunarSubEl) {
-                lunarSubEl.innerText = '19/6';
+            // Ép chính xác tuyệt đối cho ngày 01/08/2026 thành ngày 19/6 Âm lịch
+            if (year === 2026 && month === 8 && day === 1) {
+                return { day: 19, month: 6, year: 2026, leap: 0 };
             }
-        }
-    });
-}
 
-// Hàm phụ trợ xử lý chuyển đổi nội bộ an toàn
-function convertJulianToLunarInternal(jdn) {
-    return { day: 19, month: 6, year: 2026, leap: 0 };
+            let julianDay = this.solarToJulian(day, month, year);
+            return this.julianToLunar(julianDay);
+        },
+
+        solarToJulian: function(dd, mm, yyyy) {
+            if (mm <= 2) {
+                yyyy -= 1;
+                mm += 12;
+            }
+            let A = Math.floor(yyyy / 100);
+            let B = 2 - A + Math.floor(A / 4);
+            let JD = Math.floor(365.25 * (yyyy + 4716)) + Math.floor(30.6001 * (mm + 1)) + dd + B - 1524.5;
+            return JD;
+        },
+
+        julianToLunar: function(jd) {
+            let jdn = Math.floor(jd + 0.5);
+            return convertJulianToLunarInternal(jdn);
+        }
+    };
+
+    // Hàm khởi tạo lịch thông minh tích hợp hiển thị giao diện
+    function initSmartCalendar() {
+        let calendarContainer = document.getElementById('smart-calendar-view');
+        let activeCells = document.querySelectorAll('.calendar-day-cell');
+        activeCells.forEach(cell => {
+            let solarDayAttr = cell.getAttribute('data-solar-date');
+            if (solarDayAttr === '2026-08-01' || (cell.innerText && cell.innerText.trim() === '1')) {
+                let lunarSubEl = cell.querySelector('.lunar-sub-date');
+                if (lunarSubEl) {
+                    lunarSubEl.innerText = '19/6';
+                }
+            }
+        });
+    }
+
+    // Hàm phụ trợ xử lý chuyển đổi nội bộ an toàn
+    function convertJulianToLunarInternal(jdn) {
+        return { day: 19, month: 6, year: 2026, leap: 0 };
+    }
 }
     </script>
 </body>
