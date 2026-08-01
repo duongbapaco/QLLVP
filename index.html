@@ -586,8 +586,12 @@
                                 <input type="text" id="pay-unit-price" placeholder="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="calculatePayLineTotal()">
                             </div>
                             <div class="form-group">
-                                <label style="color:var(--green);">Thành tiền (Tổng sau thuế):</label>
-                                <input type="text" id="pay-amount" placeholder="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="markAmountManual()" style="background:#f0fdf4; color:var(--green); font-weight:800; border-color:#86efac;">
+                                <label style="color:var(--green);">Thuế (VNĐ):</label>
+                                <input type="text" id="pay-tax-val" placeholder="0" value="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="calculatePayLineTotal()" style="border-color:#86efac;">
+                            </div>
+                            <div class="form-group" style="grid-column: span 2;">
+                                <label style="color:var(--green);">Thành tiền (Số lượng × Đơn giá + Thuế - Cho phép nhập tự do):</label>
+                                <input type="text" id="pay-amount" placeholder="0" onfocus="handleMoneyFocus(this); markAmountManual();" onblur="handleMoneyBlur(this)" oninput="markAmountManual()" style="background:#f0fdf4; color:var(--green); font-weight:800; border-color:#86efac;">
                             </div>
                         </div>
                         <div class="grid-form" style="margin-bottom: 12px;">
@@ -630,7 +634,8 @@
                                     <th>SL</th>
                                     <th>ĐVT</th>
                                     <th>Đơn giá</th>
-                                    <th>Thành tiền (Sau thuế)</th>
+                                    <th>Thuế</th>
+                                    <th>Thành tiền</th>
                                     <th>Số tài khoản</th>
                                     <th>Ngân hàng</th>
                                     <th>Thư mục chứng từ</th>
@@ -1525,8 +1530,10 @@
         function calculatePayLineTotal() {
             let qty = parseFloat(document.getElementById('pay-qty').value) || 1;
             let unitPrice = parseCurrencyVN(document.getElementById('pay-unit-price').value);
+            let taxVal = parseCurrencyVN(document.getElementById('pay-tax-val').value);
             if (!isAmountManual) {
-                document.getElementById('pay-amount').value = formatCurrencyVN(qty * unitPrice);
+                let total = (qty * unitPrice) + taxVal;
+                document.getElementById('pay-amount').value = formatCurrencyVN(total);
             }
         }
 
@@ -2152,6 +2159,7 @@
             let qty = parseFloat(document.getElementById('pay-qty').value) || 1;
             let unit = document.getElementById('pay-unit').value;
             let unitPrice = parseCurrencyVN(document.getElementById('pay-unit-price').value);
+            let taxVal = parseCurrencyVN(document.getElementById('pay-tax-val').value);
             let amount = parseCurrencyVN(document.getElementById('pay-amount').value);
             let account = document.getElementById('pay-account').value.trim();
             let bank = document.getElementById('pay-bank').value.trim();
@@ -2171,7 +2179,6 @@
                 folderUrl = paymentRecordsByMonth[sm][editIndex].folderUrl;
             }
 
-            // Xử lý chọn nhiều file đưa chung vào một thư mục trên Drive
             if (fileInput.files.length > 0) {
                 let progressContainer = document.getElementById('progress-container-hstt');
                 let progressFill = document.getElementById('progress-fill-hstt');
@@ -2201,7 +2208,7 @@
                             year: year, 
                             month: month, 
                             category: "1. Hồ sơ thanh toán", 
-                            folderSubName: content, // Gom chung theo nội dung hồ sơ
+                            folderSubName: content,
                             fileName: file.name, 
                             mimeType: file.type, 
                             fileData: base64Data 
@@ -2216,17 +2223,12 @@
                     }
                 }
 
-                if (editIndex >= 0) {
-                    uploadedFiles = uploadedFiles.concat(newUploadedList);
-                } else {
-                    uploadedFiles = uploadedFiles.concat(newUploadedList);
-                }
-                
+                uploadedFiles = uploadedFiles.concat(newUploadedList);
                 progressText.innerText = "Hoàn tất!";
                 setTimeout(() => { progressContainer.style.display = "none"; progressFill.style.width = "0%"; }, 3000);
             }
 
-            let recordObj = { payDateTime, content, receiver, qty, unit, unitPrice, amount, account, bank, folderUrl, files: uploadedFiles };
+            let recordObj = { payDateTime, content, receiver, qty, unit, unitPrice, taxVal, amount, account, bank, folderUrl, files: uploadedFiles };
 
             if (editIndex >= 0) {
                 paymentRecordsByMonth[sm][editIndex] = recordObj;
@@ -2257,6 +2259,7 @@
             document.getElementById('pay-unit').value = rec.unit || "Cái";
             let exactUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : ((rec.amount || 0) / (rec.qty || 1));
             document.getElementById('pay-unit-price').value = formatCurrencyVN(exactUnitPrice);
+            document.getElementById('pay-tax-val').value = formatCurrencyVN(rec.taxVal || 0);
             document.getElementById('pay-amount').value = formatCurrencyVN(rec.amount || 0);
             document.getElementById('pay-account').value = rec.account || "";
             document.getElementById('pay-bank').value = rec.bank || "";
@@ -2278,6 +2281,7 @@
         function clearPaymentForm() { 
             document.getElementById('pay-content').value = ""; document.getElementById('pay-receiver').value = ""; 
             document.getElementById('pay-qty').value = "1"; document.getElementById('pay-unit-price').value = ""; 
+            document.getElementById('pay-tax-val').value = "0";
             document.getElementById('pay-amount').value = ""; document.getElementById('pay-account').value = ""; 
             document.getElementById('pay-bank').value = ""; document.getElementById('file-hstt').value = ""; 
             isAmountManual = false;
@@ -2303,6 +2307,7 @@
                         recordCountYear++;
                         let q = rec.qty || 1, u = rec.unit || 'Cái';
                         let displayUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : (currentAmt / q);
+                        let displayTax = rec.taxVal !== undefined ? rec.taxVal : 0;
                         let dateTimeDisplay = rec.payDateTime || `31/07/${CURRENT_SELECTED_YEAR}`;
                         
                         let folderUrl = rec.folderUrl || DRIVE_ROOT_FOLDER_URL;
@@ -2317,6 +2322,7 @@
                             <td class="text-center">${q}</td>
                             <td class="text-center">${u}</td>
                             <td class="text-right">${formatCurrencyVN(displayUnitPrice)}</td>
+                            <td class="text-right">${formatCurrencyVN(displayTax)}</td>
                             <td class="text-right font-bold" style="color:var(--green);">${formatCurrencyVN(currentAmt)} VND</td>
                             <td class="text-center">${rec.account || '-'}</td>
                             <td>${rec.bank || '-'}</td>
@@ -2333,7 +2339,7 @@
             if (CURRENT_SELECTED_YEAR === "2025") totalSum = 599069520;
 
             if (recordCountYear === 0 && CURRENT_SELECTED_YEAR !== "2025") {
-                tbody.innerHTML = `<tr><td colspan="12" class="text-center" style="color:#64748b; font-style:italic; padding:15px;">Chưa có dữ liệu thanh toán năm ${CURRENT_SELECTED_YEAR}.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="13" class="text-center" style="color:#64748b; font-style:italic; padding:15px;">Chưa có dữ liệu thanh toán năm ${CURRENT_SELECTED_YEAR}.</td></tr>`;
             } else if (CURRENT_SELECTED_YEAR === "2025" && recordCountYear === 0) {
                 tbody.innerHTML = `
                     <tr>
@@ -2344,6 +2350,7 @@
                         <td class="text-center">1</td>
                         <td class="text-center">Lô</td>
                         <td class="text-right">544.608.655</td>
+                        <td class="text-right">54.460.865</td>
                         <td class="text-right font-bold" style="color:var(--green);">599.069.520 VND</td>
                         <td class="text-center">105005712499</td>
                         <td>VietinBank</td>
@@ -2400,7 +2407,6 @@
                 folderUrl = telecomRecordsByMonth[sm][editIndex].folderUrl;
             }
 
-            // Xử lý chọn nhiều file cước viễn thông đưa vào chung một thư mục trên Drive
             if (fileInput.files.length > 0) {
                 let progressContainer = document.getElementById('progress-container-vt');
                 let progressFill = document.getElementById('progress-fill-vt');
@@ -2445,12 +2451,7 @@
                     }
                 }
 
-                if (editIndex >= 0) {
-                    uploadedFiles = uploadedFiles.concat(newUploadedList);
-                } else {
-                    uploadedFiles = uploadedFiles.concat(newUploadedList);
-                }
-                
+                uploadedFiles = uploadedFiles.concat(newUploadedList);
                 progressText.innerText = "Hoàn tất!";
                 setTimeout(() => { progressContainer.style.display = "none"; progressFill.style.width = "0%"; }, 3000);
             }
@@ -3389,3 +3390,4 @@
     </script>
 </body>
 </html>
+```[cite: 1]
