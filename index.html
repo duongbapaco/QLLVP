@@ -1310,23 +1310,23 @@
     </div>
 
     <!-- MODAL CONFIG URL -->
-    <div id="configUrlModal" class="modal" onclick="closeConfigUrlModal()">
-        <div class="modal-content" onclick="event.stopPropagation()" style="max-width:600px;">
-            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;">CẤU HÌNH LINK GOOGLE SCRIPT VÀ DRIVE</div>
-            <div class="form-group" style="margin-bottom:10px;">
-                <label>1. Link Google Script Web App API (`.../exec`):</label>
-                <input type="text" id="cfg-script-url">
-            </div>
-            <div class="form-group" style="margin-bottom:12px;">
-                <label>2. Link Google Sheets Xem BẢNG LƯƠNG:</label>
-                <input type="text" id="cfg-sheet-url">
-            </div>
-            <div style="text-align:right; display:flex; justify-content:flex-end; gap:6px;">
-                <button type="button" class="btn btn-gray" onclick="closeConfigUrlModal()">Đóng</button>
-                <button type="button" class="btn btn-green" onclick="saveConfigUrls()">💾 Lưu</button>
-            </div>
+   <div id="configUrlModal" class="modal" onclick="closeConfigUrlModal()">
+    <div class="modal-content" onclick="event.stopPropagation()" style="max-width:600px;">
+        <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;">CẤU HÌNH LINK GOOGLE SCRIPT VÀ DRIVE</div>
+        <div class="form-group" style="margin-bottom:10px;">
+            <label>1. Link Google Script Web App API (`.../exec`):</label>
+            <input type="text" id="cfg-script-url" value="https://script.google.com/macros/s/AKfycbxcz6ynaYF_FmckDC1p4EPCkVHMMvCe8rwcbAjNV0BQeVNdQx9j1UzHpOo0Z17T0fGb/exec">
+        </div>
+        <div class="form-group" style="margin-bottom:12px;">
+            <label>2. Link Google Sheets Xem BẢNG LƯƠNG:</label>
+            <input type="text" id="cfg-sheet-url" value="https://docs.google.com/spreadsheets/d/1MM2VqBw1EnZ7YFdpRW-So9_AQgR99YI_7XOAHgUULns/edit?gid=1529354527#gid=1529354527">
+        </div>
+        <div style="text-align:right; display:flex; justify-content:flex-end; gap:6px;">
+            <button type="button" class="btn btn-gray" onclick="closeConfigUrlModal()">Đóng</button>
+            <button type="button" class="btn btn-green" onclick="saveConfigUrls()">💾 Lưu</button>
         </div>
     </div>
+</div>
 
     <script>
         const HARDCODED_SCRIPT_API = "https://script.google.com/macros/s/AKfycbxcz6ynaYF_FmckDC1p4EPCkVHMMvCe8rwcbAjNV0BQeVNdQx9j1UzHpOo0Z17T0fGb/exec";
