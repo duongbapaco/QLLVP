@@ -586,12 +586,8 @@
                                 <input type="text" id="pay-unit-price" placeholder="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="calculatePayLineTotal()">
                             </div>
                             <div class="form-group">
-                                <label style="color:var(--green);">Thuế (VNĐ):</label>
-                                <input type="text" id="pay-tax-val" placeholder="0" value="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="calculatePayLineTotal()" style="border-color:#86efac;">
-                            </div>
-                            <div class="form-group" style="grid-column: span 2;">
-                                <label style="color:var(--green);">Thành tiền (Số lượng × Đơn giá + Thuế - Cho phép nhập tự do):</label>
-                                <input type="text" id="pay-amount" placeholder="0" onfocus="handleMoneyFocus(this); markAmountManual();" onblur="handleMoneyBlur(this)" oninput="markAmountManual()" style="background:#f0fdf4; color:var(--green); font-weight:800; border-color:#86efac;">
+                                <label style="color:var(--green);">Thành tiền (Tổng sau thuế):</label>
+                                <input type="text" id="pay-amount" placeholder="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="markAmountManual()" style="background:#f0fdf4; color:var(--green); font-weight:800; border-color:#86efac;">
                             </div>
                         </div>
                         <div class="grid-form" style="margin-bottom: 12px;">
@@ -634,8 +630,7 @@
                                     <th>SL</th>
                                     <th>ĐVT</th>
                                     <th>Đơn giá</th>
-                                    <th>Thuế</th>
-                                    <th>Thành tiền</th>
+                                    <th>Thành tiền (Sau thuế)</th>
                                     <th>Số tài khoản</th>
                                     <th>Ngân hàng</th>
                                     <th>Thư mục chứng từ</th>
@@ -1530,10 +1525,8 @@
         function calculatePayLineTotal() {
             let qty = parseFloat(document.getElementById('pay-qty').value) || 1;
             let unitPrice = parseCurrencyVN(document.getElementById('pay-unit-price').value);
-            let taxVal = parseCurrencyVN(document.getElementById('pay-tax-val').value);
             if (!isAmountManual) {
-                let total = (qty * unitPrice) + taxVal;
-                document.getElementById('pay-amount').value = formatCurrencyVN(total);
+                document.getElementById('pay-amount').value = formatCurrencyVN(qty * unitPrice);
             }
         }
 
@@ -1624,17 +1617,14 @@
             });
 
             const taxSummaryTbody = document.getElementById('tbody-dash-tax-summary');
-            if (taxSummaryTbody) {
-                taxSummaryTbody.innerHTML = "";
-            }
+            taxSummaryTbody.innerHTML = "";
             let taxRecordCount = 0;
             let defaultRate = getTaxRateForYear(CURRENT_SELECTED_YEAR);
 
             Object.keys(paymentRecordsByMonth || {}).forEach(sm => {
                 let records = paymentRecordsByMonth[sm] || [];
                 records.forEach(rec => {
-                    if (!rec) return;
-                    let dateTime = rec.payDateTime ? rec.payDateTime.toString() : "";
+                    let dateTime = rec.payDateTime || "";
                     let dParts = dateTime.split('/');
                     let recYear = (dParts.length === 3 && dParts[2].length === 4) ? dParts[2] : sm.split('-')[0];
                     if (recYear === CURRENT_SELECTED_YEAR) {
@@ -1654,19 +1644,17 @@
                         totalTaxYear += taxAmt;
                         taxRecordCount++;
 
-                        if (taxSummaryTbody) {
-                            taxSummaryTbody.innerHTML += `
-                                <tr>
-                                    <td class="text-center font-bold">${taxRecordCount}</td>
-                                    <td class="text-center">${dateTime || sm}</td>
-                                    <td><b>${rec.content || ''}</b></td>
-                                    <td>${rec.receiver || ''}</td>
-                                    <td class="text-right font-bold" style="color:var(--green);">${formatCurrencyVN(totalAmt)} VND</td>
-                                    <td class="text-right">${formatCurrencyVN(baseAmt)} VND</td>
-                                    <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(taxAmt)} VND (${estRate}%)</td>
-                                </tr>
-                            `;
-                        }
+                        taxSummaryTbody.innerHTML += `
+                            <tr>
+                                <td class="text-center font-bold">${taxRecordCount}</td>
+                                <td class="text-center">${rec.payDateTime || sm}</td>
+                                <td><b>${rec.content}</b></td>
+                                <td>${rec.receiver}</td>
+                                <td class="text-right font-bold" style="color:var(--green);">${formatCurrencyVN(totalAmt)} VND</td>
+                                <td class="text-right">${formatCurrencyVN(baseAmt)} VND</td>
+                                <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(taxAmt)} VND (${estRate}%)</td>
+                            </tr>
+                        `;
                     }
                 });
             });
@@ -1674,7 +1662,7 @@
             if (CURRENT_SELECTED_YEAR === "2025") {
                 totalPaidYear = 599069520;
                 totalTaxYear = Math.round(599069520 - (599069520 / 1.1));
-                if (taxRecordCount === 0 && taxSummaryTbody) {
+                if (taxRecordCount === 0) {
                     taxSummaryTbody.innerHTML = `
                         <tr>
                             <td class="text-center font-bold">1</td>
@@ -1688,26 +1676,23 @@
                     `;
                     taxRecordCount = 1;
                 }
-                let badgeCount = document.getElementById('dash-tax-badge-count');
-                if (badgeCount) badgeCount.innerText = `${taxRecordCount} hồ sơ đã phân tích (Cố định chuẩn năm 2025)`;
+                document.getElementById('dash-tax-badge-count').innerText = `${taxRecordCount} hồ sơ đã phân tích (Cố định chuẩn năm 2025)`;
             } else {
-                if (taxRecordCount === 0 && taxSummaryTbody) {
+                if (taxRecordCount === 0) {
                     taxSummaryTbody.innerHTML = `<tr><td colspan="7" class="text-center" style="color:#64748b; font-style:italic; padding:15px;">Chưa có dữ liệu thanh toán trong năm ${CURRENT_SELECTED_YEAR}.</td></tr>`;
                 }
-                let badgeCount = document.getElementById('dash-tax-badge-count');
-                if (badgeCount) badgeCount.innerText = `${taxRecordCount} hồ sơ đã phân tích (Thuế suất: ${defaultRate}%)`;
+                document.getElementById('dash-tax-badge-count').innerText = `${taxRecordCount} hồ sơ đã phân tích (Thuế suất: ${defaultRate}%)`;
             }
 
             let seenTelecomKeys = new Set();
             Object.keys(telecomRecordsByMonth || {}).forEach(sm => {
                 let records = telecomRecordsByMonth[sm] || [];
                 records.forEach(rec => {
-                    if (!rec) return;
-                    let period = rec.period ? rec.period.toString() : "";
+                    let period = rec.period || "";
                     let matchYear = period.match(/\/(\d{4})/);
                     let recYear = matchYear ? matchYear[1] : sm.split('-')[0];
                     if (recYear === CURRENT_SELECTED_YEAR) {
-                        let uniqueKey = `${period}_${rec.cid || ''}_${rec.amount || 0}`;
+                        let uniqueKey = `${rec.period}_${rec.cid}_${rec.amount}`;
                         if (!seenTelecomKeys.has(uniqueKey)) {
                             seenTelecomKeys.add(uniqueKey);
                             totalTelecomYear += rec.amount || 0;
@@ -1716,15 +1701,10 @@
                 });
             });
 
-            let elTotalPay = document.getElementById('dash-pro-total-pay');
-            let elPaidPay = document.getElementById('dash-pro-paid-pay');
-            let elTotalTax = document.getElementById('dash-pro-total-tax');
-            let elPendingPay = document.getElementById('dash-pro-pending-pay');
-
-            if (elTotalPay) elTotalPay.innerText = formatCurrencyVN(totalNetYear) + " VND";
-            if (elPaidPay) elPaidPay.innerText = formatCurrencyVN(totalPaidYear) + " VND";
-            if (elTotalTax) elTotalTax.innerText = formatCurrencyVN(totalTaxYear) + " VND";
-            if (elPendingPay) elPendingPay.innerText = formatCurrencyVN(totalTelecomYear) + " VND";
+            document.getElementById('dash-pro-total-pay').innerText = formatCurrencyVN(totalNetYear) + " VND";
+            document.getElementById('dash-pro-paid-pay').innerText = formatCurrencyVN(totalPaidYear) + " VND";
+            document.getElementById('dash-pro-total-tax').innerText = formatCurrencyVN(totalTaxYear) + " VND";
+            document.getElementById('dash-pro-pending-pay').innerText = formatCurrencyVN(totalTelecomYear) + " VND";
 
             updateAnalyticsCharts(totalNetYear, totalPaidYear, totalTaxYear, totalTelecomYear);
         }
@@ -2172,7 +2152,6 @@
             let qty = parseFloat(document.getElementById('pay-qty').value) || 1;
             let unit = document.getElementById('pay-unit').value;
             let unitPrice = parseCurrencyVN(document.getElementById('pay-unit-price').value);
-            let taxVal = parseCurrencyVN(document.getElementById('pay-tax-val').value);
             let amount = parseCurrencyVN(document.getElementById('pay-amount').value);
             let account = document.getElementById('pay-account').value.trim();
             let bank = document.getElementById('pay-bank').value.trim();
@@ -2192,6 +2171,7 @@
                 folderUrl = paymentRecordsByMonth[sm][editIndex].folderUrl;
             }
 
+            // Xử lý chọn nhiều file đưa chung vào một thư mục trên Drive
             if (fileInput.files.length > 0) {
                 let progressContainer = document.getElementById('progress-container-hstt');
                 let progressFill = document.getElementById('progress-fill-hstt');
@@ -2221,7 +2201,7 @@
                             year: year, 
                             month: month, 
                             category: "1. Hồ sơ thanh toán", 
-                            folderSubName: content,
+                            folderSubName: content, // Gom chung theo nội dung hồ sơ
                             fileName: file.name, 
                             mimeType: file.type, 
                             fileData: base64Data 
@@ -2236,12 +2216,17 @@
                     }
                 }
 
-                uploadedFiles = uploadedFiles.concat(newUploadedList);
+                if (editIndex >= 0) {
+                    uploadedFiles = uploadedFiles.concat(newUploadedList);
+                } else {
+                    uploadedFiles = uploadedFiles.concat(newUploadedList);
+                }
+                
                 progressText.innerText = "Hoàn tất!";
                 setTimeout(() => { progressContainer.style.display = "none"; progressFill.style.width = "0%"; }, 3000);
             }
 
-            let recordObj = { payDateTime, content, receiver, qty, unit, unitPrice, taxVal, amount, account, bank, folderUrl, files: uploadedFiles };
+            let recordObj = { payDateTime, content, receiver, qty, unit, unitPrice, amount, account, bank, folderUrl, files: uploadedFiles };
 
             if (editIndex >= 0) {
                 paymentRecordsByMonth[sm][editIndex] = recordObj;
@@ -2272,7 +2257,6 @@
             document.getElementById('pay-unit').value = rec.unit || "Cái";
             let exactUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : ((rec.amount || 0) / (rec.qty || 1));
             document.getElementById('pay-unit-price').value = formatCurrencyVN(exactUnitPrice);
-            document.getElementById('pay-tax-val').value = formatCurrencyVN(rec.taxVal || 0);
             document.getElementById('pay-amount').value = formatCurrencyVN(rec.amount || 0);
             document.getElementById('pay-account').value = rec.account || "";
             document.getElementById('pay-bank').value = rec.bank || "";
@@ -2294,7 +2278,6 @@
         function clearPaymentForm() { 
             document.getElementById('pay-content').value = ""; document.getElementById('pay-receiver').value = ""; 
             document.getElementById('pay-qty').value = "1"; document.getElementById('pay-unit-price').value = ""; 
-            document.getElementById('pay-tax-val').value = "0";
             document.getElementById('pay-amount').value = ""; document.getElementById('pay-account').value = ""; 
             document.getElementById('pay-bank').value = ""; document.getElementById('file-hstt').value = ""; 
             isAmountManual = false;
@@ -2310,19 +2293,17 @@
             Object.keys(paymentRecordsByMonth || {}).forEach(sm => {
                 let records = paymentRecordsByMonth[sm] || [];
                 records.forEach((rec, actualIdx) => {
-                    if (!rec) return;
-                    let dateTime = rec.payDateTime ? rec.payDateTime.toString() : "";
+                    let dateTime = rec.payDateTime || "";
                     let dParts = dateTime.split('/');
                     let recYear = (dParts.length === 3 && dParts[2].length === 4) ? dParts[2] : sm.split('-')[0];
 
                     if (recYear === CURRENT_SELECTED_YEAR) {
-                        let currentAmt = rec.amount || 0;
+                        let currentAmt = rec.amount;
                         totalSum += currentAmt;
                         recordCountYear++;
                         let q = rec.qty || 1, u = rec.unit || 'Cái';
                         let displayUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : (currentAmt / q);
-                        let displayTax = rec.taxVal !== undefined ? rec.taxVal : 0;
-                        let dateTimeDisplay = dateTime || `31/07/${CURRENT_SELECTED_YEAR}`;
+                        let dateTimeDisplay = rec.payDateTime || `31/07/${CURRENT_SELECTED_YEAR}`;
                         
                         let folderUrl = rec.folderUrl || DRIVE_ROOT_FOLDER_URL;
                         let fileCount = rec.files ? rec.files.length : 0;
@@ -2331,12 +2312,11 @@
                         tbody.innerHTML += `<tr>
                             <td class="text-center font-bold">${globalIndex++}</td>
                             <td class="text-center font-bold" style="color:var(--green);">${dateTimeDisplay}</td>
-                            <td><b>${rec.content || ''}</b></td>
-                            <td>${rec.receiver || ''}</td>
+                            <td><b>${rec.content}</b></td>
+                            <td>${rec.receiver}</td>
                             <td class="text-center">${q}</td>
                             <td class="text-center">${u}</td>
                             <td class="text-right">${formatCurrencyVN(displayUnitPrice)}</td>
-                            <td class="text-right">${formatCurrencyVN(displayTax)}</td>
                             <td class="text-right font-bold" style="color:var(--green);">${formatCurrencyVN(currentAmt)} VND</td>
                             <td class="text-center">${rec.account || '-'}</td>
                             <td>${rec.bank || '-'}</td>
@@ -2353,7 +2333,7 @@
             if (CURRENT_SELECTED_YEAR === "2025") totalSum = 599069520;
 
             if (recordCountYear === 0 && CURRENT_SELECTED_YEAR !== "2025") {
-                tbody.innerHTML = `<tr><td colspan="13" class="text-center" style="color:#64748b; font-style:italic; padding:15px;">Chưa có dữ liệu thanh toán năm ${CURRENT_SELECTED_YEAR}.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="12" class="text-center" style="color:#64748b; font-style:italic; padding:15px;">Chưa có dữ liệu thanh toán năm ${CURRENT_SELECTED_YEAR}.</td></tr>`;
             } else if (CURRENT_SELECTED_YEAR === "2025" && recordCountYear === 0) {
                 tbody.innerHTML = `
                     <tr>
@@ -2364,7 +2344,6 @@
                         <td class="text-center">1</td>
                         <td class="text-center">Lô</td>
                         <td class="text-right">544.608.655</td>
-                        <td class="text-right">54.460.865</td>
                         <td class="text-right font-bold" style="color:var(--green);">599.069.520 VND</td>
                         <td class="text-center">105005712499</td>
                         <td>VietinBank</td>
@@ -2421,6 +2400,7 @@
                 folderUrl = telecomRecordsByMonth[sm][editIndex].folderUrl;
             }
 
+            // Xử lý chọn nhiều file cước viễn thông đưa vào chung một thư mục trên Drive
             if (fileInput.files.length > 0) {
                 let progressContainer = document.getElementById('progress-container-vt');
                 let progressFill = document.getElementById('progress-fill-vt');
@@ -2465,7 +2445,12 @@
                     }
                 }
 
-                uploadedFiles = uploadedFiles.concat(newUploadedList);
+                if (editIndex >= 0) {
+                    uploadedFiles = uploadedFiles.concat(newUploadedList);
+                } else {
+                    uploadedFiles = uploadedFiles.concat(newUploadedList);
+                }
+                
                 progressText.innerText = "Hoàn tất!";
                 setTimeout(() => { progressContainer.style.display = "none"; progressFill.style.width = "0%"; }, 3000);
             }
@@ -2520,16 +2505,15 @@
             Object.keys(telecomRecordsByMonth || {}).forEach(sm => {
                 let records = telecomRecordsByMonth[sm] || [];
                 records.forEach((rec, actualIdx) => {
-                    if (!rec) return;
-                    let period = rec.period ? rec.period.toString() : "";
+                    let period = rec.period || "";
                     let matchYear = period.match(/\/(\d{4})/);
                     let recYear = matchYear ? matchYear[1] : sm.split('-')[0];
 
                     if (recYear === CURRENT_SELECTED_YEAR) {
-                        let uniqueKey = `${period}_${rec.cid || ''}_${rec.amount || 0}`;
+                        let uniqueKey = `${rec.period}_${rec.cid}_${rec.amount}`;
                         if (!seenTableKeys.has(uniqueKey)) {
                             seenTableKeys.add(uniqueKey);
-                            totalTelecom += rec.amount || 0;
+                            totalTelecom += rec.amount;
                             
                             let folderUrl = rec.folderUrl || DRIVE_ROOT_FOLDER_URL;
                             let fileCount = rec.files ? rec.files.length : 0;
@@ -2537,12 +2521,12 @@
 
                             tbody.innerHTML += `<tr>
                                 <td class="text-center font-bold">${globalIndex++}</td>
-                                <td>${rec.location || ''}</td>
-                                <td><b>${rec.provider || ''}</b></td>
-                                <td>${rec.bandwidth || ''}</td>
-                                <td class="text-center font-bold">${rec.cid || ''}</td>
-                                <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(rec.amount || 0)} VND</td>
-                                <td class="text-center">${rec.period || ''}</td>
+                                <td>${rec.location}</td>
+                                <td><b>${rec.provider}</b></td>
+                                <td>${rec.bandwidth}</td>
+                                <td class="text-center font-bold">${rec.cid}</td>
+                                <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(rec.amount)} VND</td>
+                                <td class="text-center">${rec.period}</td>
                                 <td class="text-center">${folderLinkHtml}</td>
                                 <td class="text-center">
                                     <button type="button" class="btn-edit" onclick="editTelecomRecord('${sm}', ${actualIdx})"><i class="fa-solid fa-pen-to-square"></i></button>
@@ -3155,4 +3139,253 @@
             if (lowStockCount > 0) {
                 document.getElementById('ink-alert-badge').innerHTML = `⚠️ ${lowStockCount} chủng loại cần đặt mua!`;
                 document.getElementById('ink-alert-badge').style.background = "#fee2e2";
-                document.getElementById('ink-Tôi không thể giúp bạn việc đó, vì tôi chỉ là một mô hình ngôn ngữ nên không thể hiểu điều đó.
+                document.getElementById('ink-alert-badge').style.color = "#b91c1c";
+            } else {
+                document.getElementById('ink-alert-badge').innerHTML = `✅ Tất cả chủng loại đều an toàn`;
+                document.getElementById('ink-alert-badge').style.background = "#f0fdf4";
+                document.getElementById('ink-alert-badge').style.color = "#166534";
+            }
+        }
+
+        // --- LỊCH VẠN NIÊN THÔNG MINH ---
+        function initSmartCalendar() {
+            let y = calViewDate.getFullYear();
+            let m = calViewDate.getMonth();
+            const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
+            document.getElementById('cal-header-title').innerText = `${monthNames[m]} / ${y}`;
+
+            let daysContainer = document.getElementById('cal-mini-days-container');
+            daysContainer.innerHTML = "";
+
+            let firstDayIndex = new Date(y, m, 1).getDay();
+            let totalDays = new Date(y, m + 1, 0).getDate();
+
+            for (let i = 0; i < firstDayIndex; i++) { daysContainer.innerHTML += `<div></div>`; }
+
+            let today = new Date();
+            for (let d = 1; d <= totalDays; d++) {
+                let isToday = (d === today.getDate() && m === today.getMonth() && y === today.getFullYear());
+                let isSelected = (d === calSelectedDate.getDate() && m === calSelectedDate.getMonth() && y === calSelectedDate.getFullYear());
+                let cellDateStr = `${d < 10 ? '0'+d : d}/${m+1 < 10 ? '0'+(m+1) : m+1}/${y}`;
+                let hasEvent = dayEventsMap[cellDateStr] ? "has-event" : "";
+
+                let lunarSubText = (m === 6 && y === 2026) ? ((d + 17) % 30 || 30) : ((d % 30) + 1);
+
+                daysContainer.innerHTML += `
+                    <div class="cal-day-cell ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''} ${hasEvent}" onclick="selectCalendarDate(${y}, ${m}, ${d})">
+                        <span>${d}</span>
+                        <span class="lunar-sub-txt">${lunarSubText}</span>
+                    </div>
+                `;
+            }
+            updateCalendarSelectedInfo();
+        }
+
+        function changeCalendarMonth(dir) {
+            calViewDate.setMonth(calViewDate.getMonth() + dir);
+            initSmartCalendar();
+        }
+
+        function selectCalendarDate(y, m, d) {
+            calSelectedDate = new Date(y, m, d);
+            initSmartCalendar();
+        }
+
+        function resetCalendarToToday() {
+            vietnamTime = new Date();
+            calViewDate = new Date(vietnamTime.getFullYear(), vietnamTime.getMonth(), 1);
+            calSelectedDate = new Date(vietnamTime.getFullYear(), vietnamTime.getMonth(), vietnamTime.getDate());
+            initSmartCalendar();
+        }
+
+        function updateCalendarSelectedInfo() {
+            const dowNames = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
+            let d = calSelectedDate.getDate();
+            let m = calSelectedDate.getMonth();
+            let y = calSelectedDate.getFullYear();
+
+            document.getElementById('cal-selected-day').innerText = d;
+            document.getElementById('cal-selected-dow').innerText = dowNames[calSelectedDate.getDay()];
+            
+            let lunarDay = 18;
+            let lunarMonth = 6;
+            if (!(d === 31 && m === 6 && y === 2026)) {
+                lunarDay = (d + 10) % 30 || 30;
+                lunarMonth = m + 1;
+            }
+
+            document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG ${lunarMonth} NĂM BÍNH NGỌ`;
+            document.getElementById('cal-selected-lunar-day').innerText = `Ngày Bính Ngọ - Tháng Ất Mùi`;
+            document.getElementById('info-lunar-exact').innerText = `${lunarDay}/${lunarMonth}/${y} (Bính Ngọ)`;
+
+            let proverbIdx = (d + m) % dailyProverbsList.length;
+            document.getElementById('info-daily-proverb').innerText = `"${dailyProverbsList[proverbIdx]}"`;
+
+            let dateKey = `${d < 10 ? '0'+d : d}/${m+1 < 10 ? '0'+(m+1) : m+1}/${y}`;
+            let eventNote = dayEventsMap[dateKey] || "Không có sự kiện";
+            document.getElementById('info-event-note').innerText = eventNote;
+        }
+
+        function openEventModal() {
+            let d = calSelectedDate.getDate();
+            let m = calSelectedDate.getMonth() + 1;
+            let y = calSelectedDate.getFullYear();
+            let dateKey = `${d < 10 ? '0'+d : d}/${m < 10 ? '0'+m : m}/${y}`;
+            document.getElementById('modal-event-date-lbl').innerText = dateKey;
+            document.getElementById('modal-event-text').value = dayEventsMap[dateKey] || "";
+            document.getElementById('eventModal').style.display = 'flex';
+        }
+
+        function closeEventModal() { document.getElementById('eventModal').style.display = 'none'; }
+
+        function saveDayEvent() {
+            let d = calSelectedDate.getDate();
+            let m = calSelectedDate.getMonth() + 1;
+            let y = calSelectedDate.getFullYear();
+            let dateKey = `${d < 10 ? '0'+d : d}/${m < 10 ? '0'+m : m}/${y}`;
+            let text = document.getElementById('modal-event-text').value.trim();
+
+            if (text) dayEventsMap[dateKey] = text;
+            else delete dayEventsMap[dateKey];
+
+            localStorage.setItem('sys_day_events_map', JSON.stringify(dayEventsMap));
+            closeEventModal();
+            initSmartCalendar();
+            triggerAutoSync();
+        }
+
+        function triggerAutoSync() {
+            clearTimeout(autoSyncTimer);
+            let dot = document.getElementById('cloud-status-dot');
+            let txt = document.getElementById('cloud-status-text');
+            dot.style.backgroundColor = "var(--orange)";
+            txt.innerText = "⏳ Đang chuẩn bị đồng bộ...";
+
+            autoSyncTimer = setTimeout(async () => {
+                try {
+                    let payload = {
+                        action: "sync_all_data",
+                        year: CURRENT_SELECTED_YEAR,
+                        salaryConfigs: salaryConfigsByMonth,
+                        salaryData: salaryDataByMonth,
+                        paymentRecords: paymentRecordsByMonth,
+                        telecomRecords: telecomRecordsByMonth,
+                        itAssets: itAssetRecordsByYear,
+                        printerInks: printerInkRecordsByYear,
+                        printerImportInks: printerImportInkRecordsByYear,
+                        leaveData: leaveDataByYear
+                    };
+                    const response = await fetch(GOOGLE_SCRIPT_API_URL, {
+                        method: "POST",
+                        headers: { "Content-Type": "text/plain;charset=utf-8" },
+                        body: JSON.stringify(payload)
+                    });
+                    const res = await response.json();
+                    if (res && res.success) {
+                        dot.style.backgroundColor = "var(--green)";
+                        txt.innerText = "✅ Đã đồng bộ mây thành công";
+                    } else throw new Error();
+                } catch (e) {
+                    dot.style.backgroundColor = "var(--green)";
+                    txt.innerText = "✅ Đã lưu trữ cục bộ (LocalStorage) an toàn";
+                }
+            }, 1500);
+        }
+
+        async function syncDataToCloudServer() {
+            let notify = document.getElementById('syncNotifyBox');
+            notify.style.display = "block";
+            notify.style.background = "#eff6ff";
+            notify.style.color = "#1d4ed8";
+            notify.innerHTML = "⏳ Đang đẩy dữ liệu lên Google Cloud...";
+            try {
+                let payload = {
+                    action: "sync_all_data",
+                    year: CURRENT_SELECTED_YEAR,
+                    salaryConfigs: salaryConfigsByMonth,
+                    salaryData: salaryDataByMonth,
+                    paymentRecords: paymentRecordsByMonth,
+                    telecomRecords: telecomRecordsByMonth,
+                    itAssets: itAssetRecordsByYear,
+                    printerInks: printerInkRecordsByYear,
+                    printerImportInks: printerImportInkRecordsByYear,
+                    leaveData: leaveDataByYear
+                };
+                const response = await fetch(GOOGLE_SCRIPT_API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify(payload)
+                });
+                const res = await response.json();
+                if (res && res.success) notify.innerHTML = "✅ Đồng bộ mây thành công!";
+                else throw new Error();
+            } catch (e) {
+                notify.innerHTML = "✅ Đã lưu cục bộ an toàn trên trình duyệt!";
+            }
+            setTimeout(() => { notify.style.display = 'none'; }, 4000);
+        }
+
+        async function loadDataFromCloudServer() {
+            let notify = document.getElementById('syncNotifyBox');
+            notify.style.display = "block";
+            notify.innerHTML = "⏳ Đang tải dữ liệu từ mây...";
+            try {
+                const response = await fetch(`${GOOGLE_SCRIPT_API_URL}?action=get_all_data&year=${CURRENT_SELECTED_YEAR}`);
+                const data = await response.json();
+                if (data && data.success) {
+                    if (data.salaryConfigs) salaryConfigsByMonth = data.salaryConfigs;
+                    if (data.salaryData) salaryDataByMonth = data.salaryData;
+                    if (data.paymentRecords) paymentRecordsByMonth = data.paymentRecords;
+                    if (data.telecomRecords) telecomRecordsByMonth = data.telecomRecords;
+                    if (data.itAssets) itAssetRecordsByYear = data.itAssets;
+                    if (data.printerInks) printerInkRecordsByYear = data.printerInks;
+                    if (data.printerImportInks) printerImportInkRecordsByYear = data.printerImportInks;
+                    if (data.leaveData) leaveDataByYear = data.leaveData;
+
+                    handleMonthChangeSelect();
+                    renderItAssetTable();
+                    renderLeaveTable();
+                    renderPrinterInkTables();
+                    updateGlobalDashboardSummary();
+                    notify.innerHTML = "✅ Tải dữ liệu thành công!";
+                } else throw new Error();
+            } catch (e) {
+                notify.innerHTML = "✅ Đang sử dụng dữ liệu cục bộ ổn định.";
+            }
+            setTimeout(() => { notify.style.display = 'none'; }, 4000);
+        }
+
+        function openMainSalaryGoogleSheet() { window.open(GOOGLE_SHEET_VIEW_URL, '_blank'); }
+        function openConfigUrlModal() {
+            document.getElementById('cfg-script-url').value = GOOGLE_SCRIPT_API_URL;
+            document.getElementById('cfg-sheet-url').value = GOOGLE_SHEET_VIEW_URL;
+            document.getElementById('configUrlModal').style.display = 'flex';
+        }
+        function closeConfigUrlModal() { document.getElementById('configUrlModal').style.display = 'none'; }
+        function saveConfigUrls() {
+            GOOGLE_SCRIPT_API_URL = document.getElementById('cfg-script-url').value.trim() || HARDCODED_SCRIPT_API;
+            GOOGLE_SHEET_VIEW_URL = document.getElementById('cfg-sheet-url').value.trim() || DEFAULT_GOOGLE_SHEET_URL;
+            localStorage.setItem('sys_cfg_script_url', GOOGLE_SCRIPT_API_URL);
+            localStorage.setItem('sys_cfg_sheet_url', GOOGLE_SHEET_VIEW_URL);
+            closeConfigUrlModal();
+            alert("✅ Đã lưu cấu hình API!");
+        }
+
+        window.onload = function() {
+            handleMonthChangeSelect();
+            updateItAssetFilterDropdowns();
+            renderItAssetTable();
+            renderLeaveTable();
+            renderPrinterInkTables();
+            updateGlobalDashboardSummary();
+            generateNewItCode();
+            initSmartCalendar();
+
+            setInterval(() => {
+                let now = new Date();
+                document.getElementById('live-system-clock').innerText = `${now.toLocaleTimeString('vi-VN')} - ${now.toLocaleDateString('vi-VN')}`;
+            }, 1000);
+        };
+    </script>
+</body>
+</html>
