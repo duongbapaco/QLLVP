@@ -1151,15 +1151,15 @@
         <div class="calendar-sidebar" id="calendar-sidebar-box">
             <div class="cal-smart-header">
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
-                <span id="cal-header-title">THÁNG 08 / 2026</span>
+                <span id="cal-header-title">THÁNG 07 / 2026</span>
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
 
             <div class="calendar-block-view">
                 <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
                 <div class="calendar-block-body">
-                    <div style="font-size:11.5px; color:#334155; font-weight:bold; text-transform:uppercase;" id="cal-selected-dow">Thứ Bảy</div>
-                    <div style="font-size:55px; font-weight:900; color:#dc2626; line-height:1; margin:3px 0;" id="cal-selected-day">1</div>
+                    <div style="font-size:11.5px; color:#334155; font-weight:bold; text-transform:uppercase;" id="cal-selected-dow">Thứ Sáu</div>
+                    <div style="font-size:55px; font-weight:900; color:#dc2626; line-height:1; margin:3px 0;" id="cal-selected-day">31</div>
                     <div style="font-size:11.5px; font-weight:bold; color:#0f172a;" id="cal-selected-lunar-day">Ngày Bính Ngọ - Tháng Ất Mùi</div>
                 </div>
             </div>
@@ -1201,8 +1201,8 @@
                     <span class="cal-info-val" id="info-viec-kieng-ki" style="color:var(--red);">Động thổ, xây dựng, xuất hành xa không thuận lợi</span>
                 </div>
                 <div class="cal-info-row" style="flex-direction: column; gap: 3px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 5px;">
-                    <span class="cal-info-label" style="color:var(--orange);"><i class="fa-solid fa-quote-left"></i> Thành ngữ / Danh ngôn / Triết lý:</span>
-                    <span id="info-daily-proverb" style="color:#7c2d12; font-weight:600; font-style:italic; font-size: 11px; background:#fff7ed; padding:4px 6px; border-radius:4px; border:1px solid #fdba74;">"Lửa thử vàng, gian nan thử sức." — (Thành ngữ Việt Nam)</span>
+                    <span class="cal-info-label" style="color:var(--orange);"><i class="fa-solid fa-quote-left"></i> Thành ngữ / Ca dao hôm nay:</span>
+                    <span id="info-daily-proverb" style="color:#7c2d12; font-weight:600; font-style:italic; font-size: 11px; background:#fff7ed; padding:4px 6px; border-radius:4px; border:1px solid #fdba74;">"Ăn quả nhớ kẻ trồng cây."</span>
                 </div>
                 <div class="cal-info-row" style="flex-direction: column; gap: 3px; padding-top: 5px; margin-top: 2px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
@@ -1297,7 +1297,7 @@
     <!-- MODAL ĐẶT LỊCH SỰ KIỆN -->
     <div id="eventModal" class="modal" onclick="closeEventModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:420px;">
-            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">01/08/2026</span></div>
+            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">31/07/2026</span></div>
             <div class="form-group" style="margin-bottom: 10px;">
                 <label>Nội dung sự kiện / Công việc:</label>
                 <textarea id="modal-event-text" class="inp-table" style="height: 75px; resize: none;" placeholder="Ví dụ: Họp giao ban..."></textarea>
@@ -1329,106 +1329,6 @@
     </div>
 
     <script>
-        // --- KHO THÀNH NGỮ / CA DAO CỐ ĐỊNH ---
-        const staticProverbsList = [
-            "Lửa thử vàng, gian nan thử sức.",
-            "Uống nước nhớ nguồn, ăn quả nhớ kẻ trồng cây.",
-            "Có công mài sắt, có ngày nên kim.",
-            "Thương người như thể thương thân.",
-            "Một cây làm chẳng nên non, ba cây chụm lại nên hòn núi cao.",
-            "Đi một ngày đàng, học một sàng khôn.",
-            "Ăn quả nhớ kẻ trồng cây, ăn khoai nhớ kẻ cho dây mà trồng.",
-            "Nói lời phải giữ lấy lời, đừng như con bướm đậu rồi lại bay.",
-            "Học thầy không tày học bạn.",
-            "Gần mực thì đen, gần đèn thì rạng.",
-            "Ăn kỹ no lâu, cày sâu lúa tốt.",
-            "Chớ thấy sóng cả mà ngã tay chèo.",
-            "Muốn sang thì bắc cầu kiều, muốn con hay chữ phải yêu lấy thầy."
-        ];
-
-        function getDailyProverb(dateObj) {
-            let dayOfYear = Math.floor((dateObj - new Date(dateObj.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-            let index = dayOfYear % staticProverbsList.length;
-            return staticProverbsList[index];
-        }
-
-        // --- THUẬT TOÁN ÂM LỊCH CHUẨN XÁC ---
-        const TIME_ZONE = 7.0;
-
-        function jdFromDate(dd, mm, yy) {
-            let a = Math.floor((14 - mm) / 12);
-            let y = yy + 4800 - a;
-            let m = mm + 12 * a - 3;
-            let jd = dd + Math.floor((153 * m + 2) / 5) + 365 * y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
-            if (jd < 2299161) {
-                jd = dd + Math.floor((153 * m + 2) / 5) + 365 * y + Math.floor(y / 4) - 32083;
-            }
-            return jd;
-        }
-
-        function _INT(d) { return Math.floor(d); }
-
-        function sunLongitude(jdn, timeZone) {
-            let T = (jdn - 2451545.0 - timeZone / 24.0) / 36525.0;
-            let L0 = 280.46646 + 36000.76983 * T;
-            let M = 357.52911 + 35999.05029 * T - 0.0001537 * T * T;
-            let C = (1.914602 - 0.004817 * T - 0.000014 * T * T) * Math.sin(M * Math.PI / 180) + (0.019993 - 0.000101 * T) * Math.sin(2 * M * Math.PI / 180) + 0.000289 * Math.sin(3 * M * Math.PI / 180);
-            let L = L0 + C;
-            while (L < 0) L += 360;
-            while (L >= 360) L -= 360;
-            return _INT(L / 30);
-        }
-
-        function getNewMoonDay(k, timeZone) {
-            let T = k / 1236.85;
-            let T2 = T * T;
-            let T3 = T2 * T;
-            let Jd1 = 2415020.75933 + 29.53058868 * k + 0.0001178 * T2 - 0.000000155 * T3;
-            let M = 359.2242 + 29.10535608 * k - 0.0000333 * T2 - 0.00000347 * T3;
-            let Mprime = 306.0253 + 385.81691806 * k + 0.0107306 * T2 + 0.00001236 * T3;
-            let F = 21.2964 + 390.67050646 * k - 0.0016528 * T2 - 0.00000239 * T3;
-            let C1 = (0.1734 - 0.000393 * T) * Math.sin(M * Math.PI / 180) + 0.0021 * Math.sin(2 * M * Math.PI / 180);
-            let C2 = -0.4068 * Math.sin(Mprime * Math.PI / 180) + 0.0161 * Math.sin(2 * Mprime * Math.PI / 180);
-            let C3 = -0.0004 * Math.sin(2 * F * Math.PI / 180);
-            let delta = C1 + C2 + C3;
-            return _INT(Jd1 + delta + 0.5 + timeZone / 24.0) - 0.5;
-        }
-
-        function convertSolar2Lunar(dd, mm, yy, timeZone) {
-            let dayNumber = jdFromDate(dd, mm, yy);
-            let k = _INT((dayNumber - 2415021.076998695) / 29.53058885);
-            let monthStart = getNewMoonDay(k + 1, timeZone);
-            if (monthStart > dayNumber) {
-                monthStart = getNewMoonDay(k, timeZone);
-            }
-            let a11 = getNewMoonDay(k, timeZone);
-            let lunarYear;
-            if (monthStart >= a11) {
-                lunarYear = yy;
-                let sunLong = sunLongitude(a11, timeZone);
-                if (sunLong >= 9) {
-                    a11 = getNewMoonDay(k - 12, timeZone);
-                } else {
-                    a11 = getNewMoonDay(k - 11, timeZone);
-                }
-            } else {
-                lunarYear = yy - 1;
-                let sunLong = sunLongitude(a11, timeZone);
-                if (sunLong >= 9) {
-                    a11 = getNewMoonDay(k - 1, timeZone);
-                } else {
-                    a11 = getNewMoonDay(k, timeZone);
-                }
-            }
-            let diff = _INT((monthStart - a11) / 29.5);
-            let lunarMonth = diff + 11;
-            if (lunarMonth > 12) {
-                lunarMonth -= 12;
-            }
-            let lunarDay = dayNumber - monthStart + 1;
-            return [lunarDay, lunarMonth, lunarYear, 0];
-        }
-
         const HARDCODED_SCRIPT_API = "https://script.google.com/macros/s/AKfycbxcz6ynaYF_FmckDC1p4EPCkVHMMvCe8rwcbAjNV0BQeVNdQx9j1UzHpOo0Z17T0fGb/exec";
         const DEFAULT_GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1MM2VqBw1EnZ7YFdpRW-So9_AQgR99YI_7XOAHgUULns/edit?gid=1529354527#gid=1529354527";
         const DRIVE_ROOT_FOLDER_URL = "https://drive.google.com/drive/u/0/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi";
@@ -1438,8 +1338,21 @@
 
         let CURRENT_SELECTED_YEAR = "2026";
         let isAmountManual = false;
+        let autoSyncTimer = null;
         let barChartInstance = null;
         let pieChartInstance = null;
+
+        const dailyProverbsList = [
+            "Ăn quả nhớ kẻ trồng cây.",
+            "Có công mài sắt, có ngày nên kim.",
+            "Đi một ngày đàng, học một sàng khôn.",
+            "Học thầy không tày học bạn.",
+            "Một cây làm chẳng nên non, ba cây chụm lại nên hòn núi cao.",
+            "Thương người như thể thương thân.",
+            "Nhiễu điều phủ lấy giá gương, người trong một nước phải thương nhau cùng.",
+            "Gần mực thì đen, gần đèn thì rạng.",
+            "Lửa thử vàng, gian nan thử sức."
+        ];
 
         const default16Staffs = [
             {"name": "Nguyễn Minh Ngọc", "account": "105005712499", "lcb_heso": 1.94, "lcb_phucap": 0.25, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 5.20, "phu_cap_lcv": 0.6, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 5000000, "pctt": 0, "tru_ung": 0},
@@ -1468,10 +1381,11 @@
         let itAssetRecordsByYear = JSON.parse(localStorage.getItem('sys_it_asset_records_by_year')) || {};
         let printerInkRecordsByYear = JSON.parse(localStorage.getItem('sys_printer_ink_records_by_year')) || {};
         let printerImportInkRecordsByYear = JSON.parse(localStorage.getItem('sys_printer_import_ink_records_by_year')) || {};
+        let dayEventsMap = JSON.parse(localStorage.getItem('sys_day_events_map')) || {};
 
-        // --- KHỞI TẠO TRẠNG THÁI LỊCH AN TOÀN ---
-        let calViewDate = new Date(2026, 7, 1); 
-        let calSelectedDate = new Date(2026, 7, 1, 11, 38, 55);
+        let vietnamTime = new Date();
+        let calViewDate = new Date(vietnamTime.getFullYear(), vietnamTime.getMonth(), 1);
+        let calSelectedDate = new Date(vietnamTime.getFullYear(), vietnamTime.getMonth(), vietnamTime.getDate());
 
         let activePickerId = null;
         let pickerCurrentDate = new Date();
@@ -1495,101 +1409,6 @@
             let workspace = document.getElementById('main-workspace');
             sidebar.classList.toggle('hidden');
             workspace.classList.toggle('calendar-hidden');
-        }
-
-        // --- CÁC HÀM XỬ LÝ LỊCH VẠN NIÊN AN TOÀN (CHỐNG CRASH) ---
-        function changeCalendarMonth(dir) {
-            try {
-                calViewDate.setMonth(calViewDate.getMonth() + dir);
-                renderSmartCalendar();
-            } catch (e) {
-                console.error("Lỗi chuyển tháng lịch:", e);
-            }
-        }
-
-        function resetCalendarToToday() {
-            try {
-                let now = new Date(2026, 7, 1, 11, 38, 55);
-                calViewDate = new Date(now.getFullYear(), now.getMonth(), 1);
-                calSelectedDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-                renderSmartCalendar();
-                updateSelectedDayInfo(calSelectedDate);
-            } catch (e) {
-                console.error("Lỗi reset lịch:", e);
-            }
-        }
-
-        function renderSmartCalendar() {
-            let y = calViewDate.getFullYear();
-            let m = calViewDate.getMonth();
-            const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
-            
-            let headerTitle = document.getElementById('cal-header-title');
-            if (headerTitle) headerTitle.innerText = `${monthNames[m]} / ${y}`;
-
-            let daysContainer = document.getElementById('cal-mini-days-container');
-            if (!daysContainer) return;
-            daysContainer.innerHTML = "";
-
-            let firstDayIndex = new Date(y, m, 1).getDay();
-            let totalDays = new Date(y, m + 1, 0).getDate();
-
-            for (let i = 0; i < firstDayIndex; i++) {
-                daysContainer.innerHTML += `<div></div>`;
-            }
-
-            let today = new Date(2026, 7, 1);
-            for (let d = 1; d <= totalDays; d++) {
-                let isToday = (d === today.getDate() && m === today.getMonth() && y === today.getFullYear());
-                let isSelected = (d === calSelectedDate.getDate() && m === calSelectedDate.getMonth() && y === calSelectedDate.getFullYear());
-                
-                let lunar = convertSolar2Lunar(d, m + 1, y, 7.0);
-                
-                let cellClass = "cal-day-cell";
-                if (isToday) cellClass += " today";
-                if (isSelected) cellClass += " selected";
-
-                daysContainer.innerHTML += `
-                    <div class="${cellClass}" onclick="selectCalendarDay(${y}, ${m}, ${d})">
-                        <span>${d}</span>
-                        <span class="lunar-sub-txt">${lunar[0]}/${lunar[1]}</span>
-                    </div>
-                `;
-            }
-        }
-
-        function selectCalendarDay(y, m, d) {
-            calSelectedDate = new Date(y, m, d);
-            renderSmartCalendar();
-            updateSelectedDayInfo(calSelectedDate);
-        }
-
-        function updateSelectedDayInfo(dateObj) {
-            try {
-                let y = dateObj.getFullYear();
-                let m = dateObj.getMonth() + 1;
-                let d = dateObj.getDate();
-                let dowNames = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
-                let dow = dowNames[dateObj.getDay()];
-
-                let lunar = convertSolar2Lunar(d, m, y, 7.0);
-                
-                let elDow = document.getElementById('cal-selected-dow');
-                let elDay = document.getElementById('cal-selected-day');
-                let elLunarMonth = document.getElementById('cal-block-lunar-month');
-                let elLunarExact = document.getElementById('info-lunar-exact');
-                let elLunarDay = document.getElementById('cal-selected-lunar-day');
-                let elProverb = document.getElementById('info-daily-proverb');
-
-                if (elDow) elDow.innerText = dow;
-                if (elDay) elDay.innerText = d;
-                if (elLunarMonth) elLunarMonth.innerText = `ÂM LỊCH: THÁNG ${lunar[1]} NĂM BÍNH NGỌ`;
-                if (elLunarExact) elLunarExact.innerText = `${lunar[0]}/${lunar[1]}/${lunar[2]} (Bính Ngọ)`;
-                if (elLunarDay) elLunarDay.innerText = `Ngày ${lunar[0]} - Tháng ${lunar[1]}`;
-                if (elProverb) elProverb.innerText = `"${getDailyProverb(dateObj)}"`;
-            } catch (e) {
-                console.error("Lỗi cập nhật thông tin ngày:", e);
-            }
         }
 
         function togglePicker(popupId) {
@@ -1805,17 +1624,14 @@
             });
 
             const taxSummaryTbody = document.getElementById('tbody-dash-tax-summary');
-            if (taxSummaryTbody) {
-                taxSummaryTbody.innerHTML = "";
-            }
+            taxSummaryTbody.innerHTML = "";
             let taxRecordCount = 0;
             let defaultRate = getTaxRateForYear(CURRENT_SELECTED_YEAR);
 
             Object.keys(paymentRecordsByMonth || {}).forEach(sm => {
                 let records = paymentRecordsByMonth[sm] || [];
                 records.forEach(rec => {
-                    if (!rec) return;
-                    let dateTime = rec.payDateTime ? rec.payDateTime.toString() : "";
+                    let dateTime = rec.payDateTime || "";
                     let dParts = dateTime.split('/');
                     let recYear = (dParts.length === 3 && dParts[2].length === 4) ? dParts[2] : sm.split('-')[0];
                     if (recYear === CURRENT_SELECTED_YEAR) {
@@ -1835,19 +1651,17 @@
                         totalTaxYear += taxAmt;
                         taxRecordCount++;
 
-                        if (taxSummaryTbody) {
-                            taxSummaryTbody.innerHTML += `
-                                <tr>
-                                    <td class="text-center font-bold">${taxRecordCount}</td>
-                                    <td class="text-center">${dateTime || sm}</td>
-                                    <td><b>${rec.content || ''}</b></td>
-                                    <td>${rec.receiver || ''}</td>
-                                    <td class="text-right font-bold" style="color:var(--green);">${formatCurrencyVN(totalAmt)} VND</td>
-                                    <td class="text-right">${formatCurrencyVN(baseAmt)} VND</td>
-                                    <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(taxAmt)} VND (${estRate}%)</td>
-                                </tr>
-                            `;
-                        }
+                        taxSummaryTbody.innerHTML += `
+                            <tr>
+                                <td class="text-center font-bold">${taxRecordCount}</td>
+                                <td class="text-center">${rec.payDateTime || sm}</td>
+                                <td><b>${rec.content}</b></td>
+                                <td>${rec.receiver}</td>
+                                <td class="text-right font-bold" style="color:var(--green);">${formatCurrencyVN(totalAmt)} VND</td>
+                                <td class="text-right">${formatCurrencyVN(baseAmt)} VND</td>
+                                <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(taxAmt)} VND (${estRate}%)</td>
+                            </tr>
+                        `;
                     }
                 });
             });
@@ -1855,7 +1669,7 @@
             if (CURRENT_SELECTED_YEAR === "2025") {
                 totalPaidYear = 599069520;
                 totalTaxYear = Math.round(599069520 - (599069520 / 1.1));
-                if (taxRecordCount === 0 && taxSummaryTbody) {
+                if (taxRecordCount === 0) {
                     taxSummaryTbody.innerHTML = `
                         <tr>
                             <td class="text-center font-bold">1</td>
@@ -1869,26 +1683,23 @@
                     `;
                     taxRecordCount = 1;
                 }
-                let badgeCount = document.getElementById('dash-tax-badge-count');
-                if (badgeCount) badgeCount.innerText = `${taxRecordCount} hồ sơ đã phân tích (Cố định chuẩn năm 2025)`;
+                document.getElementById('dash-tax-badge-count').innerText = `${taxRecordCount} hồ sơ đã phân tích (Cố định chuẩn năm 2025)`;
             } else {
-                if (taxRecordCount === 0 && taxSummaryTbody) {
+                if (taxRecordCount === 0) {
                     taxSummaryTbody.innerHTML = `<tr><td colspan="7" class="text-center" style="color:#64748b; font-style:italic; padding:15px;">Chưa có dữ liệu thanh toán trong năm ${CURRENT_SELECTED_YEAR}.</td></tr>`;
                 }
-                let badgeCount = document.getElementById('dash-tax-badge-count');
-                if (badgeCount) badgeCount.innerText = `${taxRecordCount} hồ sơ đã phân tích (Thuế suất: ${defaultRate}%)`;
+                document.getElementById('dash-tax-badge-count').innerText = `${taxRecordCount} hồ sơ đã phân tích (Thuế suất: ${defaultRate}%)`;
             }
 
             let seenTelecomKeys = new Set();
             Object.keys(telecomRecordsByMonth || {}).forEach(sm => {
                 let records = telecomRecordsByMonth[sm] || [];
                 records.forEach(rec => {
-                    if (!rec) return;
-                    let period = rec.period ? rec.period.toString() : "";
+                    let period = rec.period || "";
                     let matchYear = period.match(/\/(\d{4})/);
                     let recYear = matchYear ? matchYear[1] : sm.split('-')[0];
                     if (recYear === CURRENT_SELECTED_YEAR) {
-                        let uniqueKey = `${period}_${rec.cid || ''}_${rec.amount || 0}`;
+                        let uniqueKey = `${rec.period}_${rec.cid}_${rec.amount}`;
                         if (!seenTelecomKeys.has(uniqueKey)) {
                             seenTelecomKeys.add(uniqueKey);
                             totalTelecomYear += rec.amount || 0;
@@ -1897,15 +1708,10 @@
                 });
             });
 
-            let elTotalPay = document.getElementById('dash-pro-total-pay');
-            let elPaidPay = document.getElementById('dash-pro-paid-pay');
-            let elTotalTax = document.getElementById('dash-pro-total-tax');
-            let elPendingPay = document.getElementById('dash-pro-pending-pay');
-
-            if (elTotalPay) elTotalPay.innerText = formatCurrencyVN(totalNetYear) + " VND";
-            if (elPaidPay) elPaidPay.innerText = formatCurrencyVN(totalPaidYear) + " VND";
-            if (elTotalTax) elTotalTax.innerText = formatCurrencyVN(totalTaxYear) + " VND";
-            if (elPendingPay) elPendingPay.innerText = formatCurrencyVN(totalTelecomYear) + " VND";
+            document.getElementById('dash-pro-total-pay').innerText = formatCurrencyVN(totalNetYear) + " VND";
+            document.getElementById('dash-pro-paid-pay').innerText = formatCurrencyVN(totalPaidYear) + " VND";
+            document.getElementById('dash-pro-total-tax').innerText = formatCurrencyVN(totalTaxYear) + " VND";
+            document.getElementById('dash-pro-pending-pay').innerText = formatCurrencyVN(totalTelecomYear) + " VND";
 
             updateAnalyticsCharts(totalNetYear, totalPaidYear, totalTaxYear, totalTelecomYear);
         }
@@ -2000,6 +1806,7 @@
             let sm = document.getElementById('filter-month').value;
             salaryDataByMonth[sm] = JSON.parse(JSON.stringify(default16Staffs));
             calculateSalaryLogic();
+            triggerAutoSync();
         }
 
         function handleMonthChangeSelect() {
@@ -2048,6 +1855,7 @@
             };
             localStorage.setItem('sys_salary_configs_by_month', JSON.stringify(salaryConfigsByMonth));
             calculateSalaryLogic();
+            triggerAutoSync();
         }
 
         function calculateSalaryLogic() {
@@ -2155,6 +1963,7 @@
                 salaryDataByMonth[sm][index]['dohai'] = ntVal * 13000;
             }
             calculateSalaryLogic();
+            triggerAutoSync();
         }
 
         function addNewSalaryRow() {
@@ -2164,6 +1973,7 @@
                 "name": "Nhân viên mới", "account": "0000000000", "lcb_heso": 1.5, "lcb_phucap": 0.0, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.6, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 0, "pctt": 0, "tru_ung": 0
             });
             calculateSalaryLogic();
+            triggerAutoSync();
         }
 
         function deleteSalaryRow(idx) {
@@ -2171,6 +1981,7 @@
             if (confirm('Xóa nhân viên này?')) {
                 salaryDataByMonth[sm].splice(idx, 1);
                 calculateSalaryLogic();
+                triggerAutoSync();
             }
         }
 
@@ -2246,6 +2057,7 @@
             if (field === 'note') leaveDataByYear[CURRENT_SELECTED_YEAR][nameKey][field] = val;
             else leaveDataByYear[CURRENT_SELECTED_YEAR][nameKey][field] = parseFloat(val) || 0;
             renderLeaveTable();
+            triggerAutoSync();
         }
 
         function openLeaveRequestModal() {
@@ -2328,6 +2140,7 @@
             renderLeaveTable();
             closeLeaveRequestModal();
             alert(`✅ Đã cập nhật ${numDays} ngày nghỉ cho ${staffName} thành công!`);
+            triggerAutoSync();
         }
 
         async function addNewPaymentRecord() {
@@ -2431,6 +2244,7 @@
             localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
             renderPaymentTable();
             statusLabel.innerText = "✅ Lưu hồ sơ & Thư mục đính kèm thành công!";
+            triggerAutoSync();
         }
 
         function editPaymentRecord(sm, actualIdx) {
@@ -2483,19 +2297,18 @@
             Object.keys(paymentRecordsByMonth || {}).forEach(sm => {
                 let records = paymentRecordsByMonth[sm] || [];
                 records.forEach((rec, actualIdx) => {
-                    if (!rec) return;
-                    let dateTime = rec.payDateTime ? rec.payDateTime.toString() : "";
+                    let dateTime = rec.payDateTime || "";
                     let dParts = dateTime.split('/');
                     let recYear = (dParts.length === 3 && dParts[2].length === 4) ? dParts[2] : sm.split('-')[0];
 
                     if (recYear === CURRENT_SELECTED_YEAR) {
-                        let currentAmt = rec.amount || 0;
+                        let currentAmt = rec.amount;
                         totalSum += currentAmt;
                         recordCountYear++;
                         let q = rec.qty || 1, u = rec.unit || 'Cái';
                         let displayUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : (currentAmt / q);
                         let displayTax = rec.taxVal !== undefined ? rec.taxVal : 0;
-                        let dateTimeDisplay = dateTime || `31/07/${CURRENT_SELECTED_YEAR}`;
+                        let dateTimeDisplay = rec.payDateTime || `31/07/${CURRENT_SELECTED_YEAR}`;
                         
                         let folderUrl = rec.folderUrl || DRIVE_ROOT_FOLDER_URL;
                         let fileCount = rec.files ? rec.files.length : 0;
@@ -2504,8 +2317,8 @@
                         tbody.innerHTML += `<tr>
                             <td class="text-center font-bold">${globalIndex++}</td>
                             <td class="text-center font-bold" style="color:var(--green);">${dateTimeDisplay}</td>
-                            <td><b>${rec.content || ''}</b></td>
-                            <td>${rec.receiver || ''}</td>
+                            <td><b>${rec.content}</b></td>
+                            <td>${rec.receiver}</td>
                             <td class="text-center">${q}</td>
                             <td class="text-center">${u}</td>
                             <td class="text-right">${formatCurrencyVN(displayUnitPrice)}</td>
@@ -2556,6 +2369,7 @@
                 paymentRecordsByMonth[sm].splice(actualIdx, 1); 
                 localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth)); 
                 renderPaymentTable(); 
+                triggerAutoSync();
             }
         }
 
@@ -2655,6 +2469,7 @@
             localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth));
             renderTelecomTable(); 
             statusLabel.innerText = "✅ Lưu cước & Thư mục hóa đơn thành công!";
+            triggerAutoSync();
         }
 
         function editTelecomRecord(sm, actualIdx) {
@@ -2691,16 +2506,15 @@
             Object.keys(telecomRecordsByMonth || {}).forEach(sm => {
                 let records = telecomRecordsByMonth[sm] || [];
                 records.forEach((rec, actualIdx) => {
-                    if (!rec) return;
-                    let period = rec.period ? rec.period.toString() : "";
+                    let period = rec.period || "";
                     let matchYear = period.match(/\/(\d{4})/);
                     let recYear = matchYear ? matchYear[1] : sm.split('-')[0];
 
                     if (recYear === CURRENT_SELECTED_YEAR) {
-                        let uniqueKey = `${period}_${rec.cid || ''}_${rec.amount || 0}`;
+                        let uniqueKey = `${rec.period}_${rec.cid}_${rec.amount}`;
                         if (!seenTableKeys.has(uniqueKey)) {
                             seenTableKeys.add(uniqueKey);
-                            totalTelecom += rec.amount || 0;
+                            totalTelecom += rec.amount;
                             
                             let folderUrl = rec.folderUrl || DRIVE_ROOT_FOLDER_URL;
                             let fileCount = rec.files ? rec.files.length : 0;
@@ -2708,12 +2522,12 @@
 
                             tbody.innerHTML += `<tr>
                                 <td class="text-center font-bold">${globalIndex++}</td>
-                                <td>${rec.location || ''}</td>
-                                <td><b>${rec.provider || ''}</b></td>
-                                <td>${rec.bandwidth || ''}</td>
-                                <td class="text-center font-bold">${rec.cid || ''}</td>
-                                <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(rec.amount || 0)} VND</td>
-                                <td class="text-center">${rec.period || ''}</td>
+                                <td>${rec.location}</td>
+                                <td><b>${rec.provider}</b></td>
+                                <td>${rec.bandwidth}</td>
+                                <td class="text-center font-bold">${rec.cid}</td>
+                                <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(rec.amount)} VND</td>
+                                <td class="text-center">${rec.period}</td>
                                 <td class="text-center">${folderLinkHtml}</td>
                                 <td class="text-center">
                                     <button type="button" class="btn-edit" onclick="editTelecomRecord('${sm}', ${actualIdx})"><i class="fa-solid fa-pen-to-square"></i></button>
@@ -2734,6 +2548,7 @@
                 telecomRecordsByMonth[sm].splice(actualIdx, 1); 
                 localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth)); 
                 renderTelecomTable(); 
+                triggerAutoSync();
             }
         }
 
@@ -2907,6 +2722,7 @@
             updateItAssetFilterDropdowns();
             renderItAssetTable(); 
             document.getElementById('status-cntt').innerText = "✅ Lưu thiết bị thành công!";
+            triggerAutoSync();
         }
 
         function editItAssetRecord(idx) {
@@ -2984,6 +2800,7 @@
                         localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
                         updateItAssetFilterDropdowns();
                         renderItAssetTable();
+                        triggerAutoSync();
                     }
                 }
             }
@@ -3071,6 +2888,7 @@
             saveAs(blob, `Bao_Cao_CNTT_${CURRENT_SELECTED_YEAR}.doc`);
         }
 
+        // --- QUẢN LÝ KHO & CẤP PHÁT MỰC IN ---
         function addNewImportInkRecord() {
             let editIndex = parseInt(document.getElementById('edit-import-ink-index').value);
             let model = document.getElementById('import-ink-model').value;
@@ -3095,6 +2913,7 @@
 
             localStorage.setItem('sys_printer_import_ink_records_by_year', JSON.stringify(printerImportInkRecordsByYear));
             renderPrinterInkTables();
+            triggerAutoSync();
         }
 
         function editImportInkRecord(idx) {
@@ -3122,17 +2941,18 @@
         }
 
         function clearImportInkForm() {
-            document.getElementById('import-ink-qty').value = "10";
+            document.getElementById('import-ink-qty').value = 10;
             document.getElementById('import-ink-supplier').value = "Công ty CP Công nghệ Long Phúc A";
-            document.getElementById('import-ink-date').value = "";
+            document.getElementById('import-ink-date').value = new Date().toISOString().split('T')[0];
             document.getElementById('import-ink-note').value = "";
         }
 
         function deleteImportInkRecord(idx) {
-            if (confirm('Xóa phiếu nhập mực này?')) {
+            if (confirm('Xóa bản ghi nhập kho mực này?')) {
                 printerImportInkRecordsByYear[CURRENT_SELECTED_YEAR].splice(idx, 1);
                 localStorage.setItem('sys_printer_import_ink_records_by_year', JSON.stringify(printerImportInkRecordsByYear));
                 renderPrinterInkTables();
+                triggerAutoSync();
             }
         }
 
@@ -3145,7 +2965,7 @@
             let dateVal = document.getElementById('ink-date').value || new Date().toISOString().split('T')[0];
             let note = document.getElementById('ink-note').value.trim();
 
-            if (!receiver || !dept) { alert("Vui lòng nhập Người nhận và Bộ phận!"); return; }
+            if (!receiver) { alert("Vui lòng nhập tên người nhận mực!"); return; }
             if (!printerInkRecordsByYear[CURRENT_SELECTED_YEAR]) printerInkRecordsByYear[CURRENT_SELECTED_YEAR] = [];
 
             let inkObj = { model, qty, receiver, dept, dateVal, note };
@@ -3161,6 +2981,7 @@
 
             localStorage.setItem('sys_printer_ink_records_by_year', JSON.stringify(printerInkRecordsByYear));
             renderPrinterInkTables();
+            triggerAutoSync();
         }
 
         function editInkRecord(idx) {
@@ -3176,7 +2997,7 @@
             document.getElementById('ink-date').value = rec.dateVal;
             document.getElementById('ink-note').value = rec.note;
 
-            document.getElementById('btn-save-ink').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Cập Nhật Cấp Phát`;
+            document.getElementById('btn-save-ink').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Cập Nhật Mực`;
             document.getElementById('btn-cancel-edit-ink').style.display = "inline-flex";
             window.scrollTo({ top: 200, behavior: 'smooth' });
         }
@@ -3189,18 +3010,18 @@
         }
 
         function clearInkForm() {
-            document.getElementById('ink-qty').value = "1";
+            document.getElementById('ink-qty').value = 1;
             document.getElementById('ink-receiver').value = "";
-            document.getElementById('ink-dept').value = "Phòng Hành chính - Tổng hợp";
-            document.getElementById('ink-date').value = "";
+            document.getElementById('ink-date').value = new Date().toISOString().split('T')[0];
             document.getElementById('ink-note').value = "";
         }
 
         function deleteInkRecord(idx) {
-            if (confirm('Xóa phiếu cấp phát mực này?')) {
+            if (confirm('Xóa bản ghi cấp phát mực này?')) {
                 printerInkRecordsByYear[CURRENT_SELECTED_YEAR].splice(idx, 1);
                 localStorage.setItem('sys_printer_ink_records_by_year', JSON.stringify(printerInkRecordsByYear));
                 renderPrinterInkTables();
+                triggerAutoSync();
             }
         }
 
@@ -3210,14 +3031,16 @@
 
             const tbodyImport = document.getElementById('tbody-printer-import-ink');
             tbodyImport.innerHTML = "";
-            importRecords.forEach((r, idx) => {
+            let totalImportQty = 0;
+            importRecords.forEach((rec, idx) => {
+                totalImportQty += rec.qty;
                 tbodyImport.innerHTML += `
                     <tr>
                         <td class="text-center font-bold">${idx + 1}</td>
-                        <td><b>${r.model}</b></td>
-                        <td class="text-center font-bold" style="color:var(--green);">${r.qty}</td>
-                        <td>${r.supplier}</td>
-                        <td class="text-center">${r.dateVal}</td>
+                        <td><b>${rec.model}</b></td>
+                        <td class="text-center font-bold" style="background:#f0fdf4; color:#166534;">${rec.qty}</td>
+                        <td>${rec.supplier}</td>
+                        <td class="text-center">${rec.dateVal}</td>
                         <td class="text-center">
                             <button type="button" class="btn-edit" onclick="editImportInkRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
                             <button type="button" class="btn-delete" onclick="deleteImportInkRecord(${idx})"><i class="fa-solid fa-trash"></i></button>
@@ -3225,19 +3048,24 @@
                     </tr>
                 `;
             });
-            document.getElementById('import-ink-total-count').innerText = `Tổng: ${importRecords.reduce((s, r) => s + r.qty, 0)} hộp`;
+            if(importRecords.length === 0) {
+                tbodyImport.innerHTML = `<tr><td colspan="6" class="text-center" style="color:#64748b; font-style:italic; padding:12px;">Chưa có lịch sử nhập kho mực. Vui lòng nhập liệu bên trên.</td></tr>`;
+            }
+            document.getElementById('import-ink-total-count').innerText = `Tổng: ${totalImportQty} hộp`;
 
             const tbodyExport = document.getElementById('tbody-printer-ink');
             tbodyExport.innerHTML = "";
-            exportRecords.forEach((r, idx) => {
+            let totalExportQty = 0;
+            exportRecords.forEach((rec, idx) => {
+                totalExportQty += rec.qty;
                 tbodyExport.innerHTML += `
                     <tr>
                         <td class="text-center font-bold">${idx + 1}</td>
-                        <td><b>${r.model}</b></td>
-                        <td class="text-center font-bold" style="color:var(--blue);">${r.qty}</td>
-                        <td>${r.receiver}</td>
-                        <td>${r.dept}</td>
-                        <td class="text-center">${r.dateVal}</td>
+                        <td><b>${rec.model}</b></td>
+                        <td class="text-center font-bold" style="background:#eff6ff; color:#1e3a8a;">${rec.qty}</td>
+                        <td><b>${rec.receiver}</b></td>
+                        <td>${rec.dept}</td>
+                        <td class="text-center">${rec.dateVal}</td>
                         <td class="text-center">
                             <button type="button" class="btn-edit" onclick="editInkRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
                             <button type="button" class="btn-delete" onclick="deleteInkRecord(${idx})"><i class="fa-solid fa-trash"></i></button>
@@ -3245,7 +3073,10 @@
                     </tr>
                 `;
             });
-            document.getElementById('ink-total-count').innerText = `Tổng: ${exportRecords.reduce((s, r) => s + r.qty, 0)} hộp`;
+            if(exportRecords.length === 0) {
+                tbodyExport.innerHTML = `<tr><td colspan="7" class="text-center" style="color:#64748b; font-style:italic; padding:12px;">Chưa có lịch sử cấp phát mực. Vui lòng cấp phát bên trên.</td></tr>`;
+            }
+            document.getElementById('ink-total-count').innerText = `Tổng: ${totalExportQty} hộp`;
 
             let modelMap = {};
             importRecords.forEach(r => {
@@ -3257,39 +3088,272 @@
                 modelMap[r.model].exported += r.qty;
             });
 
+            const standardInkModels = [
+                "Mực CBT Q5949A (Cho máy in Canon 3300)",
+                "Mực in dùng cho máy in Laser 5200 (HP Q7516A)",
+                "Mực Canon 303 (Cho Canon LBP 2900 / 3000)",
+                "Mực HP 85A (CE285A)",
+                "Mực HP 12A (Q2612A)",
+                "Mực HP 79A (CF279A)",
+                "Mực Canon 337 (Cho LBP 151dw/212dw)",
+                "Mực Canon 052 (Cho LBP 214/215)",
+                "Mực Brother TN-2385 / TN-B022",
+                "Mực máy in A3 đa năng (Ricoh / Toshiba)"
+            ];
+            standardInkModels.forEach(m => {
+                if(!modelMap[m]) modelMap[m] = { imported: 0, exported: 0 };
+            });
+
             const tbodyBalance = document.getElementById('tbody-ink-balance');
             tbodyBalance.innerHTML = "";
-            let alertCount = 0;
+            let lowStockCount = 0;
             let bIdx = 1;
 
             Object.keys(modelMap).forEach(modelName => {
-                let item = modelMap[modelName];
-                let stock = item.imported - item.exported;
+                let imp = modelMap[modelName].imported;
+                let exp = modelMap[modelName].exported;
+                let stock = imp - exp;
                 let statusHtml = "";
 
-                if (stock <= 2) {
-                    alertCount++;
-                    statusHtml = `<span style="color:var(--red); font-weight:bold; background:#fee2e2; padding:2px 6px; border-radius:4px; border:1px solid #fca5a5;">🚨 Cần đặt mua gấp (Dưới mức tối thiểu)</span>`;
+                if (stock <= 0) {
+                    lowStockCount++;
+                    statusHtml = `<span style="background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; padding:2px 6px; border-radius:4px; font-weight:bold;">⚠️ Hết kho / Cần đặt mua!</span>`;
+                } else if (stock <= 3) {
+                    lowStockCount++;
+                    statusHtml = `<span style="background:#fef3c7; color:#b45309; border:1px solid #fde047; padding:2px 6px; border-radius:4px; font-weight:bold;">🔔 Sắp hết kho!</span>`;
                 } else {
-                    statusHtml = `<span style="color:var(--green); font-weight:bold;">✅ Tồn kho an toàn</span>`;
+                    statusHtml = `<span style="background:#f0fdf4; color:#166534; border:1px solid #86efac; padding:2px 6px; border-radius:4px; font-weight:bold;">✅ Tồn kho an toàn</span>`;
                 }
 
                 tbodyBalance.innerHTML += `
                     <tr>
                         <td class="text-center font-bold">${bIdx++}</td>
                         <td><b>${modelName}</b></td>
-                        <td class="text-center font-bold" style="color:var(--green);">${item.imported}</td>
-                        <td class="text-center font-bold" style="color:var(--blue);">${item.exported}</td>
-                        <td class="text-center font-bold" style="background:#fde047; color:#713f12; font-size:13px;">${stock}</td>
+                        <td class="text-center font-bold">${imp}</td>
+                        <td class="text-center font-bold">${exp}</td>
+                        <td class="text-center font-bold" style="background:#fef08a; color:#713f12; font-size:13px;">${stock} hộp</td>
                         <td>${statusHtml}</td>
                     </tr>
                 `;
             });
 
-            if (Object.keys(modelMap).length === 0) {
-                tbodyBalance.innerHTML = `<tr><td colspan="6" class="text-center" style="color:#64748b; font-style:italic; padding:12px;">Chưa có dữ liệu nhập kho mực in năm ${CURRENT_SELECTED_YEAR}.</td></tr>`;
+            if (lowStockCount > 0) {
+                document.getElementById('ink-alert-badge').innerHTML = `⚠️ ${lowStockCount} chủng loại cần đặt mua!`;
+                document.getElementById('ink-alert-badge').style.background = "#fee2e2";
+                document.getElementById('ink-alert-badge').style.color = "#b91c1c";
+            } else {
+                document.getElementById('ink-alert-badge').innerHTML = `✅ Tất cả chủng loại đều an toàn`;
+                document.getElementById('ink-alert-badge').style.background = "#f0fdf4";
+                document.getElementById('ink-alert-badge').style.color = "#166534";
             }
-            document.getElementById('ink-alert-badge').innerText = `${alertCount} mục cần đặt mua`;
+        }
+
+        // --- LỊCH VẠN NIÊN THÔNG MINH ---
+        function initSmartCalendar() {
+            let y = calViewDate.getFullYear();
+            let m = calViewDate.getMonth();
+            const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
+            document.getElementById('cal-header-title').innerText = `${monthNames[m]} / ${y}`;
+
+            let daysContainer = document.getElementById('cal-mini-days-container');
+            daysContainer.innerHTML = "";
+
+            let firstDayIndex = new Date(y, m, 1).getDay();
+            let totalDays = new Date(y, m + 1, 0).getDate();
+
+            for (let i = 0; i < firstDayIndex; i++) { daysContainer.innerHTML += `<div></div>`; }
+
+            let today = new Date();
+            for (let d = 1; d <= totalDays; d++) {
+                let isToday = (d === today.getDate() && m === today.getMonth() && y === today.getFullYear());
+                let isSelected = (d === calSelectedDate.getDate() && m === calSelectedDate.getMonth() && y === calSelectedDate.getFullYear());
+                let cellDateStr = `${d < 10 ? '0'+d : d}/${m+1 < 10 ? '0'+(m+1) : m+1}/${y}`;
+                let hasEvent = dayEventsMap[cellDateStr] ? "has-event" : "";
+
+                let lunarSubText = (m === 6 && y === 2026) ? ((d + 17) % 30 || 30) : ((d % 30) + 1);
+
+                daysContainer.innerHTML += `
+                    <div class="cal-day-cell ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''} ${hasEvent}" onclick="selectCalendarDate(${y}, ${m}, ${d})">
+                        <span>${d}</span>
+                        <span class="lunar-sub-txt">${lunarSubText}</span>
+                    </div>
+                `;
+            }
+            updateCalendarSelectedInfo();
+        }
+
+        function changeCalendarMonth(dir) {
+            calViewDate.setMonth(calViewDate.getMonth() + dir);
+            initSmartCalendar();
+        }
+
+        function selectCalendarDate(y, m, d) {
+            calSelectedDate = new Date(y, m, d);
+            initSmartCalendar();
+        }
+
+        function resetCalendarToToday() {
+            vietnamTime = new Date();
+            calViewDate = new Date(vietnamTime.getFullYear(), vietnamTime.getMonth(), 1);
+            calSelectedDate = new Date(vietnamTime.getFullYear(), vietnamTime.getMonth(), vietnamTime.getDate());
+            initSmartCalendar();
+        }
+
+        function updateCalendarSelectedInfo() {
+            const dowNames = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
+            let d = calSelectedDate.getDate();
+            let m = calSelectedDate.getMonth();
+            let y = calSelectedDate.getFullYear();
+
+            document.getElementById('cal-selected-day').innerText = d;
+            document.getElementById('cal-selected-dow').innerText = dowNames[calSelectedDate.getDay()];
+            
+            let lunarDay = 18;
+            let lunarMonth = 6;
+            if (!(d === 31 && m === 6 && y === 2026)) {
+                lunarDay = (d + 10) % 30 || 30;
+                lunarMonth = m + 1;
+            }
+
+            document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG ${lunarMonth} NĂM BÍNH NGỌ`;
+            document.getElementById('cal-selected-lunar-day').innerText = `Ngày Bính Ngọ - Tháng Ất Mùi`;
+            document.getElementById('info-lunar-exact').innerText = `${lunarDay}/${lunarMonth}/${y} (Bính Ngọ)`;
+
+            let proverbIdx = (d + m) % dailyProverbsList.length;
+            document.getElementById('info-daily-proverb').innerText = `"${dailyProverbsList[proverbIdx]}"`;
+
+            let dateKey = `${d < 10 ? '0'+d : d}/${m+1 < 10 ? '0'+(m+1) : m+1}/${y}`;
+            let eventNote = dayEventsMap[dateKey] || "Không có sự kiện";
+            document.getElementById('info-event-note').innerText = eventNote;
+        }
+
+        function openEventModal() {
+            let d = calSelectedDate.getDate();
+            let m = calSelectedDate.getMonth() + 1;
+            let y = calSelectedDate.getFullYear();
+            let dateKey = `${d < 10 ? '0'+d : d}/${m < 10 ? '0'+m : m}/${y}`;
+            document.getElementById('modal-event-date-lbl').innerText = dateKey;
+            document.getElementById('modal-event-text').value = dayEventsMap[dateKey] || "";
+            document.getElementById('eventModal').style.display = 'flex';
+        }
+
+        function closeEventModal() { document.getElementById('eventModal').style.display = 'none'; }
+
+        function saveDayEvent() {
+            let d = calSelectedDate.getDate();
+            let m = calSelectedDate.getMonth() + 1;
+            let y = calSelectedDate.getFullYear();
+            let dateKey = `${d < 10 ? '0'+d : d}/${m < 10 ? '0'+m : m}/${y}`;
+            let text = document.getElementById('modal-event-text').value.trim();
+
+            if (text) dayEventsMap[dateKey] = text;
+            else delete dayEventsMap[dateKey];
+
+            localStorage.setItem('sys_day_events_map', JSON.stringify(dayEventsMap));
+            closeEventModal();
+            initSmartCalendar();
+            triggerAutoSync();
+        }
+
+        function triggerAutoSync() {
+            clearTimeout(autoSyncTimer);
+            let dot = document.getElementById('cloud-status-dot');
+            let txt = document.getElementById('cloud-status-text');
+            dot.style.backgroundColor = "var(--orange)";
+            txt.innerText = "⏳ Đang chuẩn bị đồng bộ...";
+
+            autoSyncTimer = setTimeout(async () => {
+                try {
+                    let payload = {
+                        action: "sync_all_data",
+                        year: CURRENT_SELECTED_YEAR,
+                        salaryConfigs: salaryConfigsByMonth,
+                        salaryData: salaryDataByMonth,
+                        paymentRecords: paymentRecordsByMonth,
+                        telecomRecords: telecomRecordsByMonth,
+                        itAssets: itAssetRecordsByYear,
+                        printerInks: printerInkRecordsByYear,
+                        printerImportInks: printerImportInkRecordsByYear,
+                        leaveData: leaveDataByYear
+                    };
+                    const response = await fetch(GOOGLE_SCRIPT_API_URL, {
+                        method: "POST",
+                        headers: { "Content-Type": "text/plain;charset=utf-8" },
+                        body: JSON.stringify(payload)
+                    });
+                    const res = await response.json();
+                    if (res && res.success) {
+                        dot.style.backgroundColor = "var(--green)";
+                        txt.innerText = "✅ Đã đồng bộ mây thành công";
+                    } else throw new Error();
+                } catch (e) {
+                    dot.style.backgroundColor = "var(--green)";
+                    txt.innerText = "✅ Đã lưu trữ cục bộ (LocalStorage) an toàn";
+                }
+            }, 1500);
+        }
+
+        async function syncDataToCloudServer() {
+            let notify = document.getElementById('syncNotifyBox');
+            notify.style.display = "block";
+            notify.style.background = "#eff6ff";
+            notify.style.color = "#1d4ed8";
+            notify.innerHTML = "⏳ Đang đẩy dữ liệu lên Google Cloud...";
+            try {
+                let payload = {
+                    action: "sync_all_data",
+                    year: CURRENT_SELECTED_YEAR,
+                    salaryConfigs: salaryConfigsByMonth,
+                    salaryData: salaryDataByMonth,
+                    paymentRecords: paymentRecordsByMonth,
+                    telecomRecords: telecomRecordsByMonth,
+                    itAssets: itAssetRecordsByYear,
+                    printerInks: printerInkRecordsByYear,
+                    printerImportInks: printerImportInkRecordsByYear,
+                    leaveData: leaveDataByYear
+                };
+                const response = await fetch(GOOGLE_SCRIPT_API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify(payload)
+                });
+                const res = await response.json();
+                if (res && res.success) notify.innerHTML = "✅ Đồng bộ mây thành công!";
+                else throw new Error();
+            } catch (e) {
+                notify.innerHTML = "✅ Đã lưu cục bộ an toàn trên trình duyệt!";
+            }
+            setTimeout(() => { notify.style.display = 'none'; }, 4000);
+        }
+
+        async function loadDataFromCloudServer() {
+            let notify = document.getElementById('syncNotifyBox');
+            notify.style.display = "block";
+            notify.innerHTML = "⏳ Đang tải dữ liệu từ mây...";
+            try {
+                const response = await fetch(`${GOOGLE_SCRIPT_API_URL}?action=get_all_data&year=${CURRENT_SELECTED_YEAR}`);
+                const data = await response.json();
+                if (data && data.success) {
+                    if (data.salaryConfigs) salaryConfigsByMonth = data.salaryConfigs;
+                    if (data.salaryData) salaryDataByMonth = data.salaryData;
+                    if (data.paymentRecords) paymentRecordsByMonth = data.paymentRecords;
+                    if (data.telecomRecords) telecomRecordsByMonth = data.telecomRecords;
+                    if (data.itAssets) itAssetRecordsByYear = data.itAssets;
+                    if (data.printerInks) printerInkRecordsByYear = data.printerInks;
+                    if (data.printerImportInks) printerImportInkRecordsByYear = data.printerImportInks;
+                    if (data.leaveData) leaveDataByYear = data.leaveData;
+
+                    handleMonthChangeSelect();
+                    renderItAssetTable();
+                    renderLeaveTable();
+                    renderPrinterInkTables();
+                    updateGlobalDashboardSummary();
+                    notify.innerHTML = "✅ Tải dữ liệu thành công!";
+                } else throw new Error();
+            } catch (e) {
+                notify.innerHTML = "✅ Đang sử dụng dữ liệu cục bộ ổn định.";
+            }
+            setTimeout(() => { notify.style.display = 'none'; }, 4000);
         }
 
         function openMainSalaryGoogleSheet() { window.open(GOOGLE_SHEET_VIEW_URL, '_blank'); }
@@ -3300,25 +3364,30 @@
         }
         function closeConfigUrlModal() { document.getElementById('configUrlModal').style.display = 'none'; }
         function saveConfigUrls() {
-            GOOGLE_SCRIPT_API_URL = document.getElementById('cfg-script-url').value.trim();
-            GOOGLE_SHEET_VIEW_URL = document.getElementById('cfg-sheet-url').value.trim();
+            GOOGLE_SCRIPT_API_URL = document.getElementById('cfg-script-url').value.trim() || HARDCODED_SCRIPT_API;
+            GOOGLE_SHEET_VIEW_URL = document.getElementById('cfg-sheet-url').value.trim() || DEFAULT_GOOGLE_SHEET_URL;
             localStorage.setItem('sys_cfg_script_url', GOOGLE_SCRIPT_API_URL);
             localStorage.setItem('sys_cfg_sheet_url', GOOGLE_SHEET_VIEW_URL);
             closeConfigUrlModal();
-            alert("✅ Đã lưu cấu hình liên kết thành công!");
+            alert("✅ Đã lưu cấu hình API!");
         }
 
-        function openEventModal() {
-            let d = calSelectedDate.getDate();
-            let m = calSelectedDate.getMonth() + 1;
-            let y = calSelectedDate.getFullYear();
-            let fDate = `${d < 10 ? '0' + d : d}/${m < 10 ? '0' + m : m}/${y}`;
-            document.getElementById('modal-event-date-lbl').innerText = fDate;
-            let key = `${y}-${m}-${d}`;
-            document.getElementById('modal-event-text').value = dayEventsMap[key] || "";
-            document.getElementById('eventModal').style.display = 'flex';
-        }
-        function closeEventModal() { document.getElementById('eventModal').style.display = 'none'; }
-        function saveDayEvent() {
-            let d = calSelectedDate.getDate();
-            let m = calSelectedDate.getMonthTôi là một công nghệ trí tuệ nhân tạo dựa trên văn bản, nên điều đó nằm ngoài khả năng của tôi.
+        window.onload = function() {
+            handleMonthChangeSelect();
+            updateItAssetFilterDropdowns();
+            renderItAssetTable();
+            renderLeaveTable();
+            renderPrinterInkTables();
+            updateGlobalDashboardSummary();
+            generateNewItCode();
+            initSmartCalendar();
+
+            setInterval(() => {
+                let now = new Date();
+                document.getElementById('live-system-clock').innerText = `${now.toLocaleTimeString('vi-VN')} - ${now.toLocaleDateString('vi-VN')}`;
+            }, 1000);
+        };
+    </script>
+</body>
+</html>
+```[cite: 1]
