@@ -3551,48 +3551,43 @@
         // Định nghĩa hàm openConfigUrlModal để khớp trực tiếp với nút bấm trên HTML
         // Hàm mở bảng cấu hình: tự động nạp dữ liệu cũ từ localStorage
         // Hàm mở bảng cấu hình: tự động nạp dữ liệu cũ
+        // ... (các hàm xử lý phía trên của bạn)
+
+        // >>> BẠN HÃY DÁN ĐOẠN CODE MỚI NÀY VÀO ĐÂY (THAY THẾ PHẦN CẤU HÌNH CŨ) <<<
+        const FIXED_GOOGLE_SCRIPT_API_URL = "https://script.google.com/macros/s/AKfycbxcz6ynaYF_FmckDC1p4EPCkVHMMvCe8rwcbAjNV0BQeVNdQx9j1UzHpOo0Z17T0fGb/exec";
+        const FIXED_GOOGLE_SHEETS_URL = "https://docs.google.com/spreadsheets/d/1MM2VqBw1EnZ7YFdpRW-So9_AQgR99YI_7XOAHgUULns/edit?gid=1529354527#gid=1529354527";
+
         function openConfigUrlModal() {
             let modal = document.getElementById('configUrlModal');
             if (modal) {
                 modal.style.display = 'flex';
-                
-                // Lấy danh sách các ô input trong modal
                 let inputs = modal.querySelectorAll('input');
-                if (inputs.length >= 1 && typeof GOOGLE_SCRIPT_API_URL !== 'undefined') {
-                    inputs[0].value = localStorage.getItem('saved_api_url') || GOOGLE_SCRIPT_API_URL || '';
+                if (inputs.length >= 1) {
+                    inputs[0].value = localStorage.getItem('saved_api_url') || FIXED_GOOGLE_SCRIPT_API_URL;
                 }
                 if (inputs.length >= 2) {
-                    inputs[1].value = localStorage.getItem('saved_sheet_url') || '';
+                    inputs[1].value = localStorage.getItem('saved_sheet_url') || FIXED_GOOGLE_SHEETS_URL;
                 }
             }
         }
 
-        // Hàm đóng bảng cấu hình
         function closeConfigUrlModal() {
             let modal = document.getElementById('configUrlModal');
-            if (modal) {
-                modal.style.display = 'none';
-            }
+            if (modal) { modal.style.display = 'none'; }
         }
 
-        // Hàm lưu cấu hình vào trình duyệt
         function saveConfigUrlModal() {
             let modal = document.getElementById('configUrlModal');
             if (modal) {
                 let inputs = modal.querySelectorAll('input');
-                if (inputs.length >= 1) {
-                    localStorage.setItem('saved_api_url', inputs[0].value);
-                }
-                if (inputs.length >= 2) {
-                    localStorage.setItem('saved_sheet_url', inputs[1].value);
-                }
+                if (inputs.length >= 1) { localStorage.setItem('saved_api_url', inputs[0].value); }
+                if (inputs.length >= 2) { localStorage.setItem('saved_sheet_url', inputs[1].value); }
                 alert("Đã lưu cấu hình liên kết thành công!");
                 closeConfigUrlModal();
                 location.reload();
             }
         }
 
-        // Gắn sự kiện trực tiếp cho nút Đóng và nút Lưu ngay khi trang tải xong
         document.addEventListener('DOMContentLoaded', () => {
             let modal = document.getElementById('configUrlModal');
             if (modal) {
@@ -3600,51 +3595,9 @@
                 buttons.forEach(btn => {
                     let text = btn.innerText.trim();
                     if (text.includes('Đóng')) {
-                        btn.onclick = function(e) {
-                            e.preventDefault();
-                            closeConfigUrlModal();
-                        };
+                        btn.onclick = function(e) { e.preventDefault(); closeConfigUrlModal(); };
                     } else if (text.includes('Lưu')) {
-                        btn.onclick = function(e) {
-                            e.preventDefault();
-                            saveConfigUrlModal();
-                        };
-                    }
-                });
-            }
-        });
-                
-                // Tự động điền dữ liệu đã lưu trước đó vào các ô input
-                let apiInput = modal.querySelector('input[type="text"], input:nth-of-type(1)');
-                let sheetInput = modal.querySelectorAll('input[type="text"], input')[1];
-                
-                if (apiInput && typeof GOOGLE_SCRIPT_API_URL !== 'undefined') {
-                    apiInput.value = localStorage.getItem('saved_api_url') || GOOGLE_SCRIPT_API_URL || '';
-                }
-                if (sheetInput) {
-                    sheetInput.value = localStorage.getItem('saved_sheet_url') || '';
-                }
-            } else {
-                alert("Không tìm thấy khung cấu hình (configUrlModal) trên giao diện.");
-            }
-        }
-
-        // Hàm đóng bảng cấu hình
-        function closeConfigUrlModal() {
-            let modal = document.getElementById('configUrlModal');
-            if (modal) {
-                modal.style.display = 'none';
-            }
-        }
-
-        // Tự động gán sự kiện cho nút Đóng và nút Lưu ngay khi tải trang
-        document.addEventListener('DOMContentLoaded', () => {
-            let modal = document.getElementById('configUrlModal');
-            if (modal) {
-                let closeBtns = modal.querySelectorAll('button, .btn-close');
-                closeBtns.forEach(btn => {
-                    if (btn.innerText && (btn.innerText.includes('Đóng') || btn.innerText.includes('Hủy'))) {
-                        btn.onclick = function() { closeConfigUrlModal(); };
+                        btn.onclick = function(e) { e.preventDefault(); saveConfigUrlModal(); };
                     }
                 });
             }
