@@ -1624,14 +1624,17 @@
             });
 
             const taxSummaryTbody = document.getElementById('tbody-dash-tax-summary');
-            taxSummaryTbody.innerHTML = "";
+            if (taxSummaryTbody) {
+                taxSummaryTbody.innerHTML = "";
+            }
             let taxRecordCount = 0;
             let defaultRate = getTaxRateForYear(CURRENT_SELECTED_YEAR);
 
             Object.keys(paymentRecordsByMonth || {}).forEach(sm => {
                 let records = paymentRecordsByMonth[sm] || [];
                 records.forEach(rec => {
-                    let dateTime = rec.payDateTime || "";
+                    if (!rec) return;
+                    let dateTime = rec.payDateTime ? rec.payDateTime.toString() : "";
                     let dParts = dateTime.split('/');
                     let recYear = (dParts.length === 3 && dParts[2].length === 4) ? dParts[2] : sm.split('-')[0];
                     if (recYear === CURRENT_SELECTED_YEAR) {
@@ -1651,17 +1654,19 @@
                         totalTaxYear += taxAmt;
                         taxRecordCount++;
 
-                        taxSummaryTbody.innerHTML += `
-                            <tr>
-                                <td class="text-center font-bold">${taxRecordCount}</td>
-                                <td class="text-center">${rec.payDateTime || sm}</td>
-                                <td><b>${rec.content}</b></td>
-                                <td>${rec.receiver}</td>
-                                <td class="text-right font-bold" style="color:var(--green);">${formatCurrencyVN(totalAmt)} VND</td>
-                                <td class="text-right">${formatCurrencyVN(baseAmt)} VND</td>
-                                <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(taxAmt)} VND (${estRate}%)</td>
-                            </tr>
-                        `;
+                        if (taxSummaryTbody) {
+                            taxSummaryTbody.innerHTML += `
+                                <tr>
+                                    <td class="text-center font-bold">${taxRecordCount}</td>
+                                    <td class="text-center">${dateTime || sm}</td>
+                                    <td><b>${rec.content || ''}</b></td>
+                                    <td>${rec.receiver || ''}</td>
+                                    <td class="text-right font-bold" style="color:var(--green);">${formatCurrencyVN(totalAmt)} VND</td>
+                                    <td class="text-right">${formatCurrencyVN(baseAmt)} VND</td>
+                                    <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(taxAmt)} VND (${estRate}%)</td>
+                                </tr>
+                            `;
+                        }
                     }
                 });
             });
@@ -1669,7 +1674,7 @@
             if (CURRENT_SELECTED_YEAR === "2025") {
                 totalPaidYear = 599069520;
                 totalTaxYear = Math.round(599069520 - (599069520 / 1.1));
-                if (taxRecordCount === 0) {
+                if (taxRecordCount === 0 && taxSummaryTbody) {
                     taxSummaryTbody.innerHTML = `
                         <tr>
                             <td class="text-center font-bold">1</td>
@@ -1683,23 +1688,26 @@
                     `;
                     taxRecordCount = 1;
                 }
-                document.getElementById('dash-tax-badge-count').innerText = `${taxRecordCount} hồ sơ đã phân tích (Cố định chuẩn năm 2025)`;
+                let badgeCount = document.getElementById('dash-tax-badge-count');
+                if (badgeCount) badgeCount.innerText = `${taxRecordCount} hồ sơ đã phân tích (Cố định chuẩn năm 2025)`;
             } else {
-                if (taxRecordCount === 0) {
+                if (taxRecordCount === 0 && taxSummaryTbody) {
                     taxSummaryTbody.innerHTML = `<tr><td colspan="7" class="text-center" style="color:#64748b; font-style:italic; padding:15px;">Chưa có dữ liệu thanh toán trong năm ${CURRENT_SELECTED_YEAR}.</td></tr>`;
                 }
-                document.getElementById('dash-tax-badge-count').innerText = `${taxRecordCount} hồ sơ đã phân tích (Thuế suất: ${defaultRate}%)`;
+                let badgeCount = document.getElementById('dash-tax-badge-count');
+                if (badgeCount) badgeCount.innerText = `${taxRecordCount} hồ sơ đã phân tích (Thuế suất: ${defaultRate}%)`;
             }
 
             let seenTelecomKeys = new Set();
             Object.keys(telecomRecordsByMonth || {}).forEach(sm => {
                 let records = telecomRecordsByMonth[sm] || [];
                 records.forEach(rec => {
-                    let period = rec.period || "";
+                    if (!rec) return;
+                    let period = rec.period ? rec.period.toString() : "";
                     let matchYear = period.match(/\/(\d{4})/);
                     let recYear = matchYear ? matchYear[1] : sm.split('-')[0];
                     if (recYear === CURRENT_SELECTED_YEAR) {
-                        let uniqueKey = `${rec.period}_${rec.cid}_${rec.amount}`;
+                        let uniqueKey = `${period}_${rec.cid || ''}_${rec.amount || 0}`;
                         if (!seenTelecomKeys.has(uniqueKey)) {
                             seenTelecomKeys.add(uniqueKey);
                             totalTelecomYear += rec.amount || 0;
@@ -1708,10 +1716,15 @@
                 });
             });
 
-            document.getElementById('dash-pro-total-pay').innerText = formatCurrencyVN(totalNetYear) + " VND";
-            document.getElementById('dash-pro-paid-pay').innerText = formatCurrencyVN(totalPaidYear) + " VND";
-            document.getElementById('dash-pro-total-tax').innerText = formatCurrencyVN(totalTaxYear) + " VND";
-            document.getElementById('dash-pro-pending-pay').innerText = formatCurrencyVN(totalTelecomYear) + " VND";
+            let elTotalPay = document.getElementById('dash-pro-total-pay');
+            let elPaidPay = document.getElementById('dash-pro-paid-pay');
+            let elTotalTax = document.getElementById('dash-pro-total-tax');
+            let elPendingPay = document.getElementById('dash-pro-pending-pay');
+
+            if (elTotalPay) elTotalPay.innerText = formatCurrencyVN(totalNetYear) + " VND";
+            if (elPaidPay) elPaidPay.innerText = formatCurrencyVN(totalPaidYear) + " VND";
+            if (elTotalTax) elTotalTax.innerText = formatCurrencyVN(totalTaxYear) + " VND";
+            if (elPendingPay) elPendingPay.innerText = formatCurrencyVN(totalTelecomYear) + " VND";
 
             updateAnalyticsCharts(totalNetYear, totalPaidYear, totalTaxYear, totalTelecomYear);
         }
@@ -2297,18 +2310,19 @@
             Object.keys(paymentRecordsByMonth || {}).forEach(sm => {
                 let records = paymentRecordsByMonth[sm] || [];
                 records.forEach((rec, actualIdx) => {
-                    let dateTime = rec.payDateTime || "";
+                    if (!rec) return;
+                    let dateTime = rec.payDateTime ? rec.payDateTime.toString() : "";
                     let dParts = dateTime.split('/');
                     let recYear = (dParts.length === 3 && dParts[2].length === 4) ? dParts[2] : sm.split('-')[0];
 
                     if (recYear === CURRENT_SELECTED_YEAR) {
-                        let currentAmt = rec.amount;
+                        let currentAmt = rec.amount || 0;
                         totalSum += currentAmt;
                         recordCountYear++;
                         let q = rec.qty || 1, u = rec.unit || 'Cái';
                         let displayUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : (currentAmt / q);
                         let displayTax = rec.taxVal !== undefined ? rec.taxVal : 0;
-                        let dateTimeDisplay = rec.payDateTime || `31/07/${CURRENT_SELECTED_YEAR}`;
+                        let dateTimeDisplay = dateTime || `31/07/${CURRENT_SELECTED_YEAR}`;
                         
                         let folderUrl = rec.folderUrl || DRIVE_ROOT_FOLDER_URL;
                         let fileCount = rec.files ? rec.files.length : 0;
@@ -2317,8 +2331,8 @@
                         tbody.innerHTML += `<tr>
                             <td class="text-center font-bold">${globalIndex++}</td>
                             <td class="text-center font-bold" style="color:var(--green);">${dateTimeDisplay}</td>
-                            <td><b>${rec.content}</b></td>
-                            <td>${rec.receiver}</td>
+                            <td><b>${rec.content || ''}</b></td>
+                            <td>${rec.receiver || ''}</td>
                             <td class="text-center">${q}</td>
                             <td class="text-center">${u}</td>
                             <td class="text-right">${formatCurrencyVN(displayUnitPrice)}</td>
@@ -2506,15 +2520,16 @@
             Object.keys(telecomRecordsByMonth || {}).forEach(sm => {
                 let records = telecomRecordsByMonth[sm] || [];
                 records.forEach((rec, actualIdx) => {
-                    let period = rec.period || "";
+                    if (!rec) return;
+                    let period = rec.period ? rec.period.toString() : "";
                     let matchYear = period.match(/\/(\d{4})/);
                     let recYear = matchYear ? matchYear[1] : sm.split('-')[0];
 
                     if (recYear === CURRENT_SELECTED_YEAR) {
-                        let uniqueKey = `${rec.period}_${rec.cid}_${rec.amount}`;
+                        let uniqueKey = `${period}_${rec.cid || ''}_${rec.amount || 0}`;
                         if (!seenTableKeys.has(uniqueKey)) {
                             seenTableKeys.add(uniqueKey);
-                            totalTelecom += rec.amount;
+                            totalTelecom += rec.amount || 0;
                             
                             let folderUrl = rec.folderUrl || DRIVE_ROOT_FOLDER_URL;
                             let fileCount = rec.files ? rec.files.length : 0;
@@ -2522,12 +2537,12 @@
 
                             tbody.innerHTML += `<tr>
                                 <td class="text-center font-bold">${globalIndex++}</td>
-                                <td>${rec.location}</td>
-                                <td><b>${rec.provider}</b></td>
-                                <td>${rec.bandwidth}</td>
-                                <td class="text-center font-bold">${rec.cid}</td>
-                                <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(rec.amount)} VND</td>
-                                <td class="text-center">${rec.period}</td>
+                                <td>${rec.location || ''}</td>
+                                <td><b>${rec.provider || ''}</b></td>
+                                <td>${rec.bandwidth || ''}</td>
+                                <td class="text-center font-bold">${rec.cid || ''}</td>
+                                <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(rec.amount || 0)} VND</td>
+                                <td class="text-center">${rec.period || ''}</td>
                                 <td class="text-center">${folderLinkHtml}</td>
                                 <td class="text-center">
                                     <button type="button" class="btn-edit" onclick="editTelecomRecord('${sm}', ${actualIdx})"><i class="fa-solid fa-pen-to-square"></i></button>
@@ -3390,4 +3405,3 @@
     </script>
 </body>
 </html>
-```[cite: 1]
