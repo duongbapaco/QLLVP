@@ -3549,14 +3549,47 @@
       
 });
         // Định nghĩa hàm openConfigUrlModal để khớp trực tiếp với nút bấm trên HTML
+        // Hàm mở bảng cấu hình: tự động nạp dữ liệu cũ từ localStorage
         function openConfigUrlModal() {
             let modal = document.getElementById('configUrlModal');
             if (modal) {
                 modal.style.display = 'flex';
+                
+                // Tự động điền dữ liệu đã lưu trước đó vào các ô input
+                let apiInput = modal.querySelector('input[type="text"], input:nth-of-type(1)');
+                let sheetInput = modal.querySelectorAll('input[type="text"], input')[1];
+                
+                if (apiInput && typeof GOOGLE_SCRIPT_API_URL !== 'undefined') {
+                    apiInput.value = localStorage.getItem('saved_api_url') || GOOGLE_SCRIPT_API_URL || '';
+                }
+                if (sheetInput) {
+                    sheetInput.value = localStorage.getItem('saved_sheet_url') || '';
+                }
             } else {
                 alert("Không tìm thấy khung cấu hình (configUrlModal) trên giao diện.");
             }
         }
+
+        // Hàm đóng bảng cấu hình
+        function closeConfigUrlModal() {
+            let modal = document.getElementById('configUrlModal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Tự động gán sự kiện cho nút Đóng và nút Lưu ngay khi tải trang
+        document.addEventListener('DOMContentLoaded', () => {
+            let modal = document.getElementById('configUrlModal');
+            if (modal) {
+                let closeBtns = modal.querySelectorAll('button, .btn-close');
+                closeBtns.forEach(btn => {
+                    if (btn.innerText && (btn.innerText.includes('Đóng') || btn.innerText.includes('Hủy'))) {
+                        btn.onclick = function() { closeConfigUrlModal(); };
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>
