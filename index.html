@@ -3384,18 +3384,19 @@
             }
             setTimeout(() => { notify.style.display = 'none'; }, 4000);
         }
-       async function loadDataFromCloudServer() {
+      async function loadDataFromCloudServer() {
             let notifyBox = document.getElementById('syncNotifyBox');
-            notifyBox.style.display = 'block';
-            notifyBox.style.background = '#e0f2fe';
-            notifyBox.style.color = '#0369a1';
-            notifyBox.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Đang tải dữ liệu từ Mây...`;
+            if (notifyBox) {
+                notifyBox.style.display = 'block';
+                notifyBox.style.background = '#e0f2fe';
+                notifyBox.style.color = '#0369a1';
+                notifyBox.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Đang tải dữ liệu từ Mây...`;
+            }
 
             try {
                 const response = await fetch(`${GOOGLE_SCRIPT_API_URL}?action=get_all_data&year=${CURRENT_SELECTED_YEAR}`);
                 const data = await response.json();
                 
-                // Sửa lại kiểm tra đúng chuẩn status === "success" từ server
                 if (data && data.status === "success" && data.payload) {
                     let pl = data.payload;
                     if (pl.salaryConfigs) salaryConfigsByMonth = pl.salaryConfigs;
@@ -3408,25 +3409,30 @@
                     if (pl.printerExport) printerInkRecordsByYear = pl.printerExport;
                     if (pl.events) dayEventsMap = pl.events;
 
-                    // Cập nhật lại giao diện toàn hệ thống
-                    handleMonthChangeSelect();
-                    renderItAssetTable();
-                    renderPrinterInkTables();
-                    renderCalendarSidebar();
+                    if (typeof handleMonthChangeSelect === 'function') handleMonthChangeSelect();
+                    if (typeof renderItAssetTable === 'function') renderItAssetTable();
+                    if (typeof renderPrinterInkTables === 'function') renderPrinterInkTables();
+                    if (typeof renderCalendarSidebar === 'function') renderCalendarSidebar();
+                    if (typeof initSmartCalendar === 'function') initSmartCalendar();
 
-                    notifyBox.style.background = '#dcfce7';
-                    notifyBox.style.color = '#166534';
-                    notifyBox.innerHTML = `<i class="fa-solid fa-circle-check"></i> Tải dữ liệu từ Mây thành công!`;
-                    setTimeout(() => { notifyBox.style.display = 'none'; }, 4000);
+                    if (notifyBox) {
+                        notifyBox.style.background = '#dcfce7';
+                        notifyBox.style.color = '#166534';
+                        notifyBox.innerHTML = `<i class="fa-solid fa-circle-check"></i> Tải dữ liệu từ Mây thành công!`;
+                        setTimeout(() => { notifyBox.style.display = 'none'; }, 4000);
+                    }
                 } else {
                     throw new Error("Không có dữ liệu hợp lệ trên mây.");
                 }
             } catch (err) {
-                notifyBox.style.background = '#fef2f2';
-                notifyBox.style.color = '#b91c1c';
-                notifyBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Không thể tải từ mây: ${err.message}`;
-                setTimeout(() => { notifyBox.style.display = 'none'; }, 5000);
+                if (notifyBox) {
+                    notifyBox.style.background = '#fef2f2';
+                    notifyBox.style.color = '#b91c1c';
+                    notifyBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Không thể tải từ mây: ${err.message}`;
+                    setTimeout(() => { notifyBox.style.display = 'none'; }, 5000);
+                }
             }
+        }
 
         // Tích hợp hệ thống quản lý lịch vạn niên & MoonPhase chuẩn xác cho năm 2026
         const MoonPhaseData = {
