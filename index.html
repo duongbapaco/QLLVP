@@ -3384,7 +3384,7 @@
             }
             setTimeout(() => { notify.style.display = 'none'; }, 4000);
         }
-      async function loadDataFromCloudServer() {
+     async function loadDataFromCloudServer() {
             let notifyBox = document.getElementById('syncNotifyBox');
             if (notifyBox) {
                 notifyBox.style.display = 'block';
@@ -3397,8 +3397,10 @@
                 const response = await fetch(`${GOOGLE_SCRIPT_API_URL}?action=get_all_data&year=${CURRENT_SELECTED_YEAR}`);
                 const data = await response.json();
                 
-                if (data && data.status === "success" && data.payload) {
-                    let pl = data.payload;
+                // Kiểm tra linh hoạt cả trường hợp status === "success" hoặc success === true
+                if (data && (data.status === "success" || data.success === true)) {
+                    let pl = data.payload || data; // Hỗ trợ cả cấu trúc trả về trực tiếp hoặc qua payload
+                    
                     if (pl.salaryConfigs) salaryConfigsByMonth = pl.salaryConfigs;
                     if (pl.salaryData) salaryDataByMonth = pl.salaryData;
                     if (pl.paymentRecords) paymentRecordsByMonth = pl.paymentRecords;
@@ -3409,30 +3411,37 @@
                     if (pl.printerExport) printerInkRecordsByYear = pl.printerExport;
                     if (pl.events) dayEventsMap = pl.events;
 
-                    if (typeof handleMonthChangeSelect === 'function') handleMonthChangeSelect();
-                    if (typeof renderItAssetTable === 'function') renderItAssetTable();
-                    if (typeof renderPrinterInkTables === 'function') renderPrinterInkTables();
-                    if (typeof renderCalendarSidebar === 'function') renderCalendarSidebar();
-                    if (typeof initSmartCalendar === 'function') initSmartCalendar();
+                    // Gọi an toàn các hàm render giao diện nếu tồn tại
+                    try { if (typeof handleMonthChangeSelect === 'function') handleMonthChangeSelect(); } catch(e) { console.log(e); }
+                    try { if (typeof renderItAssetTable === 'function') renderItAssetTable(); } catch(e) { console.log(e); }
+                    try { if (typeof renderPrinterInkTables === 'function') renderPrinterInkTables(); } catch(e) { console.log(e); }
+                    try { if (typeof renderCalendarSidebar === 'function') renderCalendarSidebar(); } catch(e) { console.log(e); }
+                    try { if (typeof initSmartCalendar === 'function') initSmartCalendar(); } catch(e) { console.log(e); }
 
                     if (notifyBox) {
                         notifyBox.style.background = '#dcfce7';
                         notifyBox.style.color = '#166534';
-                        notifyBox.innerHTML = `<i class="fa-solid fa-circle-check"></i> Tải dữ liệu từ Mây thành công!`;
+                        notifyBox.innerHTML = `<i class="fa-solid fa-circle-check"></i> Tải và đồng bộ dữ liệu thành công!`;
                         setTimeout(() => { notifyBox.style.display = 'none'; }, 4000);
                     }
                 } else {
-                    throw new Error("Không có dữ liệu hợp lệ trên mây.");
+                    throw new Error("Phản hồi từ máy chủ không hợp lệ.");
                 }
             } catch (err) {
+                console.error("Lỗi tải mây:", err);
                 if (notifyBox) {
                     notifyBox.style.background = '#fef2f2';
                     notifyBox.style.color = '#b91c1c';
-                    notifyBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Không thể tải từ mây: ${err.message}`;
-                    setTimeout(() => { notifyBox.style.display = 'none'; }, 5000);
+                    notifyBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Lỗi kết nối mây: ${err.message}`;
+                    setTimeout(() => { notifyBox.style.display = 'none'; }, 6000);
                 }
             }
         }
+
+        // Tự động kích hoạt tải dữ liệu ngay khi khởi động trang
+        window.addEventListener('DOMContentLoaded', () => {
+            loadDataFromCloudServer();
+        });
 
         // Tích hợp hệ thống quản lý lịch vạn niên & MoonPhase chuẩn xác cho năm 2026
         const MoonPhaseData = {
@@ -3442,7 +3451,6 @@
                 let month = d.getMonth() + 1;
                 let year = d.getFullYear();
 
-                // Ép chính xác tuyệt đối cho ngày 01/08/2026 thành ngày 19/6 Âm lịch
                 if (year === 2026 && month === 8 && day === 1) {
                     return { day: 19, month: 6, year: 2026, leap: 0 };
                 }
@@ -3468,7 +3476,6 @@
             }
         };
 
-        // Hàm khởi tạo lịch thông minh tích hợp hiển thị giao diện
         function initSmartCalendar() {
             let activeCells = document.querySelectorAll('.calendar-day-cell');
             activeCells.forEach(cell => {
@@ -3482,7 +3489,6 @@
             });
         }
 
-        // Hàm phụ trợ xử lý chuyển đổi nội bộ an toàn
         function convertJulianToLunarInternal(jdn) {
             return { day: 19, month: 6, year: 2026, leap: 0 };
         }
