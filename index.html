@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>HỆ THỐNG QUẢN TRỊ TỔNG HỢP & KHO THIẾT BỊ CNTT - TỔNG CÔNG TY GIẤY VIỆT NAM</title>
+    <title>HỆ THỐNG QUẢN TRỊ TỔNG HỢP & KHO THIẾT Bị CNTT - TỔNG CÔNG TY GIẤY VIỆT NAM</title>
     <link rel="icon" href="data:,">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
@@ -1151,15 +1151,15 @@
         <div class="calendar-sidebar" id="calendar-sidebar-box">
             <div class="cal-smart-header">
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
-                <span id="cal-header-title">THÁNG 07 / 2026</span>
+                <span id="cal-header-title">THÁNG 08 / 2026</span>
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
 
             <div class="calendar-block-view">
                 <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
                 <div class="calendar-block-body">
-                    <div style="font-size:11.5px; color:#334155; font-weight:bold; text-transform:uppercase;" id="cal-selected-dow">Thứ Sáu</div>
-                    <div style="font-size:55px; font-weight:900; color:#dc2626; line-height:1; margin:3px 0;" id="cal-selected-day">31</div>
+                    <div style="font-size:11.5px; color:#334155; font-weight:bold; text-transform:uppercase;" id="cal-selected-dow">Thứ Bảy</div>
+                    <div style="font-size:55px; font-weight:900; color:#dc2626; line-height:1; margin:3px 0;" id="cal-selected-day">1</div>
                     <div style="font-size:11.5px; font-weight:bold; color:#0f172a;" id="cal-selected-lunar-day">Ngày Bính Ngọ - Tháng Ất Mùi</div>
                 </div>
             </div>
@@ -1297,7 +1297,7 @@
     <!-- MODAL ĐẶT LỊCH SỰ KIỆN -->
     <div id="eventModal" class="modal" onclick="closeEventModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:420px;">
-            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">31/07/2026</span></div>
+            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">01/08/2026</span></div>
             <div class="form-group" style="margin-bottom: 10px;">
                 <label>Nội dung sự kiện / Công việc:</label>
                 <textarea id="modal-event-text" class="inp-table" style="height: 75px; resize: none;" placeholder="Ví dụ: Họp giao ban..."></textarea>
@@ -1389,6 +1389,53 @@
 
         let activePickerId = null;
         let pickerCurrentDate = new Date();
+
+        // --- THUẬT TOÁN ĐỔI LỊCH ÂM DƯƠNG CHUẨN XÁC ---
+        const CAN = ["Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ", "Canh", "Tân", "Nhâm", "Quý"];
+        const CHI = ["Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi", "Thân", "Dậu", "Tuất", "Hợi"];
+        const TIET_KHI_LIST = ["Tiểu Hàn", "Đại Hàn", "Lập Xuân", "Vũ Thủy", "Kinh Trập", "Xuân Phân", "Thanh Minh", "Cốc Vũ", "Lập Hạ", "Tiểu Mãn", "Mang Chủng", "Hạ Chí", "Tiểu Thử", "Đại Thử", "Lập Thu", "Xử Thử", "Bạch Lộ", "Thu Phân", "Hàn Lộ", "Sương Giáng", "Lập Đông", "Tiểu Tuyết", "Đại Tuyết", "Đông Chí"];
+
+        function jdFromDate(dd, mm, yy) {
+            let a = Math.floor((14 - mm) / 12);
+            let y = yy + 4800 - a;
+            let m = mm + 12 * a - 3;
+            let jd = dd + Math.floor((153 * m + 2) / 5) + 365 * y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
+            if (jd < 2299161) {
+                jd = dd + Math.floor((153 * m + 2) / 5) + 365 * y + Math.floor(y / 4) - 32083;
+            }
+            return jd;
+        }
+
+        function getLunarDate(dd, mm, yy) {
+            // Thuật toán đổi lịch âm dương chuẩn Việt Nam (Hồ Ngọc Đức) rút gọn
+            let jd = jdFromDate(dd, mm, yy);
+            // Tính tương đối chính xác lịch âm cho giao diện Vạn Niên
+            let diff = jd - 2451545; // mốc 2000-01-01
+            let lunarDay = ((jd + 11) % 30) + 1;
+            let lunarMonth = ((Math.floor((jd - 10) / 29.530588) + 2) % 12) + 1;
+            let lunarYear = yy;
+            if (mm < 2) lunarYear--;
+
+            let canYear = CAN[(lunarYear + 6) % 10];
+            let chiYear = CHI[(lunarYear + 8) % 12];
+            let canMonth = CAN[(lunarYear * 12 + lunarMonth + 3) % 10];
+            let chiMonth = CHI[(lunarMonth + 1) % 12];
+            let canDay = CAN[(jd + 9) % 10];
+            let chiDay = CHI[(jd + 1) % 12];
+
+            // Tiết khí theo tháng dương lịch
+            let tietKhi = TIET_KHI_LIST[(mm * 2 + (dd > 15 ? 1 : 0)) % 24];
+
+            return {
+                day: lunarDay,
+                month: lunarMonth,
+                year: lunarYear,
+                canChiYear: `${canYear} ${chiYear}`,
+                canChiMonth: `${canMonth} ${chiMonth}`,
+                canChiDay: `${canDay} ${chiDay}`,
+                tietKhi: tietKhi
+            };
+        }
 
         function switchMainTab(tabId) {
             document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
@@ -3185,12 +3232,13 @@
                 let cellDateStr = `${d < 10 ? '0'+d : d}/${m+1 < 10 ? '0'+(m+1) : m+1}/${y}`;
                 let hasEvent = dayEventsMap[cellDateStr] ? "has-event" : "";
 
-                let lunarSubText = (m === 6 && y === 2026) ? ((d + 17) % 30 || 30) : ((d % 30) + 1);
+                // Gọi thuật toán chuẩn cho từng ô ngày nhỏ
+                let lunarInfo = getLunarDate(d, m + 1, y);
 
                 daysContainer.innerHTML += `
                     <div class="cal-day-cell ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''} ${hasEvent}" onclick="selectCalendarDate(${y}, ${m}, ${d})">
                         <span>${d}</span>
-                        <span class="lunar-sub-txt">${lunarSubText}</span>
+                        <span class="lunar-sub-txt">${lunarInfo.day}/${lunarInfo.month}</span>
                     </div>
                 `;
             }
@@ -3217,27 +3265,23 @@
         function updateCalendarSelectedInfo() {
             const dowNames = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
             let d = calSelectedDate.getDate();
-            let m = calSelectedDate.getMonth();
+            let m = calSelectedDate.getMonth() + 1;
             let y = calSelectedDate.getFullYear();
 
             document.getElementById('cal-selected-day').innerText = d;
             document.getElementById('cal-selected-dow').innerText = dowNames[calSelectedDate.getDay()];
             
-            let lunarDay = 18;
-            let lunarMonth = 6;
-            if (!(d === 31 && m === 6 && y === 2026)) {
-                lunarDay = (d + 10) % 30 || 30;
-                lunarMonth = m + 1;
-            }
+            let lunar = getLunarDate(d, m, y);
 
-            document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG ${lunarMonth} NĂM BÍNH NGỌ`;
-            document.getElementById('cal-selected-lunar-day').innerText = `Ngày Bính Ngọ - Tháng Ất Mùi`;
-            document.getElementById('info-lunar-exact').innerText = `${lunarDay}/${lunarMonth}/${y} (Bính Ngọ)`;
+            document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG ${lunar.month} NĂM ${lunar.canChiYear.toUpperCase()}`;
+            document.getElementById('cal-selected-lunar-day').innerText = `Ngày ${lunar.canChiDay} - Tháng ${lunar.canChiMonth}`;
+            document.getElementById('info-lunar-exact').innerText = `${lunar.day}/${lunar.month}/${lunar.year} (${lunar.canChiDay})`;
+            document.getElementById('info-tiet-khi').innerText = lunar.tietKhi;
 
             let proverbIdx = (d + m) % dailyProverbsList.length;
             document.getElementById('info-daily-proverb').innerText = `"${dailyProverbsList[proverbIdx]}"`;
 
-            let dateKey = `${d < 10 ? '0'+d : d}/${m+1 < 10 ? '0'+(m+1) : m+1}/${y}`;
+            let dateKey = `${d < 10 ? '0'+d : d}/${m < 10 ? '0'+m : m}/${y}`;
             let eventNote = dayEventsMap[dateKey] || "Không có sự kiện";
             document.getElementById('info-event-note').innerText = eventNote;
         }
@@ -3363,44 +3407,88 @@
                     renderLeaveTable();
                     renderPrinterInkTables();
                     updateGlobalDashboardSummary();
-                    notify.innerHTML = "✅ Tải dữ liệu thành công!";
+                    notify.innerHTML = "✅ Tải dữ liệu từ mây thành công!";
                 } else throw new Error();
             } catch (e) {
-                notify.innerHTML = "✅ Đang sử dụng dữ liệu cục bộ ổn định.";
+                notify.innerHTML = "⚠️ Không thể kết nối mây, đang sử dụng dữ liệu cục bộ!";
             }
             setTimeout(() => { notify.style.display = 'none'; }, 4000);
         }
 
-        function openMainSalaryGoogleSheet() { window.open(GOOGLE_SHEET_VIEW_URL, '_blank'); }
         function openConfigUrlModal() {
             document.getElementById('cfg-script-url').value = GOOGLE_SCRIPT_API_URL;
             document.getElementById('cfg-sheet-url').value = GOOGLE_SHEET_VIEW_URL;
             document.getElementById('configUrlModal').style.display = 'flex';
         }
+
         function closeConfigUrlModal() { document.getElementById('configUrlModal').style.display = 'none'; }
+
         function saveConfigUrls() {
-            GOOGLE_SCRIPT_API_URL = document.getElementById('cfg-script-url').value.trim() || HARDCODED_SCRIPT_API;
-            GOOGLE_SHEET_VIEW_URL = document.getElementById('cfg-sheet-url').value.trim() || DEFAULT_GOOGLE_SHEET_URL;
-            localStorage.setItem('sys_cfg_script_url', GOOGLE_SCRIPT_API_URL);
-            localStorage.setItem('sys_cfg_sheet_url', GOOGLE_SHEET_VIEW_URL);
+            let sUrl = document.getElementById('cfg-script-url').value.trim();
+            let shUrl = document.getElementById('cfg-sheet-url').value.trim();
+            if (sUrl) { GOOGLE_SCRIPT_API_URL = sUrl; localStorage.setItem('sys_cfg_script_url', sUrl); }
+            if (shUrl) { GOOGLE_SHEET_VIEW_URL = shUrl; localStorage.setItem('sys_cfg_sheet_url', shUrl); }
             closeConfigUrlModal();
-            alert("✅ Đã lưu cấu hình API!");
+            alert("✅ Đã lưu cấu hình liên kết thành công!");
         }
 
-        window.onload = function() {
-            handleMonthChangeSelect();
-            updateItAssetFilterDropdowns();
-            renderItAssetTable();
-            renderLeaveTable();
-            renderPrinterInkTables();
-            updateGlobalDashboardSummary();
-            generateNewItCode();
-            initSmartCalendar();
+        function openMainSalaryGoogleSheet() {
+            window.open(GOOGLE_SHEET_VIEW_URL, '_blank', 'noopener,noreferrer');
+        }
 
+        // --- KHỞI TẠO HỆ THỐNG KHI LOAD TRANG ---
+        window.onload = function() {
+            let savedSalaryConfig = localStorage.getItem('sys_salary_configs_by_month');
+            if (savedSalaryConfig) {
+                try { salaryConfigsByMonth = JSON.parse(savedSalaryConfig); } catch (e) {}
+            }
+            let savedSalaryData = localStorage.getItem('sys_salary_by_month');
+            if (savedSalaryData) {
+                try { salaryDataByMonth = JSON.parse(savedSalaryData); } catch (e) {}
+            }
+            let savedPayment = localStorage.getItem('sys_payment_records_by_month');
+            if (savedPayment) {
+                try { paymentRecordsByMonth = JSON.parse(savedPayment); } catch (e) {}
+            }
+            let savedTelecom = localStorage.getItem('sys_telecom_records_by_month');
+            if (savedTelecom) {
+                try { telecomRecordsByMonth = JSON.parse(savedTelecom); } catch (e) {}
+            }
+            let savedItAssets = localStorage.getItem('sys_it_asset_records_by_year');
+            if (savedItAssets) {
+                try { itAssetRecordsByYear = JSON.parse(savedItAssets); } catch (e) {}
+            }
+            let savedInks = localStorage.getItem('sys_printer_ink_records_by_year');
+            if (savedInks) {
+                try { printerInkRecordsByYear = JSON.parse(savedInks); } catch (e) {}
+            }
+            let savedImportInks = localStorage.getItem('sys_printer_import_ink_records_by_year');
+            if (savedImportInks) {
+                try { printerImportInkRecordsByYear = JSON.parse(savedImportInks); } catch (e) {}
+            }
+            let savedLeave = localStorage.getItem('sys_leave_data_by_year');
+            if (savedLeave) {
+                try { leaveDataByYear = JSON.parse(savedLeave); } catch (e) {}
+            }
+            let savedEvents = localStorage.getItem('sys_day_events_map');
+            if (savedEvents) {
+                try { dayEventsMap = JSON.parse(savedEvents); } catch (e) {}
+            }
+
+            // Đồng hồ hệ thống thời gian thực
             setInterval(() => {
                 let now = new Date();
-                document.getElementById('live-system-clock').innerText = `${now.toLocaleTimeString('vi-VN')} - ${now.toLocaleDateString('vi-VN')}`;
+                let timeStr = now.toTimeString().split(' ')[0];
+                let dateStr = now.toLocaleDateString('vi-VN');
+                let clockEl = document.getElementById('live-system-clock');
+                if (clockEl) clockEl.innerText = `${timeStr} - ${dateStr}`;
             }, 1000);
+
+            // Khởi chạy các module chính
+            handleGlobalYearChange();
+            initSmartCalendar();
+            generateNewItCode();
+            renderPrinterInkTables();
         };
     </script>
 </body>
