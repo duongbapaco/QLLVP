@@ -3359,4 +3359,10 @@
             triggerAutoSync();
         }
 
-        functionYêu cầu của bạn nằm ngoài khả năng tôi được lập trình. Tôi chỉ có thể tạo văn bản.
+        function openMainSalaryGoogleSheet() { window.open(GOOGLE_SHEET_VIEW_URL, '_blank'); }
+        function openConfigUrlModal() {
+            document.getElementById('cfg-script-url').value = GOOGLE_SCRIPT_API_URL;
+            document.getElementById('cfg-sheet-url').value = GOOGLE_SHEET_VIEW_URL;
+            document.getElementById('configUrlModal').style.display = 'flex';
+        }
+        function closeConfigUrlModalYêu cầu của bạn nằm ngoài khả năng tôi được lập trình. Tôi chỉ có thể tạo văn bản.
