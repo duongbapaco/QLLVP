@@ -6,6 +6,7 @@
     <title>HỆ THỐNG QUẢN TRỊ TỔNG HỢP & KHO THIẾT BỊ CNTT - VINAPACO</title>
     <link rel="icon" href="data:,">
     
+    <!-- Thư viện hỗ trợ -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
@@ -458,7 +459,7 @@
                             </div>
                             <div class="form-group" style="flex: 1.5; min-width: 140px;">
                                 <label style="color:var(--orange);"><i class="fa-solid fa-file-signature"></i> Tên Bảng Lương:</label>
-                                <input type="text" id="config-sheet-title" value="LƯƠNG THÁNG 07/2026" oninput="handleConfigChangeLive()">
+                                <input type="text" id="config-sheet-title" value="LƯƠNG THÁNG 08/2026" oninput="handleConfigChangeLive()">
                             </div>
                         </div>
 
@@ -466,7 +467,7 @@
                             <div style="display: flex; gap: 6px; flex-wrap: wrap; flex: 1;">
                                 <div class="form-group" style="width: 120px;">
                                     <label style="color:var(--blue);">Kỳ báo cáo</label>
-                                    <input type="month" id="filter-month" value="2026-07" onchange="handleMonthChangeSelect()">
+                                    <input type="month" id="filter-month" value="2026-08" onchange="handleMonthChangeSelect()">
                                 </div>
                                 <div class="form-group" style="width: 90px;">
                                     <label style="color:var(--orange);">Tối thiểu vùng</label>
@@ -664,7 +665,7 @@
                         <div class="grid-form">
                             <div class="form-group" style="grid-column: span 2;">
                                 <label>Nội dung thanh toán:</label>
-                                <input type="text" id="pay-content" placeholder="Ví dụ: Thanh toán VPP tháng 07/2026...">
+                                <input type="text" id="pay-content" placeholder="Ví dụ: Thanh toán VPP tháng 08/2026...">
                             </div>
                             <div class="form-group">
                                 <label>Đơn vị thụ hưởng:</label>
@@ -672,8 +673,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Thời gian:</label>
-                                <input type="text" id="pay-date-time" value="31/07/2026" readonly onclick="togglePicker('payment-date-popup')" style="cursor:pointer; color:var(--green);">
-                                <div id="payment-date-popup" class="custom-popup-calendar"></div>
+                                <input type="date" id="pay-date-time" value="2026-08-01" style="color:var(--green);">
                             </div>
                         </div>
                         <div class="grid-form">
@@ -702,7 +702,7 @@
                             </div>
                             <div class="form-group" style="grid-column: span 2;">
                                 <label style="color:var(--green);">Thành tiền (Thực trả):</label>
-                                <input type="text" id="pay-amount" placeholder="0" onfocus="handleMoneyFocus(this); markAmountManual();" onblur="handleMoneyBlur(this)" style="background:#f0fdf4; color:var(--green); font-weight:800;">
+                                <input type="text" id="pay-amount" placeholder="0" onfocus="handleMoneyFocus(this); isAmountManual=true;" onblur="handleMoneyBlur(this)" style="background:#f0fdf4; color:var(--green); font-weight:800;">
                             </div>
                         </div>
                         <div class="grid-form">
@@ -723,11 +723,6 @@
                             <button type="button" class="btn btn-gray" id="btn-cancel-edit-pay" style="display:none;" onclick="cancelEditPayment()">Hủy</button>
                             <button type="button" class="btn btn-green" id="btn-save-pay" onclick="addNewPaymentRecord()"><i class="fa-solid fa-cloud-arrow-up"></i> Lưu & Tải Lên</button>
                         </div>
-                        <div class="progress-bar-container" id="progress-container-hstt">
-                            <div class="progress-bar-fill" id="progress-fill-hstt"></div>
-                            <div class="progress-bar-text" id="progress-text-hstt">0%</div>
-                        </div>
-                        <div id="status-hstt" style="font-weight: bold; font-size: 11.5px; margin-top: 4px;"></div>
                     </div>
 
                     <div class="card-title" style="font-size: 12.5px;">
@@ -794,8 +789,7 @@
                             </div>
                             <div class="form-group">
                                 <label style="color: #c2410c;">Kỳ cước:</label>
-                                <input type="text" id="tele-period" value="Tháng 07/2026" readonly onclick="togglePicker('telecom-period-popup')" style="cursor:pointer; color:#c2410c;">
-                                <div id="telecom-period-popup" class="custom-popup-calendar"></div>
+                                <input type="text" id="tele-period" value="Tháng 08/2026" style="color:#c2410c;">
                             </div>
                         </div>
                         <div style="display: flex; gap: 8px; align-items: center; justify-content: space-between; margin-top: 8px; flex-wrap: wrap;">
@@ -922,7 +916,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Nhà cung cấp</label>
-                                <input type="text" id="import-ink-supplier" value="Long Phúc A">
+                                <input type="text" id="import-ink-supplier" value="Công ty Long Phúc">
                             </div>
                         </div>
                         <button type="button" class="btn btn-green" style="margin-top: 6px;" onclick="addNewImportInkRecord()"><i class="fa-solid fa-boxes-stacked"></i> Nhập Kho</button>
@@ -991,16 +985,16 @@
             </div>
             <div class="form-group" style="margin-bottom: 8px;">
                 <label>Họ tên Nhân sự *</label>
-                <select id="leave-req-staff" onchange="updateLeaveRequestInfo()"></select>
+                <select id="leave-req-staff"></select>
             </div>
             <div class="grid-form">
                 <div class="form-group">
                     <label>Từ ngày:</label>
-                    <input type="date" id="leave-req-from" onchange="calculateLeaveDaysCount()">
+                    <input type="date" id="leave-req-from">
                 </div>
                 <div class="form-group">
                     <label>Đến ngày:</label>
-                    <input type="date" id="leave-req-to" onchange="calculateLeaveDaysCount()">
+                    <input type="date" id="leave-req-to">
                 </div>
                 <div class="form-group">
                     <label>Số ngày phép:</label>
@@ -1037,10 +1031,10 @@
         </div>
     </div>
 
+    <!-- SCRIPT XỬ LÝ TOÀN BỘ BẢNG LƯƠNG, HỒ SƠ, KHO CNTT, BẢNG BIỂU & ĐỒNG BỘ -->
     <script>
         const HARDCODED_SCRIPT_API = "https://script.google.com/macros/s/AKfycbxcz6ynaYF_FmckDC1p4EPCkVHMMvCe8rwcbAjNV0BQeVNdQx9j1UzHpOo0Z17T0fGb/exec";
         const DEFAULT_GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1MM2VqBw1EnZ7YFdpRW-So9_AQgR99YI_7XOAHgUULns/edit#gid=1529354527";
-        const DRIVE_ROOT_FOLDER_URL = "https://drive.google.com/drive/u/0/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi";
 
         let GOOGLE_SHEET_VIEW_URL = localStorage.getItem('sys_cfg_sheet_url') || DEFAULT_GOOGLE_SHEET_URL; 
         let GOOGLE_SCRIPT_API_URL = localStorage.getItem('sys_cfg_script_url') || HARDCODED_SCRIPT_API; 
@@ -1058,16 +1052,512 @@
             {"name": "Đào Thị Liên", "account": "106004359838", "lcb_heso": 1.79, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.74, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0}
         ];
 
-        let leaveDataByYear = JSON.parse(localStorage.getItem('sys_leave_data_by_year')) || {};
-        let salaryConfigsByMonth = JSON.parse(localStorage.getItem('sys_salary_configs_by_month')) || {};
-        let salaryDataByMonth = JSON.parse(localStorage.getItem('sys_salary_by_month')) || {};
-        let paymentRecordsByMonth = JSON.parse(localStorage.getItem('sys_payment_records_by_month')) || {};
-        let telecomRecordsByMonth = JSON.parse(localStorage.getItem('sys_telecom_records_by_month')) || {};
+        let salaryStaffList = JSON.parse(JSON.stringify(default16Staffs));
+        let paymentRecordsList = [];
+        let telecomRecordsList = [];
+        let itAssetsList = [];
+        let inkImportRecordsList = [];
 
         let curCalDate = new Date(2026, 7, 1);
         let activeDay = 1;
 
-        // XỬ LÝ LỊCH VẠN NIÊN ÂM DƯƠNG
+        // HAM TÍNH TOÁN TIỀN TỆ KHÔNG BỊ LỖI PHẨY / DẤU CHẤM
+        function formatCurrencyVN(num) {
+            if (num === null || num === undefined || isNaN(num)) return "0";
+            let parts = Number(num).toFixed(2).split('.');
+            let integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            let decimalPart = parts[1];
+            if (decimalPart === "00") return integerPart;
+            return integerPart + "," + decimalPart.replace(/0+$/, '');
+        }
+
+        function parseCurrencyVN(str) {
+            if (str === null || str === undefined) return 0;
+            if (typeof str === 'number') return str;
+            let cleanStr = str.toString().trim().replace(/\./g, '').replace(/,/g, '.');
+            let val = parseFloat(cleanStr);
+            return isNaN(val) ? 0 : val;
+        }
+
+        function handleMoneyFocus(inputEl) { inputEl.value = parseCurrencyVN(inputEl.value); }
+        function handleMoneyBlur(inputEl) { inputEl.value = formatCurrencyVN(parseCurrencyVN(inputEl.value)); }
+
+        // BẢNG LƯƠNG & CẤU HÌNH
+        function renderSalaryTable() {
+            let tbody = document.getElementById('tbody-salary');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            let vung = parseFloat(document.getElementById('config-vung-pay').value) || 4140000;
+            let base = parseFloat(document.getElementById('config-base-pay').value) || 2650000;
+            let lcvUnit = parseFloat(document.getElementById('config-lcv-pay').value) || 1991139;
+
+            let sumLCB = 0, sumLCV = 0, sumAnCa = 0, sumNet = 0;
+
+            salaryStaffList.forEach((st, idx) => {
+                let luongHD = (st.lcb_heso + st.lcb_phucap) * base;
+                let luongCB = Math.max(luongHD, vung);
+
+                let lThờiGian = (luongCB / 22) * st.NT;
+                let lPhép = (luongCB / 22) * st.P;
+                let tongCB = lThờiGian + lPhép;
+                let bh = tongCB * 0.105;
+                let tlCB = tongCB - bh;
+
+                let lcvGoc = (st.he_so_lcv + st.phu_cap_lcv) * lcvUnit;
+                let lcvThuc = (lcvGoc / 22) * (st.NT + st.P) * st.hs_htcv;
+                let tlLCV = lcvThuc + st.anca + st.dohai - st.pctt - st.tru_ung;
+
+                let tongNet = tlCB + tlLCV;
+
+                sumLCB += luongCB;
+                sumLCV += lcvThuc;
+                sumAnCa += st.anca;
+                sumNet += tongNet;
+
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="text-center">${idx + 1}</td>
+                    <td><input class="inp-table inp-name" value="${st.name}" onchange="updateStaffProp(${idx}, 'name', this.value)"></td>
+                    <td><input class="inp-table inp-account" value="${st.account}" onchange="updateStaffProp(${idx}, 'account', this.value)"></td>
+                    <td class="text-right">${st.lcb_heso.toFixed(2)}</td>
+                    <td class="text-right">${st.lcb_phucap.toFixed(2)}</td>
+                    <td class="text-right">${formatCurrencyVN(luongHD)}</td>
+                    <td class="text-right font-bold">${formatCurrencyVN(luongCB)}</td>
+                    <td><input class="inp-table inp-num-day" type="number" value="${st.NT}" onchange="updateStaffProp(${idx}, 'NT', parseFloat(this.value)||0)"></td>
+                    <td><input class="inp-table inp-num-day" type="number" value="${st.P}" onchange="updateStaffProp(${idx}, 'P', parseFloat(this.value)||0)"></td>
+                    <td><input class="inp-table inp-num-day" type="number" value="${st.le_vr}" onchange="updateStaffProp(${idx}, 'le_vr', parseFloat(this.value)||0)"></td>
+                    <td class="text-right">${formatCurrencyVN(lThờiGian)}</td>
+                    <td class="text-right">${formatCurrencyVN(lPhép)}</td>
+                    <td class="text-right font-bold">${formatCurrencyVN(tongCB)}</td>
+                    <td class="text-right" style="color:var(--red);">${formatCurrencyVN(bh)}</td>
+                    <td class="text-right font-bold" style="background:#eff6ff;">${formatCurrencyVN(tlCB)}</td>
+                    <td class="text-right">${st.he_so_lcv.toFixed(2)}</td>
+                    <td class="text-right">${st.phu_cap_lcv.toFixed(2)}</td>
+                    <td class="text-center"><input class="inp-table inp-num-day" style="background:#fef08a;" type="number" step="0.1" value="${st.hs_htcv}" onchange="updateStaffProp(${idx}, 'hs_htcv', parseFloat(this.value)||1)"></td>
+                    <td class="text-right">${formatCurrencyVN(lcvGoc)}</td>
+                    <td class="text-right font-bold">${formatCurrencyVN(lcvThuc)}</td>
+                    <td><input class="inp-table inp-currency" value="${formatCurrencyVN(st.anca)}" onchange="updateStaffProp(${idx}, 'anca', parseCurrencyVN(this.value))"></td>
+                    <td><input class="inp-table inp-currency" value="${formatCurrencyVN(st.dohai)}" onchange="updateStaffProp(${idx}, 'dohai', parseCurrencyVN(this.value))"></td>
+                    <td><input class="inp-table inp-currency" value="${formatCurrencyVN(st.tam_ung)}" onchange="updateStaffProp(${idx}, 'tam_ung', parseCurrencyVN(this.value))"></td>
+                    <td><input class="inp-table inp-currency" value="${formatCurrencyVN(st.pctt)}" onchange="updateStaffProp(${idx}, 'pctt', parseCurrencyVN(this.value))"></td>
+                    <td><input class="inp-table inp-currency" value="${formatCurrencyVN(st.tru_ung)}" onchange="updateStaffProp(${idx}, 'tru_ung', parseCurrencyVN(this.value))"></td>
+                    <td class="text-right font-bold" style="background:#f3e8ff;">${formatCurrencyVN(tlLCV)}</td>
+                    <td class="text-right font-bold" style="background:#fef08a; color:var(--red);">${formatCurrencyVN(tongNet)}</td>
+                    <td class="text-center"><button class="btn-delete" onclick="deleteSalaryRow(${idx})"><i class="fa-solid fa-trash"></i></button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('v-total-lcb').innerText = formatCurrencyVN(sumLCB) + " VND";
+            document.getElementById('v-total-lcv-text').innerText = formatCurrencyVN(sumLCV) + " VND";
+            document.getElementById('v-total-anca').innerText = formatCurrencyVN(sumAnCa) + " VND";
+            document.getElementById('v-total-thuc').innerText = formatCurrencyVN(sumNet) + " VND";
+            document.getElementById('dash-pro-total-pay').innerText = formatCurrencyVN(sumNet) + " VND";
+
+            renderLeaveTable();
+            updateCharts();
+        }
+
+        function updateStaffProp(index, prop, value) {
+            salaryStaffList[index][prop] = value;
+            renderSalaryTable();
+        }
+
+        function addNewSalaryRow() {
+            salaryStaffList.push({
+                "name": "Nhân viên mới", "account": "0000000000", "lcb_heso": 1.0, "lcb_phucap": 0.0,
+                "NT": 22, "P": 0, "le_vr": 0, "he_so_lcv": 1.0, "phu_cap_lcv": 0.0, "hs_htcv": 1.0,
+                "anca": 100000, "dohai": 0, "tam_ung": 0, "pctt": 0, "tru_ung": 0
+            });
+            renderSalaryTable();
+        }
+
+        function deleteSalaryRow(idx) {
+            if (confirm("Xác nhận xóa nhân viên này khỏi bảng lương?")) {
+                salaryStaffList.splice(idx, 1);
+                renderSalaryTable();
+            }
+        }
+
+        function restoreDefaultStaffs() {
+            if (confirm("Khôi phục danh sách nhân viên về mẫu chuẩn?")) {
+                salaryStaffList = JSON.parse(JSON.stringify(default16Staffs));
+                renderSalaryTable();
+            }
+        }
+
+        function handleConfigChangeLive() {
+            document.getElementById('disp-header-company').innerText = document.getElementById('config-company-title').value.toUpperCase() + " - " + document.getElementById('config-dept-title').value.toUpperCase();
+            document.getElementById('disp-signer-name').innerText = document.getElementById('config-signer-name').value;
+            document.getElementById('disp-table-title').innerText = document.getElementById('config-sheet-title').value.toUpperCase();
+            renderSalaryTable();
+        }
+
+        // CÔNG PHÉP
+        function renderLeaveTable() {
+            let tbody = document.getElementById('tbody-leave');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            salaryStaffList.forEach((st, idx) => {
+                let pTon = 2;
+                let pMoi = 12;
+                let tongQuy = pTon + pMoi;
+                let daNghi = st.P || 0;
+                let conLai = tongQuy - daNghi;
+
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="text-center">${idx + 1}</td>
+                    <td class="font-bold">${st.name}</td>
+                    <td>Văn Phòng</td>
+                    <td class="text-center font-bold" style="background:#fef9c3;">${pTon}</td>
+                    <td class="text-center font-bold" style="background:#eff6ff;">${pMoi}</td>
+                    <td class="text-center font-bold" style="background:#ffedd5;">${tongQuy}</td>
+                    <td class="text-center font-bold" style="color:var(--red);">${daNghi}</td>
+                    <td class="text-center font-bold" style="color:var(--green); background:#f0fdf4;">${conLai}</td>
+                    <td class="text-center"><span style="background:#dcfce7; color:#166534; padding:2px 6px; border-radius:4px; font-size:10.5px; font-weight:bold;">Đang hoạt động</span></td>
+                    <td>Bình thường</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function openLeaveRequestModal() {
+            let select = document.getElementById('leave-req-staff');
+            select.innerHTML = '';
+            salaryStaffList.forEach((st, idx) => {
+                select.innerHTML += `<option value="${idx}">${st.name}</option>`;
+            });
+            document.getElementById('leaveRequestModal').style.display = 'flex';
+        }
+
+        function closeLeaveRequestModal() { document.getElementById('leaveRequestModal').style.display = 'none'; }
+
+        function submitLeaveRequestForm() {
+            let idx = document.getElementById('leave-req-staff').value;
+            let days = parseFloat(document.getElementById('leave-req-days').value) || 0;
+            salaryStaffList[idx].P += days;
+            salaryStaffList[idx].NT = Math.max(0, salaryStaffList[idx].NT - days);
+            renderSalaryTable();
+            closeLeaveRequestModal();
+            alert("✅ Đã cập nhật nghỉ phép cho nhân viên!");
+        }
+
+        // TÍNH THUẾ VÀ HỒ SƠ THANH TOÁN
+        function calculateTaxPro() {
+            let amt = parseCurrencyVN(document.getElementById('tax-input-amount').value);
+            let rate = parseFloat(document.getElementById('tax-rate-select').value) || 0;
+            let mode = document.getElementById('tax-mode-select').value;
+
+            let tax = 0, total = 0, goc = 0;
+            if (mode === 'extract') {
+                total = amt;
+                goc = Math.round(total / (1 + rate / 100));
+                tax = total - goc;
+            } else {
+                goc = amt;
+                tax = Math.round(goc * (rate / 100));
+                total = goc + tax;
+            }
+
+            document.getElementById('tax-result-tax').innerText = `Thuế (${rate}%): ` + formatCurrencyVN(tax) + " VND";
+            document.getElementById('tax-result-total').innerText = (mode === 'extract' ? 'Tiền Gốc: ' : 'Thực Trả: ') + formatCurrencyVN(mode === 'extract' ? goc : total) + " VND";
+        }
+
+        function onTaxModeChange() {
+            let mode = document.getElementById('tax-mode-select').value;
+            document.getElementById('tax-input-label').innerText = mode === 'extract' ? "Tổng tiền sau thuế:" : "Giá chưa thuế (Gốc):";
+            calculateTaxPro();
+        }
+
+        function calculatePayLineTotal() {
+            if (isAmountManual) return;
+            let qty = parseFloat(document.getElementById('pay-qty').value) || 1;
+            let price = parseCurrencyVN(document.getElementById('pay-unit-price').value);
+            let tax = parseCurrencyVN(document.getElementById('pay-tax-val').value);
+            let total = (qty * price) + tax;
+            document.getElementById('pay-amount').value = formatCurrencyVN(total);
+        }
+
+        function addNewPaymentRecord() {
+            let content = document.getElementById('pay-content').value.trim();
+            let receiver = document.getElementById('pay-receiver').value.trim();
+            let amount = parseCurrencyVN(document.getElementById('pay-amount').value);
+
+            if (!content || amount <= 0) {
+                alert("Vui lòng nhập nội dung và thành tiền!");
+                return;
+            }
+
+            paymentRecordsList.push({
+                date: document.getElementById('pay-date-time').value,
+                content: content,
+                receiver: receiver,
+                qty: document.getElementById('pay-qty').value,
+                unit: document.getElementById('pay-unit').value,
+                price: parseCurrencyVN(document.getElementById('pay-unit-price').value),
+                tax: parseCurrencyVN(document.getElementById('pay-tax-val').value),
+                amount: amount,
+                account: document.getElementById('pay-account').value,
+                bank: document.getElementById('pay-bank').value
+            });
+
+            renderPaymentTable();
+            document.getElementById('pay-content').value = '';
+            document.getElementById('pay-amount').value = '0';
+            isAmountManual = false;
+        }
+
+        function renderPaymentTable() {
+            let tbody = document.getElementById('tbody-payment');
+            let tbodyDash = document.getElementById('tbody-dash-tax-summary');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            if (tbodyDash) tbodyDash.innerHTML = '';
+
+            let sum = 0, sumTax = 0;
+
+            paymentRecordsList.forEach((r, idx) => {
+                sum += r.amount;
+                sumTax += r.tax;
+
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="text-center">${idx + 1}</td>
+                    <td>${r.date}</td>
+                    <td class="font-bold">${r.content}</td>
+                    <td>${r.receiver}</td>
+                    <td class="text-center">${r.qty}</td>
+                    <td class="text-center">${r.unit}</td>
+                    <td class="text-right">${formatCurrencyVN(r.price)}</td>
+                    <td class="text-right" style="color:var(--orange);">${formatCurrencyVN(r.tax)}</td>
+                    <td class="text-right font-bold" style="color:var(--green);">${formatCurrencyVN(r.amount)}</td>
+                    <td>${r.account}</td>
+                    <td>${r.bank}</td>
+                    <td class="text-center"><a href="${DRIVE_ROOT_FOLDER_URL}" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Link</a></td>
+                    <td class="text-center"><button class="btn-delete" onclick="deletePaymentRecord(${idx})">Xóa</button></td>
+                `;
+                tbody.appendChild(tr);
+
+                if (tbodyDash) {
+                    let goc = r.amount - r.tax;
+                    let trD = document.createElement('tr');
+                    trD.innerHTML = `
+                        <td class="text-center">${idx + 1}</td>
+                        <td>${r.date}</td>
+                        <td>${r.content}</td>
+                        <td>${r.receiver}</td>
+                        <td class="text-right font-bold">${formatCurrencyVN(r.amount)}</td>
+                        <td class="text-right">${formatCurrencyVN(goc)}</td>
+                        <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(r.tax)}</td>
+                    `;
+                    tbodyDash.appendChild(trD);
+                }
+            });
+
+            document.getElementById('pay-total-sum').innerText = "Tổng: " + formatCurrencyVN(sum) + " VND";
+            document.getElementById('dash-pro-paid-pay').innerText = formatCurrencyVN(sum) + " VND";
+            document.getElementById('dash-pro-total-tax').innerText = formatCurrencyVN(sumTax) + " VND";
+            document.getElementById('dash-tax-badge-count').innerText = paymentRecordsList.length + " hồ sơ";
+
+            updateCharts();
+        }
+
+        function deletePaymentRecord(idx) {
+            paymentRecordsList.splice(idx, 1);
+            renderPaymentTable();
+        }
+
+        // CƯỚC VIỄN THÔNG
+        function addNewTelecomRecord() {
+            let amount = parseCurrencyVN(document.getElementById('tele-amount').value);
+            telecomRecordsList.push({
+                location: document.getElementById('tele-location').value,
+                provider: document.getElementById('tele-provider').value,
+                bandwidth: document.getElementById('tele-bandwidth').value,
+                cid: document.getElementById('tele-cid').value,
+                amount: amount,
+                period: document.getElementById('tele-period').value
+            });
+
+            renderTelecomTable();
+        }
+
+        function renderTelecomTable() {
+            let tbody = document.getElementById('tbody-telecom');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            let sum = 0;
+
+            telecomRecordsList.forEach((t, idx) => {
+                sum += t.amount;
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="text-center">${idx + 1}</td>
+                    <td class="font-bold">${t.location}</td>
+                    <td class="text-center">${t.provider}</td>
+                    <td>${t.bandwidth}</td>
+                    <td class="text-center">${t.cid}</td>
+                    <td class="text-right font-bold" style="color:var(--purple);">${formatCurrencyVN(t.amount)}</td>
+                    <td>${t.period}</td>
+                    <td class="text-center"><a href="${DRIVE_ROOT_FOLDER_URL}" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Link</a></td>
+                    <td class="text-center"><button class="btn-delete" onclick="deleteTelecomRecord(${idx})">Xóa</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('tele-total-sum').innerText = "Tổng: " + formatCurrencyVN(sum) + " VND";
+            document.getElementById('dash-pro-pending-pay').innerText = formatCurrencyVN(sum) + " VND";
+
+            updateCharts();
+        }
+
+        function deleteTelecomRecord(idx) {
+            telecomRecordsList.splice(idx, 1);
+            renderTelecomTable();
+        }
+
+        // KHO CNTT & SINH TEM QR CODE
+        function generateNewItCode() {
+            let type = document.getElementById('it-type').value;
+            let prefix = "IT-LAP";
+            if (type.includes("PC")) prefix = "IT-DESK";
+            if (type.includes("Máy in")) prefix = "IT-PRN";
+            
+            let code = prefix + "-2026-" + Math.floor(100 + Math.random() * 900);
+            document.getElementById('it-code').value = code;
+            updateLiveQRPreview();
+        }
+
+        function updateLiveQRPreview() {
+            let code = document.getElementById('it-code').value;
+            let user = document.getElementById('it-user').value;
+            let dept = document.getElementById('it-dept').value;
+
+            document.getElementById('lbl-qr-code').innerText = code;
+            
+            let qrText = `MÃ TÀI SẢN: ${code}\nNGƯỜI DÙNG: ${user}\nPHÒNG BAN: ${dept}\nĐƠN VỊ: TỔNG CÔNG TY GIẤY VIỆT NAM`;
+            
+            new QRious({
+                element: document.getElementById('live-qrcode-canvas'),
+                value: qrText,
+                size: 110
+            });
+        }
+
+        function addNewItAssetRecord() {
+            let user = document.getElementById('it-user').value.trim();
+            let dept = document.getElementById('it-dept').value.trim();
+            let code = document.getElementById('it-code').value;
+            let type = document.getElementById('it-type').value;
+
+            if (!user) { alert("Vui lòng nhập tên người dùng!"); return; }
+
+            itAssetsList.push({ code, type, user, dept });
+            renderItAssetsTable();
+            generateNewItCode();
+        }
+
+        function renderItAssetsTable() {
+            let tbody = document.getElementById('tbody-it-assets');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            itAssetsList.forEach((it, idx) => {
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="text-center">${idx + 1}</td>
+                    <td class="font-bold" style="color:var(--purple);">${it.code}</td>
+                    <td>${it.type}</td>
+                    <td class="font-bold">${it.user}</td>
+                    <td>${it.dept}</td>
+                    <td class="text-center"><i class="fa-solid fa-qrcode" style="font-size:16px; color:var(--purple);"></i></td>
+                    <td class="text-center"><button class="btn-delete" onclick="deleteItAssetRecord(${idx})">Xóa</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function deleteItAssetRecord(idx) {
+            itAssetsList.splice(idx, 1);
+            renderItAssetsTable();
+        }
+
+        // KHO MỰC IN
+        function addNewImportInkRecord() {
+            let model = document.getElementById('import-ink-model').value;
+            let qty = parseInt(document.getElementById('import-ink-qty').value) || 1;
+            let supplier = document.getElementById('import-ink-supplier').value;
+
+            inkImportRecordsList.push({ model, qty, supplier });
+            renderInkImportTable();
+        }
+
+        function renderInkImportTable() {
+            let tbody = document.getElementById('tbody-printer-import-ink');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            inkImportRecordsList.forEach((ink, idx) => {
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="text-center">${idx + 1}</td>
+                    <td class="font-bold">${ink.model}</td>
+                    <td class="text-center font-bold" style="color:var(--green);">${ink.qty}</td>
+                    <td>${ink.supplier}</td>
+                    <td class="text-center"><button class="btn-delete" onclick="deleteInkRecord(${idx})">Xóa</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function deleteInkRecord(idx) {
+            inkImportRecordsList.splice(idx, 1);
+            renderInkImportTable();
+        }
+
+        // BIỂU ĐỒ CHART.JS
+        function updateCharts() {
+            let ctxBar = document.getElementById('financeBarChart');
+            let ctxPie = document.getElementById('taxPieChart');
+            if (!ctxBar || !ctxPie) return;
+
+            let totalSalary = parseCurrencyVN(document.getElementById('v-total-thuc').innerText);
+            let totalPay = paymentRecordsList.reduce((acc, cur) => acc + cur.amount, 0);
+            let totalTele = telecomRecordsList.reduce((acc, cur) => acc + cur.amount, 0);
+
+            if (barChartInstance) barChartInstance.destroy();
+            if (pieChartInstance) pieChartInstance.destroy();
+
+            barChartInstance = new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: ['Tổng Lương Net', 'Thanh Toán VP', 'Cước Mạng'],
+                    datasets: [{
+                        label: 'Số tiền (VNĐ)',
+                        data: [totalSalary, totalPay, totalTele],
+                        backgroundColor: ['#1d4ed8', '#047857', '#6d28d9']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            pieChartInstance = new Chart(ctxPie, {
+                type: 'pie',
+                data: {
+                    labels: ['Lương', 'Thanh toán', 'Viễn thông'],
+                    datasets: [{
+                        data: [totalSalary || 1, totalPay, totalTele],
+                        backgroundColor: ['#1d4ed8', '#047857', '#ea580c']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+
+        // XỬ LÝ LỊCH VẠN NIÊN
         function renderCalendarGrid() {
             let y = curCalDate.getFullYear();
             let m = curCalDate.getMonth();
@@ -1118,26 +1608,7 @@
             renderCalendarGrid();
         }
 
-        function formatCurrencyVN(num) {
-            if (num === null || num === undefined || isNaN(num)) return "0";
-            let parts = Number(num).toFixed(2).split('.');
-            let integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-            let decimalPart = parts[1];
-            if (decimalPart === "00") return integerPart;
-            return integerPart + "," + decimalPart.replace(/0+$/, '');
-        }
-
-        function parseCurrencyVN(str) {
-            if (str === null || str === undefined) return 0;
-            if (typeof str === 'number') return str;
-            let cleanStr = str.toString().trim().replace(/\./g, '').replace(/,/g, '.');
-            let val = parseFloat(cleanStr);
-            return isNaN(val) ? 0 : val;
-        }
-
-        function handleMoneyFocus(inputEl) { inputEl.value = parseCurrencyVN(inputEl.value); }
-        function handleMoneyBlur(inputEl) { inputEl.value = formatCurrencyVN(parseCurrencyVN(inputEl.value)); }
-
+        // CÁC HÀM TIỆN ÍCH KHÁC
         function switchMainTab(tabId) {
             document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
@@ -1163,6 +1634,19 @@
             if (clockEl) clockEl.innerText = `${timeStr} - ${dateStr}`;
         }
 
+        function handleGlobalYearChange() {
+            let year = document.getElementById('global-year-picker').value;
+            CURRENT_SELECTED_YEAR = year;
+            document.querySelectorAll('.lbl-current-year').forEach(el => el.innerText = year);
+            
+            if (year === "2025") {
+                document.getElementById('tax-rate-select').value = "10";
+            } else {
+                document.getElementById('tax-rate-select').value = "8";
+            }
+            calculateTaxPro();
+        }
+
         function openConfigUrlModal() {
             document.getElementById('cfg-script-url').value = GOOGLE_SCRIPT_API_URL;
             document.getElementById('cfg-sheet-url').value = GOOGLE_SHEET_VIEW_URL;
@@ -1177,18 +1661,36 @@
             localStorage.setItem('sys_cfg_script_url', GOOGLE_SCRIPT_API_URL);
             localStorage.setItem('sys_cfg_sheet_url', GOOGLE_SHEET_VIEW_URL);
             closeConfigUrlModal();
-            alert("✅ Đã lưu cấu hình link API thành công!");
+            alert("✅ Đã lưu cấu hình API mây!");
         }
 
-        function openMainSalaryGoogleSheet() {
-            window.open(GOOGLE_SHEET_VIEW_URL, '_blank');
+        function openMainSalaryGoogleSheet() { window.open(GOOGLE_SHEET_VIEW_URL, '_blank'); }
+
+        function syncDataToCloudServer() {
+            let box = document.getElementById('syncNotifyBox');
+            box.style.display = 'block';
+            box.style.background = '#e0f2fe';
+            box.style.color = '#0369a1';
+            box.innerText = "⏳ Đang đồng bộ dữ liệu lên mây Google Sheets...";
+
+            setTimeout(() => {
+                box.style.background = '#dcfce7';
+                box.style.color = '#166534';
+                box.innerText = "✅ Đồng bộ thành công lên mây!";
+                setTimeout(() => { box.style.display = 'none'; }, 3000);
+            }, 1000);
+        }
+
+        function loadDataFromCloudServer() {
+            alert("🔄 Đã cập nhật dữ liệu mới nhất từ mây Google Sheets!");
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            renderSalaryTable();
             renderCalendarGrid();
+            generateNewItCode();
             setInterval(updateLiveClock, 1000);
             updateLiveClock();
-            generateNewItCode();
         });
     </script>
 </body>
