@@ -3492,6 +3492,30 @@
         function convertJulianToLunarInternal(jdn) {
             return { day: 19, month: 6, year: 2026, leap: 0 };
         }
+        // Khởi chạy đồng hồ hệ thống và tự động tải dữ liệu
+        window.onload = function() {
+            // Kích hoạt đồng hồ thời gian thực
+            setInterval(() => {
+                let now = new Date();
+                let hours = String(now.getHours()).padStart(2, '0');
+                let minutes = String(now.getMinutes()).padStart(2, '0');
+                let seconds = String(now.getSeconds()).padStart(2, '0');
+                let day = String(now.getDate()).padStart(2, '0');
+                let month = String(now.getMonth() + 1).padStart(2, '0');
+                let year = now.getFullYear();
+                
+                let timeStr = `${hours}:${minutes}:${seconds} - ${day}/${month}/${year}`;
+                let clockEl = document.getElementById('live-system-clock');
+                if (clockEl) {
+                    clockEl.innerText = timeStr;
+                }
+            }, 1000);
+
+            // Gọi tải dữ liệu mây nếu chưa chạy
+            if (typeof loadDataFromCloudServer === 'function') {
+                loadDataFromCloudServer();
+            }
+        };
     </script>
 </body>
 </html>
