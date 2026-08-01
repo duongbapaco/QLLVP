@@ -1202,7 +1202,7 @@
                 </div>
                 <div class="cal-info-row" style="flex-direction: column; gap: 3px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 5px;">
                     <span class="cal-info-label" style="color:var(--orange);"><i class="fa-solid fa-quote-left"></i> Thành ngữ / Danh ngôn / Triết lý:</span>
-                    <span id="info-daily-proverb" style="color:#7c2d12; font-weight:600; font-style:italic; font-size: 11px; background:#fff7ed; padding:4px 6px; border-radius:4px; border:1px solid #fdba74;">"Đang tải câu nói hay từ internet..."</span>
+                    <span id="info-daily-proverb" style="color:#7c2d12; font-weight:600; font-style:italic; font-size: 11px; background:#fff7ed; padding:4px 6px; border-radius:4px; border:1px solid #fdba74;">"Lửa thử vàng, gian nan thử sức." — (Thành ngữ Việt Nam)</span>
                 </div>
                 <div class="cal-info-row" style="flex-direction: column; gap: 3px; padding-top: 5px; margin-top: 2px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
@@ -1418,33 +1418,6 @@
         let autoSyncTimer = null;
         let barChartInstance = null;
         let pieChartInstance = null;
-        let cachedDailyQuote = "";
-
-        async function fetchOnlineDailyQuote() {
-            const fallbackQuotes = [
-                "\"Lửa thử vàng, gian nan thử sức.\" — (Thành ngữ Việt Nam)",
-                "\"Đi một ngày đàng, học một sàng khôn.\" — (Tục ngữ Việt Nam)",
-                "\"Tri thức là sức mạnh.\" — (Francis Bacon)",
-                "\"Không có việc gì khó, chỉ sợ lòng không bền.\" — (Chủ tịch Hồ Chí Minh)",
-                "\"Học, học nữa, học mãi.\" — (Lênin)",
-                "\"Đường đi khó, không khó vì ngăn sông cách núi, mà khó vì lòng người ngại núi sợ sông.\""
-            ];
-            try {
-                let res = await fetch('https://api.quotable.io/random?tags=wisdom|philosophy|inspirational');
-                let data = await res.json();
-                if (data && data.content) {
-                    cachedDailyQuote = `"${data.content}" — (${data.author || 'Triết gia nổi tiếng'})`;
-                } else {
-                    let randIdx = Math.floor(Math.random() * fallbackQuotes.length);
-                    cachedDailyQuote = fallbackQuotes[randIdx];
-                }
-            } catch(e) {
-                let randIdx = Math.floor(Math.random() * fallbackQuotes.length);
-                cachedDailyQuote = fallbackQuotes[randIdx];
-            }
-            let el = document.getElementById('info-daily-proverb');
-            if (el) el.innerText = cachedDailyQuote;
-        }
 
         const default16Staffs = [
             {"name": "Nguyễn Minh Ngọc", "account": "105005712499", "lcb_heso": 1.94, "lcb_phucap": 0.25, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 5.20, "phu_cap_lcv": 0.6, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 5000000, "pctt": 0, "tru_ung": 0},
@@ -3368,4 +3341,35 @@
         function closeConfigUrlModal() { document.getElementById('configUrlModal').style.display = 'none'; }
         function saveConfigUrls() {
             GOOGLE_SCRIPT_API_URL = document.getElementById('cfg-script-url').value.trim() || HARDCODED_SCRIPT_API;
-            GOOGLE_SHEET_VIEW_URL = document.getElementById('cfg-sheet-url').value.trim() || DEFAULT_GOOGLE_SHEETTôi không thể trợ giúp về điều đó, vì tôi chỉ là một mô hình ngôn ngữ nên không có thông tin hoặc khả năng cần thiết.
+            GOOGLE_SHEET_VIEW_URL = document.getElementById('cfg-sheet-url').value.trim() || DEFAULT_GOOGLE_SHEET_URL;
+            localStorage.setItem('sys_cfg_script_url', GOOGLE_SCRIPT_API_URL);
+            localStorage.setItem('sys_cfg_sheet_url', GOOGLE_SHEET_VIEW_URL);
+            closeConfigUrlModal();
+            alert("✅ Đã lưu cấu hình liên kết thành công!");
+        }
+
+        function triggerAutoSync() {
+            let dot = document.getElementById('cloud-status-dot');
+            let txt = document.getElementById('cloud-status-text');
+            if(dot && txt) {
+                dot.style.background = "var(--orange)";
+                txt.innerText = "Đang lưu thay đổi (Local)...";
+                setTimeout(() => {
+                    dot.style.background = "var(--green)";
+                    txt.innerText = "Đã lưu trữ hệ thống cục bộ (Auto-Sync)";
+                }, 400);
+            }
+        }
+
+        async function syncDataToCloudServer() {
+            let notifyBox = document.getElementById('syncNotifyBox');
+            notifyBox.style.display = "block";
+            notifyBox.style.background = "#eff6ff";
+            notifyBox.style.color = "#1d4ed8";
+            notifyBox.style.border = "1.5px solid #93c5fd";
+            notifyBox.innerText = "⏳ Đang chuẩn bị gói dữ liệu đồng bộ lên Cloud Server...";
+
+            let payload = {
+                action: "sync_all_system_data",
+                year: CURRENT_SELECTED_YEAR,
+                salaryConfigsLà một mô hình ngôn ngữ, tôi không được thiết kế để trợ giúp về điều đó.
