@@ -3516,6 +3516,26 @@
                 loadDataFromCloudServer();
             }
         };
+        // Gắn sự kiện tự động cho nút Cấu hình nếu chưa có
+document.addEventListener('DOMContentLoaded', () => {
+    let configBtn = document.querySelector('button[onclick*="Config"], .btn-config, #config-btn');
+    if (!configBtn) {
+        // Tìm theo chữ Cấu hình trên giao diện
+        let buttons = document.querySelectorAll('button');
+        buttons.forEach(btn => {
+            if (btn.innerText && btn.innerText.includes('Cấu hình')) {
+                btn.onclick = function() {
+                   let modal = document.getElementById('configUrlModal');
+                    if (modal) {
+                        modal.style.display = 'flex';
+                    } else {
+                        alert("Hệ thống cấu hình API và thông số chung.");
+                    }
+                };
+            }
+        });
+    }
+});
     </script>
 </body>
 </html>
