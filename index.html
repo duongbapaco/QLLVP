@@ -3595,54 +3595,45 @@
             location.reload();
         }
 
-        // =========================================================================
+      // =========================================================================
 // HỆ THỐNG XỬ LÝ DỮ LIỆU CHUẨN HOÁ DI ĐỘNG & MÁY TÍNH (VINAPACO DASHBOARD)
 // =========================================================================
 
 const DEFAULT_SCRIPT_API_URL = "https://script.google.com/macros/s/AKfycbxcz6ynaYF_FmckDC1p4EPCkVHMMvCe8rwcbAjNV0BQeVNdQx9j1UzHpOo0Z17T0fGb/exec";
 
-// 1. Hàm tách NĂM từ chuỗi ngày tháng cực kỳ an toàn trên iPhone/iOS
-function extractYear(dateStr) {
-    if (!dateStr) return "";
-    var str = dateStr.toString().trim();
-    var match = str.match(/\d{4}/); // Tìm 4 chữ số liên tiếp đại diện cho năm
+// 1. Hàm tách NĂM an toàn tuyệt đối trên iPhone/iOS & Android
+function extractYear(str) {
+    if (!str) return "";
+    var match = str.toString().match(/\d{4}/);
     return match ? match[0] : "";
 }
 
 // 2. Hàm nạp và hiển thị dữ liệu chính
 async function loadDashboardData() {
-    var yearSelect = document.getElementById('yearSelect') || document.getElementById('selectYear');
-    var selectedYear = yearSelect ? yearSelect.value.trim() : '2026';
-
+    var yearSelect = document.getElementById('yearSelect') || document.getElementById('selectYear') || document.getElementById('NĂM');
+    var selectedYear = yearSelect ? yearSelect.value.toString().trim() : '2026';
+    
     var apiUrl = localStorage.getItem('saved_api_url') || DEFAULT_SCRIPT_API_URL;
-
-    // Hiển thị trạng thái đang tải (nếu có element)
-    console.log("Đang tải dữ liệu cho năm: " + selectedYear + " từ API...");
 
     try {
         var response = await fetch(apiUrl + "?year=" + selectedYear + "&t=" + new Date().getTime());
         if (!response.ok) throw new Error("Lỗi kết nối API");
 
         var data = await response.json();
-        console.log("Dữ liệu nhận từ API:", data);
+        var totalPayments = 0, totalTax = 0, totalTelecom = 0;
 
-        var totalPayments = 0;
-        var totalTax = 0;
-        var totalTelecom = 0;
-
-        // --- XỬ LÝ DỮ LIỆU THANH TOÁN VP & THUẾ ---
+        // --- XỬ LÝ THANH TOÁN VP & THUẾ ---
         if (data.payments) {
             Object.keys(data.payments).forEach(function(key) {
+                var keyYear = extractYear(key); // Lấy "2025" từ "2025-07" hoặc "2026" từ "2026-07"
                 var list = data.payments[key];
                 if (Array.isArray(list)) {
                     list.forEach(function(item) {
-                        var pYear = extractYear(item.payDateTime || item.payDate);
-                        // Lọc chính xác theo năm chọn trên giao diện
-                        if (pYear === selectedYear || pYear === "") {
-                            var amt = parseFloat(item.amount) || 0;
-                            totalPayments += amt;
+                        var itemYear = extractYear(item.payDateTime || item.payDate) || keyYear;
+                        if (itemYear === selectedYear) {
+                            totalPayments += (parseFloat(item.amount) || 0);
                             if (item.taxAmount) {
-                                totalTax += parseFloat(item.taxAmount) || 0;
+                                totalTax += (parseFloat(item.taxAmount) || 0);
                             }
                         }
                     });
@@ -3650,16 +3641,16 @@ async function loadDashboardData() {
             });
         }
 
-        // --- XỬ LÝ DỮ LIỆU CƯỚC VIỄN THÔNG & INTERNET ---
+        // --- XỬ LÝ CƯỚC VIỄN THÔNG & INTERNET (KHẮC PHỤC TRỐNG DỮ LIỆU ĐIỆN THOẠI) ---
         if (data.telecoms) {
             Object.keys(data.telecoms).forEach(function(key) {
+                var keyYear = extractYear(key); // Lấy "2025" hoặc "2026" từ key nhóm
                 var list = data.telecoms[key];
                 if (Array.isArray(list)) {
                     list.forEach(function(item) {
-                        var tYear = extractYear(item.payDate || item.date || key);
-                        if (tYear === selectedYear || tYear === "") {
-                            var amt = parseFloat(item.amount) || 0;
-                            totalTelecom += amt;
+                        var itemYear = extractYear(item.payDate || item.date) || keyYear;
+                        if (itemYear === selectedYear) {
+                            totalTelecom += (parseFloat(item.amount) || 0);
                         }
                     });
                 }
@@ -3671,17 +3662,17 @@ async function loadDashboardData() {
         updateUIValue('totalTienThue', totalTax);
         updateUIValue('totalCuocVienThong', totalTelecom);
 
-        // Nạp bảng Lương nếu có dữ liệu lương
+        // Nạp bảng Lương (nếu có hàm renderSalaryTable)
         if (typeof renderSalaryTable === 'function' && data.salaries) {
             renderSalaryTable(data.salaries, selectedYear);
         }
 
     } catch (error) {
-        console.error("Lỗi khi nạp dữ liệu:", error);
+        console.error("Lỗi nạp dữ liệu:", error);
     }
 }
 
-// 3. Hàm hỗ trợ định dạng tiền tệ Việt Nam VNĐ
+// 3. Hàm hỗ trợ định dạng tiền VNĐ
 function updateUIValue(elementId, value) {
     var elem = document.getElementById(elementId);
     if (elem) {
@@ -3689,16 +3680,16 @@ function updateUIValue(elementId, value) {
     }
 }
 
-// 4. Khởi tạo sự kiện khi trang tải xong
+// 4. Khởi tạo sự kiện khi tải trang
 document.addEventListener('DOMContentLoaded', function() {
+    if (!localStorage.getItem('saved_api_url')) {
+        localStorage.setItem('saved_api_url', DEFAULT_SCRIPT_API_URL);
+    }
     loadDashboardData();
 
-    // Lắng nghe sự kiện khi đổi Năm trên menu Dropdown
     var yearSelect = document.getElementById('yearSelect') || document.getElementById('selectYear');
     if (yearSelect) {
-        yearSelect.addEventListener('change', function() {
-            loadDashboardData();
-        });
+        yearSelect.addEventListener('change', loadDashboardData);
     }
 });
     </script>
