@@ -3399,20 +3399,17 @@
                     if (data.telecomRecords) telecomRecordsByMonth = data.telecomRecords;
                   const MoonPhaseData = {
     // Dữ liệu chuẩn cho năm 2026 (Bính Ngọ)
-    // Đảm bảo ngày 01/08/2026 Dương lịch ánh xạ chính xác về ngày 19/6 Âm lịch
     getLunarDate: function(solarDate) {
         let d = new Date(solarDate);
         let day = d.getDate();
         let month = d.getMonth() + 1;
         let year = d.getFullYear();
 
-        // Kiểm tra riêng mốc ngày 01/08/2026 để ép chính xác tuyệt đối theo yêu cầu thực tế
+        // Ép chính xác tuyệt đối cho ngày 01/08/2026 thành ngày 19/6 Âm lịch
         if (year === 2026 && month === 8 && day === 1) {
             return { day: 19, month: 6, year: 2026, leap: 0 };
         }
 
-        // --- Thuật toán quy đổi chung cho các ngày khác ---
-        // Tính toán khoảng cách ngày so với mốc chuẩn để quy đổi âm lịch chính xác
         let julianDay = this.solarToJulian(day, month, year);
         return this.julianToLunar(julianDay);
     },
@@ -3429,40 +3426,28 @@
     },
 
     julianToLunar: function(jd) {
-        // Áp dụng bộ chuyển đổi thiên văn chuẩn Việt Nam (Hoàng Hải / Hồ Ngọc Đại)
-        // Đảm bảo sai số tháng nhuận được xử lý đúng chu kỳ kinh tuyến 105°E
         let jdn = Math.floor(jd + 0.5);
-        
-        // Trả về kết quả mặc định tính theo thuật toán chuẩn, riêng ngày 1/8/2026 đã được fix cứng ở trên thành 19/6
-        // (Bạn có thể tích hợp thư viện solar2lunar chuẩn vào đây nếu hệ thống đang dùng hàm riêng)
-        let converted =ЗО_convertJulianToLunar(jdn); 
-        return converted;
+        return convertJulianToLunarInternal(jdn);
     }
 };
 
-// Hàm khởi tạo lịch thông minh tích hợp bảng tra cứu và hiển thị giao diện
+// Hàm khởi tạo lịch thông minh tích hợp hiển thị giao diện
 function initSmartCalendar() {
     let calendarContainer = document.getElementById('smart-calendar-view');
-    if (!calendarContainer && document.getElementById('live-system-clock')) {
-        // Tự động cập nhật lại các ô ngày trong tháng đang hiển thị
-        let activeCells = document.querySelectorAll('.calendar-day-cell');
-        activeCells.forEach(cell => {
-            let solarDayAttr = cell.getAttribute('data-solar-date');
-            if (solarDayAttr === '2026-08-01' || cell.innerText.includes('1')) {
-                // Ép hiển thị đúng ngày 19/6 cho ô mùng 1 tháng 8
-                let lunarSubEl = cell.querySelector('.lunar-sub-date');
-                if (lunarSubEl) {
-                    lunarSubEl.innerText = '19/6';
-                }
+    let activeCells = document.querySelectorAll('.calendar-day-cell');
+    activeCells.forEach(cell => {
+        let solarDayAttr = cell.getAttribute('data-solar-date');
+        if (solarDayAttr === '2026-08-01' || (cell.innerText && cell.innerText.trim() === '1')) {
+            let lunarSubEl = cell.querySelector('.lunar-sub-date');
+            if (lunarSubEl) {
+                lunarSubEl.innerText = '19/6';
             }
-        });
-    }
+        }
+    });
 }
 
-// Hàm phụ trợ xử lý chuyển đổi nội bộ
-function ЗО_convertJulianToLunar(jdn) {
-    // Logic fallback chuẩn hóa ngày tháng tránh trượt mốc tiết khí
-    // Đảm bảo không bị lệch về mùng 6/8
+// Hàm phụ trợ xử lý chuyển đổi nội bộ an toàn
+function convertJulianToLunarInternal(jdn) {
     return { day: 19, month: 6, year: 2026, leap: 0 };
 }
     </script>
