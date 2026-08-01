@@ -1159,7 +1159,6 @@
     .day-box.other { opacity: 0.3; }
     .s-num { font-size: 0.95rem; font-weight: bold; }
     .l-num { font-size: 0.68rem; opacity: 0.8; }
-    
     .cal-info-card { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; margin-top: 12px; }
     .info-line { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #e2e8f0; font-size: 0.88rem; }
     .quote-box { background: #fff7ed; border: 1px solid #ffedd5; color: #c2410c; padding: 8px 12px; border-radius: 6px; font-style: italic; font-size: 0.88rem; margin-top: 8px; text-align: center; font-weight: 500; }
@@ -3628,99 +3627,56 @@
         // Hàm mở bảng cấu hình: tự động nạp dữ liệu cũ từ localStorage
         // Hàm mở bảng cấu hình: tự động nạp dữ liệu cũ
         // ... (các hàm xử lý phía trên của bạn)
-        const FIXED_GOOGLE_SCRIPT_API_URL = "https://script.google.com/macros/s/AKfycbxcz6ynaYF_FmckDC1p4EPCkVHMMvCe8rwcbAjNV0BQeVNdQx9j1UzHpOo0Z17T0fGb/exec";
-        const FIXED_GOOGLE_SHEETS_URL = "https://docs.google.com/spreadsheets/d/1MM2VqBw1EnZ7YFdpRW-So9_AQgR99YI_7XOAHgUULns/edit?gid=1529354527#gid=1529354527";
-
-        // Hàm mở Modal Cấu hình & Tự động nạp giá trị vào ô
-        function openConfigUrlModal() {
-            let modal = document.getElementById('configUrlModal');
-            if (modal) {
-                modal.style.display = 'flex';
-                let scriptInput = document.getElementById('cfg-script-url');
-                let sheetInput = document.getElementById('cfg-sheet-url');
-                
-                if (scriptInput) {
-                    scriptInput.value = localStorage.getItem('saved_api_url') || scriptInput.value || FIXED_GOOGLE_SCRIPT_API_URL;
-                }
-                if (sheetInput) {
-                    sheetInput.value = localStorage.getItem('saved_sheet_url') || sheetInput.value || FIXED_GOOGLE_SHEETS_URL;
-                }
-            }
-        }
-
-        // Hàm đóng Modal
-        function closeConfigUrlModal() {
-            let modal = document.getElementById('configUrlModal');
-            if (modal) { modal.style.display = 'none'; }
-        }
-
-        // Hàm lưu Cấu hình khớp đúng tên saveConfigUrls() trong HTML của bạn
-        function saveConfigUrls() {
-            let scriptInput = document.getElementById('cfg-script-url');
-            let sheetInput = document.getElementById('cfg-sheet-url');
-
-            if (scriptInput && scriptInput.value.trim() !== "") {
-                localStorage.setItem('saved_api_url', scriptInput.value.trim());
-            }
-            if (sheetInput && sheetInput.value.trim() !== "") {
-                localStorage.setItem('saved_sheet_url', sheetInput.value.trim());
-            }
-
-            alert("Đã lưu cấu hình liên kết thành công!");
-            closeConfigUrlModal();
-            location.reload();
-        }
-
-      // =========================================================================
-// HỆ THỐNG XỬ LÝ DỮ LIỆU CHUẨN HOÁ DI ĐỘNG & MÁY TÍNH (VINAPACO DASHBOARD)
+       // =========================================================================
+// HỆ THỐNG ĐỌC DỮ LIỆU ĐỒNG BỘ CẢ TRÊN MÁY TÍNH & DI ĐỘNG (LỌC SẠCH CHUỖI API)
 // =========================================================================
 
 const DEFAULT_SCRIPT_API_URL = "https://script.google.com/macros/s/AKfycbxcz6ynaYF_FmckDC1p4EPCkVHMMvCe8rwcbAjNV0BQeVNdQx9j1UzHpOo0Z17T0fGb/exec";
 
-// 1. Hàm tách NĂM an toàn tuyệt đối trên iPhone/iOS & Android
 function extractYear(str) {
     if (!str) return "";
     var match = str.toString().match(/\d{4}/);
     return match ? match[0] : "";
 }
 
-// 2. Hàm nạp và hiển thị dữ liệu chính
 async function loadDashboardData() {
     var yearSelect = document.getElementById('yearSelect') || document.getElementById('selectYear') || document.getElementById('NĂM');
     var selectedYear = yearSelect ? yearSelect.value.toString().trim() : '2026';
-    
     var apiUrl = localStorage.getItem('saved_api_url') || DEFAULT_SCRIPT_API_URL;
 
     try {
         var response = await fetch(apiUrl + "?year=" + selectedYear + "&t=" + new Date().getTime());
-        if (!response.ok) throw new Error("Lỗi kết nối API");
+        if (!response.ok) throw new Error("Lỗi mạng");
 
         var data = await response.json();
         var totalPayments = 0, totalTax = 0, totalTelecom = 0;
 
-        // --- XỬ LÝ THANH TOÁN VP & THUẾ ---
+        // 1. THANH TOÁN VĂN PHÒNG & THUẾ (ĐÃ BỔ SUNG BỘ LỌC LOẠI BỎ CHUỖI API)
         if (data.payments) {
             Object.keys(data.payments).forEach(function(key) {
-                var keyYear = extractYear(key); // Lấy "2025" từ "2025-07" hoặc "2026" từ "2026-07"
+                var keyYear = extractYear(key);
                 var list = data.payments[key];
                 if (Array.isArray(list)) {
                     list.forEach(function(item) {
+                        // LỌC BỎ DÒNG CHỨA CẤU HÌNH API/JSON (Chỉ giữ lại Tem mã vạch, Mực in...)
+                        if (item.content && (item.content.includes("salaries,") || item.content.includes("payments,") || item.content.includes("telecoms,"))) {
+                            return; 
+                        }
+
                         var itemYear = extractYear(item.payDateTime || item.payDate) || keyYear;
                         if (itemYear === selectedYear) {
                             totalPayments += (parseFloat(item.amount) || 0);
-                            if (item.taxAmount) {
-                                totalTax += (parseFloat(item.taxAmount) || 0);
-                            }
+                            if (item.taxAmount) totalTax += (parseFloat(item.taxAmount) || 0);
                         }
                     });
                 }
             });
         }
 
-        // --- XỬ LÝ CƯỚC VIỄN THÔNG & INTERNET (KHẮC PHỤC TRỐNG DỮ LIỆU ĐIỆN THOẠI) ---
+        // 2. CƯỚC VIỄN THÔNG & INTERNET
         if (data.telecoms) {
             Object.keys(data.telecoms).forEach(function(key) {
-                var keyYear = extractYear(key); // Lấy "2025" hoặc "2026" từ key nhóm
+                var keyYear = extractYear(key);
                 var list = data.telecoms[key];
                 if (Array.isArray(list)) {
                     list.forEach(function(item) {
@@ -3733,36 +3689,36 @@ async function loadDashboardData() {
             });
         }
 
-        // --- CẬP NHẬT HIỂN THỊ LÊN GIAO DIỆN ---
+        // 3. CẬP NHẬT GIAO DIỆN
         updateUIValue('totalThanhToanVP', totalPayments);
         updateUIValue('totalTienThue', totalTax);
         updateUIValue('totalCuocVienThong', totalTelecom);
 
-        // Nạp bảng Lương (nếu có hàm renderSalaryTable)
         if (typeof renderSalaryTable === 'function' && data.salaries) {
             renderSalaryTable(data.salaries, selectedYear);
         }
 
     } catch (error) {
-        console.error("Lỗi nạp dữ liệu:", error);
+        console.error("Lỗi khi nạp dữ liệu:", error);
     }
 }
 
-// 3. Hàm hỗ trợ định dạng tiền VNĐ
 function updateUIValue(elementId, value) {
     var elem = document.getElementById(elementId);
-    if (elem) {
-        elem.innerText = value.toLocaleString('vi-VN') + " VNĐ";
-    }
+    if (elem) elem.innerText = value.toLocaleString('vi-VN') + " VNĐ";
 }
 
-// 4. Khởi tạo sự kiện khi tải trang
 document.addEventListener('DOMContentLoaded', function() {
     if (!localStorage.getItem('saved_api_url')) {
         localStorage.setItem('saved_api_url', DEFAULT_SCRIPT_API_URL);
     }
     loadDashboardData();
 
+    var yearSelect = document.getElementById('yearSelect') || document.getElementById('selectYear');
+    if (yearSelect) {
+        yearSelect.addEventListener('change', loadDashboardData);
+    }
+});
     var yearSelect = document.getElementById('yearSelect') || document.getElementById('selectYear');
     if (yearSelect) {
         yearSelect.addEventListener('change', loadDashboardData);
