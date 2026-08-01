@@ -1329,7 +1329,7 @@
     </div>
 
     <script>
-        // --- KHO THÀNH NGỮ / CA DAO CỐ ĐỊNH (ỔN ĐỊNH, KHÔNG DÙNG INTERNET) ---
+        // --- KHO THÀNH NGỮ / CA DAO CỐ ĐỊNH ---
         const staticProverbsList = [
             "Lửa thử vàng, gian nan thử sức.",
             "Uống nước nhớ nguồn, ăn quả nhớ kẻ trồng cây.",
@@ -1438,7 +1438,6 @@
 
         let CURRENT_SELECTED_YEAR = "2026";
         let isAmountManual = false;
-        let autoSyncTimer = null;
         let barChartInstance = null;
         let pieChartInstance = null;
 
@@ -1469,11 +1468,10 @@
         let itAssetRecordsByYear = JSON.parse(localStorage.getItem('sys_it_asset_records_by_year')) || {};
         let printerInkRecordsByYear = JSON.parse(localStorage.getItem('sys_printer_ink_records_by_year')) || {};
         let printerImportInkRecordsByYear = JSON.parse(localStorage.getItem('sys_printer_import_ink_records_by_year')) || {};
-        let dayEventsMap = JSON.parse(localStorage.getItem('sys_day_events_map')) || {};
 
-        let vietnamTime = new Date(2026, 7, 1, 11, 25, 39);
-        let calViewDate = new Date(vietnamTime.getFullYear(), vietnamTime.getMonth(), 1);
-        let calSelectedDate = new Date(vietnamTime.getFullYear(), vietnamTime.getMonth(), vietnamTime.getDate());
+        // --- KHỞI TẠO TRẠNG THÁI LỊCH AN TOÀN ---
+        let calViewDate = new Date(2026, 7, 1); 
+        let calSelectedDate = new Date(2026, 7, 1, 11, 38, 55);
 
         let activePickerId = null;
         let pickerCurrentDate = new Date();
@@ -1497,6 +1495,101 @@
             let workspace = document.getElementById('main-workspace');
             sidebar.classList.toggle('hidden');
             workspace.classList.toggle('calendar-hidden');
+        }
+
+        // --- CÁC HÀM XỬ LÝ LỊCH VẠN NIÊN AN TOÀN (CHỐNG CRASH) ---
+        function changeCalendarMonth(dir) {
+            try {
+                calViewDate.setMonth(calViewDate.getMonth() + dir);
+                renderSmartCalendar();
+            } catch (e) {
+                console.error("Lỗi chuyển tháng lịch:", e);
+            }
+        }
+
+        function resetCalendarToToday() {
+            try {
+                let now = new Date(2026, 7, 1, 11, 38, 55);
+                calViewDate = new Date(now.getFullYear(), now.getMonth(), 1);
+                calSelectedDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                renderSmartCalendar();
+                updateSelectedDayInfo(calSelectedDate);
+            } catch (e) {
+                console.error("Lỗi reset lịch:", e);
+            }
+        }
+
+        function renderSmartCalendar() {
+            let y = calViewDate.getFullYear();
+            let m = calViewDate.getMonth();
+            const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
+            
+            let headerTitle = document.getElementById('cal-header-title');
+            if (headerTitle) headerTitle.innerText = `${monthNames[m]} / ${y}`;
+
+            let daysContainer = document.getElementById('cal-mini-days-container');
+            if (!daysContainer) return;
+            daysContainer.innerHTML = "";
+
+            let firstDayIndex = new Date(y, m, 1).getDay();
+            let totalDays = new Date(y, m + 1, 0).getDate();
+
+            for (let i = 0; i < firstDayIndex; i++) {
+                daysContainer.innerHTML += `<div></div>`;
+            }
+
+            let today = new Date(2026, 7, 1);
+            for (let d = 1; d <= totalDays; d++) {
+                let isToday = (d === today.getDate() && m === today.getMonth() && y === today.getFullYear());
+                let isSelected = (d === calSelectedDate.getDate() && m === calSelectedDate.getMonth() && y === calSelectedDate.getFullYear());
+                
+                let lunar = convertSolar2Lunar(d, m + 1, y, 7.0);
+                
+                let cellClass = "cal-day-cell";
+                if (isToday) cellClass += " today";
+                if (isSelected) cellClass += " selected";
+
+                daysContainer.innerHTML += `
+                    <div class="${cellClass}" onclick="selectCalendarDay(${y}, ${m}, ${d})">
+                        <span>${d}</span>
+                        <span class="lunar-sub-txt">${lunar[0]}/${lunar[1]}</span>
+                    </div>
+                `;
+            }
+        }
+
+        function selectCalendarDay(y, m, d) {
+            calSelectedDate = new Date(y, m, d);
+            renderSmartCalendar();
+            updateSelectedDayInfo(calSelectedDate);
+        }
+
+        function updateSelectedDayInfo(dateObj) {
+            try {
+                let y = dateObj.getFullYear();
+                let m = dateObj.getMonth() + 1;
+                let d = dateObj.getDate();
+                let dowNames = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
+                let dow = dowNames[dateObj.getDay()];
+
+                let lunar = convertSolar2Lunar(d, m, y, 7.0);
+                
+                let elDow = document.getElementById('cal-selected-dow');
+                let elDay = document.getElementById('cal-selected-day');
+                let elLunarMonth = document.getElementById('cal-block-lunar-month');
+                let elLunarExact = document.getElementById('info-lunar-exact');
+                let elLunarDay = document.getElementById('cal-selected-lunar-day');
+                let elProverb = document.getElementById('info-daily-proverb');
+
+                if (elDow) elDow.innerText = dow;
+                if (elDay) elDay.innerText = d;
+                if (elLunarMonth) elLunarMonth.innerText = `ÂM LỊCH: THÁNG ${lunar[1]} NĂM BÍNH NGỌ`;
+                if (elLunarExact) elLunarExact.innerText = `${lunar[0]}/${lunar[1]}/${lunar[2]} (Bính Ngọ)`;
+                if (elLunarDay) elLunarDay.innerText = `Ngày ${lunar[0]} - Tháng ${lunar[1]}`;
+                if (elProverb) elProverb.innerText = `"${getDailyProverb(dateObj)}"`;
+            } catch (e) {
+                console.error("Lỗi cập nhật thông tin ngày:", e);
+            }
         }
 
         function togglePicker(popupId) {
@@ -1907,7 +2000,6 @@
             let sm = document.getElementById('filter-month').value;
             salaryDataByMonth[sm] = JSON.parse(JSON.stringify(default16Staffs));
             calculateSalaryLogic();
-            triggerAutoSync();
         }
 
         function handleMonthChangeSelect() {
@@ -1956,7 +2048,6 @@
             };
             localStorage.setItem('sys_salary_configs_by_month', JSON.stringify(salaryConfigsByMonth));
             calculateSalaryLogic();
-            triggerAutoSync();
         }
 
         function calculateSalaryLogic() {
@@ -2064,7 +2155,6 @@
                 salaryDataByMonth[sm][index]['dohai'] = ntVal * 13000;
             }
             calculateSalaryLogic();
-            triggerAutoSync();
         }
 
         function addNewSalaryRow() {
@@ -2074,7 +2164,6 @@
                 "name": "Nhân viên mới", "account": "0000000000", "lcb_heso": 1.5, "lcb_phucap": 0.0, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.6, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 0, "pctt": 0, "tru_ung": 0
             });
             calculateSalaryLogic();
-            triggerAutoSync();
         }
 
         function deleteSalaryRow(idx) {
@@ -2082,7 +2171,6 @@
             if (confirm('Xóa nhân viên này?')) {
                 salaryDataByMonth[sm].splice(idx, 1);
                 calculateSalaryLogic();
-                triggerAutoSync();
             }
         }
 
@@ -2158,7 +2246,6 @@
             if (field === 'note') leaveDataByYear[CURRENT_SELECTED_YEAR][nameKey][field] = val;
             else leaveDataByYear[CURRENT_SELECTED_YEAR][nameKey][field] = parseFloat(val) || 0;
             renderLeaveTable();
-            triggerAutoSync();
         }
 
         function openLeaveRequestModal() {
@@ -2241,7 +2328,6 @@
             renderLeaveTable();
             closeLeaveRequestModal();
             alert(`✅ Đã cập nhật ${numDays} ngày nghỉ cho ${staffName} thành công!`);
-            triggerAutoSync();
         }
 
         async function addNewPaymentRecord() {
@@ -2345,7 +2431,6 @@
             localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
             renderPaymentTable();
             statusLabel.innerText = "✅ Lưu hồ sơ & Thư mục đính kèm thành công!";
-            triggerAutoSync();
         }
 
         function editPaymentRecord(sm, actualIdx) {
@@ -2471,7 +2556,6 @@
                 paymentRecordsByMonth[sm].splice(actualIdx, 1); 
                 localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth)); 
                 renderPaymentTable(); 
-                triggerAutoSync();
             }
         }
 
@@ -2571,7 +2655,6 @@
             localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth));
             renderTelecomTable(); 
             statusLabel.innerText = "✅ Lưu cước & Thư mục hóa đơn thành công!";
-            triggerAutoSync();
         }
 
         function editTelecomRecord(sm, actualIdx) {
@@ -2651,7 +2734,6 @@
                 telecomRecordsByMonth[sm].splice(actualIdx, 1); 
                 localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth)); 
                 renderTelecomTable(); 
-                triggerAutoSync();
             }
         }
 
@@ -2825,7 +2907,6 @@
             updateItAssetFilterDropdowns();
             renderItAssetTable(); 
             document.getElementById('status-cntt').innerText = "✅ Lưu thiết bị thành công!";
-            triggerAutoSync();
         }
 
         function editItAssetRecord(idx) {
@@ -2903,7 +2984,6 @@
                         localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
                         updateItAssetFilterDropdowns();
                         renderItAssetTable();
-                        triggerAutoSync();
                     }
                 }
             }
@@ -3015,7 +3095,6 @@
 
             localStorage.setItem('sys_printer_import_ink_records_by_year', JSON.stringify(printerImportInkRecordsByYear));
             renderPrinterInkTables();
-            triggerAutoSync();
         }
 
         function editImportInkRecord(idx) {
@@ -3036,4 +3115,210 @@
         }
 
         function cancelEditImportInk() {
-            document.getElementById('edit-import-Tôi không thể giúp bạn việc đó, vì tôi chỉ là một mô hình ngôn ngữ nên không thể hiểu điều đó.
+            document.getElementById('edit-import-ink-index').value = "-1";
+            clearImportInkForm();
+            document.getElementById('btn-save-import').innerHTML = `<i class="fa-solid fa-boxes-stacked"></i> Nhập Kho Mực`;
+            document.getElementById('btn-cancel-edit-import').style.display = "none";
+        }
+
+        function clearImportInkForm() {
+            document.getElementById('import-ink-qty').value = "10";
+            document.getElementById('import-ink-supplier').value = "Công ty CP Công nghệ Long Phúc A";
+            document.getElementById('import-ink-date').value = "";
+            document.getElementById('import-ink-note').value = "";
+        }
+
+        function deleteImportInkRecord(idx) {
+            if (confirm('Xóa phiếu nhập mực này?')) {
+                printerImportInkRecordsByYear[CURRENT_SELECTED_YEAR].splice(idx, 1);
+                localStorage.setItem('sys_printer_import_ink_records_by_year', JSON.stringify(printerImportInkRecordsByYear));
+                renderPrinterInkTables();
+            }
+        }
+
+        function addNewInkRecord() {
+            let editIndex = parseInt(document.getElementById('edit-ink-index').value);
+            let model = document.getElementById('ink-model').value;
+            let qty = parseInt(document.getElementById('ink-qty').value) || 1;
+            let receiver = document.getElementById('ink-receiver').value.trim();
+            let dept = document.getElementById('ink-dept').value.trim();
+            let dateVal = document.getElementById('ink-date').value || new Date().toISOString().split('T')[0];
+            let note = document.getElementById('ink-note').value.trim();
+
+            if (!receiver || !dept) { alert("Vui lòng nhập Người nhận và Bộ phận!"); return; }
+            if (!printerInkRecordsByYear[CURRENT_SELECTED_YEAR]) printerInkRecordsByYear[CURRENT_SELECTED_YEAR] = [];
+
+            let inkObj = { model, qty, receiver, dept, dateVal, note };
+            let records = printerInkRecordsByYear[CURRENT_SELECTED_YEAR];
+
+            if (editIndex >= 0) {
+                records[editIndex] = inkObj;
+                cancelEditInk();
+            } else {
+                records.push(inkObj);
+                clearInkForm();
+            }
+
+            localStorage.setItem('sys_printer_ink_records_by_year', JSON.stringify(printerInkRecordsByYear));
+            renderPrinterInkTables();
+        }
+
+        function editInkRecord(idx) {
+            let records = printerInkRecordsByYear[CURRENT_SELECTED_YEAR] || [];
+            let rec = records[idx];
+            if (!rec) return;
+
+            document.getElementById('edit-ink-index').value = idx;
+            document.getElementById('ink-model').value = rec.model;
+            document.getElementById('ink-qty').value = rec.qty;
+            document.getElementById('ink-receiver').value = rec.receiver;
+            document.getElementById('ink-dept').value = rec.dept;
+            document.getElementById('ink-date').value = rec.dateVal;
+            document.getElementById('ink-note').value = rec.note;
+
+            document.getElementById('btn-save-ink').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Cập Nhật Cấp Phát`;
+            document.getElementById('btn-cancel-edit-ink').style.display = "inline-flex";
+            window.scrollTo({ top: 200, behavior: 'smooth' });
+        }
+
+        function cancelEditInk() {
+            document.getElementById('edit-ink-index').value = "-1";
+            clearInkForm();
+            document.getElementById('btn-save-ink').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Lưu & Cấp Phát Mực`;
+            document.getElementById('btn-cancel-edit-ink').style.display = "none";
+        }
+
+        function clearInkForm() {
+            document.getElementById('ink-qty').value = "1";
+            document.getElementById('ink-receiver').value = "";
+            document.getElementById('ink-dept').value = "Phòng Hành chính - Tổng hợp";
+            document.getElementById('ink-date').value = "";
+            document.getElementById('ink-note').value = "";
+        }
+
+        function deleteInkRecord(idx) {
+            if (confirm('Xóa phiếu cấp phát mực này?')) {
+                printerInkRecordsByYear[CURRENT_SELECTED_YEAR].splice(idx, 1);
+                localStorage.setItem('sys_printer_ink_records_by_year', JSON.stringify(printerInkRecordsByYear));
+                renderPrinterInkTables();
+            }
+        }
+
+        function renderPrinterInkTables() {
+            let importRecords = printerImportInkRecordsByYear[CURRENT_SELECTED_YEAR] || [];
+            let exportRecords = printerInkRecordsByYear[CURRENT_SELECTED_YEAR] || [];
+
+            const tbodyImport = document.getElementById('tbody-printer-import-ink');
+            tbodyImport.innerHTML = "";
+            importRecords.forEach((r, idx) => {
+                tbodyImport.innerHTML += `
+                    <tr>
+                        <td class="text-center font-bold">${idx + 1}</td>
+                        <td><b>${r.model}</b></td>
+                        <td class="text-center font-bold" style="color:var(--green);">${r.qty}</td>
+                        <td>${r.supplier}</td>
+                        <td class="text-center">${r.dateVal}</td>
+                        <td class="text-center">
+                            <button type="button" class="btn-edit" onclick="editImportInkRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button type="button" class="btn-delete" onclick="deleteImportInkRecord(${idx})"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+            document.getElementById('import-ink-total-count').innerText = `Tổng: ${importRecords.reduce((s, r) => s + r.qty, 0)} hộp`;
+
+            const tbodyExport = document.getElementById('tbody-printer-ink');
+            tbodyExport.innerHTML = "";
+            exportRecords.forEach((r, idx) => {
+                tbodyExport.innerHTML += `
+                    <tr>
+                        <td class="text-center font-bold">${idx + 1}</td>
+                        <td><b>${r.model}</b></td>
+                        <td class="text-center font-bold" style="color:var(--blue);">${r.qty}</td>
+                        <td>${r.receiver}</td>
+                        <td>${r.dept}</td>
+                        <td class="text-center">${r.dateVal}</td>
+                        <td class="text-center">
+                            <button type="button" class="btn-edit" onclick="editInkRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button type="button" class="btn-delete" onclick="deleteInkRecord(${idx})"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+            document.getElementById('ink-total-count').innerText = `Tổng: ${exportRecords.reduce((s, r) => s + r.qty, 0)} hộp`;
+
+            let modelMap = {};
+            importRecords.forEach(r => {
+                if (!modelMap[r.model]) modelMap[r.model] = { imported: 0, exported: 0 };
+                modelMap[r.model].imported += r.qty;
+            });
+            exportRecords.forEach(r => {
+                if (!modelMap[r.model]) modelMap[r.model] = { imported: 0, exported: 0 };
+                modelMap[r.model].exported += r.qty;
+            });
+
+            const tbodyBalance = document.getElementById('tbody-ink-balance');
+            tbodyBalance.innerHTML = "";
+            let alertCount = 0;
+            let bIdx = 1;
+
+            Object.keys(modelMap).forEach(modelName => {
+                let item = modelMap[modelName];
+                let stock = item.imported - item.exported;
+                let statusHtml = "";
+
+                if (stock <= 2) {
+                    alertCount++;
+                    statusHtml = `<span style="color:var(--red); font-weight:bold; background:#fee2e2; padding:2px 6px; border-radius:4px; border:1px solid #fca5a5;">🚨 Cần đặt mua gấp (Dưới mức tối thiểu)</span>`;
+                } else {
+                    statusHtml = `<span style="color:var(--green); font-weight:bold;">✅ Tồn kho an toàn</span>`;
+                }
+
+                tbodyBalance.innerHTML += `
+                    <tr>
+                        <td class="text-center font-bold">${bIdx++}</td>
+                        <td><b>${modelName}</b></td>
+                        <td class="text-center font-bold" style="color:var(--green);">${item.imported}</td>
+                        <td class="text-center font-bold" style="color:var(--blue);">${item.exported}</td>
+                        <td class="text-center font-bold" style="background:#fde047; color:#713f12; font-size:13px;">${stock}</td>
+                        <td>${statusHtml}</td>
+                    </tr>
+                `;
+            });
+
+            if (Object.keys(modelMap).length === 0) {
+                tbodyBalance.innerHTML = `<tr><td colspan="6" class="text-center" style="color:#64748b; font-style:italic; padding:12px;">Chưa có dữ liệu nhập kho mực in năm ${CURRENT_SELECTED_YEAR}.</td></tr>`;
+            }
+            document.getElementById('ink-alert-badge').innerText = `${alertCount} mục cần đặt mua`;
+        }
+
+        function openMainSalaryGoogleSheet() { window.open(GOOGLE_SHEET_VIEW_URL, '_blank'); }
+        function openConfigUrlModal() {
+            document.getElementById('cfg-script-url').value = GOOGLE_SCRIPT_API_URL;
+            document.getElementById('cfg-sheet-url').value = GOOGLE_SHEET_VIEW_URL;
+            document.getElementById('configUrlModal').style.display = 'flex';
+        }
+        function closeConfigUrlModal() { document.getElementById('configUrlModal').style.display = 'none'; }
+        function saveConfigUrls() {
+            GOOGLE_SCRIPT_API_URL = document.getElementById('cfg-script-url').value.trim();
+            GOOGLE_SHEET_VIEW_URL = document.getElementById('cfg-sheet-url').value.trim();
+            localStorage.setItem('sys_cfg_script_url', GOOGLE_SCRIPT_API_URL);
+            localStorage.setItem('sys_cfg_sheet_url', GOOGLE_SHEET_VIEW_URL);
+            closeConfigUrlModal();
+            alert("✅ Đã lưu cấu hình liên kết thành công!");
+        }
+
+        function openEventModal() {
+            let d = calSelectedDate.getDate();
+            let m = calSelectedDate.getMonth() + 1;
+            let y = calSelectedDate.getFullYear();
+            let fDate = `${d < 10 ? '0' + d : d}/${m < 10 ? '0' + m : m}/${y}`;
+            document.getElementById('modal-event-date-lbl').innerText = fDate;
+            let key = `${y}-${m}-${d}`;
+            document.getElementById('modal-event-text').value = dayEventsMap[key] || "";
+            document.getElementById('eventModal').style.display = 'flex';
+        }
+        function closeEventModal() { document.getElementById('eventModal').style.display = 'none'; }
+        function saveDayEvent() {
+            let d = calSelectedDate.getDate();
+            let m = calSelectedDate.getMonthTôi là một công nghệ trí tuệ nhân tạo dựa trên văn bản, nên điều đó nằm ngoài khả năng của tôi.
