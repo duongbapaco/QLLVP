@@ -3552,27 +3552,35 @@
         // Hàm mở bảng cấu hình: tự động nạp dữ liệu cũ từ localStorage
         // Hàm mở bảng cấu hình: tự động nạp dữ liệu cũ
         // ... (các hàm xử lý phía trên của bạn)
-        // >>> BẠN HÃY DÁN ĐOẠN CODE MỚI NÀY VÀO ĐÂY (THAY THẾ PHẦN CẤU HÌNH CŨ) <<<
-       const FIXED_GOOGLE_SCRIPT_API_URL = "https://script.google.com/macros/s/AKfycbxcz6ynaYF_FmckDC1p4EPCkVHMMvCe8rwcbAjNV0BQeVNdQx9j1UzHpOo0Z17T0fGb/exec";
+        const FIXED_GOOGLE_SCRIPT_API_URL = "https://script.google.com/macros/s/AKfycbxcz6ynaYF_FmckDC1p4EPCkVHMMvCe8rwcbAjNV0BQeVNdQx9j1UzHpOo0Z17T0fGb/exec";
         const FIXED_GOOGLE_SHEETS_URL = "https://docs.google.com/spreadsheets/d/1MM2VqBw1EnZ7YFdpRW-So9_AQgR99YI_7XOAHgUULns/edit?gid=1529354527#gid=1529354527";
+
+        // Hàm điền dữ liệu cưỡng bức vào tất cả các ô input tìm thấy trong modal
+        function populateConfigInputs() {
+            let savedApi = localStorage.getItem('saved_api_url') || FIXED_GOOGLE_SCRIPT_API_URL;
+            let savedSheet = localStorage.getItem('saved_sheet_url') || FIXED_GOOGLE_SHEETS_URL;
+
+            let modal = document.getElementById('configUrlModal');
+            if (modal) {
+                // Cách 1: Quét tất cả thẻ input trong modal
+                let inputs = modal.getElementsByTagName('input');
+                if (inputs.length >= 1) inputs[0].value = savedApi;
+                if (inputs.length >= 2) inputs[1].value = savedSheet;
+
+                // Cách 2: Quét trực tiếp theo ID phổ biến (nếu có)
+                let apiEl = document.getElementById('apiUrl') || document.getElementById('scriptUrl') || document.getElementById('webAppUrl');
+                let sheetEl = document.getElementById('sheetUrl') || document.getElementById('googleSheetUrl') || document.getElementById('excelUrl');
+                if (apiEl) apiEl.value = savedApi;
+                if (sheetEl) sheetEl.value = savedSheet;
+            }
+        }
 
         function openConfigUrlModal() {
             let modal = document.getElementById('configUrlModal');
             if (modal) {
                 modal.style.display = 'flex';
-                
-                // Lấy giá trị từ localStorage (nếu có), nếu chưa có thì lấy giá trị cố định
-                let savedApi = localStorage.getItem('saved_api_url') || FIXED_GOOGLE_SCRIPT_API_URL;
-                let savedSheet = localStorage.getItem('saved_sheet_url') || FIXED_GOOGLE_SHEETS_URL;
-                
-                // Tìm tất cả các ô input trong modal và gán giá trị trực tiếp
-                let inputs = modal.querySelectorAll('input');
-                if (inputs.length >= 1) {
-                    inputs[0].value = savedApi;
-                }
-                if (inputs.length >= 2) {
-                    inputs[1].value = savedSheet;
-                }
+                // Mỗi lần mở modal là ép điền dữ liệu ngay lập tức
+                populateConfigInputs();
             }
         }
 
@@ -3584,12 +3592,12 @@
         function saveConfigUrlModal() {
             let modal = document.getElementById('configUrlModal');
             if (modal) {
-                let inputs = modal.querySelectorAll('input');
-                if (inputs.length >= 1 && inputs[0].value.trim() !== "") { 
-                    localStorage.setItem('saved_api_url', inputs[0].value.trim()); 
+                let inputs = modal.getElementsByTagName('input');
+                if (inputs.length >= 1 && inputs[0].value.trim() !== "") {
+                    localStorage.setItem('saved_api_url', inputs[0].value.trim());
                 }
-                if (inputs.length >= 2 && inputs[1].value.trim() !== "") { 
-                    localStorage.setItem('saved_sheet_url', inputs[1].value.trim()); 
+                if (inputs.length >= 2 && inputs[1].value.trim() !== "") {
+                    localStorage.setItem('saved_sheet_url', inputs[1].value.trim());
                 }
                 alert("Đã lưu cấu hình liên kết thành công!");
                 closeConfigUrlModal();
@@ -3597,7 +3605,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Đảm bảo luôn có giá trị mặc định trong localStorage ngay khi tải trang
+            // Tự động gán mặc định nếu chưa có
             if (!localStorage.getItem('saved_api_url')) {
                 localStorage.setItem('saved_api_url', FIXED_GOOGLE_SCRIPT_API_URL);
             }
@@ -3605,15 +3613,20 @@
                 localStorage.setItem('saved_sheet_url', FIXED_GOOGLE_SHEETS_URL);
             }
 
+            // Gán sự kiện cho các nút bấm trong Modal
             let modal = document.getElementById('configUrlModal');
             if (modal) {
                 let buttons = modal.querySelectorAll('button');
                 buttons.forEach(btn => {
                     let text = btn.innerText.trim();
-                    if (text.includes('Đóng')) {
+                    if (text.includes('Đóng') || text.includes('Hủy')) {
                         btn.onclick = function(e) { e.preventDefault(); closeConfigUrlModal(); };
                     } else if (text.includes('Lưu')) {
                         btn.onclick = function(e) { e.preventDefault(); saveConfigUrlModal(); };
+                    }
+                });
+            }
+        });
                     }
                 });
             }
