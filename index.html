@@ -773,6 +773,10 @@
                         
                         <div class="grid-form" style="margin-bottom: 6px;">
                             <div class="form-group">
+                                <label style="color: #6d28d9;">Số lượng thiết bị <span style="color:var(--red);">*</span></label>
+                                <input type="number" id="it-qty" value="1" min="1" step="1" style="border-color: #d8b4fe; font-weight: 800; color: var(--purple);">
+                            </div>
+                            <div class="form-group">
                                 <label style="color: #6d28d9;">Hệ điều hành</label>
                                 <select id="it-os" style="border-color: #d8b4fe;">
                                     <option value="Windows 11 Pro" selected>Windows 11 Pro</option>
@@ -902,7 +906,8 @@
                                 <tr style="background-color: #cbd5e1;">
                                     <th>STT</th>
                                     <th>Mã tài sản</th>
-                                    <th>Loại</th>
+                                    <th>Loại thiết bị</th>
+                                    <th>SL</th>
                                     <th>Cấu hình phần cứng</th>
                                     <th>HĐH & Bản quyền</th>
                                     <th>Office & Bản quyền</th>
@@ -1568,7 +1573,10 @@
                 });
             });
 
-            let itCountYear = (itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || []).length;
+            let itListYear = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
+            let totalItCount = 0;
+            itListYear.forEach(item => { totalItCount += (parseFloat(item.qty) || 1); });
+
             let inkListYear = inkInventoryRecordsByYear[CURRENT_SELECTED_YEAR] || [];
             let totalInkCount = 0;
             inkListYear.forEach(item => { totalInkCount += (parseFloat(item.qty) || 0); });
@@ -1577,7 +1585,7 @@
             document.getElementById('dash-paid-pay').innerText = formatCurrencyVN(totalPaidYear) + " VND";
             document.getElementById('dash-total-advance').innerText = formatCurrencyVN(totalAdvanceYear) + " VND";
             document.getElementById('dash-pending-pay').innerText = formatCurrencyVN(totalTelecomYear) + " VND";
-            document.getElementById('dash-total-it-devices').innerText = `${itCountYear} Thiết bị`;
+            document.getElementById('dash-total-it-devices').innerText = `${totalItCount} Thiết bị`;
             document.getElementById('dash-total-ink').innerText = `${totalInkCount} Hộp`;
 
             if(document.getElementById('dash-sub-net')) {
@@ -1586,7 +1594,7 @@
                 document.getElementById('dash-sub-advance').innerText = formatCurrencyVN(totalAdvanceYear) + " VND";
                 document.getElementById('dash-sub-tele').innerText = formatCurrencyVN(totalTelecomYear) + " VND";
                 document.getElementById('dash-sub-tax').innerText = formatCurrencyVN(totalTaxYear) + " VND";
-                document.getElementById('dash-sub-it').innerText = `${itCountYear} Thiết bị`;
+                document.getElementById('dash-sub-it').innerText = `${totalItCount} Thiết bị`;
                 document.getElementById('dash-sub-ink').innerText = `${totalInkCount} Hộp`;
             }
 
@@ -1695,7 +1703,9 @@
                 });
             });
 
-            let itCount = (itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || []).length;
+            let itList = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
+            let itCount = 0; itList.forEach(i => itCount += (parseFloat(i.qty) || 1));
+
             let inkList = inkInventoryRecordsByYear[CURRENT_SELECTED_YEAR] || [];
             let inkCount = 0; inkList.forEach(i => inkCount += (parseFloat(i.qty) || 0));
 
@@ -2465,15 +2475,16 @@
             let dept = document.getElementById('it-dept').value.trim();
             let type = document.getElementById('it-type').value;
             let code = document.getElementById('it-code').value.trim();
+            let qty = parseFloat(document.getElementById('it-qty').value) || 1;
             let os = document.getElementById('it-os').value, osLic = document.getElementById('it-os-lic').value;
             let office = document.getElementById('it-office').value, officeLic = document.getElementById('it-office-lic').value;
             let selectedSoftware = getSelectedSoftwareDetails();
             let specs = document.getElementById('it-specs').value.trim(), dateVal = document.getElementById('it-date').value, status = document.getElementById('it-status').value;
 
-            if (!code || !user || !dept) { alert("⚠️ Vui lòng nhập đầy đủ Người sử dụng và Phòng ban!"); return; }
+            if (!code || !user || !dept || qty <= 0) { alert("⚠️ Vui lòng nhập đầy đủ Người sử dụng, Bộ phận và Số lượng hợp lệ!"); return; }
             if (!itAssetRecordsByYear[CURRENT_SELECTED_YEAR]) itAssetRecordsByYear[CURRENT_SELECTED_YEAR] = [];
             
-            let recordObj = { user, dept, type, code, os, osLic, office, officeLic, selectedSoftware, specs, dateVal, status };
+            let recordObj = { user, dept, type, code, qty, os, osLic, office, officeLic, selectedSoftware, specs, dateVal, status };
 
             if (editIndex >= 0) {
                 let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR];
@@ -2526,6 +2537,7 @@
             document.getElementById('it-dept').value = rec.dept || "";
             document.getElementById('it-type').value = rec.type || "Laptop Doanh Nghiệp";
             document.getElementById('it-code').value = rec.code || "";
+            document.getElementById('it-qty').value = rec.qty !== undefined ? rec.qty : 1;
             document.getElementById('it-os').value = rec.os || "Windows 11 Pro";
             document.getElementById('it-os-lic').value = rec.osLic || "Đã có bản quyền chính hãng";
             document.getElementById('it-office').value = rec.office || "Microsoft 365 (M365) Business";
@@ -2567,6 +2579,7 @@
 
         function clearItAssetForm() { 
             document.getElementById('it-user').value = ""; document.getElementById('it-dept').value = ""; 
+            document.getElementById('it-qty').value = "1";
             generateNewItCode();
             let container = document.getElementById('software-checkbox-container');
             if (container) {
@@ -2619,7 +2632,12 @@
             });
 
             const tbody = document.getElementById('tbody-it-assets'); tbody.innerHTML = "";
+            let totalItUnitsCount = 0;
+
             filteredRecords.forEach((rec, idx) => {
+                let q = rec.qty !== undefined ? parseFloat(rec.qty) : 1;
+                totalItUnitsCount += q;
+
                 let swList = rec.selectedSoftware || [];
                 let swDisplay = swList.length === 0 ? "Không có" : swList.map(s => s.lic ? `${s.name} <b style="color:${s.lic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${s.lic}]</b>` : s.name).join("<br>");
                 
@@ -2627,6 +2645,7 @@
                     <td class="text-center font-bold">${idx + 1}</td>
                     <td class="text-center font-bold" style="color:var(--purple);">${rec.code}</td>
                     <td>${rec.type}</td>
+                    <td class="text-center font-bold" style="color:var(--blue);">${q}</td>
                     <td>${rec.specs}</td>
                     <td>${rec.os} <br><span style="color:${rec.osLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.osLic}]</span></td>
                     <td>${rec.office} <br><span style="color:${rec.officeLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.officeLic}]</span></td>
@@ -2642,7 +2661,7 @@
                 </tr>`;
             });
 
-            document.getElementById('it-total-count').innerText = `Tổng: ${filteredRecords.length} Thiết bị`;
+            document.getElementById('it-total-count').innerText = `Tổng: ${filteredRecords.length} dòng (${totalItUnitsCount} thiết bị)`;
             updateGlobalDashboardSummary();
         }
 
@@ -2806,6 +2825,7 @@
 
             let rowsHTML = "";
             targetRecords.forEach((r, i) => {
+                let q = r.qty !== undefined ? r.qty : 1;
                 let swList = r.selectedSoftware || [];
                 let swStr = swList.length === 0 ? "Không có" : swList.map(s => s.lic ? `${s.name} [${s.lic}]` : s.name).join("; ");
                 rowsHTML += `
@@ -2813,6 +2833,7 @@
                         <td style="border: 1px solid black; padding: 6px; text-align: center;">${i + 1}</td>
                         <td style="border: 1px solid black; padding: 6px; text-align: center; font-weight: bold;">${r.code}</td>
                         <td style="border: 1px solid black; padding: 6px;">${r.type}</td>
+                        <td style="border: 1px solid black; padding: 6px; text-align: center; font-weight: bold;">${q}</td>
                         <td style="border: 1px solid black; padding: 6px;">${r.specs}</td>
                         <td style="border: 1px solid black; padding: 6px;">${r.os} (${r.osLic})</td>
                         <td style="border: 1px solid black; padding: 6px;">${r.office} (${r.officeLic})</td>
@@ -2836,6 +2857,7 @@
                                 <th style="border:1px solid black; background:#f2f2f2; padding:6px;">STT</th>
                                 <th style="border:1px solid black; background:#f2f2f2; padding:6px;">Mã TS</th>
                                 <th style="border:1px solid black; background:#f2f2f2; padding:6px;">Loại</th>
+                                <th style="border:1px solid black; background:#f2f2f2; padding:6px;">SL</th>
                                 <th style="border:1px solid black; background:#f2f2f2; padding:6px;">Cấu hình</th>
                                 <th style="border:1px solid black; background:#f2f2f2; padding:6px;">HĐH</th>
                                 <th style="border:1px solid black; background:#f2f2f2; padding:6px;">Office</th>
