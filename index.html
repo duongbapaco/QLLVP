@@ -254,15 +254,60 @@
             </div>
 
             <div class="nav-tabs">
-                <button type="button" class="nav-tab active" data-tab="salary" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Tính Lương</button>
+                <button type="button" class="nav-tab active" data-tab="dashboard" onclick="switchMainTab('dashboard')"><i class="fa-solid fa-chart-pie"></i> Dashboard</button>
+                <button type="button" class="nav-tab" data-tab="salary" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Tính Lương</button>
                 <button type="button" class="nav-tab" data-tab="payment" onclick="switchMainTab('payment')"><i class="fa-solid fa-file-invoice"></i> Hồ Sơ TT</button>
                 <button type="button" class="nav-tab" data-tab="telecom" onclick="switchMainTab('telecom')"><i class="fa-solid fa-globe"></i> Cước Viễn Thông</button>
                 <button type="button" class="nav-tab" data-tab="it-assets" onclick="switchMainTab('it-assets')"><i class="fa-solid fa-laptop"></i> Thiết Bị CNTT</button>
                 <button type="button" class="nav-tab" data-tab="ink-inventory" onclick="switchMainTab('ink-inventory')"><i class="fa-solid fa-print"></i> Kho Mực In</button>
             </div>
 
+            <!-- TAB 0: DASHBOARD MODULE RIÊNG BIỆT -->
+            <div id="tab-dashboard" class="tab-content active">
+                <div class="main-card">
+                    <div class="card-title" style="border-left-color: var(--blue);">
+                        <span><i class="fa-solid fa-chart-pie" style="color:var(--blue);"></i> TỔNG QUAN ĐIỀU HÀNH & QUẢN TRỊ TỔNG HỢP (<span class="lbl-current-year">2026</span>)</span>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-bottom: 12px;">
+                        <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 14px; border-radius: 8px;">
+                            <div style="font-weight: bold; font-size: 13.5px; color: var(--primary); margin-bottom: 8px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px;">
+                                <i class="fa-solid fa-wallet" style="color:var(--blue);"></i> TÀI CHÍNH & QUỸ LƯƠNG (<span class="lbl-current-year">2026</span>)
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+                                <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Lương NET:</span> <b id="dash-sub-net" style="color:var(--blue);">0 VND</b></div>
+                                <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Thanh Toán VP:</span> <b id="dash-sub-paid" style="color:var(--green);">0 VND</b></div>
+                                <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Tạm Ứng Nhân Sự:</span> <b id="dash-sub-advance" style="color:var(--red);">0 VND</b></div>
+                                <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Cước Viễn Thông:</span> <b id="dash-sub-tele" style="color:var(--orange);">0 VND</b></div>
+                            </div>
+                        </div>
+
+                        <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 14px; border-radius: 8px;">
+                            <div style="font-weight: bold; font-size: 13.5px; color: var(--primary); margin-bottom: 8px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px;">
+                                <i class="fa-solid fa-laptop-code" style="color:var(--purple);"></i> TÀI SẢN CNTT & KHO MỰC (<span class="lbl-current-year">2026</span>)
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+                                <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Thiết Bị & Tài Sản CNTT:</span> <b id="dash-sub-it" style="color:var(--purple);">0 Thiết bị</b></div>
+                                <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Hộp Mực Trong Kho:</span> <b id="dash-sub-ink" style="color:var(--teal);">0 Hộp</b></div>
+                                <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Trạng Thái Hệ Thống:</span> <b style="color:var(--green);">Hoạt động ổn định (Cloud API)</b></div>
+                                <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Đơn Vị Quản Lý:</span> <b style="color:var(--primary);">Tổng công ty Giấy Việt Nam</b></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: #eff6ff; border: 1.5px solid #93c5fd; padding: 14px; border-radius: 8px; text-align: center;">
+                        <div style="font-weight: bold; font-size: 14px; color: #1e3a8a; margin-bottom: 6px;">
+                            <i class="fa-solid fa-circle-info"></i> HƯỚNG DẪN SỬ DỤNG NHANH HỆ THỐNG QUẢN TRỊ
+                        </div>
+                        <p style="font-size: 13px; color: #1e293b; line-height: 1.5;">
+                            Sử dụng thanh điều hướng phía trên để chuyển đổi nhanh giữa các module: <b>Tính Lương</b>, <b>Hồ Sơ Thanh Toán</b>, <b>Cước Viễn Thông</b>, <b>Thiết Bị CNTT (có mã QR & phần mềm nghiệp vụ gom gọn)</b> và <b>Kho Mực In</b>. Mọi dữ liệu đều được tự động lưu trữ và đồng bộ an toàn.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
             <!-- TAB 1: BẢNG LƯƠNG NHÂN SỰ -->
-            <div id="tab-salary" class="tab-content active">
+            <div id="tab-salary" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--blue);">
                         <span><i class="fa-solid fa-pen-to-square" style="color:var(--blue);"></i> CẤU HÌNH LƯƠNG THÁNG - NĂM <span class="lbl-current-year">2026</span></span>
@@ -662,7 +707,7 @@
                 </div>
             </div>
 
-            <!-- TAB 4: THIẾT BỊ CÔNG NGHỆ THÔNG TIN & TÀI SẢN -->
+            <!-- TAB 4: THIẾT BỊ CÔNG NGHỆ THÔNG TIN & TÀI SẢN (GOM GỌN PHẦN MỀM NGHIỆP VỤ) -->
             <div id="tab-it-assets" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--purple);">
@@ -748,13 +793,28 @@
                                 </div>
                             </div>
 
-                            <!-- MỞ RỘNG PHẦN MỀM NGHIỆP VỤ (CHỌN NHIỀU, CLOUDOFFICE, CAD & SOLIDWORKS 2007 - MỚI NHẤT) -->
+                            <!-- PHẦN MỀM NGHIỆP VỤ ĐƯỢC GOM GỌN TRONG DROPDOWN MULTI-SELECT THANH LỊCH -->
                             <div style="background: #ffffff; border: 1.5px solid #d8b4fe; padding: 10px; border-radius: 6px; margin-bottom: 8px;">
-                                <label style="color: #6d28d9; font-weight: bold; font-size: 12.5px; display: block; margin-bottom: 6px;">
-                                    <i class="fa-solid fa-cubes"></i> Phần mềm nghiệp vụ & Thiết kế chuyên sâu (Có thể chọn & kèm bản quyền):
-                                </label>
-                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; max-height: 150px; overflow-y: auto; padding-right: 4px;" id="software-checkbox-container">
-                                    <!-- Được render động bằng JavaScript -->
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                    <label style="color: #6d28d9; font-weight: bold; font-size: 12.5px;">
+                                        <i class="fa-solid fa-cubes"></i> Phần mềm nghiệp vụ & Thiết kế chuyên sâu (Gom gọn):
+                                    </label>
+                                    <span id="selected-software-counter" style="font-size: 11px; font-weight: bold; color: var(--blue);">Đã chọn: 0 phần mềm</span>
+                                </div>
+                                <div style="position: relative;">
+                                    <div id="software-dropdown-btn" onclick="toggleSoftwareDropdown()" style="padding: 8px 10px; border: 1.5px solid #d8b4fe; border-radius: 4px; background: #fdfcff; cursor: pointer; font-size: 13px; font-weight: bold; color: #475569; display: flex; justify-content: space-between; align-items: center;">
+                                        <span id="software-dropdown-label">-- Bấm để chọn phần mềm & bản quyền --</span>
+                                        <i class="fa-solid fa-chevron-down"></i>
+                                    </div>
+                                    <div id="software-dropdown-popup" style="display: none; position: absolute; top: 105%; left: 0; width: 100%; background: white; border: 2px solid #d8b4fe; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); z-index: 999; max-height: 240px; overflow-y: auto; padding: 8px;">
+                                        <div style="font-size: 11px; font-style: italic; color: #64748b; margin-bottom: 6px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;">Chọn phần mềm và loại bản quyền kèm theo:</div>
+                                        <div id="software-checkbox-container" style="display: flex; flex-direction: column; gap: 6px;">
+                                            <!-- Render động bằng JS -->
+                                        </div>
+                                        <div style="text-align: right; margin-top: 8px; border-top: 1px solid #cbd5e1; padding-top: 6px;">
+                                            <button type="button" class="btn btn-purple" style="padding: 4px 12px; font-size: 11.5px; min-height: 28px;" onclick="toggleSoftwareDropdown()">Xong</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -1097,23 +1157,27 @@
             {"name": "Phạm Huy Chiến", "account": "102004830132", "lcb_heso": 2.26, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 2.40, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0}
         ];
 
-        // Danh sách phần mềm nghiệp vụ chuyên sâu yêu cầu
+        // Tạo danh sách phần mềm đầy đủ từ 2007 đến mới nhất cho CAD và SolidWorks
         const AVAILABLE_SOFTWARE_LIST = [
             "CloudOffice - Văn phòng điện tử",
             "ASIA ERP - Quản trị tổng thể",
             "Quasoft - Quản lý kho/vật tư",
-            "MISA AMIS / SME Kế toán",
-            "AutoCAD 2007", "AutoCAD 2008", "AutoCAD 2009", "AutoCAD 2010", "AutoCAD 2011",
-            "AutoCAD 2012", "AutoCAD 2013", "AutoCAD 2014", "AutoCAD 2015", "AutoCAD 2016",
-            "AutoCAD 2017", "AutoCAD 2018", "AutoCAD 2019", "AutoCAD 2020", "AutoCAD 2021",
-            "AutoCAD 2022", "AutoCAD 2023", "AutoCAD 2024", "AutoCAD 2025", "AutoCAD 2026 (Mới nhất)",
-            "SolidWorks 2007", "SolidWorks 2008", "SolidWorks 2009", "SolidWorks 2010", "SolidWorks 2011",
-            "SolidWorks 2012", "SolidWorks 2013", "SolidWorks 2014", "SolidWorks 2015", "SolidWorks 2016",
-            "SolidWorks 2017", "SolidWorks 2018", "SolidWorks 2019", "SolidWorks 2020", "SolidWorks 2021",
-            "SolidWorks 2022", "SolidWorks 2023", "SolidWorks 2024", "SolidWorks 2025", "SolidWorks 2026 (Mới nhất)",
-            "Adobe Photoshop / Illustrator",
-            "Phần mềm chuyên ngành khác"
+            "MISA AMIS / SME Kế toán"
         ];
+        // Thêm AutoCAD từ 2007 đến mới nhất
+        for (let yr = 2007; yr <= 2026; yr++) {
+            AVAILABLE_SOFTWARE_LIST.push(`AutoCAD ${yr}`);
+        }
+        AVAILABLE_SOFTWARE_LIST.push("AutoCAD Phiên bản mới nhất (2026-2027)");
+
+        // Thêm SolidWorks từ 2007 đến mới nhất
+        for (let yr = 2007; yr <= 2026; yr++) {
+            AVAILABLE_SOFTWARE_LIST.push(`SolidWorks ${yr}`);
+        }
+        AVAILABLE_SOFTWARE_LIST.push("SolidWorks Phiên bản mới nhất (2026-2027)");
+
+        AVAILABLE_SOFTWARE_LIST.push("Adobe Photoshop / Illustrator");
+        AVAILABLE_SOFTWARE_LIST.push("Phần mềm chuyên ngành khác");
 
         let salaryConfigsByMonth = JSON.parse(localStorage.getItem('sys_salary_configs_by_month')) || {};
         let salaryDataByMonth = JSON.parse(localStorage.getItem('sys_salary_by_month')) || {};
@@ -1130,7 +1194,7 @@
         let activePickerId = null;
         let pickerCurrentDate = new Date();
 
-        function initSoftwareCheckboxes() {
+        function initSoftwareDropdown() {
             let container = document.getElementById('software-checkbox-container');
             if (!container) return;
             let html = "";
@@ -1142,13 +1206,30 @@
                         </label>
                         <select class="sw-lic-select" style="font-size:10.5px; padding:2px; border:1px solid #d8b4fe; border-radius:3px; max-width:130px;" onchange="updateLiveQRPreview()">
                             <option value="Chính hãng" selected>Chính hãng</option>
-                            <option value="Chưa bản quyền">⚠️ Chưa bản quyền</option>
+                            <option value="⚠️ Chưa bản quyền">⚠️ Chưa bản quyền</option>
                         </select>
                     </div>
                 `;
             });
             container.innerHTML = html;
         }
+
+        function toggleSoftwareDropdown() {
+            let popup = document.getElementById('software-dropdown-popup');
+            if (popup.style.display === 'block') {
+                popup.style.display = 'none';
+            } else {
+                popup.style.display = 'block';
+            }
+        }
+
+        window.addEventListener('click', function(e) {
+            let wrap = document.getElementById('software-dropdown-btn');
+            let popup = document.getElementById('software-dropdown-popup');
+            if (popup && wrap && !wrap.contains(e.target) && !popup.contains(e.target)) {
+                popup.style.display = 'none';
+            }
+        });
 
         function toggleCalendarSidebar() {
             let sidebar = document.getElementById('calendar-sidebar-box');
@@ -1406,13 +1487,23 @@
             let totalInkCount = 0;
             inkListYear.forEach(item => { totalInkCount += (parseFloat(item.qty) || 0); });
 
-            // Đổ dữ liệu ra 6 thẻ Dashboard 3D
+            // Đổ dữ liệu ra thẻ 3D & Tab Dashboard
             document.getElementById('dash-total-pay').innerText = formatCurrencyVN(totalNetYear) + " VND";
             document.getElementById('dash-paid-pay').innerText = formatCurrencyVN(totalPaidYear) + " VND";
             document.getElementById('dash-total-advance').innerText = formatCurrencyVN(totalAdvanceYear) + " VND";
             document.getElementById('dash-pending-pay').innerText = formatCurrencyVN(totalTelecomYear) + " VND";
             document.getElementById('dash-total-it-devices').innerText = `${itCountYear} Thiết bị`;
             document.getElementById('dash-total-ink').innerText = `${totalInkCount} Hộp`;
+
+            // Đổ vào tab Dashboard chi tiết
+            if(document.getElementById('dash-sub-net')) {
+                document.getElementById('dash-sub-net').innerText = formatCurrencyVN(totalNetYear) + " VND";
+                document.getElementById('dash-sub-paid').innerText = formatCurrencyVN(totalPaidYear) + " VND";
+                document.getElementById('dash-sub-advance').innerText = formatCurrencyVN(totalAdvanceYear) + " VND";
+                document.getElementById('dash-sub-tele').innerText = formatCurrencyVN(totalTelecomYear) + " VND";
+                document.getElementById('dash-sub-it').innerText = `${itCountYear} Thiết bị`;
+                document.getElementById('dash-sub-ink').innerText = `${totalInkCount} Hộp`;
+            }
         }
 
         function handleGlobalYearChange() {
@@ -2003,13 +2094,22 @@
             if (!container) return [];
             let list = [];
             let rows = container.querySelectorAll('div');
+            let count = 0;
             rows.forEach(row => {
                 let chk = row.querySelector('.sw-checkbox');
                 let sel = row.querySelector('.sw-lic-select');
                 if (chk && chk.checked) {
                     list.push({ name: chk.value, lic: sel ? sel.value : 'Chính hãng' });
+                    count++;
                 }
             });
+            let counterLbl = document.getElementById('selected-software-counter');
+            if (counterLbl) counterLbl.innerText = `Đã chọn: ${count} phần mềm`;
+            let dropdownLbl = document.getElementById('software-dropdown-label');
+            if (dropdownLbl) {
+                if (count === 0) dropdownLbl.innerText = "-- Bấm để chọn phần mềm & bản quyền --";
+                else dropdownLbl.innerText = `Đã chọn ${count} phần mềm nghiệp vụ / CAD`;
+            }
             return list;
         }
 
@@ -2217,6 +2317,7 @@
                     }
                 }
             });
+            getSelectedSoftwareDetails();
 
             document.getElementById('it-specs').value = rec.specs || "";
             document.getElementById('it-date').value = rec.dateVal || "";
@@ -2242,6 +2343,7 @@
             if (container) {
                 container.querySelectorAll('.sw-checkbox').forEach(c => c.checked = false);
             }
+            getSelectedSoftwareDetails();
             document.getElementById('it-date').value = ""; updateLiveQRPreview(); 
         }
 
@@ -2898,7 +3000,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             setInterval(() => { document.getElementById('live-system-clock').innerText = new Date().toLocaleString('vi-VN'); }, 1000);
-            initSoftwareCheckboxes();
+            initSoftwareDropdown();
             handleGlobalYearChange();
             generateNewItCode();
             renderItAssetTable();
@@ -2906,6 +3008,7 @@
             resetCalendarToToday();
             calculateTaxPro();
             calculateTelecomTotal();
+            getSelectedSoftwareDetails();
         });
     </script>
 </body>
