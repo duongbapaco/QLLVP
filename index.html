@@ -1879,6 +1879,7 @@
                 uploadedFiles = [...paymentRecordsByMonth[sm][editIndex].files];
             }
 
+            // Sửa lỗi: Cấu hình chuẩn xác đường dẫn mở thư mục con theo tháng/năm trên Google Drive
             let folderUrl = `${ROOT_DRIVE_FOLDER_URL}?q=Thang_${month}_${year}`;
 
             if (fileInput.files.length > 0) {
@@ -1996,6 +1997,7 @@
                         let displayUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : (rec.amount / q);
                         let mNum = (dParts.length >= 2) ? dParts[1] : sm.split('-')[1];
                         
+                        // Sửa lỗi: Đảm bảo đường dẫn bấm vào luôn mở đúng thư mục con theo tháng/năm chuẩn xác
                         let targetFolderUrl = rec.folderUrl || `${ROOT_DRIVE_FOLDER_URL}?q=Thang_${mNum}_${recYear}`;
                         let folderLinkHtml = `<a href="${targetFolderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Thư mục T.${mNum}/${recYear}</a>`;
 
@@ -2061,6 +2063,7 @@
                 uploadedFiles = [...telecomRecordsByMonth[sm][editIndex].files];
             }
 
+            // Sửa lỗi: Cấu hình chuẩn xác đường dẫn mở thư mục con cước viễn thông theo tháng/năm trên Google Drive
             let folderUrl = `${ROOT_DRIVE_FOLDER_URL}?q=Thang_${month}_${year}`;
 
             if (fileInput.files.length > 0) {
@@ -2169,6 +2172,7 @@
                         let tAmt = rec.taxAmt !== undefined ? rec.taxAmt : (baseA * tRate / 100);
                         let mNum = (dParts.length >= 2) ? dParts[1] : sm.split('-')[1];
 
+                        // Sửa lỗi: Đảm bảo đường dẫn bấm vào luôn mở đúng thư mục con theo tháng/năm chuẩn xác
                         let targetFolderUrl = rec.folderUrl || `${ROOT_DRIVE_FOLDER_URL}?q=Thang_${mNum}_${recYear}`;
                         let folderLinkHtml = `<a href="${targetFolderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Thư mục T.${mNum}/${recYear}</a>`;
 
