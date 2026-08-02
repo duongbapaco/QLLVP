@@ -185,8 +185,8 @@
                 <label for="global-year-picker">NĂM:</label>
                 <select id="global-year-picker" onchange="handleGlobalYearChange()">
                     <option value="2024">Năm 2024</option>
-                    <option value="2025">Năm 2025</option>
-                    <option value="2026" selected>Năm 2026</option>
+                    <option value="2025" selected>Năm 2025</option>
+                    <option value="2026">Năm 2026</option>
                     <option value="2027">Năm 2027</option>
                     <option value="2028">Năm 2028</option>
                     <option value="2029">Năm 2029</option>
@@ -267,7 +267,7 @@
             <div id="tab-dashboard" class="tab-content active">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--blue);">
-                        <span><i class="fa-solid fa-chart-pie" style="color:var(--blue);"></i> TRUNG TÂM ĐIỀU HÀNH & HỆ THỐNG BIỂU ĐỒ TỔNG QUAN NĂM (<span class="lbl-current-year">2026</span>)</span>
+                        <span><i class="fa-solid fa-chart-pie" style="color:var(--blue);"></i> TRUNG TÂM ĐIỀU HÀNH & HỆ THỐNG BIỂU ĐỒ TỔNG QUAN NĂM (<span class="lbl-current-year">2025</span>)</span>
                         <div style="display:flex; gap:5px; flex-wrap:wrap;">
                             <button type="button" class="btn btn-green" onclick="exportStandardFinancialReportExcel()"><i class="fa-solid fa-file-excel"></i> 📊 Xuất Báo Cáo Tài Chính Chuẩn (Excel)</button>
                             <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Drive</a>
@@ -297,7 +297,7 @@
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; margin-bottom: 10px;">
                         <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 6px;">
                             <div style="font-weight: bold; font-size: 13px; color: var(--primary); margin-bottom: 6px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;">
-                                <i class="fa-solid fa-wallet" style="color:var(--blue);"></i> TÀI CHÍNH & QUỸ LƯƠNG (<span class="lbl-current-year">2026</span>)
+                                <i class="fa-solid fa-wallet" style="color:var(--blue);"></i> TÀI CHÍNH & QUỸ LƯƠNG (<span class="lbl-current-year">2025</span>)
                             </div>
                             <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12.5px;">
                                 <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Lương NET:</span> <b id="dash-sub-net" style="color:var(--blue);">0 VND</b></div>
@@ -310,7 +310,7 @@
 
                         <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 6px;">
                             <div style="font-weight: bold; font-size: 13px; color: var(--primary); margin-bottom: 6px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;">
-                                <i class="fa-solid fa-laptop-code" style="color:var(--purple);"></i> TÀI SẢN CNTT & KHO MỰC (<span class="lbl-current-year">2026</span>)
+                                <i class="fa-solid fa-laptop-code" style="color:var(--purple);"></i> TÀI SẢN CNTT & KHO MỰC (<span class="lbl-current-year">2025</span>)
                             </div>
                             <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12.5px;">
                                 <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Thiết Bị & Tài Sản CNTT:</span> <b id="dash-sub-it" style="color:var(--purple);">0 Thiết bị</b></div>
@@ -327,7 +327,7 @@
             <div id="tab-salary" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--blue);">
-                        <span><i class="fa-solid fa-pen-to-square" style="color:var(--blue);"></i> CẤU HÌNH LƯƠNG THÁNG - NĂM <span class="lbl-current-year">2026</span></span>
+                        <span><i class="fa-solid fa-pen-to-square" style="color:var(--blue);"></i> CẤU HÌNH LƯƠNG THÁNG - NĂM <span class="lbl-current-year">2025</span></span>
                     </div>
                     
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 6px; margin-bottom: 8px; border-bottom: 1px dashed var(--border-color); padding-bottom: 6px;">
@@ -341,7 +341,7 @@
                         </div>
                         <div class="form-group">
                             <label style="color:var(--orange);"><i class="fa-solid fa-file-signature"></i> Tên BẢNG LƯƠNG Báo Cáo:</label>
-                            <input type="text" id="config-sheet-title" value="BẢNG LƯƠNG TỔNG HỢP THÁNG 07/2026" oninput="handleConfigChangeLive()">
+                            <input type="text" id="config-sheet-title" value="BẢNG LƯƠNG TỔNG HỢP THÁNG 07/2025" oninput="handleConfigChangeLive()">
                         </div>
                     </div>
 
@@ -349,7 +349,7 @@
                         <div class="config-inputs-group">
                             <div class="form-group">
                                 <label><i class="fa-regular fa-calendar-days"></i> Kỳ báo cáo</label>
-                                <input type="month" id="filter-month" value="2026-07" onchange="handleMonthChangeSelect()">
+                                <input type="month" id="filter-month" value="2025-07" onchange="handleMonthChangeSelect()">
                             </div>
                             <div class="form-group">
                                 <label style="color:var(--orange);"><i class="fa-solid fa-chart-line"></i> Tối thiểu vùng</label>
@@ -473,7 +473,7 @@
             <div id="tab-payment" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--green);">
-                        <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--green);"></i> LẬP HỒ SƠ ĐỀ NGHỊ THANH TOÁN VĂN PHÒNG (<span class="lbl-current-year">2026</span>)</span>
+                        <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--green);"></i> LẬP HỒ SƠ ĐỀ NGHỊ THANH TOÁN VĂN PHÒNG (<span class="lbl-current-year">2025</span>)</span>
                         <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
                     </div>
 
@@ -517,7 +517,7 @@
                         <div class="grid-form" style="margin-bottom: 6px;">
                             <div class="form-group" style="grid-column: span 2;">
                                 <label>Nội dung thanh toán:</label>
-                                <input type="text" id="pay-content" placeholder="Ví dụ: Thanh toán VPP tháng 07/2026...">
+                                <input type="text" id="pay-content" placeholder="Ví dụ: Thanh toán VPP tháng 07/2025...">
                             </div>
                             <div class="form-group">
                                 <label>Đơn vị thụ hưởng:</label>
@@ -526,7 +526,7 @@
                             <div class="form-group">
                                 <label><i class="fa-solid fa-calendar-days" style="color:var(--green);"></i> Ngày tháng năm (Nhập/Chọn):</label>
                                 <div style="position:relative;">
-                                    <input type="text" id="pay-date-time" value="27/07/2026" readonly onclick="togglePicker('payment-date-popup')" style="cursor:pointer; background:#ffffff; font-weight:bold; color:var(--green);">
+                                    <input type="text" id="pay-date-time" value="27/07/2025" readonly onclick="togglePicker('payment-date-popup')" style="cursor:pointer; background:#ffffff; font-weight:bold; color:var(--green);">
                                     <div id="payment-date-popup" class="custom-popup-calendar"></div>
                                 </div>
                             </div>
@@ -592,7 +592,7 @@
                     </div>
 
                     <div class="card-title" style="font-size: 13px; margin-top: 10px;">
-                        <span>DANH SÁCH HỒ SƠ THANH TOÁN TRONG NĂM <span class="lbl-current-year">2026</span></span>
+                        <span>DANH SÁCH HỒ SƠ THANH TOÁN TRONG NĂM <span class="lbl-current-year">2025</span></span>
                         <span id="pay-total-sum" style="color: var(--green);">Tổng: 0 VND</span>
                     </div>
                     <div class="table-responsive">
@@ -609,7 +609,7 @@
                                     <th>Thành tiền (Đã thuế)</th>
                                     <th>Số tài khoản</th>
                                     <th>Ngân hàng</th>
-                                    <th>Thư mục Drive (Tháng)</th>
+                                    <th>Tệp đính kèm</th>
                                     <th style="text-align: center;">Thao tác</th>
                                 </tr>
                             </thead>
@@ -623,7 +623,7 @@
             <div id="tab-telecom" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--orange);">
-                        <span><i class="fa-solid fa-wifi" style="color:var(--orange);"></i> QUẢN LÝ CƯỚC MẠNG & INTERNET (<span class="lbl-current-year">2026</span>)</span>
+                        <span><i class="fa-solid fa-wifi" style="color:var(--orange);"></i> QUẢN LÝ CƯỚC MẠNG & INTERNET (<span class="lbl-current-year">2025</span>)</span>
                         <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
                     </div>
                     <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 10px; border-radius: 6px; margin-bottom: 10px;">
@@ -682,7 +682,7 @@
                             <div class="form-group">
                                 <label style="color: #c2410c;"><i class="fa-solid fa-calendar-days"></i> Kỳ cước (Ngày tháng năm):</label>
                                 <div style="position:relative;">
-                                    <input type="text" id="tele-period" value="27/07/2026" readonly onclick="togglePicker('telecom-period-popup')" style="cursor:pointer; background:#ffffff; border-color:#fdba74; font-weight:bold; color:#c2410c;">
+                                    <input type="text" id="tele-period" value="27/07/2025" readonly onclick="togglePicker('telecom-period-popup')" style="cursor:pointer; background:#ffffff; border-color:#fdba74; font-weight:bold; color:#c2410c;">
                                     <div id="telecom-period-popup" class="custom-popup-calendar"></div>
                                 </div>
                             </div>
@@ -706,7 +706,7 @@
                     </div>
 
                     <div class="card-title" style="font-size: 13px; margin-top: 10px;">
-                        <span>DANH SÁCH CƯỚC VIỄN THÔNG & INTERNET TRONG NĂM <span class="lbl-current-year">2026</span></span>
+                        <span>DANH SÁCH CƯỚC VIỄN THÔNG & INTERNET TRONG NĂM <span class="lbl-current-year">2025</span></span>
                         <span id="tele-total-sum" style="color: var(--orange);">Tổng cước: 0 VND</span>
                     </div>
                     <div class="table-responsive">
@@ -722,7 +722,7 @@
                                     <th>Thuế GTGT</th>
                                     <th>Tổng cước (Đã thuế)</th>
                                     <th>Ngày / Kỳ cước</th>
-                                    <th>Thư mục Drive (Tháng)</th>
+                                    <th>Tệp đính kèm</th>
                                     <th style="text-align: center;">Thao tác</th>
                                 </tr>
                             </thead>
@@ -736,7 +736,7 @@
             <div id="tab-it-assets" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--purple);">
-                        <span><i class="fa-solid fa-laptop" style="color:var(--purple);"></i> QUẢN LÝ TÀI SẢN & KIỂM KÊ CNTT (<span class="lbl-current-year">2026</span>)</span>
+                        <span><i class="fa-solid fa-laptop" style="color:var(--purple);"></i> QUẢN LÝ TÀI SẢN & KIỂM KÊ CNTT (<span class="lbl-current-year">2025</span>)</span>
                     </div>
                     <div style="display: grid; grid-template-columns: 1fr 260px; gap: 10px; background: #faf5ff; border: 1.5px solid #d8b4fe; padding: 10px; border-radius: 6px; margin-bottom: 10px; align-items: start;">
                         <div>
@@ -912,7 +912,7 @@
                     </div>
 
                     <div class="card-title" style="font-size: 13px; margin-top: 10px;">
-                        <span>BẢNG TỔNG HỢP KIỂM KÊ TRANG THIẾT BỊ CNTT & TÀI SẢN NĂM <span class="lbl-current-year">2026</span></span>
+                        <span>BẢNG TỔNG HỢP KIỂM KÊ TRANG THIẾT BỊ CNTT & TÀI SẢN NĂM <span class="lbl-current-year">2025</span></span>
                         <span id="it-total-count" style="color: var(--purple);">Tổng: 0 Thiết bị</span>
                     </div>
                     <div class="table-responsive">
@@ -944,7 +944,7 @@
             <div id="tab-ink-inventory" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--teal);">
-                        <span><i class="fa-solid fa-print" style="color:var(--teal);"></i> QUẢN LÝ KHO & CẤP PHÁT MỰC IN VĂN PHÒNG (<span class="lbl-current-year">2026</span>)</span>
+                        <span><i class="fa-solid fa-print" style="color:var(--teal);"></i> QUẢN LÝ KHO & CẤP PHÁT MỰC IN VĂN PHÒNG (<span class="lbl-current-year">2025</span>)</span>
                         <button type="button" class="btn btn-teal" style="padding: 5px 10px; font-size:11.5px;" onclick="openAddInkModal()"><i class="fa-solid fa-plus"></i> Nhập / Thêm Mã Mực</button>
                     </div>
 
@@ -1034,7 +1034,7 @@
                     </div>
 
                     <div class="card-title" style="font-size: 13px; margin-top: 10px;">
-                        <span>DANH SÁCH QUẢN LÝ KHO & CẤP PHÁT MỰC IN NĂM <span class="lbl-current-year">2026</span></span>
+                        <span>DANH SÁCH QUẢN LÝ KHO & CẤP PHÁT MỰC IN NĂM <span class="lbl-current-year">2025</span></span>
                         <span id="ink-total-count" style="color: var(--teal);">Tổng: 0 Hộp</span>
                     </div>
                     <div class="table-responsive">
@@ -1064,16 +1064,16 @@
         <div class="calendar-sidebar" id="calendar-sidebar-box">
             <div class="cal-smart-header">
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
-                <span id="cal-header-title">THÁNG 07 / 2026</span>
+                <span id="cal-header-title">THÁNG 07 / 2025</span>
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
 
             <div class="calendar-block-view">
-                <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
+                <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM ẤT TỴ</div>
                 <div class="calendar-block-body">
                     <div style="font-size:11.5px; color:#334155; font-weight:bold; text-transform:uppercase;" id="cal-selected-dow">Thứ Hai</div>
                     <div style="font-size:52px; font-weight:900; color:#dc2626; line-height:1; margin:2px 0;" id="cal-selected-day">27</div>
-                    <div style="font-size:10.5px; font-weight:bold; color:#0f172a;" id="cal-selected-lunar-day">Ngày Bính Dần - Tháng Bính Thân</div>
+                    <div style="font-size:10.5px; font-weight:bold; color:#0f172a;" id="cal-selected-lunar-day">Ngày Giáp Thìn - Tháng Quý Mùi</div>
                 </div>
             </div>
 
@@ -1092,7 +1092,7 @@
             <div class="cal-info-panel">
                 <div class="cal-info-row">
                     <span class="cal-info-label"><i class="fa-solid fa-moon text-purple"></i> Âm lịch:</span>
-                    <span class="cal-info-val" id="info-lunar-exact" style="color:var(--purple);">13/6/2026 (Bính Ngọ)</span>
+                    <span class="cal-info-val" id="info-lunar-exact" style="color:var(--purple);">3/6/2025 (Ất Tỵ)</span>
                 </div>
                 <div class="cal-info-row">
                     <span class="cal-info-label"><i class="fa-solid fa-sun text-orange"></i> Tiết khí:</span>
@@ -1150,7 +1150,7 @@
     <!-- MODAL ĐẶT LỊCH SỰ KIỆN -->
     <div id="eventModal" class="modal" onclick="closeEventModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:400px;">
-            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">27/07/2026</span></div>
+            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">27/07/2025</span></div>
             <div class="form-group" style="margin-bottom: 8px;">
                 <label>Nội dung sự kiện / Công việc:</label>
                 <textarea id="modal-event-text" class="inp-table" style="height: 70px; resize: none;" placeholder="Ví dụ: Họp giao ban..."></textarea>
@@ -1189,7 +1189,7 @@
         let GOOGLE_SHEET_VIEW_URL = localStorage.getItem('sys_cfg_sheet_url') || DEFAULT_GOOGLE_SHEET_URL; 
         let GOOGLE_SCRIPT_API_URL = localStorage.getItem('sys_cfg_script_url') || HARDCODED_SCRIPT_API; 
 
-        let CURRENT_SELECTED_YEAR = "2026";
+        let CURRENT_SELECTED_YEAR = "2025";
         let isAmountManual = false;
         let isAutoSyncEnabled = true;
 
@@ -1629,7 +1629,6 @@
             renderCombinedDashboardCharts(totalNetYear, totalPaidYear, totalTelecomYear, totalTaxYear);
         }
 
-        // HÀM XUẤT BÁO CÁO TÀI CHÍNH CHUẨN GỬI CẤP TRÊN (EXCELJS FORMAT CHUYÊN NGHIỆP)
         async function exportStandardFinancialReportExcel() {
             let workbook = new ExcelJS.Workbook();
             workbook.creator = "Tổng công ty Giấy Việt Nam";
@@ -1640,7 +1639,6 @@
                 views: [{ showGridLines: true }]
             });
 
-            // Tiêu đề đơn vị & Quốc hiệu
             sheet.mergeCells('A1:E1');
             sheet.getCell('A1').value = "TỔNG CÔNG TY GIẤY VIỆT NAM";
             sheet.getCell('A1').font = { name: 'Times New Roman', size: 11, bold: true };
@@ -1671,7 +1669,6 @@
             sheet.getCell('A5').font = { name: 'Times New Roman', size: 11, italic: true };
             sheet.getCell('A5').alignment = { horizontal: 'center', vertical: 'middle' };
 
-            // Thu thập dữ liệu tổng hợp theo năm
             let totalNetYear = 0, totalPaidYear = 0, totalTelecomYear = 0, totalAdvanceYear = 0, totalTaxYear = 0;
 
             Object.keys(salaryDataByMonth || {}).forEach(sm => {
@@ -1738,7 +1735,6 @@
             let inkList = inkInventoryRecordsByYear[CURRENT_SELECTED_YEAR] || [];
             let inkCount = 0; inkList.forEach(i => inkCount += (parseFloat(i.qty) || 0));
 
-            // Bảng 1: Tóm tắt cân đối tài chính
             let r = 7;
             sheet.getCell(`A${r}`).value = "I. TỔNG HỢP CÂN ĐỐI TÀI CHÍNH & QUỸ LƯƠNG NĂM " + CURRENT_SELECTED_YEAR;
             sheet.mergeCells(`A${r}:E${r}`);
@@ -1781,7 +1777,6 @@
             });
 
             r += 2;
-            // Bảng 2: Thống kê Tài sản CNTT & Kho mực
             sheet.getCell(`A${r}`).value = "II. THỐNG KÊ TÀI SẢN CNTT & KHO MỰC IN NĂM " + CURRENT_SELECTED_YEAR;
             sheet.mergeCells(`A${r}:E${r}`);
             sheet.getCell(`A${r}`).font = { name: 'Times New Roman', size: 12, bold: true, color: { argb: 'FF0F172A' } };
@@ -1814,7 +1809,6 @@
             });
 
             r += 3;
-            // Chữ ký
             sheet.getCell(`B${r}`).value = "PHÒNG KẾ TOÁN - TÀI CHÍNH";
             sheet.getCell(`B${r}`).font = { name: 'Times New Roman', size: 11, bold: true };
             sheet.getCell(`B${r}`).alignment = { horizontal: 'center' };
@@ -2131,7 +2125,7 @@
                 let progressText = document.getElementById('progress-text-hstt');
 
                 progressContainer.style.display = "block";
-                statusLabel.innerText = "⏳ Đang đẩy file vào thư mục tháng " + month + "/" + year + " trên hệ thống Google Drive...";
+                statusLabel.innerText = "⏳ Đang đẩy file vào Google Drive...";
 
                 for (let i = 0; i < fileInput.files.length; i++) {
                     let file = fileInput.files[i];
@@ -2155,8 +2149,7 @@
                         };
                         const response = await fetch(GOOGLE_SCRIPT_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
                         const result = await response.json();
-                        uploadedFiles.push({ fileName: file.name, fileUrl: result.fileUrl || folderUrl });
-                        if (result && result.folderUrl) { folderUrl = result.folderUrl; }
+                        uploadedFiles.push({ fileName: file.name, fileUrl: result.fileUrl || ROOT_DRIVE_FOLDER_URL });
                     } catch (err) {
                         console.error("Lỗi: " + err.message);
                     }
@@ -2165,7 +2158,7 @@
                 setTimeout(() => { progressContainer.style.display = "none"; progressFill.style.width = "0%"; }, 3000);
             }
 
-            let recordObj = { payDateTime, content, receiver, qty, unit, unitPrice, amount, account, bank, folderUrl, files: uploadedFiles };
+            let recordObj = { payDateTime, content, receiver, qty, unit, unitPrice, amount, account, bank, files: uploadedFiles };
 
             if (editIndex >= 0) {
                 paymentRecordsByMonth[sm][editIndex] = recordObj;
@@ -2180,7 +2173,7 @@
 
             localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
             renderPaymentTable();
-            statusLabel.innerText = "✅ Tải lên và trỏ về đúng thư mục tháng thành công!";
+            statusLabel.innerText = "✅ Lưu hồ sơ thành công!";
             triggerAutoSyncCloud();
         }
 
@@ -2239,10 +2232,11 @@
                         totalSum += rec.amount;
                         let q = rec.qty || 1, u = rec.unit || 'Cái';
                         let displayUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : (rec.amount / q);
-                        let mNum = (dParts.length >= 2) ? dParts[1] : sm.split('-')[1];
                         
-                        let targetFolderUrl = `${ROOT_DRIVE_FOLDER_URL}/Thang_${mNum}.${recYear}`;
-                        let folderLinkHtml = `<a href="${targetFolderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Thư mục T.${mNum}</a>`;
+                        let filesHtml = "Không có";
+                        if (rec.files && rec.files.length > 0) {
+                            filesHtml = rec.files.map((f, fIdx) => `<a href="${f.fileUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="margin:2px 0; display:inline-flex;" onclick="event.stopPropagation();"><i class="fa-solid fa-paperclip"></i> ${f.fileName}</a>`).join("<br>");
+                        }
 
                         tbody.innerHTML += `<tr>
                             <td class="text-center font-bold">${globalIndex++}</td>
@@ -2255,7 +2249,7 @@
                             <td class="text-right font-bold" style="color:var(--green);">${formatCurrencyVN(rec.amount)} VND</td>
                             <td class="text-center">${rec.account || '-'}</td>
                             <td>${rec.bank || '-'}</td>
-                            <td class="text-center">${folderLinkHtml}</td>
+                            <td class="text-center">${filesHtml}</td>
                             <td class="text-center">
                                 <button type="button" class="btn-edit" onclick="editPaymentRecord('${sm}', ${actualIdx})"><i class="fa-solid fa-pen-to-square"></i></button>
                                 <button type="button" class="btn-delete" onclick="deletePaymentRecord('${sm}', ${actualIdx})"><i class="fa-solid fa-trash"></i></button>
@@ -2307,15 +2301,13 @@
                 uploadedFiles = [...telecomRecordsByMonth[sm][editIndex].files];
             }
 
-            let folderUrl = `${ROOT_DRIVE_FOLDER_URL}/Thang_${month}.${year}`;
-
             if (fileInput.files.length > 0) {
                 let progressContainer = document.getElementById('progress-container-vt');
                 let progressFill = document.getElementById('progress-fill-vt');
                 let progressText = document.getElementById('progress-text-vt');
 
                 progressContainer.style.display = "block";
-                statusLabel.innerText = "⏳ Đang tải hóa đơn cước viễn thông tháng " + month + "/" + year + "...";
+                statusLabel.innerText = "⏳ Đang tải hóa đơn cước viễn thông...";
 
                 for (let i = 0; i < fileInput.files.length; i++) {
                     let file = fileInput.files[i];
@@ -2339,8 +2331,7 @@
                         };
                         const response = await fetch(GOOGLE_SCRIPT_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
                         const result = await response.json();
-                        uploadedFiles.push({ fileName: file.name, fileUrl: result.fileUrl || folderUrl });
-                        if (result && result.folderUrl) { folderUrl = result.folderUrl; }
+                        uploadedFiles.push({ fileName: file.name, fileUrl: result.fileUrl || ROOT_DRIVE_FOLDER_URL });
                     } catch (err) {
                         console.error("Lỗi: " + err.message);
                     }
@@ -2349,7 +2340,7 @@
                 setTimeout(() => { progressContainer.style.display = "none"; progressFill.style.width = "0%"; }, 3000);
             }
 
-            let telecomObj = { location, provider, bandwidth, cid, taxMode, amountBase, taxRate, taxAmt, amount, period, folderUrl, files: uploadedFiles };
+            let telecomObj = { location, provider, bandwidth, cid, taxMode, amountBase, taxRate, taxAmt, amount, period, files: uploadedFiles };
 
             if (editIndex >= 0) {
                 telecomRecordsByMonth[sm][editIndex] = telecomObj;
@@ -2414,10 +2405,11 @@
                         let baseA = rec.amountBase !== undefined ? rec.amountBase : rec.amount;
                         let tRate = rec.taxRate !== undefined ? rec.taxRate : 10;
                         let tAmt = rec.taxAmt !== undefined ? rec.taxAmt : (baseA * tRate / 100);
-                        let mNum = (dParts.length >= 2) ? dParts[1] : sm.split('-')[1];
 
-                        let targetFolderUrl = `${ROOT_DRIVE_FOLDER_URL}/Thang_${mNum}.${recYear}`;
-                        let folderLinkHtml = `<a href="${targetFolderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Thư mục T.${mNum}</a>`;
+                        let filesHtml = "Không có";
+                        if (rec.files && rec.files.length > 0) {
+                            filesHtml = rec.files.map((f) => `<a href="${f.fileUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="margin:2px 0; display:inline-flex;" onclick="event.stopPropagation();"><i class="fa-solid fa-paperclip"></i> ${f.fileName}</a>`).join("<br>");
+                        }
 
                         tbody.innerHTML += `<tr>
                             <td class="text-center font-bold">${globalIndex++}</td>
@@ -2429,7 +2421,7 @@
                             <td class="text-center">${tRate}% (${formatCurrencyVN(tAmt)})</td>
                             <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(rec.amount)} VND</td>
                             <td class="text-center">${rec.period}</td>
-                            <td class="text-center">${folderLinkHtml}</td>
+                            <td class="text-center">${filesHtml}</td>
                             <td class="text-center">
                                 <button type="button" class="btn-edit" onclick="editTelecomRecord('${sm}', ${actualIdx})"><i class="fa-solid fa-pen-to-square"></i></button>
                                 <button type="button" class="btn-delete" onclick="deleteTelecomRecord('${sm}', ${actualIdx})"><i class="fa-solid fa-trash"></i></button>
