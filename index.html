@@ -2233,14 +2233,10 @@
                         
                         let filesHtml = "Không có";
                         if (rec.files && rec.files.length > 0) {
-                            let fileLinks = rec.files.map((f, fIdx) => `<a href="${f.fileUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--blue); text-decoration:none; display:inline-block; margin-right:6px;" onclick="event.stopPropagation();"><i class="fa-solid fa-file"></i> Tệp ${fIdx + 1}</a>`).join(" | ");
                             filesHtml = `
-                                <div style="display:flex; align-items:center; gap:6px; flex-wrap:nowrap;">
-                                    <a href="${ROOT_DRIVE_FOLDER_URL}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="padding:3px 6px; font-size:11px;" onclick="event.stopPropagation();" title="Mở thư mục Google Drive chứa tệp đính kèm">
-                                        <i class="fa-solid fa-folder-open"></i> Thư mục (${rec.files.length})
-                                    </a>
-                                    <span style="font-size:11px; color:#475569;">(${fileLinks})</span>
-                                </div>
+                                <a href="${ROOT_DRIVE_FOLDER_URL}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="padding:3px 8px; font-size:11px;" title="Mở thư mục Google Drive chứa tệp đính kèm">
+                                    <i class="fa-solid fa-folder-open"></i> Thư mục (${rec.files.length})
+                                </a>
                             `;
                         }
 
@@ -2255,7 +2251,7 @@
                             <td class="text-right font-bold" style="color:var(--green);">${formatCurrencyVN(rec.amount)} VND</td>
                             <td class="text-center">${rec.account || '-'}</td>
                             <td>${rec.bank || '-'}</td>
-                            <td>${filesHtml}</td>
+                            <td class="text-center">${filesHtml}</td>
                             <td class="text-center">
                                 <button type="button" class="btn-edit" onclick="editPaymentRecord('${sm}', ${actualIdx})"><i class="fa-solid fa-pen-to-square"></i></button>
                                 <button type="button" class="btn-delete" onclick="deletePaymentRecord('${sm}', ${actualIdx})"><i class="fa-solid fa-trash"></i></button>
@@ -2414,14 +2410,10 @@
 
                         let filesHtml = "Không có";
                         if (rec.files && rec.files.length > 0) {
-                            let fileLinks = rec.files.map((f, fIdx) => `<a href="${f.fileUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--blue); text-decoration:none; display:inline-block; margin-right:6px;" onclick="event.stopPropagation();"><i class="fa-solid fa-file"></i> Tệp ${fIdx + 1}</a>`).join(" | ");
                             filesHtml = `
-                                <div style="display:flex; align-items:center; gap:6px; flex-wrap:nowrap;">
-                                    <a href="${ROOT_DRIVE_FOLDER_URL}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="padding:3px 6px; font-size:11px;" onclick="event.stopPropagation();" title="Mở thư mục Google Drive chứa tệp đính kèm">
-                                        <i class="fa-solid fa-folder-open"></i> Thư mục (${rec.files.length})
-                                    </a>
-                                    <span style="font-size:11px; color:#475569;">(${fileLinks})</span>
-                                </div>
+                                <a href="${ROOT_DRIVE_FOLDER_URL}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="padding:3px 8px; font-size:11px;" title="Mở thư mục Google Drive chứa tệp đính kèm">
+                                    <i class="fa-solid fa-folder-open"></i> Thư mục (${rec.files.length})
+                                </a>
                             `;
                         }
 
@@ -2435,7 +2427,7 @@
                             <td class="text-center">${tRate}% (${formatCurrencyVN(tAmt)})</td>
                             <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(rec.amount)} VND</td>
                             <td class="text-center">${rec.period}</td>
-                            <td>${filesHtml}</td>
+                            <td class="text-center">${filesHtml}</td>
                             <td class="text-center">
                                 <button type="button" class="btn-edit" onclick="editTelecomRecord('${sm}', ${actualIdx})"><i class="fa-solid fa-pen-to-square"></i></button>
                                 <button type="button" class="btn-delete" onclick="deleteTelecomRecord('${sm}', ${actualIdx})"><i class="fa-solid fa-trash"></i></button>
