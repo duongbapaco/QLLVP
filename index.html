@@ -33,7 +33,7 @@
         .kpi-title { font-size: 10.5px; text-transform: uppercase; }
         .kpi-val { font-size: 13px; font-weight: bold; }
 
-        /* CSS BẢNG TÍNH ÉP CHUẨN KÍCH THƯỚC CỘT */
+        /* BẢNG LƯƠNG CHÍNH */
         .table-title-bar { background: #fff; padding: 6px 12px; font-weight: bold; font-size: 12px; color: #0f172a; text-transform: uppercase; border: 1px solid #334155; border-bottom: none; display: flex; justify-content: space-between; align-items: center; }
         
         .table-responsive { overflow-x: auto !important; border: 1px solid #334155; background: white; max-height: calc(100vh - 240px); }
@@ -55,8 +55,6 @@
         }
         .inp-smart:focus { background: #fef08a !important; border-color: #d97706 !important; font-weight: bold !important; }
         .inp-money { border-color: #cbd5e1 !important; text-align: right !important; color: #0f172a !important; }
-        .inp-center { text-align: center !important; }
-        .inp-bold { font-weight: bold !important; }
 
         .text-center { text-align: center !important; } 
         .text-right { text-align: right !important; } 
@@ -151,7 +149,7 @@
         <table id="salaryTable" class="custom-salary-table">
             <thead>
                 <tr>
-                    <th rowspan="2" style="width:30px;">STT</th>
+                    <th rowspan="2" style="width:32px;">STT</th>
                     <th rowspan="2" style="width:160px;">HỌ VÀ TÊN</th>
                     <th rowspan="2" style="width:95px;">Số Tài Khoản</th>
                     <th colspan="4" style="background:#dbeafe;">Lương Cơ Bản HĐLĐ</th>
@@ -162,26 +160,26 @@
                     <th rowspan="2" style="width:110px; background:#dcfce7; color:#065f46; font-size:11px;">TỔNG NET<br><span style="font-size:8.5px; font-weight:normal;">(Thực Lĩnh CV + CB)</span></th>
                 </tr>
                 <tr>
-                    <!-- LCB -->
+                    <!-- LCB (4) -->
                     <th style="width:48px; background:#dbeafe;">Hệ số LCB</th>
                     <th style="width:48px; background:#dbeafe;">Phụ cấp LCB</th>
                     <th style="width:75px; background:#dbeafe;">Lương HĐLĐ</th>
                     <th style="width:70px; background:#dbeafe;">Lương CB</th>
-                    <!-- Ngày công RỘNG NGHĨA RÕ RÀNG -->
-                    <th style="width:38px; background:#fef9c3;">NT</th>
-                    <th style="width:38px; background:#fef9c3;">P</th>
-                    <th style="width:38px; background:#fef9c3;">Lễ/VR</th>
-                    <!-- Thực lĩnh CB -->
+                    <!-- Ngày công (3) - Nới rộng thoáng đãng -->
+                    <th style="width:45px; background:#fef9c3;">NT</th>
+                    <th style="width:45px; background:#fef9c3;">P</th>
+                    <th style="width:45px; background:#fef9c3;">Lễ/VR</th>
+                    <!-- Thực lĩnh CB (5) -->
                     <th style="width:75px; background:#dbeafe;">Lương Thời Gian</th>
                     <th style="width:70px; background:#dbeafe;">Lương Lễ, Phép</th>
                     <th style="width:78px; background:#dbeafe;">Tổng Lương CB</th>
                     <th style="width:65px; background:#dbeafe;">BH (10.5%)</th>
                     <th style="width:78px; background:#dbeafe;">Thực Lĩnh CB</th>
-                    <!-- LCV -->
+                    <!-- LCV (3) -->
                     <th style="width:48px; background:#ffedd5;">Hệ số LCV</th>
                     <th style="width:48px; background:#ffedd5;">Phụ cấp LCV</th>
                     <th style="width:42px; background:#ffedd5;">HS HTCV</th>
-                    <!-- Cơ cấu LCV -->
+                    <!-- Cơ cấu LCV (9) -->
                     <th style="width:75px; background:#ffedd5;">LCV Gốc</th>
                     <th style="width:78px; background:#ffedd5;">LCV Thực Tế</th>
                     <th style="width:72px; background:#ffedd5;">Tiền Ăn Ca</th>
@@ -254,17 +252,17 @@
                 tbody.innerHTML += `
                     <tr id="row-${index}">
                         <td class="text-center">${emp.id}</td>
-                        <td><input type="text" class="inp-smart text-left inp-bold" value="${emp.name}" oninput="updateVal(${index}, 'name', this.value)"></td>
+                        <td><input type="text" class="inp-smart text-left font-bold" value="${emp.name}" oninput="updateVal(${index}, 'name', this.value)"></td>
                         <td><input type="text" class="inp-smart inp-center" value="${emp.stk}" oninput="updateVal(${index}, 'stk', this.value)"></td>
                         <td><input type="number" step="0.01" class="inp-smart inp-money" value="${emp.lcb_hs}" oninput="updateVal(${index}, 'lcb_hs', this.value)"></td>
                         <td><input type="number" step="0.01" class="inp-smart inp-money" value="${emp.lcb_pc}" oninput="updateVal(${index}, 'lcb_pc', this.value)"></td>
                         <td class="text-right font-bold" id="hdld-${index}">0</td>
                         <td class="text-right" id="lcb_goc-${index}">0</td>
                         
-                        <!-- CÔNG VỤ VUÔNG VẮN KHÔNG BỊ ÉP Ô -->
-                        <td style="background:#fef9c3; min-width:38px;"><input type="number" class="inp-smart inp-center inp-bold" value="${emp.nt}" oninput="updateVal(${index}, 'nt', this.value)"></td>
-                        <td style="background:#fef9c3; min-width:38px;"><input type="number" class="inp-smart inp-center" value="${emp.p}" oninput="updateVal(${index}, 'p', this.value)"></td>
-                        <td style="background:#fef9c3; min-width:38px;"><input type="number" class="inp-smart inp-center" value="${emp.le}" oninput="updateVal(${index}, 'le', this.value)"></td>
+                        <!-- NGÀY CÔNG THOÁNG ĐÃNG, VUÔNG VẮN -->
+                        <td style="background:#fef9c3; text-align:center;"><input type="number" class="inp-smart inp-center font-bold" value="${emp.nt}" oninput="updateVal(${index}, 'nt', this.value)"></td>
+                        <td style="background:#fef9c3; text-align:center;"><input type="number" class="inp-smart inp-center" value="${emp.p}" oninput="updateVal(${index}, 'p', this.value)"></td>
+                        <td style="background:#fef9c3; text-align:center;"><input type="number" class="inp-smart inp-center" value="${emp.le}" oninput="updateVal(${index}, 'le', this.value)"></td>
                         
                         <td class="text-right" id="l_tg-${index}">0</td>
                         <td class="text-right" id="l_lp-${index}">0</td>
@@ -282,10 +280,10 @@
                         <td><input type="number" class="inp-smart inp-money" value="${emp.pctt}" oninput="updateVal(${index}, 'pctt', this.value)"></td>
                         <td><input type="number" class="inp-smart inp-money" value="${emp.tru_ung}" oninput="updateVal(${index}, 'tru_ung', this.value)"></td>
                         
-                        <!-- CHÍNH XÁC CỘT THỰC LĨNH CV (BÌNH THƯỜNG) -->
+                        <!-- 26. THỰC LĨNH CV -->
                         <td class="text-right font-bold" id="tl_cv-${index}">0</td>
                         
-                        <!-- CHÍNH XÁC CỘT TỔNG NET (MÀU XANH LÁ) -->
+                        <!-- 27. TỔNG NET (ĐÚNG CỘT MÀU XANH LÁ CUỐI CÙNG) -->
                         <td class="text-right font-bold" style="color:#047857; background:#dcfce7; font-size:11px;" id="tong_net-${index}">0</td>
                     </tr>
                 `;
@@ -345,7 +343,7 @@
             document.getElementById('kpi-anca').innerText = sums.an_ca.toLocaleString() + ' VND';
             document.getElementById('kpi-net').innerText = sums.tong_net.toLocaleString() + ' VND';
 
-            // DÒNG TỔNG CỘNG FOOTER CHUẨN ĐÚNG CỘT
+            // DÒNG TỔNG CỘNG FOOTER KHỚP CHUẨN 27 CỘT NGUYÊN VẸN
             document.getElementById('tfoot-salary').innerHTML = `
                 <tr>
                     <td colspan="3" class="text-center font-bold">TỔNG CỘNG VĂN PHÒNG</td>
