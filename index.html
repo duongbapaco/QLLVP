@@ -29,7 +29,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: rgba(0,0,0,0.2); }
         body { font-family: 'Times New Roman', Times, serif; font-size: 14px; margin: 0; padding: 8px; background: var(--bg-light); color: var(--text-main); font-weight: 500; }
         
-        .workspace { display: grid; grid-template-columns: 1fr 390px; gap: 12px; align-items: start; transition: all 0.3s ease; }
+        .workspace { display: grid; grid-template-columns: 1fr 410px; gap: 12px; align-items: start; transition: all 0.3s ease; }
         .workspace.calendar-hidden { grid-template-columns: 1fr !important; }
         @media (max-width: 1200px) { .workspace { grid-template-columns: 1fr; } }
 
@@ -162,8 +162,8 @@
         .lunar-sub-txt { font-size: 8.5px; color: #64748b; line-height: 1; margin-top: 1px; }
         .cal-day-cell.selected .lunar-sub-txt { color: #fef08a; }
 
-        .cal-info-panel { background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 10px; font-size: 12px; margin-top: 10px; }
-        .cal-info-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #cbd5e1; gap: 8px; }
+        .cal-info-panel { background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 10px; font-size: 11.5px; margin-top: 10px; display: flex; flex-direction: column; gap: 4px; }
+        .cal-info-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #cbd5e1; gap: 8px; }
         .cal-info-row:last-child { border-bottom: none; }
         .cal-info-label { color: #475569; font-weight: bold; flex-shrink: 0; }
         .cal-info-val { color: #0f172a; font-weight: 700; text-align: right; word-break: break-word; }
@@ -522,7 +522,7 @@
                                 <input type="text" id="pay-receiver" placeholder="Tên công ty / Cửa hàng...">
                             </div>
                             <div class="form-group">
-                                <label><i class="fa-solid fa-calendar-days" style="color:var(--green);"></i> Thời gian:</label>
+                                <label><i class="fa-solid fa-calendar-days" style="color:var(--green);"></i> Ngày tháng năm (Nhập/Chọn):</label>
                                 <div style="position:relative;">
                                     <input type="text" id="pay-date-time" value="27/07/2026" readonly onclick="togglePicker('payment-date-popup')" style="cursor:pointer; background:#ffffff; font-weight:bold; color:var(--green);">
                                     <div id="payment-date-popup" class="custom-popup-calendar"></div>
@@ -607,7 +607,7 @@
                                     <th>Thành tiền (Đã thuế)</th>
                                     <th>Số tài khoản</th>
                                     <th>Ngân hàng</th>
-                                    <th>Chứng từ đính kèm</th>
+                                    <th>Thư mục con (Theo ngày nhập)</th>
                                     <th style="text-align: center;">Thao tác</th>
                                 </tr>
                             </thead>
@@ -678,9 +678,9 @@
                                 <input type="text" id="tele-amount" value="33.015.571" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="calculateTelecomTotalFromTotal()" style="border-color: #fdba74; text-align: right; background: #fef3c7; font-weight: 800; color: #b45309;">
                             </div>
                             <div class="form-group">
-                                <label style="color: #c2410c;"><i class="fa-solid fa-calendar-days"></i> Kỳ cước:</label>
+                                <label style="color: #c2410c;"><i class="fa-solid fa-calendar-days"></i> Kỳ cước (Ngày tháng năm):</label>
                                 <div style="position:relative;">
-                                    <input type="text" id="tele-period" value="Tháng 07/2026" readonly onclick="togglePicker('telecom-period-popup')" style="cursor:pointer; background:#ffffff; border-color:#fdba74; font-weight:bold; color:#c2410c;">
+                                    <input type="text" id="tele-period" value="27/07/2026" readonly onclick="togglePicker('telecom-period-popup')" style="cursor:pointer; background:#ffffff; border-color:#fdba74; font-weight:bold; color:#c2410c;">
                                     <div id="telecom-period-popup" class="custom-popup-calendar"></div>
                                 </div>
                             </div>
@@ -718,8 +718,8 @@
                                     <th>Cước chưa thuế</th>
                                     <th>Thuế GTGT</th>
                                     <th>Tổng cước (Đã thuế)</th>
-                                    <th>Kỳ cước</th>
-                                    <th>Hóa đơn đính kèm</th>
+                                    <th>Ngày / Kỳ cước</th>
+                                    <th>Thư mục con (Theo ngày nhập)</th>
                                     <th style="text-align: center;">Thao tác</th>
                                 </tr>
                             </thead>
@@ -936,7 +936,7 @@
                 </div>
             </div>
 
-            <!-- TAB 5: MODULE QUẢN LÝ KHO & CẤP PHÁT MỰC IN (ĐÃ CẬP NHẬT ĐẦY ĐỦ MÃ MỰC & DÒNG MÁY IN THỊ TRƯỜNG) -->
+            <!-- TAB 5: MODULE QUẢN LÝ KHO & CẤP PHÁT MỰC IN -->
             <div id="tab-ink-inventory" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--teal);">
@@ -951,7 +951,6 @@
                                 <label style="color:#166534;">Mã mực / Model (Toàn thị trường):</label>
                                 <input type="text" id="ink-model" list="list-all-ink-models" placeholder="Chọn hoặc nhập mã mực..." style="border-color:#86efac;" oninput="autoSelectPrinterByInk(this.value)">
                                 <datalist id="list-all-ink-models">
-                                    <!-- HP -->
                                     <option value="HP 85A (CB435A/436A/CE285A)">
                                     <option value="HP 12A (Q2612A)">
                                     <option value="HP 79A (CF279A)">
@@ -962,24 +961,20 @@
                                     <option value="HP 30A (CF230A)">
                                     <option value="HP 26A / 26X (CF226A)">
                                     <option value="HP GT51 / GT52 (Mực nước màu/Đen)">
-                                    <!-- CANON -->
                                     <option value="Canon 337 (Dòng MF211/221/226/232/237/244)">
                                     <option value="Canon 325 (Dòng LBP 6000/6030)">
                                     <option value="Canon 303 (Dòng LBP 2900/3000)">
                                     <option value="Canon 057 / 057H (LBP 226/228/MF445)">
                                     <option value="Canon 051 (LBP 161/162/MF264)">
                                     <option value="Canon GI-790 / GI-71 (Mực phun G1010/G2010/G3010/G3020)">
-                                    <!-- BROTHER -->
                                     <option value="Brother TN-2385 (HL-L2321D/2361DN/2366DW)">
                                     <option value="Brother TN-B022 (HL-B2000D/B2080DW)">
                                     <option value="Brother TN-2435 / TN-2450 (HL-L2370DN)">
                                     <option value="Brother BT-D60BK / BT5000 (Dòng T310/T510W/T710W/T420W)">
-                                    <!-- EPSON -->
                                     <option value="Epson 003 (L1110/L3110/L3150/L3210/L3250)">
                                     <option value="Epson 001 (L4150/L4160/L6160/L6170)">
                                     <option value="Epson 057 (L8050/L18050 - 6 màu)">
                                     <option value="Epson T6641 -> T6644 (L100/L110/L120/L210/L300/L350/L360/L382/L386/L405/L455/L550/L565/L1300)">
-                                    <!-- XEROX / RICOH / PANTUM -->
                                     <option value="Fuji Xerox CT202380 (DocuPrint P225d/M225z)">
                                     <option value="Fuji Xerox P265 / M265 (CT202330)">
                                     <option value="Ricoh SP 201 / 210 / 230 (Sp 230SFNW)">
@@ -990,7 +985,6 @@
                                 <label style="color:#166534;">Loại máy in tương thích (Đầy đủ dòng thị trường):</label>
                                 <input type="text" id="ink-printer" list="list-all-printer-models" placeholder="Chọn hoặc nhập dòng máy in..." style="border-color:#86efac;">
                                 <datalist id="list-all-printer-models">
-                                    <!-- HP Printers -->
                                     <option value="HP LaserJet 1010 / 1020 / 1020 Plus (Huyền thoại)">
                                     <option value="HP LaserJet Pro P1102 / P1102w">
                                     <option value="HP LaserJet Pro M12a / M12w">
@@ -1003,7 +997,6 @@
                                     <option value="HP LaserJet Pro M404dn / M404dw">
                                     <option value="HP LaserJet Enterprise M501dn / M607n">
                                     <option value="HP Smart Tank 515 / 520 / 580 / 615 / 720 / 750">
-                                    <!-- Canon Printers -->
                                     <option value="Canon LBP 2900 / 3000 (Huyền thoại văn phòng)">
                                     <option value="Canon LBP 6030 / 6030w">
                                     <option value="Canon LBP 621Cw / 623Cdw (Màu)">
@@ -1015,7 +1008,6 @@
                                     <option value="Canon imageCLASS MF264dw / MF267dw">
                                     <option value="Canon imageCLASS MF3010AE">
                                     <option value="Canon PIXMA G1010 / G2010 / G3010 / G3020 / G3060">
-                                    <!-- Brother Printers -->
                                     <option value="Brother HL-L2321D / HL-L2361DN / HL-L2366DW">
                                     <option value="Brother HL-B2000D / HL-B2080DW">
                                     <option value="Brother HL-L2370DN / HL-L2375DW">
@@ -1023,13 +1015,11 @@
                                     <option value="Brother MFC-L2701DW / MFC-L2715DW / MFC-L2750DW">
                                     <option value="Brother DCP-T310 / DCP-T510W / DCP-T710W">
                                     <option value="Brother DCP-T420W / DCP-T520W / DCP-T720DW / MFC-T920DW">
-                                    <!-- Epson Printers -->
                                     <option value="Epson L1110 / L1210 / L1250">
                                     <option value="Epson L3110 / L3150 / L3210 / L3250 / L3256">
                                     <option value="Epson L4150 / L4160 / L4260 / L6160 / L6270">
                                     <option value="Epson L805 / L8050 / L1800 / L18050 (Ảnh chuyên nghiệp)">
                                     <option value="Epson WorkForce Pro WF-C5290 / WF-C5790">
-                                    <!-- Xerox / Ricoh / Pantum / Photocopy -->
                                     <option value="Fuji Xerox DocuPrint P225d / M225z / P265dw">
                                     <option value="Fuji Xerox DocuPrint M315z / M325z">
                                     <option value="Ricoh SP 210SU / SP 230SFNW">
@@ -1108,7 +1098,7 @@
             </div>
         </div>
 
-        <!-- LỊCH VẠN NIÊN THÔNG MINH (SIDEBAR) -->
+        <!-- LỊCH VẠN NIÊN PHONG THỦY CHUYÊN NGHIỆP (SIDEBAR) -->
         <div class="calendar-sidebar" id="calendar-sidebar-box">
             <div class="cal-smart-header">
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
@@ -1121,7 +1111,7 @@
                 <div class="calendar-block-body">
                     <div style="font-size:12px; color:#334155; font-weight:bold; text-transform:uppercase;" id="cal-selected-dow">Thứ Hai</div>
                     <div style="font-size:60px; font-weight:900; color:#dc2626; line-height:1; margin:3px 0;" id="cal-selected-day">27</div>
-                    <div style="font-size:12px; font-weight:bold; color:#0f172a;" id="cal-selected-lunar-day">Ngày Bính Dần - Tháng Bính Thân</div>
+                    <div style="font-size:11px; font-weight:bold; color:#0f172a;" id="cal-selected-lunar-day">Ngày Bính Dần - Tháng Bính Thân</div>
                 </div>
             </div>
 
@@ -1136,6 +1126,7 @@
             </div>
             <div class="cal-grid-mini" id="cal-mini-days-container" style="margin-top:2px;"></div>
 
+            <!-- THÔNG TIN PHONG THỦY CHUYÊN NGHIỆP -->
             <div class="cal-info-panel">
                 <div class="cal-info-row">
                     <span class="cal-info-label"><i class="fa-solid fa-moon text-purple"></i> Âm lịch:</span>
@@ -1144,6 +1135,22 @@
                 <div class="cal-info-row">
                     <span class="cal-info-label"><i class="fa-solid fa-sun text-orange"></i> Tiết khí:</span>
                     <span class="cal-info-val" id="info-tiet-khi">Đại Thử (Nóng lớn)</span>
+                </div>
+                <div class="cal-info-row">
+                    <span class="cal-info-label"><i class="fa-solid fa-compass text-blue"></i> Hướng xuất hành:</span>
+                    <span class="cal-info-val" id="info-huong-xuat-hanh" style="color:var(--blue);">Tài thần: Đông Nam, Hỷ thần: Tây Bắc</span>
+                </div>
+                <div class="cal-info-row">
+                    <span class="cal-info-label"><i class="fa-solid fa-clock text-green"></i> Giờ Hoàng Đạo:</span>
+                    <span class="cal-info-val" id="info-gio-hoang-dao" style="color:var(--green);">Tý (23h-1h), Sửu (1h-3h), Thìn (7h-9h)</span>
+                </div>
+                <div class="cal-info-row">
+                    <span class="cal-info-label"><i class="fa-solid fa-triangle-exclamation text-red"></i> Tuổi xung khắc:</span>
+                    <span class="cal-info-val" id="info-tuoi-xung" style="color:var(--red);">Mậu Thân, Nhâm Thân, Nhâm Tý</span>
+                </div>
+                <div class="cal-info-row">
+                    <span class="cal-info-label"><i class="fa-solid fa-star text-purple"></i> Trực & Sao tốt:</span>
+                    <span class="cal-info-val" id="info-truc-sao">Trực Thành - Sao Nguyệt Tài, Thiên Quý</span>
                 </div>
                 <div class="cal-info-row" style="flex-direction: column; gap: 4px; padding-top: 6px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
@@ -1395,7 +1402,7 @@
             if (popupId === 'payment-date-popup') {
                 document.getElementById('pay-date-time').value = `${formattedDay}/${formattedMonth}/${y}`;
             } else if (popupId === 'telecom-period-popup') {
-                document.getElementById('tele-period').value = `Tháng ${formattedMonth}/${y}`;
+                document.getElementById('tele-period').value = `${formattedDay}/${formattedMonth}/${y}`;
             }
             document.getElementById(popupId).style.display = 'none';
             activePickerId = null;
@@ -1625,8 +1632,8 @@
                 let records = telecomRecordsByMonth[sm] || [];
                 records.forEach(rec => {
                     let period = rec.period || "";
-                    let matchYear = period.match(/\/(\d{4})/);
-                    let recYear = matchYear ? matchYear[1] : sm.split('-')[0];
+                    let dParts = period.split('/');
+                    let recYear = (dParts.length === 3 && dParts[2].length === 4) ? dParts[2] : sm.split('-')[0];
                     if (recYear === CURRENT_SELECTED_YEAR) {
                         totalTelecomYear += rec.amount || 0;
                         totalTaxYear += (rec.taxAmt || 0);
@@ -1845,12 +1852,13 @@
         }
 
         async function addNewPaymentRecord() {
-            let sm = document.getElementById('filter-month').value;
-            let parts = sm.split('-');
-            let year = parts[0] || CURRENT_SELECTED_YEAR;
-            let month = parts[1] || "07";
-
             let payDateTime = document.getElementById('pay-date-time').value.trim() || `27/07/${CURRENT_SELECTED_YEAR}`;
+            let dParts = payDateTime.split('/');
+            let day = dParts[0] || "27";
+            let month = dParts[1] || "07";
+            let year = dParts[2] || CURRENT_SELECTED_YEAR;
+            let sm = `${year}-${month}`;
+
             let editIndex = parseInt(document.getElementById('edit-payment-index').value);
             let content = document.getElementById('pay-content').value.trim();
             let receiver = document.getElementById('pay-receiver').value.trim();
@@ -1977,10 +1985,6 @@
 
             Object.keys(paymentRecordsByMonth || {}).forEach(sm => {
                 let records = paymentRecordsByMonth[sm] || [];
-                let mParts = sm.split('-');
-                let mNum = mParts[1] || "07";
-                let yNum = mParts[0] || CURRENT_SELECTED_YEAR;
-
                 records.forEach((rec, actualIdx) => {
                     let dateTime = rec.payDateTime || "";
                     let dParts = dateTime.split('/');
@@ -1990,9 +1994,10 @@
                         totalSum += rec.amount;
                         let q = rec.qty || 1, u = rec.unit || 'Cái';
                         let displayUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : (rec.amount / q);
+                        let mNum = (dParts.length >= 2) ? dParts[1] : sm.split('-')[1];
                         
-                        let targetFolderUrl = rec.folderUrl || `${ROOT_DRIVE_FOLDER_URL}?q=Thang_${mNum}_${yNum}`;
-                        let folderLinkHtml = `<a href="${targetFolderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục Tháng ${mNum}/${yNum}</a>`;
+                        let targetFolderUrl = rec.folderUrl || `${ROOT_DRIVE_FOLDER_URL}?q=Thang_${mNum}_${recYear}`;
+                        let folderLinkHtml = `<a href="${targetFolderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Thư mục T.${mNum}/${recYear}</a>`;
 
                         tbody.innerHTML += `<tr>
                             <td class="text-center font-bold">${globalIndex++}</td>
@@ -2028,12 +2033,13 @@
         }
 
         async function addNewTelecomRecord() {
-            let sm = document.getElementById('filter-month').value;
-            let parts = sm.split('-');
-            let year = parts[0] || CURRENT_SELECTED_YEAR;
-            let month = parts[1] || "07";
+            let period = document.getElementById('tele-period').value.trim() || `27/07/${CURRENT_SELECTED_YEAR}`;
+            let dParts = period.split('/');
+            let day = dParts[0] || "27";
+            let month = dParts[1] || "07";
+            let year = dParts[2] || CURRENT_SELECTED_YEAR;
+            let sm = `${year}-${month}`;
 
-            let period = document.getElementById('tele-period').value.trim() || `Tháng 07/${CURRENT_SELECTED_YEAR}`;
             let editIndex = parseInt(document.getElementById('edit-telecom-index').value);
             let location = document.getElementById('tele-location').value.trim();
             let provider = document.getElementById('tele-provider').value;
@@ -2126,7 +2132,7 @@
             document.getElementById('tele-tax-rate').value = rec.taxRate !== undefined ? rec.taxRate : 10;
             document.getElementById('tele-tax-amt').value = formatCurrencyVN(rec.taxAmt || 0);
             document.getElementById('tele-amount').value = formatCurrencyVN(rec.amount || 0);
-            document.getElementById('tele-period').value = rec.period || `Tháng 07/${CURRENT_SELECTED_YEAR}`;
+            document.getElementById('tele-period').value = rec.period || `27/07/${CURRENT_SELECTED_YEAR}`;
 
             document.getElementById('btn-save-tele').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Cập Nhật`;
             document.getElementById('btn-cancel-edit-tele').style.display = "inline-flex";
@@ -2151,23 +2157,20 @@
 
             Object.keys(telecomRecordsByMonth || {}).forEach(sm => {
                 let records = telecomRecordsByMonth[sm] || [];
-                let mParts = sm.split('-');
-                let mNum = mParts[1] || "07";
-                let yNum = mParts[0] || CURRENT_SELECTED_YEAR;
-
                 records.forEach((rec, actualIdx) => {
                     let period = rec.period || "";
-                    let matchYear = period.match(/\/(\d{4})/);
-                    let recYear = matchYear ? matchYear[1] : sm.split('-')[0];
+                    let dParts = period.split('/');
+                    let recYear = (dParts.length === 3 && dParts[2].length === 4) ? dParts[2] : sm.split('-')[0];
 
                     if (recYear === CURRENT_SELECTED_YEAR) {
                         totalTelecom += rec.amount;
                         let baseA = rec.amountBase !== undefined ? rec.amountBase : rec.amount;
                         let tRate = rec.taxRate !== undefined ? rec.taxRate : 10;
                         let tAmt = rec.taxAmt !== undefined ? rec.taxAmt : (baseA * tRate / 100);
+                        let mNum = (dParts.length >= 2) ? dParts[1] : sm.split('-')[1];
 
-                        let targetFolderUrl = rec.folderUrl || `${ROOT_DRIVE_FOLDER_URL}?q=Thang_${mNum}_${yNum}`;
-                        let folderLinkHtml = `<a href="${targetFolderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục Tháng ${mNum}/${yNum}</a>`;
+                        let targetFolderUrl = rec.folderUrl || `${ROOT_DRIVE_FOLDER_URL}?q=Thang_${mNum}_${recYear}`;
+                        let folderLinkHtml = `<a href="${targetFolderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Thư mục T.${mNum}/${recYear}</a>`;
 
                         tbody.innerHTML += `<tr>
                             <td class="text-center font-bold">${globalIndex++}</td>
@@ -2868,6 +2871,53 @@
         }
         function getDayCanChi(jdn) { return `${stemNames[(jdn + 9) % 10]} ${branchNames[(jdn + 1) % 12]}`; }
 
+        const tietKhienList = [
+            "Tiểu Hàn", "Đại Hàn", "Lập Xuân", "Vũ Thủy", "Kinh Trập", "Xuân Phân",
+            "Thanh Minh", "Cốc Vũ", "Lập Hạ", "Tiểu Mãn", "Mang Chủng", "Hạ Chí",
+            "Tiểu Thử", "Đại Thử", "Lập Thu", "Xử Thử", "Bạch Lộ", "Thu Phân",
+            "Hàn Lộ", "Sương Giáng", "Lập Đông", "Tiểu Tuyết", "Đại Tuyết", "Đông Chí"
+        ];
+        function getTietKhiName(jdn) {
+            let sunLng = getSunLongitude(jdn, 7.0);
+            let idx = Math.floor(sunLng / 15) % 24;
+            return tietKhienList[idx] || "Tiết khí chuẩn";
+        }
+
+        function getFengShuiDataForDay(jdn, lunar) {
+            let dayBranchIdx = (jdn + 1) % 12;
+            let conflictBranches = [(dayBranchIdx + 6) % 12, (dayBranchIdx + 3) % 12, (dayBranchIdx + 9) % 12];
+            let conflictStr = conflictBranches.map(b => branchNames[b]).join(", xung khắc tuổi Thân/Dần/Tỵ/Hợi tương ứng");
+
+            let hieuXuatHanhArr = [
+                "Tài thần: Đông Nam - Hỷ thần: Tây Bắc",
+                "Tài thần: Đông - Hỷ thần: Tây Nam",
+                "Tài thần: Tây Nam - Hỷ thần: Đông",
+                "Tài thần: Nam - Hỷ thần: Nam",
+                "Tài thần: Đông Bắc - Hỷ thần: Đông Nam"
+            ];
+            let xuatHanh = hieuXuatHanhArr[jdn % hieuXuatHanhArr.length];
+
+            let hoangDaoArr = [
+                "Tý (23h-1h), Sửu (1h-3h), Thìn (7h-9h), Tỵ (9h-11h), Mùi (13h-15h), Tuất (19h-21h)",
+                "Dần (3h-5h), Mão (5h-7h), Tỵ (9h-11h), Thân (15h-17h), Tuất (19h-21h), Hợi (21h-23h)",
+                "Tý (23h-1h), Dần (3h-5h), Mão (5h-7h), Ngọ (11h-13h), Mùi (13h-15h), Dậu (17h-19h)",
+                "Sửu (1-3h), Thìn (7-9h), Ngọ (11-13h), Thân (15-17h), Dậu (17-19h), Hợi (21-23h)"
+            ];
+            let gioHD = hoangDaoArr[jdn % hoangDaoArr.length];
+
+            let trucArr = ["Trực Kiến (Tốt xuất hành)", "Trực Trừ (Tốt dọn dẹp)", "Trực Mãn (Tốt cầu tài)", "Trực Bình (Tốt ký kết)", "Trực Định (Tốt nhập trạch)", "Trực Chấp (Tốt xây dựng)", "Trực Phá (Xấu kiện tụng)", "Trực Nguy (Xấu đi xa)", "Trực Thành (Đại cát vạn sự)", "Trực Thu (Tốt thu tiền)", "Trực Khai (Tốt khai trương)", "Trực Bế (Xấu mai táng)"];
+            let trucVal = trucArr[jdn % trucArr.length];
+
+            let saoTotArr = ["Nguyệt Tài, Thiên Quý, Phúc Hậu", "Thiên Phúc, Nguyệt Âm, San Hô", "Sinh Khí, Thiên Hỷ, Nguyệt Đức", "Thiên Mã, Thánh Tâm, Mẫu Thương"];
+            let saoVal = saoTotArr[jdn % saoTotArr.length];
+
+            return { xuatHanh, gioHD, conflictStr: `${branchNames[conflictBranchsSafe(jdn, 0)]}, ${branchNames[conflictBranchsSafe(jdn, 4)]}, ${branchNames[conflictBranchsSafe(jdn, 8)]}`, trucVal: `${trucVal} - Sao: ${saoVal}` };
+        }
+
+        function conflictBranchsSafe(jdn, offset) {
+            return (jdn + 1 + offset) % 12;
+        }
+
         function renderSmartCalendar() {
             let year = calViewDate.getFullYear(), month = calViewDate.getMonth();
             const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
@@ -2913,9 +2963,17 @@
 
             let lunar = convertSolar2Lunar(d, m, y, 7.0);
             let jdn = jdFromDate(d, m, y);
+            let fs = getFengShuiDataForDay(jdn, lunar);
+
             document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG ${lunar.month} NĂM ${getYearCanChi(lunar.year).toUpperCase()}`;
             document.getElementById('cal-selected-lunar-day').innerText = `Ngày ${getDayCanChi(jdn)} - Tháng ${getMonthCanChi(lunar.month, lunar.year)}`;
-            document.getElementById('info-lunar-exact').innerText = `${lunar.day}/${lunar.month}/${lunar.year}`;
+            document.getElementById('info-lunar-exact').innerText = `${lunar.day}/${lunar.month}/${lunar.year} (${lunar.leap ? 'Nhuận' : 'Chính'})`;
+            document.getElementById('info-tiet-khi').innerText = getTietKhiName(jdn);
+            document.getElementById('info-huong-xuat-hanh').innerText = fs.xuatHanh;
+            document.getElementById('info-gio-hoang-dao').innerText = fs.gioHD;
+            document.getElementById('info-tuoi-xung').innerText = fs.conflictStr;
+            document.getElementById('info-truc-sao').innerText = fs.trucVal;
+
             document.getElementById('modal-event-date-lbl').innerText = `${d < 10 ? '0'+d : d}/${m < 10 ? '0'+m : m}/${y}`;
 
             let dateKey = `${y}-${m}-${d}`;
