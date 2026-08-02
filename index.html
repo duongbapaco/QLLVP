@@ -27,29 +27,28 @@
             --bg-light: #f1f5f9;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: rgba(0,0,0,0.2); }
-        body { font-family: 'Times New Roman', Times, serif; font-size: 14px; margin: 0; padding: 8px; background: var(--bg-light); color: var(--text-main); font-weight: 500; }
+        body { font-family: 'Times New Roman', Times, serif; font-size: 14px; margin: 0; padding: 6px; background: var(--bg-light); color: var(--text-main); font-weight: 500; }
         
-        .workspace { display: grid; grid-template-columns: 1fr 410px; gap: 12px; align-items: start; transition: all 0.3s ease; }
+        .workspace { display: grid; grid-template-columns: 1fr 400px; gap: 10px; align-items: start; transition: all 0.3s ease; }
         .workspace.calendar-hidden { grid-template-columns: 1fr !important; }
-        @media (max-width: 1200px) { .workspace { grid-template-columns: 1fr; } }
+        @media (max-width: 1024px) { .workspace { grid-template-columns: 1fr; } }
 
-        .db-status-bar { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: #cbd5e1; border-bottom: 2px solid var(--border-color); font-size: 13px; font-weight: bold; border-radius: 4px; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
+        .db-status-bar { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: #cbd5e1; border-bottom: 2px solid var(--border-color); font-size: 13px; font-weight: bold; border-radius: 4px; margin-bottom: 6px; flex-wrap: wrap; gap: 6px; }
         .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; background-color: var(--green); }
         
-        .year-selector-box { display: flex; align-items: center; gap: 6px; background: #ffffff; padding: 4px 10px; border-radius: 4px; border: 2px solid var(--blue); color: var(--blue); font-size: 13px; }
+        .year-selector-box { display: flex; align-items: center; gap: 6px; background: #ffffff; padding: 4px 8px; border-radius: 4px; border: 2px solid var(--blue); color: var(--blue); font-size: 13px; }
         .year-selector-box select { border: none; font-weight: bold; color: var(--blue); outline: none; background: transparent; font-size: 13px; cursor: pointer; font-family: 'Times New Roman', Times, serif; }
 
-        .header { display: flex; justify-content: space-between; align-items: center; background: #0f172a; color: white; padding: 10px 15px; border-radius: 4px; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
-        .header h1 { font-size: 15px; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; }
-        .live-clock-box { background: rgba(255,255,255,0.15); padding: 5px 10px; border-radius: 4px; font-family: monospace; font-size: 12px; text-align: right; border: 1px solid rgba(255,255,255,0.3); font-weight: bold; color: #fef08a; }
+        .header { display: flex; justify-content: space-between; align-items: center; background: #0f172a; color: white; padding: 8px 12px; border-radius: 4px; margin-bottom: 6px; flex-wrap: wrap; gap: 6px; }
+        .header h1 { font-size: 14px; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; }
+        .live-clock-box { background: rgba(255,255,255,0.15); padding: 4px 8px; border-radius: 4px; font-family: monospace; font-size: 11.5px; text-align: right; border: 1px solid rgba(255,255,255,0.3); font-weight: bold; color: #fef08a; }
 
-        .stat-grid-3d { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 12px; }
+        .stat-grid-3d { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 10px; }
         @media (max-width: 1400px) { .stat-grid-3d { grid-template-columns: repeat(3, 1fr); } }
         @media (max-width: 768px) { .stat-grid-3d { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 480px) { .stat-grid-3d { grid-template-columns: 1fr; } }
 
-        .stat-card-3d { background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); padding: 12px 14px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05); border: 1.5px solid #cbd5e1; border-left: 6px solid var(--blue); display: flex; align-items: center; justify-content: space-between; transition: transform 0.2s ease, box-shadow 0.2s ease; position: relative; overflow: hidden; }
-        .stat-card-3d:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+        .stat-card-3d { background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); padding: 10px 12px; border-radius: 6px; box-shadow: 0 3px 10px rgba(0,0,0,0.06); border: 1.5px solid #cbd5e1; border-left: 5px solid var(--blue); display: flex; align-items: center; justify-content: space-between; transition: transform 0.2s ease; position: relative; overflow: hidden; }
         .stat-card-3d.green { border-left-color: var(--green); }
         .stat-card-3d.orange { border-left-color: var(--orange); }
         .stat-card-3d.purple { border-left-color: var(--purple); }
@@ -57,126 +56,126 @@
         .stat-card-3d.teal { border-left-color: var(--teal); }
         
         .stat-info { display: flex; flex-direction: column; overflow: hidden; z-index: 2; }
-        .stat-title { font-size: 10.5px; text-transform: uppercase; color: #475569; font-weight: 800; letter-spacing: 0.3px; white-space: nowrap; }
-        .stat-value { font-size: 15px; font-weight: 900; color: var(--primary); margin-top: 3px; white-space: nowrap; }
-        .stat-icon-3d { font-size: 24px; opacity: 0.25; flex-shrink: 0; z-index: 1; }
+        .stat-title { font-size: 10px; text-transform: uppercase; color: #475569; font-weight: 800; letter-spacing: 0.3px; white-space: nowrap; }
+        .stat-value { font-size: 14px; font-weight: 900; color: var(--primary); margin-top: 2px; white-space: nowrap; }
+        .stat-icon-3d { font-size: 22px; opacity: 0.25; flex-shrink: 0; z-index: 1; }
 
-        .salary-visual-summary { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin: 0 auto 10px auto; max-width: 100%; background: #ffffff; padding: 10px; border-radius: 8px; border: 2px solid #cbd5e1; box-shadow: 0 2px 5px rgba(0,0,0,0.06); flex-wrap: wrap; }
-        .visual-mini-card { flex: 1; min-width: 150px; background: #f8fafc; padding: 8px 12px; border-radius: 6px; border: 1.5px solid #cbd5e1; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-        .visual-lbl { font-size: 11px; font-weight: bold; color: #0f172a; white-space: nowrap; display: flex; align-items: center; }
-        .visual-val { font-size: 14.5px; font-weight: 800; color: var(--primary); white-space: nowrap; }
+        .salary-visual-summary { display: flex; justify-content: space-between; align-items: center; gap: 6px; margin: 0 auto 8px auto; max-width: 100%; background: #ffffff; padding: 8px; border-radius: 6px; border: 2px solid #cbd5e1; box-shadow: 0 2px 4px rgba(0,0,0,0.04); flex-wrap: wrap; }
+        .visual-mini-card { flex: 1; min-width: 140px; background: #f8fafc; padding: 6px 10px; border-radius: 4px; border: 1.5px solid #cbd5e1; display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+        .visual-lbl { font-size: 10.5px; font-weight: bold; color: #0f172a; white-space: nowrap; display: flex; align-items: center; }
+        .visual-val { font-size: 14px; font-weight: 800; color: var(--primary); white-space: nowrap; }
 
-        .config-toolbar-container { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; flex-wrap: wrap; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1.5px solid #cbd5e1; }
-        .config-inputs-group { display: flex; align-items: flex-end; gap: 8px; flex-wrap: wrap; flex: 1; }
-        .config-inputs-group .form-group { flex: 1; min-width: 120px; }
+        .config-toolbar-container { display: flex; justify-content: space-between; align-items: flex-end; gap: 8px; flex-wrap: wrap; background: #f8fafc; padding: 8px; border-radius: 6px; border: 1.5px solid #cbd5e1; }
+        .config-inputs-group { display: flex; align-items: flex-end; gap: 6px; flex-wrap: wrap; flex: 1; }
+        .config-inputs-group .form-group { flex: 1; min-width: 110px; }
 
-        .nav-tabs { display: flex; gap: 4px; margin-bottom: 8px; border-bottom: 2px solid #64748b; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
+        .nav-tabs { display: flex; gap: 4px; margin-bottom: 6px; border-bottom: 2px solid #64748b; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
         .nav-tabs::-webkit-scrollbar { height: 4px; }
         .nav-tabs::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 2px; }
-        .nav-tabs .nav-tab { padding: 8px 14px; border: 1.5px solid #cbd5e1; border-bottom: none; background: #e2e8f0; font-weight: bold; color: #0f172a; cursor: pointer; font-size: 13px; border-radius: 5px 5px 0 0; white-space: nowrap; font-family: 'Times New Roman', Times, serif; }
+        .nav-tabs .nav-tab { padding: 7px 12px; border: 1.5px solid #cbd5e1; border-bottom: none; background: #e2e8f0; font-weight: bold; color: #0f172a; cursor: pointer; font-size: 12.5px; border-radius: 4px 4px 0 0; white-space: nowrap; font-family: 'Times New Roman', Times, serif; }
         .nav-tabs .nav-tab.active { color: var(--blue) !important; background: white !important; border: 2px solid #64748b !important; border-bottom: 3px solid var(--blue) !important; }
         
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         
-        .main-card { background: white; border-radius: 6px; padding: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); margin-bottom: 10px; border: 1.5px solid #cbd5e1; }
-        .card-title { font-size: 14.5px; font-weight: bold; color: var(--primary); margin-bottom: 8px; border-left: 5px solid var(--blue); padding-left: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .main-card { background: white; border-radius: 6px; padding: 8px 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 8px; border: 1.5px solid #cbd5e1; }
+        .card-title { font-size: 14px; font-weight: bold; color: var(--primary); margin-bottom: 6px; border-left: 5px solid var(--blue); padding-left: 6px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
         
-        .grid-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-bottom: 8px; }
+        .grid-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 6px; margin-bottom: 6px; }
         
-        .form-group { display: flex; flex-direction: column; gap: 3px; position: relative; }
-        .form-group label { font-weight: bold; color: #000000; font-size: 12px; white-space: nowrap; }
-        .form-group input, .form-group select, .form-group datalist { padding: 8px 10px; border: 1.5px solid #475569; border-radius: 4px; font-size: 14px; font-weight: bold; outline: none; background: #fff; color: #000; width: 100%; font-family: 'Times New Roman', Times, serif; }
+        .form-group { display: flex; flex-direction: column; gap: 2px; position: relative; }
+        .form-group label { font-weight: bold; color: #000000; font-size: 11.5px; white-space: nowrap; }
+        .form-group input, .form-group select, .form-group datalist { padding: 7px 8px; border: 1.5px solid #475569; border-radius: 4px; font-size: 13.5px; font-weight: bold; outline: none; background: #fff; color: #000; width: 100%; font-family: 'Times New Roman', Times, serif; }
 
-        .btn { padding: 8px 14px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-size: 13px; font-family: 'Times New Roman', Times, serif; min-height: 40px; touch-action: manipulation; }
+        .btn { padding: 7px 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; gap: 5px; font-size: 12.5px; font-family: 'Times New Roman', Times, serif; min-height: 38px; touch-action: manipulation; }
         .btn-primary { background: var(--blue); color: white; }
         .btn-purple { background: var(--purple); color: white; }
         .btn-green { background: var(--green); color: white; }
         .btn-orange { background: var(--orange); color: white; }
         .btn-teal { background: var(--teal); color: white; }
         .btn-gray { background: #475569; color: white; }
-        .btn-delete { background: #fef2f2; color: #b91c1c; border: 1.5px solid #fca5a5; padding: 6px 10px; font-size: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; min-height: 34px; touch-action: manipulation; }
-        .btn-edit { background: #eff6ff; color: #1d4ed8; border: 1.5px solid #93c5fd; padding: 6px 10px; font-size: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 4px; min-height: 34px; touch-action: manipulation; }
+        .btn-delete { background: #fef2f2; color: #b91c1c; border: 1.5px solid #fca5a5; padding: 5px 8px; font-size: 11.5px; border-radius: 4px; cursor: pointer; font-weight: bold; min-height: 32px; touch-action: manipulation; }
+        .btn-edit { background: #eff6ff; color: #1d4ed8; border: 1.5px solid #93c5fd; padding: 5px 8px; font-size: 11.5px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 3px; min-height: 32px; touch-action: manipulation; }
         
-        .btn-drive-link { display: inline-flex; align-items: center; gap: 5px; background: #e0f2fe; color: #0369a1; border: 1.5px solid #7dd3fc; padding: 6px 10px; font-size: 12px; border-radius: 4px; font-weight: bold; text-decoration: none; cursor: pointer; white-space: nowrap; min-height: 36px; touch-action: manipulation; }
+        .btn-drive-link { display: inline-flex; align-items: center; gap: 4px; background: #e0f2fe; color: #0369a1; border: 1.5px solid #7dd3fc; padding: 5px 8px; font-size: 11.5px; border-radius: 4px; font-weight: bold; text-decoration: none; cursor: pointer; white-space: nowrap; min-height: 34px; touch-action: manipulation; }
 
-        .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 8px; width: 100%; border: 1.5px solid #475569; border-radius: 4px; background: #fff; }
-        .main-table { width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap; font-size: 13px; color: #000000; }
-        .main-table th { background: #cbd5e1; color: #000000; padding: 8px 6px; border: 1px solid #475569; font-weight: bold; text-align: center; }
-        .main-table td { padding: 6px; border: 1px solid #64748b; vertical-align: middle; font-weight: 600; }
+        .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 6px; width: 100%; border: 1.5px solid #475569; border-radius: 4px; background: #fff; max-height: 70vh; }
+        .main-table { width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap; font-size: 12.5px; color: #000000; }
+        .main-table th { background: #cbd5e1; color: #000000; padding: 7px 5px; border: 1px solid #475569; font-weight: bold; text-align: center; position: sticky; top: 0; z-index: 10; }
+        .main-table td { padding: 5px; border: 1px solid #64748b; vertical-align: middle; font-weight: 600; }
         .main-table tbody tr:nth-child(even) { background-color: #f8fafc; }
         
         .text-right { text-align: right; }
         .text-center { text-align: center; }
         .font-bold { font-weight: bold; }
         
-        .inp-table { width: 100%; padding: 6px; border: 1.5px solid #475569; border-radius: 4px; font-size: 13px; font-weight: 700; outline: none; background: #ffffff; color: #000000; font-family: 'Times New Roman', Times, serif; min-height: 36px; }
+        .inp-table { width: 100%; padding: 5px; border: 1.5px solid #475569; border-radius: 4px; font-size: 12.5px; font-weight: 700; outline: none; background: #ffffff; color: #000000; font-family: 'Times New Roman', Times, serif; min-height: 34px; }
         .inp-table:focus { border-color: var(--blue); background-color: #eff6ff; }
-        .inp-table.inp-name { min-width: 190px; text-align: left; font-weight: 700; color: #0f172a; }
-        .inp-table.inp-account { min-width: 120px; text-align: center; font-weight: 700; }
-        .inp-table.inp-num-day { min-width: 50px; width: 55px; font-weight: 800; background-color: #fef9c3; text-align: center; color: #000; }
-        .inp-table.inp-currency { min-width: 100px; font-weight: 700; text-align: right; color: #000; background-color: #fff7ed; border-color: #f97316; }
+        .inp-table.inp-name { min-width: 180px; text-align: left; font-weight: 700; color: #0f172a; }
+        .inp-table.inp-account { min-width: 110px; text-align: center; font-weight: 700; }
+        .inp-table.inp-num-day { min-width: 45px; width: 50px; font-weight: 800; background-color: #fef9c3; text-align: center; color: #000; }
+        .inp-table.inp-currency { min-width: 95px; font-weight: 700; text-align: right; color: #000; background-color: #fff7ed; border-color: #f97316; }
 
-        .signature-container { margin-top: 20px; display: flex; justify-content: space-between; text-align: center; padding: 10px; flex-wrap: wrap; gap: 15px; }
-        .signature-box { flex: 1; min-width: 150px; font-size: 13.5px; }
-        .signature-title { font-weight: bold; font-size: 14px; text-transform: uppercase; margin-bottom: 4px; color: #0f172a; }
-        .signature-note { font-style: italic; font-size: 12px; color: #475569; margin-bottom: 40px; }
-        .signature-name { font-weight: bold; font-size: 14px; color: #0f172a; }
+        .signature-container { margin-top: 15px; display: flex; justify-content: space-between; text-align: center; padding: 8px; flex-wrap: wrap; gap: 12px; }
+        .signature-box { flex: 1; min-width: 140px; font-size: 13px; }
+        .signature-title { font-weight: bold; font-size: 13.5px; text-transform: uppercase; margin-bottom: 3px; color: #0f172a; }
+        .signature-note { font-style: italic; font-size: 11.5px; color: #475569; margin-bottom: 35px; }
+        .signature-name { font-weight: bold; font-size: 13.5px; color: #0f172a; }
 
-        .progress-bar-container { width: 100%; background: #e2e8f0; border-radius: 4px; height: 16px; margin-top: 8px; overflow: hidden; display: none; position: relative; border: 1px solid #cbd5e1; }
+        .progress-bar-container { width: 100%; background: #e2e8f0; border-radius: 4px; height: 14px; margin-top: 6px; overflow: hidden; display: none; position: relative; border: 1px solid #cbd5e1; }
         .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #1d4ed8, #047857); transition: width 0.3s ease; }
-        .progress-bar-text { position: absolute; width: 100%; top: 0; left: 0; text-align: center; font-size: 10px; font-weight: bold; color: #0f172a; line-height: 16px; }
+        .progress-bar-text { position: absolute; width: 100%; top: 0; left: 0; text-align: center; font-size: 9.5px; font-weight: bold; color: #0f172a; line-height: 14px; }
 
-        .custom-popup-calendar { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 99999; background: white; border: 2px solid var(--blue); border-radius: 8px; box-shadow: 0 4px 25px rgba(0,0,0,0.3); width: 300px; max-width: 90vw; padding: 12px; font-family: 'Times New Roman', Times, serif; }
-        .popup-cal-top-bar { display: flex; gap: 4px; margin-bottom: 8px; justify-content: space-between; }
-        .popup-cal-top-bar select { padding: 6px; border: 1.5px solid var(--blue); border-radius: 4px; font-weight: bold; font-size: 12px; color: var(--primary); background: #f8fafc; cursor: pointer; font-family: 'Times New Roman', Times, serif; }
-        .popup-cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-weight: bold; color: var(--primary); font-size: 13.5px; background: #e2e8f0; padding: 6px 8px; border-radius: 4px; }
-        .popup-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; text-align: center; font-size: 13px; }
-        .popup-cal-grid div { padding: 8px 0; font-weight: bold; }
+        .custom-popup-calendar { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 99999; background: white; border: 2px solid var(--blue); border-radius: 8px; box-shadow: 0 4px 25px rgba(0,0,0,0.3); width: 290px; max-width: 90vw; padding: 10px; font-family: 'Times New Roman', Times, serif; }
+        .popup-cal-top-bar { display: flex; gap: 4px; margin-bottom: 6px; justify-content: space-between; }
+        .popup-cal-top-bar select { padding: 5px; border: 1.5px solid var(--blue); border-radius: 4px; font-weight: bold; font-size: 11.5px; color: var(--primary); background: #f8fafc; cursor: pointer; font-family: 'Times New Roman', Times, serif; }
+        .popup-cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-weight: bold; color: var(--primary); font-size: 13px; background: #e2e8f0; padding: 5px 6px; border-radius: 4px; }
+        .popup-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; font-size: 12.5px; }
+        .popup-cal-grid div { padding: 7px 0; font-weight: bold; }
         .popup-dow { color: #64748b; background: #f1f5f9; font-size: 11px; }
         .popup-day { cursor: pointer; border-radius: 4px; }
         .popup-day:hover { background: #e2e8f0; color: var(--blue); }
         .popup-day.selected { background: var(--blue) !important; color: white !important; font-weight: bold; }
         .popup-day.today { border: 1px solid var(--red); color: var(--red); }
 
-        .calendar-sidebar { background: white; border-radius: 8px; border: 1.5px solid #cbd5e1; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.3s ease; }
+        .calendar-sidebar { background: white; border-radius: 8px; border: 1.5px solid #cbd5e1; padding: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.3s ease; }
         .calendar-sidebar.hidden { display: none !important; }
 
-        .cal-smart-header { background: linear-gradient(135deg, #0f172a, #1e293b); color: white; padding: 10px; border-radius: 6px; font-weight: bold; text-align: center; font-size: 13.5px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .cal-nav-btn { background: rgba(255,255,255,0.2); border: none; color: white; width: 32px; height: 32px; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; touch-action: manipulation; }
+        .cal-smart-header { background: linear-gradient(135deg, #0f172a, #1e293b); color: white; padding: 8px; border-radius: 6px; font-weight: bold; text-align: center; font-size: 13px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .cal-nav-btn { background: rgba(255,255,255,0.2); border: none; color: white; width: 30px; height: 30px; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; touch-action: manipulation; }
         .cal-nav-btn:hover { background: rgba(255,255,255,0.4); }
 
-        .calendar-block-view { border: 3px solid #b91c1c; border-radius: 8px; background: white; overflow: hidden; box-shadow: 0 4px 12px rgba(185, 28, 28, 0.15); margin-bottom: 10px; }
-        .calendar-block-head { background: linear-gradient(135deg, #dc2626, #991b1b); color: white; text-align: center; padding: 6px; font-weight: bold; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .calendar-block-body { text-align: center; padding: 8px; background: #fff; }
+        .calendar-block-view { border: 3px solid #b91c1c; border-radius: 6px; background: white; overflow: hidden; box-shadow: 0 3px 10px rgba(185, 28, 28, 0.12); margin-bottom: 8px; }
+        .calendar-block-head { background: linear-gradient(135deg, #dc2626, #991b1b); color: white; text-align: center; padding: 5px; font-weight: bold; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .calendar-block-body { text-align: center; padding: 6px; background: #fff; }
 
-        .cal-grid-mini { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin-top: 6px; text-align: center; font-size: 12px; }
-        .cal-grid-mini div { padding: 6px 0; font-weight: bold; }
-        .cal-grid-mini .dow { color: #64748b; font-size: 11px; background: #f1f5f9; }
-        .cal-day-cell { cursor: pointer; border-radius: 4px; transition: 0.2s; position: relative; min-height: 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .cal-grid-mini { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin-top: 4px; text-align: center; font-size: 11.5px; }
+        .cal-grid-mini div { padding: 5px 0; font-weight: bold; }
+        .cal-grid-mini .dow { color: #64748b; font-size: 10.5px; background: #f1f5f9; }
+        .cal-day-cell { cursor: pointer; border-radius: 4px; transition: 0.2s; position: relative; min-height: 26px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .cal-day-cell:hover { background: #e2e8f0; color: #1d4ed8; }
         .cal-day-cell.selected { background: #1d4ed8 !important; color: white !important; font-weight: bold; }
         .cal-day-cell.today { border: 1.5px solid #dc2626; color: #dc2626; }
-        .cal-day-cell.has-event::after { content: ''; position: absolute; bottom: 2px; right: 2px; width: 5px; height: 5px; background-color: #16a34a; border-radius: 50%; }
+        .cal-day-cell.has-event::after { content: ''; position: absolute; bottom: 2px; right: 2px; width: 4px; height: 4px; background-color: #16a34a; border-radius: 50%; }
         
-        .lunar-sub-txt { font-size: 8.5px; color: #64748b; line-height: 1; margin-top: 1px; }
+        .lunar-sub-txt { font-size: 8px; color: #64748b; line-height: 1; margin-top: 1px; }
         .cal-day-cell.selected .lunar-sub-txt { color: #fef08a; }
 
-        .cal-info-panel { background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 10px; font-size: 11.5px; margin-top: 10px; display: flex; flex-direction: column; gap: 4px; }
-        .cal-info-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #cbd5e1; gap: 8px; }
+        .cal-info-panel { background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 8px; font-size: 11px; margin-top: 8px; display: flex; flex-direction: column; gap: 3px; }
+        .cal-info-row { display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 1px dashed #cbd5e1; gap: 6px; }
         .cal-info-row:last-child { border-bottom: none; }
         .cal-info-label { color: #475569; font-weight: bold; flex-shrink: 0; }
         .cal-info-val { color: #0f172a; font-weight: 700; text-align: right; word-break: break-word; }
 
-        .modal { display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(2px); align-items: center; justify-content: center; padding: 15px; }
-        .modal-content { background: white; padding: 16px; border-radius: 8px; width: 100%; max-width: 850px; max-height: 90vh; display: flex; flex-direction: column; position: relative; overflow-y: auto; }
-        .status-box-notify { padding: 10px 14px; border-radius: 6px; font-weight: bold; margin-bottom: 10px; display: none; }
+        .modal { display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(2px); align-items: center; justify-content: center; padding: 12px; }
+        .modal-content { background: white; padding: 14px; border-radius: 8px; width: 100%; max-width: 800px; max-height: 90vh; display: flex; flex-direction: column; position: relative; overflow-y: auto; }
+        .status-box-notify { padding: 8px 12px; border-radius: 6px; font-weight: bold; margin-bottom: 8px; display: none; font-size: 12.5px; }
     </style>
 </head>
 <body>
 
     <div class="db-status-bar">
-        <div style="display:flex; align-items:center; gap:8px; flex-wrap: wrap;">
+        <div style="display:flex; align-items:center; gap:6px; flex-wrap: wrap;">
             <div>
                 <span class="status-dot" id="cloud-status-dot"></span>
                 <span id="cloud-status-text">Đã tích hợp API Cloud & Tự động đồng bộ ngầm</span>
@@ -195,10 +194,10 @@
                 </select>
             </div>
         </div>
-        <div style="display:flex; gap:6px; flex-wrap: wrap;">
-            <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="padding: 6px 10px; font-size:12px;"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
-            <button type="button" class="btn btn-green" style="padding: 6px 10px; font-size:12px;" onclick="toggleCalendarSidebar()"><i class="fa-solid fa-calendar-days"></i> Lịch</button>
-            <button type="button" class="btn btn-purple" style="padding: 6px 10px; font-size:12px;" onclick="openConfigUrlModal()"><i class="fa-solid fa-link"></i> Cấu hình</button>
+        <div style="display:flex; gap:5px; flex-wrap: wrap;">
+            <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="padding: 5px 8px; font-size:11.5px;"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
+            <button type="button" class="btn btn-green" style="padding: 5px 8px; font-size:11.5px;" onclick="toggleCalendarSidebar()"><i class="fa-solid fa-calendar-days"></i> Lịch</button>
+            <button type="button" class="btn btn-purple" style="padding: 5px 8px; font-size:11.5px;" onclick="openConfigUrlModal()"><i class="fa-solid fa-link"></i> Cấu hình</button>
         </div>
     </div>
 
@@ -272,32 +271,32 @@
                         <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục Gốc Drive</a>
                     </div>
                     
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 15px; margin-bottom: 15px;">
-                        <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 14px; border-radius: 8px;">
-                            <div style="font-weight: bold; font-size: 13.5px; color: var(--primary); margin-bottom: 8px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; margin-bottom: 12px;">
+                        <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 6px;">
+                            <div style="font-weight: bold; font-size: 13px; color: var(--primary); margin-bottom: 6px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;">
                                 <i class="fa-solid fa-chart-pie" style="color:var(--blue);"></i> BIỂU ĐỒ TỶ TRỌNG TỔNG QUAN CHUNG TÀI CHÍNH (%)
                             </div>
-                            <div style="position: relative; height: 270px; display: flex; justify-content: center; align-items: center;">
+                            <div style="position: relative; height: 240px; display: flex; justify-content: center; align-items: center;">
                                 <canvas id="combinedPieChart"></canvas>
                             </div>
                         </div>
 
-                        <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 14px; border-radius: 8px;">
-                            <div style="font-weight: bold; font-size: 13.5px; color: var(--primary); margin-bottom: 8px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px;">
+                        <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 6px;">
+                            <div style="font-weight: bold; font-size: 13px; color: var(--primary); margin-bottom: 6px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;">
                                 <i class="fa-solid fa-chart-column" style="color:var(--green);"></i> BIỂU ĐỒ CỘT CHUNG: THANH TOÁN, CƯỚC, LƯƠNG & THUẾ
                             </div>
-                            <div style="position: relative; height: 270px; display: flex; justify-content: center; align-items: center;">
+                            <div style="position: relative; height: 240px; display: flex; justify-content: center; align-items: center;">
                                 <canvas id="combinedBarChart"></canvas>
                             </div>
                         </div>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-bottom: 12px;">
-                        <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 14px; border-radius: 8px;">
-                            <div style="font-weight: bold; font-size: 13.5px; color: var(--primary); margin-bottom: 8px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; margin-bottom: 10px;">
+                        <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 6px;">
+                            <div style="font-weight: bold; font-size: 13px; color: var(--primary); margin-bottom: 6px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;">
                                 <i class="fa-solid fa-wallet" style="color:var(--blue);"></i> TÀI CHÍNH & QUỸ LƯƠNG (<span class="lbl-current-year">2026</span>)
                             </div>
-                            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+                            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12.5px;">
                                 <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Lương NET:</span> <b id="dash-sub-net" style="color:var(--blue);">0 VND</b></div>
                                 <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Thanh Toán VP:</span> <b id="dash-sub-paid" style="color:var(--green);">0 VND</b></div>
                                 <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Tạm Ứng Nhân Sự:</span> <b id="dash-sub-advance" style="color:var(--red);">0 VND</b></div>
@@ -306,11 +305,11 @@
                             </div>
                         </div>
 
-                        <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 14px; border-radius: 8px;">
-                            <div style="font-weight: bold; font-size: 13.5px; color: var(--primary); margin-bottom: 8px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px;">
+                        <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 6px;">
+                            <div style="font-weight: bold; font-size: 13px; color: var(--primary); margin-bottom: 6px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;">
                                 <i class="fa-solid fa-laptop-code" style="color:var(--purple);"></i> TÀI SẢN CNTT & KHO MỰC (<span class="lbl-current-year">2026</span>)
                             </div>
-                            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+                            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12.5px;">
                                 <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Thiết Bị & Tài Sản CNTT:</span> <b id="dash-sub-it" style="color:var(--purple);">0 Thiết bị</b></div>
                                 <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Hộp Mực Trong Kho:</span> <b id="dash-sub-ink" style="color:var(--teal);">0 Hộp</b></div>
                                 <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Trạng Thái Hệ Thống:</span> <b style="color:var(--green);">Tự động đồng bộ Cloud API</b></div>
@@ -328,7 +327,7 @@
                         <span><i class="fa-solid fa-pen-to-square" style="color:var(--blue);"></i> CẤU HÌNH LƯƠNG THÁNG - NĂM <span class="lbl-current-year">2026</span></span>
                     </div>
                     
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; margin-bottom: 10px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 6px; margin-bottom: 8px; border-bottom: 1px dashed var(--border-color); padding-bottom: 6px;">
                         <div class="form-group">
                             <label style="color:var(--blue);"><i class="fa-solid fa-building"></i> Tên Công Ty:</label>
                             <input type="text" id="config-company-title" value="TỔNG CÔNG TY GIẤY VIỆT NAM" oninput="handleConfigChangeLive()">
@@ -361,13 +360,13 @@
                                 <label style="color:var(--purple);"><i class="fa-solid fa-briefcase"></i> Lương công việc</label>
                                 <input type="number" id="config-lcv-pay" value="1991139" oninput="handleConfigChangeLive()">
                             </div>
-                            <div class="form-group" style="min-width: 150px;">
+                            <div class="form-group" style="min-width: 140px;">
                                 <label style="color:var(--primary);"><i class="fa-solid fa-signature"></i> Người Lập Biểu</label>
                                 <input type="text" id="config-signer-name" value="Nguyễn Thị Tuyết Nhung" oninput="handleConfigChangeLive()">
                             </div>
                         </div>
 
-                        <div class="config-actions-group" style="display:flex; gap:6px; flex-wrap: wrap; align-items:center;">
+                        <div class="config-actions-group" style="display:flex; gap:5px; flex-wrap: wrap; align-items:center;">
                             <input type="file" id="timekeeping-file-input" accept=".xlsx, .xls, .csv" style="display:none;" onchange="importTimekeepingFile(this)">
                             <button type="button" class="btn btn-teal" onclick="document.getElementById('timekeeping-file-input').click()"><i class="fa-solid fa-file-excel"></i> 📤 Nhập File Chấm Công</button>
                             <button type="button" class="btn btn-primary" onclick="openMainSalaryGoogleSheet()"><i class="fa-brands fa-google-drive"></i> Mở Sheet</button>
@@ -399,9 +398,9 @@
 
                     <div class="card-title">
                         <span id="disp-table-title">DANH SÁCH BẢNG LƯƠNG TỔNG HỢP NHÂN VIÊN</span>
-                        <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                            <button type="button" class="btn btn-orange" style="padding:6px 10px; font-size:12px;" onclick="restoreDefaultStaffs()"><i class="fa-solid fa-rotate-left"></i> Nạp Mẫu</button>
-                            <button type="button" class="btn btn-primary" style="padding:6px 10px; font-size:12px;" onclick="addNewSalaryRow()"><i class="fa-solid fa-user-plus"></i> Thêm NV</button>
+                        <div style="display:flex; gap:5px; flex-wrap:wrap;">
+                            <button type="button" class="btn btn-orange" style="padding:5px 8px; font-size:11.5px;" onclick="restoreDefaultStaffs()"><i class="fa-solid fa-rotate-left"></i> Nạp Mẫu</button>
+                            <button type="button" class="btn btn-primary" style="padding:5px 8px; font-size:11.5px;" onclick="addNewSalaryRow()"><i class="fa-solid fa-user-plus"></i> Thêm NV</button>
                         </div>
                     </div>
                     
@@ -410,35 +409,35 @@
                             <thead>
                                 <tr style="background-color: #cbd5e1;">
                                     <th rowspan="2" style="width: 35px;">STT</th>
-                                    <th rowspan="2" style="min-width:190px;">HỌ VÀ TÊN</th>
-                                    <th rowspan="2" style="min-width:120px;">Số Tài Khoản</th>
+                                    <th rowspan="2" style="min-width:180px;">HỌ VÀ TÊN</th>
+                                    <th rowspan="2" style="min-width:110px;">Số Tài Khoản</th>
                                     <th colspan="4" class="text-center" style="background-color: #bfdbfe; color:#1e3a8a;">Lương Cơ Bản HĐLĐ</th>
                                     <th colspan="3" class="text-center" style="background-color: #bae6fd; color:#0369a1;">Số Ngày Công Thực Tế</th>
                                     <th colspan="5" class="text-center" style="background-color: #e2e8f0;">Cơ cấu & Thực Lĩnh Lương CB</th>
                                     <th colspan="11" class="text-center" style="background-color: #e9d5ff; color:#581c87;">Cơ cấu & Thực Lĩnh Lương CV</th>
-                                    <th rowspan="2" style="background-color: #fef08a; color:#713f12; font-size:13px; font-weight:bold; min-width:130px; text-align:center;">TỔNG NET <br><span style="font-size:10px; font-weight:normal;">(Thực Lĩnh CV + CB)</span></th>
-                                    <th rowspan="2" style="width: 40px; text-align:center;">Xóa</th>
+                                    <th rowspan="2" style="background-color: #fef08a; color:#713f12; font-size:12.5px; font-weight:bold; min-width:120px; text-align:center;">TỔNG NET <br><span style="font-size:9.5px; font-weight:normal;">(Thực Lĩnh CV + CB)</span></th>
+                                    <th rowspan="2" style="width: 35px; text-align:center;">Xóa</th>
                                 </tr>
                                 <tr style="background-color: #cbd5e1;">
-                                    <th style="background:#fef9c3; width:55px;">Hệ số LCB</th>
-                                    <th style="background:#fef9c3; width:55px;">Phụ cấp LCB</th>
+                                    <th style="background:#fef9c3; width:50px;">Hệ số LCB</th>
+                                    <th style="background:#fef9c3; width:50px;">Phụ cấp LCB</th>
                                     <th style="background:#dbeafe;">Lương HĐLĐ</th>
                                     <th style="background:#dbeafe;">Lương CB</th>
-                                    <th style="background:#fef9c3; width:50px;">NT</th>
-                                    <th style="background:#fef9c3; width:50px;">P</th>
-                                    <th style="background:#fef9c3; width:50px;">Lễ/VR</th>
+                                    <th style="background:#fef9c3; width:45px;">NT</th>
+                                    <th style="background:#fef9c3; width:45px;">P</th>
+                                    <th style="background:#fef9c3; width:45px;">Lễ/VR</th>
                                     <th>Lương Thời Gian</th>
                                     <th>Lương Lễ, Phép</th>
                                     <th>Tổng Lương CB</th>
                                     <th style="color:var(--red);">BH (10.5%)</th>
                                     <th style="background-color: #bfdbfe; color:#1e3a8a;">Thực Lĩnh CB</th>
-                                    <th style="background:#fef9c3; width:55px;">Hệ số LCV</th>
-                                    <th style="background:#fef9c3; width:55px;">Phụ cấp LCV</th>
-                                    <th style="background:#fde047; width:55px; color:#713f12;">HS HTCV</th>
+                                    <th style="background:#fef9c3; width:50px;">Hệ số LCV</th>
+                                    <th style="background:#fef9c3; width:50px;">Phụ cấp LCV</th>
+                                    <th style="background:#fde047; width:50px; color:#713f12;">HS HTCV</th>
                                     <th>LCV Gốc</th>
                                     <th>LCV Thực Tế</th>
-                                    <th style="background:#ffedd5; color:#c2410c;">Tiền Ăn Ca <span style="font-size:10px;">(NT×5k)</span></th>
-                                    <th style="background:#dcfce7; color:#166534;">Tiền Độc Hại <span style="font-size:10px;">(NT×13k)</span></th>
+                                    <th style="background:#ffedd5; color:#c2410c;">Tiền Ăn Ca <span style="font-size:9.5px;">(NT×5k)</span></th>
+                                    <th style="background:#dcfce7; color:#166534;">Tiền Độc Hại <span style="font-size:9.5px;">(NT×13k)</span></th>
                                     <th style="background:#ffedd5; color:#c2410c;">Tạm Ứng</th>
                                     <th style="background:#fee2e2; color:#991b1b;">Quỹ PCTT</th>
                                     <th style="background:#fee2e2; color:#991b1b;">Trừ Ứng</th>
@@ -475,11 +474,11 @@
                         <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
                     </div>
 
-                    <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px;">
-                        <div style="font-weight: bold; color: #166534; font-size: 13px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+                    <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 8px 10px; border-radius: 6px; margin-bottom: 8px;">
+                        <div style="font-weight: bold; color: #166534; font-size: 12.5px; margin-bottom: 5px; display: flex; align-items: center; gap: 5px;">
                             <i class="fa-solid fa-calculator"></i> 🧮 CÔNG CỤ TÍNH THUẾ THUẬN & NGƯỢC (LÀM TRÒN THÔNG MINH)
                         </div>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; align-items: end;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 6px; align-items: end;">
                             <div class="form-group">
                                 <label style="color:#166534;">Nhập số tiền:</label>
                                 <input type="text" id="tax-input-amount" value="0" placeholder="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="calculateTaxPro()" style="border-color:#86efac;">
@@ -502,17 +501,17 @@
                                     <option value="extract">Tính Ngược: Tách thuế từ tổng (đã có thuế)</option>
                                 </select>
                             </div>
-                            <div class="form-group" style="background: #ffffff; padding: 6px 10px; border: 1.5px solid #86efac; border-radius: 4px;">
-                                <div style="font-size: 11px; color: #475569; font-weight: bold;">Kết quả tính (Đã làm tròn):</div>
-                                <div style="font-size: 12.5px; color: var(--red); font-weight: bold;" id="tax-result-tax">Thuế: 0 VND</div>
-                                <div style="font-size: 13px; color: var(--green); font-weight: 800;" id="tax-result-total">Tổng: 0 VND</div>
+                            <div class="form-group" style="background: #ffffff; padding: 5px 8px; border: 1.5px solid #86efac; border-radius: 4px;">
+                                <div style="font-size: 10.5px; color: #475569; font-weight: bold;">Kết quả tính (Đã làm tròn):</div>
+                                <div style="font-size: 12px; color: var(--red); font-weight: bold;" id="tax-result-tax">Thuế: 0 VND</div>
+                                <div style="font-size: 12.5px; color: var(--green); font-weight: 800;" id="tax-result-total">Tổng: 0 VND</div>
                             </div>
                         </div>
                     </div>
 
-                    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
+                    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 10px; border-radius: 6px; margin-bottom: 10px;">
                         <input type="hidden" id="edit-payment-index" value="-1">
-                        <div class="grid-form" style="margin-bottom: 8px;">
+                        <div class="grid-form" style="margin-bottom: 6px;">
                             <div class="form-group" style="grid-column: span 2;">
                                 <label>Nội dung thanh toán:</label>
                                 <input type="text" id="pay-content" placeholder="Ví dụ: Thanh toán VPP tháng 07/2026...">
@@ -529,7 +528,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="grid-form" style="margin-bottom: 8px;">
+                        <div class="grid-form" style="margin-bottom: 6px;">
                             <div class="form-group">
                                 <label>Số lượng:</label>
                                 <input type="number" id="pay-qty" value="1" min="1" step="1" oninput="calculatePayLineTotal()">
@@ -564,7 +563,7 @@
                                 <input type="text" id="pay-amount" placeholder="0" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="markAmountManual()" style="background:#f0fdf4; color:var(--green); font-weight:800; border-color:#86efac;">
                             </div>
                         </div>
-                        <div class="grid-form" style="margin-bottom: 10px;">
+                        <div class="grid-form" style="margin-bottom: 8px;">
                             <div class="form-group">
                                 <label>Số tài khoản:</label>
                                 <input type="text" id="pay-account" placeholder="Số TK...">
@@ -578,7 +577,7 @@
                                 <input type="file" id="file-hstt" class="inp-table" style="background: white;" multiple>
                             </div>
                         </div>
-                        <div style="display:flex; justify-content:flex-end; gap: 8px; margin-top: 8px;">
+                        <div style="display:flex; justify-content:flex-end; gap: 6px; margin-top: 6px;">
                             <button type="button" class="btn btn-gray" id="btn-cancel-edit-pay" style="display:none;" onclick="cancelEditPayment()"><i class="fa-solid fa-xmark"></i> Hủy</button>
                             <button type="button" class="btn btn-green" id="btn-save-pay" onclick="addNewPaymentRecord()"><i class="fa-solid fa-cloud-arrow-up"></i> Tải Lên & Thêm</button>
                         </div>
@@ -586,10 +585,10 @@
                             <div class="progress-bar-fill" id="progress-fill-hstt"></div>
                             <div class="progress-bar-text" id="progress-text-hstt">0%</div>
                         </div>
-                        <div id="status-hstt" style="font-weight: bold; font-size: 13px; margin-top: 6px;"></div>
+                        <div id="status-hstt" style="font-weight: bold; font-size: 12.5px; margin-top: 5px;"></div>
                     </div>
 
-                    <div class="card-title" style="font-size: 13.5px; margin-top: 12px;">
+                    <div class="card-title" style="font-size: 13px; margin-top: 10px;">
                         <span>DANH SÁCH HỒ SƠ THANH TOÁN TRONG NĂM <span class="lbl-current-year">2026</span></span>
                         <span id="pay-total-sum" style="color: var(--green);">Tổng: 0 VND</span>
                     </div>
@@ -624,10 +623,10 @@
                         <span><i class="fa-solid fa-wifi" style="color:var(--orange);"></i> QUẢN LÝ CƯỚC MẠNG & INTERNET (<span class="lbl-current-year">2026</span>)</span>
                         <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
                     </div>
-                    <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
+                    <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 10px; border-radius: 6px; margin-bottom: 10px;">
                         <input type="hidden" id="edit-telecom-index" value="-1">
                         
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; margin-bottom: 10px; align-items: end;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; margin-bottom: 8px; align-items: end;">
                             <div class="form-group" style="grid-column: span 2;">
                                 <label style="color: #c2410c;">Điểm kết nối</label>
                                 <input type="text" id="tele-location" value="Tổng công ty Giấy Việt Nam" style="border-color: #fdba74;">
@@ -686,12 +685,12 @@
                             </div>
                         </div>
 
-                        <div style="display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; border-top: 1px dashed #fdba74; padding-top: 8px;">
-                            <div style="display: flex; gap: 8px; align-items: center; flex: 1; flex-wrap: wrap;">
+                        <div style="display: flex; gap: 8px; align-items: center; justify-content: space-between; flex-wrap: wrap; border-top: 1px dashed #fdba74; padding-top: 6px;">
+                            <div style="display: flex; gap: 6px; align-items: center; flex: 1; flex-wrap: wrap;">
                                 <label style="font-weight: bold; color: #c2410c; white-space: nowrap;"><i class="fa-solid fa-file-arrow-up"></i> Hóa đơn:</label>
-                                <input type="file" id="file-vt" class="inp-table" style="background: white; border-color: #fdba74; max-width: 320px;" multiple>
+                                <input type="file" id="file-vt" class="inp-table" style="background: white; border-color: #fdba74; max-width: 300px;" multiple>
                             </div>
-                            <div style="display:flex; gap:6px;">
+                            <div style="display:flex; gap:5px;">
                                 <button type="button" class="btn btn-gray" id="btn-cancel-edit-tele" style="display:none;" onclick="cancelEditTelecom()"><i class="fa-solid fa-xmark"></i> Hủy</button>
                                 <button type="button" class="btn btn-orange" id="btn-save-tele" onclick="addNewTelecomRecord()"><i class="fa-solid fa-cloud-arrow-up"></i> Tải Lên & Thêm</button>
                             </div>
@@ -700,10 +699,10 @@
                             <div class="progress-bar-fill" id="progress-fill-vt"></div>
                             <div class="progress-bar-text" id="progress-text-vt">0%</div>
                         </div>
-                        <div id="status-vt" style="font-weight: bold; font-size: 13px; margin-top: 6px;"></div>
+                        <div id="status-vt" style="font-weight: bold; font-size: 12.5px; margin-top: 5px;"></div>
                     </div>
 
-                    <div class="card-title" style="font-size: 13.5px; margin-top: 12px;">
+                    <div class="card-title" style="font-size: 13px; margin-top: 10px;">
                         <span>DANH SÁCH CƯỚC VIỄN THÔNG & INTERNET TRONG NĂM <span class="lbl-current-year">2026</span></span>
                         <span id="tele-total-sum" style="color: var(--orange);">Tổng cước: 0 VND</span>
                     </div>
@@ -736,10 +735,10 @@
                     <div class="card-title" style="border-left-color: var(--purple);">
                         <span><i class="fa-solid fa-laptop" style="color:var(--purple);"></i> QUẢN LÝ TÀI SẢN & KIỂM KÊ CNTT (<span class="lbl-current-year">2026</span>)</span>
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 280px; gap: 12px; background: #faf5ff; border: 1.5px solid #d8b4fe; padding: 12px; border-radius: 6px; margin-bottom: 12px; align-items: start;">
+                    <div style="display: grid; grid-template-columns: 1fr 260px; gap: 10px; background: #faf5ff; border: 1.5px solid #d8b4fe; padding: 10px; border-radius: 6px; margin-bottom: 10px; align-items: start;">
                         <div>
                             <input type="hidden" id="edit-it-index" value="-1">
-                            <div class="grid-form" style="margin-bottom: 8px;">
+                            <div class="grid-form" style="margin-bottom: 6px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Người sử dụng <span style="color:var(--red);">*</span></label>
                                     <input type="text" id="it-user" value="Nguyễn Văn An" placeholder="Họ và tên..." style="border-color: #d8b4fe;" oninput="updateLiveQRPreview()">
@@ -771,7 +770,7 @@
                                 </div>
                             </div>
                             
-                            <div class="grid-form" style="margin-bottom: 8px;">
+                            <div class="grid-form" style="margin-bottom: 6px;">
                                 <div class="form-group">
                                     <label style="color: #6d28d9;">Hệ điều hành</label>
                                     <select id="it-os" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
@@ -816,29 +815,29 @@
                                 </div>
                             </div>
 
-                            <div style="background: #ffffff; border: 1.5px solid #d8b4fe; padding: 10px; border-radius: 6px; margin-bottom: 8px;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                                    <label style="color: #6d28d9; font-weight: bold; font-size: 12.5px;">
+                            <div style="background: #ffffff; border: 1.5px solid #d8b4fe; padding: 8px; border-radius: 6px; margin-bottom: 6px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                    <label style="color: #6d28d9; font-weight: bold; font-size: 12px;">
                                         <i class="fa-solid fa-cubes"></i> Phần mềm nghiệp vụ & Thiết kế chuyên sâu:
                                     </label>
-                                    <span id="selected-software-counter" style="font-size: 11px; font-weight: bold; color: var(--blue);">Đã chọn: 0 phần mềm</span>
+                                    <span id="selected-software-counter" style="font-size: 10.5px; font-weight: bold; color: var(--blue);">Đã chọn: 0 phần mềm</span>
                                 </div>
                                 <div style="position: relative;">
-                                    <div id="software-dropdown-btn" onclick="toggleSoftwareDropdown()" style="padding: 8px 10px; border: 1.5px solid #d8b4fe; border-radius: 4px; background: #fdfcff; cursor: pointer; font-size: 13px; font-weight: bold; color: #475569; display: flex; justify-content: space-between; align-items: center;">
+                                    <div id="software-dropdown-btn" onclick="toggleSoftwareDropdown()" style="padding: 7px 8px; border: 1.5px solid #d8b4fe; border-radius: 4px; background: #fdfcff; cursor: pointer; font-size: 12.5px; font-weight: bold; color: #475569; display: flex; justify-content: space-between; align-items: center;">
                                         <span id="software-dropdown-label">-- Bấm để chọn phần mềm & bản quyền --</span>
                                         <i class="fa-solid fa-chevron-down"></i>
                                     </div>
-                                    <div id="software-dropdown-popup" style="display: none; position: absolute; top: 105%; left: 0; width: 100%; background: white; border: 2px solid #d8b4fe; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); z-index: 999; max-height: 240px; overflow-y: auto; padding: 8px;">
-                                        <div style="font-size: 11px; font-style: italic; color: #64748b; margin-bottom: 6px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;">Chọn phần mềm và loại bản quyền kèm theo:</div>
-                                        <div id="software-checkbox-container" style="display: flex; flex-direction: column; gap: 6px;"></div>
-                                        <div style="text-align: right; margin-top: 8px; border-top: 1px solid #cbd5e1; padding-top: 6px;">
-                                            <button type="button" class="btn btn-purple" style="padding: 4px 12px; font-size: 11.5px; min-height: 28px;" onclick="toggleSoftwareDropdown()">Xong</button>
+                                    <div id="software-dropdown-popup" style="display: none; position: absolute; top: 105%; left: 0; width: 100%; background: white; border: 2px solid #d8b4fe; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); z-index: 999; max-height: 220px; overflow-y: auto; padding: 6px;">
+                                        <div style="font-size: 10.5px; font-style: italic; color: #64748b; margin-bottom: 5px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 3px;">Chọn phần mềm và loại bản quyền kèm theo:</div>
+                                        <div id="software-checkbox-container" style="display: flex; flex-direction: column; gap: 5px;"></div>
+                                        <div style="text-align: right; margin-top: 6px; border-top: 1px solid #cbd5e1; padding-top: 5px;">
+                                            <button type="button" class="btn btn-purple" style="padding: 4px 10px; font-size: 11px; min-height: 26px;" onclick="toggleSoftwareDropdown()">Xong</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="grid-form" style="margin-bottom: 8px;">
+                            <div class="grid-form" style="margin-bottom: 6px;">
                                 <div class="form-group" style="grid-column: span 2;">
                                     <label style="color: #6d28d9;">Thông số cấu hình phần cứng</label>
                                     <input type="text" id="it-specs" value="Dell Latitude, Core i5, 16GB RAM, 512GB SSD" style="border-color: #d8b4fe;">
@@ -856,23 +855,23 @@
                                     </select>
                                 </div>
                             </div>
-                            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                            <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
                                 <button type="button" class="btn btn-gray" id="btn-cancel-edit-it" style="display:none;" onclick="cancelEditItAsset()"><i class="fa-solid fa-xmark"></i> Hủy</button>
                                 <button type="button" class="btn btn-purple" id="btn-save-it" onclick="addNewItAssetRecord()"><i class="fa-solid fa-qrcode"></i> Lưu Tài Sản & Tạo QR</button>
                                 <button type="button" class="btn btn-gray" onclick="clearItAssetForm()"><i class="fa-solid fa-rotate-left"></i> Làm mới</button>
                             </div>
                         </div>
 
-                        <div style="border: 2px dashed var(--purple); border-radius: 6px; background: white; padding: 10px; display: flex; flex-direction: column; align-items: center; justify-content: space-between;">
-                            <div style="font-weight: bold; color: var(--purple); font-size: 12.5px; text-align: center; border-bottom: 1px solid #e2e8f0; width: 100%; padding-bottom: 4px;"><i class="fa-solid fa-qrcode"></i> 📱 TEM QR TRỰC TIẾP</div>
+                        <div style="border: 2px dashed var(--purple); border-radius: 6px; background: white; padding: 8px; display: flex; flex-direction: column; align-items: center; justify-content: space-between;">
+                            <div style="font-weight: bold; color: var(--purple); font-size: 12px; text-align: center; border-bottom: 1px solid #e2e8f0; width: 100%; padding-bottom: 3px;"><i class="fa-solid fa-qrcode"></i> 📱 TEM QR TRỰC TIẾP</div>
                             <div style="text-align: center; width: 100%;">
-                                <div style="font-size: 11.5px; font-weight: bold; color: #0f172a; margin-bottom: 3px;">VINAPACO IT ASSET</div>
-                                <div style="display: flex; justify-content: center; margin: 4px 0; cursor: pointer;" onclick="openLargeQrModalFromPreview()">
+                                <div style="font-size: 11px; font-weight: bold; color: #0f172a; margin-bottom: 2px;">VINAPACO IT ASSET</div>
+                                <div style="display: flex; justify-content: center; margin: 3px 0; cursor: pointer;" onclick="openLargeQrModalFromPreview()">
                                     <canvas id="live-qrcode-canvas"></canvas>
                                 </div>
-                                <div style="font-size: 10px; color: var(--blue); font-style: italic;">(Bấm vào mã QR để phóng to)</div>
+                                <div style="font-size: 9.5px; color: var(--blue); font-style: italic;">(Bấm vào mã QR để phóng to)</div>
                             </div>
-                            <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 4px; padding: 5px; width: 100%; font-size: 10.5px; line-height: 1.25;">
+                            <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 4px; padding: 4px; width: 100%; font-size: 10px; line-height: 1.25;">
                                 <div><b>Mã TS:</b> <span id="lbl-qr-code">--</span></div>
                                 <div><b>Người dùng:</b> <span id="lbl-qr-user" style="color:var(--primary);">Nguyễn Văn An</span></div>
                                 <div><b>Bộ phận:</b> <span id="lbl-qr-dept" style="color:var(--primary);">Phòng Kỹ thuật - Công nghệ</span></div>
@@ -880,25 +879,25 @@
                         </div>
                     </div>
 
-                    <div id="status-cntt" style="font-weight: bold; font-size: 13px; margin-bottom: 8px;"></div>
+                    <div id="status-cntt" style="font-weight: bold; font-size: 12.5px; margin-bottom: 6px;"></div>
 
-                    <div style="display: flex; justify-content: space-between; align-items: center; background: #f3e8ff; border: 1.5px solid #d8b4fe; padding: 10px; border-radius: 6px; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
-                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; flex: 1;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; background: #f3e8ff; border: 1.5px solid #d8b4fe; padding: 8px 10px; border-radius: 6px; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
+                        <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; flex: 1;">
                             <div style="display: flex; align-items: center; gap: 4px;">
-                                <label style="font-weight: bold; color: var(--purple); font-size: 12px;"><i class="fa-solid fa-filter"></i> Phòng ban:</label>
-                                <select id="filter-dept-select" onchange="renderItAssetTable()" style="max-width: 170px; border-color: #d8b4fe; font-weight: bold; color: var(--purple); font-size: 12px;">
+                                <label style="font-weight: bold; color: var(--purple); font-size: 11.5px;"><i class="fa-solid fa-filter"></i> Phòng ban:</label>
+                                <select id="filter-dept-select" onchange="renderItAssetTable()" style="max-width: 160px; border-color: #d8b4fe; font-weight: bold; color: var(--purple); font-size: 11.5px;">
                                     <option value="ALL">-- Tất cả --</option>
                                 </select>
                             </div>
                             <div style="display: flex; align-items: center; gap: 4px;">
-                                <label style="font-weight: bold; color: var(--purple); font-size: 12px;"><i class="fa-brands fa-windows"></i> HĐH:</label>
-                                <select id="filter-os-select" onchange="renderItAssetTable()" style="max-width: 150px; border-color: #d8b4fe; font-weight: bold; color: var(--purple); font-size: 12px;">
+                                <label style="font-weight: bold; color: var(--purple); font-size: 11.5px;"><i class="fa-brands fa-windows"></i> HĐH:</label>
+                                <select id="filter-os-select" onchange="renderItAssetTable()" style="max-width: 140px; border-color: #d8b4fe; font-weight: bold; color: var(--purple); font-size: 11.5px;">
                                     <option value="ALL">-- Tất cả HĐH --</option>
                                 </select>
                             </div>
                             <div style="display: flex; align-items: center; gap: 4px;">
-                                <label style="font-weight: bold; color: var(--purple); font-size: 12px;"><i class="fa-solid fa-file-excel"></i> Office:</label>
-                                <select id="filter-office-select" onchange="renderItAssetTable()" style="max-width: 150px; border-color: #d8b4fe; font-weight: bold; color: var(--purple); font-size: 12px;">
+                                <label style="font-weight: bold; color: var(--purple); font-size: 11.5px;"><i class="fa-solid fa-file-excel"></i> Office:</label>
+                                <select id="filter-office-select" onchange="renderItAssetTable()" style="max-width: 140px; border-color: #d8b4fe; font-weight: bold; color: var(--purple); font-size: 11.5px;">
                                     <option value="ALL">-- Tất cả Office --</option>
                                 </select>
                             </div>
@@ -908,7 +907,7 @@
                         </div>
                     </div>
 
-                    <div class="card-title" style="font-size: 13.5px; margin-top: 12px;">
+                    <div class="card-title" style="font-size: 13px; margin-top: 10px;">
                         <span>BẢNG TỔNG HỢP KIỂM KÊ TRANG THIẾT BỊ CNTT & TÀI SẢN NĂM <span class="lbl-current-year">2026</span></span>
                         <span id="it-total-count" style="color: var(--purple);">Tổng: 0 Thiết bị</span>
                     </div>
@@ -942,92 +941,138 @@
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--teal);">
                         <span><i class="fa-solid fa-print" style="color:var(--teal);"></i> QUẢN LÝ KHO & CẤP PHÁT MỰC IN VĂN PHÒNG (<span class="lbl-current-year">2026</span>)</span>
-                        <button type="button" class="btn btn-teal" style="padding: 6px 12px; font-size:12px;" onclick="openAddInkModal()"><i class="fa-solid fa-plus"></i> Nhập / Thêm Mã Mực</button>
+                        <button type="button" class="btn btn-teal" style="padding: 5px 10px; font-size:11.5px;" onclick="openAddInkModal()"><i class="fa-solid fa-plus"></i> Nhập / Thêm Mã Mực</button>
                     </div>
 
-                    <div id="ink-form-panel" style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
+                    <div id="ink-form-panel" style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 10px; border-radius: 6px; margin-bottom: 10px;">
                         <input type="hidden" id="edit-ink-index" value="-1">
-                        <div class="grid-form" style="margin-bottom: 8px;">
+                        <div class="grid-form" style="margin-bottom: 6px;">
                             <div class="form-group">
                                 <label style="color:#166534;">Mã mực / Model (Toàn thị trường):</label>
                                 <input type="text" id="ink-model" list="list-all-ink-models" placeholder="Chọn hoặc nhập mã mực..." style="border-color:#86efac;" oninput="autoSelectPrinterByInk(this.value)">
                                 <datalist id="list-all-ink-models">
-                                    <option value="HP 85A (CB435A/436A/CE285A)">
-                                    <option value="HP 12A (Q2612A)">
-                                    <option value="HP 79A (CF279A)">
-                                    <option value="HP 48A (CF248A)">
-                                    <option value="HP 107A / 110A (W1107A)">
-                                    <option value="HP 136A / 135A (W1360A)">
-                                    <option value="HP 17A (CF217A)">
-                                    <option value="HP 30A (CF230A)">
-                                    <option value="HP 26A / 26X (CF226A)">
-                                    <option value="HP GT51 / GT52 (Mực nước màu/Đen)">
-                                    <option value="Canon 337 (Dòng MF211/221/226/232/237/244)">
-                                    <option value="Canon 325 (Dòng LBP 6000/6030)">
-                                    <option value="Canon 303 (Dòng LBP 2900/3000)">
-                                    <option value="Canon 057 / 057H (LBP 226/228/MF445)">
-                                    <option value="Canon 051 (LBP 161/162/MF264)">
-                                    <option value="Canon GI-790 / GI-71 (Mực phun G1010/G2010/G3010/G3020)">
-                                    <option value="Brother TN-2385 (HL-L2321D/2361DN/2366DW)">
-                                    <option value="Brother TN-B022 (HL-B2000D/B2080DW)">
-                                    <option value="Brother TN-2435 / TN-2450 (HL-L2370DN)">
-                                    <option value="Brother BT-D60BK / BT5000 (Dòng T310/T510W/T710W/T420W)">
-                                    <option value="Epson 003 (L1110/L3110/L3150/L3210/L3250)">
-                                    <option value="Epson 001 (L4150/L4160/L6160/L6170)">
-                                    <option value="Epson 057 (L8050/L18050 - 6 màu)">
+                                    <!-- HP LASERJET & PAGEWIDE -->
+                                    <option value="HP 12A (Q2612A - 1010/1020/1020 Plus/M1005)">
+                                    <option value="HP 35A / 36A / 85A (CB435A/CB436A/CE285A - P1005/P1006/P1102/M1132/M1212)">
+                                    <option value="HP 78A (CE278A - P1566/P1606dn/M1536dnf)">
+                                    <option value="HP 79A (CF279A - M12a/M12w/M26a/M26nw)">
+                                    <option value="HP 48A (CF248A - M15a/M15w/M28a/M28w)">
+                                    <option value="HP 17A (CF217A - M102a/M102w/M130a/M130fn)">
+                                    <option value="HP 30A (CF230A - M203dn/M203dw/M227fdn/M227fdw)">
+                                    <option value="HP 26A / 26X (CF226A/CF226X - M402dn/M402dw/M426fdn)">
+                                    <option value="HP 55A / 55X (CE255A/CE255X - P3015/525dn)">
+                                    <option value="HP 80A / 80X (CF280A/CF280X - 400 M401/M425dn)">
+                                    <option value="HP 107A / 110A (W1107A - 107a/107w/135a/135w/137fnw)">
+                                    <option value="HP 136A / 135A (W1360A/W1350A - M211/M236dw)">
+                                    <option value="HP 142A / 150A (W1420A - M110w/M140w)">
+                                    <option value="HP 76A (CF276A - M404dn/M428fdw)">
+                                    <option value="HP 59A / 59X (CF259A - M406/M428)">
+                                    <option value="HP 87A / 87X (CF287A - M501/M506/M527)">
+                                    <option value="HP 89A / 89X / 89Y (CF289A - M507/M528)">
+                                    <!-- HP SMART TANK & INK JET -->
+                                    <option value="HP GT51 / GT52 (Mực nước Đen/Màu cho Smart Tank 310/410/515/520/580/615/720/750)">
+                                    <option value="HP 678 / 680 / 703 / 704 / 955XL (Hộp mực phun DeskJet / OfficeJet)">
+                                    
+                                    <!-- CANON LASER & IMAGECLASS -->
+                                    <option value="Canon Cartridge 303 (LBP 2900 / 3000 - Huyền thoại)">
+                                    <option value="Canon Cartridge 325 (LBP 6000 / 6030 / 6030w)">
+                                    <option value="Canon Cartridge 337 (LBP 151dw, MF211/221d/226dn/232w/237w/244dw/246dn/249dw)">
+                                    <option value="Canon Cartridge 051 / 051H (LBP 161dn / 162dw / MF264dw / MF267dw)">
+                                    <option value="Canon Cartridge 057 / 057H (LBP 226dw / 228x / MF445dw / MF449dw)">
+                                    <option value="Canon Cartridge 312 / 313 (LBP 3250 / LBP 3300 / 3310 / 3370)">
+                                    <option value="Canon Cartridge 319 / 319II (LBP 6300dn / 6650dn / 252dw / 253x)">
+                                    <option value="Canon Cartridge 326 / 328 (LBP 6200d / MF4412 / 4450 / 4550d / 4870dn)">
+                                    <option value="Canon Cartridge 045 / 045H (LBP 611Cn / 612Cdw / MF631Cn / 633Cdw - Màu)">
+                                    <option value="Canon Cartridge 054 / 054H (LBP 621Cw / 623Cdw / MF641Cw / 643Cdw - Màu)">
+                                    <option value="Canon Cartridge 055 / 055H (LBP 663Cdw / 664Cx / MF742Cdw / 746Cx - Màu Doanh Nghiệp)">
+                                    <!-- CANON PIXMA & G-SERIES TANK -->
+                                    <option value="Canon GI-790 (Mực nước Đen/Màu cho G1010/G2010/G3010/G4010)">
+                                    <option value="Canon GI-71 / GI-73 (Mực nước Đen/Màu cho G1020/G2020/G3020/G3060/G5070/G6070)">
+                                    
+                                    <!-- BROTHER LASER & MFC -->
+                                    <option value="Brother TN-2385 (HL-L2321D / L2361DN / L2366DW / DCP-L2520D / MFC-L2701DW)">
+                                    <option value="Brother TN-B022 (HL-B2000D / HL-B2080DW / DCP-B7535DW)">
+                                    <option value="Brother TN-2435 / TN-2450 (HL-L2370DN / HL-L2375DW / MFC-L2715DW / L2750DW)">
+                                    <option value="Brother TN-1000 (HL-1110 / 1201 / DCP-1511 / MFC-1811 / 1901)">
+                                    <option value="Brother TN-3428 / TN-3448 (HL-L5100DN / L6200DW / MFC-L5700DN / L6900DW)">
+                                    <option value="Brother TN-456 / TN-451 (HL-L8260CDN / L8360CDW / MFC-L8690CDW - Màu)">
+                                    <option value="Brother TN-263 / TN-269 (HL-L3230CDN / MFC-L3770CDW - Màu)">
+                                    <!-- BROTHER INKJET & TANK -->
+                                    <option value="Brother BT-D60BK / BT5000 (Mực nước cho DCP-T310/T510W/T710W/T420W/T520W/T720DW/MFC-T920DW/T820DW)">
+                                    
+                                    <!-- EPSON TANK & INKJET -->
+                                    <option value="Epson 003 / T00V (L1110 / L1210 / L1250 / L3110 / L3150 / L3210 / L3250 / L3256 / L5190 / L5290)">
+                                    <option value="Epson 001 / T03Y (L4150 / L4160 / L4260 / L6160 / L6170 / L6270 / L6490)">
+                                    <option value="Epson 057 / T552 (L8050 / L18050 - Bộ 6 màu ảnh chuyên nghiệp)">
+                                    <option value="Epson 008 / T06G (M5290 / L15150 / L15160 / L6550 / L6580 Doanh Nghiệp Tốc Độ Cao)">
                                     <option value="Epson T6641 -> T6644 (L100/L110/L120/L210/L300/L350/L360/L382/L386/L405/L455/L550/L565/L1300)">
-                                    <option value="Fuji Xerox CT202380 (DocuPrint P225d/M225z)">
-                                    <option value="Fuji Xerox P265 / M265 (CT202330)">
-                                    <option value="Ricoh SP 201 / 210 / 230 (Sp 230SFNW)">
-                                    <option value="Pantum PB-211EV (P2200/P2500/M6500)">
+                                    <option value="Epson T6731 -> T6736 (L800 / L805 / L850 / L1800 - 6 màu sắc nét)">
+                                    
+                                    <!-- FUJI XEROX / FUJIFILM -->
+                                    <option value="Fuji Xerox CT202380 / P225 (DocuPrint P225d / M225z / P265dw / M265z)">
+                                    <option value="Fuji Xerox CT201610 / P355 (DocuPrint P355d / M355df)">
+                                    <option value="Fuji Xerox CT203107 (DocuPrint M315z / M325z / P365dw)">
+                                    <option value="Fuji Xerox CT203480 / ApeosPort (ApeosPort Print 3320 / 3730 / 4020)">
+                                    
+                                    <!-- RICOH -->
+                                    <option value="Ricoh SP 201 / 210 / 230 (Ricoh SP 210SU / SP 230SFNW / 201N)">
+                                    <option value="Ricoh MP 2004 / 2554 / 3054 / 3554 / 4054 / 5054 (Mực máy photocopy chính hãng/tương thích)">
+                                    
+                                    <!-- PANTUM -->
+                                    <option value="Pantum PB-211EV (P2200 / P2500 / P2500W / M6500 / M6550NW / M6600NW)">
+                                    <option value="Pantum TL-410 / TL-425 (P3010D / P3300DN / M3500DN)">
+                                    
+                                    <!-- TOSHIBA & KONICA MINOLTA -->
+                                    <option value="Toshiba T-5018C / T-2508 (Dòng máy Photocopy Toshiba e-Studio 2508A / 3008A / 5008A)">
+                                    <option value="Konica Minolta TN-324 / TN-328 (Dòng máy bizhub 258 / 308 / 368 / 458)")>
                                 </datalist>
                             </div>
                             <div class="form-group">
                                 <label style="color:#166534;">Loại máy in tương thích (Đầy đủ dòng thị trường):</label>
                                 <input type="text" id="ink-printer" list="list-all-printer-models" placeholder="Chọn hoặc nhập dòng máy in..." style="border-color:#86efac;">
                                 <datalist id="list-all-printer-models">
-                                    <option value="HP LaserJet 1010 / 1020 / 1020 Plus (Huyền thoại)">
-                                    <option value="HP LaserJet Pro P1102 / P1102w">
-                                    <option value="HP LaserJet Pro M12a / M12w">
-                                    <option value="HP LaserJet Pro M102a / M102w">
-                                    <option value="HP LaserJet Pro M15a / M15w / M28a">
-                                    <option value="HP LaserJet Pro M28w / M30w">
-                                    <option value="HP LaserJet Pro MFP M125a / M127fn / M127fw">
-                                    <option value="HP LaserJet Pro MFP M130a / M130fn">
-                                    <option value="HP LaserJet Pro MFP M227fdn / M227fdw">
-                                    <option value="HP LaserJet Pro M404dn / M404dw">
-                                    <option value="HP LaserJet Enterprise M501dn / M607n">
-                                    <option value="HP Smart Tank 515 / 520 / 580 / 615 / 720 / 750">
+                                    <option value="HP LaserJet 1010 / 1020 / 1020 Plus / M1005 MFP">
+                                    <option value="HP LaserJet Pro P1102 / P1102w / M1132 / M1212nf">
+                                    <option value="HP LaserJet Pro M12a / M12w / M26a / M26nw">
+                                    <option value="HP LaserJet Pro M102a / M102w / M130a / M130fn">
+                                    <option value="HP LaserJet Pro M15a / M15w / M28a / M28w">
+                                    <option value="HP LaserJet Pro M203dn / M203dw / M227fdn / M227fdw">
+                                    <option value="HP LaserJet Pro M402dn / M402dw / M426fdn">
+                                    <option value="HP LaserJet Pro M404dn / M404dw / M428fdw">
+                                    <option value="HP LaserJet Enterprise M501dn / M506dn / M527dn">
+                                    <option value="HP LaserJet Enterprise M607n / M608dn / M609dn">
+                                    <option value="HP Smart Tank 315 / 415 / 515 / 520 / 580 / 615 / 720 / 750">
                                     <option value="Canon LBP 2900 / 3000 (Huyền thoại văn phòng)">
-                                    <option value="Canon LBP 6030 / 6030w">
-                                    <option value="Canon LBP 621Cw / 623Cdw (Màu)">
-                                    <option value="Canon LBP 161dn / 162dw">
-                                    <option value="Canon LBP 226dw / 228x">
-                                    <option value="Canon LBP 8100 / 8410CDN (A3)">
-                                    <option value="Canon imageCLASS MF211 / MF221d / MF226dn">
-                                    <option value="Canon imageCLASS MF232w / MF237w / MF244dw">
-                                    <option value="Canon imageCLASS MF264dw / MF267dw">
-                                    <option value="Canon imageCLASS MF3010AE">
-                                    <option value="Canon PIXMA G1010 / G2010 / G3010 / G3020 / G3060">
+                                    <option value="Canon LBP 6030 / 6030w / 6000">
+                                    <option value="Canon LBP 151dw / 161dn / 162dw">
+                                    <option value="Canon LBP 226dw / 228x / 252dw / 253x">
+                                    <option value="Canon LBP 3300 / 3310 / 6300dn / 6650dn">
+                                    <option value="Canon LBP 621Cw / 623Cdw / 663Cdw / 742Cdw (Màu)">
+                                    <option value="Canon imageCLASS MF211 / MF221d / MF226dn / MF232w / MF237w">
+                                    <option value="Canon imageCLASS MF244dw / MF246dn / MF264dw / MF267dw">
+                                    <option value="Canon imageCLASS MF445dw / MF449dw / MF3010AE">
+                                    <option value="Canon PIXMA G1010 / G2010 / G3010 / G4010 / G1020 / G2020 / G3020 / G3060">
+                                    <option value="Brother HL-1110 / 1201 / DCP-1511 / MFC-1811">
                                     <option value="Brother HL-L2321D / HL-L2361DN / HL-L2366DW">
-                                    <option value="Brother HL-B2000D / HL-B2080DW">
-                                    <option value="Brother HL-L2370DN / HL-L2375DW">
-                                    <option value="Brother DCP-L2520D / DCP-L2535DW / DCP-L2550DW">
-                                    <option value="Brother MFC-L2701DW / MFC-L2715DW / MFC-L2750DW">
-                                    <option value="Brother DCP-T310 / DCP-T510W / DCP-T710W">
-                                    <option value="Brother DCP-T420W / DCP-T520W / DCP-T720DW / MFC-T920DW">
-                                    <option value="Epson L1110 / L1210 / L1250">
-                                    <option value="Epson L3110 / L3150 / L3210 / L3250 / L3256">
-                                    <option value="Epson L4150 / L4160 / L4260 / L6160 / L6270">
-                                    <option value="Epson L805 / L8050 / L1800 / L18050 (Ảnh chuyên nghiệp)">
-                                    <option value="Epson WorkForce Pro WF-C5290 / WF-C5790">
-                                    <option value="Fuji Xerox DocuPrint P225d / M225z / P265dw">
-                                    <option value="Fuji Xerox DocuPrint M315z / M325z">
-                                    <option value="Ricoh SP 210SU / SP 230SFNW">
-                                    <option value="Pantum P2500 / P2500W / M6500 / M6550NW">
-                                    <option value="Máy photocopy Ricoh Aficio MP 2004 / 3054 / 4054 / 5054 / 6054">
+                                    <option value="Brother HL-B2000D / HL-B2080DW / DCP-B7535DW">
+                                    <option value="Brother HL-L2370DN / HL-L2375DW / MFC-L2715DW / MFC-L2750DW">
+                                    <option value="Brother DCP-L2520D / DCP-L2535DW / DCP-L2550DW / MFC-L2701DW">
+                                    <option value="Brother HL-L5100DN / L6200DW / MFC-L5700DN / L6900DW">
+                                    <option value="Brother HL-L8260CDN / L8360CDW / MFC-L8690CDW / L3770CDW (Màu)">
+                                    <option value="Brother DCP-T310 / DCP-T510W / DCP-T710W / DCP-T420W / DCP-T520W / DCP-T720DW">
+                                    <option value="Brother MFC-T920DW / MFC-T820DW">
+                                    <option value="Epson L1110 / L1210 / L1250 / L3110 / L3150 / L3210 / L3250 / L3256">
+                                    <option value="Epson L4150 / L4160 / L4260 / L6160 / L6170 / L6270 / L6490">
+                                    <option value="Epson L805 / L8050 / L1800 / L18050 (Ảnh chuyên nghiệp 6 màu)">
+                                    <option value="Epson WorkForce Pro M5290 / WF-C5290 / WF-C5790 / L15150 / L6550">
+                                    <option value="Fuji Xerox DocuPrint P225d / M225z / P265dw / M265z">
+                                    <option value="Fuji Xerox DocuPrint P355d / M315z / M325z / P365dw">
+                                    <option value="FujiFilm ApeosPort Print 3320 / 3730 / 4020 / 3260">
+                                    <option value="Ricoh SP 210SU / SP 230SFNW / SP 220Nw">
+                                    <option value="Pantum P2500 / P2500W / M6500 / M6550NW / M6600NW / P3010D">
+                                    <option value="Máy photocopy Ricoh Aficio MP 2004 / 2554 / 3054 / 3554 / 4054 / 5054">
                                     <option value="Máy photocopy Toshiba e-Studio 2508A / 3008A / 3508A / 5008A">
-                                    <option value="Máy photocopy Canon imageRUNNER 2004N / 2224N / 2625i">
+                                    <option value="Máy photocopy Konica Minolta bizhub 258 / 308 / 368 / 458">
                                 </datalist>
                             </div>
                             <div class="form-group">
@@ -1044,7 +1089,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="grid-form" style="margin-bottom: 8px;">
+                        <div class="grid-form" style="margin-bottom: 6px;">
                             <div class="form-group">
                                 <label style="color:#166534;">Phòng ban nhận / Cấp phát:</label>
                                 <input type="text" id="ink-dept" value="Phòng Hành chính - Tổng hợp" placeholder="Phòng ban nhận..." style="border-color:#86efac;">
@@ -1066,13 +1111,13 @@
                                 </select>
                             </div>
                         </div>
-                        <div style="display:flex; justify-content:flex-end; gap:6px;">
+                        <div style="display:flex; justify-content:flex-end; gap:5px;">
                             <button type="button" class="btn btn-gray" id="btn-cancel-edit-ink" style="display:none;" onclick="cancelEditInk()"><i class="fa-solid fa-xmark"></i> Hủy</button>
                             <button type="button" class="btn btn-teal" id="btn-save-ink" onclick="saveInkInventoryRecord()"><i class="fa-solid fa-floppy-disk"></i> Lưu Thông Tin Mực</button>
                         </div>
                     </div>
 
-                    <div class="card-title" style="font-size: 13.5px; margin-top: 12px;">
+                    <div class="card-title" style="font-size: 13px; margin-top: 10px;">
                         <span>DANH SÁCH QUẢN LÝ KHO & CẤP PHÁT MỰC IN NĂM <span class="lbl-current-year">2026</span></span>
                         <span id="ink-total-count" style="color: var(--teal);">Tổng: 0 Hộp</span>
                     </div>
@@ -1110,9 +1155,9 @@
             <div class="calendar-block-view">
                 <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
                 <div class="calendar-block-body">
-                    <div style="font-size:12px; color:#334155; font-weight:bold; text-transform:uppercase;" id="cal-selected-dow">Thứ Hai</div>
-                    <div style="font-size:60px; font-weight:900; color:#dc2626; line-height:1; margin:3px 0;" id="cal-selected-day">27</div>
-                    <div style="font-size:11px; font-weight:bold; color:#0f172a;" id="cal-selected-lunar-day">Ngày Bính Dần - Tháng Bính Thân</div>
+                    <div style="font-size:11.5px; color:#334155; font-weight:bold; text-transform:uppercase;" id="cal-selected-dow">Thứ Hai</div>
+                    <div style="font-size:52px; font-weight:900; color:#dc2626; line-height:1; margin:2px 0;" id="cal-selected-day">27</div>
+                    <div style="font-size:10.5px; font-weight:bold; color:#0f172a;" id="cal-selected-lunar-day">Ngày Bính Dần - Tháng Bính Thân</div>
                 </div>
             </div>
 
@@ -1153,33 +1198,33 @@
                     <span class="cal-info-label"><i class="fa-solid fa-star text-purple"></i> Trực & Sao tốt:</span>
                     <span class="cal-info-val" id="info-truc-sao">Trực Thành - Sao Nguyệt Tài, Thiên Quý</span>
                 </div>
-                <div class="cal-info-row" style="flex-direction: column; gap: 4px; padding-top: 6px;">
+                <div class="cal-info-row" style="flex-direction: column; gap: 3px; padding-top: 5px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                         <span class="cal-info-label"><i class="fa-solid fa-bell text-blue"></i> Sự kiện / Ghi chú:</span>
-                        <button type="button" class="btn btn-primary" style="padding: 4px 10px; font-size: 11.5px; min-height: 30px;" onclick="openEventModal()"><i class="fa-solid fa-plus"></i> Đặt lịch</button>
+                        <button type="button" class="btn btn-primary" style="padding: 3px 8px; font-size: 11px; min-height: 28px;" onclick="openEventModal()"><i class="fa-solid fa-plus"></i> Đặt lịch</button>
                     </div>
-                    <div id="info-event-note" style="color:var(--blue); font-style:italic; font-size: 11.5px; background: #eff6ff; padding: 4px 6px; border-radius: 4px; border: 1.5px dashed #93c5fd; margin-top: 2px;">Không có sự kiện</div>
+                    <div id="info-event-note" style="color:var(--blue); font-style:italic; font-size: 11px; background: #eff6ff; padding: 3px 5px; border-radius: 4px; border: 1.5px dashed #93c5fd; margin-top: 2px;">Không có sự kiện</div>
                 </div>
             </div>
-            <div style="text-align: center; margin-top: 10px;">
-                <button type="button" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 12px; min-height: 38px;" onclick="resetCalendarToToday()"><i class="fa-solid fa-calendar-day"></i> Quay Về Hôm Nay</button>
+            <div style="text-align: center; margin-top: 8px;">
+                <button type="button" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 11.5px; min-height: 34px;" onclick="resetCalendarToToday()"><i class="fa-solid fa-calendar-day"></i> Quay Về Hôm Nay</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL HIỂN THỊ & IN MÃ QR PHÓNG TO -->
     <div id="largeQrModal" class="modal" onclick="closeLargeQrModal()">
-        <div class="modal-content" onclick="event.stopPropagation()" style="max-width:380px; text-align:center; align-items:center;">
-            <div class="card-title" style="border-left-color: var(--purple); font-size: 14px; width:100%; justify-content:space-between;">
+        <div class="modal-content" onclick="event.stopPropagation()" style="max-width:360px; text-align:center; align-items:center;">
+            <div class="card-title" style="border-left-color: var(--purple); font-size: 13.5px; width:100%; justify-content:space-between;">
                 <span><i class="fa-solid fa-qrcode"></i> TEM QR THIẾT BỊ CNTT</span>
                 <button type="button" onclick="closeLargeQrModal()" style="background:none; border:none; font-size:16px; cursor:pointer; font-weight:bold;">✕</button>
             </div>
-            <div style="background:#f8fafc; border:2px solid var(--purple); border-radius:8px; padding:15px; margin:10px 0; width:100%; display:flex; flex-direction:column; align-items:center;">
-                <div style="font-weight:bold; font-size:13px; color:var(--primary); margin-bottom:6px;">TỔNG CÔNG TY GIẤY VIỆT NAM</div>
-                <canvas id="modal-large-qr-canvas" style="margin:5px 0; background:white; padding:5px; border:1px solid #cbd5e1;"></canvas>
-                <div id="modal-qr-info-text" style="font-size:12px; font-weight:bold; color:var(--purple); margin-top:8px; word-break:break-all;"></div>
+            <div style="background:#f8fafc; border:2px solid var(--purple); border-radius:8px; padding:12px; margin:8px 0; width:100%; display:flex; flex-direction:column; align-items:center;">
+                <div style="font-weight:bold; font-size:12.5px; color:var(--primary); margin-bottom:5px;">TỔNG CÔNG TY GIẤY VIỆT NAM</div>
+                <canvas id="modal-large-qr-canvas" style="margin:4px 0; background:white; padding:4px; border:1px solid #cbd5e1;"></canvas>
+                <div id="modal-qr-info-text" style="font-size:11.5px; font-weight:bold; color:var(--purple); margin-top:6px; word-break:break-all;"></div>
             </div>
-            <div style="display:flex; gap:8px; width:100%; justify-content:center; margin-top:5px;">
+            <div style="display:flex; gap:6px; width:100%; justify-content:center; margin-top:4px;">
                 <button type="button" class="btn btn-purple" style="flex:1;" onclick="printLargeQrCode()"><i class="fa-solid fa-print"></i> In Tem QR</button>
                 <button type="button" class="btn btn-gray" onclick="closeLargeQrModal()">Đóng</button>
             </div>
@@ -1188,13 +1233,13 @@
 
     <!-- MODAL ĐẶT LỊCH SỰ KIỆN -->
     <div id="eventModal" class="modal" onclick="closeEventModal()">
-        <div class="modal-content" onclick="event.stopPropagation()" style="max-width:420px;">
-            <div class="card-title" style="border-left-color: var(--green); font-size: 14px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">27/07/2026</span></div>
-            <div class="form-group" style="margin-bottom: 10px;">
+        <div class="modal-content" onclick="event.stopPropagation()" style="max-width:400px;">
+            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">27/07/2026</span></div>
+            <div class="form-group" style="margin-bottom: 8px;">
                 <label>Nội dung sự kiện / Công việc:</label>
-                <textarea id="modal-event-text" class="inp-table" style="height: 75px; resize: none;" placeholder="Ví dụ: Họp giao ban..."></textarea>
+                <textarea id="modal-event-text" class="inp-table" style="height: 70px; resize: none;" placeholder="Ví dụ: Họp giao ban..."></textarea>
             </div>
-            <div style="text-align:right; display:flex; justify-content:flex-end; gap:6px;">
+            <div style="text-align:right; display:flex; justify-content:flex-end; gap:5px;">
                 <button type="button" class="btn btn-gray" onclick="closeEventModal()">Hủy</button>
                 <button type="button" class="btn btn-green" onclick="saveDayEvent()"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
             </div>
@@ -1203,17 +1248,17 @@
 
     <!-- MODAL CONFIG URL -->
     <div id="configUrlModal" class="modal" onclick="closeConfigUrlModal()">
-        <div class="modal-content" onclick="event.stopPropagation()" style="max-width:600px;">
-            <div class="card-title" style="border-left-color: var(--green); font-size: 14px;">CẤU HÌNH LINK GOOGLE SHEET VÀ DRIVE</div>
-            <div class="form-group" style="margin-bottom:10px;">
+        <div class="modal-content" onclick="event.stopPropagation()" style="max-width:550px;">
+            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;">CẤU HÌNH LINK GOOGLE SHEET VÀ DRIVE</div>
+            <div class="form-group" style="margin-bottom:8px;">
                 <label>1. Link Google Script Web App API (`.../exec`):</label>
                 <input type="text" id="cfg-script-url">
             </div>
-            <div class="form-group" style="margin-bottom:12px;">
+            <div class="form-group" style="margin-bottom:10px;">
                 <label>2. Link Google Sheets Xem BẢNG LƯƠNG:</label>
                 <input type="text" id="cfg-sheet-url">
             </div>
-            <div style="text-align:right; display:flex; justify-content:flex-end; gap:6px;">
+            <div style="text-align:right; display:flex; justify-content:flex-end; gap:5px;">
                 <button type="button" class="btn btn-gray" onclick="closeConfigUrlModal()">Đóng</button>
                 <button type="button" class="btn btn-green" onclick="saveConfigUrls()">💾 Lưu</button>
             </div>
@@ -1293,10 +1338,10 @@
             AVAILABLE_SOFTWARE_LIST.forEach((sw) => {
                 html += `
                     <div style="display:flex; align-items:center; justify-content:space-between; background:#faf5ff; padding:4px 6px; border-radius:4px; border:1px solid #e9d5ff; gap:6px;">
-                        <label style="font-size:11.5px; font-weight:bold; color:#581c87; display:flex; align-items:center; gap:5px; cursor:pointer; flex:1;">
+                        <label style="font-size:11px; font-weight:bold; color:#581c87; display:flex; align-items:center; gap:5px; cursor:pointer; flex:1;">
                             <input type="checkbox" class="sw-checkbox" value="${sw}" onchange="updateLiveQRPreview()"> ${sw}
                         </label>
-                        <select class="sw-lic-select" style="font-size:10.5px; padding:2px; border:1px solid #d8b4fe; border-radius:3px; max-width:130px;" onchange="updateLiveQRPreview()">
+                        <select class="sw-lic-select" style="font-size:10px; padding:2px; border:1px solid #d8b4fe; border-radius:3px; max-width:120px;" onchange="updateLiveQRPreview()">
                             <option value="Chính hãng" selected>Chính hãng</option>
                             <option value="⚠️ Chưa bản quyền">⚠️ Chưa bản quyền</option>
                         </select>
@@ -1363,9 +1408,9 @@
                     <select onchange="onPopupMonthChange(this.value, '${popupId}')">${monthOptionsHTML}</select>
                 </div>
                 <div class="popup-cal-header">
-                    <button type="button" class="btn btn-gray" style="padding:4px 8px; font-size:12px;" onclick="changePopupMonth(-1, '${popupId}')"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button type="button" class="btn btn-gray" style="padding:4px 8px; font-size:11.5px;" onclick="changePopupMonth(-1, '${popupId}')"><i class="fa-solid fa-chevron-left"></i></button>
                     <span>${monthNames[m]} / ${y}</span>
-                    <button type="button" class="btn btn-gray" style="padding:4px 8px; font-size:12px;" onclick="changePopupMonth(1, '${popupId}')"><i class="fa-solid fa-chevron-right"></i></button>
+                    <button type="button" class="btn btn-gray" style="padding:4px 8px; font-size:11.5px;" onclick="changePopupMonth(1, '${popupId}')"><i class="fa-solid fa-chevron-right"></i></button>
                 </div>
                 <div class="popup-cal-grid">
                     <div class="popup-dow" style="color:var(--red);">CN</div>
@@ -1389,7 +1434,7 @@
                 let isToday = (d === today.getDate() && m === today.getMonth() && y === today.getFullYear());
                 html += `<div class="popup-day ${isToday ? 'today' : ''}" onclick="selectPopupDate(${d}, ${m + 1}, ${y}, '${popupId}')">${d}</div>`;
             }
-            html += `</div><div style="text-align:right; margin-top:10px;"><button type="button" class="btn btn-gray" style="padding:4px 10px; font-size:12px;" onclick="document.getElementById('${popupId}').style.display='none'; activePickerId=null;">Đóng</button></div>`;
+            html += `</div><div style="text-align:right; margin-top:8px;"><button type="button" class="btn btn-gray" style="padding:4px 10px; font-size:11.5px;" onclick="document.getElementById('${popupId}').style.display='none'; activePickerId=null;">Đóng</button></div>`;
             popup.innerHTML = html;
         }
 
@@ -1529,7 +1574,7 @@
                             legend: { position: 'bottom', labels: { font: { family: 'Times New Roman', size: 11 } } },
                             datalabels: {
                                 color: '#ffffff',
-                                font: { weight: 'bold', size: 12, family: 'Times New Roman' },
+                                font: { weight: 'bold', size: 11.5, family: 'Times New Roman' },
                                 formatter: (value, ctx) => {
                                     let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
                                     let percentage = (value * 100 / sum).toFixed(1) + "%";
@@ -1809,7 +1854,7 @@
                     <td class="text-right"><input class="inp-table inp-currency" type="text" value="${formatCurrencyVN(pcttVal)}" onfocus="this.value=parseCurrencyVN(this.value)" onblur="this.value=formatCurrencyVN(parseCurrencyVN(this.value)); updateSalaryRowValue(${index}, 'pctt', this.value)"></td>
                     <td class="text-right"><input class="inp-table inp-currency" type="text" value="${formatCurrencyVN(truUngVal)}" onfocus="this.value=parseCurrencyVN(this.value)" onblur="this.value=formatCurrencyVN(parseCurrencyVN(this.value)); updateSalaryRowValue(${index}, 'tru_ung', this.value)"></td>
                     <td class="text-right font-bold" style="color:#581c87; background:#e9d5ff;">${formatCurrencyVN(thuc_linh_lcv)}</td>
-                    <td class="text-right font-bold" style="background:#fef08a; color:#713f12; font-size:14px;">${formatCurrencyVN(thuc_linh_tong)}</td>
+                    <td class="text-right font-bold" style="background:#fef08a; color:#713f12; font-size:13.5px;">${formatCurrencyVN(thuc_linh_tong)}</td>
                     <td class="text-center"><button type="button" class="btn-delete" onclick="deleteSalaryRow(${index})"><i class="fa-solid fa-trash"></i></button></td>
                 </tr>`;
             });
@@ -1946,7 +1991,7 @@
                 uploadedFiles = [...paymentRecordsByMonth[sm][editIndex].files];
             }
 
-            // Xây dựng đường dẫn trỏ về thư mục gốc, sau đó truyền vào thư mục con là tháng của năm (ví dụ Thang 07.2026 hoặc tương tự, hoặc tuỳ chỉnh theo ý muốn)
+            // Đảm bảo trỏ chính xác về thư mục tháng tương ứng trong Google Drive
             let folderUrl = `${ROOT_DRIVE_FOLDER_URL}/Thang_${month}.${year}`;
 
             if (fileInput.files.length > 0) {
@@ -1980,10 +2025,7 @@
                         const response = await fetch(GOOGLE_SCRIPT_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
                         const result = await response.json();
                         uploadedFiles.push({ fileName: file.name, fileUrl: result.fileUrl || folderUrl });
-                        
-                        if (result && result.folderUrl) {
-                            folderUrl = result.folderUrl;
-                        }
+                        if (result && result.folderUrl) { folderUrl = result.folderUrl; }
                     } catch (err) {
                         console.error("Lỗi: " + err.message);
                     }
@@ -2068,7 +2110,8 @@
                         let displayUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : (rec.amount / q);
                         let mNum = (dParts.length >= 2) ? dParts[1] : sm.split('-')[1];
                         
-                        let targetFolderUrl = rec.folderUrl ? rec.folderUrl : `${ROOT_DRIVE_FOLDER_URL}/Thang_${mNum}.${recYear}`;
+                        // Đảm bảo nút bấm trỏ tuyệt đối về thư mục tháng đúng chuẩn trên Google Drive
+                        let targetFolderUrl = `${ROOT_DRIVE_FOLDER_URL}/Thang_${mNum}.${recYear}`;
                         let folderLinkHtml = `<a href="${targetFolderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Thư mục T.${mNum}</a>`;
 
                         tbody.innerHTML += `<tr>
@@ -2243,7 +2286,7 @@
                         let tAmt = rec.taxAmt !== undefined ? rec.taxAmt : (baseA * tRate / 100);
                         let mNum = (dParts.length >= 2) ? dParts[1] : sm.split('-')[1];
 
-                        let targetFolderUrl = rec.folderUrl ? rec.folderUrl : `${ROOT_DRIVE_FOLDER_URL}/Thang_${mNum}.${recYear}`;
+                        let targetFolderUrl = `${ROOT_DRIVE_FOLDER_URL}/Thang_${mNum}.${recYear}`;
                         let folderLinkHtml = `<a href="${targetFolderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Thư mục T.${mNum}</a>`;
 
                         tbody.innerHTML += `<tr>
@@ -2368,7 +2411,7 @@
                 new QRious({
                     element: document.getElementById('live-qrcode-canvas'),
                     value: qrContent,
-                    size: 90
+                    size: 85
                 });
             } catch (e) {
                 console.error("QR Error:", e);
@@ -2398,7 +2441,7 @@
                 new QRious({
                     element: document.getElementById('modal-large-qr-canvas'),
                     value: qrText,
-                    size: 180
+                    size: 170
                 });
             } catch (e) {
                 console.error("Modal QR Error:", e);
@@ -2676,14 +2719,14 @@
 
         function autoSelectPrinterByInk(inkVal) {
             let printerInput = document.getElementById('ink-printer');
-            if (inkVal.includes("85A") || inkVal.includes("12A")) {
-                printerInput.value = "HP LaserJet Pro P1102 / 1020 Plus";
-            } else if (inkVal.includes("337") || inkVal.includes("303")) {
-                printerInput.value = "Canon LBP 2900 / imageCLASS MF221d";
+            if (inkVal.includes("12A") || inkVal.includes("85A") || inkVal.includes("35A")) {
+                printerInput.value = "HP LaserJet 1010 / 1020 / P1102 / M1005 MFP";
+            } else if (inkVal.includes("303") || inkVal.includes("337")) {
+                printerInput.value = "Canon LBP 2900 / 3000 / imageCLASS MF221d";
             } else if (inkVal.includes("TN-2385") || inkVal.includes("TN-B022")) {
                 printerInput.value = "Brother HL-L2321D / HL-B2000D";
-            } else if (inkVal.includes("003") || inkVal.includes("GI-790")) {
-                printerInput.value = "Epson L3110 / L3210 / Canon G2010";
+            } else if (inkVal.includes("003") || inkVal.includes("GI-790") || inkVal.includes("GT51")) {
+                printerInput.value = "Epson L3110 / L3210 / Canon G2010 / Smart Tank 515";
             }
         }
 
@@ -3016,7 +3059,7 @@
                 let lunar = convertSolar2Lunar(d, month + 1, year, 7.0);
 
                 let dayNumberSpan = document.createElement('span');
-                dayNumberSpan.innerText = d; dayNumberSpan.style.fontWeight = "bold"; dayNumberSpan.style.fontSize = "13px";
+                dayNumberSpan.innerText = d; dayNumberSpan.style.fontWeight = "bold"; dayNumberSpan.style.fontSize = "12.5px";
                 dayDiv.appendChild(dayNumberSpan);
 
                 let lunarSubSpan = document.createElement('span');
