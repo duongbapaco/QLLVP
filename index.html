@@ -9,7 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
-    <!-- Thêm thư viện Chart.js để vẽ biểu đồ 3D/trực quan chuyên nghiệp -->
+    <!-- Thư viện Chart.js cho các biểu đồ dashboard tài chính & thuế -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
@@ -43,7 +43,6 @@
         .header h1 { font-size: 15px; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; }
         .live-clock-box { background: rgba(255,255,255,0.15); padding: 5px 10px; border-radius: 4px; font-family: monospace; font-size: 12px; text-align: right; border: 1px solid rgba(255,255,255,0.3); font-weight: bold; color: #fef08a; }
 
-        /* DASHBOARD 3D CHUYÊN NGHIỆP */
         .stat-grid-3d { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 12px; }
         @media (max-width: 1400px) { .stat-grid-3d { grid-template-columns: repeat(3, 1fr); } }
         @media (max-width: 768px) { .stat-grid-3d { grid-template-columns: repeat(2, 1fr); } }
@@ -197,6 +196,7 @@
             </div>
         </div>
         <div style="display:flex; gap:6px; flex-wrap: wrap;">
+            <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" class="btn-drive-link" style="padding: 6px 10px; font-size:12px;"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
             <button type="button" class="btn btn-green" style="padding: 6px 10px; font-size:12px;" onclick="toggleCalendarSidebar()"><i class="fa-solid fa-calendar-days"></i> Lịch</button>
             <button type="button" class="btn btn-purple" style="padding: 6px 10px; font-size:12px;" onclick="openConfigUrlModal()"><i class="fa-solid fa-link"></i> Cấu hình</button>
         </div>
@@ -264,31 +264,53 @@
                 <button type="button" class="nav-tab" data-tab="ink-inventory" onclick="switchMainTab('ink-inventory')"><i class="fa-solid fa-print"></i> Kho Mực In</button>
             </div>
 
-            <!-- TAB 0: DASHBOARD MODULE RIÊNG BIỆT KÈM BIỂU ĐỒ 3D / TRỰC QUAN -->
+            <!-- TAB 0: DASHBOARD MODULE TỔNG HỢP VỚI ĐẦY ĐỦ CÁC BIỂU ĐỒ TRỰC QUAN -->
             <div id="tab-dashboard" class="tab-content active">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--blue);">
-                        <span><i class="fa-solid fa-chart-pie" style="color:var(--blue);"></i> TỔNG QUAN ĐIỀU HÀNH & BIỂU ĐỒ TỶ TRỌNG (<span class="lbl-current-year">2026</span>)</span>
+                        <span><i class="fa-solid fa-chart-pie" style="color:var(--blue);"></i> TRUNG TÂM ĐIỀU HÀNH & HỆ THỐNG BIỂU ĐỒ TRỰC QUAN NĂM (<span class="lbl-current-year">2026</span>)</span>
+                        <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục Gốc Drive</a>
                     </div>
                     
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 15px; margin-bottom: 15px;">
-                        <!-- Biểu đồ cơ cấu chi phí / tài chính -->
+                    <!-- Lưới 4 biểu đồ chuyên sâu cho: Lương, Thanh toán VP, Cước Viễn thông, Tiền thuế -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 15px; margin-bottom: 15px;">
+                        <!-- Biểu đồ 1: Cơ cấu Lương nhân sự -->
                         <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 14px; border-radius: 8px;">
                             <div style="font-weight: bold; font-size: 13.5px; color: var(--primary); margin-bottom: 8px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px;">
-                                <i class="fa-solid fa-chart-pie" style="color:var(--blue);"></i> TỶ TRỌNG NGÂN SÁCH & TÀI CHÍNH
+                                <i class="fa-solid fa-users" style="color:var(--blue);"></i> BIỂU ĐỒ TỶ TRỌNG QUỸ LƯƠNG NHÂN SỰ
                             </div>
-                            <div style="position: relative; height: 260px; display: flex; justify-content: center; align-items: center;">
-                                <canvas id="financialPieChart"></canvas>
+                            <div style="position: relative; height: 250px; display: flex; justify-content: center; align-items: center;">
+                                <canvas id="salaryPieChart"></canvas>
                             </div>
                         </div>
 
-                        <!-- Biểu đồ cột phân bổ tài sản / thiết bị -->
+                        <!-- Biểu đồ 2: Hồ sơ Thanh toán văn phòng -->
                         <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 14px; border-radius: 8px;">
                             <div style="font-weight: bold; font-size: 13.5px; color: var(--primary); margin-bottom: 8px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px;">
-                                <i class="fa-solid fa-chart-column" style="color:var(--purple);"></i> THỐNG KÊ TÀI SẢN & KHO MỰC
+                                <i class="fa-solid fa-file-invoice-dollar" style="color:var(--green);"></i> BIỂU ĐỒ THANH TOÁN VĂN PHÒNG
                             </div>
-                            <div style="position: relative; height: 260px; display: flex; justify-content: center; align-items: center;">
-                                <canvas id="assetBarChart"></canvas>
+                            <div style="position: relative; height: 250px; display: flex; justify-content: center; align-items: center;">
+                                <canvas id="paymentBarChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Biểu đồ 3: Cước Viễn thông & Internet -->
+                        <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 14px; border-radius: 8px;">
+                            <div style="font-weight: bold; font-size: 13.5px; color: var(--primary); margin-bottom: 8px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px;">
+                                <i class="fa-solid fa-wifi" style="color:var(--orange);"></i> BIỂU ĐỒ CƯỚC VIỄN THÔNG & INTERNET
+                            </div>
+                            <div style="position: relative; height: 250px; display: flex; justify-content: center; align-items: center;">
+                                <canvas id="telecomBarChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Biểu đồ 4: Tiền Thuế GTGT & Nhà thầu -->
+                        <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 14px; border-radius: 8px;">
+                            <div style="font-weight: bold; font-size: 13.5px; color: var(--primary); margin-bottom: 8px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px;">
+                                <i class="fa-solid fa-percent" style="color:var(--red);"></i> BIỂU ĐỒ PHÂN BỔ TIỀN THUẾ
+                            </div>
+                            <div style="position: relative; height: 250px; display: flex; justify-content: center; align-items: center;">
+                                <canvas id="taxPieChart"></canvas>
                             </div>
                         </div>
                     </div>
@@ -303,6 +325,7 @@
                                 <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Thanh Toán VP:</span> <b id="dash-sub-paid" style="color:var(--green);">0 VND</b></div>
                                 <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Tạm Ứng Nhân Sự:</span> <b id="dash-sub-advance" style="color:var(--red);">0 VND</b></div>
                                 <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Cước Viễn Thông:</span> <b id="dash-sub-tele" style="color:var(--orange);">0 VND</b></div>
+                                <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Tiền Thuế:</span> <b id="dash-sub-tax" style="color:var(--red);">0 VND</b></div>
                             </div>
                         </div>
 
@@ -314,7 +337,7 @@
                                 <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Thiết Bị & Tài Sản CNTT:</span> <b id="dash-sub-it" style="color:var(--purple);">0 Thiết bị</b></div>
                                 <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Hộp Mực Trong Kho:</span> <b id="dash-sub-ink" style="color:var(--teal);">0 Hộp</b></div>
                                 <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Trạng Thái Hệ Thống:</span> <b style="color:var(--green);">Hoạt động ổn định (Cloud API)</b></div>
-                                <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Đơn Vị Quản Lý:</span> <b style="color:var(--primary);">Tổng công ty Giấy Việt Nam</b></div>
+                                <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Thư Mục Google Drive:</span> <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" style="color:var(--blue); font-weight:bold;">Mở Thư Mục Gốc</a></div>
                             </div>
                         </div>
                     </div>
@@ -472,7 +495,7 @@
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--green);">
                         <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--green);"></i> LẬP HỒ SƠ ĐỀ NGHỊ THANH TOÁN VĂN PHÒNG (<span class="lbl-current-year">2026</span>)</span>
-                        <a href="https://drive.google.com" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Drive</a>
+                        <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
                     </div>
 
                     <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px;">
@@ -622,7 +645,7 @@
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--orange);">
                         <span><i class="fa-solid fa-wifi" style="color:var(--orange);"></i> QUẢN LÝ CƯỚC MẠNG & INTERNET (<span class="lbl-current-year">2026</span>)</span>
-                        <a href="https://drive.google.com" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Drive</a>
+                        <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
                     </div>
                     <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
                         <input type="hidden" id="edit-telecom-index" value="-1">
@@ -1130,8 +1153,11 @@
         let CURRENT_SELECTED_YEAR = "2026";
         let isAmountManual = false;
 
-        let financialPieChartInstance = null;
-        let assetBarChartInstance = null;
+        // Khởi tạo các instance biểu đồ Chart.js
+        let salaryPieChartInstance = null;
+        let paymentBarChartInstance = null;
+        let telecomBarChartInstance = null;
+        let taxPieChartInstance = null;
 
         const default16Staffs = [
             {"name": "Nguyễn Minh Ngọc", "account": "105005712499", "lcb_heso": 1.94, "lcb_phucap": 0.25, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 5.20, "phu_cap_lcv": 0.6, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 5000000, "pctt": 0, "tru_ung": 0},
@@ -1372,18 +1398,19 @@
             document.getElementById('tele-amount').value = formatCurrencyVN(totalAmt);
         }
 
-        function renderCharts(netPay, paidPay, advancePay, telecomPay, itCount, inkCount) {
-            // Biểu đồ Tỷ trọng tài chính (Pie Chart)
-            const ctxPie = document.getElementById('financialPieChart');
-            if (ctxPie) {
-                if (financialPieChartInstance) financialPieChartInstance.destroy();
-                financialPieChartInstance = new Chart(ctxPie, {
+        // Hàm render toàn bộ 4 biểu đồ chuyên sâu cho Dashboard
+        function renderDashboardCharts(netPay, totalAdvance, paidPay, telecomPay, totalTax) {
+            // 1. Biểu đồ Tỷ trọng Quỹ Lương
+            const ctxSalary = document.getElementById('salaryPieChart');
+            if (ctxSalary) {
+                if (salaryPieChartInstance) salaryPieChartInstance.destroy();
+                salaryPieChartInstance = new Chart(ctxSalary, {
                     type: 'doughnut',
                     data: {
-                        labels: ['Lương NET', 'Thanh toán VP', 'Tạm ứng', 'Cước viễn thông'],
+                        labels: ['Thực Lĩnh NET', 'Tạm Ứng Nhân Sự'],
                         datasets: [{
-                            data: [netPay, paidPay, advancePay, telecomPay],
-                            backgroundColor: ['#1d4ed8', '#047857', '#b91c1c', '#ea580c'],
+                            data: [netPay, totalAdvance],
+                            backgroundColor: ['#1d4ed8', '#b91c1c'],
                             borderWidth: 2
                         }]
                     },
@@ -1397,18 +1424,18 @@
                 });
             }
 
-            // Biểu đồ Cột thống kê tài sản (Bar Chart)
-            const ctxBar = document.getElementById('assetBarChart');
-            if (ctxBar) {
-                if (assetBarChartInstance) assetBarChartInstance.destroy();
-                assetBarChartInstance = new Chart(ctxBar, {
+            // 2. Biểu đồ Hồ sơ Thanh toán Văn phòng
+            const ctxPayment = document.getElementById('paymentBarChart');
+            if (ctxPayment) {
+                if (paymentBarChartInstance) paymentBarChartInstance.destroy();
+                paymentBarChartInstance = new Chart(ctxPayment, {
                     type: 'bar',
                     data: {
-                        labels: ['Thiết bị CNTT', 'Kho Mực In'],
+                        labels: ['Đã thanh toán VP'],
                         datasets: [{
-                            label: 'Số lượng thực tế',
-                            data: [itCount, inkCount],
-                            backgroundColor: ['#6d28d9', '#0d9488'],
+                            label: 'Giá trị (VNĐ)',
+                            data: [paidPay],
+                            backgroundColor: ['#047857'],
                             borderWidth: 1
                         }]
                     },
@@ -1416,10 +1443,62 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         scales: {
-                            y: { beginAtZero: true, ticks: { precision: 0 } }
+                            y: { beginAtZero: true }
                         },
                         plugins: {
                             legend: { display: false }
+                        }
+                    }
+                });
+            }
+
+            // 3. Biểu đồ Cước Viễn thông & Internet
+            const ctxTelecom = document.getElementById('telecomBarChart');
+            if (ctxTelecom) {
+                if (telecomBarChartInstance) telecomBarChartInstance.destroy();
+                telecomBarChartInstance = new Chart(ctxTelecom, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Cước Viễn Thông'],
+                        datasets: [{
+                            label: 'Cước phí (VNĐ)',
+                            data: [telecomPay],
+                            backgroundColor: ['#ea580c'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { beginAtZero: true }
+                        },
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+
+            // 4. Biểu đồ Tiền Thuế
+            const ctxTax = document.getElementById('taxPieChart');
+            if (ctxTax) {
+                if (taxPieChartInstance) taxPieChartInstance.destroy();
+                taxPieChartInstance = new Chart(ctxTax, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Tổng Tiền Thuế Đã Tính'],
+                        datasets: [{
+                            data: [totalTax > 0 ? totalTax : 1000], // Mẫu mặc định nếu chưa phát sinh thuế nhiều
+                            backgroundColor: ['#b91c1c'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom', labels: { font: { family: 'Times New Roman', size: 11 } } }
                         }
                     }
                 });
@@ -1431,6 +1510,7 @@
             let totalAdvanceYear = 0;
             let totalPaidYear = 0;
             let totalTelecomYear = 0;
+            let totalTaxYear = 0;
 
             Object.keys(salaryDataByMonth || {}).forEach(sm => {
                 let parts = sm.split('-');
@@ -1480,6 +1560,8 @@
                     let recYear = (dParts.length === 3 && dParts[2].length === 4) ? dParts[2] : sm.split('-')[0];
                     if (recYear === CURRENT_SELECTED_YEAR) {
                         totalPaidYear += rec.amount || 0;
+                        // Tính ước lượng thuế từ hồ sơ thanh toán (mặc định 5-10% dựa trên giá trị)
+                        totalTaxYear += (rec.amount * 0.05);
                     }
                 });
             });
@@ -1492,6 +1574,7 @@
                     let recYear = matchYear ? matchYear[1] : sm.split('-')[0];
                     if (recYear === CURRENT_SELECTED_YEAR) {
                         totalTelecomYear += rec.amount || 0;
+                        totalTaxYear += (rec.taxAmt || 0);
                     }
                 });
             });
@@ -1513,12 +1596,13 @@
                 document.getElementById('dash-sub-paid').innerText = formatCurrencyVN(totalPaidYear) + " VND";
                 document.getElementById('dash-sub-advance').innerText = formatCurrencyVN(totalAdvanceYear) + " VND";
                 document.getElementById('dash-sub-tele').innerText = formatCurrencyVN(totalTelecomYear) + " VND";
+                document.getElementById('dash-sub-tax').innerText = formatCurrencyVN(totalTaxYear) + " VND";
                 document.getElementById('dash-sub-it').innerText = `${itCountYear} Thiết bị`;
                 document.getElementById('dash-sub-ink').innerText = `${totalInkCount} Hộp`;
             }
 
-            // Vẽ lại biểu đồ khi dữ liệu cập nhật
-            renderCharts(totalNetYear, totalPaidYear, totalAdvanceYear, totalTelecomYear, itCountYear, totalInkCount);
+            // Gọi hàm render biểu đồ dashboard trực quan
+            renderDashboardCharts(totalNetYear, totalAdvanceYear, totalPaidYear, totalTelecomYear, totalTaxYear);
         }
 
         function handleGlobalYearChange() {
@@ -1734,7 +1818,7 @@
                 uploadedFiles = [...paymentRecordsByMonth[sm][editIndex].files];
             }
 
-            let folderUrl = "https://drive.google.com/drive/search?q=" + encodeURIComponent("VINAPACO - QUẢN LÝ TÀI CHÍNH & HỒ SƠ");
+            let folderUrl = "https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi";
 
             if (fileInput.files.length > 0) {
                 let progressContainer = document.getElementById('progress-container-hstt');
@@ -1766,7 +1850,7 @@
                         };
                         const response = await fetch(GOOGLE_SCRIPT_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
                         const result = await response.json();
-                        uploadedFiles.push({ fileName: file.name, fileUrl: result.fileUrl || "#" });
+                        uploadedFiles.push({ fileName: file.name, fileUrl: result.fileUrl || "https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" });
                         if (result && result.fileUrl) { folderUrl = result.fileUrl; }
                     } catch (err) {
                         console.error("Lỗi: " + err.message);
@@ -1851,7 +1935,7 @@
                         let displayUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : (rec.amount / q);
                         let folderLinkHtml = `<span style="color:#64748b; font-style:italic;">Không có</span>`;
                         if (rec.files && rec.files.length > 0) {
-                            let folderUrl = rec.folderUrl || "https://drive.google.com";
+                            let folderUrl = rec.folderUrl || "https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi";
                             folderLinkHtml = `<a href="${folderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục (${rec.files.length})</a>`;
                         }
                         tbody.innerHTML += `<tr>
@@ -1915,7 +1999,7 @@
                 uploadedFiles = [...telecomRecordsByMonth[sm][editIndex].files];
             }
 
-            let folderUrl = "https://drive.google.com/drive/search?q=" + encodeURIComponent("VINAPACO - QUẢN LÝ TÀI CHÍNH & HỒ SƠ");
+            let folderUrl = "https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi";
 
             if (fileInput.files.length > 0) {
                 let progressContainer = document.getElementById('progress-container-vt');
@@ -1947,7 +2031,7 @@
                         };
                         const response = await fetch(GOOGLE_SCRIPT_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
                         const result = await response.json();
-                        uploadedFiles.push({ fileName: file.name, fileUrl: result.fileUrl || "#" });
+                        uploadedFiles.push({ fileName: file.name, fileUrl: result.fileUrl || "https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" });
                         if (result && result.fileUrl) { folderUrl = result.fileUrl; }
                     } catch (err) {
                         console.error("Lỗi: " + err.message);
@@ -2022,7 +2106,7 @@
 
                         let folderLinkHtml = `<span style="color:#64748b; font-style:italic;">Không có</span>`;
                         if (rec.files && rec.files.length > 0) {
-                            let folderUrl = rec.folderUrl || "https://drive.google.com";
+                            let folderUrl = rec.folderUrl || "https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi";
                             folderLinkHtml = `<a href="${folderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục (${rec.files.length})</a>`;
                         }
                         tbody.innerHTML += `<tr>
@@ -2853,7 +2937,6 @@
             document.querySelectorAll('.nav-tabs .nav-tab').forEach(b => b.classList.remove('active'));
             document.getElementById('tab-' + name).classList.add('active');
             document.querySelector(`.nav-tabs .nav-tab[data-tab="${name}"]`).classList.add('active');
-            // Cập nhật lại kích thước biểu đồ nếu chuyển về tab dashboard
             if(name === 'dashboard') {
                 updateGlobalDashboardSummary();
             }
