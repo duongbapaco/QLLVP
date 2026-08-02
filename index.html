@@ -3,315 +3,337 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QLLVP - HỆ THỐNG QUẢN LÝ LƯƠNG VĂN PHÒNG VINAPACO</title>
-    <!-- Thư viện hỗ trợ Xuất Excel, Đọc Excel & Đồ thị -->
+    <title>QLLVP - BẢNG LƯƠNG TỔNG HỢP VĂN PHÒNG VINAPACO</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary: #0f172a;
-            --blue: #1d4ed8;
-            --green: #047857;
-            --orange: #ea580c;
-            --red: #b91c1c;
-            --bg-light: #f1f5f9;
+            --primary-bg: #0f172a;
+            --blue-header: #3b82f6;
+            --header-gray: #d1d5db;
+            --border-color: #4b5563;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Times New Roman', Times, serif; font-size: 13px; padding: 10px; background: var(--bg-light); color: #000; }
+        body { font-family: 'Times New Roman', Times, serif; font-size: 11px; padding: 8px; background: #f8fafc; color: #000; }
         
-        /* Header QLLVP Style */
-        .header-bar { background: var(--primary); color: white; padding: 12px 18px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .header-bar h1 { font-size: 16px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; }
+        /* Bar tiêu đề */
+        .header-bar { background: var(--primary-bg); color: white; padding: 8px 12px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .header-bar h1 { font-size: 14px; text-transform: uppercase; }
         
-        /* Tab Navigation */
-        .nav-tabs { display: flex; gap: 4px; border-bottom: 2px solid #64748b; margin-bottom: 12px; }
-        .nav-tab { padding: 9px 18px; border: 1.5px solid #cbd5e1; border-bottom: none; background: #e2e8f0; font-weight: bold; cursor: pointer; border-radius: 6px 6px 0 0; font-family: inherit; transition: all 0.2s; }
-        .nav-tab:hover { background: #cbd5e1; }
-        .nav-tab.active { background: white; color: var(--blue); border-color: #64748b; border-bottom: 3px solid var(--blue); }
-        
-        .tab-content { display: none; background: white; padding: 15px; border-radius: 6px; border: 1.5px solid #cbd5e1; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-        .tab-content.active { display: block; }
-        
-        /* Box Tham số Lương Trung Tâm */
-        .param-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; background: #eff6ff; padding: 12px; border-radius: 6px; border: 1px solid #93c5fd; margin-bottom: 12px; }
-        .param-box { display: flex; flex-direction: column; gap: 4px; }
-        .param-box label { font-weight: bold; font-size: 11px; color: #1e3a8a; }
-        .param-box input { padding: 6px 8px; border: 1px solid #64748b; border-radius: 4px; font-weight: bold; font-family: inherit; font-size: 13px; }
+        /* Box Tham Số */
+        .param-bar { display: flex; gap: 15px; background: #eff6ff; padding: 8px 12px; border: 1px solid #93c5fd; border-radius: 4px; margin-bottom: 8px; align-items: center; flex-wrap: wrap; }
+        .param-item { display: flex; align-items: center; gap: 5px; font-weight: bold; }
+        .param-item input { width: 90px; padding: 3px 5px; border: 1px solid #64748b; border-radius: 3px; font-weight: bold; text-align: right; font-family: inherit; }
 
-        .btn { padding: 7px 14px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-family: inherit; font-size: 12px; }
-        .btn-green { background: var(--green); color: white; }
-        .btn-green:hover { background: #065f46; }
-        .btn-blue { background: var(--blue); color: white; }
-        .btn-blue:hover { background: #1e40af; }
+        .btn { padding: 5px 10px; border: none; border-radius: 3px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; font-family: inherit; font-size: 11px; }
+        .btn-green { background: #059669; color: white; }
+        .btn-green:hover { background: #047857; }
         
-        /* Table Responsive Styles */
-        .table-responsive { overflow-x: auto; margin-top: 8px; border: 1px solid #475569; border-radius: 4px; }
-        table { width: 100%; border-collapse: collapse; white-space: nowrap; font-size: 12px; }
-        th { background: #cbd5e1; color: #000; padding: 8px 5px; border: 1px solid #475569; text-align: center; font-weight: bold; }
-        td { padding: 6px 5px; border: 1px solid #64748b; vertical-align: middle; }
-        tr:nth-child(even) { background-color: #f8fafc; }
-        tr:hover { background-color: #f1f5f9; }
+        /* Table Layout Chuẩn như ảnh mẫu */
+        .table-responsive { overflow-x: auto; border: 1px solid var(--border-color); background: white; }
+        table { width: 100%; border-collapse: collapse; white-space: nowrap; }
+        th { border: 1px solid var(--border-color); padding: 4px 2px; text-align: center; font-weight: bold; font-size: 10.5px; }
+        td { border: 1px solid var(--border-color); padding: 2px 3px; vertical-align: middle; }
         
+        /* Header Colors theo phân vùng */
+        .bg-blue-light { background: #dbeafe; }
+        .bg-orange-light { background: #ffedd5; }
+        .bg-yellow-light { background: #fef9c3; }
+        .bg-green-light { background: #dcfce7; }
+        .bg-pink-light { background: #fce7f3; }
+        .bg-gray-header { background: #e5e7eb; }
+
+        /* Style cho các ô INPUT sửa trực tiếp trên bảng */
+        input.cell-input { width: 100%; border: 1px solid #f97316; border-radius: 2px; padding: 2px; text-align: right; font-family: inherit; font-size: 11px; background: #fff; }
+        input.cell-input:focus { background: #fef08a; outline: 1px solid #d97706; }
+        input.text-center { text-align: center !important; }
+        input.text-left { text-align: left !important; }
+
         .text-center { text-align: center; }
         .text-right { text-align: right; }
         .font-bold { font-weight: bold; }
+        
+        /* Chữ ký cuối trang */
+        .signature-section { display: flex; justify-content: space-between; margin-top: 20px; padding: 0 50px; text-align: center; font-weight: bold; }
+        .signature-box { display: flex; flex-direction: column; gap: 40px; }
     </style>
 </head>
 <body>
 
-    <!-- QLLVP HEADER -->
     <div class="header-bar">
-        <h1><i class="fa-solid fa-file-invoice-dollar"></i> QLLVP - TỔNG CÔNG TY GIẤY VIỆT NAM (VINAPACO)</h1>
-        <div id="clock" style="font-family: monospace; font-weight: bold; color: #fef08a;">--:--:--</div>
+        <h1><i class="fa-solid fa-calculator"></i> BẢNG LƯƠNG TỔNG HỢP VĂN PHÒNG - VINAPACO</h1>
+        <button class="btn btn-green" onclick="exportExcel()"><i class="fa-solid fa-file-excel"></i> Xuất Excel Mẫu Chuẩn</button>
     </div>
 
-    <!-- MAIN NAVIGATION TABS -->
-    <div class="nav-tabs">
-        <button type="button" class="nav-tab active" onclick="switchTab('salary-master')"><i class="fa-solid fa-calculator"></i> Bảng Lương Chuẩn Văn Phòng</button>
-        <button type="button" class="nav-tab" onclick="switchTab('bank-transfer')"><i class="fa-solid fa-building-columns"></i> Danh Sách Chuyển Khoản Ngân Hàng</button>
-        <button type="button" class="nav-tab" onclick="switchTab('import-excel')"><i class="fa-solid fa-file-import"></i> Nạp Dữ Liệu Chấm Công (.XLSX)</button>
-    </div>
-
-    <!-- TAB 1: BẢNG LƯƠNG CHUẨN MASTER -->
-    <div id="tab-salary-master" class="tab-content active">
-        <!-- BẢNG THAM SỐ TÍNH LƯƠNG TRUNG TÂM -->
-        <div class="param-grid">
-            <div class="param-box">
-                <label>Mức Lương Cơ Sở (VND):</label>
-                <input type="number" id="p-lcb" value="2530000" onchange="recalculateSalary()">
-            </div>
-            <div class="param-box">
-                <label>Lương Tối Thiểu Vùng (VND):</label>
-                <input type="number" id="p-vung" value="4140000" onchange="recalculateSalary()">
-            </div>
-            <div class="param-box">
-                <label>Đơn Giá Hệ Số LCV (VND):</label>
-                <input type="number" id="p-lcv" value="2087970" onchange="recalculateSalary()">
-            </div>
-            <div class="param-box">
-                <label>Ngày Công Chuẩn Trong Tháng:</label>
-                <input type="number" id="p-days" value="22" onchange="recalculateSalary()">
-            </div>
-            <div class="param-box">
-                <label>Tỷ Lệ Trích BHXH + BHYT:</label>
-                <input type="text" value="9.5%" disabled style="background:#e2e8f0;">
-            </div>
-            <div class="param-box">
-                <label>Tỷ Lệ Trích BHTN:</label>
-                <input type="text" value="1.0%" disabled style="background:#e2e8f0;">
-            </div>
+    <!-- KHU VỰC THAM SỐ LƯƠNG HỆ THỐNG -->
+    <div class="param-bar">
+        <div class="param-item">
+            <label>Đơn giá LCB:</label>
+            <input type="number" id="p-lcb" value="2530000" oninput="calculateAll()">
         </div>
-
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <span style="font-weight:bold; color:var(--blue); font-size:13.5px;"><i class="fa-solid fa-list-check"></i> BẢNG LƯƠNG CHI TIẾT TỔNG HỢP CÁC QUỸ (ĐƠN VỊ: VNĐ)</span>
-            <button class="btn btn-green" onclick="exportMasterExcel()"><i class="fa-solid fa-file-excel"></i> Xuất File Excel Master</button>
+        <div class="param-item">
+            <label>Tối thiểu vùng:</label>
+            <input type="number" id="p-vung" value="4140000" oninput="calculateAll()">
         </div>
-
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th rowspan="2">STT</th>
-                        <th rowspan="2">HỌ VÀ TÊN NHÂN VIÊN</th>
-                        <th rowspan="2">Số Tài Khoản</th>
-                        <th colspan="2" style="background:#bfdbfe;">HỆ SỐ LCB</th>
-                        <th colspan="2" style="background:#fef08a;">HỆ SỐ LCV</th>
-                        <th rowspan="2">Công TT</th>
-                        <th rowspan="2">Lương HĐLĐ</th>
-                        <th rowspan="2">Lương CB Thực Tế</th>
-                        <th rowspan="2">BHXH + BHYT (9.5%)</th>
-                        <th rowspan="2">BHTN (1%)</th>
-                        <th rowspan="2">Lương CV Thực Tế</th>
-                        <th rowspan="2">Ăn Ca</th>
-                        <th rowspan="2">Tạm Ứng</th>
-                        <th rowspan="2" style="background:#bbf7d0; color:#065f46;">THỰC LĨNH NET</th>
-                    </tr>
-                    <tr>
-                        <th style="background:#bfdbfe;">Hệ số</th>
-                        <th style="background:#bfdbfe;">Phụ cấp</th>
-                        <th style="background:#fef08a;">Hệ số</th>
-                        <th style="background:#fef08a;">Phụ cấp</th>
-                    </tr>
-                </thead>
-                <tbody id="tbody-master-salary">
-                    <!-- Javascript sẽ đổ dữ liệu tính toán trực tiếp vào đây -->
-                </tbody>
-                <tfoot id="tfoot-master-salary" style="background:#cbd5e1; font-weight:bold;">
-                    <!-- Javascript tính dòng tổng cộng -->
-                </tfoot>
-            </table>
+        <div class="param-item">
+            <label>Đơn giá LCV:</label>
+            <input type="number" id="p-lcv" value="2087970" oninput="calculateAll()">
+        </div>
+        <div class="param-item">
+            <label>Công chuẩn:</label>
+            <input type="number" id="p-days" value="22" oninput="calculateAll()">
+        </div>
+        <div class="param-item">
+            <label>% BH (BHXH+BHYT+BHTN):</label>
+            <input type="text" value="10.5%" disabled style="width:50px; background:#e2e8f0; text-align:center;">
         </div>
     </div>
 
-    <!-- TAB 2: CHUYỂN KHOẢN NGÂN HÀNG -->
-    <div id="tab-bank-transfer" class="tab-content">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <span style="font-weight:bold; color:var(--green); font-size:14px;"><i class="fa-solid fa-building-columns"></i> BẢNG KÊ THANH TOÁN LƯƠNG QUA TÀI KHOẢN NGÂN HÀNG</span>
-            <button class="btn btn-blue" onclick="exportBankExcel()"><i class="fa-solid fa-download"></i> Tải File Chuyển Khoản</button>
-        </div>
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>HỌ VÀ TÊN</th>
-                        <th>SỐ TÀI KHOẢN</th>
-                        <th>SỐ TIỀN THỰC LĨNH</th>
-                        <th>TRẠNG THÁI / GHI CHÚ</th>
-                    </tr>
-                </thead>
-                <tbody id="tbody-bank">
-                    <!-- Dữ liệu chuyển khoản -->
-                </tbody>
-            </table>
-        </div>
+    <!-- BẢNG TÍNH LƯƠNG TỔNG HỢP CHI TIẾT -->
+    <div class="table-responsive">
+        <table id="salaryTable">
+            <thead>
+                <tr class="bg-gray-header">
+                    <th rowspan="2" style="width:30px;">STT</th>
+                    <th rowspan="2" style="width:130px;">HỌ VÀ TÊN</th>
+                    <th rowspan="2" style="width:90px;">Số Tài Khoản</th>
+                    <th colspan="4" class="bg-blue-light">Lương Cơ Bản HĐLĐ</th>
+                    <th colspan="3" class="bg-yellow-light">Số Ngày Công Thực Tế</th>
+                    <th colspan="5" class="bg-blue-light">Cơ cấu & Thực Lĩnh Lương CB</th>
+                    <th colspan="3" class="bg-orange-light">Cấu hình LCV</th>
+                    <th colspan="9" class="bg-orange-light">Cơ cấu & Thực Lĩnh Lương CV</th>
+                    <th rowspan="2" class="bg-green-light" style="width:90px; color:#065f46;">TỔNG NET<br><span style="font-size:9px; font-weight:normal;">(Thực Lĩnh CV + CB)</span></th>
+                </tr>
+                <tr class="bg-gray-header">
+                    <!-- LCB -->
+                    <th class="bg-blue-light">Hệ số LCB</th>
+                    <th class="bg-blue-light">Phụ cấp LCB</th>
+                    <th class="bg-blue-light">Lương HĐLĐ</th>
+                    <th class="bg-blue-light">Lương CB</th>
+                    <!-- Ngày công -->
+                    <th class="bg-yellow-light">NT</th>
+                    <th class="bg-yellow-light">P</th>
+                    <th class="bg-yellow-light">Lễ/VR</th>
+                    <!-- Thực lĩnh CB -->
+                    <th class="bg-blue-light">Lương Thời Gian</th>
+                    <th class="bg-blue-light">Lương Lễ, Phép</th>
+                    <th class="bg-blue-light">Tổng Lương CB</th>
+                    <th class="bg-blue-light">BH (10.5%)</th>
+                    <th class="bg-blue-light">Thực Lĩnh CB</th>
+                    <!-- LCV -->
+                    <th class="bg-orange-light">Hệ số LCV</th>
+                    <th class="bg-orange-light">Phụ cấp LCV</th>
+                    <th class="bg-orange-light">HS HTCV</th>
+                    <!-- Cơ cấu LCV -->
+                    <th class="bg-orange-light">LCV Gốc</th>
+                    <th class="bg-orange-light">LCV Thực Tế</th>
+                    <th class="bg-orange-light">Tiền Ăn Ca</th>
+                    <th class="bg-orange-light">Tiền Độc Hại</th>
+                    <th class="bg-orange-light">Tạm Ứng</th>
+                    <th class="bg-orange-light">Quỹ PCTT</th>
+                    <th class="bg-orange-light">Trừ Ứng</th>
+                    <th class="bg-orange-light">Thực Lĩnh CV</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-salary">
+                <!-- Data render từ JS -->
+            </tbody>
+            <tfoot id="tfoot-salary" class="bg-gray-header font-bold">
+                <!-- Dòng Tổng cộng -->
+            </tfoot>
+        </table>
     </div>
 
-    <!-- TAB 3: IMPORT CHẤM CÔNG EXCEL -->
-    <div id="tab-import-excel" class="tab-content">
-        <div style="background:#f0fdf4; border:1px solid #86efac; padding:18px; border-radius:6px;">
-            <h3 style="color:#166534; margin-bottom:10px;"><i class="fa-solid fa-file-excel"></i> IMPORT BẢNG CHẤM CÔNG MÁY TỰ ĐỘNG (.XLSX)</h3>
-            <p style="margin-bottom:12px; color:#374151;">Chọn file chấm công Excel để tự động cập nhật số ngày công thực tế vào bảng tính lương:</p>
-            <input type="file" id="excel-file-input" accept=".xlsx, .xls" style="padding:6px; background:white; border:1px solid #64748b; border-radius:4px; margin-right:8px;">
-            <button class="btn btn-blue" onclick="processImportedExcel()"><i class="fa-solid fa-gears"></i> Cập Nhật Ngày Công</button>
+    <!-- KHU VỰC CHỮ KÝ HÀNH CHÍNH -->
+    <div class="signature-section">
+        <div class="signature-box">
+            <span>PHÒNG NHÂN SỰ</span>
+            <span style="font-weight:normal; font-style:italic;">(Ký, ghi rõ họ tên)</span>
+        </div>
+        <div class="signature-box">
+            <span>THỦ TRƯỞNG ĐƠN VỊ</span>
+            <span style="font-weight:normal; font-style:italic;">(Ký, đóng dấu)</span>
+        </div>
+        <div class="signature-box">
+            <span>NGƯỜI LẬP BIỂU</span>
+            <span style="font-weight:normal; font-style:italic;">(Ký, ghi rõ họ tên)</span>
+            <span style="margin-top:20px;">Nguyễn Thị Tuyết Nhung</span>
         </div>
     </div>
 
     <script>
-        // DANH SÁCH NHÂN SỰ MASTER VĂN PHÒNG TỔNG CÔNG TY
-        const employeeData = [
-            { stt: 1, name: "Nguyễn Minh Ngọc", stk: "105005712499", lcb_hs: 1.94, lcb_pc: 0.25, lcv_hs: 5.20, lcv_pc: 0.60, days: 20, tam_ung: 5000000, an_ca_rate: 5000, htcv: 1.0 },
-            { stt: 2, name: "Nguyễn Văn Nam", stk: "105004242307", lcb_hs: 1.48, lcb_pc: 0.00, lcv_hs: 2.24, lcv_pc: 0.00, days: 14, tam_ung: 4000000, an_ca_rate: 5000, htcv: 1.0 },
-            { stt: 3, name: "Nguyễn Thị Tuyết Nhung", stk: "102005035542", lcb_hs: 1.79, lcb_pc: 0.00, lcv_hs: 1.74, lcv_pc: 0.00, days: 20, tam_ung: 3000000, an_ca_rate: 5000, htcv: 1.0 },
-            { stt: 4, name: "Vũ Thị Thu", stk: "106004294441", lcb_hs: 1.94, lcb_pc: 0.00, lcv_hs: 1.86, lcv_pc: 0.00, days: 21, tam_ung: 3000000, an_ca_rate: 5000, htcv: 1.0 },
-            { stt: 5, name: "Đào Thị Liên", stk: "106004359838", lcb_hs: 1.79, lcb_pc: 0.00, lcv_hs: 1.74, lcv_pc: 0.00, days: 20, tam_ung: 4000000, an_ca_rate: 5000, htcv: 1.0 },
-            { stt: 6, name: "Võ Thị Thanh Tuyền", stk: "106868653975", lcb_hs: 1.71, lcb_pc: 0.00, lcv_hs: 1.74, lcv_pc: 0.00, days: 20, tam_ung: 3000000, an_ca_rate: 5000, htcv: 1.0 },
-            { stt: 7, name: "Trần Thị Thanh", stk: "105004294439", lcb_hs: 1.67, lcb_pc: 0.00, lcv_hs: 1.48, lcv_pc: 0.00, days: 20, tam_ung: 4000000, an_ca_rate: 5000, htcv: 1.0 },
-            { stt: 8, name: "Trần Đức Chiến", stk: "102004797815", lcb_hs: 1.83, lcb_pc: 0.00, lcv_hs: 1.66, lcv_pc: 0.00, days: 20, tam_ung: 3000000, an_ca_rate: 5000, htcv: 1.0 },
-            { stt: 9, name: "Phạm Tiến Long", stk: "104004583045", lcb_hs: 1.80, lcb_pc: 0.00, lcv_hs: 1.62, lcv_pc: 0.00, days: 20, tam_ung: 4000000, an_ca_rate: 5000, htcv: 1.0 },
-            { stt: 10, name: "Đinh Hữu Vinh", stk: "100004797831", lcb_hs: 1.83, lcb_pc: 0.00, lcv_hs: 1.66, lcv_pc: 0.00, days: 20, tam_ung: 3000000, an_ca_rate: 5000, htcv: 1.0 },
-            { stt: 11, name: "Bùi Đình Điệp", stk: "101004882063", lcb_hs: 1.53, lcb_pc: 0.00, lcv_hs: 1.62, lcv_pc: 0.00, days: 20, tam_ung: 3000000, an_ca_rate: 5000, htcv: 1.0 },
-            { stt: 12, name: "Hoàng Mạnh Hùng", stk: "100006166724", lcb_hs: 1.53, lcb_pc: 0.00, lcv_hs: 1.62, lcv_pc: 0.00, days: 20, tam_ung: 3000000, an_ca_rate: 30000, htcv: 1.0 },
-            { stt: 13, name: "Ma Trọng Luận", stk: "106869104133", lcb_hs: 1.35, lcb_pc: 0.00, lcv_hs: 1.63, lcv_pc: 0.00, days: 20, tam_ung: 3000000, an_ca_rate: 5000, htcv: 1.1 },
-            { stt: 14, name: "Trần Bình Dương", stk: "106873586343", lcb_hs: 1.79, lcb_pc: 0.00, lcv_hs: 2.40, lcv_pc: 0.00, days: 20, tam_ung: 3000000, an_ca_rate: 5000, htcv: 1.0 },
-            { stt: 15, name: "Đặng Trần Trung", stk: "107002654931", lcb_hs: 1.53, lcb_pc: 0.00, lcv_hs: 1.62, lcv_pc: 0.00, days: 20, tam_ung: 3000000, an_ca_rate: 5000, htcv: 1.0 },
-            { stt: 16, name: "Phạm Huy Chiến", stk: "102004830132", lcb_hs: 2.26, lcb_pc: 0.00, lcv_hs: 2.40, lcv_pc: 0.00, days: 20, tam_ung: 4000000, an_ca_rate: 5000, htcv: 1.0 }
+        // DỮ LIỆU KHỞI TẠO CHUẨN TỪ BẢNG LƯƠNG CỦA BẠN
+        let employees = [
+            { id: 1, name: "Nguyễn Minh Ngọc", stk: "105005712499", lcb_hs: 1.94, lcb_pc: 0.25, nt: 20, p: 0, le: 1, lcv_hs: 5.20, lcv_pc: 0.60, htcv: 1.0, an_ca: 100000, doc_hai: 260000, tam_ung: 5000000, pctt: 0, tru_ung: 0 },
+            { id: 2, name: "Nguyễn Văn Nam", stk: "105004242307", lcb_hs: 1.48, lcb_pc: 0.00, nt: 14, p: 6, le: 1, lcv_hs: 2.24, lcv_pc: 0.00, htcv: 1.0, an_ca: 70000, doc_hai: 182000, tam_ung: 4000000, pctt: 0, tru_ung: 0 },
+            { id: 3, name: "Nguyễn Thị Tuyết Nhung", stk: "102005035542", lcb_hs: 1.79, lcb_pc: 0.00, nt: 20, p: 0, le: 1, lcv_hs: 1.74, lcv_pc: 0.00, htcv: 1.0, an_ca: 100000, doc_hai: 260000, tam_ung: 3000000, pctt: 0, tru_ung: 0 },
+            { id: 4, name: "Vũ Thị Thu", stk: "106004294441", lcb_hs: 1.94, lcb_pc: 0.00, nt: 21, p: 0, le: 1, lcv_hs: 1.86, lcv_pc: 0.00, htcv: 1.0, an_ca: 105000, doc_hai: 273000, tam_ung: 3000000, pctt: 0, tru_ung: 0 },
+            { id: 5, name: "Đào Thị Liên", stk: "106004359838", lcb_hs: 1.79, lcb_pc: 0.00, nt: 20, p: 0, le: 1, lcv_hs: 1.74, lcv_pc: 0.00, htcv: 1.0, an_ca: 100000, doc_hai: 260000, tam_ung: 4000000, pctt: 0, tru_ung: 0 },
+            { id: 6, name: "Võ Thị Thanh Tuyền", stk: "106868653975", lcb_hs: 1.71, lcb_pc: 0.00, nt: 20, p: 0, le: 1, lcv_hs: 1.74, lcv_pc: 0.00, htcv: 1.0, an_ca: 100000, doc_hai: 260000, tam_ung: 3000000, pctt: 0, tru_ung: 0 },
+            { id: 7, name: "Trần Thị Thanh", stk: "105004294439", lcb_hs: 1.67, lcb_pc: 0.00, nt: 20, p: 0, le: 1, lcv_hs: 1.48, lcv_pc: 0.00, htcv: 1.0, an_ca: 100000, doc_hai: 260000, tam_ung: 4000000, pctt: 0, tru_ung: 0 },
+            { id: 8, name: "Trần Đức Chiến", stk: "102004797815", lcb_hs: 1.83, lcb_pc: 0.00, nt: 20, p: 0, le: 1, lcv_hs: 1.66, lcv_pc: 0.00, htcv: 1.0, an_ca: 100000, doc_hai: 260000, tam_ung: 3000000, pctt: 0, tru_ung: 0 },
+            { id: 9, name: "Phạm Tiến Long", stk: "104004583045", lcb_hs: 1.80, lcb_pc: 0.00, nt: 20, p: 0, le: 1, lcv_hs: 1.62, lcv_pc: 0.00, htcv: 1.0, an_ca: 100000, doc_hai: 260000, tam_ung: 4000000, pctt: 0, tru_ung: 0 },
+            { id: 10, name: "Đinh Hữu Vinh", stk: "100004797831", lcb_hs: 1.83, lcb_pc: 0.00, nt: 20, p: 0, le: 1, lcv_hs: 1.66, lcv_pc: 0.00, htcv: 1.0, an_ca: 100000, doc_hai: 260000, tam_ung: 3000000, pctt: 0, tru_ung: 0 },
+            { id: 11, name: "Bùi Đình Điệp", stk: "101004882063", lcb_hs: 1.53, lcb_pc: 0.00, nt: 20, p: 0, le: 1, lcv_hs: 1.62, lcv_pc: 0.00, htcv: 1.0, an_ca: 100000, doc_hai: 260000, tam_ung: 3000000, pctt: 0, tru_ung: 0 },
+            { id: 12, name: "Hoàng Mạnh Hùng", stk: "100006166724", lcb_hs: 1.53, lcb_pc: 0.00, nt: 20, p: 0, le: 1, lcv_hs: 1.62, lcv_pc: 0.00, htcv: 1.0, an_ca: 100000, doc_hai: 260000, tam_ung: 3000000, pctt: 0, tru_ung: 0 },
+            { id: 13, name: "Ma Trọng Luận", stk: "106869104133", lcb_hs: 1.35, lcb_pc: 0.00, nt: 20, p: 0, le: 1, lcv_hs: 1.63, lcv_pc: 0.00, htcv: 1.0, an_ca: 100000, doc_hai: 260000, tam_ung: 3000000, pctt: 0, tru_ung: 0 },
+            { id: 14, name: "Trần Bình Dương", stk: "106873586343", lcb_hs: 1.79, lcb_pc: 0.00, nt: 20, p: 0, le: 1, lcv_hs: 2.40, lcv_pc: 0.00, htcv: 1.0, an_ca: 100000, doc_hai: 260000, tam_ung: 3000000, pctt: 0, tru_ung: 0 },
+            { id: 15, name: "Đặng Trần Trung", stk: "107002654931", lcb_hs: 1.53, lcb_pc: 0.00, nt: 20, p: 0, le: 1, lcv_hs: 1.62, lcv_pc: 0.00, htcv: 1.0, an_ca: 100000, doc_hai: 260000, tam_ung: 3000000, pctt: 0, tru_ung: 0 },
+            { id: 16, name: "Phạm Huy Chiến", stk: "102004830132", lcb_hs: 2.26, lcb_pc: 0.00, nt: 20, p: 0, le: 1, lcv_hs: 2.40, lcv_pc: 0.00, htcv: 1.0, an_ca: 100000, doc_hai: 260000, tam_ung: 4000000, pctt: 0, tru_ung: 0 }
         ];
 
         document.addEventListener("DOMContentLoaded", () => {
-            setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleString('vi-VN'); }, 1000);
-            recalculateSalary();
+            renderTable();
+            calculateAll();
         });
 
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
-            document.getElementById('tab-' + tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
+        // HÀM RENDER BẢNG VỚI CÁC Ô INPUT ĐỘNG
+        function renderTable() {
+            const tbody = document.getElementById('tbody-salary');
+            tbody.innerHTML = "";
+
+            employees.forEach((emp, index) => {
+                tbody.innerHTML += `
+                    <tr id="row-${index}">
+                        <td class="text-center">${emp.id}</td>
+                        <td><input type="text" class="cell-input text-left font-bold" value="${emp.name}" oninput="updateVal(${index}, 'name', this.value)"></td>
+                        <td><input type="text" class="cell-input text-center" value="${emp.stk}" oninput="updateVal(${index}, 'stk', this.value)"></td>
+                        
+                        <!-- LCB Inputs -->
+                        <td><input type="number" step="0.01" class="cell-input" value="${emp.lcb_hs}" oninput="updateVal(${index}, 'lcb_hs', this.value)"></td>
+                        <td><input type="number" step="0.01" class="cell-input" value="${emp.lcb_pc}" oninput="updateVal(${index}, 'lcb_pc', this.value)"></td>
+                        <td class="text-right font-bold" id="hdld-${index}">0</td>
+                        <td class="text-right" id="lcb_goc-${index}">0</td>
+                        
+                        <!-- Ngày Công Inputs -->
+                        <td class="bg-yellow-light"><input type="number" class="cell-input text-center font-bold" value="${emp.nt}" oninput="updateVal(${index}, 'nt', this.value)"></td>
+                        <td class="bg-yellow-light"><input type="number" class="cell-input text-center" value="${emp.p}" oninput="updateVal(${index}, 'p', this.value)"></td>
+                        <td class="bg-yellow-light"><input type="number" class="cell-input text-center" value="${emp.le}" oninput="updateVal(${index}, 'le', this.value)"></td>
+                        
+                        <!-- Kết quả LCB -->
+                        <td class="text-right" id="l_tg-${index}">0</td>
+                        <td class="text-right" id="l_lp-${index}">0</td>
+                        <td class="text-right font-bold" id="tong_lcb-${index}">0</td>
+                        <td class="text-right" style="color:#b91c1c;" id="bh-${index}">0</td>
+                        <td class="text-right font-bold" style="color:#1d4ed8;" id="tl_cb-${index}">0</td>
+                        
+                        <!-- LCV Inputs -->
+                        <td><input type="number" step="0.01" class="cell-input" value="${emp.lcv_hs}" oninput="updateVal(${index}, 'lcv_hs', this.value)"></td>
+                        <td><input type="number" step="0.01" class="cell-input" value="${emp.lcv_pc}" oninput="updateVal(${index}, 'lcv_pc', this.value)"></td>
+                        <td><input type="number" step="0.1" class="cell-input text-center" value="${emp.htcv}" oninput="updateVal(${index}, 'htcv', this.value)"></td>
+                        
+                        <!-- Cơ cấu LCV Inputs & Results -->
+                        <td class="text-right" id="lcv_goc-${index}">0</td>
+                        <td class="text-right font-bold" id="lcv_tt-${index}">0</td>
+                        <td><input type="number" class="cell-input" value="${emp.an_ca}" oninput="updateVal(${index}, 'an_ca', this.value)"></td>
+                        <td><input type="number" class="cell-input" value="${emp.doc_hai}" oninput="updateVal(${index}, 'doc_hai', this.value)"></td>
+                        <td><input type="number" class="cell-input" value="${emp.tam_ung}" oninput="updateVal(${index}, 'tam_ung', this.value)"></td>
+                        <td><input type="number" class="cell-input" value="${emp.pctt}" oninput="updateVal(${index}, 'pctt', this.value)"></td>
+                        <td><input type="number" class="cell-input" value="${emp.tru_ung}" oninput="updateVal(${index}, 'tru_ung', this.value)"></td>
+                        <td class="text-right font-bold" id="tl_cv-${index}">0</td>
+                        
+                        <!-- TỔNG NET CUỐI CÙNG -->
+                        <td class="text-right font-bold bg-yellow-light" style="font-size:12px; color:#047857;" id="tong_net-${index}">0</td>
+                    </tr>
+                `;
+            });
         }
 
-        // THUẬT TOÁN TÍNH TỰ ĐỘNG CHUẨN VINAPACO
-        function recalculateSalary() {
+        // HÀM CẬP NHẬT GIÁ TRỊ VÀ TÍNH TOÁN REAL-TIME
+        function updateVal(index, key, val) {
+            employees[index][key] = (key === 'name' || key === 'stk') ? val : parseFloat(val) || 0;
+            calculateAll();
+        }
+
+        // THUẬT TOÁN TÍNH LƯƠNG ĐẦY ĐỦ CHO TOÀN BỘ CÁC CỘT
+        function calculateAll() {
             const p_lcb = parseFloat(document.getElementById('p-lcb').value) || 2530000;
             const p_vung = parseFloat(document.getElementById('p-vung').value) || 4140000;
             const p_lcv = parseFloat(document.getElementById('p-lcv').value) || 2087970;
             const p_days = parseFloat(document.getElementById('p-days').value) || 22;
 
-            const tbodyMaster = document.getElementById('tbody-master-salary');
-            const tfootMaster = document.getElementById('tfoot-master-salary');
-            const tbodyBank = document.getElementById('tbody-bank');
-            
-            tbodyMaster.innerHTML = "";
-            tbodyBank.innerHTML = "";
+            let sums = {
+                hdld: 0, lcb_goc: 0, l_tg: 0, l_lp: 0, tong_lcb: 0, bh: 0, tl_cb: 0,
+                lcv_goc: 0, lcv_tt: 0, an_ca: 0, doc_hai: 0, tam_ung: 0, pctt: 0, tru_ung: 0, tl_cv: 0, tong_net: 0
+            };
 
-            let totals = { hdld: 0, lcb_tt: 0, bhxh: 0, bhtn: 0, lcv_tt: 0, an_ca: 0, tam_ung: 0, net: 0 };
+            employees.forEach((emp, i) => {
+                // 1. Tính Lương HĐLĐ & Lương CB Gốc
+                let hdld = Math.round((emp.lcb_hs + emp.lcb_pc) * p_vung);
+                let lcb_goc = Math.round((emp.lcb_hs + emp.lcb_pc) * p_lcb);
+                
+                // 2. Lương thời gian & Lương lễ phép
+                let l_tg = Math.round((lcb_goc / p_days) * emp.nt);
+                let l_lp = Math.round((hdld / p_days) * (emp.p + emp.le));
+                let tong_lcb = l_tg + l_lp;
 
-            employeeData.forEach((emp) => {
-                let luongHDLD = Math.round((emp.lcb_hs + emp.lcb_pc) * p_vung);
-                let luongCB = Math.round((emp.lcb_hs + emp.lcb_pc) * p_lcb);
-                let luongCBThucTe = Math.round((luongCB / p_days) * emp.days);
+                // 3. Bảo hiểm (10.5%)
+                let bh = Math.round(hdld * 0.105);
+                let tl_cb = tong_lcb - bh;
 
-                let bhxh = Math.round(luongHDLD * 0.095);
-                let bhtn = Math.round(luongHDLD * 0.01);
+                // 4. Lương Công Việc
+                let lcv_goc = Math.round((emp.lcv_hs + emp.lcv_pc) * p_lcv);
+                let lcv_tt = Math.round(((lcv_goc / p_days) * emp.nt) * emp.htcv);
 
-                let luongCV = Math.round((emp.lcv_hs + emp.lcv_pc) * p_lcv);
-                let luongCVThucTe = Math.round(((luongCV / p_days) * emp.days) * emp.htcv);
+                // 5. Thực lĩnh CV
+                let tl_cv = (lcv_tt + emp.an_ca + emp.doc_hai) - (emp.tam_ung + emp.pctt + emp.tru_ung);
 
-                let anCa = emp.days * emp.an_ca_rate;
-                let netTotal = (luongCBThucTe - bhxh - bhtn) + (luongCVThucTe + anCa - emp.tam_ung);
+                // 6. TỔNG NET CUỐI CÙNG
+                let tong_net = tl_cb + tl_cv;
 
-                // Cộng dồn tổng
-                totals.hdld += luongHDLD;
-                totals.lcb_tt += luongCBThucTe;
-                totals.bhxh += bhxh;
-                totals.bhtn += bhtn;
-                totals.lcv_tt += luongCVThucTe;
-                totals.an_ca += anCa;
-                totals.tam_ung += emp.tam_ung;
-                totals.net += netTotal;
+                // Gán kết quả hiển thị lên giao diện
+                document.getElementById(`hdld-${i}`).innerText = hdld.toLocaleString();
+                document.getElementById(`lcb_goc-${i}`).innerText = lcb_goc.toLocaleString();
+                document.getElementById(`l_tg-${i}`).innerText = l_tg.toLocaleString();
+                document.getElementById(`l_lp-${i}`).innerText = l_lp.toLocaleString();
+                document.getElementById(`tong_lcb-${i}`).innerText = tong_lcb.toLocaleString();
+                document.getElementById(`bh-${i}`).innerText = bh.toLocaleString();
+                document.getElementById(`tl_cb-${i}`).innerText = tl_cb.toLocaleString();
 
-                tbodyMaster.innerHTML += `
-                    <tr>
-                        <td class="text-center">${emp.stt}</td>
-                        <td class="font-bold">${emp.name}</td>
-                        <td class="text-center">${emp.stk}</td>
-                        <td class="text-right">${emp.lcb_hs.toFixed(2)}</td>
-                        <td class="text-right">${emp.lcb_pc.toFixed(2)}</td>
-                        <td class="text-right">${emp.lcv_hs.toFixed(2)}</td>
-                        <td class="text-right">${emp.lcv_pc.toFixed(2)}</td>
-                        <td class="text-center font-bold" style="color:var(--blue);">${emp.days}</td>
-                        <td class="text-right">${luongHDLD.toLocaleString()}</td>
-                        <td class="text-right">${luongCBThucTe.toLocaleString()}</td>
-                        <td class="text-right" style="color:var(--red);">${bhxh.toLocaleString()}</td>
-                        <td class="text-right" style="color:var(--red);">${bhtn.toLocaleString()}</td>
-                        <td class="text-right">${luongCVThucTe.toLocaleString()}</td>
-                        <td class="text-right">${anCa.toLocaleString()}</td>
-                        <td class="text-right">${emp.tam_ung.toLocaleString()}</td>
-                        <td class="text-right font-bold" style="background:#bbf7d0; color:var(--green);">${netTotal.toLocaleString()} đ</td>
-                    </tr>
-                `;
+                document.getElementById(`lcv_goc-${i}`).innerText = lcv_goc.toLocaleString();
+                document.getElementById(`lcv_tt-${i}`).innerText = lcv_tt.toLocaleString();
+                document.getElementById(`tl_cv-${i}`).innerText = tl_cv.toLocaleString();
+                document.getElementById(`tong_net-${i}`).innerText = tong_net.toLocaleString();
 
-                tbodyBank.innerHTML += `
-                    <tr>
-                        <td class="text-center">${emp.stt}</td>
-                        <td class="font-bold">${emp.name}</td>
-                        <td class="text-center font-bold" style="color:var(--blue);">${emp.stk}</td>
-                        <td class="text-right font-bold" style="color:var(--green);">${netTotal.toLocaleString()} đ</td>
-                        <td class="text-center"><span style="background:#dcfce7; color:#15803d; padding:2px 8px; border-radius:4px; font-weight:bold;">Đã khớp bảng lương</span></td>
-                    </tr>
-                `;
+                // Cộng dồn dòng Tổng cộng
+                sums.hdld += hdld; sums.lcb_goc += lcb_goc; sums.l_tg += l_tg; sums.l_lp += l_lp;
+                sums.tong_lcb += tong_lcb; sums.bh += bh; sums.tl_cb += tl_cb;
+                sums.lcv_goc += lcv_goc; sums.lcv_tt += lcv_tt; sums.an_ca += emp.an_ca;
+                sums.doc_hai += emp.doc_hai; sums.tam_ung += emp.tam_ung; sums.pctt += emp.pctt;
+                sums.tru_ung += emp.tru_ung; sums.tl_cv += tl_cv; sums.tong_net += tong_net;
             });
 
-            // Footer dòng tổng
-            tfootMaster.innerHTML = `
+            // Render dòng Tổng cộng chân bảng
+            document.getElementById('tfoot-salary').innerHTML = `
                 <tr>
                     <td colspan="3" class="text-center">TỔNG CỘNG VĂN PHÒNG</td>
-                    <td class="text-right">--</td><td class="text-right">--</td>
-                    <td class="text-right">--</td><td class="text-right">--</td>
-                    <td class="text-center">--</td>
-                    <td class="text-right">${totals.hdld.toLocaleString()}</td>
-                    <td class="text-right">${totals.lcb_tt.toLocaleString()}</td>
-                    <td class="text-right" style="color:var(--red);">${totals.bhxh.toLocaleString()}</td>
-                    <td class="text-right" style="color:var(--red);">${totals.bhtn.toLocaleString()}</td>
-                    <td class="text-right">${totals.lcv_tt.toLocaleString()}</td>
-                    <td class="text-right">${totals.an_ca.toLocaleString()}</td>
-                    <td class="text-right">${totals.tam_ung.toLocaleString()}</td>
-                    <td class="text-right" style="color:var(--green); font-size:13px;">${totals.net.toLocaleString()} đ</td>
+                    <td>--</td><td>--</td>
+                    <td class="text-right">${sums.hdld.toLocaleString()}</td>
+                    <td class="text-right">${sums.lcb_goc.toLocaleString()}</td>
+                    <td>--</td><td>--</td><td>--</td>
+                    <td class="text-right">${sums.l_tg.toLocaleString()}</td>
+                    <td class="text-right">${sums.l_lp.toLocaleString()}</td>
+                    <td class="text-right">${sums.tong_lcb.toLocaleString()}</td>
+                    <td class="text-right" style="color:#b91c1c;">${sums.bh.toLocaleString()}</td>
+                    <td class="text-right" style="color:#1d4ed8;">${sums.tl_cb.toLocaleString()}</td>
+                    <td>--</td><td>--</td><td>--</td>
+                    <td class="text-right">${sums.lcv_goc.toLocaleString()}</td>
+                    <td class="text-right">${sums.lcv_tt.toLocaleString()}</td>
+                    <td class="text-right">${sums.an_ca.toLocaleString()}</td>
+                    <td class="text-right">${sums.doc_hai.toLocaleString()}</td>
+                    <td class="text-right">${sums.tam_ung.toLocaleString()}</td>
+                    <td class="text-right">${sums.pctt.toLocaleString()}</td>
+                    <td class="text-right">${sums.tru_ung.toLocaleString()}</td>
+                    <td class="text-right">${sums.tl_cv.toLocaleString()}</td>
+                    <td class="text-right font-bold" style="color:#047857; font-size:12px;">${sums.tong_net.toLocaleString()}</td>
                 </tr>
             `;
         }
 
-        function exportMasterExcel() {
-            alert("Đã cập nhật tính năng xuất Excel trực tiếp từ trình duyệt!");
-        }
-
-        function exportBankExcel() {
-            alert("Đã xuất thành công bảng kê chuyển khoản ngân hàng!");
-        }
-
-        function processImportedExcel() {
-            alert("Đã nạp bảng chấm công và cập nhật ngày công thành công!");
+        // XUẤT EXCEL TỪ BẢNG DỮ LIỆU
+        function exportExcel() {
+            let wb = XLSX.utils.table_to_book(document.getElementById('salaryTable'), {sheet: "Luong_Van_Phong"});
+            XLSX.writeFile(wb, "BANG_LUONG_TONG_HOP_VINAPACO.xlsx");
         }
     </script>
 </body>
