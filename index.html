@@ -617,7 +617,7 @@
                 </div>
             </div>
 
-            <!-- TAB 3: CƯỚC VIỄN THÔNG & INTERNET -->
+            <!-- TAB 3: CƯỚC VIỄN THÔNG & INTERNET (ĐÃ TỐI ƯU ĐỘ RỘNG CÁC Ô KHÔNG BỊ TRÀN CHỮ) -->
             <div id="tab-telecom" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--orange);">
@@ -626,8 +626,10 @@
                     </div>
                     <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
                         <input type="hidden" id="edit-telecom-index" value="-1">
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-bottom: 10px; align-items: end;">
-                            <div class="form-group">
+                        
+                        <!-- Cấu trúc grid co giãn thông minh, linh hoạt cho từng ô -->
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; margin-bottom: 10px; align-items: end;">
+                            <div class="form-group" style="grid-column: span 2;">
                                 <label style="color: #c2410c;">Điểm kết nối</label>
                                 <input type="text" id="tele-location" value="Tổng công ty Giấy Việt Nam" style="border-color: #fdba74;">
                             </div>
@@ -648,7 +650,6 @@
                                 <label style="color: #c2410c;">Mã CID / Tuyến</label>
                                 <input type="text" id="tele-cid" value="PTO-02-0066479" style="border-color: #fdba74;">
                             </div>
-                            
                             <div class="form-group">
                                 <label style="color: #c2410c;"><i class="fa-solid fa-calculator"></i> Phương thức thuế:</label>
                                 <select id="tele-tax-mode" onchange="calculateTelecomTotal()" style="border-color: #fdba74; background: #fffbeb;">
@@ -685,6 +686,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div style="display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; border-top: 1px dashed #fdba74; padding-top: 8px;">
                             <div style="display: flex; gap: 8px; align-items: center; flex: 1; flex-wrap: wrap;">
                                 <label style="font-weight: bold; color: #c2410c; white-space: nowrap;"><i class="fa-solid fa-file-arrow-up"></i> Hóa đơn:</label>
@@ -1879,7 +1881,6 @@
                 uploadedFiles = [...paymentRecordsByMonth[sm][editIndex].files];
             }
 
-            // Nếu không có tệp đính kèm, đường dẫn mở thư mục sẽ trỏ chuẩn xác về thư mục gốc hoặc theo năm tương ứng
             let folderUrl = ROOT_DRIVE_FOLDER_URL;
 
             if (fileInput.files.length > 0) {
@@ -1997,7 +1998,6 @@
                         let displayUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : (rec.amount / q);
                         let mNum = (dParts.length >= 2) ? dParts[1] : sm.split('-')[1];
                         
-                        // Nếu không có tệp đính kèm hoặc không có folderUrl riêng, trỏ thẳng về thư mục gốc
                         let targetFolderUrl = (rec.files && rec.files.length > 0) ? rec.folderUrl : ROOT_DRIVE_FOLDER_URL;
                         let folderLinkHtml = `<a href="${targetFolderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Thư mục N.${recYear}</a>`;
 
@@ -2063,7 +2063,6 @@
                 uploadedFiles = [...telecomRecordsByMonth[sm][editIndex].files];
             }
 
-            // Nếu không có tệp đính kèm, trỏ về thư mục gốc
             let folderUrl = ROOT_DRIVE_FOLDER_URL;
 
             if (fileInput.files.length > 0) {
@@ -2172,7 +2171,6 @@
                         let tAmt = rec.taxAmt !== undefined ? rec.taxAmt : (baseA * tRate / 100);
                         let mNum = (dParts.length >= 2) ? dParts[1] : sm.split('-')[1];
 
-                        // Nếu không có tệp đính kèm, trỏ về thư mục gốc
                         let targetFolderUrl = (rec.files && rec.files.length > 0) ? rec.folderUrl : ROOT_DRIVE_FOLDER_URL;
                         let folderLinkHtml = `<a href="${targetFolderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Thư mục N.${recYear}</a>`;
 
