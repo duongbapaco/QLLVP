@@ -10,7 +10,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Thêm Chart.js DataLabels Plugin để hiển thị số liệu % trực tiếp trên biểu đồ tròn -->
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
@@ -273,9 +272,7 @@
                         <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục Gốc Drive</a>
                     </div>
                     
-                    <!-- Lưới 2 biểu đồ tổng hợp chung: Biểu đồ tỷ trọng (hiện % số liệu) & Biểu đồ cột chung -->
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 15px; margin-bottom: 15px;">
-                        <!-- Biểu đồ 1: Tỷ trọng phân bổ tổng quan chung có hiển thị số liệu phần trăm trực tiếp -->
                         <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 14px; border-radius: 8px;">
                             <div style="font-weight: bold; font-size: 13.5px; color: var(--primary); margin-bottom: 8px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px;">
                                 <i class="fa-solid fa-chart-pie" style="color:var(--blue);"></i> BIỂU ĐỒ TỶ TRỌNG TỔNG QUAN CHUNG TÀI CHÍNH (%)
@@ -285,7 +282,6 @@
                             </div>
                         </div>
 
-                        <!-- Biểu đồ 2: Biểu đồ cột chung (Thanh toán VP, Cước Viễn thông, Tiền lương thực lĩnh) -->
                         <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 14px; border-radius: 8px;">
                             <div style="font-weight: bold; font-size: 13.5px; color: var(--primary); margin-bottom: 8px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px;">
                                 <i class="fa-solid fa-chart-column" style="color:var(--green);"></i> BIỂU ĐỒ CỘT CHUNG: THANH TOÁN, CƯỚC & LƯƠNG
@@ -621,7 +617,7 @@
                 </div>
             </div>
 
-            <!-- TAB 3: CƯỚC VIỄN THÔNG & INTERNET -->
+            <!-- TAB 3: CƯỚC VIỄN THÔNG & INTERNET (TÍCH HỢP TÍNH THUẾ XUÔI & NGƯỢC THÔNG MINH) -->
             <div id="tab-telecom" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--orange);">
@@ -652,9 +648,14 @@
                                 <label style="color: #c2410c;">Mã CID / Tuyến</label>
                                 <input type="text" id="tele-cid" value="PTO-02-0066479" style="border-color: #fdba74;">
                             </div>
+                            
+                            <!-- Bổ sung cấu hình phương thức tính thuế xuôi/ngược thông minh cho Cước Viễn Thông -->
                             <div class="form-group">
-                                <label style="color: #c2410c;">Cước chưa thuế</label>
-                                <input type="text" id="tele-amount-base" value="30.014.155" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="calculateTelecomTotal()" style="border-color: #fdba74; text-align: right;">
+                                <label style="color: #c2410c;"><i class="fa-solid fa-calculator"></i> Phương thức thuế:</label>
+                                <select id="tele-tax-mode" onchange="calculateTelecomTotal()" style="border-color: #fdba74; background: #fffbeb;">
+                                    <option value="add" selected>Tính Thuận (Cộng thuế vào gốc)</option>
+                                    <option value="extract">Tính Ngược (Tách thuế từ tổng)</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label style="color: #c2410c;">Thuế suất GTGT</label>
@@ -666,12 +667,16 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label style="color: #c2410c;">Tiền thuế</label>
+                                <label style="color: #c2410c;" id="tele-lbl-amount-base">Cước chưa thuế</label>
+                                <input type="text" id="tele-amount-base" value="30.014.155" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="calculateTelecomTotal()" style="border-color: #fdba74; text-align: right;">
+                            </div>
+                            <div class="form-group">
+                                <label style="color: #c2410c;">Tiền thuế GTGT</label>
                                 <input type="text" id="tele-tax-amt" value="3.001.416" readonly style="border-color: #fdba74; text-align: right; background: #fff; font-weight: bold;">
                             </div>
                             <div class="form-group">
-                                <label style="color: #c2410c;">Tổng cước (Đã thuế)</label>
-                                <input type="text" id="tele-amount" value="33.015.571" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" style="border-color: #fdba74; text-align: right; background: #fef3c7; font-weight: 800; color: #b45309;">
+                                <label style="color: #c2410c;" id="tele-lbl-amount-total">Tổng cước (Đã thuế)</label>
+                                <input type="text" id="tele-amount" value="33.015.571" onfocus="handleMoneyFocus(this)" onblur="handleMoneyBlur(this)" oninput="calculateTelecomTotalFromTotal()" style="border-color: #fdba74; text-align: right; background: #fef3c7; font-weight: 800; color: #b45309;">
                             </div>
                             <div class="form-group">
                                 <label style="color: #c2410c;"><i class="fa-solid fa-calendar-days"></i> Kỳ cước:</label>
@@ -1372,16 +1377,49 @@
             document.getElementById('pay-amount').value = formatCurrencyVN(baseSubtotal + taxAmount);
         }
 
+        // TÍNH THUẾ CƯỚC VIỄN THÔNG THÔNG MINH (HỖ TRỢ CẢ XUÔI & NGƯỢC)
         function calculateTelecomTotal() {
-            let baseAmount = parseCurrencyVN(document.getElementById('tele-amount-base').value);
+            let mode = document.getElementById('tele-tax-mode').value;
             let taxRate = parseFloat(document.getElementById('tele-tax-rate').value) || 0;
-            let taxAmt = Math.round(baseAmount * (taxRate / 100));
-            let totalAmt = baseAmount + taxAmt;
-            document.getElementById('tele-tax-amt').value = formatCurrencyVN(taxAmt);
-            document.getElementById('tele-amount').value = formatCurrencyVN(totalAmt);
+            let baseInput = document.getElementById('tele-amount-base');
+            let totalInput = document.getElementById('tele-amount');
+            let taxInput = document.getElementById('tele-tax-amt');
+
+            let baseAmount = parseCurrencyVN(baseInput.value);
+            let totalAmount = parseCurrencyVN(totalInput.value);
+            let taxAmt = 0;
+
+            if (mode === 'add') {
+                // Chiều Xuôi: Nhập cước chưa thuế -> Tính ra thuế và tổng cước
+                taxAmt = Math.round(baseAmount * (taxRate / 100));
+                totalAmount = baseAmount + taxAmt;
+                totalInput.value = formatCurrencyVN(totalAmount);
+            } else {
+                // Chiều Ngược: Nhập tổng cước (đã gồm thuế) -> Tách ra cước gốc và thuế
+                let base = totalAmount / (1 + taxRate / 100);
+                taxAmt = Math.round(totalAmount - base);
+                baseAmount = Math.round(base);
+                baseInput.value = formatCurrencyVN(baseAmount);
+            }
+            taxInput.value = formatCurrencyVN(taxAmt);
         }
 
-        // Hàm render biểu đồ tích hợp, biểu đồ tròn có cấu hình plugin datalabels hiển thị số liệu phần trăm (%) chính xác
+        // Khi người dùng trực tiếp sửa ô Tổng cước ở chế độ Ngược hoặc muốn tính ngược tự động
+        function calculateTelecomTotalFromTotal() {
+            let mode = document.getElementById('tele-tax-mode').value;
+            if (mode === 'extract') {
+                calculateTelecomTotal();
+            } else {
+                // Nếu đang ở mode add mà sửa tổng cước thì tạm thời suy ra thuế ngược lại
+                let totalAmount = parseCurrencyVN(document.getElementById('tele-amount').value);
+                let taxRate = parseFloat(document.getElementById('tele-tax-rate').value) || 0;
+                let base = totalAmount / (1 + taxRate / 100);
+                let taxAmt = Math.round(totalAmount - base);
+                document.getElementById('tele-amount-base').value = formatCurrencyVN(Math.round(base));
+                document.getElementById('tele-tax-amt').value = formatCurrencyVN(taxAmt);
+            }
+        }
+
         function renderCombinedDashboardCharts(netPay, paidPay, telecomPay, totalTax) {
             const ctxPie = document.getElementById('combinedPieChart');
             if (ctxPie) {
@@ -1401,7 +1439,6 @@
                         maintainAspectRatio: false,
                         plugins: {
                             legend: { position: 'bottom', labels: { font: { family: 'Times New Roman', size: 11 } } },
-                            // Cấu hình datalabels hiển thị tỷ lệ % trực tiếp trên biểu đồ tròn
                             datalabels: {
                                 color: '#ffffff',
                                 font: { weight: 'bold', size: 12, family: 'Times New Roman' },
@@ -1728,7 +1765,6 @@
             }
         }
 
-        /* --- HỒ SƠ THANH TOÁN (MỞ ĐÚNG THƯ MỤC THÁNG ĐỂ XEM VÀ ĐÓNG TỆP DỄ DÀNG) --- */
         async function addNewPaymentRecord() {
             let sm = document.getElementById('filter-month').value;
             let parts = sm.split('-');
@@ -1872,7 +1908,6 @@
                         let q = rec.qty || 1, u = rec.unit || 'Cái';
                         let displayUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : (rec.amount / q);
                         
-                        // Sử dụng thuộc tính target="_blank" rel="noopener noreferrer" để mở đúng tệp/thư mục tháng trên tab mới, xem xong dễ dàng đóng lại
                         let folderLinkHtml = `<span style="color:#64748b; font-style:italic;">Không có</span>`;
                         if (rec.files && rec.files.length > 0) {
                             let folderUrl = rec.folderUrl || `https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi`;
@@ -1912,7 +1947,6 @@
             }
         }
 
-        /* --- CƯỚC VIỄN THÔNG (MỞ ĐÚNG THƯ MỤC THÁNG ĐỂ XEM VÀ ĐÓNG TỆP) --- */
         async function addNewTelecomRecord() {
             let sm = document.getElementById('filter-month').value;
             let parts = sm.split('-');
@@ -1925,6 +1959,7 @@
             let provider = document.getElementById('tele-provider').value;
             let bandwidth = document.getElementById('tele-bandwidth').value.trim();
             let cid = document.getElementById('tele-cid').value.trim();
+            let taxMode = document.getElementById('tele-tax-mode').value;
             let amountBase = parseCurrencyVN(document.getElementById('tele-amount-base').value);
             let taxRate = parseFloat(document.getElementById('tele-tax-rate').value) || 0;
             let taxAmt = parseCurrencyVN(document.getElementById('tele-tax-amt').value);
@@ -1982,7 +2017,7 @@
                 setTimeout(() => { progressContainer.style.display = "none"; progressFill.style.width = "0%"; }, 3000);
             }
 
-            let telecomObj = { location, provider, bandwidth, cid, amountBase, taxRate, taxAmt, amount, period, folderUrl, files: uploadedFiles };
+            let telecomObj = { location, provider, bandwidth, cid, taxMode, amountBase, taxRate, taxAmt, amount, period, folderUrl, files: uploadedFiles };
 
             if (editIndex >= 0) {
                 telecomRecordsByMonth[sm][editIndex] = telecomObj;
@@ -2006,6 +2041,7 @@
             document.getElementById('tele-provider').value = rec.provider || "VNPT";
             document.getElementById('tele-bandwidth').value = rec.bandwidth || "";
             document.getElementById('tele-cid').value = rec.cid || "";
+            document.getElementById('tele-tax-mode').value = rec.taxMode || "add";
             document.getElementById('tele-amount-base').value = formatCurrencyVN(rec.amountBase || rec.amount || 0);
             document.getElementById('tele-tax-rate').value = rec.taxRate !== undefined ? rec.taxRate : 10;
             document.getElementById('tele-tax-amt').value = formatCurrencyVN(rec.taxAmt || 0);
@@ -2019,6 +2055,7 @@
 
         function cancelEditTelecom() {
             document.getElementById('edit-telecom-index').value = "-1";
+            document.getElementById('tele-tax-mode').value = "add";
             document.getElementById('tele-amount-base').value = "30.014.155";
             document.getElementById('tele-tax-rate').value = "10";
             calculateTelecomTotal();
@@ -2476,7 +2513,6 @@
             renderItAssetTable();
         }
 
-        /* --- MODULE KHO MỰC IN --- */
         function openAddInkModal() {
             document.getElementById('edit-ink-index').value = "-1";
             document.getElementById('ink-model').value = "";
