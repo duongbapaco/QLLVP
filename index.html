@@ -8,7 +8,6 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -738,148 +737,130 @@
                     <div class="card-title" style="border-left-color: var(--purple);">
                         <span><i class="fa-solid fa-laptop" style="color:var(--purple);"></i> QUẢN LÝ TÀI SẢN & KIỂM KÊ CNTT (<span class="lbl-current-year">2026</span>)</span>
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 260px; gap: 10px; background: #faf5ff; border: 1.5px solid #d8b4fe; padding: 10px; border-radius: 6px; margin-bottom: 10px; align-items: start;">
-                        <div>
-                            <input type="hidden" id="edit-it-index" value="-1">
-                            <div class="grid-form" style="margin-bottom: 6px;">
-                                <div class="form-group">
-                                    <label style="color: #6d28d9;">Người sử dụng <span style="color:var(--red);">*</span></label>
-                                    <input type="text" id="it-user" value="Nguyễn Văn An" placeholder="Họ và tên..." style="border-color: #d8b4fe;" oninput="updateLiveQRPreview()">
-                                </div>
-                                <div class="form-group">
-                                    <label style="color: #6d28d9;">Phòng ban/Bộ phận <span style="color:var(--red);">*</span></label>
-                                    <input type="text" id="it-dept" value="Phòng Kỹ thuật - Công nghệ" placeholder="Phòng ban..." style="border-color: #d8b4fe;" oninput="updateLiveQRPreview()">
-                                </div>
-                                <div class="form-group">
-                                    <label style="color: #6d28d9;">Loại thiết bị / Tài sản</label>
-                                    <select id="it-type" style="border-color: #d8b4fe;" onchange="generateNewItCode()">
-                                        <option value="Laptop Doanh Nghiệp" selected>Laptop Doanh Nghiệp</option>
-                                        <option value="Máy tính để bàn (PC Workstation)">Máy tính để bàn (PC Workstation)</option>
-                                        <option value="Máy in Laser / Phun">Máy in Laser / Phun</option>
-                                        <option value="Máy photocopy văn phòng">Máy photocopy văn phòng</option>
-                                        <option value="Máy chiếu (Projector)">Máy chiếu (Projector)</option>
-                                        <option value="Thiết bị mạng (Switch/Router)">Thiết bị mạng (Switch/Router)</option>
-                                        <option value="Camera giám sát an ninh">Camera giám sát an ninh</option>
-                                        <option value="Thiết bị lưu trữ NAS / Server">Thiết bị lưu trữ NAS / Server</option>
-                                        <option value="Tài sản / Thiết bị khác">Tài sản / Thiết bị khác (Mở rộng)</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label style="color: #6d28d9; display:flex; justify-content:space-between; align-items:center;">
-                                        <span>Mã định danh (Tự sinh)</span>
-                                        <button type="button" onclick="generateNewItCode()" style="background:none; border:none; color:var(--purple); cursor:pointer; font-size:11px; font-weight:bold;"><i class="fa-solid fa-rotate"></i> Tạo mới</button>
-                                    </label>
-                                    <input type="text" id="it-code" readonly style="border-color: #d8b4fe; background:#f3e8ff; font-weight:bold; color:var(--purple);" oninput="updateLiveQRPreview()">
-                                </div>
+                    <div style="background: #faf5ff; border: 1.5px solid #d8b4fe; padding: 10px; border-radius: 6px; margin-bottom: 10px;">
+                        <input type="hidden" id="edit-it-index" value="-1">
+                        <div class="grid-form" style="margin-bottom: 6px;">
+                            <div class="form-group">
+                                <label style="color: #6d28d9;">Người sử dụng <span style="color:var(--red);">*</span></label>
+                                <input type="text" id="it-user" value="Nguyễn Văn An" placeholder="Họ và tên..." style="border-color: #d8b4fe;">
                             </div>
-                            
-                            <div class="grid-form" style="margin-bottom: 6px;">
-                                <div class="form-group">
-                                    <label style="color: #6d28d9;">Hệ điều hành</label>
-                                    <select id="it-os" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
-                                        <option value="Windows 11 Pro" selected>Windows 11 Pro</option>
-                                        <option value="Windows 11 Home">Windows 11 Home</option>
-                                        <option value="Windows 10 Pro">Windows 10 Pro</option>
-                                        <option value="Windows 10 Home">Windows 10 Home</option>
-                                        <option value="Windows 8 / 8.1 Pro">Windows 8 / 8.1 Pro</option>
-                                        <option value="Windows 7 Ultimate / Pro">Windows 7 Ultimate / Pro</option>
-                                        <option value="macOS (Apple)">macOS (Apple)</option>
-                                        <option value="Linux / Ubuntu">Linux / Ubuntu</option>
-                                        <option value="Không yêu cầu / Khác">Không yêu cầu / Khác</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label style="color: #6d28d9;">Bản quyền HĐH</label>
-                                    <select id="it-os-lic" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
-                                        <option value="Đã có bản quyền chính hãng" selected>Đã có bản quyền chính hãng</option>
-                                        <option value="⚠️ Chưa có bản quyền">⚠️ Chưa có bản quyền</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label style="color: #6d28d9;">Bộ Microsoft Office</label>
-                                    <select id="it-office" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
-                                        <option value="Microsoft 365 (M365) Business" selected>Microsoft 365 Business</option>
-                                        <option value="Office Professional Plus 2026">Office Pro Plus 2026</option>
-                                        <option value="Office Professional Plus 2021">Office Pro Plus 2021</option>
-                                        <option value="Office Professional Plus 2019">Office Pro Plus 2019</option>
-                                        <option value="Office Professional Plus 2016">Office Pro Plus 2016</option>
-                                        <option value="Office Professional Plus 2010">Office Pro Plus 2010</option>
-                                        <option value="Office Professional 2013">Office Professional 2013</option>
-                                        <option value="Office Enterprise 2007">Office Enterprise 2007</option>
-                                        <option value="LibreOffice / WPS Miễn phí">LibreOffice / WPS Miễn phí</option>
-                                        <option value="Không sử dụng Office">Không sử dụng Office</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label style="color: #6d28d9;">Bản quyền Office</label>
-                                    <select id="it-office-lic" style="border-color: #d8b4fe;" onchange="updateLiveQRPreview()">
-                                        <option value="Đã có bản quyền chính hãng" selected>Đã có bản quyền chính hãng</option>
-                                        <option value="⚠️ Chưa có bản quyền">⚠️ Chưa có bản quyền</option>
-                                    </select>
-                                </div>
+                            <div class="form-group">
+                                <label style="color: #6d28d9;">Phòng ban/Bộ phận <span style="color:var(--red);">*</span></label>
+                                <input type="text" id="it-dept" value="Phòng Kỹ thuật - Công nghệ" placeholder="Phòng ban..." style="border-color: #d8b4fe;">
                             </div>
-
-                            <div style="background: #ffffff; border: 1.5px solid #d8b4fe; padding: 8px; border-radius: 6px; margin-bottom: 6px;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                                    <label style="color: #6d28d9; font-weight: bold; font-size: 12px;">
-                                        <i class="fa-solid fa-cubes"></i> Phần mềm nghiệp vụ & Thiết kế chuyên sâu:
-                                    </label>
-                                    <span id="selected-software-counter" style="font-size: 10.5px; font-weight: bold; color: var(--blue);">Đã chọn: 0 phần mềm</span>
-                                </div>
-                                <div style="position: relative;">
-                                    <div id="software-dropdown-btn" onclick="toggleSoftwareDropdown()" style="padding: 7px 8px; border: 1.5px solid #d8b4fe; border-radius: 4px; background: #fdfcff; cursor: pointer; font-size: 12.5px; font-weight: bold; color: #475569; display: flex; justify-content: space-between; align-items: center;">
-                                        <span id="software-dropdown-label">-- Bấm để chọn phần mềm & bản quyền --</span>
-                                        <i class="fa-solid fa-chevron-down"></i>
-                                    </div>
-                                    <div id="software-dropdown-popup" style="display: none; position: absolute; top: 105%; left: 0; width: 100%; background: white; border: 2px solid #d8b4fe; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); z-index: 999; max-height: 220px; overflow-y: auto; padding: 6px;">
-                                        <div style="font-size: 10.5px; font-style: italic; color: #64748b; margin-bottom: 5px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 3px;">Chọn phần mềm và loại bản quyền kèm theo:</div>
-                                        <div id="software-checkbox-container" style="display: flex; flex-direction: column; gap: 5px;"></div>
-                                        <div style="text-align: right; margin-top: 6px; border-top: 1px solid #cbd5e1; padding-top: 5px;">
-                                            <button type="button" class="btn btn-purple" style="padding: 4px 10px; font-size: 11px; min-height: 26px;" onclick="toggleSoftwareDropdown()">Xong</button>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="form-group">
+                                <label style="color: #6d28d9;">Loại thiết bị / Tài sản</label>
+                                <select id="it-type" style="border-color: #d8b4fe;" onchange="generateNewItCode()">
+                                    <option value="Laptop Doanh Nghiệp" selected>Laptop Doanh Nghiệp</option>
+                                    <option value="Máy tính để bàn (PC Workstation)">Máy tính để bàn (PC Workstation)</option>
+                                    <option value="Máy in Laser / Phun">Máy in Laser / Phun</option>
+                                    <option value="Máy photocopy văn phòng">Máy photocopy văn phòng</option>
+                                    <option value="Máy chiếu (Projector)">Máy chiếu (Projector)</option>
+                                    <option value="Thiết bị mạng (Switch/Router)">Thiết bị mạng (Switch/Router)</option>
+                                    <option value="Camera giám sát an ninh">Camera giám sát an ninh</option>
+                                    <option value="Thiết bị lưu trữ NAS / Server">Thiết bị lưu trữ NAS / Server</option>
+                                    <option value="Tài sản / Thiết bị khác">Tài sản / Thiết bị khác (Mở rộng)</option>
+                                </select>
                             </div>
-
-                            <div class="grid-form" style="margin-bottom: 6px;">
-                                <div class="form-group" style="grid-column: span 2;">
-                                    <label style="color: #6d28d9;">Thông số cấu hình phần cứng</label>
-                                    <input type="text" id="it-specs" value="Dell Latitude, Core i5, 16GB RAM, 512GB SSD" style="border-color: #d8b4fe;">
-                                </div>
-                                <div class="form-group">
-                                    <label style="color: #6d28d9;">Ngày bàn giao</label>
-                                    <input type="date" id="it-date" style="border-color: #d8b4fe;">
-                                </div>
-                                <div class="form-group">
-                                    <label style="color: #6d28d9;">Trạng thái thiết bị</label>
-                                    <select id="it-status" style="border-color: #d8b4fe;">
-                                        <option value="Tốt - Đang sử dụng">Tốt - Đang sử dụng</option>
-                                        <option value="Đang sửa chữa / Bảo trì">Đang sửa chữa / Bảo trì</option>
-                                        <option value="Thanh lý / Dự trữ kho">Thanh lý / Dự trữ kho</option>
-                                    </select>
-                                </div>
+                            <div class="form-group">
+                                <label style="color: #6d28d9; display:flex; justify-content:space-between; align-items:center;">
+                                    <span>Mã định danh (Tự sinh)</span>
+                                    <button type="button" onclick="generateNewItCode()" style="background:none; border:none; color:var(--purple); cursor:pointer; font-size:11px; font-weight:bold;"><i class="fa-solid fa-rotate"></i> Tạo mới</button>
+                                </label>
+                                <input type="text" id="it-code" readonly style="border-color: #d8b4fe; background:#f3e8ff; font-weight:bold; color:var(--purple);">
                             </div>
-                            <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-                                <button type="button" class="btn btn-gray" id="btn-cancel-edit-it" style="display:none;" onclick="cancelEditItAsset()"><i class="fa-solid fa-xmark"></i> Hủy</button>
-                                <button type="button" class="btn btn-purple" id="btn-save-it" onclick="addNewItAssetRecord()"><i class="fa-solid fa-qrcode"></i> Lưu Tài Sản & Tạo QR</button>
-                                <button type="button" class="btn btn-gray" onclick="clearItAssetForm()"><i class="fa-solid fa-rotate-left"></i> Làm mới</button>
+                        </div>
+                        
+                        <div class="grid-form" style="margin-bottom: 6px;">
+                            <div class="form-group">
+                                <label style="color: #6d28d9;">Hệ điều hành</label>
+                                <select id="it-os" style="border-color: #d8b4fe;">
+                                    <option value="Windows 11 Pro" selected>Windows 11 Pro</option>
+                                    <option value="Windows 11 Home">Windows 11 Home</option>
+                                    <option value="Windows 10 Pro">Windows 10 Pro</option>
+                                    <option value="Windows 10 Home">Windows 10 Home</option>
+                                    <option value="Windows 8 / 8.1 Pro">Windows 8 / 8.1 Pro</option>
+                                    <option value="Windows 7 Ultimate / Pro">Windows 7 Ultimate / Pro</option>
+                                    <option value="macOS (Apple)">macOS (Apple)</option>
+                                    <option value="Linux / Ubuntu">Linux / Ubuntu</option>
+                                    <option value="Không yêu cầu / Khác">Không yêu cầu / Khác</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label style="color: #6d28d9;">Bản quyền HĐH</label>
+                                <select id="it-os-lic" style="border-color: #d8b4fe;">
+                                    <option value="Đã có bản quyền chính hãng" selected>Đã có bản quyền chính hãng</option>
+                                    <option value="⚠️ Chưa có bản quyền">⚠️ Chưa có bản quyền</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label style="color: #6d28d9;">Bộ Microsoft Office</label>
+                                <select id="it-office" style="border-color: #d8b4fe;">
+                                    <option value="Microsoft 365 (M365) Business" selected>Microsoft 365 Business</option>
+                                    <option value="Office Professional Plus 2026">Office Pro Plus 2026</option>
+                                    <option value="Office Professional Plus 2021">Office Pro Plus 2021</option>
+                                    <option value="Office Professional Plus 2019">Office Pro Plus 2019</option>
+                                    <option value="Office Professional Plus 2016">Office Pro Plus 2016</option>
+                                    <option value="Office Professional Plus 2010">Office Pro Plus 2010</option>
+                                    <option value="Office Professional 2013">Office Professional 2013</option>
+                                    <option value="Office Enterprise 2007">Office Enterprise 2007</option>
+                                    <option value="LibreOffice / WPS Miễn phí">LibreOffice / WPS Miễn phí</option>
+                                    <option value="Không sử dụng Office">Không sử dụng Office</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label style="color: #6d28d9;">Bản quyền Office</label>
+                                <select id="it-office-lic" style="border-color: #d8b4fe;">
+                                    <option value="Đã có bản quyền chính hãng" selected>Đã có bản quyền chính hãng</option>
+                                    <option value="⚠️ Chưa có bản quyền">⚠️ Chưa có bản quyền</option>
+                                </select>
                             </div>
                         </div>
 
-                        <div style="border: 2px dashed var(--purple); border-radius: 6px; background: white; padding: 8px; display: flex; flex-direction: column; align-items: center; justify-content: space-between;">
-                            <div style="font-weight: bold; color: var(--purple); font-size: 12px; text-align: center; border-bottom: 1px solid #e2e8f0; width: 100%; padding-bottom: 3px;"><i class="fa-solid fa-qrcode"></i> 📱 TEM QR TRỰC TIẾP</div>
-                            <div style="text-align: center; width: 100%;">
-                                <div style="font-size: 11px; font-weight: bold; color: #0f172a; margin-bottom: 2px;">VINAPACO IT ASSET</div>
-                                <div style="display: flex; justify-content: center; margin: 3px 0; cursor: pointer;" onclick="openLargeQrModalFromPreview()">
-                                    <canvas id="live-qrcode-canvas"></canvas>
+                        <div style="background: #ffffff; border: 1.5px solid #d8b4fe; padding: 8px; border-radius: 6px; margin-bottom: 6px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                <label style="color: #6d28d9; font-weight: bold; font-size: 12px;">
+                                    <i class="fa-solid fa-cubes"></i> Phần mềm nghiệp vụ & Thiết kế chuyên sâu:
+                                </label>
+                                <span id="selected-software-counter" style="font-size: 10.5px; font-weight: bold; color: var(--blue);">Đã chọn: 0 phần mềm</span>
+                            </div>
+                            <div style="position: relative;">
+                                <div id="software-dropdown-btn" onclick="toggleSoftwareDropdown()" style="padding: 7px 8px; border: 1.5px solid #d8b4fe; border-radius: 4px; background: #fdfcff; cursor: pointer; font-size: 12.5px; font-weight: bold; color: #475569; display: flex; justify-content: space-between; align-items: center;">
+                                    <span id="software-dropdown-label">-- Bấm để chọn phần mềm & bản quyền --</span>
+                                    <i class="fa-solid fa-chevron-down"></i>
                                 </div>
-                                <div style="font-size: 9.5px; color: var(--blue); font-style: italic;">(Bấm vào mã QR để phóng to)</div>
+                                <div id="software-dropdown-popup" style="display: none; position: absolute; top: 105%; left: 0; width: 100%; background: white; border: 2px solid #d8b4fe; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); z-index: 999; max-height: 220px; overflow-y: auto; padding: 6px;">
+                                    <div style="font-size: 10.5px; font-style: italic; color: #64748b; margin-bottom: 5px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 3px;">Chọn phần mềm và loại bản quyền kèm theo:</div>
+                                    <div id="software-checkbox-container" style="display: flex; flex-direction: column; gap: 5px;"></div>
+                                    <div style="text-align: right; margin-top: 6px; border-top: 1px solid #cbd5e1; padding-top: 5px;">
+                                        <button type="button" class="btn btn-purple" style="padding: 4px 10px; font-size: 11px; min-height: 26px;" onclick="toggleSoftwareDropdown()">Xong</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 4px; padding: 4px; width: 100%; font-size: 10px; line-height: 1.25;">
-                                <div><b>Mã TS:</b> <span id="lbl-qr-code">--</span></div>
-                                <div><b>Người dùng:</b> <span id="lbl-qr-user" style="color:var(--primary);">Nguyễn Văn An</span></div>
-                                <div><b>Bộ phận:</b> <span id="lbl-qr-dept" style="color:var(--primary);">Phòng Kỹ thuật - Công nghệ</span></div>
+                        </div>
+
+                        <div class="grid-form" style="margin-bottom: 6px;">
+                            <div class="form-group" style="grid-column: span 2;">
+                                <label style="color: #6d28d9;">Thông số cấu hình phần cứng</label>
+                                <input type="text" id="it-specs" value="Dell Latitude, Core i5, 16GB RAM, 512GB SSD" style="border-color: #d8b4fe;">
                             </div>
+                            <div class="form-group">
+                                <label style="color: #6d28d9;">Ngày bàn giao</label>
+                                <input type="date" id="it-date" style="border-color: #d8b4fe;">
+                            </div>
+                            <div class="form-group">
+                                <label style="color: #6d28d9;">Trạng thái thiết bị</label>
+                                <select id="it-status" style="border-color: #d8b4fe;">
+                                    <option value="Tốt - Đang sử dụng">Tốt - Đang sử dụng</option>
+                                    <option value="Đang sửa chữa / Bảo trì">Đang sửa chữa / Bảo trì</option>
+                                    <option value="Thanh lý / Dự trữ kho">Thanh lý / Dự trữ kho</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+                            <button type="button" class="btn btn-gray" id="btn-cancel-edit-it" style="display:none;" onclick="cancelEditItAsset()"><i class="fa-solid fa-xmark"></i> Hủy</button>
+                            <button type="button" class="btn btn-purple" id="btn-save-it" onclick="addNewItAssetRecord()"><i class="fa-solid fa-floppy-disk"></i> Lưu Tài Sản</button>
+                            <button type="button" class="btn btn-gray" onclick="clearItAssetForm()"><i class="fa-solid fa-rotate-left"></i> Làm mới</button>
                         </div>
                     </div>
 
@@ -930,7 +911,6 @@
                                     <th>Phòng ban</th>
                                     <th>Ngày bàn giao</th>
                                     <th>Trạng thái</th>
-                                    <th>QR Code</th>
                                     <th style="text-align: center;">Hành động</th>
                                 </tr>
                             </thead>
@@ -1128,25 +1108,6 @@
         </div>
     </div>
 
-    <!-- MODAL HIỂN THỊ & IN MÃ QR PHÓNG TO -->
-    <div id="largeQrModal" class="modal" onclick="closeLargeQrModal()">
-        <div class="modal-content" onclick="event.stopPropagation()" style="max-width:380px; text-align:center; align-items:center;">
-            <div class="card-title" style="border-left-color: var(--purple); font-size: 13.5px; width:100%; justify-content:space-between;">
-                <span><i class="fa-solid fa-qrcode"></i> TEM QR THIẾT BỊ CNTT (QUÉT / IN)</span>
-                <button type="button" onclick="closeLargeQrModal()" style="background:none; border:none; font-size:16px; cursor:pointer; font-weight:bold;">✕</button>
-            </div>
-            <div style="background:#f8fafc; border:2px solid var(--purple); border-radius:8px; padding:12px; margin:8px 0; width:100%; display:flex; flex-direction:column; align-items:center;">
-                <div style="font-weight:bold; font-size:12.5px; color:var(--primary); margin-bottom:5px;">TỔNG CÔNG TY GIẤY VIỆT NAM</div>
-                <canvas id="modal-large-qr-canvas" style="margin:4px 0; background:white; padding:4px; border:1px solid #cbd5e1;"></canvas>
-                <div id="modal-qr-info-text" style="font-size:11.5px; font-weight:bold; color:var(--purple); margin-top:6px; word-break:break-all;"></div>
-            </div>
-            <div style="display:flex; gap:6px; width:100%; justify-content:center; margin-top:4px;">
-                <button type="button" class="btn btn-purple" style="flex:1;" onclick="printLargeQrCode()"><i class="fa-solid fa-print"></i> In Tem QR</button>
-                <button type="button" class="btn btn-gray" onclick="closeLargeQrModal()">Đóng</button>
-            </div>
-        </div>
-    </div>
-
     <!-- MODAL ĐẶT LỊCH SỰ KIỆN -->
     <div id="eventModal" class="modal" onclick="closeEventModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:400px;">
@@ -1257,10 +1218,10 @@
                 html += `
                     <div style="display:flex; align-items:center; justify-content:space-between; background:#faf5ff; padding:4px 6px; border-radius:4px; border:1px solid #e9d5ff; gap:6px;">
                         <label style="font-size:11px; font-weight:bold; color:#581c87; display:flex; align-items:center; gap:5px; cursor:pointer; flex:1;">
-                            <input type="checkbox" class="sw-checkbox" value="${sw}" onchange="updateLiveQRPreview()"> ${sw}
+                            <input type="checkbox" class="sw-checkbox" value="${sw}"> ${sw}
                         </label>
                         ${isNone ? '' : `
-                        <select class="sw-lic-select" style="font-size:10px; padding:2px; border:1px solid #d8b4fe; border-radius:3px; max-width:120px;" onchange="updateLiveQRPreview()">
+                        <select class="sw-lic-select" style="font-size:10px; padding:2px; border:1px solid #d8b4fe; border-radius:3px; max-width:120px;">
                             <option value="Chính hãng" selected>Chính hãng</option>
                             <option value="⚠️ Chưa bản quyền">⚠️ Chưa bản quyền</option>
                         </select>`}
@@ -1797,7 +1758,7 @@
             r++;
 
             let assetData = [
-                [1, "Trang thiết bị & Tài sản CNTT (Laptop, PC, Máy in...)", itCount, "Thiết bị", "Hoạt động tốt / Có tem QR"],
+                [1, "Trang thiết bị & Tài sản CNTT (Laptop, PC, Máy in...)", itCount, "Thiết bị", "Hoạt động tốt / Quản lý chuẩn"],
                 [2, "Hộp mực in tồn kho & cấp phát", inkCount, "Hộp / Lọ", "Quản lý mã mực đầy đủ"]
             ];
 
@@ -2468,7 +2429,6 @@
             let randomNum = Math.floor(100 + Math.random() * 900);
             let code = `${prefix}-${CURRENT_SELECTED_YEAR}-${randomNum}`;
             document.getElementById('it-code').value = code;
-            updateLiveQRPreview();
         }
 
         function getSelectedSoftwareDetails() {
@@ -2497,121 +2457,6 @@
                 else dropdownLbl.innerText = `Đã chọn ${count} phần mềm / tùy chọn`;
             }
             return list;
-        }
-
-        function getStructuredQrText(code, type, user, dept, os, office, softwareArr) {
-            let cleanCode = code || `IT-TS-${CURRENT_SELECTED_YEAR}`;
-            let cleanType = type || "Thiết bị";
-            let cleanUser = user || "Chưa rõ";
-            let cleanDept = dept || "Chưa rõ";
-            let cleanOs = os || "Win";
-            let cleanOffice = office || "Office";
-            
-            let swStr = "Không có";
-            if (softwareArr && softwareArr.length > 0) {
-                swStr = softwareArr.map(s => s.lic ? `${s.name} (${s.lic})` : s.name).join(", ");
-            }
-            
-            return `VINAPACO IT ASSET\n[Mã TS]: ${cleanCode}\n[Loại]: ${cleanType}\n[Người dùng]: ${cleanUser}\n[Bộ phận]: ${cleanDept}\n[HĐH]: ${cleanOs}\n[Office]: ${cleanOffice}\n[Phần mềm]: ${swStr}`;
-        }
-
-        function updateLiveQRPreview() {
-            let user = document.getElementById('it-user').value.trim();
-            let dept = document.getElementById('it-dept').value.trim();
-            let code = document.getElementById('it-code').value.trim() || `IT-LAP-${CURRENT_SELECTED_YEAR}-000`;
-            let type = document.getElementById('it-type').value;
-            let os = document.getElementById('it-os').value;
-            let office = document.getElementById('it-office').value;
-            let selectedSw = getSelectedSoftwareDetails();
-            
-            document.getElementById('lbl-qr-code').innerText = code;
-            let userLbl = document.getElementById('lbl-qr-user');
-            let deptLbl = document.getElementById('lbl-qr-dept');
-
-            if(user) { userLbl.innerText = user; userLbl.style.color = "var(--primary)"; }
-            else { userLbl.innerText = "Chưa nhập"; userLbl.style.color = "var(--red)"; }
-
-            if(dept) { deptLbl.innerText = dept; deptLbl.style.color = "var(--primary)"; }
-            else { deptLbl.innerText = "Chưa nhập"; deptLbl.style.color = "var(--red)"; }
-
-            let qrContent = getStructuredQrText(code, type, user, dept, os, office, selectedSw);
-
-            try {
-                new QRious({
-                    element: document.getElementById('live-qrcode-canvas'),
-                    value: qrContent,
-                    size: 85
-                });
-            } catch (e) {
-                console.error("QR Error:", e);
-            }
-        }
-
-        function openLargeQrModalFromPreview() {
-            let user = document.getElementById('it-user').value.trim();
-            let dept = document.getElementById('it-dept').value.trim();
-            if(!user || !dept) {
-                alert("⚠️ Vui lòng nhập đầy đủ Người sử dụng và Phòng ban để tạo mã QR chuẩn xác!");
-                return;
-            }
-            let code = document.getElementById('it-code').value.trim();
-            let type = document.getElementById('it-type').value;
-            let os = document.getElementById('it-os').value;
-            let office = document.getElementById('it-office').value;
-            let selectedSw = getSelectedSoftwareDetails();
-            let qrText = getStructuredQrText(code, type, user, dept, os, office, selectedSw);
-            openLargeQrModal(qrText, code);
-        }
-
-        function openLargeQrModal(qrText, codeVal) {
-            document.getElementById('modal-qr-info-text').innerText = codeVal;
-            document.getElementById('largeQrModal').style.display = 'flex';
-            try {
-                new QRious({
-                    element: document.getElementById('modal-large-qr-canvas'),
-                    value: qrText,
-                    size: 170
-                });
-            } catch (e) {
-                console.error("Modal QR Error:", e);
-            }
-        }
-
-        function closeLargeQrModal() {
-            document.getElementById('largeQrModal').style.display = 'none';
-        }
-
-        function printLargeQrCode() {
-            let canvas = document.getElementById('modal-large-qr-canvas');
-            let codeText = document.getElementById('modal-qr-info-text').innerText;
-            let dataUrl = canvas.toDataURL();
-
-            let win = window.open('', '_blank');
-            win.document.write(`
-                <html>
-                <head>
-                    <title>In Tem QR - ${codeText}</title>
-                    <style>
-                        body { font-family: 'Times New Roman', Times, serif; text-align: center; padding: 20px; }
-                        .qr-card { border: 2px dashed #000; display: inline-block; padding: 20px; border-radius: 8px; width: 300px; }
-                        h3 { margin: 5px 0; font-size: 16px; text-transform: uppercase; }
-                        p { margin: 8px 0; font-size: 14px; font-weight: bold; }
-                    </style>
-                </head>
-                <body>
-                    <div class="qr-card">
-                        <h3>TỔNG CÔNG TY GIẤY VIỆT NAM</h3>
-                        <div style="font-size:12px; margin-bottom:5px;">QUẢN LÝ THIẾT BỊ CNTT & TÀI SẢN</div>
-                        <img src="${dataUrl}" width="160" height="160">
-                        <p>${codeText}</p>
-                    </div>
-                    <script>
-                        window.onload = function() { window.print(); window.close(); }
-                    <\/script>
-                </body>
-                </html>
-            `);
-            win.document.close();
         }
 
         function addNewItAssetRecord() {
@@ -2708,7 +2553,6 @@
             document.getElementById('it-date').value = rec.dateVal || "";
             document.getElementById('it-status').value = rec.status || "Tốt - Đang sử dụng";
 
-            updateLiveQRPreview();
             document.getElementById('btn-save-it').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Cập Nhật Tài Sản`;
             document.getElementById('btn-cancel-edit-it').style.display = "inline-flex";
             window.scrollTo({ top: 200, behavior: 'smooth' });
@@ -2717,7 +2561,7 @@
         function cancelEditItAsset() {
             document.getElementById('edit-it-index').value = "-1";
             clearItAssetForm();
-            document.getElementById('btn-save-it').innerHTML = `<i class="fa-solid fa-qrcode"></i> Lưu Tài Sản & Tạo QR`;
+            document.getElementById('btn-save-it').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Lưu Tài Sản`;
             document.getElementById('btn-cancel-edit-it').style.display = "none";
         }
 
@@ -2729,7 +2573,7 @@
                 container.querySelectorAll('.sw-checkbox').forEach(c => c.checked = false);
             }
             getSelectedSoftwareDetails();
-            document.getElementById('it-date').value = ""; updateLiveQRPreview(); 
+            document.getElementById('it-date').value = "";
         }
 
         function updateItAssetFilterDropdowns() {
@@ -2776,10 +2620,8 @@
 
             const tbody = document.getElementById('tbody-it-assets'); tbody.innerHTML = "";
             filteredRecords.forEach((rec, idx) => {
-                let canvasId = `qr-canvas-${CURRENT_SELECTED_YEAR}-${idx}`;
                 let swList = rec.selectedSoftware || [];
                 let swDisplay = swList.length === 0 ? "Không có" : swList.map(s => s.lic ? `${s.name} <b style="color:${s.lic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${s.lic}]</b>` : s.name).join("<br>");
-                let qrTextStr = getStructuredQrText(rec.code, rec.type, rec.user, rec.dept, rec.os, rec.office, swList);
                 
                 tbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${idx + 1}</td>
@@ -2793,32 +2635,12 @@
                     <td>${rec.dept}</td>
                     <td class="text-center">${rec.dateVal || '-'}</td>
                     <td><span style="color:var(--green); font-weight:bold;">${rec.status}</span></td>
-                    <td class="text-center" style="cursor:pointer;" title="Bấm để phóng to quét hoặc in" onclick="openLargeQrModal('${qrTextStr.replace(/'/g, "\\'")}', '${rec.code}')">
-                        <canvas id="${canvasId}" style="width:48px; height:48px; display:inline-block; background:white; padding:2px; border:1px solid #cbd5e1; border-radius:4px; pointer-events:none;"></canvas>
-                    </td>
                     <td class="text-center">
                         <button type="button" class="btn-edit" onclick="editItAssetRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
                         <button type="button" class="btn-delete" onclick="deleteItAssetRecord(${idx})"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 </tr>`;
             });
-            
-            setTimeout(() => {
-                filteredRecords.forEach((rec, idx) => {
-                    let canvasEl = document.getElementById(`qr-canvas-${CURRENT_SELECTED_YEAR}-${idx}`);
-                    if (canvasEl) {
-                        try {
-                            new QRious({
-                                element: canvasEl,
-                                value: getStructuredQrText(rec.code, rec.type, rec.user, rec.dept, rec.os, rec.office, rec.selectedSoftware),
-                                size: 48
-                            });
-                        } catch (e) {
-                            console.error("Table QR Error:", e);
-                        }
-                    }
-                });
-            }, 50);
 
             document.getElementById('it-total-count').innerText = `Tổng: ${filteredRecords.length} Thiết bị`;
             updateGlobalDashboardSummary();
