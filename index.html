@@ -8,14 +8,14 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --border-color: #475569;
-            --bg-main: #f1f5f9;
+            --border-color: #334155;
+            --bg-main: #f8fafc;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Times New Roman', Times, serif; font-size: 11px; padding: 6px; background: var(--bg-main); color: #000; }
+        body { font-family: 'Times New Roman', Times, serif; font-size: 11px; padding: 8px; background: #f1f5f9; color: #000; }
 
-        /* CẤU HÌNH CẤP TỔNG CÔNG TY */
-        .config-panel { border: 1.5px solid #0284c7; background: #fff; border-radius: 4px; padding: 6px 10px; margin-bottom: 6px; }
+        /* KHUNG CẤU HÌNH THÔNG SỐ */
+        .config-panel { border: 1.5px solid #0284c7; background: #fff; border-radius: 4px; padding: 6px 10px; margin-bottom: 8px; }
         .config-title { font-weight: bold; color: #0369a1; font-size: 11px; text-transform: uppercase; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
         .config-grid { display: grid; grid-template-columns: 2fr 1.5fr 2fr; gap: 8px; margin-bottom: 6px; }
         .config-box { display: flex; flex-direction: column; gap: 2px; }
@@ -32,22 +32,22 @@
         .btn-blue { background: #2563eb; } .btn-green { background: #16a34a; } .btn-purple { background: #7c3aed; } .btn-orange { background: #ea580c; }
 
         /* THANH KPI TỔNG TIỀN */
-        .kpi-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; background: #fff; padding: 6px 10px; border: 1.5px solid #cbd5e1; border-radius: 4px; margin-bottom: 6px; font-weight: bold; }
-        .kpi-box { display: flex; justify-content: space-between; align-items: center; padding: 4px 8px; border-radius: 3px; border: 1px solid #e2e8f0; }
+        .kpi-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; background: #fff; padding: 6px 10px; border: 1.5px solid #cbd5e1; border-radius: 4px; margin-bottom: 8px; font-weight: bold; }
+        .kpi-box { display: flex; justify-content: space-between; align-items: center; padding: 5px 10px; border-radius: 3px; border: 1px solid #e2e8f0; }
         .kpi-title { font-size: 10px; text-transform: uppercase; }
-        .kpi-val { font-size: 12px; font-weight: bold; }
+        .kpi-val { font-size: 12.5px; font-weight: bold; }
 
-        /* BẢNG LƯƠNG CHÍNH - TỐI ƯU CỘT */
+        /* BẢNG LƯƠNG CHÍNH */
         .table-title-bar { background: #fff; padding: 6px 10px; font-weight: bold; font-size: 12px; color: #0f172a; text-transform: uppercase; border: 1px solid var(--border-color); border-bottom: none; display: flex; justify-content: space-between; align-items: center; }
         
-        .table-responsive { overflow-x: auto; border: 1px solid var(--border-color); background: white; max-height: calc(100vh - 220px); }
-        table { table-layout: fixed; width: 100%; min-width: 1750px; border-collapse: collapse; white-space: nowrap; font-size: 10.5px; }
-        th { border: 1px solid var(--border-color); padding: 4px 2px; text-align: center; font-weight: bold; font-size: 10px; background: #e2e8f0; overflow: hidden; }
-        td { border: 1px solid var(--border-color); padding: 1px 2px; vertical-align: middle; overflow: hidden; text-overflow: ellipsis; }
+        .table-responsive { overflow-x: auto; border: 1px solid var(--border-color); background: white; max-height: calc(100vh - 230px); }
+        table { table-layout: fixed; width: 100%; min-width: 1850px; border-collapse: collapse; white-space: nowrap; font-size: 10.5px; }
+        th { border: 1px solid var(--border-color); padding: 5px 2px; text-align: center; font-weight: bold; font-size: 10px; background: #e2e8f0; overflow: hidden; }
+        td { border: 1px solid var(--border-color); padding: 2px 3px; vertical-align: middle; overflow: hidden; text-overflow: ellipsis; }
 
         .bg-blue-light { background: #dbeafe; } .bg-orange-light { background: #ffedd5; } .bg-yellow-light { background: #fef9c3; } .bg-green-light { background: #dcfce7; }
 
-        /* STYLE Ô INPUT NỘI DÙNG - CÂN ĐỐI KHÔNG TRÀN Ô */
+        /* Ô INPUT THÔNG MINH - KHÔNG TRÀN - CHUẨN ĐỊNH DẠNG */
         input.cell-input { 
             width: 100%; 
             height: 22px;
@@ -60,20 +60,20 @@
             background: #fff; 
         }
         input.cell-input:focus { background: #fef08a; border-color: #d97706; outline: none; }
-        input.cell-input-money { border-color: #f97316; font-weight: 500; }
+        input.cell-money { border-color: #f97316; font-weight: bold; color: #9a3412; }
         input.text-center { text-align: center !important; } 
         input.text-left { text-align: left !important; }
 
         .text-center { text-align: center; } .text-right { text-align: right; } .font-bold { font-weight: bold; }
 
-        /* CHỮ KÝ */
-        .signature-section { display: flex; justify-content: space-between; margin-top: 20px; padding: 0 60px; text-align: center; font-weight: bold; font-size: 11px; }
-        .signature-box { display: flex; flex-direction: column; gap: 40px; }
+        /* SIGNATURE SECTION */
+        .signature-section { display: flex; justify-content: space-between; margin-top: 25px; padding: 0 80px; text-align: center; font-weight: bold; font-size: 11px; }
+        .signature-box { display: flex; flex-direction: column; gap: 45px; }
     </style>
 </head>
 <body>
 
-    <!-- KHUNG CẤU HÌNH -->
+    <!-- KHUNG CẤU HÌNH THÔNG SỐ -->
     <div class="config-panel">
         <div class="config-title"><i class="fa-solid fa-sliders"></i> CẤU HÌNH LƯƠNG THÁNG - NĂM 2026</div>
         
@@ -125,7 +125,7 @@
         </div>
     </div>
 
-    <!-- KPI SUM -->
+    <!-- THANH SUM KPI TỔNG TIỀN -->
     <div class="kpi-bar">
         <div class="kpi-box" style="background:#eff6ff; color:#1d4ed8; border-color:#bfdbfe;">
             <span class="kpi-title"><i class="fa-solid fa-wallet"></i> THỰC LĨNH CB:</span>
@@ -145,7 +145,7 @@
         </div>
     </div>
 
-    <!-- MAIN TABLE -->
+    <!-- MAIN TABLE - ĐƯỢC CHUẨN HÓA ĐỘ RỘNG CỘT THÔNG MINH -->
     <div class="table-title-bar">
         <span id="txt-report-title"><i class="fa-solid fa-table-list"></i> BẢNG LƯƠNG TỔNG HỢP THÁNG 07/2026</span>
         <button class="btn btn-green" onclick="exportExcel()"><i class="fa-solid fa-file-excel"></i> Xuất Excel Mẫu Chuẩn</button>
@@ -153,35 +153,35 @@
 
     <div class="table-responsive">
         <table id="salaryTable">
-            <!-- ĐỊNH NGHĨA KHÓA ĐỘ RỘNG CHUẨN TỪNG CỘT TỶ LỆ (PX) -->
+            <!-- PHÂN BỔ 27 CỘT CHUẨN XÁC NGUYÊN VẸN -->
             <colgroup>
-                <col style="width: 28px;">  <!-- STT -->
-                <col style="width: 145px;"> <!-- Họ và tên -->
-                <col style="width: 88px;">  <!-- Số tài khoản -->
-                <col style="width: 48px;">  <!-- HS LCB -->
-                <col style="width: 48px;">  <!-- PC LCB -->
-                <col style="width: 70px;">  <!-- Lương HĐLĐ -->
-                <col style="width: 65px;">  <!-- Lương CB -->
-                <col style="width: 28px;">  <!-- NT -->
-                <col style="width: 25px;">  <!-- P -->
-                <col style="width: 32px;">  <!-- Lễ/VR -->
-                <col style="width: 68px;">  <!-- Lương TG -->
-                <col style="width: 62px;">  <!-- Lương LP -->
-                <col style="width: 72px;">  <!-- Tổng LCB -->
-                <col style="width: 60px;">  <!-- BH 10.5% -->
-                <col style="width: 72px;">  <!-- Thực lĩnh CB -->
-                <col style="width: 48px;">  <!-- HS LCV -->
-                <col style="width: 48px;">  <!-- PC LCV -->
-                <col style="width: 42px;">  <!-- HS HTCV -->
-                <col style="width: 70px;">  <!-- LCV Gốc -->
-                <col style="width: 72px;">  <!-- LCV Thực tế -->
-                <col style="width: 65px;">  <!-- Tiền Ăn Ca -->
-                <col style="width: 65px;">  <!-- Tiền Độc Hại -->
-                <col style="width: 68px;">  <!-- Tạm ứng -->
-                <col style="width: 48px;">  <!-- PCTT -->
-                <col style="width: 48px;">  <!-- Trừ ứng -->
-                <col style="width: 72px;">  <!-- Thực lĩnh CV -->
-                <col style="width: 82px;">  <!-- TỔNG NET -->
+                <col style="width: 32px;">  <!-- 1. STT -->
+                <col style="width: 155px;"> <!-- 2. HỌ VÀ TÊN -->
+                <col style="width: 95px;">  <!-- 3. Số Tài Khoản -->
+                <col style="width: 50px;">  <!-- 4. Hệ số LCB -->
+                <col style="width: 50px;">  <!-- 5. Phụ cấp LCB -->
+                <col style="width: 75px;">  <!-- 6. Lương HĐLĐ -->
+                <col style="width: 70px;">  <!-- 7. Lương CB -->
+                <col style="width: 32px;">  <!-- 8. NT -->
+                <col style="width: 28px;">  <!-- 9. P -->
+                <col style="width: 35px;">  <!-- 10. Lễ/VR -->
+                <col style="width: 75px;">  <!-- 11. Lương Thời Gian -->
+                <col style="width: 70px;">  <!-- 12. Lương Lễ, Phép -->
+                <col style="width: 78px;">  <!-- 13. Tổng Lương CB -->
+                <col style="width: 65px;">  <!-- 14. BH (10.5%) -->
+                <col style="width: 78px;">  <!-- 15. Thực Lĩnh CB -->
+                <col style="width: 50px;">  <!-- 16. Hệ số LCV -->
+                <col style="width: 50px;">  <!-- 17. Phụ cấp LCV -->
+                <col style="width: 45px;">  <!-- 18. HS HTCV -->
+                <col style="width: 75px;">  <!-- 19. LCV Gốc -->
+                <col style="width: 78px;">  <!-- 20. LCV Thực Tế -->
+                <col style="width: 70px;">  <!-- 21. Tiền Ăn Ca -->
+                <col style="width: 70px;">  <!-- 22. Tiền Độc Hại -->
+                <col style="width: 72px;">  <!-- 23. Tạm Ứng -->
+                <col style="width: 55px;">  <!-- 24. Quỹ PCTT -->
+                <col style="width: 55px;">  <!-- 25. Trừ Ứng -->
+                <col style="width: 78px;">  <!-- 26. Thực Lĩnh CV -->
+                <col style="width: 90px;">  <!-- 27. TỔNG NET -->
             </colgroup>
             <thead>
                 <tr>
@@ -189,28 +189,28 @@
                     <th rowspan="2">HỌ VÀ TÊN</th>
                     <th rowspan="2">Số Tài Khoản</th>
                     <th colspan="4" class="bg-blue-light">Lương Cơ Bản HĐLĐ</th>
-                    <th colspan="3" class="bg-yellow-light">Số Ngày Công</th>
+                    <th colspan="3" class="bg-yellow-light">Số Ngày Công Thực Tế</th>
                     <th colspan="5" class="bg-blue-light">Cơ cấu & Thực Lĩnh Lương CB</th>
                     <th colspan="3" class="bg-orange-light">Cấu hình LCV</th>
                     <th colspan="9" class="bg-orange-light">Cơ cấu & Thực Lĩnh Lương CV</th>
-                    <th rowspan="2" class="bg-green-light" style="color:#065f46;">TỔNG NET<br><span style="font-size:8.5px; font-weight:normal;">(CV + CB)</span></th>
+                    <th rowspan="2" class="bg-green-light" style="color:#065f46; font-size:11px;">TỔNG NET<br><span style="font-size:8.5px; font-weight:normal;">(Thực Lĩnh CV + CB)</span></th>
                 </tr>
                 <tr>
-                    <th class="bg-blue-light">Hệ số</th>
-                    <th class="bg-blue-light">Phụ cấp</th>
+                    <th class="bg-blue-light">Hệ số LCB</th>
+                    <th class="bg-blue-light">Phụ cấp LCB</th>
                     <th class="bg-blue-light">Lương HĐLĐ</th>
                     <th class="bg-blue-light">Lương CB</th>
                     <th class="bg-yellow-light">NT</th>
                     <th class="bg-yellow-light">P</th>
                     <th class="bg-yellow-light">Lễ/VR</th>
-                    <th class="bg-blue-light">Lương TG</th>
+                    <th class="bg-blue-light">Lương Thời Gian</th>
                     <th class="bg-blue-light">Lương Lễ, Phép</th>
-                    <th class="bg-blue-light">Tổng LCB</th>
+                    <th class="bg-blue-light">Tổng Lương CB</th>
                     <th class="bg-blue-light">BH (10.5%)</th>
                     <th class="bg-blue-light">Thực Lĩnh CB</th>
-                    <th class="bg-orange-light">Hệ số</th>
-                    <th class="bg-orange-light">Phụ cấp</th>
-                    <th class="bg-orange-light">HTCV</th>
+                    <th class="bg-orange-light">Hệ số LCV</th>
+                    <th class="bg-orange-light">Phụ cấp LCV</th>
+                    <th class="bg-orange-light">HS HTCV</th>
                     <th class="bg-orange-light">LCV Gốc</th>
                     <th class="bg-orange-light">LCV Thực Tế</th>
                     <th class="bg-orange-light">Tiền Ăn Ca</th>
@@ -226,7 +226,7 @@
         </table>
     </div>
 
-    <!-- SIGNATURE -->
+    <!-- CHỮ KÝ -->
     <div class="signature-section">
         <div class="signature-box">
             <span>PHÒNG NHÂN SỰ</span>
@@ -302,11 +302,11 @@
                         <td><input type="number" step="0.1" class="cell-input text-center" value="${emp.htcv}" oninput="updateVal(${index}, 'htcv', this.value)"></td>
                         <td class="text-right" id="lcv_goc-${index}">0</td>
                         <td class="text-right font-bold" id="lcv_tt-${index}">0</td>
-                        <td><input type="number" class="cell-input cell-input-money" value="${emp.an_ca}" oninput="updateVal(${index}, 'an_ca', this.value)"></td>
-                        <td><input type="number" class="cell-input cell-input-money" value="${emp.doc_hai}" oninput="updateVal(${index}, 'doc_hai', this.value)"></td>
-                        <td><input type="number" class="cell-input cell-input-money" value="${emp.tam_ung}" oninput="updateVal(${index}, 'tam_ung', this.value)"></td>
-                        <td><input type="number" class="cell-input cell-input-money" value="${emp.pctt}" oninput="updateVal(${index}, 'pctt', this.value)"></td>
-                        <td><input type="number" class="cell-input cell-input-money" value="${emp.tru_ung}" oninput="updateVal(${index}, 'tru_ung', this.value)"></td>
+                        <td><input type="number" class="cell-input cell-money" value="${emp.an_ca}" oninput="updateVal(${index}, 'an_ca', this.value)"></td>
+                        <td><input type="number" class="cell-input cell-money" value="${emp.doc_hai}" oninput="updateVal(${index}, 'doc_hai', this.value)"></td>
+                        <td><input type="number" class="cell-input cell-money" value="${emp.tam_ung}" oninput="updateVal(${index}, 'tam_ung', this.value)"></td>
+                        <td><input type="number" class="cell-input cell-money" value="${emp.pctt}" oninput="updateVal(${index}, 'pctt', this.value)"></td>
+                        <td><input type="number" class="cell-input cell-money" value="${emp.tru_ung}" oninput="updateVal(${index}, 'tru_ung', this.value)"></td>
                         <td class="text-right font-bold" id="tl_cv-${index}">0</td>
                         <td class="text-right font-bold bg-yellow-light" style="color:#047857;" id="tong_net-${index}">0</td>
                     </tr>
@@ -361,14 +361,16 @@
                 sums.tru_ung += emp.tru_ung; sums.tl_cv += tl_cv; sums.tong_net += tong_net;
             });
 
+            // UPDATE THANH KPI
             document.getElementById('kpi-cb').innerText = sums.tl_cb.toLocaleString() + ' VND';
             document.getElementById('kpi-cv').innerText = sums.tl_cv.toLocaleString() + ' VND';
             document.getElementById('kpi-anca').innerText = sums.an_ca.toLocaleString() + ' VND';
             document.getElementById('kpi-net').innerText = sums.tong_net.toLocaleString() + ' VND';
 
+            // FOOTER DÒNG TỔNG CỘNG - CHUẨN XÁC NGUYÊN VẸN 27 CỘT
             document.getElementById('tfoot-salary').innerHTML = `
                 <tr>
-                    <td colspan="3" class="text-center">TỔNG CỘNG VĂN PHÒNG</td>
+                    <td colspan="3" class="text-center font-bold">TỔNG CỘNG VĂN PHÒNG</td>
                     <td>--</td><td>--</td>
                     <td class="text-right">${sums.hdld.toLocaleString()}</td>
                     <td class="text-right">${sums.lcb_goc.toLocaleString()}</td>
@@ -387,7 +389,7 @@
                     <td class="text-right">${sums.pctt.toLocaleString()}</td>
                     <td class="text-right">${sums.tru_ung.toLocaleString()}</td>
                     <td class="text-right">${sums.tl_cv.toLocaleString()}</td>
-                    <td class="text-right font-bold" style="color:#047857;">${sums.tong_net.toLocaleString()}</td>
+                    <td class="text-right font-bold" style="color:#047857; font-size:11px; background:#dcfce7;">${sums.tong_net.toLocaleString()}</td>
                 </tr>
             `;
         }
