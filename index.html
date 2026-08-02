@@ -10,6 +10,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Thêm Chart.js DataLabels Plugin để hiển thị số liệu % trực tiếp trên biểu đồ tròn -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <style>
@@ -195,7 +197,7 @@
             </div>
         </div>
         <div style="display:flex; gap:6px; flex-wrap: wrap;">
-            <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" class="btn-drive-link" style="padding: 6px 10px; font-size:12px;"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
+            <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="padding: 6px 10px; font-size:12px;"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
             <button type="button" class="btn btn-green" style="padding: 6px 10px; font-size:12px;" onclick="toggleCalendarSidebar()"><i class="fa-solid fa-calendar-days"></i> Lịch</button>
             <button type="button" class="btn btn-purple" style="padding: 6px 10px; font-size:12px;" onclick="openConfigUrlModal()"><i class="fa-solid fa-link"></i> Cấu hình</button>
         </div>
@@ -268,15 +270,15 @@
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--blue);">
                         <span><i class="fa-solid fa-chart-pie" style="color:var(--blue);"></i> TRUNG TÂM ĐIỀU HÀNH & HỆ THỐNG BIỂU ĐỒ TỔNG QUAN NĂM (<span class="lbl-current-year">2026</span>)</span>
-                        <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục Gốc Drive</a>
+                        <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục Gốc Drive</a>
                     </div>
                     
-                    <!-- Lưới 2 biểu đồ tổng hợp chung theo yêu cầu: Biểu đồ tỷ trọng chung & Biểu đồ cột chung các khoản -->
+                    <!-- Lưới 2 biểu đồ tổng hợp chung: Biểu đồ tỷ trọng (hiện % số liệu) & Biểu đồ cột chung -->
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 15px; margin-bottom: 15px;">
-                        <!-- Biểu đồ 1: Tỷ trọng phân bổ tổng quan chung (Thanh toán VP, Cước Viễn thông, Tiền thuế, Quỹ lương) -->
+                        <!-- Biểu đồ 1: Tỷ trọng phân bổ tổng quan chung có hiển thị số liệu phần trăm trực tiếp -->
                         <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 14px; border-radius: 8px;">
                             <div style="font-weight: bold; font-size: 13.5px; color: var(--primary); margin-bottom: 8px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px;">
-                                <i class="fa-solid fa-chart-pie" style="color:var(--blue);"></i> BIỂU ĐỒ TỶ TRỌNG TỔNG QUAN CHUNG TÀI CHÍNH
+                                <i class="fa-solid fa-chart-pie" style="color:var(--blue);"></i> BIỂU ĐỒ TỶ TRỌNG TỔNG QUAN CHUNG TÀI CHÍNH (%)
                             </div>
                             <div style="position: relative; height: 270px; display: flex; justify-content: center; align-items: center;">
                                 <canvas id="combinedPieChart"></canvas>
@@ -316,7 +318,7 @@
                                 <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Thiết Bị & Tài Sản CNTT:</span> <b id="dash-sub-it" style="color:var(--purple);">0 Thiết bị</b></div>
                                 <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Hộp Mực Trong Kho:</span> <b id="dash-sub-ink" style="color:var(--teal);">0 Hộp</b></div>
                                 <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Trạng Thái Hệ Thống:</span> <b style="color:var(--green);">Hoạt động ổn định (Cloud API)</b></div>
-                                <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Thư Mục Google Drive:</span> <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" style="color:var(--blue); font-weight:bold;">Mở Thư Mục Gốc</a></div>
+                                <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Thư Mục Google Drive:</span> <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" style="color:var(--blue); font-weight:bold;">Mở Thư Mục Gốc</a></div>
                             </div>
                         </div>
                     </div>
@@ -474,7 +476,7 @@
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--green);">
                         <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--green);"></i> LẬP HỒ SƠ ĐỀ NGHỊ THANH TOÁN VĂN PHÒNG (<span class="lbl-current-year">2026</span>)</span>
-                        <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
+                        <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
                     </div>
 
                     <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px;">
@@ -624,7 +626,7 @@
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--orange);">
                         <span><i class="fa-solid fa-wifi" style="color:var(--orange);"></i> QUẢN LÝ CƯỚC MẠNG & INTERNET (<span class="lbl-current-year">2026</span>)</span>
-                        <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
+                        <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
                     </div>
                     <div style="background: #fff7ed; border: 1.5px solid #fdba74; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
                         <input type="hidden" id="edit-telecom-index" value="-1">
@@ -1132,7 +1134,6 @@
         let CURRENT_SELECTED_YEAR = "2026";
         let isAmountManual = false;
 
-        // Khởi tạo các instance biểu đồ Chart.js chung
         let combinedPieChartInstance = null;
         let combinedBarChartInstance = null;
 
@@ -1334,7 +1335,6 @@
         function handleMoneyBlur(inputEl) { inputEl.value = formatCurrencyVN(parseCurrencyVN(inputEl.value)); }
         function markAmountManual() { isAmountManual = true; }
 
-        // Tính thuế thông minh với hỗ trợ Thuận & Ngược, làm tròn số tiền thuế và cộng vào thành tiền
         function calculateTaxPro() {
             let amount = parseCurrencyVN(document.getElementById('tax-input-amount').value);
             let rate = parseFloat(document.getElementById('tax-rate-select').value) || 0;
@@ -1342,11 +1342,9 @@
             let taxAmount = 0, totalAmount = 0;
 
             if (mode === 'add') {
-                // Tính Thuận: Cộng thuế vào gốc -> Làm tròn thuế
                 taxAmount = Math.round(amount * (rate / 100));
                 totalAmount = amount + taxAmount;
             } else {
-                // Tính Ngược (Tách thuế từ tổng đã bao gồm thuế) -> Làm tròn thuế
                 let base = amount / (1 + rate / 100);
                 taxAmount = Math.round(amount - base);
                 totalAmount = amount;
@@ -1355,7 +1353,6 @@
             document.getElementById('tax-result-tax').innerText = `Thuế: ${formatCurrencyVN(taxAmount)} VND`;
             document.getElementById('tax-result-total').innerText = `Tổng: ${formatCurrencyVN(totalAmount)} VND`;
             
-            // Đồng bộ tự động vào dòng tính tiền đơn hàng nếu đang nhập
             if (!isAmountManual) {
                 let qty = parseFloat(document.getElementById('pay-qty').value) || 1;
                 let unitPrice = parseCurrencyVN(document.getElementById('pay-unit-price').value);
@@ -1384,9 +1381,8 @@
             document.getElementById('tele-amount').value = formatCurrencyVN(totalAmt);
         }
 
-        // Hàm render biểu đồ chung tích hợp toàn bộ các khoản theo yêu cầu
+        // Hàm render biểu đồ tích hợp, biểu đồ tròn có cấu hình plugin datalabels hiển thị số liệu phần trăm (%) chính xác
         function renderCombinedDashboardCharts(netPay, paidPay, telecomPay, totalTax) {
-            // 1. Biểu đồ Tỷ trọng Tổng quan Chung (Pie Chart)
             const ctxPie = document.getElementById('combinedPieChart');
             if (ctxPie) {
                 if (combinedPieChartInstance) combinedPieChartInstance.destroy();
@@ -1404,13 +1400,23 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: {
-                            legend: { position: 'bottom', labels: { font: { family: 'Times New Roman', size: 11 } } }
+                            legend: { position: 'bottom', labels: { font: { family: 'Times New Roman', size: 11 } } },
+                            // Cấu hình datalabels hiển thị tỷ lệ % trực tiếp trên biểu đồ tròn
+                            datalabels: {
+                                color: '#ffffff',
+                                font: { weight: 'bold', size: 12, family: 'Times New Roman' },
+                                formatter: (value, ctx) => {
+                                    let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                    let percentage = (value * 100 / sum).toFixed(1) + "%";
+                                    return percentage;
+                                }
+                            }
                         }
-                    }
+                    },
+                    plugins: [ChartDataLabels]
                 });
             }
 
-            // 2. Biểu đồ Cột Chung (Bar Chart) các khoản: Thanh toán VP, Cước Viễn thông, Tiền lương thực lĩnh
             const ctxBar = document.getElementById('combinedBarChart');
             if (ctxBar) {
                 if (combinedBarChartInstance) combinedBarChartInstance.destroy();
@@ -1722,7 +1728,7 @@
             }
         }
 
-        /* --- HỒ SƠ THANH TOÁN (GOM GỌN TỆP ĐÍNH KÈM VÀO NÚT MỞ THƯ MỤC) --- */
+        /* --- HỒ SƠ THANH TOÁN (MỞ ĐÚNG THƯ MỤC THÁNG ĐỂ XEM VÀ ĐÓNG TỆP DỄ DÀNG) --- */
         async function addNewPaymentRecord() {
             let sm = document.getElementById('filter-month').value;
             let parts = sm.split('-');
@@ -1750,7 +1756,7 @@
                 uploadedFiles = [...paymentRecordsByMonth[sm][editIndex].files];
             }
 
-            let folderUrl = "https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi";
+            let folderUrl = `https://drive.google.com/drive/search?q=Thang_${month}_${year}`;
 
             if (fileInput.files.length > 0) {
                 let progressContainer = document.getElementById('progress-container-hstt');
@@ -1758,7 +1764,7 @@
                 let progressText = document.getElementById('progress-text-hstt');
 
                 progressContainer.style.display = "block";
-                statusLabel.innerText = "⏳ Đang tải tệp lên Google Drive...";
+                statusLabel.innerText = "⏳ Đang tải tệp lên thư mục tháng đúng chuẩn...";
 
                 for (let i = 0; i < fileInput.files.length; i++) {
                     let file = fileInput.files[i];
@@ -1782,7 +1788,7 @@
                         };
                         const response = await fetch(GOOGLE_SCRIPT_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
                         const result = await response.json();
-                        uploadedFiles.push({ fileName: file.name, fileUrl: result.fileUrl || "https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" });
+                        uploadedFiles.push({ fileName: file.name, fileUrl: result.fileUrl || folderUrl });
                         if (result && result.fileUrl) { folderUrl = result.fileUrl; }
                     } catch (err) {
                         console.error("Lỗi: " + err.message);
@@ -1866,11 +1872,11 @@
                         let q = rec.qty || 1, u = rec.unit || 'Cái';
                         let displayUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : (rec.amount / q);
                         
-                        // Gom gọn tệp đính kèm vào nút mở thư mục
+                        // Sử dụng thuộc tính target="_blank" rel="noopener noreferrer" để mở đúng tệp/thư mục tháng trên tab mới, xem xong dễ dàng đóng lại
                         let folderLinkHtml = `<span style="color:#64748b; font-style:italic;">Không có</span>`;
                         if (rec.files && rec.files.length > 0) {
-                            let folderUrl = rec.folderUrl || "https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi";
-                            folderLinkHtml = `<a href="${folderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục Tệp (${rec.files.length})</a>`;
+                            let folderUrl = rec.folderUrl || `https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi`;
+                            folderLinkHtml = `<a href="${folderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục Tháng (${rec.files.length})</a>`;
                         }
 
                         tbody.innerHTML += `<tr>
@@ -1906,7 +1912,7 @@
             }
         }
 
-        /* --- CƯỚC VIỄN THÔNG (GOM GỌN TỆP ĐÍNH KÈM) --- */
+        /* --- CƯỚC VIỄN THÔNG (MỞ ĐÚNG THƯ MỤC THÁNG ĐỂ XEM VÀ ĐÓNG TỆP) --- */
         async function addNewTelecomRecord() {
             let sm = document.getElementById('filter-month').value;
             let parts = sm.split('-');
@@ -1934,7 +1940,7 @@
                 uploadedFiles = [...telecomRecordsByMonth[sm][editIndex].files];
             }
 
-            let folderUrl = "https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi";
+            let folderUrl = `https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi`;
 
             if (fileInput.files.length > 0) {
                 let progressContainer = document.getElementById('progress-container-vt');
@@ -1942,7 +1948,7 @@
                 let progressText = document.getElementById('progress-text-vt');
 
                 progressContainer.style.display = "block";
-                statusLabel.innerText = "⏳ Đang tải hóa đơn cước lên Drive...";
+                statusLabel.innerText = "⏳ Đang tải hóa đơn cước lên thư mục tháng...";
 
                 for (let i = 0; i < fileInput.files.length; i++) {
                     let file = fileInput.files[i];
@@ -1966,7 +1972,7 @@
                         };
                         const response = await fetch(GOOGLE_SCRIPT_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
                         const result = await response.json();
-                        uploadedFiles.push({ fileName: file.name, fileUrl: result.fileUrl || "https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" });
+                        uploadedFiles.push({ fileName: file.name, fileUrl: result.fileUrl || folderUrl });
                         if (result && result.fileUrl) { folderUrl = result.fileUrl; }
                     } catch (err) {
                         console.error("Lỗi: " + err.message);
@@ -2039,10 +2045,9 @@
                         let tRate = rec.taxRate !== undefined ? rec.taxRate : 10;
                         let tAmt = rec.taxAmt !== undefined ? rec.taxAmt : (baseA * tRate / 100);
 
-                        // Gom gọn tệp đính kèm cước vào nút mở thư mục
                         let folderLinkHtml = `<span style="color:#64748b; font-style:italic;">Không có</span>`;
                         if (rec.files && rec.files.length > 0) {
-                            let folderUrl = rec.folderUrl || "https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi";
+                            let folderUrl = rec.folderUrl || `https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi`;
                             folderLinkHtml = `<a href="${folderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục (${rec.files.length})</a>`;
                         }
 
@@ -2806,7 +2811,7 @@
             closeEventModal(); renderSmartCalendar();
         }
 
-        function openMainSalaryGoogleSheet() { window.open(GOOGLE_SHEET_VIEW_URL, '_blank'); }
+        function openMainSalaryGoogleSheet() { window.open(GOOGLE_SHEET_VIEW_URL, '_blank', 'noopener,noreferrer'); }
 
         async function syncDataToCloudServer() {
             let notifyBox = document.getElementById('syncNotifyBox');
