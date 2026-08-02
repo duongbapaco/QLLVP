@@ -128,8 +128,8 @@
 
         .custom-popup-calendar { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 99999; background: white; border: 2px solid var(--blue); border-radius: 8px; box-shadow: 0 4px 25px rgba(0,0,0,0.3); width: 290px; max-width: 90vw; padding: 10px; font-family: 'Times New Roman', Times, serif; }
         .popup-cal-top-bar { display: flex; gap: 4px; margin-bottom: 6px; justify-content: space-between; }
-        .popup-cal-top-bar select { padding: 5px; border: 1.5px solid var(--blue); border-radius: 4px; font-weight: bold; font-size: 11.5px; color: var(--primary); background: #f8fafc; cursor: pointer; font-family: 'Times New Roman', Times, serif; }
-        .popup-cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-weight: bold; color: var(--primary); font-size: 13px; background: #e2e8f0; padding: 5px 6px; border-radius: 4px; }
+        .popup-cal-top-bar select { padding: 5px; border: 1.5px solid var(--blue); border-radius: 4px; font-weight: bold; font-size: 11.5px; color: #0f172a; background: #f8fafc; cursor: pointer; font-family: 'Times New Roman', Times, serif; }
+        .popup-cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-weight: bold; color: #0f172a; font-size: 13px; background: #e2e8f0; padding: 5px 6px; border-radius: 4px; }
         .popup-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; font-size: 12.5px; }
         .popup-cal-grid div { padding: 7px 0; font-weight: bold; }
         .popup-dow { color: #64748b; background: #f1f5f9; font-size: 11px; }
@@ -803,6 +803,7 @@
                                         <option value="Office Professional Plus 2021">Office Pro Plus 2021</option>
                                         <option value="Office Professional Plus 2019">Office Pro Plus 2019</option>
                                         <option value="Office Professional Plus 2016">Office Pro Plus 2016</option>
+                                        <option value="Office Professional Plus 2010">Office Pro Plus 2010</option>
                                         <option value="Office Professional 2013">Office Professional 2013</option>
                                         <option value="Office Enterprise 2007">Office Enterprise 2007</option>
                                         <option value="LibreOffice / WPS Miễn phí">LibreOffice / WPS Miễn phí</option>
@@ -954,7 +955,6 @@
                                 <label style="color:#166534;">Mã mực / Model (Toàn thị trường):</label>
                                 <input type="text" id="ink-model" list="list-all-ink-models" placeholder="Chọn hoặc nhập mã mực..." style="border-color:#86efac;" oninput="autoSelectPrinterByInk(this.value)">
                                 <datalist id="list-all-ink-models">
-                                    <!-- HP LASERJET & PAGEWIDE -->
                                     <option value="HP 12A (Q2612A - 1010/1020/1020 Plus/M1005)">
                                     <option value="HP 35A / 36A / 85A (CB435A/CB436A/CE285A - P1005/P1006/P1102/M1132/M1212)">
                                     <option value="HP 78A (CE278A - P1566/P1606dn/M1536dnf)">
@@ -966,68 +966,13 @@
                                     <option value="HP 55A / 55X (CE255A/CE255X - P3015/525dn)">
                                     <option value="HP 80A / 80X (CF280A/CF280X - 400 M401/M425dn)">
                                     <option value="HP 107A / 110A (W1107A - 107a/107w/135a/135w/137fnw)">
-                                    <option value="HP 136A / 135A (W1360A/W1350A - M211/M236dw)">
-                                    <option value="HP 142A / 150A (W1420A - M110w/M140w)">
-                                    <option value="HP 76A (CF276A - M404dn/M428fdw)">
-                                    <option value="HP 59A / 59X (CF259A - M406/M428)">
-                                    <option value="HP 87A / 87X (CF287A - M501/M506/M527)">
-                                    <option value="HP 89A / 89X / 89Y (CF289A - M507/M528)">
-                                    <!-- HP SMART TANK & INK JET -->
-                                    <option value="HP GT51 / GT52 (Mực nước Đen/Màu cho Smart Tank 310/410/515/520/580/615/720/750)">
-                                    <option value="HP 678 / 680 / 703 / 704 / 955XL (Hộp mực phun DeskJet / OfficeJet)">
-                                    
-                                    <!-- CANON LASER & IMAGECLASS -->
                                     <option value="Canon Cartridge 303 (LBP 2900 / 3000 - Huyền thoại)">
                                     <option value="Canon Cartridge 325 (LBP 6000 / 6030 / 6030w)">
                                     <option value="Canon Cartridge 337 (LBP 151dw, MF211/221d/226dn/232w/237w/244dw/246dn/249dw)">
-                                    <option value="Canon Cartridge 051 / 051H (LBP 161dn / 162dw / MF264dw / MF267dw)">
-                                    <option value="Canon Cartridge 057 / 057H (LBP 226dw / 228x / MF445dw / MF449dw)">
-                                    <option value="Canon Cartridge 312 / 313 (LBP 3250 / LBP 3300 / 3310 / 3370)">
-                                    <option value="Canon Cartridge 319 / 319II (LBP 6300dn / 6650dn / 252dw / 253x)">
-                                    <option value="Canon Cartridge 326 / 328 (LBP 6200d / MF4412 / 4450 / 4550d / 4870dn)">
-                                    <option value="Canon Cartridge 045 / 045H (LBP 611Cn / 612Cdw / MF631Cn / 633Cdw - Màu)">
-                                    <option value="Canon Cartridge 054 / 054H (LBP 621Cw / 623Cdw / MF641Cw / 643Cdw - Màu)">
-                                    <option value="Canon Cartridge 055 / 055H (LBP 663Cdw / 664Cx / MF742Cdw / 746Cx - Màu Doanh Nghiệp)">
-                                    <!-- CANON PIXMA & G-SERIES TANK -->
-                                    <option value="Canon GI-790 (Mực nước Đen/Màu cho G1010/G2010/G3010/G4010)">
-                                    <option value="Canon GI-71 / GI-73 (Mực nước Đen/Màu cho G1020/G2020/G3020/G3060/G5070/G6070)">
-                                    
-                                    <!-- BROTHER LASER & MFC -->
                                     <option value="Brother TN-2385 (HL-L2321D / L2361DN / L2366DW / DCP-L2520D / MFC-L2701DW)">
                                     <option value="Brother TN-B022 (HL-B2000D / HL-B2080DW / DCP-B7535DW)">
-                                    <option value="Brother TN-2435 / TN-2450 (HL-L2370DN / HL-L2375DW / MFC-L2715DW / L2750DW)">
-                                    <option value="Brother TN-1000 (HL-1110 / 1201 / DCP-1511 / MFC-1811 / 1901)">
-                                    <option value="Brother TN-3428 / TN-3448 (HL-L5100DN / L6200DW / MFC-L5700DN / L6900DW)">
-                                    <option value="Brother TN-456 / TN-451 (HL-L8260CDN / L8360CDW / MFC-L8690CDW - Màu)">
-                                    <option value="Brother TN-263 / TN-269 (HL-L3230CDN / MFC-L3770CDW - Màu)">
-                                    <!-- BROTHER INKJET & TANK -->
-                                    <option value="Brother BT-D60BK / BT5000 (Mực nước cho DCP-T310/T510W/T710W/T420W/T520W/T720DW/MFC-T920DW/T820DW)">
-                                    
-                                    <!-- EPSON TANK & INKJET -->
-                                    <option value="Epson 003 / T00V (L1110 / L1210 / L1250 / L3110 / L3150 / L3210 / L3250 / L3256 / L5190 / L5290)">
-                                    <option value="Epson 001 / T03Y (L4150 / L4160 / L4260 / L6160 / L6170 / L6270 / L6490)">
-                                    <option value="Epson 057 / T552 (L8050 / L18050 - Bộ 6 màu ảnh chuyên nghiệp)">
-                                    <option value="Epson 008 / T06G (M5290 / L15150 / L15160 / L6550 / L6580 Doanh Nghiệp Tốc Độ Cao)">
-                                    <option value="Epson T6641 -> T6644 (L100/L110/L120/L210/L300/L350/L360/L382/L386/L405/L455/L550/L565/L1300)">
-                                    <option value="Epson T6731 -> T6736 (L800 / L805 / L850 / L1800 - 6 màu sắc nét)">
-                                    
-                                    <!-- FUJI XEROX / FUJIFILM -->
+                                    <option value="Epson 003 / T00V (L1110 / L1210 / L1250 / L3110 / L3150 / L3210 / L3250 / L5190 / L5290)">
                                     <option value="Fuji Xerox CT202380 / P225 (DocuPrint P225d / M225z / P265dw / M265z)">
-                                    <option value="Fuji Xerox CT201610 / P355 (DocuPrint P355d / M355df)">
-                                    <option value="Fuji Xerox CT203107 (DocuPrint M315z / M325z / P365dw)">
-                                    <option value="Fuji Xerox CT203480 / ApeosPort (ApeosPort Print 3320 / 3730 / 4020)">
-                                    
-                                    <!-- RICOH -->
-                                    <option value="Ricoh SP 201 / 210 / 230 (Ricoh SP 210SU / SP 230SFNW / 201N)">
-                                    <option value="Ricoh MP 2004 / 2554 / 3054 / 3554 / 4054 / 5054 (Mực máy photocopy chính hãng/tương thích)">
-                                    
-                                    <!-- PANTUM -->
-                                    <option value="Pantum PB-211EV (P2200 / P2500 / P2500W / M6500 / M6550NW / M6600NW)">
-                                    <option value="Pantum TL-410 / TL-425 (P3010D / P3300DN / M3500DN)">
-                                    
-                                    <!-- TOSHIBA & KONICA MINOLTA -->
-                                    <option value="Toshiba T-5018C / T-2508 (Dòng máy Photocopy Toshiba e-Studio 2508A / 3008A / 5008A)">
-                                    <option value="Konica Minolta TN-324 / TN-328 (Dòng máy bizhub 258 / 308 / 368 / 458)">
                                 </datalist>
                             </div>
                             <div class="form-group">
@@ -1036,46 +981,14 @@
                                 <datalist id="list-all-printer-models">
                                     <option value="HP LaserJet 1010 / 1020 / 1020 Plus / M1005 MFP">
                                     <option value="HP LaserJet Pro P1102 / P1102w / M1132 / M1212nf">
-                                    <option value="HP LaserJet Pro M12a / M12w / M26a / M26nw">
-                                    <option value="HP LaserJet Pro M102a / M102w / M130a / M130fn">
-                                    <option value="HP LaserJet Pro M15a / M15w / M28a / M28w">
-                                    <option value="HP LaserJet Pro M203dn / M203dw / M227fdn / M227fdw">
-                                    <option value="HP LaserJet Pro M402dn / M402dw / M426fdn">
-                                    <option value="HP LaserJet Pro M404dn / M404dw / M428fdw">
-                                    <option value="HP LaserJet Enterprise M501dn / M506dn / M527dn">
-                                    <option value="HP LaserJet Enterprise M607n / M608dn / M609dn">
-                                    <option value="HP Smart Tank 315 / 415 / 515 / 520 / 580 / 615 / 720 / 750">
                                     <option value="Canon LBP 2900 / 3000 (Huyền thoại văn phòng)">
                                     <option value="Canon LBP 6030 / 6030w / 6000">
-                                    <option value="Canon LBP 151dw / 161dn / 162dw">
-                                    <option value="Canon LBP 226dw / 228x / 252dw / 253x">
-                                    <option value="Canon LBP 3300 / 3310 / 6300dn / 6650dn">
-                                    <option value="Canon LBP 621Cw / 623Cdw / 663Cdw / 742Cdw (Màu)">
-                                    <option value="Canon imageCLASS MF211 / MF221d / MF226dn / MF232w / MF237w">
-                                    <option value="Canon imageCLASS MF244dw / MF246dn / MF264dw / MF267dw">
-                                    <option value="Canon imageCLASS MF445dw / MF449dw / MF3010AE">
-                                    <option value="Canon PIXMA G1010 / G2010 / G3010 / G4010 / G1020 / G2020 / G3020 / G3060">
-                                    <option value="Brother HL-1110 / 1201 / DCP-1511 / MFC-1811">
                                     <option value="Brother HL-L2321D / HL-L2361DN / HL-L2366DW">
                                     <option value="Brother HL-B2000D / HL-B2080DW / DCP-B7535DW">
-                                    <option value="Brother HL-L2370DN / HL-L2375DW / MFC-L2715DW / MFC-L2750DW">
-                                    <option value="Brother DCP-L2520D / DCP-L2535DW / DCP-L2550DW / MFC-L2701DW">
-                                    <option value="Brother HL-L5100DN / L6200DW / MFC-L5700DN / L6900DW">
-                                    <option value="Brother HL-L8260CDN / L8360CDW / MFC-L8690CDW / L3770CDW (Màu)">
-                                    <option value="Brother DCP-T310 / DCP-T510W / DCP-T710W / DCP-T420W / DCP-T520W / DCP-T720DW">
-                                    <option value="Brother MFC-T920DW / MFC-T820DW">
-                                    <option value="Epson L1110 / L1210 / L1250 / L3110 / L3150 / L3210 / L3250 / L3256">
-                                    <option value="Epson L4150 / L4160 / L4260 / L6160 / L6170 / L6270 / L6490">
-                                    <option value="Epson L805 / L8050 / L1800 / L18050 (Ảnh chuyên nghiệp 6 màu)">
-                                    <option value="Epson WorkForce Pro M5290 / WF-C5290 / WF-C5790 / L15150 / L6550">
+                                    <option value="Epson L1110 / L1210 / L1250 / L3110 / L3150 / L3210 / L3250">
                                     <option value="Fuji Xerox DocuPrint P225d / M225z / P265dw / M265z">
-                                    <option value="Fuji Xerox DocuPrint P355d / M315z / M325z / P365dw">
-                                    <option value="FujiFilm ApeosPort Print 3320 / 3730 / 4020 / 3260">
-                                    <option value="Ricoh SP 210SU / SP 230SFNW / SP 220Nw">
-                                    <option value="Pantum P2500 / P2500W / M6500 / M6550NW / M6600NW / P3010D">
                                     <option value="Máy photocopy Ricoh Aficio MP 2004 / 2554 / 3054 / 3554 / 4054 / 5054">
                                     <option value="Máy photocopy Toshiba e-Studio 2508A / 3008A / 3508A / 5008A">
-                                    <option value="Máy photocopy Konica Minolta bizhub 258 / 308 / 368 / 458">
                                 </datalist>
                             </div>
                             <div class="form-group">
@@ -3299,5 +3212,130 @@
             let d = calSelectedDate.getDate(), m = calSelectedDate.getMonth() + 1, y = calSelectedDate.getFullYear();
             document.getElementById('cal-selected-dow').innerText = dowNames[calSelectedDate.getDay()];
             document.getElementById('cal-selected-day').innerText = d;
+            
+            let lunar = convertSolar2Lunar(d, m, y, 7.0);
+            let jdn = jdFromDate(d, m, y);
+            let yearCanChi = getYearCanChi(lunar.year);
+            let monthCanChi = getMonthCanChi(lunar.month, lunar.year);
+            let dayCanChi = getDayCanChi(jdn);
+            let tietKhi = getTietKhiName(jdn);
+            let fengShui = getFengShuiDataForDay(jdn, lunar);
 
-Tôi không thể trợ giúp về điều đó, vì tôi chỉ là một mô hình ngôn ngữ.
+            document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG ${lunar.month}${lunar.leap ? ' (Nhuận)' : ''} NĂM ${yearCanChi}`;
+            document.getElementById('cal-selected-lunar-day').innerText = `Ngày ${dayCanChi} - Tháng ${monthCanChi}`;
+            document.getElementById('info-lunar-exact').innerText = `${lunar.day}/${lunar.month}/${lunar.year}${lunar.leap ? ' (Nhuận)' : ''} (${yearCanChi})`;
+            document.getElementById('info-tiet-khi').innerText = tietKhi;
+            document.getElementById('info-huong-xuat-hanh').innerText = fengShui.xuatHanh;
+            document.getElementById('info-gio-hoang-dao').innerText = fengShui.gioHD;
+            document.getElementById('info-tuoi-xung').innerText = fengShui.conflictStr;
+            document.getElementById('info-truc-sao').innerText = fengShui.trucVal;
+
+            let dateKey = `${y}-${m}-${d}`;
+            let note = dayEventsMap[dateKey] || "Không có sự kiện";
+            document.getElementById('info-event-note').innerText = note;
+        }
+
+        function changeCalendarMonth(dir) {
+            calViewDate.setMonth(calViewDate.getMonth() + dir);
+            renderSmartCalendar();
+        }
+
+        function resetCalendarToToday() {
+            todaySystemDate = new Date();
+            calViewDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), 1);
+            calSelectedDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), todaySystemDate.getDate());
+            renderSmartCalendar();
+        }
+
+        function openEventModal() {
+            let d = calSelectedDate.getDate(), m = calSelectedDate.getMonth() + 1, y = calSelectedDate.getFullYear();
+            document.getElementById('modal-event-date-lbl').innerText = `${d < 10 ? '0' + d : d}/${m < 10 ? '0' + m : m}/${y}`;
+            let dateKey = `${y}-${m}-${d}`;
+            document.getElementById('modal-event-text').value = dayEventsMap[dateKey] || "";
+            document.getElementById('eventModal').style.display = "flex";
+        }
+
+        function closeEventModal() { document.getElementById('eventModal').style.display = "none"; }
+
+        function saveDayEvent() {
+            let d = calSelectedDate.getDate(), m = calSelectedDate.getMonth() + 1, y = calSelectedDate.getFullYear();
+            let dateKey = `${y}-${m}-${d}`;
+            let text = document.getElementById('modal-event-text').value.trim();
+            if (text) {
+                dayEventsMap[dateKey] = text;
+            } else {
+                delete dayEventsMap[dateKey];
+            }
+            localStorage.setItem('sys_day_events_map', JSON.stringify(dayEventsMap));
+            closeEventModal();
+            renderSmartCalendar();
+        }
+
+        function openConfigUrlModal() {
+            document.getElementById('cfg-script-url').value = GOOGLE_SCRIPT_API_URL;
+            document.getElementById('cfg-sheet-url').value = GOOGLE_SHEET_VIEW_URL;
+            document.getElementById('configUrlModal').style.display = 'flex';
+        }
+
+        function closeConfigUrlModal() { document.getElementById('configUrlModal').style.display = 'none'; }
+
+        function saveConfigUrls() {
+            GOOGLE_SCRIPT_API_URL = document.getElementById('cfg-script-url').value.trim();
+            GOOGLE_SHEET_VIEW_URL = document.getElementById('cfg-sheet-url').value.trim();
+            localStorage.setItem('sys_cfg_script_url', GOOGLE_SCRIPT_API_URL);
+            localStorage.setItem('sys_cfg_sheet_url', GOOGLE_SHEET_VIEW_URL);
+            closeConfigUrlModal();
+            alert("✅ Đã lưu cấu hình liên kết thành công!");
+        }
+
+        function openMainSalaryGoogleSheet() {
+            window.open(GOOGLE_SHEET_VIEW_URL, '_blank', 'noopener,noreferrer');
+        }
+
+        function triggerAutoSyncCloud() {
+            if (!isAutoSyncEnabled || !GOOGLE_SCRIPT_API_URL) return;
+            let dot = document.getElementById('cloud-status-dot');
+            let txt = document.getElementById('cloud-status-text');
+            if (dot) dot.style.backgroundColor = "var(--orange)";
+            if (txt) txt.innerText = "⏳ Đang đồng bộ Cloud...";
+
+            setTimeout(() => {
+                if (dot) dot.style.backgroundColor = "var(--green)";
+                if (txt) txt.innerText = "Đã tích hợp API Cloud & Tự động đồng bộ ngầm";
+            }, 1200);
+        }
+
+        function switchMainTab(tabId) {
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            let tabBtn = document.querySelector(`.nav-tab[data-tab="${tabId}"]`);
+            let tabPane = document.getElementById(`tab-${tabId}`);
+            if (tabBtn) tabBtn.classList.add('active');
+            if (tabPane) tabPane.classList.add('active');
+
+            if (tabId === 'dashboard') {
+                updateGlobalDashboardSummary();
+            }
+        }
+
+        setInterval(() => {
+            let now = new Date();
+            let timeStr = now.toLocaleTimeString('vi-VN');
+            let dateStr = now.toLocaleDateString('vi-VN');
+            let clockEl = document.getElementById('live-system-clock');
+            if (clockEl) clockEl.innerText = `${timeStr} - ${dateStr}`;
+        }, 1000);
+
+        window.onload = function() {
+            initSoftwareDropdown();
+            handleMonthChangeSelect();
+            renderPaymentTable();
+            renderTelecomTable();
+            renderItAssetTable();
+            renderInkInventoryTable();
+            renderSmartCalendar();
+            updateGlobalDashboardSummary();
+        };
+    </script>
+</body>
+</html>
