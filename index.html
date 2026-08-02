@@ -160,26 +160,21 @@
                     <th rowspan="2" style="width:110px; background:#dcfce7; color:#065f46; font-size:11px;">TỔNG NET<br><span style="font-size:8.5px; font-weight:normal;">(Thực Lĩnh CV + CB)</span></th>
                 </tr>
                 <tr>
-                    <!-- LCB (4) -->
                     <th style="width:48px; background:#dbeafe;">Hệ số LCB</th>
                     <th style="width:48px; background:#dbeafe;">Phụ cấp LCB</th>
                     <th style="width:75px; background:#dbeafe;">Lương HĐLĐ</th>
                     <th style="width:70px; background:#dbeafe;">Lương CB</th>
-                    <!-- Ngày công (3) - Nới rộng thoáng đãng -->
                     <th style="width:45px; background:#fef9c3;">NT</th>
                     <th style="width:45px; background:#fef9c3;">P</th>
                     <th style="width:45px; background:#fef9c3;">Lễ/VR</th>
-                    <!-- Thực lĩnh CB (5) -->
                     <th style="width:75px; background:#dbeafe;">Lương Thời Gian</th>
                     <th style="width:70px; background:#dbeafe;">Lương Lễ, Phép</th>
                     <th style="width:78px; background:#dbeafe;">Tổng Lương CB</th>
                     <th style="width:65px; background:#dbeafe;">BH (10.5%)</th>
                     <th style="width:78px; background:#dbeafe;">Thực Lĩnh CB</th>
-                    <!-- LCV (3) -->
                     <th style="width:48px; background:#ffedd5;">Hệ số LCV</th>
                     <th style="width:48px; background:#ffedd5;">Phụ cấp LCV</th>
                     <th style="width:42px; background:#ffedd5;">HS HTCV</th>
-                    <!-- Cơ cấu LCV (9) -->
                     <th style="width:75px; background:#ffedd5;">LCV Gốc</th>
                     <th style="width:78px; background:#ffedd5;">LCV Thực Tế</th>
                     <th style="width:72px; background:#ffedd5;">Tiền Ăn Ca</th>
@@ -259,7 +254,7 @@
                         <td class="text-right font-bold" id="hdld-${index}">0</td>
                         <td class="text-right" id="lcb_goc-${index}">0</td>
                         
-                        <!-- NGÀY CÔNG THOÁNG ĐÃNG, VUÔNG VẮN -->
+                        <!-- NGÀY CÔNG (3 CỘT) -->
                         <td style="background:#fef9c3; text-align:center;"><input type="number" class="inp-smart inp-center font-bold" value="${emp.nt}" oninput="updateVal(${index}, 'nt', this.value)"></td>
                         <td style="background:#fef9c3; text-align:center;"><input type="number" class="inp-smart inp-center" value="${emp.p}" oninput="updateVal(${index}, 'p', this.value)"></td>
                         <td style="background:#fef9c3; text-align:center;"><input type="number" class="inp-smart inp-center" value="${emp.le}" oninput="updateVal(${index}, 'le', this.value)"></td>
@@ -280,10 +275,10 @@
                         <td><input type="number" class="inp-smart inp-money" value="${emp.pctt}" oninput="updateVal(${index}, 'pctt', this.value)"></td>
                         <td><input type="number" class="inp-smart inp-money" value="${emp.tru_ung}" oninput="updateVal(${index}, 'tru_ung', this.value)"></td>
                         
-                        <!-- 26. THỰC LĨNH CV -->
+                        <!-- CỘT 26: THỰC LĨNH CV -->
                         <td class="text-right font-bold" id="tl_cv-${index}">0</td>
                         
-                        <!-- 27. TỔNG NET (ĐÚNG CỘT MÀU XANH LÁ CUỐI CÙNG) -->
+                        <!-- CỘT 27: TỔNG NET (ĐÚNG CỘT MÀU XANH LÁ CUỐI CÙNG) -->
                         <td class="text-right font-bold" style="color:#047857; background:#dcfce7; font-size:11px;" id="tong_net-${index}">0</td>
                     </tr>
                 `;
