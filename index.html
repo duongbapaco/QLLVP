@@ -86,7 +86,7 @@
         
         .form-group { display: flex; flex-direction: column; gap: 3px; position: relative; }
         .form-group label { font-weight: bold; color: #000000; font-size: 12px; white-space: nowrap; }
-        .form-group input, .form-group select { padding: 8px 10px; border: 1.5px solid #475569; border-radius: 4px; font-size: 14px; font-weight: bold; outline: none; background: #fff; color: #000; width: 100%; font-family: 'Times New Roman', Times, serif; }
+        .form-group input, .form-group select, .form-group datalist { padding: 8px 10px; border: 1.5px solid #475569; border-radius: 4px; font-size: 14px; font-weight: bold; outline: none; background: #fff; color: #000; width: 100%; font-family: 'Times New Roman', Times, serif; }
 
         .btn { padding: 8px 14px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-size: 13px; font-family: 'Times New Roman', Times, serif; min-height: 40px; touch-action: manipulation; }
         .btn-primary { background: var(--blue); color: white; }
@@ -284,7 +284,7 @@
 
                         <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 14px; border-radius: 8px;">
                             <div style="font-weight: bold; font-size: 13.5px; color: var(--primary); margin-bottom: 8px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 6px;">
-                                <i class="fa-solid fa-chart-column" style="color:var(--green);"></i> BIỂU ĐỒ CỘT CHUNG: THANH TOÁN, CƯỚC & LƯƠNG
+                                <i class="fa-solid fa-chart-column" style="color:var(--green);"></i> BIỂU ĐỒ CỘT CHUNG: THANH TOÁN, CƯỚC, LƯƠNG & THUẾ
                             </div>
                             <div style="position: relative; height: 270px; display: flex; justify-content: center; align-items: center;">
                                 <canvas id="combinedBarChart"></canvas>
@@ -617,7 +617,7 @@
                 </div>
             </div>
 
-            <!-- TAB 3: CƯỚC VIỄN THÔNG & INTERNET (TÍCH HỢP TÍNH THUẾ XUÔI & NGƯỢC THÔNG MINH) -->
+            <!-- TAB 3: CƯỚC VIỄN THÔNG & INTERNET -->
             <div id="tab-telecom" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--orange);">
@@ -649,7 +649,6 @@
                                 <input type="text" id="tele-cid" value="PTO-02-0066479" style="border-color: #fdba74;">
                             </div>
                             
-                            <!-- Bổ sung cấu hình phương thức tính thuế xuôi/ngược thông minh cho Cước Viễn Thông -->
                             <div class="form-group">
                                 <label style="color: #c2410c;"><i class="fa-solid fa-calculator"></i> Phương thức thuế:</label>
                                 <select id="tele-tax-mode" onchange="calculateTelecomTotal()" style="border-color: #fdba74; background: #fffbeb;">
@@ -937,7 +936,7 @@
                 </div>
             </div>
 
-            <!-- TAB 5: MODULE QUẢN LÝ KHO & CẤP PHÁT MỰC IN -->
+            <!-- TAB 5: MODULE QUẢN LÝ KHO & CẤP PHÁT MỰC IN (ĐÃ CẬP NHẬT ĐẦY ĐỦ MÃ MỰC & DÒNG MÁY IN THỊ TRƯỜNG) -->
             <div id="tab-ink-inventory" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--teal);">
@@ -949,12 +948,96 @@
                         <input type="hidden" id="edit-ink-index" value="-1">
                         <div class="grid-form" style="margin-bottom: 8px;">
                             <div class="form-group">
-                                <label style="color:#166534;">Mã mực / Model:</label>
-                                <input type="text" id="ink-model" placeholder="Ví dụ: HP 85A, Canon 337..." style="border-color:#86efac;">
+                                <label style="color:#166534;">Mã mực / Model (Toàn thị trường):</label>
+                                <input type="text" id="ink-model" list="list-all-ink-models" placeholder="Chọn hoặc nhập mã mực..." style="border-color:#86efac;" oninput="autoSelectPrinterByInk(this.value)">
+                                <datalist id="list-all-ink-models">
+                                    <!-- HP -->
+                                    <option value="HP 85A (CB435A/436A/CE285A)">
+                                    <option value="HP 12A (Q2612A)">
+                                    <option value="HP 79A (CF279A)">
+                                    <option value="HP 48A (CF248A)">
+                                    <option value="HP 107A / 110A (W1107A)">
+                                    <option value="HP 136A / 135A (W1360A)">
+                                    <option value="HP 17A (CF217A)">
+                                    <option value="HP 30A (CF230A)">
+                                    <option value="HP 26A / 26X (CF226A)">
+                                    <option value="HP GT51 / GT52 (Mực nước màu/Đen)">
+                                    <!-- CANON -->
+                                    <option value="Canon 337 (Dòng MF211/221/226/232/237/244)">
+                                    <option value="Canon 325 (Dòng LBP 6000/6030)">
+                                    <option value="Canon 303 (Dòng LBP 2900/3000)">
+                                    <option value="Canon 057 / 057H (LBP 226/228/MF445)">
+                                    <option value="Canon 051 (LBP 161/162/MF264)">
+                                    <option value="Canon GI-790 / GI-71 (Mực phun G1010/G2010/G3010/G3020)">
+                                    <!-- BROTHER -->
+                                    <option value="Brother TN-2385 (HL-L2321D/2361DN/2366DW)">
+                                    <option value="Brother TN-B022 (HL-B2000D/B2080DW)">
+                                    <option value="Brother TN-2435 / TN-2450 (HL-L2370DN)">
+                                    <option value="Brother BT-D60BK / BT5000 (Dòng T310/T510W/T710W/T420W)">
+                                    <!-- EPSON -->
+                                    <option value="Epson 003 (L1110/L3110/L3150/L3210/L3250)">
+                                    <option value="Epson 001 (L4150/L4160/L6160/L6170)">
+                                    <option value="Epson 057 (L8050/L18050 - 6 màu)">
+                                    <option value="Epson T6641 -> T6644 (L100/L110/L120/L210/L300/L350/L360/L382/L386/L405/L455/L550/L565/L1300)">
+                                    <!-- XEROX / RICOH / PANTUM -->
+                                    <option value="Fuji Xerox CT202380 (DocuPrint P225d/M225z)">
+                                    <option value="Fuji Xerox P265 / M265 (CT202330)">
+                                    <option value="Ricoh SP 201 / 210 / 230 (Sp 230SFNW)">
+                                    <option value="Pantum PB-211EV (P2200/P2500/M6500)">
+                                </datalist>
                             </div>
                             <div class="form-group">
-                                <label style="color:#166534;">Loại máy in tương thích:</label>
-                                <input type="text" id="ink-printer" placeholder="Ví dụ: HP LaserJet Pro..." style="border-color:#86efac;">
+                                <label style="color:#166534;">Loại máy in tương thích (Đầy đủ dòng thị trường):</label>
+                                <input type="text" id="ink-printer" list="list-all-printer-models" placeholder="Chọn hoặc nhập dòng máy in..." style="border-color:#86efac;">
+                                <datalist id="list-all-printer-models">
+                                    <!-- HP Printers -->
+                                    <option value="HP LaserJet 1010 / 1020 / 1020 Plus (Huyền thoại)">
+                                    <option value="HP LaserJet Pro P1102 / P1102w">
+                                    <option value="HP LaserJet Pro M12a / M12w">
+                                    <option value="HP LaserJet Pro M102a / M102w">
+                                    <option value="HP LaserJet Pro M15a / M15w / M28a">
+                                    <option value="HP LaserJet Pro M28w / M30w">
+                                    <option value="HP LaserJet Pro MFP M125a / M127fn / M127fw">
+                                    <option value="HP LaserJet Pro MFP M130a / M130fn">
+                                    <option value="HP LaserJet Pro MFP M227fdn / M227fdw">
+                                    <option value="HP LaserJet Pro M404dn / M404dw">
+                                    <option value="HP LaserJet Enterprise M501dn / M607n">
+                                    <option value="HP Smart Tank 515 / 520 / 580 / 615 / 720 / 750">
+                                    <!-- Canon Printers -->
+                                    <option value="Canon LBP 2900 / 3000 (Huyền thoại văn phòng)">
+                                    <option value="Canon LBP 6030 / 6030w">
+                                    <option value="Canon LBP 621Cw / 623Cdw (Màu)">
+                                    <option value="Canon LBP 161dn / 162dw">
+                                    <option value="Canon LBP 226dw / 228x">
+                                    <option value="Canon LBP 8100 / 8410CDN (A3)">
+                                    <option value="Canon imageCLASS MF211 / MF221d / MF226dn">
+                                    <option value="Canon imageCLASS MF232w / MF237w / MF244dw">
+                                    <option value="Canon imageCLASS MF264dw / MF267dw">
+                                    <option value="Canon imageCLASS MF3010AE">
+                                    <option value="Canon PIXMA G1010 / G2010 / G3010 / G3020 / G3060">
+                                    <!-- Brother Printers -->
+                                    <option value="Brother HL-L2321D / HL-L2361DN / HL-L2366DW">
+                                    <option value="Brother HL-B2000D / HL-B2080DW">
+                                    <option value="Brother HL-L2370DN / HL-L2375DW">
+                                    <option value="Brother DCP-L2520D / DCP-L2535DW / DCP-L2550DW">
+                                    <option value="Brother MFC-L2701DW / MFC-L2715DW / MFC-L2750DW">
+                                    <option value="Brother DCP-T310 / DCP-T510W / DCP-T710W">
+                                    <option value="Brother DCP-T420W / DCP-T520W / DCP-T720DW / MFC-T920DW">
+                                    <!-- Epson Printers -->
+                                    <option value="Epson L1110 / L1210 / L1250">
+                                    <option value="Epson L3110 / L3150 / L3210 / L3250 / L3256">
+                                    <option value="Epson L4150 / L4160 / L4260 / L6160 / L6270">
+                                    <option value="Epson L805 / L8050 / L1800 / L18050 (Ảnh chuyên nghiệp)">
+                                    <option value="Epson WorkForce Pro WF-C5290 / WF-C5790">
+                                    <!-- Xerox / Ricoh / Pantum / Photocopy -->
+                                    <option value="Fuji Xerox DocuPrint P225d / M225z / P265dw">
+                                    <option value="Fuji Xerox DocuPrint M315z / M325z">
+                                    <option value="Ricoh SP 210SU / SP 230SFNW">
+                                    <option value="Pantum P2500 / P2500W / M6500 / M6550NW">
+                                    <option value="Máy photocopy Ricoh Aficio MP 2004 / 3054 / 4054 / 5054 / 6054">
+                                    <option value="Máy photocopy Toshiba e-Studio 2508A / 3008A / 3508A / 5008A">
+                                    <option value="Máy photocopy Canon imageRUNNER 2004N / 2224N / 2625i">
+                                </datalist>
                             </div>
                             <div class="form-group">
                                 <label style="color:#166534;">Số lượng tồn / Nhập:</label>
@@ -1456,11 +1539,11 @@
                 combinedBarChartInstance = new Chart(ctxBar, {
                     type: 'bar',
                     data: {
-                        labels: ['Thanh Toán VP', 'Cước Viễn Thông', 'Tiền Lương NET'],
+                        labels: ['Thanh Toán VP', 'Cước Viễn Thông', 'Tiền Lương NET', 'Tiền Thuế'],
                         datasets: [{
                             label: 'Giá trị (VNĐ)',
-                            data: [paidPay, telecomPay, netPay],
-                            backgroundColor: ['#047857', '#ea580c', '#1d4ed8'],
+                            data: [paidPay, telecomPay, netPay, totalTax],
+                            backgroundColor: ['#047857', '#ea580c', '#1d4ed8', '#b91c1c'],
                             borderWidth: 1
                         }]
                     },
@@ -1788,7 +1871,6 @@
                 uploadedFiles = [...paymentRecordsByMonth[sm][editIndex].files];
             }
 
-            // Liên kết chuẩn xác tới đúng thư mục tháng/năm bám theo link gốc Drive
             let folderUrl = `${ROOT_DRIVE_FOLDER_URL}?q=Thang_${month}_${year}`;
 
             if (fileInput.files.length > 0) {
@@ -1909,7 +1991,6 @@
                         let q = rec.qty || 1, u = rec.unit || 'Cái';
                         let displayUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : (rec.amount / q);
                         
-                        // Đảm bảo mở đúng thư mục tháng/năm kết nối từ thư mục gốc Drive
                         let targetFolderUrl = rec.folderUrl || `${ROOT_DRIVE_FOLDER_URL}?q=Thang_${mNum}_${yNum}`;
                         let folderLinkHtml = `<a href="${targetFolderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Mở Thư Mục Tháng ${mNum}/${yNum}</a>`;
 
@@ -2511,6 +2592,19 @@
 
             localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
             renderItAssetTable();
+        }
+
+        function autoSelectPrinterByInk(inkVal) {
+            let printerInput = document.getElementById('ink-printer');
+            if (inkVal.includes("85A") || inkVal.includes("12A")) {
+                printerInput.value = "HP LaserJet Pro P1102 / 1020 Plus";
+            } else if (inkVal.includes("337") || inkVal.includes("303")) {
+                printerInput.value = "Canon LBP 2900 / imageCLASS MF221d";
+            } else if (inkVal.includes("TN-2385") || inkVal.includes("TN-B022")) {
+                printerInput.value = "Brother HL-L2321D / HL-B2000D";
+            } else if (inkVal.includes("003") || inkVal.includes("GI-790")) {
+                printerInput.value = "Epson L3110 / L3210 / Canon G2010";
+            }
         }
 
         function openAddInkModal() {
