@@ -1130,9 +1130,9 @@
 
     <!-- MODAL HIỂN THỊ & IN MÃ QR PHÓNG TO -->
     <div id="largeQrModal" class="modal" onclick="closeLargeQrModal()">
-        <div class="modal-content" onclick="event.stopPropagation()" style="max-width:360px; text-align:center; align-items:center;">
+        <div class="modal-content" onclick="event.stopPropagation()" style="max-width:380px; text-align:center; align-items:center;">
             <div class="card-title" style="border-left-color: var(--purple); font-size: 13.5px; width:100%; justify-content:space-between;">
-                <span><i class="fa-solid fa-qrcode"></i> TEM QR THIẾT BỊ CNTT</span>
+                <span><i class="fa-solid fa-qrcode"></i> TEM QR THIẾT BỊ CNTT (QUÉT / IN)</span>
                 <button type="button" onclick="closeLargeQrModal()" style="background:none; border:none; font-size:16px; cursor:pointer; font-weight:bold;">✕</button>
             </div>
             <div style="background:#f8fafc; border:2px solid var(--purple); border-radius:8px; padding:12px; margin:8px 0; width:100%; display:flex; flex-direction:column; align-items:center;">
@@ -2117,8 +2117,6 @@
                 uploadedFiles = [...paymentRecordsByMonth[sm][editIndex].files];
             }
 
-            let folderUrl = `${ROOT_DRIVE_FOLDER_URL}/Thang_${month}.${year}`;
-
             if (fileInput.files.length > 0) {
                 let progressContainer = document.getElementById('progress-container-hstt');
                 let progressFill = document.getElementById('progress-fill-hstt');
@@ -2235,7 +2233,7 @@
                         
                         let filesHtml = "Không có";
                         if (rec.files && rec.files.length > 0) {
-                            filesHtml = rec.files.map((f, fIdx) => `<a href="${f.fileUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="margin:2px 0; display:inline-flex;" onclick="event.stopPropagation();"><i class="fa-solid fa-paperclip"></i> ${f.fileName}</a>`).join("<br>");
+                            filesHtml = rec.files.map((f) => `<a href="${f.fileUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="margin:2px 0; display:inline-flex;" onclick="event.stopPropagation();"><i class="fa-solid fa-paperclip"></i> ${f.fileName}</a>`).join("<br>");
                         }
 
                         tbody.innerHTML += `<tr>
@@ -2462,11 +2460,6 @@
             updateLiveQRPreview();
         }
 
-        function removeVietnameseAccents(str) {
-            if (!str) return "";
-            return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
-        }
-
         function getSelectedSoftwareDetails() {
             let container = document.getElementById('software-checkbox-container');
             if (!container) return [];
@@ -2493,19 +2486,18 @@
 
         function getStructuredQrText(code, type, user, dept, os, office, softwareArr) {
             let cleanCode = code || `IT-TS-${CURRENT_SELECTED_YEAR}`;
-            let cleanType = removeVietnameseAccents(type || "Thiet bi");
-            let cleanUser = removeVietnameseAccents(user || "Chua ro");
-            let cleanDept = removeVietnameseAccents(dept || "Chua ro");
-            let cleanOs = removeVietnameseAccents(os || "Win");
-            let cleanOffice = removeVietnameseAccents(office || "Office");
+            let cleanType = type || "Thiết bị";
+            let cleanUser = user || "Chưa rõ";
+            let cleanDept = dept || "Chưa rõ";
+            let cleanOs = os || "Win";
+            let cleanOffice = office || "Office";
             
-            let swStr = "Khong co";
+            let swStr = "Không có";
             if (softwareArr && softwareArr.length > 0) {
                 swStr = softwareArr.map(s => `${s.name} (${s.lic})`).join(", ");
             }
-            let cleanSoftware = removeVietnameseAccents(swStr);
             
-            return `VINAPACO IT ASSET\n[Ma TS]: ${cleanCode}\n[Loai]: ${cleanType}\n[Nguoi dung]: ${cleanUser}\n[Phong ban]: ${cleanDept}\n[HDH]: ${cleanOs}\n[Office]: ${cleanOffice}\n[Phan mem]: ${cleanSoftware}`;
+            return `VINAPACO IT ASSET\n[Mã TS]: ${cleanCode}\n[Loại]: ${cleanType}\n[Người dùng]: ${cleanUser}\n[Bộ phận]: ${cleanDept}\n[HĐH]: ${cleanOs}\n[Office]: ${cleanOffice}\n[Phần mềm]: ${swStr}`;
         }
 
         function updateLiveQRPreview() {
@@ -2786,7 +2778,7 @@
                     <td>${rec.dept}</td>
                     <td class="text-center">${rec.dateVal || '-'}</td>
                     <td><span style="color:var(--green); font-weight:bold;">${rec.status}</span></td>
-                    <td class="text-center" style="cursor:pointer;" title="Bấm để phóng to và in" onclick="openLargeQrModal('${qrTextStr.replace(/'/g, "\\'")}', '${rec.code}')">
+                    <td class="text-center" style="cursor:pointer;" title="Bấm để phóng to quét hoặc in" onclick="openLargeQrModal('${qrTextStr.replace(/'/g, "\\'")}', '${rec.code}')">
                         <canvas id="${canvasId}" style="width:48px; height:48px; display:inline-block; background:white; padding:2px; border:1px solid #cbd5e1; border-radius:4px;"></canvas>
                     </td>
                     <td class="text-center">
