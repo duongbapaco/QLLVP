@@ -607,7 +607,7 @@
                                     <th>Thành tiền (Đã thuế)</th>
                                     <th>Số tài khoản</th>
                                     <th>Ngân hàng</th>
-                                    <th>Thư mục Drive (Năm)</th>
+                                    <th>Thư mục Drive (Tháng)</th>
                                     <th style="text-align: center;">Thao tác</th>
                                 </tr>
                             </thead>
@@ -720,7 +720,7 @@
                                     <th>Thuế GTGT</th>
                                     <th>Tổng cước (Đã thuế)</th>
                                     <th>Ngày / Kỳ cước</th>
-                                    <th>Thư mục Drive (Năm)</th>
+                                    <th>Thư mục Drive (Tháng)</th>
                                     <th style="text-align: center;">Thao tác</th>
                                 </tr>
                             </thead>
@@ -1855,7 +1855,6 @@
             }
         }
 
-        // TÍNH NĂNG ĐỌC FILE CHẤM CÔNG CHÍNH XÁC THEO CẤU TRÚC MÁY CHẤM CÔNG (CỘT 27 - NT)
         async function importTimekeepingFile(inputEl) {
             let file = inputEl.files[0];
             if (!file) return;
@@ -1947,8 +1946,8 @@
                 uploadedFiles = [...paymentRecordsByMonth[sm][editIndex].files];
             }
 
-            // Gán thư mục gốc mặc định theo yêu cầu
-            let folderUrl = ROOT_DRIVE_FOLDER_URL;
+            // Xây dựng đường dẫn trỏ về thư mục gốc, sau đó truyền vào thư mục con là tháng của năm (ví dụ Thang 07.2026 hoặc tương tự, hoặc tuỳ chỉnh theo ý muốn)
+            let folderUrl = `${ROOT_DRIVE_FOLDER_URL}/Thang_${month}.${year}`;
 
             if (fileInput.files.length > 0) {
                 let progressContainer = document.getElementById('progress-container-hstt');
@@ -1956,7 +1955,7 @@
                 let progressText = document.getElementById('progress-text-hstt');
 
                 progressContainer.style.display = "block";
-                statusLabel.innerText = "⏳ Đang đẩy file vào thư mục năm " + year + " trên hệ thống Google Drive...";
+                statusLabel.innerText = "⏳ Đang đẩy file vào thư mục tháng " + month + "/" + year + " trên hệ thống Google Drive...";
 
                 for (let i = 0; i < fileInput.files.length; i++) {
                     let file = fileInput.files[i];
@@ -1980,9 +1979,8 @@
                         };
                         const response = await fetch(GOOGLE_SCRIPT_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
                         const result = await response.json();
-                        uploadedFiles.push({ fileName: file.name, fileUrl: result.fileUrl || ROOT_DRIVE_FOLDER_URL });
+                        uploadedFiles.push({ fileName: file.name, fileUrl: result.fileUrl || folderUrl });
                         
-                        // Trỏ về đúng thư mục năm trên hệ thống nếu Apps Script trả về link thư mục năm, ngược lại giữ nguyên thư mục gốc
                         if (result && result.folderUrl) {
                             folderUrl = result.folderUrl;
                         }
@@ -2009,7 +2007,7 @@
 
             localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
             renderPaymentTable();
-            statusLabel.innerText = "✅ Tải lên và đẩy file vào đúng thư mục năm thành công!";
+            statusLabel.innerText = "✅ Tải lên và trỏ về đúng thư mục tháng thành công!";
             triggerAutoSyncCloud();
         }
 
@@ -2070,8 +2068,8 @@
                         let displayUnitPrice = rec.unitPrice !== undefined ? rec.unitPrice : (rec.amount / q);
                         let mNum = (dParts.length >= 2) ? dParts[1] : sm.split('-')[1];
                         
-                        let targetFolderUrl = rec.folderUrl ? rec.folderUrl : ROOT_DRIVE_FOLDER_URL;
-                        let folderLinkHtml = `<a href="${targetFolderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Thư mục N.${recYear}</a>`;
+                        let targetFolderUrl = rec.folderUrl ? rec.folderUrl : `${ROOT_DRIVE_FOLDER_URL}/Thang_${mNum}.${recYear}`;
+                        let folderLinkHtml = `<a href="${targetFolderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Thư mục T.${mNum}</a>`;
 
                         tbody.innerHTML += `<tr>
                             <td class="text-center font-bold">${globalIndex++}</td>
@@ -2136,7 +2134,7 @@
                 uploadedFiles = [...telecomRecordsByMonth[sm][editIndex].files];
             }
 
-            let folderUrl = ROOT_DRIVE_FOLDER_URL;
+            let folderUrl = `${ROOT_DRIVE_FOLDER_URL}/Thang_${month}.${year}`;
 
             if (fileInput.files.length > 0) {
                 let progressContainer = document.getElementById('progress-container-vt');
@@ -2144,7 +2142,7 @@
                 let progressText = document.getElementById('progress-text-vt');
 
                 progressContainer.style.display = "block";
-                statusLabel.innerText = "⏳ Đang tải hóa đơn cước viễn thông năm " + year + "...";
+                statusLabel.innerText = "⏳ Đang tải hóa đơn cước viễn thông tháng " + month + "/" + year + "...";
 
                 for (let i = 0; i < fileInput.files.length; i++) {
                     let file = fileInput.files[i];
@@ -2168,7 +2166,7 @@
                         };
                         const response = await fetch(GOOGLE_SCRIPT_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
                         const result = await response.json();
-                        uploadedFiles.push({ fileName: file.name, fileUrl: result.fileUrl || ROOT_DRIVE_FOLDER_URL });
+                        uploadedFiles.push({ fileName: file.name, fileUrl: result.fileUrl || folderUrl });
                         if (result && result.folderUrl) { folderUrl = result.folderUrl; }
                     } catch (err) {
                         console.error("Lỗi: " + err.message);
@@ -2245,8 +2243,8 @@
                         let tAmt = rec.taxAmt !== undefined ? rec.taxAmt : (baseA * tRate / 100);
                         let mNum = (dParts.length >= 2) ? dParts[1] : sm.split('-')[1];
 
-                        let targetFolderUrl = rec.folderUrl ? rec.folderUrl : ROOT_DRIVE_FOLDER_URL;
-                        let folderLinkHtml = `<a href="${targetFolderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Thư mục N.${recYear}</a>`;
+                        let targetFolderUrl = rec.folderUrl ? rec.folderUrl : `${ROOT_DRIVE_FOLDER_URL}/Thang_${mNum}.${recYear}`;
+                        let folderLinkHtml = `<a href="${targetFolderUrl}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" onclick="event.stopPropagation();"><i class="fa-brands fa-google-drive"></i> Thư mục T.${mNum}</a>`;
 
                         tbody.innerHTML += `<tr>
                             <td class="text-center font-bold">${globalIndex++}</td>
