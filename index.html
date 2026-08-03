@@ -1057,7 +1057,7 @@
                 </div>
             </div>
 
-            <!-- TAB 5: MODULE QUẢN LÝ KHO & CẤP PHÁT MỰC IN (ĐÃ SỬA CHUẨN ĐẦY ĐỦ Ô NGÀY THÁNG NĂM ĐỂ ĐỔ XUỐNG BẢNG) -->
+            <!-- TAB 5: MODULE QUẢN LÝ KHO & CẤP PHÁT MỰC IN (ĐÃ BỔ SUNG ĐẦY ĐỦ MÃ MỰC THÔNG DỤNG HIỆN NAY) -->
             <div id="tab-ink-inventory" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--teal);">
@@ -1070,15 +1070,55 @@
                         <div class="grid-form" style="margin-bottom: 6px;">
                             <div class="form-group" style="grid-column: span 2;">
                                 <label style="color:#166534;">Tên loại mực / Mã mực nhập:</label>
-                                <input type="text" id="ink-model" list="list-all-ink-models" placeholder="Nhập tên hoặc mã mực (Ví dụ: Mực HP 12A, Mực Canon 2900...)" style="border-color:#86efac;">
+                                <input type="text" id="ink-model" list="list-all-ink-models" placeholder="Nhập tên hoặc mã mực (Ví dụ: Mực HP 12A, Canon 303, Brother TN-2385...)" style="border-color:#86efac;">
                                 <datalist id="list-all-ink-models">
-                                    <option value="Mực HP 12A (Q2612A)">
-                                    <option value="Mực HP 85A (CE285A)">
-                                    <option value="Mực HP 79A (CF279A)">
-                                    <option value="Mực Canon 303 (Dùng cho LBP 2900)">
-                                    <option value="Mực Canon 325 (Dùng cho LBP 6030)">
-                                    <option value="Mực Brother TN-2385">
-                                    <option value="Mực Epson 003 (Màu/Đen)">
+                                    <!-- MỰC HP (Hãng Hewlett-Packard) -->
+                                    <option value="Mực HP 12A (Q2612A) - Dùng cho HP 1010/1020/1022/3015">
+                                    <option value="Mực HP 85A (CE285A) - Dùng cho HP P1102/M1132/M1212">
+                                    <option value="Mực HP 79A (CF279A) - Dùng cho HP M12a/M12w/M26a">
+                                    <option value="Mực HP 30A (CF230A) - Dùng cho HP M203dn/M227fdw">
+                                    <option value="Mực HP 17A (CF217A) - Dùng cho HP M102w/M130fw">
+                                    <option value="Mực HP 48A (CF248A) - Dùng cho HP M15a/M28a">
+                                    <option value="Mực HP 76A (CF276A) - Dùng cho HP M404dn/M428fdw">
+                                    <option value="Mực HP 05A (CE505A) - Dùng cho HP P2035/P2055">
+                                    <option value="Mực HP 80A (CF280A) - Dùng cho HP 400/M401/M425">
+                                    <option value="Mực HP 107A (W1107A) - Dùng cho HP 107a/107w/135a">
+                                    <option value="Mực HP 136A (W1360A) - Dùng cho HP M236dw/M236sdw">
+                                    <option value="Mực HP 142A (W1420A) - Dùng cho HP M110w/M140w">
+                                    <option value="Mực HP 680 (F6V27AA / F6V26AA) - Phun màu/Đen">
+                                    <option value="Mực HP GT51 / GT52 (Màu & Đen) - Dùng cho HP Ink Tank 115/310/415">
+
+                                    <!-- MỰC CANON -->
+                                    <option value="Mực Canon 303 (EP-303) - Dùng cho Canon LBP 2900/3000">
+                                    <option value="Mực Canon 325 (CRG-325) - Dùng cho Canon LBP 6000/6030/6230">
+                                    <option value="Mực Canon 337 (CRG-337) - Dùng cho Canon MF 211/212w/221d/226dn">
+                                    <option value="Mực Canon 051 (CRG-051) - Dùng cho Canon LBP 161dn/MF264dw">
+                                    <option value="Mực Canon 057 (CRG-057) - Dùng cho Canon LBP 223dw/226dw/MF445dw">
+                                    <option value="Mực Canon 312 (CRG-312) - Dùng cho Canon LBP 3100">
+                                    <option value="Mực Canon 326 (CRG-326) - Dùng cho Canon LBP 6200d">
+                                    <option value="Mực Canon 328 (CRG-328) - Dùng cho Canon MF 4410/4550d">
+                                    <option value="Mực Canon GI-790 (BK/C/M/Y) - Dùng cho Canon G1000/G2000/G3000/G4000">
+                                    <option value="Mực Canon GI-71 / GI-73 (Màu & Đen) - Dùng cho Canon G1020/G2020/G3020/G5070">
+
+                                    <!-- MỰC BROTHER -->
+                                    <option value="Mực Brother TN-2385 - Dùng cho HL-L2321D/L2366DW/MFC-L2701D">
+                                    <option value="Mực Brother TN-B022 - Dùng cho HL-B2080DW/B7535DW">
+                                    <option value="Mực Brother TN-2250 - Dùng cho HL-2240D/7360">
+                                    <option value="Mực Brother TN-1000 - Dùng cho HL-1110/1201/DCP-1511">
+                                    <option value="Mực Brother BT5000 / BT6000BK - Dùng cho T300/T500W/T700W/T910DW">
+                                    <option value="Mực Brother BTD60BK / BT500C/M/Y - Dùng cho T310/T510W/T710W/T420W">
+
+                                    <!-- MỰC EPSON -->
+                                    <option value="Mực Epson 003 (C13T00V199 - BK/C/M/Y) - Dùng cho L1110/L3110/L3150/L3210/L3250">
+                                    <option value="Mực Epson 057 (C13T057...) - Dùng cho Epson L8050/L18050">
+                                    <option value="Mực Epson 008 (C13T06G...) - Dùng cho Epson M15140/L15150">
+                                    <option value="Mực Epson 664 (T6641 - T6644) - Dùng cho L100/L110/L120/L210/L300/L350/L360/L382/L550/L1300">
+
+                                    <!-- MỰC XEROX & RICOH & KHÁC -->
+                                    <option value="Mực Fuji Xerox DocuPrint P225d / M225dw (CT202330)">
+                                    <option value="Mực Fuji Xerox M115w / P115w (CT202138)">
+                                    <option value="Mực Ricoh SP 111 / SP 200 / SP 210 (Hộp mực in laser)">
+                                    <option value="Mực Panasonic KX-FAT411 / FAT421 (Dùng cho máy fax/in Panasonic)">
                                 </datalist>
                             </div>
                             <div class="form-group">
