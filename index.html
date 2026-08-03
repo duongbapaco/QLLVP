@@ -137,7 +137,6 @@
         .popup-day.selected { background: var(--blue) !important; color: white !important; font-weight: bold; }
         .popup-day.today { border: 1px solid var(--red); color: var(--red); }
 
-        /* LỊCH VẠN NIÊN CHUẨN GIAO DIỆN MẪU (BÁM SÁT ẢNH) */
         .calendar-sidebar { background: white; border-radius: 8px; border: 1.5px solid #cbd5e1; padding: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.3s ease; }
         .calendar-sidebar.hidden { display: none !important; }
 
@@ -488,7 +487,6 @@
                         </div>
                     </div>
 
-                    <!-- KHUNG ĐĂNG KÝ NGHỈ PHÉP DOANH NGHIỆP CHUYÊN NGHIỆP (CÓ TỪ NGÀY, ĐẾN NGÀY, TỰ ĐỘNG TÍNH SỐ NGÀY, LÝ DO DROPDOWN, GHI CHÚ TÁCH RIÊNG) -->
                     <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
                         <div style="font-weight: bold; color: #166534; font-size: 13.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
                             <i class="fa-solid fa-file-signature"></i> 📝 PHIẾU ĐĂNG KÝ & DUYỆT NGHỈ PHÉP NHÂN SỰ DOANH NGHIỆP
@@ -1059,7 +1057,7 @@
                 </div>
             </div>
 
-            <!-- TAB 5: MODULE QUẢN LÝ KHO & CẤP PHÁT MỰC IN (ĐÃ THIẾT KẾ LẠI ĐƠN GIẢN, CHỈ QUẢN LÝ MỰC NHẬP) -->
+            <!-- TAB 5: MODULE QUẢN LÝ KHO & CẤP PHÁT MỰC IN (ĐÃ SỬA CHUẨN ĐẦY ĐỦ Ô NGÀY THÁNG NĂM ĐỂ ĐỔ XUỐNG BẢNG) -->
             <div id="tab-ink-inventory" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--teal);">
@@ -1108,7 +1106,7 @@
                             </div>
                             <div class="form-group">
                                 <label style="color:#166534;">Ngày tháng năm:</label>
-                                <input type="date" id="ink-date" style="border-color:#86efac;">
+                                <input type="date" id="ink-date" class="inp-table" style="border-color:#86efac;" value="2026-08-03">
                             </div>
                             <div class="form-group">
                                 <label style="color:#166534;">Trạng thái kho:</label>
@@ -1179,7 +1177,6 @@
             </div>
             <div class="cal-grid-mini" id="cal-mini-days-container"></div>
 
-            <!-- THÔNG TIN PHONG THỦY CHUYÊN NGHIỆP -->
             <div class="cal-info-panel">
                 <div class="cal-info-row">
                     <span class="cal-info-label">🌙 Âm lịch:</span>
@@ -1391,7 +1388,6 @@
         let activePickerId = null;
         let pickerCurrentDate = new Date();
 
-        // 🕒 ĐỒNG HỒ HỆ THỐNG HOẠT ĐỘNG CHUẨN, MƯỢT MÀ (KHÔNG TREO)
         function updateLiveSystemClock() {
             let now = new Date();
             let hours = String(now.getHours()).padStart(2, '0');
@@ -1407,9 +1403,8 @@
         }
         setInterval(updateLiveSystemClock, 1000);
 
-        // 🗓️ LỊCH VẠN NIÊN HOẠT ĐỘNG MƯỢT MÀ, ĐỒNG BỘ TUYỆT ĐỐI
         const weekdaysVN = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
-        let calendarViewDate = new Date(2026, 7, 3); // Tháng 8/2026
+        let calendarViewDate = new Date(2026, 7, 3);
         let calendarSelectedDate = new Date(2026, 7, 3);
 
         function renderCalendar() {
@@ -1427,20 +1422,17 @@
             const totalDays = new Date(year, month + 1, 0).getDate();
             const prevTotalDays = new Date(year, month, 0).getDate();
 
-            // Ngày tháng trước
             for (let i = firstDayIndex; i > 0; i--) {
                 const dayNum = prevTotalDays - i + 1;
                 const cellDate = new Date(year, month - 1, dayNum);
                 container.appendChild(createCalCell(dayNum, true, cellDate));
             }
 
-            // Ngày trong tháng
             for (let i = 1; i <= totalDays; i++) {
                 const cellDate = new Date(year, month, i);
                 container.appendChild(createCalCell(i, false, cellDate));
             }
 
-            // Ngày tháng sau lấp đầy
             const totalCellsSoFar = firstDayIndex + totalDays;
             const nextDaysCount = totalCellsSoFar <= 35 ? (35 - totalCellsSoFar) : (42 - totalCellsSoFar);
             for (let i = 1; i <= nextDaysCount; i++) {
@@ -1557,7 +1549,6 @@
             alert("✅ Đã lưu sự kiện thành công!");
         }
 
-        // 🚀 HÀM TỰ ĐỘNG ĐẨY TOÀN BỘ DỮ LIỆU LÊN GOOGLE CLOUD
         async function saveDataToCloudAPI() {
             if (!GOOGLE_SCRIPT_API_URL) return;
             let dot = document.getElementById('cloud-status-dot');
@@ -1596,7 +1587,6 @@
             }
         }
 
-        // 🚀 HÀM GỌI DỮ LIỆU TỰ ĐỘNG TỪ CLOUD
         async function loadDataFromCloudAPI() {
             if (!GOOGLE_SCRIPT_API_URL) return;
             let dot = document.getElementById('cloud-status-dot');
@@ -1876,7 +1866,6 @@
             }
         }
 
-        // 🚀 MODULE QUẢN LÝ NGÀY PHÉP CHUYÊN NGHIỆP (TỪ NGÀY, ĐẾN NGÀY, TỰ ĐỘNG TÍNH SỐ NGÀY)
         function calculateLeaveDaysAuto() {
             let fromVal = document.getElementById('form-leave-from').value;
             let toVal = document.getElementById('form-leave-to').value;
@@ -3451,7 +3440,6 @@
             saveAs(blob, `Bao_Cao_CNTT_${CURRENT_SELECTED_YEAR}.doc`);
         }
 
-        // KHỞI TẠO HỆ THỐNG KHI TẢI TRANG AN TOÀN
         window.addEventListener('DOMContentLoaded', () => {
             initSoftwareDropdown();
             handleMonthChangeSelect();
@@ -3462,11 +3450,9 @@
             renderLeaveManagementModule();
             updateGlobalDashboardSummary();
             
-            // Khởi chạy Lịch vạn niên chuẩn & đồng hồ mượt mà
             renderCalendar();
             updateLiveSystemClock();
 
-            // Tự động tải dữ liệu ngầm từ Cloud API ngay khi mở
             loadDataFromCloudAPI();
         });
     </script>
