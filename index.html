@@ -194,6 +194,7 @@
             </div>
         </div>
         <div style="display:flex; gap:5px; flex-wrap: wrap;">
+            <button type="button" class="btn btn-primary" style="padding: 5px 8px; font-size:11.5px;" onclick="loadDataFromCloudAPI()"><i class="fa-solid fa-cloud-arrow-down"></i> Tải Dữ Liệu Từ Cloud</button>
             <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="padding: 5px 8px; font-size:11.5px;"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
             <button type="button" class="btn btn-green" style="padding: 5px 8px; font-size:11.5px;" onclick="toggleCalendarSidebar()"><i class="fa-solid fa-calendar-days"></i> Lịch</button>
             <button type="button" class="btn btn-purple" style="padding: 5px 8px; font-size:11.5px;" onclick="openConfigUrlModal()"><i class="fa-solid fa-link"></i> Cấu hình</button>
@@ -1205,6 +1206,57 @@
 
         let activePickerId = null;
         let pickerCurrentDate = new Date();
+
+        // 🚀 TÍCH HỢP HÀM GỌI DỮ LIỆU TỰ ĐỘNG TỪ CLOUD (LOAD DATA FROM CLOUD API)
+        async function loadDataFromCloudAPI() {
+            if (!GOOGLE_SCRIPT_API_URL) return;
+            let dot = document.getElementById('cloud-status-dot');
+            let txt = document.getElementById('cloud-status-text');
+            if (dot) dot.style.backgroundColor = "var(--orange)";
+            if (txt) txt.innerText = "⏳ Đang tải dữ liệu từ Google Cloud...";
+
+            try {
+                let response = await fetch(GOOGLE_SCRIPT_API_URL);
+                let cloudData = await response.json();
+                
+                // Nếu dữ liệu trên cloud trả về có lưu trữ các bảng ghi, đồng bộ vào localStorage
+                if (cloudData.salary_by_month) {
+                    salaryDataByMonth = cloudData.salary_by_month;
+                    localStorage.setItem('sys_salary_by_month', JSON.stringify(salaryDataByMonth));
+                }
+                if (cloudData.payment_records) {
+                    paymentRecordsByMonth = cloudData.payment_records;
+                    localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
+                }
+                if (cloudData.telecom_records) {
+                    telecomRecordsByMonth = cloudData.telecom_records;
+                    localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth));
+                }
+                if (cloudData.it_assets) {
+                    itAssetRecordsByYear = cloudData.it_assets;
+                    localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
+                }
+                if (cloudData.ink_inventory) {
+                    inkInventoryRecordsByYear = cloudData.ink_inventory;
+                    localStorage.setItem('sys_ink_inventory_records_by_year', JSON.stringify(inkInventoryRecordsByYear));
+                }
+
+                if (dot) dot.style.backgroundColor = "var(--green)";
+                if (txt) txt.innerText = "Đã đồng bộ thành công dữ liệu từ Cloud!";
+
+                // Refresh lại toàn bộ giao diện bảng biểu
+                handleMonthChangeSelect();
+                renderPaymentTable();
+                renderTelecomTable();
+                renderItAssetTable();
+                renderInkInventoryTable();
+                updateGlobalDashboardSummary();
+            } catch (err) {
+                console.error("Lỗi đồng bộ từ Cloud:", err);
+                if (dot) dot.style.backgroundColor = "var(--red)";
+                if (txt) txt.innerText = "Lỗi kết nối Cloud API!";
+            }
+        }
 
         function initSoftwareDropdown() {
             let container = document.getElementById('software-checkbox-container');
@@ -3143,6 +3195,7 @@
             if (clockEl) clockEl.innerText = `${timeStr} - ${dateStr}`;
         }, 1000);
 
+        // 🚀 TỰ ĐỘNG GỌI HÀM ĐỒNG BỘ DỮ LIỆU NGAY KHI MỞ TRANG
         window.onload = function() {
             initSoftwareDropdown();
             handleMonthChangeSelect();
@@ -3152,6 +3205,9 @@
             renderInkInventoryTable();
             renderSmartCalendar();
             updateGlobalDashboardSummary();
+
+            // Tự động kéo dữ liệu từ Google Cloud về ngay khi mở phần mềm tại cơ quan
+            loadDataFromCloudAPI();
         };
     </script>
 </body>
