@@ -1300,7 +1300,6 @@
 
         let CURRENT_SELECTED_YEAR = "2026";
         let isAmountManual = false;
-        let isAutoSyncEnabled = true;
 
         let combinedPieChartInstance = null;
         let combinedBarChartInstance = null;
@@ -1454,6 +1453,18 @@
                 if (dot) dot.style.backgroundColor = "var(--red)";
                 if (txt) txt.innerText = "Lỗi kết nối Cloud API!";
             }
+        }
+
+        // HÀM CHUYỂN TAB AN TOÀN TRÁNH TREO LẶP
+        function switchMainTab(tabId) {
+            document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            let targetBtn = document.querySelector(`.nav-tab[data-tab="${tabId}"]`);
+            let targetContent = document.getElementById(`tab-${tabId}`);
+            
+            if (targetBtn) targetBtn.classList.add('active');
+            if (targetContent) targetContent.classList.add('active');
         }
 
         function initSoftwareDropdown() {
@@ -1783,7 +1794,6 @@
             document.getElementById('stat-leave-total-used').innerText = `${Math.round(totalUsedAll * 10)/10} ngày`;
             document.getElementById('stat-leave-total-remaining').innerText = `${Math.round((totalGrantedAll - totalUsedAll) * 10)/10} ngày`;
 
-            // Render nhật ký nghỉ phép
             let logs = leaveLogsByYear[CURRENT_SELECTED_YEAR] || [];
             logTbody.innerHTML = "";
             if (logs.length === 0) {
@@ -1804,7 +1814,6 @@
                 });
             }
 
-            // Đồng bộ số ngày phép P vào bảng lương của các tháng tương ứng
             syncLeaveDaysToSalaryTables();
         }
 
@@ -1851,7 +1860,6 @@
 
             if (!name || days <= 0 || !month) { alert("Vui lòng chọn nhân sự và số ngày phép hợp lệ!"); return; }
 
-            // Kiểm tra hạn mức phép
             let totalGranted = getStaffTotalLeaveQuota(name);
             let currentUsed = getStaffUsedLeave(name);
             let remaining = totalGranted - currentUsed;
@@ -3392,6 +3400,21 @@
             let blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
             saveAs(blob, `Bao_Cao_CNTT_${CURRENT_SELECTED_YEAR}.doc`);
         }
+
+        // KHỞI TẠO HỆ THỐNG KHI TẢI TRANG AN TOÀN
+        window.addEventListener('DOMContentLoaded', () => {
+            initSoftwareDropdown();
+            handleMonthChangeSelect();
+            renderPaymentTable();
+            renderTelecomTable();
+            renderItAssetTable();
+            renderInkInventoryTable();
+            renderLeaveManagementModule();
+            updateGlobalDashboardSummary();
+            
+            // Tự động tải dữ liệu ngầm từ Cloud API ngay khi mở
+            loadDataFromCloudAPI();
+        });
     </script>
 </body>
 </html>
