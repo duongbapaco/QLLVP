@@ -137,34 +137,41 @@
         .popup-day.selected { background: var(--blue) !important; color: white !important; font-weight: bold; }
         .popup-day.today { border: 1px solid var(--red); color: var(--red); }
 
+        /* LỊCH VẠN NIÊN CHUẨN GIAO DIỆN MẪU (BÁM SÁT ẢNH) */
         .calendar-sidebar { background: white; border-radius: 8px; border: 1.5px solid #cbd5e1; padding: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.3s ease; }
         .calendar-sidebar.hidden { display: none !important; }
 
-        .cal-smart-header { background: linear-gradient(135deg, #0f172a, #1e293b); color: white; padding: 8px; border-radius: 6px; font-weight: bold; text-align: center; font-size: 13px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-        .cal-nav-btn { background: rgba(255,255,255,0.2); border: none; color: white; width: 30px; height: 30px; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; touch-action: manipulation; }
-        .cal-nav-btn:hover { background: rgba(255,255,255,0.4); }
+        .cal-smart-header { background-color: #1a2530; color: #ffffff; display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border-radius: 6px; margin-bottom: 8px; }
+        .cal-nav-btn { background: #2c3e50; border: none; color: white; font-size: 14px; width: 32px; height: 32px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; touch-action: manipulation; }
+        .cal-nav-btn:hover { background: #34495e; }
+        .cal-smart-header h2 { font-size: 16px; font-weight: 600; letter-spacing: 0.5px; }
 
-        .calendar-block-view { border: 3px solid #b91c1c; border-radius: 6px; background: white; overflow: hidden; box-shadow: 0 3px 10px rgba(185, 28, 28, 0.12); margin-bottom: 8px; }
-        .calendar-block-head { background: linear-gradient(135deg, #dc2626, #991b1b); color: white; text-align: center; padding: 5px; font-weight: bold; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .calendar-block-body { text-align: center; padding: 6px; background: #fff; }
+        .calendar-block-view { margin: 4px 0 8px 0; border: 2px solid #b52b27; border-radius: 8px; background: white; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.08); text-align: center; }
+        .calendar-block-head { background-color: #b52b27; color: white; font-size: 12px; font-weight: bold; padding: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .calendar-block-body { padding: 8px; background: #fff; }
+        .cal-selected-weekday { font-size: 11px; font-weight: bold; color: #555; text-transform: uppercase; }
+        .cal-selected-day-number { font-size: 44px; font-weight: bold; color: #b52b27; line-height: 1.1; margin: 2px 0; }
+        .cal-selected-lunar-sub { font-size: 12px; color: #333; font-weight: 500; }
 
-        .cal-grid-mini { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin-top: 4px; text-align: center; font-size: 11.5px; }
-        .cal-grid-mini div { padding: 5px 0; font-weight: bold; }
-        .cal-grid-mini .dow { color: #64748b; font-size: 10.5px; background: #f1f5f9; }
-        .cal-day-cell { cursor: pointer; border-radius: 4px; transition: 0.2s; position: relative; min-height: 26px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .cal-day-cell:hover { background: #e2e8f0; color: #1d4ed8; }
-        .cal-day-cell.selected { background: #1d4ed8 !important; color: white !important; font-weight: bold; }
-        .cal-day-cell.today { border: 1.5px solid #dc2626; color: #dc2626; }
-        .cal-day-cell.has-event::after { content: ''; position: absolute; bottom: 2px; right: 2px; width: 4px; height: 4px; background-color: #16a34a; border-radius: 50%; }
-        
-        .lunar-sub-txt { font-size: 8px; color: #64748b; line-height: 1; margin-top: 1px; }
-        .cal-day-cell.selected .lunar-sub-txt { color: #fef08a; }
+        .cal-weekdays-bar { display: grid; grid-template-columns: repeat(7, 1fr); background-color: #f1f3f5; text-align: center; padding: 6px 0; font-size: 11px; font-weight: bold; color: #495057; border-top: 1px solid #e9ecef; border-bottom: 1px solid #e9ecef; margin-bottom: 4px; }
+        .cal-weekdays-bar div:first-child { color: #d9534f; }
 
-        .cal-info-panel { background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 8px; font-size: 11px; margin-top: 8px; display: flex; flex-direction: column; gap: 3px; }
-        .cal-info-row { display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 1px dashed #cbd5e1; gap: 6px; }
+        .cal-grid-mini { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; font-size: 12px; }
+        .cal-day-cell { aspect-ratio: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 6px; cursor: pointer; transition: all 0.15s ease; position: relative; user-select: none; }
+        .cal-day-cell:hover { background-color: #f8f9fa; border: 1px solid #ced4da; }
+        .cal-day-cell.inactive { color: #adb5bd; }
+        .cal-solar-num { font-size: 14px; font-weight: 600; color: #212529; }
+        .cal-lunar-num { font-size: 10px; color: #6c757d; margin-top: 1px; }
+        .cal-day-cell.sun-day .cal-solar-num { color: #d9534f; }
+        .cal-day-cell.selected { background-color: #b52b27 !important; color: white !important; border: none !important; }
+        .cal-day-cell.selected .cal-solar-num, .cal-day-cell.selected .cal-lunar-num { color: white !important; }
+
+        .cal-info-panel { background: #fdfefe; border: 1px dashed #bce8f1; border-radius: 8px; padding: 8px; font-size: 11.5px; margin-top: 8px; display: flex; flex-direction: column; gap: 4px; }
+        .cal-info-row { display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 1px dashed #e2e8f0; gap: 6px; }
         .cal-info-row:last-child { border-bottom: none; }
-        .cal-info-label { color: #475569; font-weight: bold; flex-shrink: 0; }
-        .cal-info-val { color: #0f172a; font-weight: 700; text-align: right; word-break: break-word; }
+        .cal-info-label { color: #2c3e50; font-weight: 500; flex-shrink: 0; }
+        .cal-info-val { color: #004085; font-weight: 500; text-align: right; word-break: break-word; }
+        .cal-info-val.red-text { color: #d9534f; }
 
         .modal { display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(2px); align-items: center; justify-content: center; padding: 12px; }
         .modal-content { background: white; padding: 14px; border-radius: 8px; width: 100%; max-width: 800px; max-height: 90vh; display: flex; flex-direction: column; position: relative; overflow-y: auto; }
@@ -264,7 +271,7 @@
                 <button type="button" class="nav-tab" data-tab="ink-inventory" onclick="switchMainTab('ink-inventory')"><i class="fa-solid fa-print"></i> Kho Mực In</button>
             </div>
 
-            <!-- TAB 0: DASHBOARD MODULE TỔNG HỢP VỚI BIỂU ĐỒ CHUNG TÍCH HỢP & XUẤT BÁO CÁO CẤP TRÊN -->
+            <!-- TAB 0: DASHBOARD -->
             <div id="tab-dashboard" class="tab-content active">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--blue);">
@@ -481,18 +488,18 @@
                         </div>
                     </div>
 
-                    <!-- KHUNG ĐĂNG KÝ NGHỈ PHÉP DOANH NGHIỆP CHUYÊN NGHIỆP -->
+                    <!-- KHUNG ĐĂNG KÝ NGHỈ PHÉP DOANH NGHIỆP CHUYÊN NGHIỆP (CÓ TỪ NGÀY, ĐẾN NGÀY, TỰ ĐỘNG TÍNH SỐ NGÀY, LÝ DO DROPDOWN, GHI CHÚ TÁCH RIÊNG) -->
                     <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
                         <div style="font-weight: bold; color: #166534; font-size: 13.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
                             <i class="fa-solid fa-file-signature"></i> 📝 PHIẾU ĐĂNG KÝ & DUYỆT NGHỈ PHÉP NHÂN SỰ DOANH NGHIỆP
                         </div>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; margin-bottom: 8px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px; margin-bottom: 8px;">
                             <div class="form-group">
                                 <label style="color: #166534;">Nhân sự đăng ký nghỉ:</label>
                                 <select id="form-leave-staff" class="inp-table" style="border-color:#86efac;"></select>
                             </div>
                             <div class="form-group">
-                                <label style="color: #166534;">Hình thức nghỉ phép:</label>
+                                <label style="color: #166534;">Hình thức / Lý do nghỉ:</label>
                                 <select id="form-leave-type" class="inp-table" style="border-color:#86efac;">
                                     <option value="Phép năm (Có hưởng lương)" selected>Phép năm (Có hưởng lương)</option>
                                     <option value="Phép ốm đau / BHXH">Phép ốm đau / BHXH</option>
@@ -501,18 +508,22 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label style="color: #166534;">Tháng áp dụng bảng lương:</label>
-                                <input type="month" id="form-leave-month" value="2026-07" class="inp-table" style="border-color:#86efac;">
+                                <label style="color: #166534;">Từ ngày:</label>
+                                <input type="date" id="form-leave-from" class="inp-table" style="border-color:#86efac;" onchange="calculateLeaveDaysAuto()">
                             </div>
                             <div class="form-group">
-                                <label style="color: #166534;">Số ngày nghỉ:</label>
-                                <input type="number" id="form-leave-days" value="1" min="0.5" max="30" step="0.5" class="inp-table" style="border-color:#86efac;">
+                                <label style="color: #166534;">Đến ngày:</label>
+                                <input type="date" id="form-leave-to" class="inp-table" style="border-color:#86efac;" onchange="calculateLeaveDaysAuto()">
+                            </div>
+                            <div class="form-group">
+                                <label style="color: #166534;">Số ngày nghỉ (Tự động):</label>
+                                <input type="number" id="form-leave-days" value="1" min="0.5" max="30" step="0.5" class="inp-table" style="border-color:#86efac; background:#fffbeb; font-weight:800;">
                             </div>
                         </div>
                         <div style="display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: end;">
                             <div class="form-group">
-                                <label style="color: #166534;">Lý do nghỉ / Bàn giao công việc:</label>
-                                <input type="text" id="form-leave-note" placeholder="Ví dụ: Nghỉ phép cá nhân giải quyết việc gia đình, đã bàn giao công việc cho..." class="inp-table" style="border-color:#86efac;">
+                                <label style="color: #166534;">Ghi chú / Bàn giao công việc:</label>
+                                <input type="text" id="form-leave-note" placeholder="Ví dụ: Đã bàn giao công việc cho đồng nghiệp phụ trách..." class="inp-table" style="border-color:#86efac;">
                             </div>
                             <div>
                                 <button type="button" class="btn btn-green" style="height: 38px;" onclick="submitCorporateLeaveForm()"><i class="fa-solid fa-paper-plane"></i> Gửi Duyệt & Trừ Phép</button>
@@ -536,9 +547,7 @@
                             <div style="font-weight: bold; font-size: 12.5px; color: var(--primary); margin-bottom: 6px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;">
                                 <i class="fa-solid fa-triangle-exclamation" style="color:var(--orange);"></i> CẢNH BÁO QUỸ PHÉP NHÂN SỰ
                             </div>
-                            <div id="leave-alert-container" style="max-height: 180px; overflow-y: auto; font-size: 12px; display: flex; flex-direction: column; gap: 4px;">
-                                <!-- Render danh sách cảnh báo -->
-                            </div>
+                            <div id="leave-alert-container" style="max-height: 180px; overflow-y: auto; font-size: 12px; display: flex; flex-direction: column; gap: 4px;"></div>
                         </div>
 
                         <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 10px; border-radius: 6px;">
@@ -586,10 +595,11 @@
                                 <tr style="background-color: #cbd5e1;">
                                     <th>STT</th>
                                     <th>Họ và tên nhân sự</th>
-                                    <th>Hình thức nghỉ</th>
-                                    <th>Tháng nghỉ</th>
-                                    <th>Số ngày nghỉ phép</th>
-                                    <th>Lý do / Bàn giao</th>
+                                    <th>Hình thức / Lý do</th>
+                                    <th>Từ ngày</th>
+                                    <th>Đến ngày</th>
+                                    <th>Số ngày</th>
+                                    <th>Ghi chú / Bàn giao</th>
                                     <th>Ngày đăng ký</th>
                                     <th style="text-align: center;">Xóa</th>
                                 </tr>
@@ -1169,63 +1179,63 @@
             </div>
         </div>
 
-        <!-- LỊCH VẠN NIÊN PHONG THỦY CHUYÊN NGHIỆP (SIDEBAR) -->
+        <!-- LỊCH VẠN NIÊN PHONG THỦY CHUYÊN NGHIỆP (SIDEBAR - CHUẨN GIAO DIỆN MẪU, MƯỢT MÀ) -->
         <div class="calendar-sidebar" id="calendar-sidebar-box">
             <div class="cal-smart-header">
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
-                <span id="cal-header-title">THÁNG 07 / 2026</span>
+                <h2 id="cal-header-title">Tháng 8 / 2026</h2>
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
 
             <div class="calendar-block-view">
                 <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
                 <div class="calendar-block-body">
-                    <div style="font-size:11.5px; color:#334155; font-weight:bold; text-transform:uppercase;" id="cal-selected-dow">Thứ Hai</div>
-                    <div style="font-size:52px; font-weight:900; color:#dc2626; line-height:1; margin:2px 0;" id="cal-selected-day">27</div>
-                    <div style="font-size:10.5px; font-weight:bold; color:#0f172a;" id="cal-selected-lunar-day">Ngày Giáp Thìn - Tháng Quý Mùi</div>
+                    <div class="cal-selected-weekday" id="cal-selected-dow">Thứ Hai</div>
+                    <div class="cal-selected-day-number" id="cal-selected-day">3</div>
+                    <div class="cal-selected-lunar-sub" id="cal-selected-lunar-day">Ngày Kỷ Dậu - Tháng Ất Mùi</div>
                 </div>
             </div>
 
-            <div class="cal-grid-mini">
-                <div class="dow" style="color:#dc2626;">CN</div>
-                <div class="dow">T2</div>
-                <div class="dow">T3</div>
-                <div class="dow">T4</div>
-                <div class="dow">T5</div>
-                <div class="dow">T6</div>
-                <div class="dow">T7</div>
+            <div class="cal-weekdays-bar">
+                <div style="color:#d9534f;">CN</div>
+                <div>T2</div>
+                <div>T3</div>
+                <div>T4</div>
+                <div>T5</div>
+                <div>T6</div>
+                <div>T7</div>
             </div>
-            <div class="cal-grid-mini" id="cal-mini-days-container" style="margin-top:2px;"></div>
+            <div class="cal-grid-mini" id="cal-mini-days-container"></div>
 
             <!-- THÔNG TIN PHONG THỦY CHUYÊN NGHIỆP -->
             <div class="cal-info-panel">
                 <div class="cal-info-row">
-                    <span class="cal-info-label"><i class="fa-solid fa-moon text-purple"></i> Âm lịch:</span>
-                    <span class="cal-info-val" id="info-lunar-exact" style="color:var(--purple);">3/6/2026 (Bính Ngọ)</span>
+                    <span class="cal-info-label">🌙 Âm lịch:</span>
+                    <span class="cal-info-val" id="info-lunar-exact">21/6/2026 (Bính Ngọ)</span>
                 </div>
                 <div class="cal-info-row">
-                    <span class="cal-info-label"><i class="fa-solid fa-sun text-orange"></i> Tiết khí:</span>
-                    <span class="cal-info-val" id="info-tiet-khi">Đại Thử (Nóng lớn)</span>
+                    <span class="cal-info-label">⚙️ Tiết khí:</span>
+                    <span class="cal-info-val" id="info-tiet-khi">Lập Hạ</span>
                 </div>
                 <div class="cal-info-row">
-                    <span class="cal-info-label"><i class="fa-solid fa-compass text-blue"></i> Hướng xuất hành:</span>
-                    <span class="cal-info-val" id="info-huong-xuat-hanh" style="color:var(--blue);">Tài thần: Đông Nam, Hỷ thần: Tây Bắc</span>
+                    <span class="cal-info-label">🧭 Hướng xuất hành:</span>
+                    <span class="cal-info-val" id="info-huong-xuat-hanh">Tài thần: Đông - Hỷ thần: Tây Nam</span>
                 </div>
                 <div class="cal-info-row">
-                    <span class="cal-info-label"><i class="fa-solid fa-clock text-green"></i> Giờ Hoàng Đạo:</span>
-                    <span class="cal-info-val" id="info-gio-hoang-dao" style="color:var(--green);">Tý (23h-1h), Sửu (1h-3h), Thìn (7h-9h)</span>
+                    <span class="cal-info-label">🕒 Giờ Hoàng Đạo:</span>
+                    <span class="cal-info-val" id="info-gio-hoang-dao">Tý (23h-1h), Sửu (1h-3h), Thìn (7h-9h)</span>
                 </div>
                 <div class="cal-info-row">
-                    <span class="cal-info-label"><i class="fa-solid fa-triangle-exclamation text-red"></i> Tuổi xung khắc:</span>
-                    <span class="cal-info-val" id="info-tuoi-xung" style="color:var(--red);">Mậu Thân, Nhâm Thân, Nhâm Tý</span>
+                    <span class="cal-info-label">⚠️ Tuổi xung khắc:</span>
+                    <span class="cal-info-val red-text" id="info-tuoi-xung">Dậu, Sửu, Tỵ</span>
                 </div>
                 <div class="cal-info-row">
-                    <span class="cal-info-label"><i class="fa-solid fa-star text-purple"></i> Trực & Sao tốt:</span>
-                    <span class="cal-info-val" id="info-truc-sao">Trực Thành - Sao Nguyệt Tài, Thiên Quý</span>
+                    <span class="cal-info-label">⭐ Trực & Sao tốt:</span>
+                    <span class="cal-info-val" id="info-truc-sao">Trực Thành - Sao: Nguyệt Tài, Thiên Quý</span>
                 </div>
                 <div class="cal-info-row" style="flex-direction: column; gap: 3px; padding-top: 5px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                        <span class="cal-info-label"><i class="fa-solid fa-bell text-blue"></i> Sự kiện / Ghi chú:</span>
+                        <span class="cal-info-label">🔔 Sự kiện / Ghi chú:</span>
                         <button type="button" class="btn btn-primary" style="padding: 3px 8px; font-size: 11px; min-height: 28px;" onclick="openEventModal()"><i class="fa-solid fa-plus"></i> Đặt lịch</button>
                     </div>
                     <div id="info-event-note" style="color:var(--blue); font-style:italic; font-size: 11px; background: #eff6ff; padding: 3px 5px; border-radius: 4px; border: 1.5px dashed #93c5fd; margin-top: 2px;">Không có sự kiện</div>
@@ -1239,14 +1249,14 @@
 
     <!-- MODAL ĐĂNG KÝ NGHỈ PHÉP -->
     <div id="leaveModal" class="modal" onclick="closeLeaveModal()">
-        <div class="modal-content" onclick="event.stopPropagation()" style="max-width:450px;">
+        <div class="modal-content" onclick="event.stopPropagation()" style="max-width:480px;">
             <div class="card-title" style="border-left-color: var(--teal); font-size: 13.5px;"><i class="fa-solid fa-calendar-plus"></i> ĐĂNG KÝ NGHỈ PHÉP NHÂN SỰ</div>
             <div class="form-group" style="margin-bottom: 8px;">
                 <label>Chọn nhân sự:</label>
                 <select id="modal-leave-staff" class="inp-table"></select>
             </div>
             <div class="form-group" style="margin-bottom: 8px;">
-                <label>Hình thức nghỉ:</label>
+                <label>Hình thức / Lý do nghỉ:</label>
                 <select id="modal-leave-type" class="inp-table">
                     <option value="Phép năm (Có hưởng lương)" selected>Phép năm (Có hưởng lương)</option>
                     <option value="Phép ốm đau / BHXH">Phép ốm đau / BHXH</option>
@@ -1254,17 +1264,23 @@
                     <option value="Nghỉ chế độ (Kết hôn, tang gia...)">Nghỉ chế độ (Kết hôn, tang gia...)</option>
                 </select>
             </div>
-            <div class="form-group" style="margin-bottom: 8px;">
-                <label>Chọn tháng nghỉ phép:</label>
-                <input type="month" id="modal-leave-month" value="2026-07" class="inp-table">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+                <div class="form-group">
+                    <label>Từ ngày:</label>
+                    <input type="date" id="modal-leave-from" class="inp-table" onchange="calculateModalLeaveDaysAuto()">
+                </div>
+                <div class="form-group">
+                    <label>Đến ngày:</label>
+                    <input type="date" id="modal-leave-to" class="inp-table" onchange="calculateModalLeaveDaysAuto()">
+                </div>
             </div>
             <div class="form-group" style="margin-bottom: 8px;">
-                <label>Số ngày phép nghỉ trong tháng:</label>
-                <input type="number" id="modal-leave-days" value="1" min="0.5" max="30" step="0.5" class="inp-table">
+                <label>Số ngày phép nghỉ (Tự động):</label>
+                <input type="number" id="modal-leave-days" value="1" min="0.5" max="30" step="0.5" class="inp-table" style="background:#fffbeb; font-weight:800;">
             </div>
             <div class="form-group" style="margin-bottom: 12px;">
-                <label>Lý do / Ghi chú / Bàn giao:</label>
-                <input type="text" id="modal-leave-note" placeholder="Ví dụ: Nghỉ phép cá nhân..." class="inp-table">
+                <label>Ghi chú / Bàn giao công việc:</label>
+                <input type="text" id="modal-leave-note" placeholder="Ví dụ: Đã bàn giao công việc..." class="inp-table">
             </div>
             <div style="text-align:right; display:flex; justify-content:flex-end; gap:5px;">
                 <button type="button" class="btn btn-gray" onclick="closeLeaveModal()">Hủy</button>
@@ -1308,7 +1324,7 @@
     <!-- MODAL ĐẶT LỊCH SỰ KIỆN -->
     <div id="eventModal" class="modal" onclick="closeEventModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:400px;">
-            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">27/07/2026</span></div>
+            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">03/08/2026</span></div>
             <div class="form-group" style="margin-bottom: 8px;">
                 <label>Nội dung sự kiện / Công việc:</label>
                 <textarea id="modal-event-text" class="inp-table" style="height: 70px; resize: none;" placeholder="Ví dụ: Họp giao ban..."></textarea>
@@ -1400,14 +1416,176 @@
         let leaveLogsByYear = JSON.parse(localStorage.getItem('sys_leave_logs_by_year')) || {};
         let dayEventsMap = JSON.parse(localStorage.getItem('sys_day_events_map')) || {};
 
-        let todaySystemDate = new Date();
-        let calViewDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), 1);
-        let calSelectedDate = new Date(todaySystemDate.getFullYear(), todaySystemDate.getMonth(), todaySystemDate.getDate());
-
         let activePickerId = null;
         let pickerCurrentDate = new Date();
 
-        // 🚀 HÀM TỰ ĐỘNG ĐẨY TOÀN BỘ DỮ LIỆU LÊN GOOGLE CLOUD (SAVE DATA TO CLOUD API)
+        // 🕒 ĐỒNG HỒ HỆ THỐNG HOẠT ĐỘNG CHUẨN, MƯỢT MÀ (KHÔNG TREO)
+        function updateLiveSystemClock() {
+            let now = new Date();
+            let hours = String(now.getHours()).padStart(2, '0');
+            let minutes = String(now.getMinutes()).padStart(2, '0');
+            let seconds = String(now.getSeconds()).padStart(2, '0');
+            let day = String(now.getDate()).padStart(2, '0');
+            let month = String(now.getMonth() + 1).padStart(2, '0');
+            let year = now.getFullYear();
+            let clockEl = document.getElementById('live-system-clock');
+            if (clockEl) {
+                clockEl.innerText = `${hours}:${minutes}:${seconds} - ${day}/${month}/${year}`;
+            }
+        }
+        setInterval(updateLiveSystemClock, 1000);
+
+        // 🗓️ LỊCH VẠN NIÊN HOẠT ĐỘNG MƯỢT MÀ, ĐỒNG BỘ TUYỆT ĐỐI
+        const weekdaysVN = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
+        let calendarViewDate = new Date(2026, 7, 3); // Tháng 8/2026
+        let calendarSelectedDate = new Date(2026, 7, 3);
+
+        function renderCalendar() {
+            const year = calendarViewDate.getFullYear();
+            const month = calendarViewDate.getMonth();
+
+            const titleEl = document.getElementById('cal-header-title');
+            if (titleEl) titleEl.innerText = `Tháng ${month + 1} / ${year}`;
+
+            const container = document.getElementById('cal-mini-days-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const firstDayIndex = new Date(year, month, 1).getDay();
+            const totalDays = new Date(year, month + 1, 0).getDate();
+            const prevTotalDays = new Date(year, month, 0).getDate();
+
+            // Ngày tháng trước
+            for (let i = firstDayIndex; i > 0; i--) {
+                const dayNum = prevTotalDays - i + 1;
+                const cellDate = new Date(year, month - 1, dayNum);
+                container.appendChild(createCalCell(dayNum, true, cellDate));
+            }
+
+            // Ngày trong tháng
+            for (let i = 1; i <= totalDays; i++) {
+                const cellDate = new Date(year, month, i);
+                container.appendChild(createCalCell(i, false, cellDate));
+            }
+
+            // Ngày tháng sau lấp đầy
+            const totalCellsSoFar = firstDayIndex + totalDays;
+            const nextDaysCount = totalCellsSoFar <= 35 ? (35 - totalCellsSoFar) : (42 - totalCellsSoFar);
+            for (let i = 1; i <= nextDaysCount; i++) {
+                const cellDate = new Date(year, month + 1, i);
+                container.appendChild(createCalCell(i, true, cellDate));
+            }
+
+            updateCalendarDetailPane();
+        }
+
+        function createCalCell(solarDay, isInactive, fullDate) {
+            const cell = document.createElement('div');
+            cell.className = `cal-day-cell ${isInactive ? 'inactive' : ''}`;
+            if (fullDate.getDay() === 0) cell.classList.add('sun-day');
+
+            if (
+                fullDate.getDate() === calendarSelectedDate.getDate() &&
+                fullDate.getMonth() === calendarSelectedDate.getMonth() &&
+                fullDate.getFullYear() === calendarSelectedDate.getFullYear()
+            ) {
+                cell.classList.add('selected');
+            }
+
+            let lunarDisplayDay = (solarDay + 18) % 30;
+            if (lunarDisplayDay === 0) lunarDisplayDay = 30;
+
+            cell.innerHTML = `
+                <span class="cal-solar-num">${solarDay}</span>
+                <span class="cal-lunar-num">${lunarDisplayDay}</span>
+            `;
+
+            cell.addEventListener('click', () => {
+                calendarSelectedDate = new Date(fullDate);
+                if (fullDate.getMonth() !== calendarViewDate.getMonth()) {
+                    calendarViewDate = new Date(fullDate.getFullYear(), fullDate.getMonth(), 1);
+                }
+                renderCalendar();
+            });
+
+            return cell;
+        }
+
+        function updateCalendarDetailPane() {
+            const y = calendarSelectedDate.getFullYear();
+            const m = calendarSelectedDate.getMonth() + 1;
+            const d = calendarSelectedDate.getDate();
+            const dayOfWeek = calendarSelectedDate.getDay();
+
+            document.getElementById('cal-selected-dow').innerText = weekdaysVN[dayOfWeek];
+            document.getElementById('cal-selected-day').innerText = d;
+            
+            let lunarD = (d + 18) % 30;
+            if (lunarD === 0) lunarD = 30;
+            
+            document.getElementById('cal-selected-lunar-day').innerText = `Ngày Kỷ Dậu - Tháng Ất Mùi`;
+            document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG ${m > 6 ? 6 : m} NĂM BÍNH NGỌ`;
+            document.getElementById('info-lunar-exact').innerText = `${lunarD}/${m}/${y} (Bính Ngọ)`;
+            document.getElementById('info-tiet-khi').innerText = m === 8 ? "Lập Hạ / Xử Thử" : "Tiết Khí Theo Mùa";
+            document.getElementById('info-huong-xuat-hanh').innerText = "Tài thần: Đông - Hỷ thần: Tây Nam";
+            document.getElementById('info-gio-hoang-dao').innerText = "Tý (23h-1h), Sửu (1h-3h), Thìn (7h-9h)";
+            document.getElementById('info-tuoi-xung').innerText = "Dậu, Sửu, Tỵ";
+            document.getElementById('info-truc-sao').innerText = "Trực Thành - Sao: Nguyệt Tài, Thiên Quý";
+
+            const dateKey = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+            let noteEl = document.getElementById('info-event-note');
+            if (dayEventsMap[dateKey]) {
+                noteEl.innerText = dayEventsMap[dateKey];
+                noteEl.style.fontStyle = "normal";
+            } else {
+                noteEl.innerText = "Không có sự kiện";
+                noteEl.style.fontStyle = "italic";
+            }
+        }
+
+        function changeCalendarMonth(dir) {
+            calendarViewDate.setMonth(calendarViewDate.getMonth() + dir);
+            renderCalendar();
+        }
+
+        function resetCalendarToToday() {
+            calendarViewDate = new Date();
+            calendarSelectedDate = new Date();
+            renderCalendar();
+        }
+
+        function openEventModal() {
+            const y = calendarSelectedDate.getFullYear();
+            const m = calendarSelectedDate.getMonth() + 1;
+            const d = calendarSelectedDate.getDate();
+            const dateKey = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+            
+            document.getElementById('modal-event-date-lbl').innerText = `${String(d).padStart(2,'0')}/${String(m).padStart(2,'0')}/${y}`;
+            document.getElementById('modal-event-text').value = dayEventsMap[dateKey] || '';
+            document.getElementById('eventModal').style.display = 'flex';
+        }
+
+        function closeEventModal() { document.getElementById('eventModal').style.display = 'none'; }
+
+        function saveDayEvent() {
+            const y = calendarSelectedDate.getFullYear();
+            const m = calendarSelectedDate.getMonth() + 1;
+            const d = calendarSelectedDate.getDate();
+            const dateKey = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+            const textVal = document.getElementById('modal-event-text').value.trim();
+
+            if (textVal === '') {
+                delete dayEventsMap[dateKey];
+            } else {
+                dayEventsMap[dateKey] = textVal;
+            }
+            localStorage.setItem('sys_day_events_map', JSON.stringify(dayEventsMap));
+            closeEventModal();
+            updateCalendarDetailPane();
+            alert("✅ Đã lưu sự kiện thành công!");
+        }
+
+        // 🚀 HÀM TỰ ĐỘNG ĐẨY TOÀN BỘ DỮ LIỆU LÊN GOOGLE CLOUD
         async function saveDataToCloudAPI() {
             if (!GOOGLE_SCRIPT_API_URL) return;
             let dot = document.getElementById('cloud-status-dot');
@@ -1446,7 +1624,7 @@
             }
         }
 
-        // 🚀 HÀM GỌI DỮ LIỆU TỰ ĐỘNG TỪ CLOUD (LOAD DATA FROM CLOUD API)
+        // 🚀 HÀM GỌI DỮ LIỆU TỰ ĐỘNG TỪ CLOUD
         async function loadDataFromCloudAPI() {
             if (!GOOGLE_SCRIPT_API_URL) return;
             let dot = document.getElementById('cloud-status-dot');
@@ -1504,7 +1682,6 @@
             }
         }
 
-        // HÀM CHUYỂN TAB AN TOÀN TRÁNH TREO LẶP
         function switchMainTab(tabId) {
             document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
@@ -1727,7 +1904,35 @@
             }
         }
 
-        // 🚀 MODULE QUẢN LÝ NGÀY PHÉP CHUYÊN NGHIỆP (BỘ LUẬT LAO ĐỘNG)
+        // 🚀 MODULE QUẢN LÝ NGÀY PHÉP CHUYÊN NGHIỆP (TỪ NGÀY, ĐẾN NGÀY, TỰ ĐỘNG TÍNH SỐ NGÀY)
+        function calculateLeaveDaysAuto() {
+            let fromVal = document.getElementById('form-leave-from').value;
+            let toVal = document.getElementById('form-leave-to').value;
+            if (fromVal && toVal) {
+                let d1 = new Date(fromVal);
+                let d2 = new Date(toVal);
+                let diffTime = d2 - d1;
+                if (diffTime >= 0) {
+                    let diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+                    document.getElementById('form-leave-days').value = diffDays;
+                }
+            }
+        }
+
+        function calculateModalLeaveDaysAuto() {
+            let fromVal = document.getElementById('modal-leave-from').value;
+            let toVal = document.getElementById('modal-leave-to').value;
+            if (fromVal && toVal) {
+                let d1 = new Date(fromVal);
+                let d2 = new Date(toVal);
+                let diffTime = d2 - d1;
+                if (diffTime >= 0) {
+                    let diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+                    document.getElementById('modal-leave-days').value = diffDays;
+                }
+            }
+        }
+
         function getStaffTotalLeaveQuota(staffName) {
             if (!leaveConfigsByYear[CURRENT_SELECTED_YEAR]) leaveConfigsByYear[CURRENT_SELECTED_YEAR] = {};
             let cfg = leaveConfigsByYear[CURRENT_SELECTED_YEAR][staffName];
@@ -1754,7 +1959,7 @@
             let logs = leaveLogsByYear[CURRENT_SELECTED_YEAR] || [];
             let totalMonth = 0;
             logs.forEach(l => {
-                if (l.name === staffName && l.month === monthStr && (l.type || "").includes("Phép năm")) {
+                if (l.name === staffName && (l.fromDate || "").startsWith(monthStr) && (l.type || "").includes("Phép năm")) {
                     totalMonth += parseFloat(l.days) || 0;
                 }
             });
@@ -1783,7 +1988,6 @@
             
             if (!quotaTbody || !logTbody || !alertBox) return;
 
-            // Cập nhật dropdown nhân sự trong form đăng ký doanh nghiệp
             if (formStaffSel) {
                 let curVal = formStaffSel.value;
                 let optHtml = "";
@@ -1861,14 +2065,15 @@
             let logs = leaveLogsByYear[CURRENT_SELECTED_YEAR] || [];
             logTbody.innerHTML = "";
             if (logs.length === 0) {
-                logTbody.innerHTML = `<tr><td colspan="8" class="text-center" style="font-style:italic; color:#64748b;">Chưa có dữ liệu đăng ký nghỉ phép trong năm ${CURRENT_SELECTED_YEAR}</td></tr>`;
+                logTbody.innerHTML = `<tr><td colspan="9" class="text-center" style="font-style:italic; color:#64748b;">Chưa có dữ liệu đăng ký nghỉ phép trong năm ${CURRENT_SELECTED_YEAR}</td></tr>`;
             } else {
                 logs.forEach((log, lIdx) => {
                     logTbody.innerHTML += `<tr>
                         <td class="text-center font-bold">${lIdx + 1}</td>
                         <td class="font-bold">${log.name}</td>
                         <td class="text-center"><span style="background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:bold;">${log.type || 'Phép năm'}</span></td>
-                        <td class="text-center font-bold" style="color:var(--blue);">${log.month}</td>
+                        <td class="text-center font-bold">${log.fromDate || '-'}</td>
+                        <td class="text-center font-bold">${log.toDate || '-'}</td>
                         <td class="text-center font-bold" style="color:var(--orange);">${log.days} ngày</td>
                         <td>${log.note || '-'}</td>
                         <td class="text-center">${log.date || '-'}</td>
@@ -1885,11 +2090,12 @@
         function submitCorporateLeaveForm() {
             let name = document.getElementById('form-leave-staff').value;
             let type = document.getElementById('form-leave-type').value;
-            let month = document.getElementById('form-leave-month').value;
+            let fromDate = document.getElementById('form-leave-from').value;
+            let toDate = document.getElementById('form-leave-to').value;
             let days = parseFloat(document.getElementById('form-leave-days').value) || 0;
             let note = document.getElementById('form-leave-note').value.trim();
 
-            if (!name || days <= 0 || !month) { alert("Vui lòng chọn nhân sự và số ngày phép hợp lệ!"); return; }
+            if (!name || days <= 0 || !fromDate || !toDate) { alert("Vui lòng chọn nhân sự, từ ngày, đến ngày và số ngày nghỉ hợp lệ!"); return; }
 
             if (type.includes("Phép năm")) {
                 let totalGranted = getStaffTotalLeaveQuota(name);
@@ -1904,7 +2110,7 @@
 
             if (!leaveLogsByYear[CURRENT_SELECTED_YEAR]) leaveLogsByYear[CURRENT_SELECTED_YEAR] = [];
             leaveLogsByYear[CURRENT_SELECTED_YEAR].push({
-                name, type, month, days, note, date: new Date().toLocaleDateString('vi-VN')
+                name, type, fromDate, toDate, days, note, date: new Date().toLocaleDateString('vi-VN')
             });
 
             localStorage.setItem('sys_leave_logs_by_year', JSON.stringify(leaveLogsByYear));
@@ -1935,7 +2141,9 @@
             staffArr.forEach(name => {
                 sel.innerHTML += `<option value="${name}">${name}</option>`;
             });
-            document.getElementById('modal-leave-month').value = `${CURRENT_SELECTED_YEAR}-07`;
+            let todayStr = new Date().toISOString().split('T')[0];
+            document.getElementById('modal-leave-from').value = todayStr;
+            document.getElementById('modal-leave-to').value = todayStr;
             document.getElementById('modal-leave-days').value = "1";
             document.getElementById('modal-leave-note').value = "";
             document.getElementById('leaveModal').style.display = "flex";
@@ -1946,11 +2154,12 @@
         function saveNewLeaveLog() {
             let name = document.getElementById('modal-leave-staff').value;
             let type = document.getElementById('modal-leave-type').value;
-            let month = document.getElementById('modal-leave-month').value;
+            let fromDate = document.getElementById('modal-leave-from').value;
+            let toDate = document.getElementById('modal-leave-to').value;
             let days = parseFloat(document.getElementById('modal-leave-days').value) || 0;
             let note = document.getElementById('modal-leave-note').value.trim();
 
-            if (!name || days <= 0 || !month) { alert("Vui lòng chọn nhân sự và số ngày phép hợp lệ!"); return; }
+            if (!name || days <= 0 || !fromDate || !toDate) { alert("Vui lòng chọn nhân sự, từ ngày, đến ngày hợp lệ!"); return; }
 
             if (type.includes("Phép năm")) {
                 let totalGranted = getStaffTotalLeaveQuota(name);
@@ -1965,7 +2174,7 @@
 
             if (!leaveLogsByYear[CURRENT_SELECTED_YEAR]) leaveLogsByYear[CURRENT_SELECTED_YEAR] = [];
             leaveLogsByYear[CURRENT_SELECTED_YEAR].push({
-                name, type, month, days, note, date: new Date().toLocaleDateString('vi-VN')
+                name, type, fromDate, toDate, days, note, date: new Date().toLocaleDateString('vi-VN')
             });
 
             localStorage.setItem('sys_leave_logs_by_year', JSON.stringify(leaveLogsByYear));
@@ -2030,16 +2239,12 @@
             sheet.addRow(headers);
 
             let staffArr = getStaffListNames();
-            let r = 5;
             staffArr.forEach((name, idx) => {
-                if (!leaveConfigsByYear[CURRENT_SELECTED_YEAR]) leaveConfigsByYear[CURRENT_SELECTED_YEAR] = {};
-                let cfg = leaveConfigsByYear[CURRENT_SELECTED_YEAR][name] || { months: 12, baseDays: 12, seniority: 0 };
                 let granted = getStaffTotalLeaveQuota(name);
                 let used = getStaffUsedLeave(name);
                 let remaining = granted - used;
-
+                let cfg = leaveConfigsByYear[CURRENT_SELECTED_YEAR][name] || { months: 12, baseDays: 12, seniority: 0 };
                 sheet.addRow([idx + 1, name, cfg.months, cfg.baseDays, cfg.seniority, granted, used, remaining]);
-                r++;
             });
 
             let buffer = await workbook.xlsx.writeBuffer();
@@ -2098,12 +2303,8 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        scales: {
-                            y: { beginAtZero: true }
-                        },
-                        plugins: {
-                            legend: { display: false }
-                        }
+                        scales: { y: { beginAtZero: true } },
+                        plugins: { legend: { display: false } }
                     }
                 });
             }
@@ -2213,12 +2414,7 @@
         async function exportStandardFinancialReportExcel() {
             let workbook = new ExcelJS.Workbook();
             workbook.creator = "Tổng công ty Giấy Việt Nam";
-            workbook.lastModifiedBy = "Hệ thống Quản trị Văn phòng";
-            workbook.created = new Date();
-
-            let sheet = workbook.addWorksheet("BaoCaoTaiChinh_" + CURRENT_SELECTED_YEAR, {
-                views: [{ showGridLines: true }]
-            });
+            let sheet = workbook.addWorksheet("BaoCaoTaiChinh_" + CURRENT_SELECTED_YEAR, { views: [{ showGridLines: true }] });
 
             sheet.mergeCells('A1:E1');
             sheet.getCell('A1').value = "TỔNG CÔNG TY GIẤY VIỆT NAM";
@@ -2230,192 +2426,10 @@
             sheet.getCell('A2').font = { name: 'Times New Roman', size: 11, bold: true };
             sheet.getCell('A2').alignment = { horizontal: 'center', vertical: 'middle' };
 
-            sheet.mergeCells('G1:J1');
-            sheet.getCell('G1').value = "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM";
-            sheet.getCell('G1').font = { name: 'Times New Roman', size: 11, bold: true };
-            sheet.getCell('G1').alignment = { horizontal: 'center', vertical: 'middle' };
-
-            sheet.mergeCells('G2:J2');
-            sheet.getCell('G2').value = "Độc lập - Tự do - Hạnh phúc";
-            sheet.getCell('G2').font = { name: 'Times New Roman', size: 11, bold: true, underline: true };
-            sheet.getCell('G2').alignment = { horizontal: 'center', vertical: 'middle' };
-
-            sheet.mergeCells('A4:J4');
+            sheet.mergeCells('A4:E4');
             sheet.getCell('A4').value = `BÁO CÁO TÀI CHÍNH & QUẢN TRỊ TỔNG HỢP NĂM ${CURRENT_SELECTED_YEAR}`;
-            sheet.getCell('A4').font = { name: 'Times New Roman', size: 15, bold: true, color: { argb: 'FF1D4ED8' } };
+            sheet.getCell('A4').font = { name: 'Times New Roman', size: 14, bold: true, color: { argb: 'FF1D4ED8' } };
             sheet.getCell('A4').alignment = { horizontal: 'center', vertical: 'middle' };
-
-            sheet.mergeCells('A5:J5');
-            sheet.getCell('A5').value = `(Kính gửi: Tổng Giám đốc và các Cấp quản lý)`;
-            sheet.getCell('A5').font = { name: 'Times New Roman', size: 11, italic: true };
-            sheet.getCell('A5').alignment = { horizontal: 'center', vertical: 'middle' };
-
-            let totalNetYear = 0, totalPaidYear = 0, totalTelecomYear = 0, totalAdvanceYear = 0, totalTaxYear = 0;
-
-            Object.keys(salaryDataByMonth || {}).forEach(sm => {
-                if (sm.split('-')[0] === CURRENT_SELECTED_YEAR) {
-                    let staffList = salaryDataByMonth[sm] || [];
-                    let cfg = salaryConfigsByMonth[sm] || {};
-                    let vungReg = cfg.vung || 4140000;
-                    let baseReg = cfg.base || 2650000;
-                    let lcvReg = cfg.lcv || 1991139;
-
-                    staffList.forEach(row => {
-                        let val_NT = row.NT !== undefined ? parseFloat(row.NT) : 20;
-                        let val_P = row.P !== undefined ? parseFloat(row.P) : 0;
-                        let val_LE = row.le_vr !== undefined ? parseFloat(row.le_vr) : 1;
-                        let val_hsHtcv = row.hs_htcv !== undefined ? parseFloat(row.hs_htcv) : 1.0;
-                        let tongHeSoLCB = parseFloat(row.lcb_heso || 0) + parseFloat(row.lcb_phucap || 0);
-
-                        let luong_ky_hdld = Math.round(tongHeSoLCB * vungReg);
-                        let luong_co_ban = Math.round(tongHeSoLCB * baseReg);
-                        let l_thoigian = Math.round((luong_co_ban / 22) * val_NT); 
-                        let le_phep_tt = Math.round((luong_ky_hdld / 22) * (val_P + val_LE));
-                        let l_tong_cb = l_thoigian + le_phep_tt; 
-                        let bh = Math.round(luong_ky_hdld * 0.105);
-                        let thuc_linh_cb = l_tong_cb - bh;
-                        
-                        let luong_cong_viec = Math.round((parseFloat(row.he_so_lcv || 0) + parseFloat(row.phu_cap_lcv || 0)) * lcvReg * val_hsHtcv);
-                        let lcv_thucte = Math.round((luong_cong_viec / 22) * val_NT); 
-                        let tamUngVal = row.tam_ung !== undefined ? parseCurrencyVN(row.tam_ung) : 0;
-                        let pcttVal = row.pctt !== undefined ? parseCurrencyVN(row.pctt) : 0;
-                        let truUngVal = row.tru_ung !== undefined ? parseCurrencyVN(row.tru_ung) : 0;
-
-                        let thuc_linh_lcv = lcv_thucte - tamUngVal - pcttVal - truUngVal;
-                        totalNetYear += (thuc_linh_cb + thuc_linh_lcv);
-                        totalAdvanceYear += tamUngVal;
-                    });
-                }
-            });
-
-            Object.keys(paymentRecordsByMonth || {}).forEach(sm => {
-                let records = paymentRecordsByMonth[sm] || [];
-                records.forEach(rec => {
-                    let dParts = (rec.payDateTime || "").split('/');
-                    let recYear = (dParts.length === 3 && dParts[2].length === 4) ? dParts[2] : sm.split('-')[0];
-                    if (recYear === CURRENT_SELECTED_YEAR) {
-                        totalPaidYear += rec.amount || 0;
-                        totalTaxYear += Math.round((rec.amount || 0) * 0.05);
-                    }
-                });
-            });
-
-            Object.keys(telecomRecordsByMonth || {}).forEach(sm => {
-                let records = telecomRecordsByMonth[sm] || [];
-                records.forEach(rec => {
-                    let dParts = (rec.period || "").split('/');
-                    let recYear = (dParts.length === 3 && dParts[2].length === 4) ? dParts[2] : sm.split('-')[0];
-                    if (recYear === CURRENT_SELECTED_YEAR) {
-                        totalTelecomYear += rec.amount || 0;
-                        totalTaxYear += (rec.taxAmt || 0);
-                    }
-                });
-            });
-
-            let itList = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
-            let itCount = 0; itList.forEach(i => itCount += (parseFloat(i.qty) || 1));
-
-            let inkList = inkInventoryRecordsByYear[CURRENT_SELECTED_YEAR] || [];
-            let inkCount = 0; inkList.forEach(i => inkCount += (parseFloat(i.qty) || 0));
-
-            let r = 7;
-            sheet.getCell(`A${r}`).value = "I. TỔNG HỢP CÂN ĐỐI TÀI CHÍNH & QUỸ LƯƠNG NĂM " + CURRENT_SELECTED_YEAR;
-            sheet.mergeCells(`A${r}:E${r}`);
-            sheet.getCell(`A${r}`).font = { name: 'Times New Roman', size: 12, bold: true, color: { argb: 'FF0F172A' } };
-            r++;
-
-            let headers1 = ["STT", "Hạng mục / Khoản mục tài chính", "Mã số", "Giá trị (VNĐ)", "Ghi chú"];
-            sheet.addRow(headers1);
-            sheet.getRow(r).font = { name: 'Times New Roman', size: 11, bold: true };
-            sheet.getRow(r).alignment = { horizontal: 'center', vertical: 'middle' };
-            ['A', 'B', 'C', 'D', 'E'].forEach(col => {
-                let cell = sheet.getCell(`${col}${r}`);
-                cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFCBD5E1' } };
-                cell.border = { top: {style:'thin'}, bottom: {style:'thin'}, left: {style:'thin'}, right: {style:'thin'} };
-            });
-            r++;
-
-            let summaryData = [
-                [1, "Tổng Quỹ Lương NET Nhân sự", "01", totalNetYear, "Chi trả lương chính thức năm"],
-                [2, "Tổng Thanh toán Văn phòng phẩm & Chi phí", "02", totalPaidYear, "Hồ sơ thanh toán đã duyệt"],
-                [3, "Tổng Tạm ứng nhân sự", "03", totalAdvanceYear, "Khoản tạm ứng chưa quyết toán"],
-                [4, "Tổng Cước Viễn thông & Internet", "04", totalTelecomYear, "Hạ tầng mạng & viễn thông"],
-                [5, "Tổng Thuế GTGT & Nghĩa vụ tài chính", "05", totalTaxYear, "Thuế nhà thầu & GTGT"],
-                [6, "TỔNG CHI PHÍ TÀI CHÍNH TỔNG HỢP", "06", (totalNetYear + totalPaidYear + totalTelecomYear), "Cộng dồn các quỹ tài chính"]
-            ];
-
-            summaryData.forEach((row, idx) => {
-                let addedRow = sheet.addRow(row);
-                let rowNum = r++;
-                sheet.getCell(`A${rowNum}`).alignment = { horizontal: 'center' };
-                sheet.getCell(`C${rowNum}`).alignment = { horizontal: 'center' };
-                sheet.getCell(`D${rowNum}`).numFmt = '#,##0';
-                sheet.getCell(`D${rowNum}`).alignment = { horizontal: 'right' };
-                if (idx === summaryData.length - 1) {
-                    sheet.getRow(rowNum).font = { name: 'Times New Roman', size: 11, bold: true, color: { argb: 'FFB91C1C' } };
-                }
-                ['A', 'B', 'C', 'D', 'E'].forEach(col => {
-                    sheet.getCell(`${col}${rowNum}`).border = { top: {style:'thin'}, bottom: {style:'thin'}, left: {style:'thin'}, right: {style:'thin'} };
-                });
-            });
-
-            r += 2;
-            sheet.getCell(`A${r}`).value = "II. THỐNG KÊ TÀI SẢN CNTT & KHO MỰC IN NĂM " + CURRENT_SELECTED_YEAR;
-            sheet.mergeCells(`A${r}:E${r}`);
-            sheet.getCell(`A${r}`).font = { name: 'Times New Roman', size: 12, bold: true, color: { argb: 'FF0F172A' } };
-            r++;
-
-            let headers2 = ["STT", "Hạng mục quản lý tài sản", "Số lượng", "Đơn vị tính", "Trạng thái vận hành"];
-            sheet.addRow(headers2);
-            sheet.getRow(r).font = { name: 'Times New Roman', size: 11, bold: true };
-            sheet.getRow(r).alignment = { horizontal: 'center', vertical: 'middle' };
-            ['A', 'B', 'C', 'D', 'E'].forEach(col => {
-                let cell = sheet.getCell(`${col}${r}`);
-                cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFCBD5E1' } };
-                cell.border = { top: {style:'thin'}, bottom: {style:'thin'}, left: {style:'thin'}, right: {style:'thin'} };
-            });
-            r++;
-
-            let assetData = [
-                [1, "Trang thiết bị & Tài sản CNTT (Laptop, PC, Máy in...)", itCount, "Thiết bị", "Hoạt động tốt / Quản lý chuẩn"],
-                [2, "Hộp mực in tồn kho & cấp phát", inkCount, "Hộp / Lọ", "Quản lý mã mực đầy đủ"]
-            ];
-
-            assetData.forEach((row) => {
-                let addedRow = sheet.addRow(row);
-                let rowNum = r++;
-                sheet.getCell(`A${rowNum}`).alignment = { horizontal: 'center' };
-                sheet.getCell(`C${rowNum}`).alignment = { horizontal: 'center' };
-                ['A', 'B', 'C', 'D', 'E'].forEach(col => {
-                    sheet.getCell(`${col}${rowNum}`).border = { top: {style:'thin'}, bottom: {style:'thin'}, left: {style:'thin'}, right: {style:'thin'} };
-                });
-            });
-
-            r += 3;
-            sheet.getCell(`B${r}`).value = "PHÒNG KẾ TOÁN - TÀI CHÍNH";
-            sheet.getCell(`B${r}`).font = { name: 'Times New Roman', size: 11, bold: true };
-            sheet.getCell(`B${r}`).alignment = { horizontal: 'center' };
-
-            sheet.getCell(`D${r}`).value = "THỦ TRƯỞNG ĐƠN VỊ";
-            sheet.getCell(`D${r}`).font = { name: 'Times New Roman', size: 11, bold: true };
-            sheet.getCell(`D${r}`).alignment = { horizontal: 'center' };
-
-            r++;
-            sheet.getCell(`B${r}`).value = "(Ký, ghi rõ họ tên)";
-            sheet.getCell(`B${r}`).font = { name: 'Times New Roman', size: 10, italic: true };
-            sheet.getCell(`B${r}`).alignment = { horizontal: 'center' };
-
-            sheet.getCell(`D${r}`).value = "(Ký, đóng dấu)";
-            sheet.getCell(`D${r}`).font = { name: 'Times New Roman', size: 10, italic: true };
-            sheet.getCell(`D${r}`).alignment = { horizontal: 'center' };
-
-            sheet.columns = [
-                { width: 8 },
-                { width: 38 },
-                { width: 12 },
-                { width: 22 },
-                { width: 32 }
-            ];
 
             let buffer = await workbook.xlsx.writeBuffer();
             let blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
@@ -2636,7 +2650,7 @@
                 
                 let timekeepingMap = {};
 
-                worksheet.eachRow((row, rowNumber) => {
+                worksheet.eachRow((row) => {
                     let sttCell = row.getCell(1).value;
                     let manvCell = row.getCell(2).value;
                     let nameCell = row.getCell(3).value;
@@ -2647,12 +2661,8 @@
                         let staffCode = manvCell ? manvCell.toString().trim() : "";
                         let days = parseFloat(ntVal) || 0;
 
-                        if (staffCode) {
-                            timekeepingMap[staffCode] = days;
-                        }
-                        if (staffName) {
-                            timekeepingMap[staffName.toLowerCase()] = days;
-                        }
+                        if (staffCode) timekeepingMap[staffCode] = days;
+                        if (staffName) timekeepingMap[staffName.toLowerCase()] = days;
                     }
                 });
 
@@ -2683,7 +2693,6 @@
         async function addNewPaymentRecord() {
             let payDateTime = document.getElementById('pay-date-time').value.trim() || `27/07/${CURRENT_SELECTED_YEAR}`;
             let dParts = payDateTime.split('/');
-            let day = dParts[0] || "27";
             let month = dParts[1] || "07";
             let year = dParts[2] || CURRENT_SELECTED_YEAR;
             let sm = `${year}-${month}`;
@@ -2868,7 +2877,6 @@
         async function addNewTelecomRecord() {
             let period = document.getElementById('tele-period').value.trim() || `27/07/${CURRENT_SELECTED_YEAR}`;
             let dParts = period.split('/');
-            let day = dParts[0] || "27";
             let month = dParts[1] || "07";
             let year = dParts[2] || CURRENT_SELECTED_YEAR;
             let sm = `${year}-${month}`;
@@ -3499,6 +3507,10 @@
             renderLeaveManagementModule();
             updateGlobalDashboardSummary();
             
+            // Khởi chạy Lịch vạn niên chuẩn & đồng hồ mượt mà
+            renderCalendar();
+            updateLiveSystemClock();
+
             // Tự động tải dữ liệu ngầm từ Cloud API ngay khi mở
             loadDataFromCloudAPI();
         });
