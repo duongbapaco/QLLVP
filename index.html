@@ -1136,8 +1136,8 @@
                             <div class="form-group">
                                 <label style="color:#166534;">Loại nghiệp vụ / Trạng thái:</label>
                                 <select id="ink-status" style="border-color:#86efac;">
-                                    <option value="Nhập kho" selected>📥 Nhập kho thêm</option>
-                                    <option value="Đã cấp phát sử dụng">📤 Cấp phát sử dụng (Trừ kho)</option>
+                                    <option value="Còn trong kho" selected>📦 Còn trong kho / Nhập kho</option>
+                                    <option value="Đã cấp phát sử dụng">📤 Đã cấp phát sử dụng</option>
                                     <option value="Cần đặt mua bổ sung">⚠️ Cần đặt mua bổ sung</option>
                                 </select>
                             </div>
@@ -1150,7 +1150,7 @@
 
                     <div class="card-title" style="font-size: 13px; margin-top: 10px;">
                         <span>DANH SÁCH LỊCH SỬ NHẬP & CẤP PHÁT MỰC IN NĂM <span class="lbl-current-year">2026</span></span>
-                        <span id="ink-total-count" style="color: var(--teal);">Tổng: 0 Giao dịch</span>
+                        <span id="ink-total-count" style="color: var(--teal);">Tổng tồn kho: 0 Hộp</span>
                     </div>
                     <div class="table-responsive">
                         <table class="main-table">
@@ -1159,12 +1159,12 @@
                                     <th>STT</th>
                                     <th>Ảnh minh họa</th>
                                     <th>Tên loại mực / Mã mực</th>
-                                    <th>Số lượng giao dịch</th>
+                                    <th>Số lượng</th>
                                     <th>ĐVT</th>
                                     <th>Phòng ban nhận</th>
                                     <th>Người nhận</th>
                                     <th>Ngày tháng năm</th>
-                                    <th>Nghiệp vụ / Trạng thái</th>
+                                    <th>Trạng thái kho</th>
                                     <th>Tồn kho còn lại</th>
                                     <th style="text-align: center;">Hành động</th>
                                 </tr>
@@ -2183,7 +2183,7 @@
             closeLeaveModal();
             renderLeaveManagementModule();
             calculateSalaryLogic();
-            alert("✅ Đăng ký nghỉ phép thành công và đã tự tự động cập nhật vào bảng lương!");
+            alert("✅ Đăng ký nghỉ phép thành công và đã tự động cập nhật vào bảng lương!");
             saveDataToCloudAPI();
         }
 
@@ -2395,16 +2395,16 @@
             inkListYear.forEach(rec => {
                 let m = (rec.model || "Khác").trim();
                 let q = parseFloat(rec.qty) || 0;
-                let status = rec.status || "Nhập kho";
+                let status = rec.status || "Còn trong kho";
                 if (!stockMapSummary[m]) stockMapSummary[m] = 0;
-                if (status.includes("Nhập kho") || status.includes("Còn trong kho")) {
+                if (status.includes("Còn trong kho") || status.includes("Nhập kho")) {
                     stockMapSummary[m] += q;
-                } else if (status.includes("Cấp phát") || status.includes("sử dụng")) {
+                } else if (status.includes("Đã cấp phát") || status.includes("sử dụng")) {
                     stockMapSummary[m] -= q;
                 }
             });
             for (let m in stockMapSummary) {
-                if (stockMapSummary[m] > 0) totalRemainingInk += stockMapSummary[m];
+                totalRemainingInk += stockMapSummary[m];
             }
 
             document.getElementById('dash-total-pay').innerText = formatCurrencyVN(totalNetYear) + " VND";
@@ -3400,7 +3400,7 @@
             document.getElementById('ink-dept').value = rec.dept || "";
             document.getElementById('ink-receiver').value = rec.receiver || "";
             document.getElementById('ink-date-time').value = rec.dateVal || "03/08/2026";
-            document.getElementById('ink-status').value = rec.status || "Nhập kho";
+            document.getElementById('ink-status').value = rec.status || "Còn trong kho";
             updateInkPreviewImage();
 
             document.getElementById('btn-save-ink').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Cập Nhật`;
@@ -3424,20 +3424,22 @@
             let listWithRemaining = list.map((rec) => {
                 let m = (rec.model || "Khác").trim();
                 let q = parseFloat(rec.qty) || 0;
-                let status = rec.status || "Nhập kho";
+                let status = rec.status || "Còn trong kho";
 
                 if (!runningStockMap[m]) runningStockMap[m] = 0;
-                if (status.includes("Nhập kho") || status.includes("Còn trong kho")) {
+                if (status.includes("Còn trong kho") || status.includes("Nhập kho")) {
                     runningStockMap[m] += q;
-                } else if (status.includes("Cấp phát") || status.includes("sử dụng")) {
+                } else if (status.includes("Đã cấp phát") || status.includes("sử dụng")) {
                     runningStockMap[m] -= q;
                 }
                 return { ...rec, remainingStock: runningStockMap[m] };
             });
 
             let summaryHtml = "";
+            let totalRemainingAll = 0;
             for (let m in runningStockMap) {
                 let stock = runningStockMap[m];
+                totalRemainingAll += stock;
                 let colorStyle = stock > 0 ? "color:var(--green); background:#dcfce7;" : (stock === 0 ? "color:#475569; background:#e2e8f0;" : "color:var(--red); background:#fee2e2;");
                 summaryHtml += `<span style="padding: 3px 8px; border-radius: 4px; font-weight: bold; border: 1px solid #cbd5e1; ${colorStyle}">${m}: <b>${stock} hộp</b></span>`;
             }
@@ -3446,8 +3448,8 @@
 
             listWithRemaining.forEach((rec, idx) => {
                 let badgeStyle = "background:#f1f5f9; color:#0f172a;";
-                if (rec.status.includes("Nhập kho")) badgeStyle = "background:#dcfce7; color:#166534;";
-                else if (rec.status.includes("Cấp phát")) badgeStyle = "background:#ffedd5; color:#c2410c;";
+                if (rec.status.includes("Còn trong kho") || rec.status.includes("Nhập kho")) badgeStyle = "background:#dcfce7; color:#166534;";
+                else if (rec.status.includes("Đã cấp phát") || rec.status.includes("sử dụng")) badgeStyle = "background:#ffedd5; color:#c2410c;";
 
                 tbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${idx + 1}</td>
@@ -3466,7 +3468,7 @@
                     </td>
                 </tr>`;
             });
-            document.getElementById('ink-total-count').innerText = `Tổng: ${list.length} Giao dịch`;
+            document.getElementById('ink-total-count').innerText = `Tổng tồn kho: ${totalRemainingAll} Hộp`;
             updateGlobalDashboardSummary();
         }
 
