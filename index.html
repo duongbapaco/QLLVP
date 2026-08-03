@@ -481,6 +481,45 @@
                         </div>
                     </div>
 
+                    <!-- KHUNG ĐĂNG KÝ NGHỈ PHÉP DOANH NGHIỆP CHUYÊN NGHIỆP -->
+                    <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
+                        <div style="font-weight: bold; color: #166534; font-size: 13.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                            <i class="fa-solid fa-file-signature"></i> 📝 PHIẾU ĐĂNG KÝ & DUYỆT NGHỈ PHÉP NHÂN SỰ DOANH NGHIỆP
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; margin-bottom: 8px;">
+                            <div class="form-group">
+                                <label style="color: #166534;">Nhân sự đăng ký nghỉ:</label>
+                                <select id="form-leave-staff" class="inp-table" style="border-color:#86efac;"></select>
+                            </div>
+                            <div class="form-group">
+                                <label style="color: #166534;">Hình thức nghỉ phép:</label>
+                                <select id="form-leave-type" class="inp-table" style="border-color:#86efac;">
+                                    <option value="Phép năm (Có hưởng lương)" selected>Phép năm (Có hưởng lương)</option>
+                                    <option value="Phép ốm đau / BHXH">Phép ốm đau / BHXH</option>
+                                    <option value="Nghỉ việc riêng (Không lương)">Nghỉ việc riêng (Không lương)</option>
+                                    <option value="Nghỉ chế độ (Kết hôn, tang gia...)">Nghỉ chế độ (Kết hôn, tang gia...)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label style="color: #166534;">Tháng áp dụng bảng lương:</label>
+                                <input type="month" id="form-leave-month" value="2026-07" class="inp-table" style="border-color:#86efac;">
+                            </div>
+                            <div class="form-group">
+                                <label style="color: #166534;">Số ngày nghỉ:</label>
+                                <input type="number" id="form-leave-days" value="1" min="0.5" max="30" step="0.5" class="inp-table" style="border-color:#86efac;">
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: end;">
+                            <div class="form-group">
+                                <label style="color: #166534;">Lý do nghỉ / Bàn giao công việc:</label>
+                                <input type="text" id="form-leave-note" placeholder="Ví dụ: Nghỉ phép cá nhân giải quyết việc gia đình, đã bàn giao công việc cho..." class="inp-table" style="border-color:#86efac;">
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-green" style="height: 38px;" onclick="submitCorporateLeaveForm()"><i class="fa-solid fa-paper-plane"></i> Gửi Duyệt & Trừ Phép</button>
+                            </div>
+                        </div>
+                    </div>
+
                     <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 10px; border-radius: 6px; margin-bottom: 10px;">
                         <div style="font-weight: bold; color: #166534; font-size: 13px; margin-bottom: 6px;">
                             <i class="fa-solid fa-circle-info"></i> Quy định chuẩn số ngày phép năm (Điều 113 Bộ luật Lao động):
@@ -547,9 +586,10 @@
                                 <tr style="background-color: #cbd5e1;">
                                     <th>STT</th>
                                     <th>Họ và tên nhân sự</th>
+                                    <th>Hình thức nghỉ</th>
                                     <th>Tháng nghỉ</th>
                                     <th>Số ngày nghỉ phép</th>
-                                    <th>Lý do / Ghi chú</th>
+                                    <th>Lý do / Bàn giao</th>
                                     <th>Ngày đăng ký</th>
                                     <th style="text-align: center;">Xóa</th>
                                 </tr>
@@ -1206,6 +1246,15 @@
                 <select id="modal-leave-staff" class="inp-table"></select>
             </div>
             <div class="form-group" style="margin-bottom: 8px;">
+                <label>Hình thức nghỉ:</label>
+                <select id="modal-leave-type" class="inp-table">
+                    <option value="Phép năm (Có hưởng lương)" selected>Phép năm (Có hưởng lương)</option>
+                    <option value="Phép ốm đau / BHXH">Phép ốm đau / BHXH</option>
+                    <option value="Nghỉ việc riêng (Không lương)">Nghỉ việc riêng (Không lương)</option>
+                    <option value="Nghỉ chế độ (Kết hôn, tang gia...)">Nghỉ chế độ (Kết hôn, tang gia...)</option>
+                </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 8px;">
                 <label>Chọn tháng nghỉ phép:</label>
                 <input type="month" id="modal-leave-month" value="2026-07" class="inp-table">
             </div>
@@ -1214,7 +1263,7 @@
                 <input type="number" id="modal-leave-days" value="1" min="0.5" max="30" step="0.5" class="inp-table">
             </div>
             <div class="form-group" style="margin-bottom: 12px;">
-                <label>Lý do / Ghi chú:</label>
+                <label>Lý do / Ghi chú / Bàn giao:</label>
                 <input type="text" id="modal-leave-note" placeholder="Ví dụ: Nghỉ phép cá nhân..." class="inp-table">
             </div>
             <div style="text-align:right; display:flex; justify-content:flex-end; gap:5px;">
@@ -1694,7 +1743,7 @@
             let logs = leaveLogsByYear[CURRENT_SELECTED_YEAR] || [];
             let totalUsed = 0;
             logs.forEach(l => {
-                if (l.name === staffName) {
+                if (l.name === staffName && (l.type || "").includes("Phép năm")) {
                     totalUsed += parseFloat(l.days) || 0;
                 }
             });
@@ -1705,14 +1754,14 @@
             let logs = leaveLogsByYear[CURRENT_SELECTED_YEAR] || [];
             let totalMonth = 0;
             logs.forEach(l => {
-                if (l.name === staffName && l.month === monthStr) {
+                if (l.name === staffName && l.month === monthStr && (l.type || "").includes("Phép năm")) {
                     totalMonth += parseFloat(l.days) || 0;
                 }
             });
             return totalMonth;
         }
 
-        function renderLeaveManagementModule() {
+        function getStaffListNames() {
             let staffNamesSet = new Set();
             Object.keys(salaryDataByMonth || {}).forEach(sm => {
                 if (sm.split('-')[0] === CURRENT_SELECTED_YEAR) {
@@ -1722,12 +1771,27 @@
             if (staffNamesSet.size === 0) {
                 default16Staffs.forEach(s => staffNamesSet.add(s.name));
             }
+            return Array.from(staffNamesSet);
+        }
 
-            let staffArr = Array.from(staffNamesSet);
+        function renderLeaveManagementModule() {
+            let staffArr = getStaffListNames();
             let quotaTbody = document.getElementById('tbody-leave-quota');
             let logTbody = document.getElementById('tbody-leave-logs');
             let alertBox = document.getElementById('leave-alert-container');
+            let formStaffSel = document.getElementById('form-leave-staff');
+            
             if (!quotaTbody || !logTbody || !alertBox) return;
+
+            // Cập nhật dropdown nhân sự trong form đăng ký doanh nghiệp
+            if (formStaffSel) {
+                let curVal = formStaffSel.value;
+                let optHtml = "";
+                staffArr.forEach(name => {
+                    optHtml += `<option value="${name}" ${curVal === name ? 'selected' : ''}>${name}</option>`;
+                });
+                formStaffSel.innerHTML = optHtml;
+            }
 
             quotaTbody.innerHTML = "";
             alertBox.innerHTML = "";
@@ -1797,12 +1861,13 @@
             let logs = leaveLogsByYear[CURRENT_SELECTED_YEAR] || [];
             logTbody.innerHTML = "";
             if (logs.length === 0) {
-                logTbody.innerHTML = `<tr><td colspan="7" class="text-center" style="font-style:italic; color:#64748b;">Chưa có dữ liệu đăng ký nghỉ phép trong năm ${CURRENT_SELECTED_YEAR}</td></tr>`;
+                logTbody.innerHTML = `<tr><td colspan="8" class="text-center" style="font-style:italic; color:#64748b;">Chưa có dữ liệu đăng ký nghỉ phép trong năm ${CURRENT_SELECTED_YEAR}</td></tr>`;
             } else {
                 logs.forEach((log, lIdx) => {
                     logTbody.innerHTML += `<tr>
                         <td class="text-center font-bold">${lIdx + 1}</td>
                         <td class="font-bold">${log.name}</td>
+                        <td class="text-center"><span style="background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:bold;">${log.type || 'Phép năm'}</span></td>
                         <td class="text-center font-bold" style="color:var(--blue);">${log.month}</td>
                         <td class="text-center font-bold" style="color:var(--orange);">${log.days} ngày</td>
                         <td>${log.note || '-'}</td>
@@ -1815,6 +1880,39 @@
             }
 
             syncLeaveDaysToSalaryTables();
+        }
+
+        function submitCorporateLeaveForm() {
+            let name = document.getElementById('form-leave-staff').value;
+            let type = document.getElementById('form-leave-type').value;
+            let month = document.getElementById('form-leave-month').value;
+            let days = parseFloat(document.getElementById('form-leave-days').value) || 0;
+            let note = document.getElementById('form-leave-note').value.trim();
+
+            if (!name || days <= 0 || !month) { alert("Vui lòng chọn nhân sự và số ngày phép hợp lệ!"); return; }
+
+            if (type.includes("Phép năm")) {
+                let totalGranted = getStaffTotalLeaveQuota(name);
+                let currentUsed = getStaffUsedLeave(name);
+                let remaining = totalGranted - currentUsed;
+
+                if (days > remaining) {
+                    let cf = confirm(`⚠️ CẢNH BÁO: Nhân sự "${name}" chỉ còn ${remaining} ngày phép năm nhưng bạn đang đăng ký nghỉ ${days} ngày (Vượt hạn mức).\n\nBạn có chắc chắn muốn tiếp tục duyệt không?`);
+                    if (!cf) return;
+                }
+            }
+
+            if (!leaveLogsByYear[CURRENT_SELECTED_YEAR]) leaveLogsByYear[CURRENT_SELECTED_YEAR] = [];
+            leaveLogsByYear[CURRENT_SELECTED_YEAR].push({
+                name, type, month, days, note, date: new Date().toLocaleDateString('vi-VN')
+            });
+
+            localStorage.setItem('sys_leave_logs_by_year', JSON.stringify(leaveLogsByYear));
+            document.getElementById('form-leave-note').value = "";
+            renderLeaveManagementModule();
+            calculateSalaryLogic();
+            alert(`✅ Đã gửi duyệt và cập nhật phiếu nghỉ phép cho nhân sự "${name}" thành công!`);
+            saveDataToCloudAPI();
         }
 
         function syncLeaveDaysToSalaryTables() {
@@ -1831,17 +1929,10 @@
         }
 
         function openAddLeaveModal() {
-            let staffNamesSet = new Set();
-            Object.keys(salaryDataByMonth || {}).forEach(sm => {
-                if (sm.split('-')[0] === CURRENT_SELECTED_YEAR) {
-                    (salaryDataByMonth[sm] || []).forEach(s => staffNamesSet.add(s.name));
-                }
-            });
-            if (staffNamesSet.size === 0) default16Staffs.forEach(s => staffNamesSet.add(s.name));
-
+            let staffArr = getStaffListNames();
             let sel = document.getElementById('modal-leave-staff');
             sel.innerHTML = "";
-            staffNamesSet.forEach(name => {
+            staffArr.forEach(name => {
                 sel.innerHTML += `<option value="${name}">${name}</option>`;
             });
             document.getElementById('modal-leave-month').value = `${CURRENT_SELECTED_YEAR}-07`;
@@ -1854,24 +1945,27 @@
 
         function saveNewLeaveLog() {
             let name = document.getElementById('modal-leave-staff').value;
+            let type = document.getElementById('modal-leave-type').value;
             let month = document.getElementById('modal-leave-month').value;
             let days = parseFloat(document.getElementById('modal-leave-days').value) || 0;
             let note = document.getElementById('modal-leave-note').value.trim();
 
             if (!name || days <= 0 || !month) { alert("Vui lòng chọn nhân sự và số ngày phép hợp lệ!"); return; }
 
-            let totalGranted = getStaffTotalLeaveQuota(name);
-            let currentUsed = getStaffUsedLeave(name);
-            let remaining = totalGranted - currentUsed;
+            if (type.includes("Phép năm")) {
+                let totalGranted = getStaffTotalLeaveQuota(name);
+                let currentUsed = getStaffUsedLeave(name);
+                let remaining = totalGranted - currentUsed;
 
-            if (days > remaining) {
-                let cf = confirm(`⚠️ CẢNH BÁO: Nhân sự "${name}" chỉ còn ${remaining} ngày phép nhưng bạn đang đăng ký nghỉ ${days} ngày (Vượt hạn mức).\n\nBạn có chắc chắn muốn tiếp tục duyệt không?`);
-                if (!cf) return;
+                if (days > remaining) {
+                    let cf = confirm(`⚠️ CẢNH BÁO: Nhân sự "${name}" chỉ còn ${remaining} ngày phép nhưng bạn đang đăng ký nghỉ ${days} ngày (Vượt hạn mức).\n\nBạn có chắc chắn muốn tiếp tục duyệt không?`);
+                    if (!cf) return;
+                }
             }
 
             if (!leaveLogsByYear[CURRENT_SELECTED_YEAR]) leaveLogsByYear[CURRENT_SELECTED_YEAR] = [];
             leaveLogsByYear[CURRENT_SELECTED_YEAR].push({
-                name, month, days, note, date: new Date().toLocaleDateString('vi-VN')
+                name, type, month, days, note, date: new Date().toLocaleDateString('vi-VN')
             });
 
             localStorage.setItem('sys_leave_logs_by_year', JSON.stringify(leaveLogsByYear));
@@ -1935,16 +2029,9 @@
             let headers = ["STT", "Họ và tên nhân sự", "Số tháng làm việc", "Phép chuẩn", "Thâm niên", "Tổng phép được cấp", "Đã nghỉ", "Còn lại"];
             sheet.addRow(headers);
 
-            let staffNamesSet = new Set();
-            Object.keys(salaryDataByMonth || {}).forEach(sm => {
-                if (sm.split('-')[0] === CURRENT_SELECTED_YEAR) {
-                    (salaryDataByMonth[sm] || []).forEach(s => staffNamesSet.add(s.name));
-                }
-            });
-            if (staffNamesSet.size === 0) default16Staffs.forEach(s => staffNamesSet.add(s.name));
-
+            let staffArr = getStaffListNames();
             let r = 5;
-            Array.from(staffNamesSet).forEach((name, idx) => {
+            staffArr.forEach((name, idx) => {
                 if (!leaveConfigsByYear[CURRENT_SELECTED_YEAR]) leaveConfigsByYear[CURRENT_SELECTED_YEAR] = {};
                 let cfg = leaveConfigsByYear[CURRENT_SELECTED_YEAR][name] || { months: 12, baseDays: 12, seniority: 0 };
                 let granted = getStaffTotalLeaveQuota(name);
@@ -2564,14 +2651,14 @@
                             timekeepingMap[staffCode] = days;
                         }
                         if (staffName) {
-                            timekeepingMap[removeVietnameseAccents(staffName).toLowerCase()] = days;
+                            timekeepingMap[staffName.toLowerCase()] = days;
                         }
                     }
                 });
 
                 let updatedCount = 0;
                 salaryDataByMonth[sm].forEach(staff => {
-                    let keyName = removeVietnameseAccents(staff.name).toLowerCase();
+                    let keyName = staff.name.toLowerCase();
                     for (let k in timekeepingMap) {
                         if (keyName.includes(k) || k.includes(keyName)) {
                             staff.NT = timekeepingMap[k];
