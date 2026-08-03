@@ -821,26 +821,18 @@
                             </div>
                         </div>
 
-                        <div style="background: #ffffff; border: 1.5px solid #d8b4fe; padding: 8px; border-radius: 6px; margin-bottom: 6px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                                <label style="color: #6d28d9; font-weight: bold; font-size: 12px;">
-                                    <i class="fa-solid fa-cubes"></i> Phần mềm nghiệp vụ & Thiết kế chuyên sâu:
+                        <!-- PHẦN MỀM NGHIỆP VỤ & THIẾT KẾ CHUYÊN SÂU: THIẾT KẾ LẠI THÔNG MINH, 2 CỘT RÕ RÀNG, CHỮ TO DỄ NHÌN -->
+                        <div style="background: #ffffff; border: 2px solid #d8b4fe; padding: 10px; border-radius: 6px; margin-bottom: 8px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1.5px solid #e9d5ff; padding-bottom: 5px;">
+                                <label style="color: #581c87; font-weight: 900; font-size: 13.5px;">
+                                    <i class="fa-solid fa-cubes"></i> PHẦN MỀM NGHIỆP VỤ & THIẾT KẾ CHUYÊN SÂU (TÍCH CHỌN NHANH)
                                 </label>
-                                <span id="selected-software-counter" style="font-size: 10.5px; font-weight: bold; color: var(--blue);">Đã chọn: 0 phần mềm</span>
+                                <span id="selected-software-counter" style="font-size: 12px; font-weight: bold; color: var(--blue); background: #eff6ff; padding: 2px 8px; border-radius: 4px; border: 1px solid #bfdbfe;">Đã chọn: 0 phần mềm</span>
                             </div>
-                            <div style="position: relative;">
-                                <div id="software-dropdown-btn" onclick="toggleSoftwareDropdown()" style="padding: 7px 8px; border: 1.5px solid #d8b4fe; border-radius: 4px; background: #fdfcff; cursor: pointer; font-size: 12.5px; font-weight: bold; color: #475569; display: flex; justify-content: space-between; align-items: center;">
-                                    <span id="software-dropdown-label">-- Bấm để chọn phần mềm & bản quyền --</span>
-                                    <i class="fa-solid fa-chevron-down"></i>
-                                </div>
-                                <div id="software-dropdown-popup" style="display: none; position: absolute; top: 105%; left: 0; width: 100%; background: white; border: 2px solid #d8b4fe; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); z-index: 999; max-height: 220px; overflow-y: auto; padding: 6px;">
-                                    <div style="font-size: 10.5px; font-style: italic; color: #64748b; margin-bottom: 5px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 3px;">Chọn phần mềm và loại bản quyền kèm theo:</div>
-                                    <div id="software-checkbox-container" style="display: flex; flex-direction: column; gap: 5px;"></div>
-                                    <div style="text-align: right; margin-top: 6px; border-top: 1px solid #cbd5e1; padding-top: 5px;">
-                                        <button type="button" class="btn btn-purple" style="padding: 4px 10px; font-size: 11px; min-height: 26px;" onclick="toggleSoftwareDropdown()">Xong</button>
-                                    </div>
-                                </div>
+                            <div style="font-size: 11.5px; font-style: italic; color: #475569; margin-bottom: 8px;">
+                                💡 Tích chọn các phần mềm cần thiết và chọn loại bản quyền tương ứng ngay bên cạnh:
                             </div>
+                            <div id="software-checkbox-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 8px; max-height: 260px; overflow-y: auto; padding: 4px;"></div>
                         </div>
 
                         <div class="grid-form" style="margin-bottom: 6px;">
@@ -1221,12 +1213,12 @@
             AVAILABLE_SOFTWARE_LIST.forEach((sw) => {
                 let isNone = (sw === "Không sử dụng phần mềm");
                 html += `
-                    <div style="display:flex; align-items:center; justify-content:space-between; background:#faf5ff; padding:4px 6px; border-radius:4px; border:1px solid #e9d5ff; gap:6px;">
-                        <label style="font-size:11px; font-weight:bold; color:#581c87; display:flex; align-items:center; gap:5px; cursor:pointer; flex:1;">
-                            <input type="checkbox" class="sw-checkbox" value="${sw}"> ${sw}
+                    <div style="display:flex; align-items:center; justify-content:space-between; background:#faf5ff; padding:6px 10px; border-radius:5px; border:1.5px solid #e9d5ff; gap:8px;">
+                        <label style="font-size:12px; font-weight:bold; color:#581c87; display:flex; align-items:center; gap:6px; cursor:pointer; flex:1;">
+                            <input type="checkbox" class="sw-checkbox" value="${sw}" onchange="getSelectedSoftwareDetails()" style="width:16px; height:16px; accent-color:var(--purple); cursor:pointer;"> ${sw}
                         </label>
                         ${isNone ? '' : `
-                        <select class="sw-lic-select" style="font-size:10px; padding:2px; border:1px solid #d8b4fe; border-radius:3px; max-width:120px;">
+                        <select class="sw-lic-select" onchange="getSelectedSoftwareDetails()" style="font-size:11px; padding:3px 6px; border:1px solid #d8b4fe; border-radius:4px; max-width:130px; font-weight:bold; color:#475569; background:#fff;">
                             <option value="Chính hãng" selected>Chính hãng</option>
                             <option value="⚠️ Chưa bản quyền">⚠️ Chưa bản quyền</option>
                         </select>`}
@@ -1235,19 +1227,6 @@
             });
             container.innerHTML = html;
         }
-
-        function toggleSoftwareDropdown() {
-            let popup = document.getElementById('software-dropdown-popup');
-            popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
-        }
-
-        window.addEventListener('click', function(e) {
-            let wrap = document.getElementById('software-dropdown-btn');
-            let popup = document.getElementById('software-dropdown-popup');
-            if (popup && wrap && !wrap.contains(e.target) && !popup.contains(e.target)) {
-                popup.style.display = 'none';
-            }
-        });
 
         function toggleCalendarSidebar() {
             let sidebar = document.getElementById('calendar-sidebar-box');
@@ -2461,11 +2440,6 @@
             });
             let counterLbl = document.getElementById('selected-software-counter');
             if (counterLbl) counterLbl.innerText = `Đã chọn: ${count} phần mềm`;
-            let dropdownLbl = document.getElementById('software-dropdown-label');
-            if (dropdownLbl) {
-                if (count === 0) dropdownLbl.innerText = "-- Bấm để chọn phần mềm & bản quyền --";
-                else dropdownLbl.innerText = `Đã chọn ${count} phần mềm / tùy chọn`;
-            }
             return list;
         }
 
