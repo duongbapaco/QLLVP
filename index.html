@@ -822,7 +822,7 @@
                             </div>
                         </div>
 
-                        <!-- PHẦN MỀM NGHIỆP VỤ & THIẾT KẾ CHUYÊN SÂU: THIẾT KẾ LẠI THÔNG MINH, 2 CỘT RÕ RÀNG, CHỮ TO DỄ NHÌN -->
+                        <!-- PHẦN MỀM NGHIỆP VỤ & THIẾT KẾ CHUYÊN SÂU -->
                         <div style="background: #ffffff; border: 2px solid #d8b4fe; padding: 10px; border-radius: 6px; margin-bottom: 8px;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1.5px solid #e9d5ff; padding-bottom: 5px;">
                                 <label style="color: #581c87; font-weight: 900; font-size: 13.5px;">
@@ -1207,7 +1207,44 @@
         let activePickerId = null;
         let pickerCurrentDate = new Date();
 
-        // 🚀 TÍCH HỢP HÀM GỌI DỮ LIỆU TỰ ĐỘNG TỪ CLOUD (LOAD DATA FROM CLOUD API)
+        // 🚀 HÀM TỰ ĐỘNG ĐẨY TOÀN BỘ DỮ LIỆU LÊN GOOGLE CLOUD (SAVE DATA TO CLOUD API)
+        async function saveDataToCloudAPI() {
+            if (!GOOGLE_SCRIPT_API_URL) return;
+            let dot = document.getElementById('cloud-status-dot');
+            let txt = document.getElementById('cloud-status-text');
+            if (dot) dot.style.backgroundColor = "var(--orange)";
+            if (txt) txt.innerText = "⏳ Đang tự động lưu dữ liệu lên Cloud...";
+
+            let payload = {
+                salary_by_month: salaryDataByMonth,
+                payment_records: paymentRecordsByMonth,
+                telecom_records: telecomRecordsByMonth,
+                it_assets: itAssetRecordsByYear,
+                ink_inventory: inkInventoryRecordsByYear
+            };
+
+            try {
+                let response = await fetch(GOOGLE_SCRIPT_API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify(payload)
+                });
+                let result = await response.json();
+                if (result.status === "success") {
+                    if (dot) dot.style.backgroundColor = "var(--green)";
+                    if (txt) txt.innerText = "Đã lưu dữ liệu lên Cloud thành công!";
+                } else {
+                    if (dot) dot.style.backgroundColor = "var(--red)";
+                    if (txt) txt.innerText = "Lỗi lưu Cloud: " + (result.message || "");
+                }
+            } catch (err) {
+                console.error("Lỗi đẩy dữ liệu lên Cloud:", err);
+                if (dot) dot.style.backgroundColor = "var(--red)";
+                if (txt) txt.innerText = "Lỗi kết nối khi lưu Cloud!";
+            }
+        }
+
+        // 🚀 HÀM GỌI DỮ LIỆU TỰ ĐỘNG TỪ CLOUD (LOAD DATA FROM CLOUD API)
         async function loadDataFromCloudAPI() {
             if (!GOOGLE_SCRIPT_API_URL) return;
             let dot = document.getElementById('cloud-status-dot');
@@ -1219,24 +1256,23 @@
                 let response = await fetch(GOOGLE_SCRIPT_API_URL);
                 let cloudData = await response.json();
                 
-                // Nếu dữ liệu trên cloud trả về có lưu trữ các bảng ghi, đồng bộ vào localStorage
-                if (cloudData.salary_by_month) {
+                if (cloudData.salary_by_month && Object.keys(cloudData.salary_by_month).length > 0) {
                     salaryDataByMonth = cloudData.salary_by_month;
                     localStorage.setItem('sys_salary_by_month', JSON.stringify(salaryDataByMonth));
                 }
-                if (cloudData.payment_records) {
+                if (cloudData.payment_records && Object.keys(cloudData.payment_records).length > 0) {
                     paymentRecordsByMonth = cloudData.payment_records;
                     localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
                 }
-                if (cloudData.telecom_records) {
+                if (cloudData.telecom_records && Object.keys(cloudData.telecom_records).length > 0) {
                     telecomRecordsByMonth = cloudData.telecom_records;
                     localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth));
                 }
-                if (cloudData.it_assets) {
+                if (cloudData.it_assets && Object.keys(cloudData.it_assets).length > 0) {
                     itAssetRecordsByYear = cloudData.it_assets;
                     localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
                 }
-                if (cloudData.ink_inventory) {
+                if (cloudData.ink_inventory && Object.keys(cloudData.ink_inventory).length > 0) {
                     inkInventoryRecordsByYear = cloudData.ink_inventory;
                     localStorage.setItem('sys_ink_inventory_records_by_year', JSON.stringify(inkInventoryRecordsByYear));
                 }
@@ -1244,7 +1280,6 @@
                 if (dot) dot.style.backgroundColor = "var(--green)";
                 if (txt) txt.innerText = "Đã đồng bộ thành công dữ liệu từ Cloud!";
 
-                // Refresh lại toàn bộ giao diện bảng biểu
                 handleMonthChangeSelect();
                 renderPaymentTable();
                 renderTelecomTable();
@@ -1904,7 +1939,7 @@
             };
             localStorage.setItem('sys_salary_configs_by_month', JSON.stringify(salaryConfigsByMonth));
             calculateSalaryLogic();
-            triggerAutoSyncCloud();
+            saveDataToCloudAPI();
         }
 
         function calculateSalaryLogic() {
@@ -1997,7 +2032,7 @@
             document.getElementById('v-total-thuc').innerText = formatCurrencyVN(T_net) + " VND";
             
             updateGlobalDashboardSummary();
-            triggerAutoSyncCloud();
+            saveDataToCloudAPI();
         }
 
         function updateSalaryRowValue(index, field, val) {
@@ -2177,7 +2212,7 @@
             localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
             renderPaymentTable();
             statusLabel.innerText = "✅ Lưu hồ sơ thành công!";
-            triggerAutoSyncCloud();
+            saveDataToCloudAPI();
         }
 
         function editPaymentRecord(sm, actualIdx) {
@@ -2275,7 +2310,7 @@
                 paymentRecordsByMonth[sm].splice(actualIdx, 1); 
                 localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth)); 
                 renderPaymentTable(); 
-                triggerAutoSyncCloud();
+                saveDataToCloudAPI();
             }
         }
 
@@ -2360,7 +2395,7 @@
             localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth));
             renderTelecomTable(); 
             statusLabel.innerText = "✅ Lưu cước thành công!";
-            triggerAutoSyncCloud();
+            saveDataToCloudAPI();
         }
 
         function editTelecomRecord(sm, actualIdx) {
@@ -2451,7 +2486,7 @@
                 telecomRecordsByMonth[sm].splice(actualIdx, 1); 
                 localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth)); 
                 renderTelecomTable(); 
-                triggerAutoSyncCloud();
+                saveDataToCloudAPI();
             }
         }
 
@@ -2538,7 +2573,7 @@
             updateItAssetFilterDropdowns();
             renderItAssetTable(); 
             document.getElementById('status-cntt').innerText = "✅ Lưu thiết bị thành công!";
-            triggerAutoSyncCloud();
+            saveDataToCloudAPI();
         }
 
         function editItAssetRecord(idx) {
@@ -2710,7 +2745,7 @@
 
             localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
             renderItAssetTable();
-            triggerAutoSyncCloud();
+            saveDataToCloudAPI();
         }
 
         function autoSelectPrinterByInk(inkVal) {
@@ -2766,7 +2801,7 @@
             localStorage.setItem('sys_ink_inventory_records_by_year', JSON.stringify(inkInventoryRecordsByYear));
             renderInkInventoryTable();
             alert("✅ Lưu thông tin kho mực thành công!");
-            triggerAutoSyncCloud();
+            saveDataToCloudAPI();
         }
 
         function editInkRecord(idx) {
@@ -2829,7 +2864,7 @@
                 inkInventoryRecordsByYear[CURRENT_SELECTED_YEAR].splice(idx, 1);
                 localStorage.setItem('sys_ink_inventory_records_by_year', JSON.stringify(inkInventoryRecordsByYear));
                 renderInkInventoryTable();
-                triggerAutoSyncCloud();
+                saveDataToCloudAPI();
             }
         }
 
@@ -3138,6 +3173,7 @@
             localStorage.setItem('sys_day_events_map', JSON.stringify(dayEventsMap));
             closeEventModal();
             renderSmartCalendar();
+            saveDataToCloudAPI();
         }
 
         function openConfigUrlModal() {
@@ -3161,19 +3197,6 @@
             window.open(GOOGLE_SHEET_VIEW_URL, '_blank', 'noopener,noreferrer');
         }
 
-        function triggerAutoSyncCloud() {
-            if (!isAutoSyncEnabled || !GOOGLE_SCRIPT_API_URL) return;
-            let dot = document.getElementById('cloud-status-dot');
-            let txt = document.getElementById('cloud-status-text');
-            if (dot) dot.style.backgroundColor = "var(--orange)";
-            if (txt) txt.innerText = "⏳ Đang đồng bộ Cloud...";
-
-            setTimeout(() => {
-                if (dot) dot.style.backgroundColor = "var(--green)";
-                if (txt) txt.innerText = "Đã tích hợp API Cloud & Tự động đồng bộ ngầm";
-            }, 1200);
-        }
-
         function switchMainTab(tabId) {
             document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -3195,7 +3218,7 @@
             if (clockEl) clockEl.innerText = `${timeStr} - ${dateStr}`;
         }, 1000);
 
-        // 🚀 TỰ ĐỘNG GỌI HÀM ĐỒNG BỘ DỮ LIỆU NGAY KHI MỞ TRANG
+        // 🚀 TỰ ĐỘNG GỌI HÀM KÉO DỮ LIỆU TỪ CLOUD NGAY KHI MỞ TRANG
         window.onload = function() {
             initSoftwareDropdown();
             handleMonthChangeSelect();
@@ -3206,7 +3229,7 @@
             renderSmartCalendar();
             updateGlobalDashboardSummary();
 
-            // Tự động kéo dữ liệu từ Google Cloud về ngay khi mở phần mềm tại cơ quan
+            // Tự động kéo dữ liệu từ Google Cloud về ngay khi mở phần mềm
             loadDataFromCloudAPI();
         };
     </script>
