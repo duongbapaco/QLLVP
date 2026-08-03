@@ -1059,60 +1059,33 @@
                 </div>
             </div>
 
-            <!-- TAB 5: MODULE QUẢN LÝ KHO & CẤP PHÁT MỰC IN -->
+            <!-- TAB 5: MODULE QUẢN LÝ KHO & CẤP PHÁT MỰC IN (ĐÃ THIẾT KẾ LẠI ĐƠN GIẢN, CHỈ QUẢN LÝ MỰC NHẬP) -->
             <div id="tab-ink-inventory" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--teal);">
                         <span><i class="fa-solid fa-print" style="color:var(--teal);"></i> QUẢN LÝ KHO & CẤP PHÁT MỰC IN VĂN PHÒNG (<span class="lbl-current-year">2026</span>)</span>
-                        <button type="button" class="btn btn-teal" style="padding: 5px 10px; font-size:11.5px;" onclick="openAddInkModal()"><i class="fa-solid fa-plus"></i> Nhập / Thêm Mã Mực</button>
+                        <button type="button" class="btn btn-teal" style="padding: 5px 10px; font-size:11.5px;" onclick="openAddInkModal()"><i class="fa-solid fa-plus"></i> Thêm Mực Nhập / Cấp Phát</button>
                     </div>
 
                     <div id="ink-form-panel" style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 10px; border-radius: 6px; margin-bottom: 10px;">
                         <input type="hidden" id="edit-ink-index" value="-1">
                         <div class="grid-form" style="margin-bottom: 6px;">
-                            <div class="form-group">
-                                <label style="color:#166534;">Mã mực / Model (Toàn thị trường):</label>
-                                <input type="text" id="ink-model" list="list-all-ink-models" placeholder="Chọn hoặc nhập mã mực..." style="border-color:#86efac;" oninput="autoSelectPrinterByInk(this.value)">
+                            <div class="form-group" style="grid-column: span 2;">
+                                <label style="color:#166534;">Tên loại mực / Mã mực nhập:</label>
+                                <input type="text" id="ink-model" list="list-all-ink-models" placeholder="Nhập tên hoặc mã mực (Ví dụ: Mực HP 12A, Mực Canon 2900...)" style="border-color:#86efac;">
                                 <datalist id="list-all-ink-models">
-                                    <option value="HP 12A (Q2612A - 1010/1020/1020 Plus/M1005)">
-                                    <option value="HP 35A / 36A / 85A (CB435A/CB436A/CE285A - P1005/P1006/P1102/M1132/M1212)">
-                                    <option value="HP 78A (CE278A - P1566/P1606dn/M1536dnf)">
-                                    <option value="HP 79A (CF279A - M12a/M12w/M26a/M26nw)">
-                                    <option value="HP 48A (CF248A - M15a/M15w/M28a/M28w)">
-                                    <option value="HP 17A (CF217A - M102a/M102w/M130a/M130fn)">
-                                    <option value="HP 30A (CF230A - M203dn/M203dw/M227fdn/M227fdw)">
-                                    <option value="HP 26A / 26X (CF226A/CF226X - M402dn/M402dw/M426fdn)">
-                                    <option value="HP 55A / 55X (CE255A/CE255X - P3015/525dn)">
-                                    <option value="HP 80A / 80X (CF280A/CF280X - 400 M401/M425dn)">
-                                    <option value="HP 107A / 110A (W1107A - 107a/107w/135a/135w/137fnw)">
-                                    <option value="Canon Cartridge 303 (LBP 2900 / 3000 - Huyền thoại)">
-                                    <option value="Canon Cartridge 325 (LBP 6000 / 6030 / 6030w)">
-                                    <option value="Canon Cartridge 337 (LBP 151dw, MF211/221d/226dn/232w/237w/244dw/246dn/249dw)">
-                                    <option value="Brother TN-2385 (HL-L2321D / L2361DN / L2366DW / DCP-L2520D / MFC-L2701DW)">
-                                    <option value="Brother TN-B022 (HL-B2000D / HL-B2080DW / DCP-B7535DW)">
-                                    <option value="Epson 003 / T00V (L1110 / L1210 / L1250 / L3110 / L3150 / L3210 / L3250 / L5190 / L5290)">
-                                    <option value="Fuji Xerox CT202380 / P225 (DocuPrint P225d / M225z / P265dw / M265z)">
+                                    <option value="Mực HP 12A (Q2612A)">
+                                    <option value="Mực HP 85A (CE285A)">
+                                    <option value="Mực HP 79A (CF279A)">
+                                    <option value="Mực Canon 303 (Dùng cho LBP 2900)">
+                                    <option value="Mực Canon 325 (Dùng cho LBP 6030)">
+                                    <option value="Mực Brother TN-2385">
+                                    <option value="Mực Epson 003 (Màu/Đen)">
                                 </datalist>
                             </div>
                             <div class="form-group">
-                                <label style="color:#166534;">Loại máy in tương thích (Đầy đủ dòng thị trường):</label>
-                                <input type="text" id="ink-printer" list="list-all-printer-models" placeholder="Chọn hoặc nhập dòng máy in..." style="border-color:#86efac;">
-                                <datalist id="list-all-printer-models">
-                                    <option value="HP LaserJet 1010 / 1020 / 1020 Plus / M1005 MFP">
-                                    <option value="HP LaserJet Pro P1102 / P1102w / M1132 / M1212nf">
-                                    <option value="Canon LBP 2900 / 3000 (Huyền thoại văn phòng)">
-                                    <option value="Canon LBP 6030 / 6030w / 6000">
-                                    <option value="Brother HL-L2321D / HL-L2361DN / HL-L2366DW">
-                                    <option value="Brother HL-B2000D / HL-B2080DW / DCP-B7535DW">
-                                    <option value="Epson L1110 / L1210 / L1250 / L3110 / L3150 / L3210 / L3250">
-                                    <option value="Fuji Xerox DocuPrint P225d / M225z / P265dw / M265z">
-                                    <option value="Máy photocopy Ricoh Aficio MP 2004 / 2554 / 3054 / 3554 / 4054 / 5054">
-                                    <option value="Máy photocopy Toshiba e-Studio 2508A / 3008A / 3508A / 5008A">
-                                </datalist>
-                            </div>
-                            <div class="form-group">
-                                <label style="color:#166534;">Số lượng tồn / Nhập:</label>
-                                <input type="number" id="ink-qty" value="10" min="0" step="1" style="border-color:#86efac;">
+                                <label style="color:#166534;">Số lượng:</label>
+                                <input type="number" id="ink-qty" value="5" min="0" step="1" style="border-color:#86efac;">
                             </div>
                             <div class="form-group">
                                 <label style="color:#166534;">Đơn vị tính:</label>
@@ -1131,10 +1104,10 @@
                             </div>
                             <div class="form-group">
                                 <label style="color:#166534;">Người nhận:</label>
-                                <input type="text" id="ink-receiver" value="Nguyễn Văn B" placeholder="Người nhận mực..." style="border-color:#86efac;">
+                                <input type="text" id="ink-receiver" value="" placeholder="Họ và tên người nhận..." style="border-color:#86efac;">
                             </div>
                             <div class="form-group">
-                                <label style="color:#166534;">Ngày cấp phát / Nhập:</label>
+                                <label style="color:#166534;">Ngày tháng năm:</label>
                                 <input type="date" id="ink-date" style="border-color:#86efac;">
                             </div>
                             <div class="form-group">
@@ -1153,7 +1126,7 @@
                     </div>
 
                     <div class="card-title" style="font-size: 13px; margin-top: 10px;">
-                        <span>DANH SÁCH QUẢN LÝ KHO & CẤP PHÁT MỰC IN NĂM <span class="lbl-current-year">2026</span></span>
+                        <span>DANH SÁCH QUẢN LÝ KHO MỰC IN NĂM <span class="lbl-current-year">2026</span></span>
                         <span id="ink-total-count" style="color: var(--teal);">Tổng: 0 Hộp</span>
                     </div>
                     <div class="table-responsive">
@@ -1161,13 +1134,12 @@
                             <thead>
                                 <tr style="background-color: #cbd5e1;">
                                     <th>STT</th>
-                                    <th>Mã mực / Model</th>
-                                    <th>Máy in tương thích</th>
+                                    <th>Tên loại mực / Mã mực nhập</th>
                                     <th>Số lượng</th>
                                     <th>ĐVT</th>
                                     <th>Phòng ban nhận</th>
                                     <th>Người nhận</th>
-                                    <th>Ngày cấp phát / Nhập</th>
+                                    <th>Ngày tháng năm</th>
                                     <th>Trạng thái kho</th>
                                     <th style="text-align: center;">Hành động</th>
                                 </tr>
@@ -3307,23 +3279,9 @@
             saveDataToCloudAPI();
         }
 
-        function autoSelectPrinterByInk(inkVal) {
-            let printerInput = document.getElementById('ink-printer');
-            if (inkVal.includes("12A") || inkVal.includes("85A") || inkVal.includes("35A")) {
-                printerInput.value = "HP LaserJet 1010 / 1020 / P1102 / M1005 MFP";
-            } else if (inkVal.includes("303") || inkVal.includes("337")) {
-                printerInput.value = "Canon LBP 2900 / 3000 / imageCLASS MF221d";
-            } else if (inkVal.includes("TN-2385") || inkVal.includes("TN-B022")) {
-                printerInput.value = "Brother HL-L2321D / HL-B2000D";
-            } else if (inkVal.includes("003") || inkVal.includes("GI-790") || inkVal.includes("GT51")) {
-                printerInput.value = "Epson L3110 / L3210 / Canon G2010 / Smart Tank 515";
-            }
-        }
-
         function openAddInkModal() {
             document.getElementById('edit-ink-index').value = "-1";
             document.getElementById('ink-model').value = "";
-            document.getElementById('ink-printer').value = "";
             document.getElementById('ink-qty').value = "5";
             document.getElementById('ink-dept').value = "Phòng Hành chính - Tổng hợp";
             document.getElementById('ink-receiver').value = "";
@@ -3336,7 +3294,6 @@
         function saveInkInventoryRecord() {
             let editIndex = parseInt(document.getElementById('edit-ink-index').value);
             let model = document.getElementById('ink-model').value.trim();
-            let printer = document.getElementById('ink-printer').value.trim();
             let qty = parseFloat(document.getElementById('ink-qty').value) || 0;
             let unit = document.getElementById('ink-unit').value;
             let dept = document.getElementById('ink-dept').value.trim();
@@ -3344,10 +3301,10 @@
             let dateVal = document.getElementById('ink-date').value;
             let status = document.getElementById('ink-status').value;
 
-            if (!model || qty <= 0) { alert("⚠️ Vui lòng nhập Mã mực và Số lượng hợp lệ!"); return; }
+            if (!model || qty <= 0) { alert("⚠️ Vui lòng nhập Tên loại mực/Mã mực và Số lượng hợp lệ!"); return; }
             if (!inkInventoryRecordsByYear[CURRENT_SELECTED_YEAR]) inkInventoryRecordsByYear[CURRENT_SELECTED_YEAR] = [];
 
-            let inkObj = { model, printer, qty, unit, dept, receiver, dateVal, status };
+            let inkObj = { model, qty, unit, dept, receiver, dateVal, status };
 
             if (editIndex >= 0) {
                 inkInventoryRecordsByYear[CURRENT_SELECTED_YEAR][editIndex] = inkObj;
@@ -3370,7 +3327,6 @@
 
             document.getElementById('edit-ink-index').value = idx;
             document.getElementById('ink-model').value = rec.model || "";
-            document.getElementById('ink-printer').value = rec.printer || "";
             document.getElementById('ink-qty').value = rec.qty || 1;
             document.getElementById('ink-unit').value = rec.unit || "Hộp";
             document.getElementById('ink-dept').value = rec.dept || "";
@@ -3400,7 +3356,6 @@
                 tbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${idx + 1}</td>
                     <td class="font-bold" style="color:var(--teal);">${rec.model}</td>
-                    <td>${rec.printer}</td>
                     <td class="text-center font-bold" style="color:var(--blue);">${rec.qty}</td>
                     <td class="text-center">${rec.unit}</td>
                     <td>${rec.dept}</td>
