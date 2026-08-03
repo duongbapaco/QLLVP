@@ -529,17 +529,6 @@
                         </div>
                     </div>
 
-                    <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 10px; border-radius: 6px; margin-bottom: 10px;">
-                        <div style="font-weight: bold; color: #166534; font-size: 13px; margin-bottom: 6px;">
-                            <i class="fa-solid fa-circle-info"></i> Quy định chuẩn số ngày phép năm (Điều 113 Bộ luật Lao động):
-                        </div>
-                        <ul style="margin-left: 20px; font-size: 12px; color: #1f2937; line-height: 1.5;">
-                            <li><b>Điều kiện chuẩn:</b> Làm việc đủ 12 tháng cho một người sử dụng lao động được hưởng nguyên lương: <b>12 ngày phép</b> (điều kiện bình thường), <b>14 ngày phép</b> (nặng nhọc/độc hại), hoặc <b>16 ngày phép</b> (đặc biệt nặng nhọc). Cứ đủ 5 năm thâm niên được cộng thêm 1 ngày phép thâm niên.</li>
-                            <li><b>Làm việc chưa đủ 12 tháng:</b> Số ngày phép được tính theo tỷ lệ số tháng làm việc thực tế (`(Số ngày phép chuẩn / 12) * Số tháng làm việc`).</li>
-                            <li><b>Hệ thống tự động trừ:</b> Khi nhân viên nghỉ phép trong tháng, hệ thống sẽ trừ trực tiếp vào Quỹ phép năm và tự động điền số ngày phép `P` vào Bảng lương tháng tương ứng.</li>
-                        </ul>
-                    </div>
-
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; margin-bottom: 10px;">
                         <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 10px; border-radius: 6px;">
                             <div style="font-weight: bold; font-size: 12.5px; color: var(--primary); margin-bottom: 6px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;">
@@ -1057,7 +1046,7 @@
                 </div>
             </div>
 
-            <!-- TAB 5: MODULE QUẢN LÝ KHO & CẤP PHÁT MỰC IN (TÍCH HỢP TÌM KIẾM HÌNH ẢNH MINH HỌA) -->
+            <!-- TAB 5: MODULE QUẢN LÝ KHO & CẤP PHÁT MỰC IN (CHUẨN ĐỊNH DẠNG NGÀY DD/MM/YYYY) -->
             <div id="tab-ink-inventory" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--teal);">
@@ -1075,7 +1064,6 @@
                                         <label style="color:#166534;">Tên loại mực / Mã mực nhập (Gõ hoặc chọn để tìm ảnh):</label>
                                         <input type="text" id="ink-model" list="list-all-ink-models" placeholder="Nhập tên hoặc mã mực (Ví dụ: Mực HP 12A, Canon 303...)" oninput="updateInkPreviewImage()" onchange="updateInkPreviewImage()" style="border-color:#86efac;">
                                         <datalist id="list-all-ink-models">
-                                            <!-- MỰC HP -->
                                             <option value="Mực HP 12A (Q2612A)">
                                             <option value="Mực HP 85A (CE285A)">
                                             <option value="Mực HP 79A (CF279A)">
@@ -1090,7 +1078,6 @@
                                             <option value="Mực HP 142A (W1420A)">
                                             <option value="Mực HP 680 (F6V27AA)">
                                             <option value="Mực HP GT51 / GT52">
-                                            <!-- MỰC CANON -->
                                             <option value="Mực Canon 303 (EP-303)">
                                             <option value="Mực Canon 325 (CRG-325)">
                                             <option value="Mực Canon 337 (CRG-337)">
@@ -1098,16 +1085,13 @@
                                             <option value="Mực Canon 057 (CRG-057)">
                                             <option value="Mực Canon GI-790">
                                             <option value="Mực Canon GI-71">
-                                            <!-- MỰC BROTHER -->
                                             <option value="Mực Brother TN-2385">
                                             <option value="Mực Brother TN-B022">
                                             <option value="Mực Brother TN-1000">
                                             <option value="Mực Brother BT5000 / BT6000BK">
-                                            <!-- MỰC EPSON -->
                                             <option value="Mực Epson 003">
                                             <option value="Mực Epson 057">
                                             <option value="Mực Epson 664">
-                                            <!-- MỰC KHÁC -->
                                             <option value="Mực Fuji Xerox P225d (CT202330)">
                                             <option value="Mực Ricoh SP 111">
                                         </datalist>
@@ -1146,8 +1130,11 @@
                                 <input type="text" id="ink-receiver" value="" placeholder="Họ và tên người nhận..." style="border-color:#86efac;">
                             </div>
                             <div class="form-group">
-                                <label style="color:#166534;">Ngày tháng năm:</label>
-                                <input type="date" id="ink-date" class="inp-table" style="border-color:#86efac;" value="2026-08-03">
+                                <label style="color:#166534;"><i class="fa-solid fa-calendar-days"></i> Ngày tháng năm (Nhập/Chọn):</label>
+                                <div style="position:relative;">
+                                    <input type="text" id="ink-date-time" value="03/08/2026" readonly onclick="togglePicker('ink-date-popup')" style="cursor:pointer; background:#ffffff; border-color:#86efac; font-weight:bold; color:#166534;">
+                                    <div id="ink-date-popup" class="custom-popup-calendar"></div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label style="color:#166534;">Trạng thái kho:</label>
@@ -1191,7 +1178,7 @@
             </div>
         </div>
 
-        <!-- LỊCH VẠN NIÊN PHONG THỦY CHUYÊN NGHIỆP (SIDEBAR - CHUẨN GIAO DIỆN MẪU, MƯỢT MÀ) -->
+        <!-- LỊCH VẠN NIÊN PHONG THỦY CHUYÊN NGHIỆP (SIDEBAR) -->
         <div class="calendar-sidebar" id="calendar-sidebar-box">
             <div class="cal-smart-header">
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
@@ -1399,7 +1386,6 @@
             {"name": "Phạm Huy Chiến", "account": "102004830132", "lcb_heso": 2.26, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 2.40, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0}
         ];
 
-        // Dữ liệu hình ảnh minh họa tương ứng với các dòng mực in
         const INK_IMAGE_DATABASE = {
             "HP 12A": "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=200&auto=format&fit=crop&q=60",
             "HP 85A": "https://images.unsplash.com/photo-1588702547919-269b9e6e1dad?w=200&auto=format&fit=crop&q=60",
@@ -1818,6 +1804,8 @@
                 document.getElementById('pay-date-time').value = `${formattedDay}/${formattedMonth}/${y}`;
             } else if (popupId === 'telecom-period-popup') {
                 document.getElementById('tele-period').value = `${formattedDay}/${formattedMonth}/${y}`;
+            } else if (popupId === 'ink-date-popup') {
+                document.getElementById('ink-date-time').value = `${formattedDay}/${formattedMonth}/${y}`;
             }
             document.getElementById(popupId).style.display = 'none';
             activePickerId = null;
@@ -3323,7 +3311,6 @@
             saveDataToCloudAPI();
         }
 
-        // HÀM TÌM VÀ CẬP NHẬT HÌNH ẢNH MỰC IN TỰ ĐỘNG
         function getInkImageByModel(modelName) {
             if (!modelName) return INK_IMAGE_DATABASE["DEFAULT"];
             let upper = modelName.toUpperCase();
@@ -3352,7 +3339,7 @@
             document.getElementById('ink-qty').value = "5";
             document.getElementById('ink-dept').value = "Phòng Hành chính - Tổng hợp";
             document.getElementById('ink-receiver').value = "";
-            document.getElementById('ink-date').value = new Date().toISOString().split('T')[0];
+            document.getElementById('ink-date-time').value = "03/08/2026";
             updateInkPreviewImage();
             document.getElementById('btn-save-ink').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Lưu Thông Tin Mực Vào Danh Sách`;
             document.getElementById('btn-cancel-edit-ink').style.display = "none";
@@ -3366,7 +3353,7 @@
             let unit = document.getElementById('ink-unit').value;
             let dept = document.getElementById('ink-dept').value.trim();
             let receiver = document.getElementById('ink-receiver').value.trim();
-            let dateVal = document.getElementById('ink-date').value;
+            let dateVal = document.getElementById('ink-date-time').value.trim();
             let status = document.getElementById('ink-status').value;
             let imageUrl = getInkImageByModel(model);
 
@@ -3400,7 +3387,7 @@
             document.getElementById('ink-unit').value = rec.unit || "Hộp";
             document.getElementById('ink-dept').value = rec.dept || "";
             document.getElementById('ink-receiver').value = rec.receiver || "";
-            document.getElementById('ink-date').value = rec.dateVal || "";
+            document.getElementById('ink-date-time').value = rec.dateVal || "03/08/2026";
             document.getElementById('ink-status').value = rec.status || "Còn trong kho";
             updateInkPreviewImage();
 
@@ -3424,6 +3411,13 @@
             list.forEach((rec, idx) => {
                 totalQty += (parseFloat(rec.qty) || 0);
                 let imgUrl = rec.imageUrl || getInkImageByModel(rec.model);
+                
+                let rawDate = rec.dateVal || "03/08/2026";
+                let displayDate = rawDate;
+                if (rawDate.includes("-") && rawDate.split("-")[0].length === 4) {
+                    let parts = rawDate.split("-");
+                    displayDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+                }
 
                 tbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${idx + 1}</td>
@@ -3435,7 +3429,7 @@
                     <td class="text-center">${rec.unit}</td>
                     <td>${rec.dept}</td>
                     <td>${rec.receiver || '-'}</td>
-                    <td class="text-center">${rec.dateVal || '-'}</td>
+                    <td class="text-center font-bold" style="color:var(--green);">${displayDate}</td>
                     <td><span style="font-weight:bold; color:${rec.status.includes('Kho') ? 'var(--green)' : (rec.status.includes('Cấp') ? 'var(--blue)' : 'var(--red)')};">${rec.status}</span></td>
                     <td class="text-center">
                         <button type="button" class="btn-edit" onclick="editInkRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
@@ -3524,6 +3518,24 @@
             `;
             let blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
             saveAs(blob, `Bao_Cao_CNTT_${CURRENT_SELECTED_YEAR}.doc`);
+        }
+
+        function openConfigUrlModal() {
+            document.getElementById('cfg-script-url').value = GOOGLE_SCRIPT_API_URL;
+            document.getElementById('cfg-sheet-url').value = GOOGLE_SHEET_VIEW_URL;
+            document.getElementById('configUrlModal').style.display = 'flex';
+        }
+        function closeConfigUrlModal() { document.getElementById('configUrlModal').style.display = 'none'; }
+        function saveConfigUrls() {
+            GOOGLE_SCRIPT_API_URL = document.getElementById('cfg-script-url').value.trim();
+            GOOGLE_SHEET_VIEW_URL = document.getElementById('cfg-sheet-url').value.trim();
+            localStorage.setItem('sys_cfg_script_url', GOOGLE_SCRIPT_API_URL);
+            localStorage.setItem('sys_cfg_sheet_url', GOOGLE_SHEET_VIEW_URL);
+            closeConfigUrlModal();
+            alert("✅ Đã lưu cấu hình liên kết thành công!");
+        }
+        function openMainSalaryGoogleSheet() {
+            window.open(GOOGLE_SHEET_VIEW_URL, '_blank');
         }
 
         window.addEventListener('DOMContentLoaded', () => {
