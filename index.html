@@ -1057,7 +1057,7 @@
                 </div>
             </div>
 
-            <!-- TAB 5: MODULE QUẢN LÝ KHO & CẤP PHÁT MỰC IN (ĐÃ BỔ SUNG ĐẦY ĐỦ MÃ MỰC THÔNG DỤNG HIỆN NAY) -->
+            <!-- TAB 5: MODULE QUẢN LÝ KHO & CẤP PHÁT MỰC IN (TÍCH HỢP TÌM KIẾM HÌNH ẢNH MINH HỌA) -->
             <div id="tab-ink-inventory" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--teal);">
@@ -1067,74 +1067,75 @@
 
                     <div id="ink-form-panel" style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 10px; border-radius: 6px; margin-bottom: 10px;">
                         <input type="hidden" id="edit-ink-index" value="-1">
-                        <div class="grid-form" style="margin-bottom: 6px;">
-                            <div class="form-group" style="grid-column: span 2;">
-                                <label style="color:#166534;">Tên loại mực / Mã mực nhập:</label>
-                                <input type="text" id="ink-model" list="list-all-ink-models" placeholder="Nhập tên hoặc mã mực (Ví dụ: Mực HP 12A, Canon 303, Brother TN-2385...)" style="border-color:#86efac;">
-                                <datalist id="list-all-ink-models">
-                                    <!-- MỰC HP (Hãng Hewlett-Packard) -->
-                                    <option value="Mực HP 12A (Q2612A) - Dùng cho HP 1010/1020/1022/3015">
-                                    <option value="Mực HP 85A (CE285A) - Dùng cho HP P1102/M1132/M1212">
-                                    <option value="Mực HP 79A (CF279A) - Dùng cho HP M12a/M12w/M26a">
-                                    <option value="Mực HP 30A (CF230A) - Dùng cho HP M203dn/M227fdw">
-                                    <option value="Mực HP 17A (CF217A) - Dùng cho HP M102w/M130fw">
-                                    <option value="Mực HP 48A (CF248A) - Dùng cho HP M15a/M28a">
-                                    <option value="Mực HP 76A (CF276A) - Dùng cho HP M404dn/M428fdw">
-                                    <option value="Mực HP 05A (CE505A) - Dùng cho HP P2035/P2055">
-                                    <option value="Mực HP 80A (CF280A) - Dùng cho HP 400/M401/M425">
-                                    <option value="Mực HP 107A (W1107A) - Dùng cho HP 107a/107w/135a">
-                                    <option value="Mực HP 136A (W1360A) - Dùng cho HP M236dw/M236sdw">
-                                    <option value="Mực HP 142A (W1420A) - Dùng cho HP M110w/M140w">
-                                    <option value="Mực HP 680 (F6V27AA / F6V26AA) - Phun màu/Đen">
-                                    <option value="Mực HP GT51 / GT52 (Màu & Đen) - Dùng cho HP Ink Tank 115/310/415">
-
-                                    <!-- MỰC CANON -->
-                                    <option value="Mực Canon 303 (EP-303) - Dùng cho Canon LBP 2900/3000">
-                                    <option value="Mực Canon 325 (CRG-325) - Dùng cho Canon LBP 6000/6030/6230">
-                                    <option value="Mực Canon 337 (CRG-337) - Dùng cho Canon MF 211/212w/221d/226dn">
-                                    <option value="Mực Canon 051 (CRG-051) - Dùng cho Canon LBP 161dn/MF264dw">
-                                    <option value="Mực Canon 057 (CRG-057) - Dùng cho Canon LBP 223dw/226dw/MF445dw">
-                                    <option value="Mực Canon 312 (CRG-312) - Dùng cho Canon LBP 3100">
-                                    <option value="Mực Canon 326 (CRG-326) - Dùng cho Canon LBP 6200d">
-                                    <option value="Mực Canon 328 (CRG-328) - Dùng cho Canon MF 4410/4550d">
-                                    <option value="Mực Canon GI-790 (BK/C/M/Y) - Dùng cho Canon G1000/G2000/G3000/G4000">
-                                    <option value="Mực Canon GI-71 / GI-73 (Màu & Đen) - Dùng cho Canon G1020/G2020/G3020/G5070">
-
-                                    <!-- MỰC BROTHER -->
-                                    <option value="Mực Brother TN-2385 - Dùng cho HL-L2321D/L2366DW/MFC-L2701D">
-                                    <option value="Mực Brother TN-B022 - Dùng cho HL-B2080DW/B7535DW">
-                                    <option value="Mực Brother TN-2250 - Dùng cho HL-2240D/7360">
-                                    <option value="Mực Brother TN-1000 - Dùng cho HL-1110/1201/DCP-1511">
-                                    <option value="Mực Brother BT5000 / BT6000BK - Dùng cho T300/T500W/T700W/T910DW">
-                                    <option value="Mực Brother BTD60BK / BT500C/M/Y - Dùng cho T310/T510W/T710W/T420W">
-
-                                    <!-- MỰC EPSON -->
-                                    <option value="Mực Epson 003 (C13T00V199 - BK/C/M/Y) - Dùng cho L1110/L3110/L3150/L3210/L3250">
-                                    <option value="Mực Epson 057 (C13T057...) - Dùng cho Epson L8050/L18050">
-                                    <option value="Mực Epson 008 (C13T06G...) - Dùng cho Epson M15140/L15150">
-                                    <option value="Mực Epson 664 (T6641 - T6644) - Dùng cho L100/L110/L120/L210/L300/L350/L360/L382/L550/L1300">
-
-                                    <!-- MỰC XEROX & RICOH & KHÁC -->
-                                    <option value="Mực Fuji Xerox DocuPrint P225d / M225dw (CT202330)">
-                                    <option value="Mực Fuji Xerox M115w / P115w (CT202138)">
-                                    <option value="Mực Ricoh SP 111 / SP 200 / SP 210 (Hộp mực in laser)">
-                                    <option value="Mực Panasonic KX-FAT411 / FAT421 (Dùng cho máy fax/in Panasonic)">
-                                </datalist>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 180px; gap: 10px; align-items: start; margin-bottom: 6px;">
+                            <div>
+                                <div class="grid-form" style="margin-bottom: 6px;">
+                                    <div class="form-group" style="grid-column: span 2;">
+                                        <label style="color:#166534;">Tên loại mực / Mã mực nhập (Gõ hoặc chọn để tìm ảnh):</label>
+                                        <input type="text" id="ink-model" list="list-all-ink-models" placeholder="Nhập tên hoặc mã mực (Ví dụ: Mực HP 12A, Canon 303...)" oninput="updateInkPreviewImage()" onchange="updateInkPreviewImage()" style="border-color:#86efac;">
+                                        <datalist id="list-all-ink-models">
+                                            <!-- MỰC HP -->
+                                            <option value="Mực HP 12A (Q2612A)">
+                                            <option value="Mực HP 85A (CE285A)">
+                                            <option value="Mực HP 79A (CF279A)">
+                                            <option value="Mực HP 30A (CF230A)">
+                                            <option value="Mực HP 17A (CF217A)">
+                                            <option value="Mực HP 48A (CF248A)">
+                                            <option value="Mực HP 76A (CF276A)">
+                                            <option value="Mực HP 05A (CE505A)">
+                                            <option value="Mực HP 80A (CF280A)">
+                                            <option value="Mực HP 107A (W1107A)">
+                                            <option value="Mực HP 136A (W1360A)">
+                                            <option value="Mực HP 142A (W1420A)">
+                                            <option value="Mực HP 680 (F6V27AA)">
+                                            <option value="Mực HP GT51 / GT52">
+                                            <!-- MỰC CANON -->
+                                            <option value="Mực Canon 303 (EP-303)">
+                                            <option value="Mực Canon 325 (CRG-325)">
+                                            <option value="Mực Canon 337 (CRG-337)">
+                                            <option value="Mực Canon 051 (CRG-051)">
+                                            <option value="Mực Canon 057 (CRG-057)">
+                                            <option value="Mực Canon GI-790">
+                                            <option value="Mực Canon GI-71">
+                                            <!-- MỰC BROTHER -->
+                                            <option value="Mực Brother TN-2385">
+                                            <option value="Mực Brother TN-B022">
+                                            <option value="Mực Brother TN-1000">
+                                            <option value="Mực Brother BT5000 / BT6000BK">
+                                            <!-- MỰC EPSON -->
+                                            <option value="Mực Epson 003">
+                                            <option value="Mực Epson 057">
+                                            <option value="Mực Epson 664">
+                                            <!-- MỰC KHÁC -->
+                                            <option value="Mực Fuji Xerox P225d (CT202330)">
+                                            <option value="Mực Ricoh SP 111">
+                                        </datalist>
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="color:#166534;">Số lượng:</label>
+                                        <input type="number" id="ink-qty" value="5" min="1" step="1" style="border-color:#86efac; font-weight:800;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="color:#166534;">Đơn vị tính:</label>
+                                        <select id="ink-unit" style="border-color:#86efac;">
+                                            <option value="Hộp" selected>Hộp</option>
+                                            <option value="Ống mực">Ống mực (Cartridge)</option>
+                                            <option value="Lọ mực (Màu)">Lọ mực (Màu)</option>
+                                            <option value="Bộ (4 màu)">Bộ (4 màu)</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label style="color:#166534;">Số lượng:</label>
-                                <input type="number" id="ink-qty" value="5" min="0" step="1" style="border-color:#86efac;">
-                            </div>
-                            <div class="form-group">
-                                <label style="color:#166534;">Đơn vị tính:</label>
-                                <select id="ink-unit" style="border-color:#86efac;">
-                                    <option value="Hộp" selected>Hộp</option>
-                                    <option value="Ống mực">Ống mực (Cartridge)</option>
-                                    <option value="Lọ mực (Màu)">Lọ mực (Màu)</option>
-                                    <option value="Bộ (4 màu)">Bộ (4 màu)</option>
-                                </select>
+                            
+                            <!-- KHUNG XEM TRƯỚC HÌNH ẢNH MỰC IN -->
+                            <div style="background: #ffffff; border: 2px dashed #166534; border-radius: 6px; padding: 6px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 110px;">
+                                <div style="font-size: 10.5px; font-weight: bold; color: #166534; margin-bottom: 3px;">📷 Hình ảnh hộp mực:</div>
+                                <img id="ink-preview-img" src="https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=200&auto=format&fit=crop&q=60" alt="Hộp mực in" style="width: 70px; height: 70px; object-fit: contain; border-radius: 4px; border: 1px solid #cbd5e1; background: #f8fafc;" onerror="this.src='https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=200&auto=format&fit=crop&q=60'">
+                                <div id="ink-preview-label" style="font-size: 9.5px; color: #475569; margin-top: 2px; font-weight: bold;">Chưa chọn mã mực</div>
                             </div>
                         </div>
+
                         <div class="grid-form" style="margin-bottom: 6px;">
                             <div class="form-group">
                                 <label style="color:#166534;">Phòng ban nhận / Cấp phát:</label>
@@ -1159,7 +1160,7 @@
                         </div>
                         <div style="display:flex; justify-content:flex-end; gap:5px;">
                             <button type="button" class="btn btn-gray" id="btn-cancel-edit-ink" style="display:none;" onclick="cancelEditInk()"><i class="fa-solid fa-xmark"></i> Hủy</button>
-                            <button type="button" class="btn btn-teal" id="btn-save-ink" onclick="saveInkInventoryRecord()"><i class="fa-solid fa-floppy-disk"></i> Lưu Thông Tin Mực</button>
+                            <button type="button" class="btn btn-teal" id="btn-save-ink" onclick="saveInkInventoryRecord()"><i class="fa-solid fa-floppy-disk"></i> Lưu Thông Tin Mực Vào Danh Sách</button>
                         </div>
                     </div>
 
@@ -1172,7 +1173,8 @@
                             <thead>
                                 <tr style="background-color: #cbd5e1;">
                                     <th>STT</th>
-                                    <th>Tên loại mực / Mã mực nhập</th>
+                                    <th>Ảnh minh họa</th>
+                                    <th>Tên loại mực / Mã mực</th>
                                     <th>Số lượng</th>
                                     <th>ĐVT</th>
                                     <th>Phòng ban nhận</th>
@@ -1396,6 +1398,19 @@
             {"name": "Đặng Trần Trung", "account": "107002654931", "lcb_heso": 1.53, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.62, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
             {"name": "Phạm Huy Chiến", "account": "102004830132", "lcb_heso": 2.26, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 2.40, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0}
         ];
+
+        // Dữ liệu hình ảnh minh họa tương ứng với các dòng mực in
+        const INK_IMAGE_DATABASE = {
+            "HP 12A": "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=200&auto=format&fit=crop&q=60",
+            "HP 85A": "https://images.unsplash.com/photo-1588702547919-269b9e6e1dad?w=200&auto=format&fit=crop&q=60",
+            "HP 79A": "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=200&auto=format&fit=crop&q=60",
+            "CANON 303": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=200&auto=format&fit=crop&q=60",
+            "CANON 325": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=200&auto=format&fit=crop&q=60",
+            "CANON 337": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=200&auto=format&fit=crop&q=60",
+            "BROTHER TN-2385": "https://images.unsplash.com/photo-1526738549149-8e07eca6c147?w=200&auto=format&fit=crop&q=60",
+            "EPSON 003": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=200&auto=format&fit=crop&q=60",
+            "DEFAULT": "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=200&auto=format&fit=crop&q=60"
+        };
 
         const AVAILABLE_SOFTWARE_LIST = [
             "Không sử dụng phần mềm",
@@ -3308,6 +3323,29 @@
             saveDataToCloudAPI();
         }
 
+        // HÀM TÌM VÀ CẬP NHẬT HÌNH ẢNH MỰC IN TỰ ĐỘNG
+        function getInkImageByModel(modelName) {
+            if (!modelName) return INK_IMAGE_DATABASE["DEFAULT"];
+            let upper = modelName.toUpperCase();
+            for (let key in INK_IMAGE_DATABASE) {
+                if (key !== "DEFAULT" && upper.includes(key)) {
+                    return INK_IMAGE_DATABASE[key];
+                }
+            }
+            return INK_IMAGE_DATABASE["DEFAULT"];
+        }
+
+        function updateInkPreviewImage() {
+            let modelInput = document.getElementById('ink-model').value.trim();
+            let imgEl = document.getElementById('ink-preview-img');
+            let lblEl = document.getElementById('ink-preview-label');
+            if (!imgEl) return;
+
+            let imgUrl = getInkImageByModel(modelInput);
+            imgEl.src = imgUrl;
+            lblEl.innerText = modelInput ? modelInput.substring(0, 22) + "..." : "Chưa chọn mã mực";
+        }
+
         function openAddInkModal() {
             document.getElementById('edit-ink-index').value = "-1";
             document.getElementById('ink-model').value = "";
@@ -3315,7 +3353,8 @@
             document.getElementById('ink-dept').value = "Phòng Hành chính - Tổng hợp";
             document.getElementById('ink-receiver').value = "";
             document.getElementById('ink-date').value = new Date().toISOString().split('T')[0];
-            document.getElementById('btn-save-ink').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Lưu Thông Tin Mực`;
+            updateInkPreviewImage();
+            document.getElementById('btn-save-ink').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Lưu Thông Tin Mực Vào Danh Sách`;
             document.getElementById('btn-cancel-edit-ink').style.display = "none";
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -3329,11 +3368,12 @@
             let receiver = document.getElementById('ink-receiver').value.trim();
             let dateVal = document.getElementById('ink-date').value;
             let status = document.getElementById('ink-status').value;
+            let imageUrl = getInkImageByModel(model);
 
             if (!model || qty <= 0) { alert("⚠️ Vui lòng nhập Tên loại mực/Mã mực và Số lượng hợp lệ!"); return; }
             if (!inkInventoryRecordsByYear[CURRENT_SELECTED_YEAR]) inkInventoryRecordsByYear[CURRENT_SELECTED_YEAR] = [];
 
-            let inkObj = { model, qty, unit, dept, receiver, dateVal, status };
+            let inkObj = { model, qty, unit, dept, receiver, dateVal, status, imageUrl };
 
             if (editIndex >= 0) {
                 inkInventoryRecordsByYear[CURRENT_SELECTED_YEAR][editIndex] = inkObj;
@@ -3362,6 +3402,7 @@
             document.getElementById('ink-receiver').value = rec.receiver || "";
             document.getElementById('ink-date').value = rec.dateVal || "";
             document.getElementById('ink-status').value = rec.status || "Còn trong kho";
+            updateInkPreviewImage();
 
             document.getElementById('btn-save-ink').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Cập Nhật`;
             document.getElementById('btn-cancel-edit-ink').style.display = "inline-flex";
@@ -3382,8 +3423,13 @@
             let totalQty = 0;
             list.forEach((rec, idx) => {
                 totalQty += (parseFloat(rec.qty) || 0);
+                let imgUrl = rec.imageUrl || getInkImageByModel(rec.model);
+
                 tbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${idx + 1}</td>
+                    <td class="text-center">
+                        <img src="${imgUrl}" alt="Mực" style="width:36px; height:36px; object-fit:contain; border-radius:4px; border:1px solid #cbd5e1; background:#fff;" onerror="this.src='https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=200&auto=format&fit=crop&q=60'">
+                    </td>
                     <td class="font-bold" style="color:var(--teal);">${rec.model}</td>
                     <td class="text-center font-bold" style="color:var(--blue);">${rec.qty}</td>
                     <td class="text-center">${rec.unit}</td>
