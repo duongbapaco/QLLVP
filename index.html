@@ -978,6 +978,7 @@
                             <button type="button" class="btn btn-gray" id="btn-cancel-edit-it" style="display:none;" onclick="cancelEditItAsset()"><i class="fa-solid fa-xmark"></i> Hủy</button>
                             <button type="button" class="btn btn-purple" id="btn-save-it" onclick="addNewItAssetRecord()"><i class="fa-solid fa-floppy-disk"></i> Lưu Tài Sản</button>
                             <button type="button" class="btn btn-gray" onclick="clearItAssetForm()"><i class="fa-solid fa-rotate-left"></i> Làm mới</button>
+                            <button type="button" class="btn btn-green" id="btn-qr-it" onclick="generateItAssetQR()"><i class="fa-solid fa-qrcode"></i> Tạo / Xem Mã QR</button>
                         </div>
                     </div>
 
@@ -3123,7 +3124,74 @@
             if (counter) counter.innerText = `Đã chọn: ${list.length} phần mềm`;
             return list;
         }
+function generateItAssetQR() {
+    const specs = document.getElementById('it-specs') ? document.getElementById('it-specs').value : '';
+    const date = document.getElementById('it-date') ? document.getElementById('it-date').value : '';
+    const status = document.getElementById('it-status') ? document.getElementById('it-status').value : '';
 
+    if (!specs) {
+        alert('Vui lòng nhập thông số cấu hình trước khi tạo QR!');
+        return;
+    }
+
+    // Tổng hợp nội dung mã QR cho tài sản CNTT
+    const qrText = `Cấu hình: ${specs} | Ngày BG: ${date} | Trạng thái: ${status}`;
+    
+    // Gọi hiển thị Modal và tạo ảnh QR qua API QuickChart
+    const modal = document.getElementById('qrModal');
+    const titleEl = document.getElementById('qrModalTitle');
+    const imgEl = document.getElementById('qrImage');
+
+    titleEl.innerText = 'Mã QR: Tài Sản CNTT';
+    imgEl.src = `https://quickchart.io/qr?text=${encodeURIComponent(qrText)}&size=150`;
+    modal.style.display = 'flex';
+}
+
+function dongModalQR() {
+    document.getElementById('qrModal').style.display = 'none';
+}
+
+// Đóng modal khi click ra ngoài vùng popup
+window.onclick = function(event) {
+    const modal = document.getElementById('qrModal');
+    if (event.target == modal) {
+        modal.style.display = 'none';
+    }
+}
+        function generateItAssetQR() {
+    const specs = document.getElementById('it-specs') ? document.getElementById('it-specs').value : '';
+    const date = document.getElementById('it-date') ? document.getElementById('it-date').value : '';
+    const status = document.getElementById('it-status') ? document.getElementById('it-status').value : '';
+
+    if (!specs) {
+        alert('Vui lòng nhập thông số cấu hình trước khi tạo QR!');
+        return;
+    }
+
+    // Tổng hợp nội dung mã QR cho tài sản CNTT
+    const qrText = `Cấu hình: ${specs} | Ngày BG: ${date} | Trạng thái: ${status}`;
+    
+    // Gọi hiển thị Modal và tạo ảnh QR qua API QuickChart
+    const modal = document.getElementById('qrModal');
+    const titleEl = document.getElementById('qrModalTitle');
+    const imgEl = document.getElementById('qrImage');
+
+    titleEl.innerText = 'Mã QR: Tài Sản CNTT';
+    imgEl.src = `https://quickchart.io/qr?text=${encodeURIComponent(qrText)}&size=150`;
+    modal.style.display = 'flex';
+}
+
+function dongModalQR() {
+    document.getElementById('qrModal').style.display = 'none';
+}
+
+// Đóng modal khi click ra ngoài vùng popup
+window.onclick = function(event) {
+    const modal = document.getElementById('qrModal');
+    if (event.target == modal) {
+        modal.style.display = 'none';
+    }
+}
         function addNewItAssetRecord() {
             let editIndex = parseInt(document.getElementById('edit-it-index').value);
             let user = document.getElementById('it-user').value.trim();
@@ -3745,5 +3813,15 @@ function showAssetInventoryQR(assetName, assetCode, assetType, assetDept, assetM
 }
 
 </script>
+<!-- Modal hiển thị mã QR -->
+<div id="qrModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); justify-content: center; align-items: center;">
+    <div style="background-color: white; padding: 20px; border-radius: 8px; text-align: center; width: 300px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+        <h3 id="qrModalTitle" style="margin-top: 0; margin-bottom: 15px; font-size: 16px; color: #333;">Mã QR Thông Tin</h3>
+        <div style="display: flex; justify-content: center; margin-bottom: 15px;">
+            <img id="qrImage" src="" alt="Mã QR" style="width: 150px; height: 150px;">
+        </div>
+        <button type="button" onclick="dongModalQR()" style="padding: 6px 16px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Đóng</button>
+    </div>
+</div>
 </body>
 </html>
