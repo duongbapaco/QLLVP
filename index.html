@@ -3603,6 +3603,68 @@ function snoozeRestReminder(minutes) {
 </body>
 </html>
         };
-    </script>
+// ==========================================
+// CẤU HÌNH HỆ THỐNG NHẮC NHỞ GIẢI LAO (BREAK REMINDER)
+// ==========================================
+
+// 1. Cấu hình thời gian (Tính bằng phút đổi ra mili-giây)
+const WORK_DURATION_MINUTES = 45; // Thay đổi số phút làm việc tùy ý (VD: 45 hoặc 60 phút)
+const WORK_INTERVAL_MS = WORK_DURATION_MINUTES * 60 * 1000; 
+const SNOOZE_INTERVAL_MS = 15 * 60 * 1000; // Thời gian nhắc lại: 15 phút
+
+let mainWorkTimer = null;
+
+// Hàm hiển thị Modal nhắc nhở (Giả định ID của Modal trong HTML của anh)
+function showBreakModal() {
+    const modal = document.getElementById('breakReminderModal'); // Thay ID này bằng ID thực tế của Modal trong HTML của anh nếu khác tên
+    if (modal) {
+        modal.style.display = 'block'; // Hoặc dùng class active tùy giao diện của anh
+    }
+}
+
+// Hàm ẩn Modal nhắc nhở
+function hideBreakModal() {
+    const modal = document.getElementById('breakReminderModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Bắt sự kiện khi bấm nút "Nhắc lại sau 15 phút"
+const btnRemindLater = document.getElementById('btnRemindLater'); // Thay ID theo nút thực tế của anh
+if (btnRemindLater) {
+    btnRemindLater.addEventListener('click', function() {
+        hideBreakModal();
+        // Hẹn giờ hiển thị lại sau 15 phút
+        setTimeout(() => {
+            showBreakModal();
+        }, SNOOZE_INTERVAL_MS);
+    });
+}
+
+// Bắt sự kiện khi bấm nút "Đã nghỉ xong"
+const btnDoneBreak = document.getElementById('btnDoneBreak'); // Thay ID theo nút thực tế của anh
+if (btnDoneBreak) {
+    btnDoneBreak.addEventListener('click', function() {
+        hideBreakModal();
+        // Reset lại chu kỳ làm việc từ đầu
+        resetWorkTimer();
+    });
+}
+
+// Khởi động lại đồng hồ đếm giờ làm việc
+function resetWorkTimer() {
+    if (mainWorkTimer) clearInterval(mainWorkTimer);
+    mainWorkTimer = setInterval(() => {
+        showBreakModal();
+    }, WORK_INTERVAL_MS);
+}
+
+// Kích hoạt chạy bộ đếm ngay khi trang được tải xong
+document.addEventListener('DOMContentLoaded', function() {
+    resetWorkTimer();
+}); // Chỉ giữ lại 1 dấu ngoặc đóng này cho hàm addEventListener
+
+</script>
 </body>
 </html>
