@@ -3180,32 +3180,7 @@ window.onclick = function(event) {
     imgEl.src = `https://quickchart.io/qr?text=${encodeURIComponent(qrText)}&size=150`;
     modal.style.display = 'flex';
 }
-function inMaQR() {
-    const qrImageSrc = document.getElementById('qrImage').src;
-    const titleText = document.getElementById('qrModalTitle').innerText;
-    
-    const printWindow = window.open('', '_blank');
-    printWindow.document.write(`
-        <html>
-            <head>
-                <title>In Mã QR - VINAPACO</title>
-                <style>
-                    body { font-family: Arial, sans-serif; text-align: center; margin-top: 30px; }
-                    h2 { font-size: 18px; margin-bottom: 10px; }
-                    img { width: 200px; height: 200px; }
-                </style>
-            </head>
-            <body>
-                <h2>${titleText}</h2>
-                <img src="${qrImageSrc}" />
-                <script>
-                    window.onload = function() { window.print(); window.close(); }
-                </script>
-            </body>
-        </html>
-    `);
-    printWindow.document.close();
-}
+
 function dongModalQR() {
     document.getElementById('qrModal').style.display = 'none';
 }
@@ -3839,17 +3814,13 @@ function showAssetInventoryQR(assetName, assetCode, assetType, assetDept, assetM
 
 </script>
 <!-- Modal hiển thị mã QR -->
-<!-- Modal hiển thị mã QR -->
 <div id="qrModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); justify-content: center; align-items: center;">
-    <div style="background-color: white; padding: 20px; border-radius: 8px; text-align: center; width: 320px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+    <div style="background-color: white; padding: 20px; border-radius: 8px; text-align: center; width: 300px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
         <h3 id="qrModalTitle" style="margin-top: 0; margin-bottom: 15px; font-size: 16px; color: #333;">Mã QR Thông Tin</h3>
-        <div id="qrPrintArea" style="display: flex; justify-content: center; margin-bottom: 15px;">
+        <div style="display: flex; justify-content: center; margin-bottom: 15px;">
             <img id="qrImage" src="" alt="Mã QR" style="width: 150px; height: 150px;">
         </div>
-        <div style="display: flex; justify-content: center; gap: 8px;">
-            <button type="button" onclick="inMaQR()" style="padding: 6px 16px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;"><i class="fa-solid fa-print"></i> In mã QR</button>
-            <button type="button" onclick="dongModalQR()" style="padding: 6px 16px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Đóng</button>
-        </div>
+        <button type="button" onclick="dongModalQR()" style="padding: 6px 16px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Đóng</button>
     </div>
 </div>
 </body>
