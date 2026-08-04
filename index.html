@@ -466,7 +466,7 @@
                 </div>
             </div>
 
-            <!-- TAB: QUẢN LÝ NGÀY PHÉP CHUYÊN NGHIỆP (BỘ LUẬT LAO ĐỘNG) -->
+            <!-- TAB: QUẢN LÝ NGÀY PHÉP CHUYÊN NGHIỆP -->
             <div id="tab-leave" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--teal);">
@@ -639,7 +639,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Đơn vị thụ hưởng:</label>
-                                <input type="text" id="pay-receiver" placeholder="Tên công quy / Cửa hàng...">
+                                <input type="text" id="pay-receiver" placeholder="Tên công ty / Cửa hàng...">
                             </div>
                             <div class="form-group">
                                 <label><i class="fa-solid fa-calendar-days" style="color:var(--green);"></i> Ngày tháng năm (Nhập/Chọn):</label>
@@ -1036,7 +1036,7 @@
                 </div>
             </div>
 
-            <!-- TAB 5: MODULE QUẢN LÝ KHO & CẤP PHÁT MỰC IN (CÓ TÍNH SỐ LƯỢNG TỒN KHO) -->
+            <!-- TAB 5: MODULE QUẢN LÝ KHO & CẤP PHÁT MỰC IN -->
             <div id="tab-ink-inventory" class="tab-content">
                 <div class="main-card">
                     <div class="card-title" style="border-left-color: var(--teal);">
@@ -1044,7 +1044,6 @@
                         <button type="button" class="btn btn-teal" style="padding: 5px 10px; font-size:11.5px;" onclick="openAddInkModal()"><i class="fa-solid fa-plus"></i> Thêm Mực Nhập / Cấp Phát</button>
                     </div>
 
-                    <!-- THỐNG KÊ TỒN KHO NHANH -->
                     <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 8px 10px; border-radius: 6px; margin-bottom: 8px;">
                         <div style="font-weight: bold; color: #166534; font-size: 12.5px; margin-bottom: 4px;">
                             <i class="fa-solid fa-warehouse"></i> 📦 TỔNG HỢP TỒN KHO MỰC IN HIỆN TẠI (TỰ ĐỘNG CẬP NHẬT SAU KHI CẤP PHÁT):
@@ -2089,7 +2088,7 @@
                         <td>${log.note || '-'}</td>
                         <td class="text-center">${log.date || '-'}</td>
                         <td class="text-center">
-                            <button type="button" class="btn-edit" onclick="openEditLeaveModal(${lIdx})" title="Sửa đăng ký phép bị nhầm người hoặc nhầm thông tin"><i class="fa-solid fa-pen-to-square"></i> Sửa</button>
+                            <button type="button" class="btn-edit" onclick="openEditLeaveModal(${lIdx})" title="Sửa đăng ký phép"><i class="fa-solid fa-pen-to-square"></i> Sửa</button>
                             <button type="button" class="btn-delete" onclick="deleteLeaveLog(${lIdx})"><i class="fa-solid fa-trash"></i></button>
                         </td>
                     </tr>`;
@@ -2177,7 +2176,7 @@
             });
 
             document.getElementById('modal-leave-edit-index').value = lIdx;
-            document.getElementById('leave-modal-title').innerHTML = `<i class="fa-solid fa-pen-to-square"></i> SỬA ĐĂNG KÝ NGHỈ PHÉP (ĐIỀU CHỈNH NHẦM LẪN)`;
+            document.getElementById('leave-modal-title').innerHTML = `<i class="fa-solid fa-pen-to-square"></i> SỬA ĐĂNG KÝ NGHỈ PHÉP`;
             document.getElementById('btn-save-modal-leave').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Cập Nhật Lại Phép`;
             document.getElementById('modal-leave-type').value = log.type || "Phép năm (Có hưởng lương)";
             document.getElementById('modal-leave-from').value = log.fromDate || new Date().toISOString().split('T')[0];
@@ -2614,7 +2613,7 @@
                     <td class="text-right font-bold" style="color:#1e3a8a;">${formatCurrencyVN(luong_ky_hdld)}</td>
                     <td class="text-right font-bold" style="color:#047857;">${formatCurrencyVN(luong_co_ban)}</td>
                     <td class="text-center"><input class="inp-table inp-num-day" type="text" inputmode="numeric" value="${val_NT}" onchange="updateSalaryRowValue(${index}, 'NT', this.value)"></td>
-                    <td class="text-center"><input class="inp-table inp-num-day" style="background:#e0f2fe; color:#0369a1;" type="text" readonly value="${val_P}" title="Số ngày phép tự động lấy từ Quản lý Phép"></td>
+                    <td class="text-center"><input class="inp-table inp-num-day" style="background:#e0f2fe; color:#0369a1;" type="text" readonly value="${val_P}" title="Số ngày phép"></td>
                     <td class="text-center"><input class="inp-table inp-num-day" type="text" inputmode="numeric" value="${val_LE}" onchange="updateSalaryRowValue(${index}, 'le_vr', this.value)"></td>
                     <td class="text-right">${formatCurrencyVN(l_thoigian)}</td>
                     <td class="text-right" style="color:#1e3a8a; font-weight:bold;">${formatCurrencyVN(le_phep_tt)}</td>
@@ -2889,16 +2888,16 @@
 
                         tbody.innerHTML += `<tr>
                             <td class="text-center font-bold">${globalIndex++}</td>
-                            <td class="text-center font-bold" style="color:var(--green);">${rec.payDateTime}</td>
-                            <td><b>${rec.content}</b></td>
+                            <td class="text-center">${rec.payDateTime || '-'}</td>
+                            <td class="font-bold">${rec.content}</td>
                             <td>${rec.receiver}</td>
-                            <td class="text-center">${q}</td>
+                            <td class="text-center font-bold">${q}</td>
                             <td class="text-center">${u}</td>
                             <td class="text-right">${formatCurrencyVN(displayUnitPrice)}</td>
-                            <td class="text-right font-bold" style="color:var(--green);">${formatCurrencyVN(rec.amount)} VND</td>
+                            <td class="text-right font-bold" style="color:var(--green);">${formatCurrencyVN(rec.amount)}</td>
                             <td class="text-center">${rec.account || '-'}</td>
                             <td>${rec.bank || '-'}</td>
-                            <td class="text-center">${filesHtml}</td>
+                            <td>${filesHtml}</td>
                             <td class="text-center">
                                 <button type="button" class="btn-edit" onclick="editPaymentRecord('${sm}', ${actualIdx})"><i class="fa-solid fa-pen-to-square"></i></button>
                                 <button type="button" class="btn-delete" onclick="deletePaymentRecord('${sm}', ${actualIdx})"><i class="fa-solid fa-trash"></i></button>
@@ -2912,11 +2911,12 @@
             updateGlobalDashboardSummary();
         }
 
-        function deletePaymentRecord(sm, actualIdx) { 
-            if (confirm('Xóa hồ sơ thanh toán này?')) {
-                paymentRecordsByMonth[sm].splice(actualIdx, 1); 
-                localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth)); 
-                renderPaymentTable(); 
+        function deletePaymentRecord(sm, actualIdx) {
+            if (confirm("Xóa bản ghi thanh toán này?")) {
+                paymentRecordsByMonth[sm].splice(actualIdx, 1);
+                localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
+                renderPaymentTable();
+                saveDataToCloudAPI();
             }
         }
 
@@ -2932,15 +2932,14 @@
             let provider = document.getElementById('tele-provider').value;
             let bandwidth = document.getElementById('tele-bandwidth').value.trim();
             let cid = document.getElementById('tele-cid').value.trim();
-            let taxMode = document.getElementById('tele-tax-mode').value;
-            let amountBase = parseCurrencyVN(document.getElementById('tele-amount-base').value);
             let taxRate = parseFloat(document.getElementById('tele-tax-rate').value) || 0;
+            let baseAmount = parseCurrencyVN(document.getElementById('tele-amount-base').value);
             let taxAmt = parseCurrencyVN(document.getElementById('tele-tax-amt').value);
             let amount = parseCurrencyVN(document.getElementById('tele-amount').value);
             let fileInput = document.getElementById('file-vt');
             let statusLabel = document.getElementById('status-vt');
 
-            if (!cid || amount <= 0) { alert("Nhập mã CID và Cước phí hợp lệ!"); return; }
+            if (!location || amount <= 0) { alert("Vui lòng nhập điểm kết nối và tổng cước hợp lệ!"); return; }
             if (!telecomRecordsByMonth[sm]) telecomRecordsByMonth[sm] = [];
 
             let uploadedFiles = [];
@@ -2954,7 +2953,7 @@
                 let progressText = document.getElementById('progress-text-vt');
 
                 progressContainer.style.display = "block";
-                statusLabel.innerText = "⏳ Đang tải hóa đơn cước viễn thông...";
+                statusLabel.innerText = "⏳ Đang tải file hóa đơn lên Google Drive...";
 
                 for (let i = 0; i < fileInput.files.length; i++) {
                     let file = fileInput.files[i];
@@ -2972,34 +2971,35 @@
                         let payload = { 
                             action: "upload_attachment_folder", 
                             year: year, month: month, 
-                            category: "2. Cước Viễn thông & Internet năm " + year, 
-                            fileName: "[Cước " + provider + " - " + cid + "] " + file.name, 
+                            category: "3. Cước viễn thông năm " + year, 
+                            fileName: "[Cuoc " + provider + "] " + file.name, 
                             mimeType: file.type, fileData: base64Data 
                         };
                         const response = await fetch(GOOGLE_SCRIPT_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
                         const result = await response.json();
                         uploadedFiles.push({ fileName: file.name, fileUrl: result.fileUrl || ROOT_DRIVE_FOLDER_URL });
                     } catch (err) {
-                        console.error("Lỗi: " + err.message);
+                        console.error(err);
                     }
                 }
                 progressText.innerText = "Hoàn tất!";
                 setTimeout(() => { progressContainer.style.display = "none"; progressFill.style.width = "0%"; }, 3000);
             }
 
-            let telecomObj = { location, provider, bandwidth, cid, taxMode, amountBase, taxRate, taxAmt, amount, period, files: uploadedFiles };
+            let recordObj = { location, provider, bandwidth, cid, taxRate, baseAmount, taxAmt, amount, period, files: uploadedFiles };
 
             if (editIndex >= 0) {
-                telecomRecordsByMonth[sm][editIndex] = telecomObj;
+                telecomRecordsByMonth[sm][editIndex] = recordObj;
                 cancelEditTelecom();
             } else {
-                telecomRecordsByMonth[sm].push(telecomObj);
+                telecomRecordsByMonth[sm].push(recordObj);
+                clearTelecomForm();
             }
 
             fileInput.value = "";
             localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth));
-            renderTelecomTable(); 
-            statusLabel.innerText = "✅ Lưu cước thành công!";
+            renderTelecomTable();
+            statusLabel.innerText = "✅ Lưu cước viễn thông thành công!";
         }
 
         function editTelecomRecord(sm, actualIdx) {
@@ -3011,9 +3011,8 @@
             document.getElementById('tele-provider').value = rec.provider || "VNPT";
             document.getElementById('tele-bandwidth').value = rec.bandwidth || "";
             document.getElementById('tele-cid').value = rec.cid || "";
-            document.getElementById('tele-tax-mode').value = rec.taxMode || "add";
-            document.getElementById('tele-amount-base').value = formatCurrencyVN(rec.amountBase || rec.amount || 0);
             document.getElementById('tele-tax-rate').value = rec.taxRate !== undefined ? rec.taxRate : 10;
+            document.getElementById('tele-amount-base').value = formatCurrencyVN(rec.baseAmount || 0);
             document.getElementById('tele-tax-amt').value = formatCurrencyVN(rec.taxAmt || 0);
             document.getElementById('tele-amount').value = formatCurrencyVN(rec.amount || 0);
             document.getElementById('tele-period').value = rec.period || `04/08/${CURRENT_SELECTED_YEAR}`;
@@ -3025,18 +3024,22 @@
 
         function cancelEditTelecom() {
             document.getElementById('edit-telecom-index').value = "-1";
-            document.getElementById('tele-tax-mode').value = "add";
-            document.getElementById('tele-amount-base').value = "30.014.155";
-            document.getElementById('tele-tax-rate').value = "10";
-            calculateTelecomTotal();
+            clearTelecomForm();
             document.getElementById('btn-save-tele').innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Tải Lên & Thêm`;
             document.getElementById('btn-cancel-edit-tele').style.display = "none";
+        }
+
+        function clearTelecomForm() {
+            document.getElementById('tele-location').value = "Tổng công ty Giấy Việt Nam";
+            document.getElementById('tele-bandwidth').value = "Fiber VIP 1GB";
+            document.getElementById('tele-cid').value = "PTO-02-0066479";
+            document.getElementById('file-vt').value = "";
         }
 
         function renderTelecomTable() {
             const tbody = document.getElementById('tbody-telecom'); 
             tbody.innerHTML = "";
-            let totalTelecom = 0;
+            let totalSum = 0;
             let globalIndex = 1;
 
             Object.keys(telecomRecordsByMonth || {}).forEach(sm => {
@@ -3047,31 +3050,23 @@
                     let recYear = (dParts.length === 3 && dParts[2].length === 4) ? dParts[2] : sm.split('-')[0];
 
                     if (recYear === CURRENT_SELECTED_YEAR) {
-                        totalTelecom += rec.amount;
-                        let baseA = rec.amountBase !== undefined ? rec.amountBase : rec.amount;
-                        let tRate = rec.taxRate !== undefined ? rec.taxRate : 10;
-                        let tAmt = rec.taxAmt !== undefined ? rec.taxAmt : (baseA * tRate / 100);
-
+                        totalSum += rec.amount;
                         let filesHtml = "Không có";
                         if (rec.files && rec.files.length > 0) {
-                            filesHtml = `
-                                <a href="${ROOT_DRIVE_FOLDER_URL}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="padding:3px 8px; font-size:11px;" title="Mở thư mục Google Drive chứa tệp đính kèm">
-                                    <i class="fa-solid fa-folder-open"></i> Thư mục (${rec.files.length})
-                                </a>
-                            `;
+                            filesHtml = `<a href="${ROOT_DRIVE_FOLDER_URL}" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="padding:3px 8px; font-size:11px;"><i class="fa-solid fa-folder-open"></i> Thư mục (${rec.files.length})</a>`;
                         }
 
                         tbody.innerHTML += `<tr>
                             <td class="text-center font-bold">${globalIndex++}</td>
-                            <td>${rec.location}</td>
-                            <td><b>${rec.provider}</b></td>
+                            <td class="font-bold">${rec.location}</td>
+                            <td class="text-center"><span style="background:#ffedd5; color:#c2410c; padding:2px 6px; border-radius:4px; font-weight:bold;">${rec.provider}</span></td>
                             <td>${rec.bandwidth}</td>
                             <td class="text-center font-bold">${rec.cid}</td>
-                            <td class="text-right">${formatCurrencyVN(baseA)}</td>
-                            <td class="text-center">${tRate}% (${formatCurrencyVN(tAmt)})</td>
-                            <td class="text-right font-bold" style="color:var(--orange);">${formatCurrencyVN(rec.amount)} VND</td>
-                            <td class="text-center">${rec.period}</td>
-                            <td class="text-center">${filesHtml}</td>
+                            <td class="text-right">${formatCurrencyVN(rec.baseAmount)}</td>
+                            <td class="text-right" style="color:var(--red);">${formatCurrencyVN(rec.taxAmt)}</td>
+                            <td class="text-right font-bold" style="color:#b45309;">${formatCurrencyVN(rec.amount)}</td>
+                            <td class="text-center">${rec.period || '-'}</td>
+                            <td>${filesHtml}</td>
                             <td class="text-center">
                                 <button type="button" class="btn-edit" onclick="editTelecomRecord('${sm}', ${actualIdx})"><i class="fa-solid fa-pen-to-square"></i></button>
                                 <button type="button" class="btn-delete" onclick="deleteTelecomRecord('${sm}', ${actualIdx})"><i class="fa-solid fa-trash"></i></button>
@@ -3081,55 +3076,49 @@
                 });
             });
 
-            document.getElementById('tele-total-sum').innerText = `Tổng cước: ${formatCurrencyVN(totalTelecom)} VND`;
+            document.getElementById('tele-total-sum').innerText = `Tổng cước: ${formatCurrencyVN(totalSum)} VND`;
             updateGlobalDashboardSummary();
         }
 
-        function deleteTelecomRecord(sm, actualIdx) { 
-            if (confirm('Xóa bản ghi cước viễn thông này?')) {
-                telecomRecordsByMonth[sm].splice(actualIdx, 1); 
-                localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth)); 
-                renderTelecomTable(); 
+        function deleteTelecomRecord(sm, actualIdx) {
+            if (confirm("Xóa bản ghi cước viễn thông này?")) {
+                telecomRecordsByMonth[sm].splice(actualIdx, 1);
+                localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth));
+                renderTelecomTable();
+                saveDataToCloudAPI();
             }
         }
 
         function generateNewItCode() {
-            let typeVal = document.getElementById('it-type').value;
-            let prefix = "IT-LAP";
-            if (typeVal.includes("Máy tính để bàn")) prefix = "IT-PC";
-            else if (typeVal.includes("Máy in")) prefix = "IT-PRN";
-            else if (typeVal.includes("Photocopy")) prefix = "IT-PHO";
-            else if (typeVal.includes("Máy chiếu")) prefix = "IT-PRO";
-            else if (typeVal.includes("Thiết bị mạng")) prefix = "IT-NET";
-            else if (typeVal.includes("Camera")) prefix = "IT-CAM";
-            else if (typeVal.includes("NAS")) prefix = "IT-NAS";
-            else prefix = "IT-AST";
-
+            let type = document.getElementById('it-type').value;
+            let prefix = "IT";
+            if (type.includes("Laptop")) prefix = "LAP";
+            else if (type.includes("Máy tính để bàn")) prefix = "PC";
+            else if (type.includes("Máy in")) prefix = "PRN";
+            else if (type.includes("photocopy")) prefix = "PHO";
+            else if (type.includes("chiếu")) prefix = "PRO";
+            else if (type.includes("mạng")) prefix = "NET";
+            else if (type.includes("Camera")) prefix = "CAM";
+            else if (type.includes("NAS")) prefix = "SRV";
+            
             let randomNum = Math.floor(100 + Math.random() * 900);
-            let code = `${prefix}-${CURRENT_SELECTED_YEAR}-${randomNum}`;
-            document.getElementById('it-code').value = code;
+            document.getElementById('it-code').value = `${prefix}-VNP-${CURRENT_SELECTED_YEAR}-${randomNum}`;
         }
 
         function getSelectedSoftwareDetails() {
-            let container = document.getElementById('software-checkbox-container');
-            if (!container) return [];
+            let checkboxes = document.querySelectorAll('.sw-checkbox');
             let list = [];
-            let rows = container.querySelectorAll('div');
-            let count = 0;
-            rows.forEach(row => {
-                let chk = row.querySelector('.sw-checkbox');
-                let sel = row.querySelector('.sw-lic-select');
-                if (chk && chk.checked) {
-                    if (chk.value === "Không sử dụng phần mềm") {
-                        list.push({ name: "Không sử dụng phần mềm", lic: "" });
-                    } else {
-                        list.push({ name: chk.value, lic: sel ? sel.value : 'Chính hãng' });
-                    }
-                    count++;
+            checkboxes.forEach((cb) => {
+                if (cb.checked) {
+                    let swName = cb.value;
+                    let parentDiv = cb.closest('div');
+                    let licSelect = parentDiv ? parentDiv.querySelector('.sw-lic-select') : null;
+                    let licStatus = licSelect ? licSelect.value : "Chính hãng";
+                    list.push({ name: swName, lic: licStatus });
                 }
             });
-            let counterLbl = document.getElementById('selected-software-counter');
-            if (counterLbl) counterLbl.innerText = `Đã chọn: ${count} phần mềm`;
+            let counter = document.getElementById('selected-software-counter');
+            if (counter) counter.innerText = `Đã chọn: ${list.length} phần mềm`;
             return list;
         }
 
@@ -3140,32 +3129,23 @@
             let type = document.getElementById('it-type').value;
             let code = document.getElementById('it-code').value.trim();
             let qty = parseFloat(document.getElementById('it-qty').value) || 1;
-            let os = document.getElementById('it-os').value, osLic = document.getElementById('it-os-lic').value;
-            let office = document.getElementById('it-office').value, officeLic = document.getElementById('it-office-lic').value;
-            let selectedSoftware = getSelectedSoftwareDetails();
-            let specs = document.getElementById('it-specs').value.trim(), dateVal = document.getElementById('it-date').value, status = document.getElementById('it-status').value;
+            let os = document.getElementById('it-os').value;
+            let osLic = document.getElementById('it-os-lic').value;
+            let office = document.getElementById('it-office').value;
+            let officeLic = document.getElementById('it-office-lic').value;
+            let softwareList = getSelectedSoftwareDetails();
+            let specs = document.getElementById('it-specs').value.trim();
+            let date = document.getElementById('it-date').value || new Date().toISOString().split('T')[0];
+            let status = document.getElementById('it-status').value;
 
-            if (!code || !user || !dept || qty <= 0) { alert("⚠️ Vui lòng nhập đầy đủ Người sử dụng, Bộ phận và Số lượng hợp lệ!"); return; }
+            if (!user || !dept || !code) { alert("Vui lòng nhập đầy đủ người sử dụng, phòng ban và mã thiết bị!"); return; }
+
             if (!itAssetRecordsByYear[CURRENT_SELECTED_YEAR]) itAssetRecordsByYear[CURRENT_SELECTED_YEAR] = [];
-            
-            let recordObj = { user, dept, type, code, qty, os, osLic, office, officeLic, selectedSoftware, specs, dateVal, status };
+
+            let recordObj = { user, dept, type, code, qty, os, osLic, office, officeLic, softwareList, specs, date, status };
 
             if (editIndex >= 0) {
-                let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR];
-                let filterDept = document.getElementById('filter-dept-select').value;
-                let filterOs = document.getElementById('filter-os-select').value;
-                let filterOffice = document.getElementById('filter-office-select').value;
-                
-                let filtered = records.filter(r => {
-                    let matchD = (filterDept === "ALL" || r.dept === filterDept);
-                    let matchO = (filterOs === "ALL" || r.os === filterOs);
-                    let matchOff = (filterOffice === "ALL" || r.office === filterOffice);
-                    return matchD && matchO && matchOff;
-                });
-
-                let targetRec = filtered[editIndex];
-                let realIdx = records.indexOf(targetRec);
-                if (realIdx > -1) records[realIdx] = recordObj;
+                itAssetRecordsByYear[CURRENT_SELECTED_YEAR][editIndex] = recordObj;
                 cancelEditItAsset();
             } else {
                 itAssetRecordsByYear[CURRENT_SELECTED_YEAR].push(recordObj);
@@ -3173,62 +3153,42 @@
             }
 
             localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
-            updateItAssetFilterDropdowns();
-            renderItAssetTable(); 
-            document.getElementById('status-cntt').innerText = "✅ Lưu thiết bị thành công!";
+            renderItAssetTable();
+            document.getElementById('status-cntt').innerText = "✅ Lưu tài sản CNTT thành công!";
         }
 
-        function editItAssetRecord(idx) {
-            let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
-            let filterDept = document.getElementById('filter-dept-select').value;
-            let filterOs = document.getElementById('filter-os-select').value;
-            let filterOffice = document.getElementById('filter-office-select').value;
-
-            let targetRecords = records.filter(r => {
-                let matchD = (filterDept === "ALL" || r.dept === filterDept);
-                let matchO = (filterOs === "ALL" || r.os === filterOs);
-                let matchOff = (filterOffice === "ALL" || r.office === filterOffice);
-                return matchD && matchO && matchOff;
-            });
-
-            let rec = targetRecords[idx];
+        function editItAssetRecord(actualIdx) {
+            let rec = itAssetRecordsByYear[CURRENT_SELECTED_YEAR][actualIdx];
             if (!rec) return;
 
-            let realIdx = records.indexOf(rec);
-            document.getElementById('edit-it-index').value = realIdx;
+            document.getElementById('edit-it-index').value = actualIdx;
             document.getElementById('it-user').value = rec.user || "";
             document.getElementById('it-dept').value = rec.dept || "";
             document.getElementById('it-type').value = rec.type || "Laptop Doanh Nghiệp";
             document.getElementById('it-code').value = rec.code || "";
-            document.getElementById('it-qty').value = rec.qty !== undefined ? rec.qty : 1;
+            document.getElementById('it-qty').value = rec.qty || 1;
             document.getElementById('it-os').value = rec.os || "Windows 11 Pro";
             document.getElementById('it-os-lic').value = rec.osLic || "Đã có bản quyền chính hãng";
             document.getElementById('it-office').value = rec.office || "Microsoft 365 (M365) Business";
             document.getElementById('it-office-lic').value = rec.officeLic || "Đã có bản quyền chính hãng";
+            document.getElementById('it-specs').value = rec.specs || "";
+            document.getElementById('it-date').value = rec.date || "";
+            document.getElementById('it-status').value = rec.status || "Tốt - Đang sử dụng";
 
-            let container = document.getElementById('software-checkbox-container');
-            let rows = container.querySelectorAll('div');
-            rows.forEach(row => {
-                let chk = row.querySelector('.sw-checkbox');
-                let sel = row.querySelector('.sw-lic-select');
-                if (chk) {
-                    let found = (rec.selectedSoftware || []).find(s => s.name === chk.value);
-                    if (found) {
-                        chk.checked = true;
-                        if (sel) sel.value = found.lic || "Chính hãng";
-                    } else {
-                        chk.checked = false;
-                        if (sel) sel.value = "Chính hãng";
-                    }
+            let checkboxes = document.querySelectorAll('.sw-checkbox');
+            checkboxes.forEach(cb => {
+                cb.checked = false;
+                let found = (rec.softwareList || []).find(s => s.name === cb.value);
+                if (found) {
+                    cb.checked = true;
+                    let parentDiv = cb.closest('div');
+                    let licSelect = parentDiv ? parentDiv.querySelector('.sw-lic-select') : null;
+                    if (licSelect) licSelect.value = found.lic;
                 }
             });
             getSelectedSoftwareDetails();
 
-            document.getElementById('it-specs').value = rec.specs || "";
-            document.getElementById('it-date').value = rec.dateVal || "";
-            document.getElementById('it-status').value = rec.status || "Tốt - Đang sử dụng";
-
-            document.getElementById('btn-save-it').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Cập Nhật Tài Sản`;
+            document.getElementById('btn-save-it').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Cập Nhật`;
             document.getElementById('btn-cancel-edit-it').style.display = "inline-flex";
             window.scrollTo({ top: 200, behavior: 'smooth' });
         }
@@ -3240,147 +3200,162 @@
             document.getElementById('btn-cancel-edit-it').style.display = "none";
         }
 
-        function clearItAssetForm() { 
-            document.getElementById('it-user').value = ""; document.getElementById('it-dept').value = ""; 
+        function clearItAssetForm() {
+            document.getElementById('it-user').value = "Nguyễn Văn An";
+            document.getElementById('it-dept').value = "Phòng Kỹ thuật - Công nghệ";
+            document.getElementById('it-specs').value = "Dell Latitude, Core i5, 16GB RAM, 512GB SSD";
             document.getElementById('it-qty').value = "1";
+            document.getElementById('it-date').value = new Date().toISOString().split('T')[0];
             generateNewItCode();
-            let container = document.getElementById('software-checkbox-container');
-            if (container) {
-                container.querySelectorAll('.sw-checkbox').forEach(c => c.checked = false);
-            }
+            document.querySelectorAll('.sw-checkbox').forEach(cb => cb.checked = false);
             getSelectedSoftwareDetails();
-            document.getElementById('it-date').value = "";
         }
 
-        function updateItAssetFilterDropdowns() {
-            let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
+        function renderItAssetTable() {
+            const tbody = document.getElementById('tbody-it-assets');
+            if (!tbody) return;
+            tbody.innerHTML = "";
+
+            let list = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
+            let deptFilter = document.getElementById('filter-dept-select').value;
+            let osFilter = document.getElementById('filter-os-select').value;
+            let officeFilter = document.getElementById('filter-office-select').value;
+
             let deptSet = new Set(), osSet = new Set(), officeSet = new Set();
-            records.forEach(r => { 
-                if(r.dept) deptSet.add(r.dept); 
-                if(r.os) osSet.add(r.os); 
-                if(r.office) officeSet.add(r.office); 
+            list.forEach(i => {
+                if (i.dept) deptSet.add(i.dept);
+                if (i.os) osSet.add(i.os);
+                if (i.office) officeSet.add(i.office);
             });
 
             let deptSel = document.getElementById('filter-dept-select');
             let curDept = deptSel.value;
-            let deptHtml = `<option value="ALL">-- Tất cả --</option>`;
-            deptSet.forEach(d => { deptHtml += `<option value="${d}" ${curDept === d ? 'selected' : ''}>${d}</option>`; });
-            deptSel.innerHTML = deptHtml;
+            deptSel.innerHTML = `<option value="ALL">-- Tất cả phòng ban --</option>`;
+            deptSet.forEach(d => deptSel.innerHTML += `<option value="${d}" ${curDept === d ? 'selected' : ''}>${d}</option>`);
 
             let osSel = document.getElementById('filter-os-select');
             let curOs = osSel.value;
-            let osHtml = `<option value="ALL">-- Tất cả HĐH --</option>`;
-            osSet.forEach(o => { osHtml += `<option value="${o}" ${curOs === o ? 'selected' : ''}>${o}</option>`; });
-            osSel.innerHTML = osHtml;
+            osSel.innerHTML = `<option value="ALL">-- Tất cả HĐH --</option>`;
+            osSet.forEach(o => osSel.innerHTML += `<option value="${o}" ${curOs === o ? 'selected' : ''}>${o}</option>`);
 
             let officeSel = document.getElementById('filter-office-select');
             let curOffice = officeSel.value;
-            let officeHtml = `<option value="ALL">-- Tất cả Office --</option>`;
-            officeSet.forEach(off => { officeHtml += `<option value="${off}" ${curOffice === off ? 'selected' : ''}>${off}</option>`; });
-            officeSel.innerHTML = officeHtml;
-        }
+            officeSel.innerHTML = `<option value="ALL">-- Tất cả Office --</option>`;
+            officeSet.forEach(of => officeSel.innerHTML += `<option value="${of}" ${curOffice === of ? 'selected' : ''}>${of}</option>`);
 
-        function renderItAssetTable() {
-            updateItAssetFilterDropdowns();
-            let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
-            let filterDept = document.getElementById('filter-dept-select').value;
-            let filterOs = document.getElementById('filter-os-select').value;
-            let filterOffice = document.getElementById('filter-office-select').value;
-            
-            let filteredRecords = records.filter(r => {
-                let matchD = (filterDept === "ALL" || r.dept === filterDept);
-                let matchO = (filterOs === "ALL" || r.os === filterOs);
-                let matchOff = (filterOffice === "ALL" || r.office === filterOffice);
-                return matchD && matchO && matchOff;
+            let filtered = list.filter((item, idx) => {
+                item._originalIndex = idx;
+                if (deptFilter !== 'ALL' && item.dept !== deptFilter) return false;
+                if (osFilter !== 'ALL' && item.os !== osFilter) return false;
+                if (officeFilter !== 'ALL' && item.office !== officeFilter) return false;
+                return true;
             });
 
-            const tbody = document.getElementById('tbody-it-assets'); tbody.innerHTML = "";
-            let totalItUnitsCount = 0;
-
-            filteredRecords.forEach((rec, idx) => {
-                let q = rec.qty !== undefined ? parseFloat(rec.qty) : 1;
-                totalItUnitsCount += q;
-
-                let swList = rec.selectedSoftware || [];
-                let swDisplay = swList.length === 0 ? "Không có" : swList.map(s => s.lic ? `${s.name} <b style="color:${s.lic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${s.lic}]</b>` : s.name).join("<br>");
+            let totalCount = 0;
+            filtered.forEach((rec, fIdx) => {
+                totalCount += (parseFloat(rec.qty) || 1);
                 
+                let swHtml = "Không có";
+                if (rec.softwareList && rec.softwareList.length > 0) {
+                    swHtml = rec.softwareList.map(s => `${s.name} (${s.lic})`).join("<br>");
+                }
+
                 tbody.innerHTML += `<tr>
-                    <td class="text-center font-bold">${idx + 1}</td>
-                    <td class="text-center font-bold" style="color:var(--purple);">${rec.code}</td>
+                    <td class="text-center font-bold">${fIdx + 1}</td>
+                    <td class="font-bold" style="color:var(--purple);">${rec.code}</td>
                     <td>${rec.type}</td>
-                    <td class="text-center font-bold" style="color:var(--blue);">${q}</td>
+                    <td class="text-center font-bold">${rec.qty}</td>
                     <td>${rec.specs}</td>
-                    <td>${rec.os} <br><span style="color:${rec.osLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.osLic}]</span></td>
-                    <td>${rec.office} <br><span style="color:${rec.officeLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">[${rec.officeLic}]</span></td>
-                    <td>${swDisplay}</td>
+                    <td>${rec.os} <br><span style="font-size:10px; color:${rec.osLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">${rec.osLic}</span></td>
+                    <td>${rec.office} <br><span style="font-size:10px; color:${rec.officeLic.includes('Chưa') ? 'var(--red)' : 'var(--green)'};">${rec.officeLic}</span></td>
+                    <td style="font-size:11px;">${swHtml}</td>
                     <td class="font-bold">${rec.user}</td>
                     <td>${rec.dept}</td>
-                    <td class="text-center">${rec.dateVal || '-'}</td>
-                    <td><span style="color:var(--green); font-weight:bold;">${rec.status}</span></td>
+                    <td class="text-center">${rec.date || '-'}</td>
+                    <td class="text-center"><span style="background:#f3e8ff; color:var(--purple); padding:2px 6px; border-radius:4px; font-weight:bold;">${rec.status}</span></td>
                     <td class="text-center">
-                        <button type="button" class="btn-edit" onclick="editItAssetRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button type="button" class="btn-delete" onclick="deleteItAssetRecord(${idx})"><i class="fa-solid fa-trash"></i></button>
+                        <button type="button" class="btn-edit" onclick="editItAssetRecord(${rec._originalIndex})"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button type="button" class="btn-delete" onclick="deleteItAssetRecord(${rec._originalIndex})"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 </tr>`;
             });
 
-            document.getElementById('it-total-count').innerText = `Tổng: ${filteredRecords.length} dòng (${totalItUnitsCount} thiết bị)`;
+            document.getElementById('it-total-count').innerText = `Tổng: ${totalCount} Thiết bị`;
             updateGlobalDashboardSummary();
         }
 
-        function deleteItAssetRecord(idx) {
-            let records = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
-            let filterDept = document.getElementById('filter-dept-select').value;
-            let filterOs = document.getElementById('filter-os-select').value;
-            let filterOffice = document.getElementById('filter-office-select').value;
-
-            let filtered = records.filter(r => {
-                let matchD = (filterDept === "ALL" || r.dept === filterDept);
-                let matchO = (filterOs === "ALL" || r.os === filterOs);
-                let matchOff = (filterOffice === "ALL" || r.office === filterOffice);
-                return matchD && matchO && matchOff;
-            });
-
-            let targetRec = filtered[idx];
-            let realIdx = records.indexOf(targetRec);
-            if (realIdx > -1) records.splice(realIdx, 1);
-
-            localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
-            renderItAssetTable();
+        function deleteItAssetRecord(actualIdx) {
+            if (confirm("Xóa bản ghi tài sản CNTT này?")) {
+                itAssetRecordsByYear[CURRENT_SELECTED_YEAR].splice(actualIdx, 1);
+                localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
+                renderItAssetTable();
+            }
         }
 
-        function getInkImageByModel(modelName) {
-            if (!modelName) return INK_IMAGE_DATABASE["DEFAULT"];
-            let upper = modelName.toUpperCase();
-            for (let key in INK_IMAGE_DATABASE) {
-                if (key !== "DEFAULT" && upper.includes(key)) {
-                    return INK_IMAGE_DATABASE[key];
-                }
-            }
-            return INK_IMAGE_DATABASE["DEFAULT"];
+        async function exportItAssetWordReport() {
+            let list = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
+            let htmlContent = `
+                <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+                <head><meta charset='utf-8'><title>Bao Cao CNTT</title>
+                <style>body{font-family:'Times New Roman',Times,serif; font-size:13pt;} table{border-collapse:collapse; width:100%;} th,td{border:1px solid black; padding:5px; font-size:11pt;}</style>
+                </head>
+                <body>
+                <h2 style="text-align:center;">TỔNG CÔNG TY GIẤY VIỆT NAM</h2>
+                <h3 style="text-align:center;">BÁO CÁO KIỂM KÊ TRANG THIẾT BỊ CNTT & TÀI SẢN NĂM ${CURRENT_SELECTED_YEAR}</h3>
+                <table>
+                    <thead>
+                        <tr style="background:#ccc;">
+                            <th>STT</th><th>Mã tài sản</th><th>Loại thiết bị</th><th>SL</th><th>Cấu hình</th><th>HĐH & Bản quyền</th><th>Office</th><th>Người sử dụng</th><th>Phòng ban</th><th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            list.forEach((r, i) => {
+                htmlContent += `<tr>
+                    <td style="text-align:center;">${i+1}</td>
+                    <td><b>${r.code}</b></td>
+                    <td>${r.type}</td>
+                    <td style="text-align:center;">${r.qty}</td>
+                    <td>${r.specs}</td>
+                    <td>${r.os} (${r.osLic})</td>
+                    <td>${r.office}</td>
+                    <td><b>${r.user}</b></td>
+                    <td>${r.dept}</td>
+                    <td>${r.status}</td>
+                </tr>`;
+            });
+            htmlContent += `</tbody></table></body></html>`;
+
+            let blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
+            saveAs(blob, `Bao_Cao_Kiem_Ke_CNTT_${CURRENT_SELECTED_YEAR}.doc`);
         }
 
         function updateInkPreviewImage() {
-            let modelInput = document.getElementById('ink-model').value.trim();
+            let modelVal = document.getElementById('ink-model').value.trim().toUpperCase();
             let imgEl = document.getElementById('ink-preview-img');
             let lblEl = document.getElementById('ink-preview-label');
-            if (!imgEl) return;
-
-            let imgUrl = getInkImageByModel(modelInput);
-            imgEl.src = imgUrl;
-            lblEl.innerText = modelInput ? modelInput.substring(0, 22) + "..." : "Chưa chọn mã mực";
+            
+            let foundImg = INK_IMAGE_DATABASE["DEFAULT"];
+            let foundKey = "Khác";
+            for (let key in INK_IMAGE_DATABASE) {
+                if (key !== "DEFAULT" && modelVal.includes(key)) {
+                    foundImg = INK_IMAGE_DATABASE[key];
+                    foundKey = key;
+                    break;
+                }
+            }
+            imgEl.src = foundImg;
+            lblEl.innerText = `Mã: ${modelVal || 'Chưa chọn'}`;
         }
 
         function openAddInkModal() {
             document.getElementById('edit-ink-index').value = "-1";
             document.getElementById('ink-model').value = "";
             document.getElementById('ink-qty').value = "5";
-            document.getElementById('ink-dept').value = "Phòng Hành chính - Tổng hợp";
             document.getElementById('ink-receiver').value = "";
-            document.getElementById('ink-date-time').value = "04/08/2026";
-            updateInkPreviewImage();
             document.getElementById('btn-save-ink').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Lưu Thông Tin Mực Vào Danh Sách`;
             document.getElementById('btn-cancel-edit-ink').style.display = "none";
+            updateInkPreviewImage();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -3391,43 +3366,56 @@
             let unit = document.getElementById('ink-unit').value;
             let dept = document.getElementById('ink-dept').value.trim();
             let receiver = document.getElementById('ink-receiver').value.trim();
-            let dateVal = document.getElementById('ink-date-time').value.trim();
+            let dateTime = document.getElementById('ink-date-time').value.trim() || `04/08/${CURRENT_SELECTED_YEAR}`;
             let status = document.getElementById('ink-status').value;
-            let imageUrl = getInkImageByModel(model);
 
-            if (!model || qty <= 0) { alert("⚠️ Vui lòng nhập Tên loại mực/Mã mực và Số lượng hợp lệ!"); return; }
-            if (!inkInventoryRecordsByYear[CURRENT_SELECTED_YEAR]) inkInventoryRecordsByYear[CURRENT_SELECTED_YEAR] = [];
+            if (!model || qty <= 0) { alert("Vui lòng nhập tên loại mực và số lượng hợp lệ!"); return; }
 
-            let inkObj = { model, qty, unit, dept, receiver, dateVal, status, imageUrl };
+            let dParts = dateTime.split('/');
+            let year = (dParts.length === 3 && dParts[2].length === 4) ? dParts[2] : CURRENT_SELECTED_YEAR;
+
+            if (!inkInventoryRecordsByYear[year]) inkInventoryRecordsByYear[year] = [];
+
+            let imgUrl = INK_IMAGE_DATABASE["DEFAULT"];
+            let modelUp = model.toUpperCase();
+            for (let k in INK_IMAGE_DATABASE) {
+                if (k !== "DEFAULT" && modelUp.includes(k)) {
+                    imgUrl = INK_IMAGE_DATABASE[k];
+                    break;
+                }
+            }
+
+            let recordObj = { model, qty, unit, dept, receiver, dateTime, status, imgUrl };
 
             if (editIndex >= 0) {
-                inkInventoryRecordsByYear[CURRENT_SELECTED_YEAR][editIndex] = inkObj;
+                inkInventoryRecordsByYear[year][editIndex] = recordObj;
                 cancelEditInk();
             } else {
-                inkInventoryRecordsByYear[CURRENT_SELECTED_YEAR].push(inkObj);
+                inkInventoryRecordsByYear[year].push(recordObj);
                 openAddInkModal();
             }
 
             localStorage.setItem('sys_ink_inventory_records_by_year', JSON.stringify(inkInventoryRecordsByYear));
             renderInkInventoryTable();
             alert("✅ Lưu thông tin kho mực thành công!");
+            saveDataToCloudAPI();
         }
 
-        function editInkRecord(idx) {
+        function editInkRecord(actualIdx) {
             let list = inkInventoryRecordsByYear[CURRENT_SELECTED_YEAR] || [];
-            let rec = list[idx];
+            let rec = list[actualIdx];
             if (!rec) return;
 
-            document.getElementById('edit-ink-index').value = idx;
+            document.getElementById('edit-ink-index').value = actualIdx;
             document.getElementById('ink-model').value = rec.model || "";
-            document.getElementById('ink-qty').value = rec.qty || 1;
+            document.getElementById('ink-qty').value = rec.qty || 5;
             document.getElementById('ink-unit').value = rec.unit || "Hộp";
             document.getElementById('ink-dept').value = rec.dept || "";
             document.getElementById('ink-receiver').value = rec.receiver || "";
-            document.getElementById('ink-date-time').value = rec.dateVal || "04/08/2026";
+            document.getElementById('ink-date-time').value = rec.dateTime || `04/08/${CURRENT_SELECTED_YEAR}`;
             document.getElementById('ink-status').value = rec.status || "Còn trong kho";
-            updateInkPreviewImage();
 
+            updateInkPreviewImage();
             document.getElementById('btn-save-ink').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Cập Nhật`;
             document.getElementById('btn-cancel-edit-ink').style.display = "inline-flex";
             window.scrollTo({ top: 200, behavior: 'smooth' });
@@ -3439,76 +3427,106 @@
         }
 
         function renderInkInventoryTable() {
-            let list = inkInventoryRecordsByYear[CURRENT_SELECTED_YEAR] || [];
             const tbody = document.getElementById('tbody-ink-inventory');
             const summaryBox = document.getElementById('ink-stock-summary-box');
             if (!tbody) return;
             tbody.innerHTML = "";
 
-            let runningStockMap = {};
-            let listWithRemaining = list.map((rec) => {
+            let list = inkInventoryRecordsByYear[CURRENT_SELECTED_YEAR] || [];
+            let stockMap = {};
+            list.forEach(rec => {
                 let m = (rec.model || "Khác").trim();
                 let q = parseFloat(rec.qty) || 0;
                 let status = rec.status || "Còn trong kho";
+                if (!stockMap[m]) stockMap[m] = 0;
+                if (status.includes("Còn trong kho") || status.includes("Nhập kho")) {
+                    stockMap[m] += q;
+                } else if (status.includes("Đã cấp phát") || status.includes("sử dụng")) {
+                    stockMap[m] -= q;
+                }
+            });
 
+            let summaryHtml = "";
+            let totalStockAll = 0;
+            for (let m in stockMap) {
+                let left = stockMap[m];
+                totalStockAll += left;
+                let badgeColor = left > 0 ? "var(--green)" : "var(--red)";
+                summaryHtml += `<span style="background:#fff; border:1px solid #86efac; padding:3px 8px; border-radius:4px; font-weight:bold; color:#166534;">📦 ${m}: <b style="color:${badgeColor};">${left} hộp</b></span>`;
+            }
+            if (summaryHtml === "") summaryHtml = `<span style="color:#64748b; font-style:italic;">Chưa có dữ liệu tồn kho trong năm ${CURRENT_SELECTED_YEAR}</span>`;
+            if (summaryBox) summaryBox.innerHTML = summaryHtml;
+
+            let runningStockMap = {};
+            list.forEach((rec, idx) => {
+                rec._originalIndex = idx;
+                let m = (rec.model || "Khác").trim();
+                let q = parseFloat(rec.qty) || 0;
+                let status = rec.status || "Còn trong kho";
                 if (!runningStockMap[m]) runningStockMap[m] = 0;
                 if (status.includes("Còn trong kho") || status.includes("Nhập kho")) {
                     runningStockMap[m] += q;
                 } else if (status.includes("Đã cấp phát") || status.includes("sử dụng")) {
                     runningStockMap[m] -= q;
                 }
-                return { ...rec, remainingStock: runningStockMap[m] };
-            });
 
-            let summaryHtml = "";
-            let totalRemainingAll = 0;
-            for (let m in runningStockMap) {
-                let stock = runningStockMap[m];
-                totalRemainingAll += stock;
-                let colorStyle = stock > 0 ? "color:var(--green); background:#dcfce7;" : (stock === 0 ? "color:#475569; background:#e2e8f0;" : "color:var(--red); background:#fee2e2;");
-                summaryHtml += `<span style="padding: 3px 8px; border-radius: 4px; font-weight: bold; border: 1px solid #cbd5e1; ${colorStyle}">${m}: <b>${stock} hộp</b></span>`;
-            }
-            if (summaryHtml === "") summaryHtml = "<i>Chưa có dữ liệu tồn kho</i>";
-            if (summaryBox) summaryBox.innerHTML = summaryHtml;
-
-            listWithRemaining.forEach((rec, idx) => {
-                let badgeStyle = "background:#f1f5f9; color:#0f172a;";
-                if (rec.status.includes("Còn trong kho") || rec.status.includes("Nhập kho")) badgeStyle = "background:#dcfce7; color:#166534;";
-                else if (rec.status.includes("Đã cấp phát") || rec.status.includes("sử dụng")) badgeStyle = "background:#ffedd5; color:#c2410c;";
+                let badgeBg = "#dcfce7", badgeColor = "#166534";
+                if (status.includes("Đã cấp phát")) { badgeBg = "#e0f2fe"; badgeColor = "#0369a1"; }
+                else if (status.includes("Cần đặt")) { badgeBg = "#fee2e2"; badgeColor = "#b91c1c"; }
 
                 tbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${idx + 1}</td>
-                    <td class="text-center"><img src="${rec.imageUrl}" style="width:30px; height:30px; object-fit:contain;" onerror="this.src='https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=200&auto=format&fit=crop&q=60'"></td>
+                    <td class="text-center"><img src="${rec.imgUrl || INK_IMAGE_DATABASE['DEFAULT']}" alt="Mực" style="width:35px; height:35px; object-fit:contain; border-radius:3px; border:1px solid #cbd5e1; background:#fff;" onerror="this.src='https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=200&auto=format&fit=crop&q=60'"></td>
                     <td class="font-bold">${rec.model}</td>
                     <td class="text-center font-bold">${rec.qty}</td>
                     <td class="text-center">${rec.unit}</td>
-                    <td>${rec.dept}</td>
+                    <td>${rec.dept || '-'}</td>
                     <td>${rec.receiver || '-'}</td>
-                    <td class="text-center">${rec.dateVal}</td>
-                    <td class="text-center"><span style="padding:2px 6px; border-radius:4px; font-weight:bold; ${badgeStyle}">${rec.status}</span></td>
-                    <td class="text-center font-bold" style="color:var(--teal);">${rec.remainingStock} ${rec.unit}</td>
+                    <td class="text-center">${rec.dateTime || '-'}</td>
+                    <td class="text-center"><span style="background:${badgeBg}; color:${badgeColor}; padding:2px 6px; border-radius:4px; font-weight:bold; font-size:11px;">${rec.status}</span></td>
+                    <td class="text-center font-bold" style="color:var(--teal);">${runningStockMap[m]} ${rec.unit}</td>
                     <td class="text-center">
                         <button type="button" class="btn-edit" onclick="editInkRecord(${idx})"><i class="fa-solid fa-pen-to-square"></i></button>
                         <button type="button" class="btn-delete" onclick="deleteInkRecord(${idx})"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 </tr>`;
             });
-            document.getElementById('ink-total-count').innerText = `Tổng tồn kho: ${totalRemainingAll} Hộp`;
+
+            document.getElementById('ink-total-count').innerText = `Tổng tồn kho: ${totalStockAll} Hộp`;
             updateGlobalDashboardSummary();
         }
 
-        function deleteInkRecord(idx) {
-            let list = inkInventoryRecordsByYear[CURRENT_SELECTED_YEAR] || [];
-            if (confirm("Xóa giao dịch kho mực này?")) {
-                list.splice(idx, 1);
+        function deleteInkRecord(actualIdx) {
+            if (confirm("Xóa bản ghi quản lý mực in này?")) {
+                let list = inkInventoryRecordsByYear[CURRENT_SELECTED_YEAR] || [];
+                list.splice(actualIdx, 1);
                 localStorage.setItem('sys_ink_inventory_records_by_year', JSON.stringify(inkInventoryRecordsByYear));
                 renderInkInventoryTable();
+                saveDataToCloudAPI();
             }
+        }
+
+        function openMainSalaryGoogleSheet() { window.open(GOOGLE_SHEET_VIEW_URL, '_blank'); }
+
+        function openConfigUrlModal() {
+            document.getElementById('cfg-script-url').value = GOOGLE_SCRIPT_API_URL;
+            document.getElementById('cfg-sheet-url').value = GOOGLE_SHEET_VIEW_URL;
+            document.getElementById('configUrlModal').style.display = 'flex';
+        }
+
+        function closeConfigUrlModal() { document.getElementById('configUrlModal').style.display = 'none'; }
+
+        function saveConfigUrls() {
+            GOOGLE_SCRIPT_API_URL = document.getElementById('cfg-script-url').value.trim() || HARDCODED_SCRIPT_API;
+            GOOGLE_SHEET_VIEW_URL = document.getElementById('cfg-sheet-url').value.trim() || DEFAULT_GOOGLE_SHEET_URL;
+            localStorage.setItem('sys_cfg_script_url', GOOGLE_SCRIPT_API_URL);
+            localStorage.setItem('sys_cfg_sheet_url', GOOGLE_SHEET_VIEW_URL);
+            closeConfigUrlModal();
+            alert("✅ Đã lưu cấu hình liên kết thành công!");
         }
 
         window.onload = function() {
             initSoftwareDropdown();
-            renderCalendar();
             handleMonthChangeSelect();
             renderPaymentTable();
             renderTelecomTable();
@@ -3516,6 +3534,8 @@
             renderInkInventoryTable();
             renderLeaveManagementModule();
             updateGlobalDashboardSummary();
+            renderCalendar();
+            loadDataFromCloudAPI();
         };
     </script>
 </body>
