@@ -3604,22 +3604,50 @@ function snoozeRestReminder(minutes) {
 </html>
         };
 <script>
+<script>
 // ==========================================
-// CẤU HÌNH HỆ THỐNG NHẮC NHỞ GIẢI LAO (BREAK REMINDER)
+// CẤU HÌNH HỆ THỐNG NHẮC NHỞ GIẢI LAO + ÂM THANH
 // ==========================================
-const WORK_DURATION_MINUTES = 45; 
+const WORK_DURATION_MINUTES = 45; // Số phút làm việc (Có thể sửa tùy ý)
 const WORK_INTERVAL_MS = WORK_DURATION_MINUTES * 60 * 1000; 
-const SNOOZE_INTERVAL_MS = 15 * 60 * 1000; 
+const SNOOZE_INTERVAL_MS = 15 * 60 * 1000; // Thời gian nhắc lại: 15 phút
 
 let mainWorkTimer = null;
 
+// Hàm tạo âm thanh thông báo nhẹ nhàng (Không cần file nhạc ngoài)
+function playNotificationSound() {
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(587.33, audioCtx.currentTime); // Nốt D5
+        oscillator.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15); // Lên nốt A5
+
+        gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.5);
+    } catch (e) {
+        console.log("Trình duyệt chặn âm thanh tự động hoặc chưa tương thích.");
+    }
+}
+
+// Hàm hiển thị Modal nhắc nhở kèm âm thanh
 function showBreakModal() {
     const modal = document.getElementById('breakReminderModal'); 
     if (modal) {
         modal.style.display = 'block'; 
+        playNotificationSound(); // Phát tiếng chuông báo khi hiện popup
     }
 }
 
+// Hàm ẩn Modal nhắc nhở
 function hideBreakModal() {
     const modal = document.getElementById('breakReminderModal');
     if (modal) {
@@ -3627,6 +3655,7 @@ function hideBreakModal() {
     }
 }
 
+// Bắt sự kiện khi bấm nút "Nhắc lại sau 15 phút"
 const btnRemindLater = document.getElementById('btnRemindLater'); 
 if (btnRemindLater) {
     btnRemindLater.addEventListener('click', function() {
@@ -3637,12 +3666,28 @@ if (btnRemindLater) {
     });
 }
 
+// Bắt sự kiện khi bấm nút "Đã nghỉ xong"
 const btnDoneBreak = document.getElementById('btnDoneBreak'); 
 if (btnDoneBreak) {
     btnDoneBreak.addEventListener('click', function() {
         hideBreakModal();
         resetWorkTimer();
     });
+}
+
+// Khởi động lại đồng hồ đếm giờ làm việc
+function resetWorkTimer() {
+    if (mainWorkTimer) clearInterval(mainWorkTimer);
+    mainWorkTimer = setInterval(() => {
+        showBreakModal();
+    }, WORK_INTERVAL_MS);
+}
+
+// Kích hoạt chạy bộ đếm ngay khi trang được tải xong
+document.addEventListener('DOMContentLoaded', function() {
+    resetWorkTimer();
+});
+</script>
 }
 
 function resetWorkTimer() {
