@@ -578,7 +578,7 @@
                                     <th>Số ngày</th>
                                     <th>Ghi chú / Bàn giao</th>
                                     <th>Ngày đăng ký</th>
-                                    <th style="text-align: center;">Xóa</th>
+                                    <th style="text-align: center;">Thao tác sửa / xóa</th>
                                 </tr>
                             </thead>
                             <tbody id="tbody-leave-logs"></tbody>
@@ -1244,10 +1244,11 @@
         </div>
     </div>
 
-    <!-- MODAL ĐĂNG KÝ NGHỈ PHÉP -->
+    <!-- MODAL ĐĂNG KÝ & SỬA ĐĂNG KÝ NGHỈ PHÉP -->
     <div id="leaveModal" class="modal" onclick="closeLeaveModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:480px;">
-            <div class="card-title" style="border-left-color: var(--teal); font-size: 13.5px;"><i class="fa-solid fa-calendar-plus"></i> ĐĂNG KÝ NGHỈ PHÉP NHÂN SỰ</div>
+            <div class="card-title" style="border-left-color: var(--teal); font-size: 13.5px;" id="leave-modal-title"><i class="fa-solid fa-calendar-plus"></i> ĐĂNG KÝ NGHỈ PHÉP NHÂN SỰ</div>
+            <input type="hidden" id="modal-leave-edit-index" value="-1">
             <div class="form-group" style="margin-bottom: 8px;">
                 <label>Chọn nhân sự:</label>
                 <select id="modal-leave-staff" class="inp-table"></select>
@@ -1281,7 +1282,7 @@
             </div>
             <div style="text-align:right; display:flex; justify-content:flex-end; gap:5px;">
                 <button type="button" class="btn btn-gray" onclick="closeLeaveModal()">Hủy</button>
-                <button type="button" class="btn btn-teal" onclick="saveNewLeaveLog()"><i class="fa-solid fa-floppy-disk"></i> Lưu & Trừ Phép Lương</button>
+                <button type="button" class="btn btn-teal" id="btn-save-modal-leave" onclick="saveNewLeaveLog()"><i class="fa-solid fa-floppy-disk"></i> Lưu & Trừ Phép Lương</button>
             </div>
         </div>
     </div>
@@ -1445,7 +1446,6 @@
 
         const weekdaysVN = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
         
-        // Khởi tạo lịch vạn niên tự động focus chuẩn xác vào ngày giờ hiện tại của hệ thống
         let calendarViewDate = new Date();
         let calendarSelectedDate = new Date();
 
@@ -1619,7 +1619,7 @@
                 if (result.status === "success") {
                     if (dot) dot.style.backgroundColor = "var(--green)";
                     if (txt) txt.innerText = "Đã đồng bộ thành công lên Cloud!";
-                    alert("✅ Đã đồng bộ toàn bộ dữ liệu lên Cloud thành công! Bây giờ bạn có thể mở máy khác và bấm Tải Dữ Liệu để nhận đầy đủ.");
+                    alert("✅ Đã đồng bộ toàn bộ dữ liệu lên Cloud thành công!");
                 } else {
                     if (dot) dot.style.backgroundColor = "var(--red)";
                     if (txt) txt.innerText = "Lỗi lưu Cloud: " + (result.message || "");
@@ -2089,6 +2089,7 @@
                         <td>${log.note || '-'}</td>
                         <td class="text-center">${log.date || '-'}</td>
                         <td class="text-center">
+                            <button type="button" class="btn-edit" onclick="openEditLeaveModal(${lIdx})" title="Sửa đăng ký phép bị nhầm người hoặc nhầm thông tin"><i class="fa-solid fa-pen-to-square"></i> Sửa</button>
                             <button type="button" class="btn-delete" onclick="deleteLeaveLog(${lIdx})"><i class="fa-solid fa-trash"></i></button>
                         </td>
                     </tr>`;
@@ -2153,6 +2154,9 @@
                 sel.innerHTML += `<option value="${name}">${name}</option>`;
             });
             let todayStr = new Date().toISOString().split('T')[0];
+            document.getElementById('modal-leave-edit-index').value = "-1";
+            document.getElementById('leave-modal-title').innerHTML = `<i class="fa-solid fa-calendar-plus"></i> ĐĂNG KÝ NGHỈ PHÉP NHÂN SỰ`;
+            document.getElementById('btn-save-modal-leave').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Lưu & Trừ Phép Lương`;
             document.getElementById('modal-leave-from').value = todayStr;
             document.getElementById('modal-leave-to').value = todayStr;
             document.getElementById('modal-leave-days').value = "1";
@@ -2160,9 +2164,33 @@
             document.getElementById('leaveModal').style.display = "flex";
         }
 
+        function openEditLeaveModal(lIdx) {
+            let logs = leaveLogsByYear[CURRENT_SELECTED_YEAR] || [];
+            let log = logs[lIdx];
+            if (!log) return;
+
+            let staffArr = getStaffListNames();
+            let sel = document.getElementById('modal-leave-staff');
+            sel.innerHTML = "";
+            staffArr.forEach(name => {
+                sel.innerHTML += `<option value="${name}" ${name === log.name ? 'selected' : ''}>${name}</option>`;
+            });
+
+            document.getElementById('modal-leave-edit-index').value = lIdx;
+            document.getElementById('leave-modal-title').innerHTML = `<i class="fa-solid fa-pen-to-square"></i> SỬA ĐĂNG KÝ NGHỈ PHÉP (ĐIỀU CHỈNH NHẦM LẪN)`;
+            document.getElementById('btn-save-modal-leave').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Cập Nhật Lại Phép`;
+            document.getElementById('modal-leave-type').value = log.type || "Phép năm (Có hưởng lương)";
+            document.getElementById('modal-leave-from').value = log.fromDate || new Date().toISOString().split('T')[0];
+            document.getElementById('modal-leave-to').value = log.toDate || new Date().toISOString().split('T')[0];
+            document.getElementById('modal-leave-days').value = log.days || 1;
+            document.getElementById('modal-leave-note').value = log.note || "";
+            document.getElementById('leaveModal').style.display = "flex";
+        }
+
         function closeLeaveModal() { document.getElementById('leaveModal').style.display = "none"; }
 
         function saveNewLeaveLog() {
+            let editIdx = parseInt(document.getElementById('modal-leave-edit-index').value);
             let name = document.getElementById('modal-leave-staff').value;
             let type = document.getElementById('modal-leave-type').value;
             let fromDate = document.getElementById('modal-leave-from').value;
@@ -2172,27 +2200,24 @@
 
             if (!name || days <= 0 || !fromDate || !toDate) { alert("Vui lòng chọn nhân sự, từ ngày, đến ngày hợp lệ!"); return; }
 
-            if (type.includes("Phép năm")) {
-                let totalGranted = getStaffTotalLeaveQuota(name);
-                let currentUsed = getStaffUsedLeave(name);
-                let remaining = totalGranted - currentUsed;
-
-                if (days > remaining) {
-                    let cf = confirm(`⚠️ CẢNH BÁO: Nhân sự "${name}" chỉ còn ${remaining} ngày phép nhưng bạn đang đăng ký nghỉ ${days} ngày (Vượt hạn mức).\n\nBạn có chắc chắn muốn tiếp tục duyệt không?`);
-                    if (!cf) return;
-                }
-            }
-
             if (!leaveLogsByYear[CURRENT_SELECTED_YEAR]) leaveLogsByYear[CURRENT_SELECTED_YEAR] = [];
-            leaveLogsByYear[CURRENT_SELECTED_YEAR].push({
+
+            let recordObj = {
                 name, type, fromDate, toDate, days, note, date: new Date().toLocaleDateString('vi-VN')
-            });
+            };
+
+            if (editIdx >= 0) {
+                leaveLogsByYear[CURRENT_SELECTED_YEAR][editIdx] = recordObj;
+                alert(`✅ Đã cập nhật sửa đổi thông tin phép cho nhân sự "${name}" thành công!`);
+            } else {
+                leaveLogsByYear[CURRENT_SELECTED_YEAR].push(recordObj);
+                alert("✅ Đăng ký nghỉ phép thành công và đã tự động cập nhật vào bảng lương!");
+            }
 
             localStorage.setItem('sys_leave_logs_by_year', JSON.stringify(leaveLogsByYear));
             closeLeaveModal();
             renderLeaveManagementModule();
             calculateSalaryLogic();
-            alert("✅ Đăng ký nghỉ phép thành công và đã tự động cập nhật vào bảng lương!");
             saveDataToCloudAPI();
         }
 
