@@ -644,7 +644,7 @@
                             <div class="form-group">
                                 <label><i class="fa-solid fa-calendar-days" style="color:var(--green);"></i> Ngày tháng năm (Nhập/Chọn):</label>
                                 <div style="position:relative;">
-                                    <input type="text" id="pay-date-time" value="27/07/2026" readonly onclick="togglePicker('payment-date-popup')" style="cursor:pointer; background:#ffffff; font-weight:bold; color:var(--green);">
+                                    <input type="text" id="pay-date-time" value="04/08/2026" readonly onclick="togglePicker('payment-date-popup')" style="cursor:pointer; background:#ffffff; font-weight:bold; color:var(--green);">
                                     <div id="payment-date-popup" class="custom-popup-calendar"></div>
                                 </div>
                             </div>
@@ -800,7 +800,7 @@
                             <div class="form-group">
                                 <label style="color: #c2410c;"><i class="fa-solid fa-calendar-days"></i> Kỳ cước (Ngày tháng năm):</label>
                                 <div style="position:relative;">
-                                    <input type="text" id="tele-period" value="27/07/2026" readonly onclick="togglePicker('telecom-period-popup')" style="cursor:pointer; background:#ffffff; border-color:#fdba74; font-weight:bold; color:#c2410c;">
+                                    <input type="text" id="tele-period" value="04/08/2026" readonly onclick="togglePicker('telecom-period-popup')" style="cursor:pointer; background:#ffffff; border-color:#fdba74; font-weight:bold; color:#c2410c;">
                                     <div id="telecom-period-popup" class="custom-popup-calendar"></div>
                                 </div>
                             </div>
@@ -1130,7 +1130,7 @@
                             <div class="form-group">
                                 <label style="color:#166534;"><i class="fa-solid fa-calendar-days"></i> Ngày tháng năm (Nhập/Chọn):</label>
                                 <div style="position:relative;">
-                                    <input type="text" id="ink-date-time" value="03/08/2026" readonly onclick="togglePicker('ink-date-popup')" style="cursor:pointer; background:#ffffff; border-color:#86efac; font-weight:bold; color:#166534;">
+                                    <input type="text" id="ink-date-time" value="04/08/2026" readonly onclick="togglePicker('ink-date-popup')" style="cursor:pointer; background:#ffffff; border-color:#86efac; font-weight:bold; color:#166534;">
                                     <div id="ink-date-popup" class="custom-popup-calendar"></div>
                                 </div>
                             </div>
@@ -1188,9 +1188,9 @@
             <div class="calendar-block-view">
                 <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
                 <div class="calendar-block-body">
-                    <div class="cal-selected-weekday" id="cal-selected-dow">Thứ Hai</div>
-                    <div class="cal-selected-day-number" id="cal-selected-day">3</div>
-                    <div class="cal-selected-lunar-sub" id="cal-selected-lunar-day">Ngày Kỷ Dậu - Tháng Ất Mùi</div>
+                    <div class="cal-selected-weekday" id="cal-selected-dow">Thứ Ba</div>
+                    <div class="cal-selected-day-number" id="cal-selected-day">4</div>
+                    <div class="cal-selected-lunar-sub" id="cal-selected-lunar-day">Ngày Mậu Thìn - Tháng Ất Mùi</div>
                 </div>
             </div>
 
@@ -1321,7 +1321,7 @@
     <!-- MODAL ĐẶT LỊCH SỰ KIỆN -->
     <div id="eventModal" class="modal" onclick="closeEventModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:400px;">
-            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">03/08/2026</span></div>
+            <div class="card-title" style="border-left-color: var(--green); font-size: 13.5px;"><i class="fa-solid fa-calendar-plus"></i> ĐẶT LỊCH NGÀY <span id="modal-event-date-lbl">04/08/2026</span></div>
             <div class="form-group" style="margin-bottom: 8px;">
                 <label>Nội dung sự kiện / Công việc:</label>
                 <textarea id="modal-event-text" class="inp-table" style="height: 70px; resize: none;" placeholder="Ví dụ: Họp giao ban..."></textarea>
@@ -1444,8 +1444,10 @@
         setInterval(updateLiveSystemClock, 1000);
 
         const weekdaysVN = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
-        let calendarViewDate = new Date(2026, 7, 3);
-        let calendarSelectedDate = new Date(2026, 7, 3);
+        
+        // Khởi tạo lịch vạn niên tự động focus chuẩn xác vào ngày giờ hiện tại của hệ thống
+        let calendarViewDate = new Date();
+        let calendarSelectedDate = new Date();
 
         function renderCalendar() {
             const year = calendarViewDate.getFullYear();
@@ -1527,7 +1529,7 @@
             let lunarD = (d + 18) % 30;
             if (lunarD === 0) lunarD = 30;
             
-            document.getElementById('cal-selected-lunar-day').innerText = `Ngày Kỷ Dậu - Tháng Ất Mùi`;
+            document.getElementById('cal-selected-lunar-day').innerText = `Ngày Mậu Thìn - Tháng Ất Mùi`;
             document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG ${m > 6 ? 6 : m} NĂM BÍNH NGỌ`;
             document.getElementById('info-lunar-exact').innerText = `${lunarD}/${m}/${y} (Bính Ngọ)`;
             document.getElementById('info-tiet-khi').innerText = m === 8 ? "Lập Hạ / Xử Thử" : "Tiết Khí Theo Mùa";
@@ -2712,9 +2714,9 @@
         }
 
         async function addNewPaymentRecord() {
-            let payDateTime = document.getElementById('pay-date-time').value.trim() || `27/07/${CURRENT_SELECTED_YEAR}`;
+            let payDateTime = document.getElementById('pay-date-time').value.trim() || `04/08/${CURRENT_SELECTED_YEAR}`;
             let dParts = payDateTime.split('/');
-            let month = dParts[1] || "07";
+            let month = dParts[1] || "08";
             let year = dParts[2] || CURRENT_SELECTED_YEAR;
             let sm = `${year}-${month}`;
 
@@ -2800,7 +2802,7 @@
             if (!rec) return;
 
             document.getElementById('edit-payment-index').value = actualIdx;
-            document.getElementById('pay-date-time').value = rec.payDateTime || `27/07/${CURRENT_SELECTED_YEAR}`;
+            document.getElementById('pay-date-time').value = rec.payDateTime || `04/08/${CURRENT_SELECTED_YEAR}`;
             document.getElementById('pay-content').value = rec.content || "";
             document.getElementById('pay-receiver').value = rec.receiver || "";
             document.getElementById('pay-qty').value = rec.qty || 1;
@@ -2894,9 +2896,9 @@
         }
 
         async function addNewTelecomRecord() {
-            let period = document.getElementById('tele-period').value.trim() || `27/07/${CURRENT_SELECTED_YEAR}`;
+            let period = document.getElementById('tele-period').value.trim() || `04/08/${CURRENT_SELECTED_YEAR}`;
             let dParts = period.split('/');
-            let month = dParts[1] || "07";
+            let month = dParts[1] || "08";
             let year = dParts[2] || CURRENT_SELECTED_YEAR;
             let sm = `${year}-${month}`;
 
@@ -2989,7 +2991,7 @@
             document.getElementById('tele-tax-rate').value = rec.taxRate !== undefined ? rec.taxRate : 10;
             document.getElementById('tele-tax-amt').value = formatCurrencyVN(rec.taxAmt || 0);
             document.getElementById('tele-amount').value = formatCurrencyVN(rec.amount || 0);
-            document.getElementById('tele-period').value = rec.period || `27/07/${CURRENT_SELECTED_YEAR}`;
+            document.getElementById('tele-period').value = rec.period || `04/08/${CURRENT_SELECTED_YEAR}`;
 
             document.getElementById('btn-save-tele').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Cập Nhật`;
             document.getElementById('btn-cancel-edit-tele').style.display = "inline-flex";
@@ -3350,7 +3352,7 @@
             document.getElementById('ink-qty').value = "5";
             document.getElementById('ink-dept').value = "Phòng Hành chính - Tổng hợp";
             document.getElementById('ink-receiver').value = "";
-            document.getElementById('ink-date-time').value = "03/08/2026";
+            document.getElementById('ink-date-time').value = "04/08/2026";
             updateInkPreviewImage();
             document.getElementById('btn-save-ink').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Lưu Thông Tin Mực Vào Danh Sách`;
             document.getElementById('btn-cancel-edit-ink').style.display = "none";
@@ -3397,7 +3399,7 @@
             document.getElementById('ink-unit').value = rec.unit || "Hộp";
             document.getElementById('ink-dept').value = rec.dept || "";
             document.getElementById('ink-receiver').value = rec.receiver || "";
-            document.getElementById('ink-date-time').value = rec.dateVal || "03/08/2026";
+            document.getElementById('ink-date-time').value = rec.dateVal || "04/08/2026";
             document.getElementById('ink-status').value = rec.status || "Còn trong kho";
             updateInkPreviewImage();
 
