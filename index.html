@@ -3158,53 +3158,67 @@ window.onclick = function(event) {
         modal.style.display = 'none';
     }
 }
-        function generateItAssetQR() {
-    const specs = document.getElementById('it-specs') ? document.getElementById('it-specs').value : '';
-    const date = document.getElementById('it-date') ? document.getElementById('it-date').value : '';
-    const status = document.getElementById('it-status') ? document.getElementById('it-status').value : '';
+ <script>
+    function generateItAssetQR() {
+        const specs = document.getElementById('it-specs') ? document.getElementById('it-specs').value : '';
+        const date = document.getElementById('it-date') ? document.getElementById('it-date').value : '';
+        const status = document.getElementById('it-status') ? document.getElementById('it-status').value : '';
 
-    if (!specs) {
-        alert('Vui lòng nhập thông số cấu hình trước khi tạo QR!');
-        return;
+        if (!specs) {
+            alert('Vui lòng nhập thông số cấu hình trước khi tạo QR!');
+            return;
+        }
+
+        const qrText = `Cấu hình: ${specs} | Ngày BG: ${date} | Trạng thái: ${status}`;
+        
+        const modal = document.getElementById('qrModal');
+        const titleEl = document.getElementById('qrModalTitle');
+        const imgEl = document.getElementById('qrImage');
+
+        titleEl.innerText = 'Mã QR: Tài Sản CNTT';
+        imgEl.src = `https://quickchart.io/qr?text=${encodeURIComponent(qrText)}&size=150`;
+        modal.style.display = 'flex';
     }
 
-    const qrText = `Cấu hình: ${specs} | Ngày BG: ${date} | Trạng thái: ${status}`;
-    
-    const modal = document.getElementById('qrModal');
-    const titleEl = document.getElementById('qrModalTitle');
-    const imgEl = document.getElementById('qrImage');
-
-    titleEl.innerText = 'Mã QR: Tài Sản CNTT';
-    imgEl.src = `https://quickchart.io/qr?text=${encodeURIComponent(qrText)}&size=150`;
-    modal.style.display = 'flex';
-}
-
-function dongModalQR() {
-    document.getElementById('qrModal').style.display = 'none';
-}
-
-window.onclick = function(event) {
-    const modal = document.getElementById('qrModal');
-    if (event.target == modal) {
-        modal.style.display = 'none';
+    function dongModalQR() {
+        document.getElementById('qrModal').style.display = 'none';
     }
-}
 
-function inMaQR() {
-    const qrImageSrc = document.getElementById('qrImage').src;
-    const titleText = document.getElementById('qrModalTitle').innerText;
-    
-    const printWindow = window.open('', '_blank');
-    printWindow.document.write(`
-        <html>
-            <head>
-                <title>In Mã QR - VINAPACO</title>
-                <style>
-                    body { font-family: Arial, sans-serif; text-align: center; margin-top: 30px; }
-                    h2 { font-size: 18px; margin-bottom: 10px; }
-                    img { width: 200px; height: 200px; }
-                </style>
-            </head>
+    window.onclick = function(event) {
+        const modal = document.getElementById('qrModal');
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    function inMaQR() {
+        const qrImageSrc = document.getElementById('qrImage').src;
+        const titleText = document.getElementById('qrModalTitle').innerText;
+        
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(`
+            <html>
+                <head>
+                    <title>In Mã QR - VINAPACO</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; text-align: center; margin-top: 30px; }
+                        h2 { font-size: 18px; margin-bottom: 10px; }
+                        img { width: 200px; height: 200px; }
+                    </style>
+                </head>
+                <body>
+                    <h2>${titleText}</h2>
+                    <img src="${qrImageSrc}" />
+                    <script>
+                        window.onload = function() { window.print(); window.close(); }
+                    </script>
+                </body>
+            </html>
+        `);
+        printWindow.document.close();
+    }
+</script>
+            </script>
             <body>
                 <h2>${titleText}</h2>
                 <img src="${qrImageSrc}" />
