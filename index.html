@@ -189,6 +189,7 @@
             </div>
         </div>
         <div style="display:flex; gap:5px; flex-wrap: wrap;">
+            <button type="button" class="btn btn-green" style="padding: 5px 8px; font-size:11.5px;" onclick="saveDataToCloudAPI()"><i class="fa-solid fa-cloud-arrow-up"></i> 🔄 Đồng Bộ Ngay Lên Cloud</button>
             <button type="button" class="btn btn-primary" style="padding: 5px 8px; font-size:11.5px;" onclick="loadDataFromCloudAPI()"><i class="fa-solid fa-cloud-arrow-down"></i> Tải Dữ Liệu Từ Cloud</button>
             <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="padding: 5px 8px; font-size:11.5px;"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
             <button type="button" class="btn btn-green" style="padding: 5px 8px; font-size:11.5px;" onclick="toggleCalendarSidebar()"><i class="fa-solid fa-calendar-days"></i> Lịch</button>
@@ -1586,6 +1587,7 @@
             closeEventModal();
             updateCalendarDetailPane();
             alert("✅ Đã lưu sự kiện thành công!");
+            saveDataToCloudAPI();
         }
 
         async function saveDataToCloudAPI() {
@@ -1593,7 +1595,7 @@
             let dot = document.getElementById('cloud-status-dot');
             let txt = document.getElementById('cloud-status-text');
             if (dot) dot.style.backgroundColor = "var(--orange)";
-            if (txt) txt.innerText = "⏳ Đang tự động lưu dữ liệu lên Cloud...";
+            if (txt) txt.innerText = "⏳ Đang đồng bộ dữ liệu lên Cloud...";
 
             let payload = {
                 salary_by_month: salaryDataByMonth,
@@ -1614,15 +1616,18 @@
                 let result = await response.json();
                 if (result.status === "success") {
                     if (dot) dot.style.backgroundColor = "var(--green)";
-                    if (txt) txt.innerText = "Đã lưu dữ liệu lên Cloud thành công!";
+                    if (txt) txt.innerText = "Đã đồng bộ thành công lên Cloud!";
+                    alert("✅ Đã đồng bộ toàn bộ dữ liệu lên Cloud thành công! Bây giờ bạn có thể mở máy khác và bấm Tải Dữ Liệu để nhận đầy đủ.");
                 } else {
                     if (dot) dot.style.backgroundColor = "var(--red)";
                     if (txt) txt.innerText = "Lỗi lưu Cloud: " + (result.message || "");
+                    alert("❌ Lỗi đồng bộ lên Cloud: " + (result.message || ""));
                 }
             } catch (err) {
                 console.error("Lỗi đẩy dữ liệu lên Cloud:", err);
                 if (dot) dot.style.backgroundColor = "var(--red)";
                 if (txt) txt.innerText = "Lỗi kết nối khi lưu Cloud!";
+                alert("❌ Lỗi kết nối mạng khi đồng bộ lên Cloud!");
             }
         }
 
@@ -1676,10 +1681,12 @@
                 renderInkInventoryTable();
                 renderLeaveManagementModule();
                 updateGlobalDashboardSummary();
+                alert("✅ Tải dữ liệu từ Cloud thành công!");
             } catch (err) {
                 console.error("Lỗi đồng bộ từ Cloud:", err);
                 if (dot) dot.style.backgroundColor = "var(--red)";
                 if (txt) txt.innerText = "Lỗi kết nối Cloud API!";
+                alert("❌ Không thể tải dữ liệu từ Cloud!");
             }
         }
 
@@ -2516,7 +2523,6 @@
             };
             localStorage.setItem('sys_salary_configs_by_month', JSON.stringify(salaryConfigsByMonth));
             calculateSalaryLogic();
-            saveDataToCloudAPI();
         }
 
         function calculateSalaryLogic() {
@@ -2611,7 +2617,6 @@
             document.getElementById('v-total-thuc').innerText = formatCurrencyVN(T_net) + " VND";
             
             updateGlobalDashboardSummary();
-            saveDataToCloudAPI();
         }
 
         function updateSalaryRowValue(index, field, val) {
@@ -2788,7 +2793,6 @@
             localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth));
             renderPaymentTable();
             statusLabel.innerText = "✅ Lưu hồ sơ thành công!";
-            saveDataToCloudAPI();
         }
 
         function editPaymentRecord(sm, actualIdx) {
@@ -2886,7 +2890,6 @@
                 paymentRecordsByMonth[sm].splice(actualIdx, 1); 
                 localStorage.setItem('sys_payment_records_by_month', JSON.stringify(paymentRecordsByMonth)); 
                 renderPaymentTable(); 
-                saveDataToCloudAPI();
             }
         }
 
@@ -2970,7 +2973,6 @@
             localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth));
             renderTelecomTable(); 
             statusLabel.innerText = "✅ Lưu cước thành công!";
-            saveDataToCloudAPI();
         }
 
         function editTelecomRecord(sm, actualIdx) {
@@ -3061,7 +3063,6 @@
                 telecomRecordsByMonth[sm].splice(actualIdx, 1); 
                 localStorage.setItem('sys_telecom_records_by_month', JSON.stringify(telecomRecordsByMonth)); 
                 renderTelecomTable(); 
-                saveDataToCloudAPI();
             }
         }
 
@@ -3148,7 +3149,6 @@
             updateItAssetFilterDropdowns();
             renderItAssetTable(); 
             document.getElementById('status-cntt').innerText = "✅ Lưu thiết bị thành công!";
-            saveDataToCloudAPI();
         }
 
         function editItAssetRecord(idx) {
@@ -3320,7 +3320,6 @@
 
             localStorage.setItem('sys_it_asset_records_by_year', JSON.stringify(itAssetRecordsByYear));
             renderItAssetTable();
-            saveDataToCloudAPI();
         }
 
         function getInkImageByModel(modelName) {
@@ -3385,7 +3384,6 @@
             localStorage.setItem('sys_ink_inventory_records_by_year', JSON.stringify(inkInventoryRecordsByYear));
             renderInkInventoryTable();
             alert("✅ Lưu thông tin kho mực thành công!");
-            saveDataToCloudAPI();
         }
 
         function editInkRecord(idx) {
@@ -3478,7 +3476,6 @@
                 list.splice(idx, 1);
                 localStorage.setItem('sys_ink_inventory_records_by_year', JSON.stringify(inkInventoryRecordsByYear));
                 renderInkInventoryTable();
-                saveDataToCloudAPI();
             }
         }
 
