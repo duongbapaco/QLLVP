@@ -3688,19 +3688,5 @@ document.addEventListener('DOMContentLoaded', function() {
     resetWorkTimer();
 });
 </script>
-}
-
-function resetWorkTimer() {
-    if (mainWorkTimer) clearInterval(mainWorkTimer);
-    mainWorkTimer = setInterval(() => {
-        showBreakModal();
-    }, WORK_INTERVAL_MS);
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    resetWorkTimer();
-});
-</script>
-</script>
 </body>
 </html>
