@@ -3212,7 +3212,21 @@
             document.querySelectorAll('.sw-checkbox').forEach(cb => cb.checked = false);
             getSelectedSoftwareDetails();
         }
-
+// Hàm chuyển đổi định dạng ngày an toàn
+function formatDateVN(dateString) {
+    if (!dateString) return '';
+    try {
+        const str = String(dateString);
+        if (!str.includes('-')) return str;
+        const parts = str.split('-');
+        if (parts.length === 3) {
+            return `${parts[2]}/${parts[1]}/${parts[0]}`;
+        }
+        return str;
+    } catch (e) {
+        return dateString;
+    }
+}
         function renderItAssetTable() {
             const tbody = document.getElementById('tbody-it-assets');
             if (!tbody) return;
@@ -3604,7 +3618,6 @@ function snoozeRestReminder(minutes) {
 </body>
 </html>
         };
-<script>
 <script>
 // ==========================================
 // CẤU HÌNH HỆ THỐNG NHẮC NHỞ GIẢI LAO + ÂM THANH
