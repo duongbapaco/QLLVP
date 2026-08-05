@@ -3617,7 +3617,6 @@ function snoozeRestReminder(minutes) {
 
 </body>
 </html>
-        };
 <script>
 // ==========================================
 // CẤU HÌNH HỆ THỐNG NHẮC NHỞ GIẢI LAO + ÂM THANH
@@ -3701,21 +3700,6 @@ function resetWorkTimer() {
 document.addEventListener('DOMContentLoaded', function() {
     resetWorkTimer();
 });
-// Hàm chuyển đổi định dạng YYYY-MM-DD sang DD/MM/YYYY an toàn
-function formatDateVN(dateString) {
-    if (!dateString) return '';
-    try {
-        const str = String(dateString);
-        if (!str.includes('-')) return str;
-        const parts = str.split('-');
-        if (parts.length === 3) {
-            return `${parts[2]}/${parts[1]}/${parts[0]}`;
-        }
-        return str;
-    } catch (e) {
-        return dateString;
-    }
-}
 </script>
 </body>
 </html>
