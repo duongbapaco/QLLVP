@@ -3688,14 +3688,19 @@ function resetWorkTimer() {
 document.addEventListener('DOMContentLoaded', function() {
     resetWorkTimer();
 });
-// Hàm chuyển đổi định dạng YYYY-MM-DD sang DD/MM/YYYY
 function formatDateVN(dateString) {
     if (!dateString) return '';
-    const parts = String(dateString).split('-');
-    if (parts.length === 3) {
-        return `${parts[2]}/${parts[1]}/${parts[0]}`;
+    try {
+        const str = String(dateString);
+        if (!str.includes('-')) return str;
+        const parts = str.split('-');
+        if (parts.length === 3) {
+            return `${parts[2]}/${parts[1]}/${parts[0]}`;
+        }
+        return str;
+    } catch (e) {
+        return dateString;
     }
-    return dateString;
 }
 </script>
 </body>
