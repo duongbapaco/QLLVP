@@ -3190,7 +3190,8 @@
             getSelectedSoftwareDetails();
 
             document.getElementById('btn-save-it').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Cập Nhật`;
-            document.getElementById('btn-cancel-edit-it').style.display = "inline-flex";
+            document.getElementById('btn-cancel-edit-it').style
+                .display = "inline-flex";
             window.scrollTo({ top: 200, behavior: 'smooth' });
         }
 
@@ -3687,10 +3688,10 @@ function resetWorkTimer() {
 document.addEventListener('DOMContentLoaded', function() {
     resetWorkTimer();
 });
-    // Hàm chuyển đổi định dạng YYYY-MM-DD sang DD/MM/YYYY
+// Hàm chuyển đổi định dạng YYYY-MM-DD sang DD/MM/YYYY
 function formatDateVN(dateString) {
     if (!dateString) return '';
-    const parts = dateString.split('-');
+    const parts = String(dateString).split('-');
     if (parts.length === 3) {
         return `${parts[2]}/${parts[1]}/${parts[0]}`;
     }
