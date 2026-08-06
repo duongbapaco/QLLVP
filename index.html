@@ -3741,38 +3741,54 @@ document.addEventListener("DOMContentLoaded", function() {
         return text;
     }
 
+    <script>
+(function() {
+    function formatAllDatesToVN(dateString) {
+        if (!dateString) return "";
+        let text = dateString.trim();
+        // Sửa định dạng YYYY-MM-DD -> DD/MM/YYYY
+        if (text.includes("-")) {
+            const parts = text.split("-");
+            if (parts.length === 3) {
+                return `${parts[2]}/${parts[1]}/${parts[0]}`;
+            }
+        }
+        // Đồng bộ định dạng D/M/YYYY -> DD/MM/YYYY
+        if (text.includes("/")) {
+            const parts = text.split("/");
+            if (parts.length === 3) {
+                const day = parts[0].padStart(2, '0');
+                const month = parts[1].padStart(2, '0');
+                const year = parts[2];
+                return `${day}/${month}/${year}`;
+            }
+        }
+        return text;
+    }
+
     function processTable() {
         const tableRows = document.querySelectorAll("table tbody tr");
         tableRows.forEach(function(row) {
             const cells = row.querySelectorAll("td");
-            // Kiểm tra nếu hàng có đủ cột dữ liệu
+            // Kiểm tra nếu hàng có đủ từ 8 cột trở lên
             if (cells.length >= 8) {
-                if(cells[3]) cells[3].innerText = formatAllDatesToVN(cells[3].innerText); // Từ ngày
-                if(cells[4]) cells[4].innerText = formatAllDatesToVN(cells[4].innerText); // Đến ngày
-                if(cells[7]) cells[7].innerText = formatAllDatesToVN(cells[7].innerText); // Ngày đăng ký
+                if (cells[3]) cells[3].innerText = formatAllDatesToVN(cells[3].innerText); // Từ ngày
+                if (cells[4]) cells[4].innerText = formatAllDatesToVN(cells[4].innerText); // Đến ngày
+                if (cells[7]) cells[7].innerText = formatAllDatesToVN(cells[7].innerText); // Ngày đăng ký
             }
         });
     }
 
-    // Chạy ngay khi tải xong
-    document.addEventListener("DOMContentLoaded", processTable);
-    
-    // Tự động quét lại mỗi khi bảng thay đổi dữ liệu (phòng trường hợp dùng AJAX hoặc render động)
-    const observer = new MutationObserver(function(mutations) {
+    // Chạy liên tục mỗi 0.3 giây để đảm bảo bắt được dữ liệu sau khi bảng render xong
+    let intervals = 0;
+    const timer = setInterval(() => {
         processTable();
-    });
-    
-    const targetNode = document.querySelector("table tbody");
-    if (targetNode) {
-        observer.observe(targetNode, { childList: true, subtree: true });
-    } else {
-        // Nếu lúc đầu chưa có tbody, đợi khi nào xuất hiện thì theo dõi
-        setTimeout(() => {
-            const delayedTarget = document.querySelector("table tbody");
-            if (delayedTarget) observer.observe(delayedTarget, { childList: true, subtree: true });
-        }, 1000);
-    }
-})();
+        intervals++;
+        if (intervals > 15) clearInterval(timer);
+    }, 300);
+   // Chạy khi DOMContentLoaded
+    document.addEventListener("DOMContentLoaded", processTable);
+})(); // <- Thêm dòng này vào đây
 </script>
 </body>
 </html>
