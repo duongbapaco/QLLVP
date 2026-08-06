@@ -3614,6 +3614,10 @@ function snoozeRestReminder(minutes) {
 <button type="button" onclick="openRestReminderModal()" title="Nhắc nhở nghỉ ngơi" style="position:fixed; bottom:20px; right:20px; background:#0284c7; color:#white; border:none; width:45px; height:45px; border-radius:50%; box-shadow:0 4px 10px rgba(0,0,0,0.2); z-index:998; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:18px; color:#ffffff;">
     <i class="fa-solid fa-heart-pulse"></i>
 </button>
+
+</body>
+</html>
+<script>
 // ==========================================
 // CẤU HÌNH HỆ THỐNG NHẮC NHỞ GIẢI LAO + ÂM THANH
 // ==========================================
@@ -3712,19 +3716,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
         
-       // Script tự động định dạng ngày tháng tiếng Việt cho mọi trường hợp load lại bảng
-(function() {
-    function formatAllDatesToVN(dateString) {
-        if (!dateString) return "";
-        let text = dateString.trim();
-        // Sửa định dạng YYYY-MM-DD -> DD/MM/YYYY
-        if (text.includes("-")) {
-            const parts = text.split("-");
-            if (parts.length === 3) {
-                return `${parts[2]}/${parts[1]}/${parts[0]}`; 
-            }
-        }
-        // Đồng bộ định dạng D/M/YYYY -> DD/MM/YYYY
+        // Đồng bộ định dạng D/M/YYYY sang DD/MM/YYYY (Ngày đăng ký)
         if (text.includes("/")) {
             const parts = text.split("/");
             if (parts.length === 3) {
@@ -3737,38 +3729,27 @@ document.addEventListener("DOMContentLoaded", function() {
         return text;
     }
 
-    function processTable() {
-        const tableRows = document.querySelectorAll("table tbody tr");
-        tableRows.forEach(function(row) {
-            const cells = row.querySelectorAll("td");
-            // Kiểm tra nếu hàng có đủ cột dữ liệu
-            if (cells.length >= 8) {
-                if(cells[3]) cells[3].innerText = formatAllDatesToVN(cells[3].innerText); // Từ ngày
-                if(cells[4]) cells[4].innerText = formatAllDatesToVN(cells[4].innerText); // Đến ngày
-                if(cells[7]) cells[7].innerText = formatAllDatesToVN(cells[7].innerText); // Ngày đăng ký
-            }
-        });
-    }
-
-    // Chạy ngay khi tải xong
-    document.addEventListener("DOMContentLoaded", processTable);
+    // 2. Tự động tìm bảng và thay đổi text của các cột ngày tháng
+    // Lấy tất cả các hàng (tr) trong phần nội dung bảng (tbody)
+    const tableRows = document.querySelectorAll("table tbody tr");
     
-    // Tự động quét lại mỗi khi bảng thay đổi dữ liệu (phòng trường hợp dùng AJAX hoặc render động)
-    const observer = new MutationObserver(function(mutations) {
-        processTable();
+    tableRows.forEach(function(row) {
+        // Lấy tất cả các ô (td) trong hàng đó
+        const cells = row.querySelectorAll("td");
+        
+        // Kiểm tra nếu hàng có đủ cột (như trong ảnh của bạn có 9 cột từ 0 đến 8)
+        if (cells.length >= 8) {
+            // Cột thứ 4 (index 3) là "Từ ngày"
+            if(cells[3]) cells[3].innerText = formatAllDatesToVN(cells[3].innerText);
+            
+            // Cột thứ 5 (index 4) là "Đến ngày"
+            if(cells[4]) cells[4].innerText = formatAllDatesToVN(cells[4].innerText);
+            
+            // Cột thứ 8 (index 7) là "Ngày đăng ký"
+            if(cells[7]) cells[7].innerText = formatAllDatesToVN(cells[7].innerText);
+        }
     });
-    
-    const targetNode = document.querySelector("table tbody");
-    if (targetNode) {
-        observer.observe(targetNode, { childList: true, subtree: true });
-    } else {
-        // Nếu lúc đầu chưa có tbody, đợi khi nào xuất hiện thì theo dõi
-        setTimeout(() => {
-            const delayedTarget = document.querySelector("table tbody");
-            if (delayedTarget) observer.observe(delayedTarget, { childList: true, subtree: true });
-        }, 1000);
-    }
-})();
+});
 </script>
 </body>
 </html>
