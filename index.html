@@ -3700,6 +3700,56 @@ function resetWorkTimer() {
 document.addEventListener('DOMContentLoaded', function() {
     resetWorkTimer();
 });
+    <!-- DÁN ĐOẠN CODE NÀY VÀO TRƯỚC THẺ ĐÓNG </body> TRONG FILE HTML CỦA BẠN -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // 1. Hàm xử lý chuyển đổi định dạng ngày tháng
+    function formatAllDatesToVN(dateString) {
+        if (!dateString) return "";
+        let text = dateString.trim();
+        
+        // Sửa định dạng YYYY-MM-DD (Từ ngày, Đến ngày)
+        if (text.includes("-")) {
+            const parts = text.split("-");
+            if (parts.length === 3) {
+                return `${parts[2]}/${parts[1]}/${parts[0]}`; 
+            }
+        }
+        
+        // Đồng bộ định dạng D/M/YYYY sang DD/MM/YYYY (Ngày đăng ký)
+        if (text.includes("/")) {
+            const parts = text.split("/");
+            if (parts.length === 3) {
+                const day = parts[0].padStart(2, '0');
+                const month = parts[1].padStart(2, '0');
+                const year = parts[2];
+                return `${day}/${month}/${year}`;
+            }
+        }
+        return text;
+    }
+
+    // 2. Tự động tìm bảng và thay đổi text của các cột ngày tháng
+    // Lấy tất cả các hàng (tr) trong phần nội dung bảng (tbody)
+    const tableRows = document.querySelectorAll("table tbody tr");
+    
+    tableRows.forEach(function(row) {
+        // Lấy tất cả các ô (td) trong hàng đó
+        const cells = row.querySelectorAll("td");
+        
+        // Kiểm tra nếu hàng có đủ cột (như trong ảnh của bạn có 9 cột từ 0 đến 8)
+        if (cells.length >= 8) {
+            // Cột thứ 4 (index 3) là "Từ ngày"
+            if(cells[3]) cells[3].innerText = formatAllDatesToVN(cells[3].innerText);
+            
+            // Cột thứ 5 (index 4) là "Đến ngày"
+            if(cells[4]) cells[4].innerText = formatAllDatesToVN(cells[4].innerText);
+            
+            // Cột thứ 8 (index 7) là "Ngày đăng ký"
+            if(cells[7]) cells[7].innerText = formatAllDatesToVN(cells[7].innerText);
+        }
+    });
+});
 </script>
 </body>
 </html>
