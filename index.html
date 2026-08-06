@@ -2080,22 +2080,19 @@
             } else {
                 logs.forEach((log, lIdx) => {
                     logTbody.innerHTML += `<tr>
-                        <td class="text-center font-bold">${lIdx + 1}</td>
-                        <td class="font-bold">${log.name}</td>
-                        <td class="text-center"><span style="background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:bold;">${log.type || 'Phép năm'}</span></td>
-                        <td class="text-center font-bold">${log.fromDate || '-'}</td>
-                        <td class="text-center font-bold">${log.toDate || '-'}</td>
-                        <td class="text-center font-bold" style="color:var(--orange);">${log.days} ngày</td>
-                        <td>${log.note || '-'}</td>
-                        <td class="text-center">${log.date || '-'}</td>
-                        <td class="text-center">
-                            <button type="button" class="btn-edit" onclick="openEditLeaveModal(${lIdx})" title="Sửa đăng ký phép"><i class="fa-solid fa-pen-to-square"></i> Sửa</button>
-                            <button type="button" class="btn-delete" onclick="deleteLeaveLog(${lIdx})"><i class="fa-solid fa-trash"></i></button>
-                        </td>
-                    </tr>`;
-                });
-            }
-
+    <td class="text-center font-bold">${lIdx + 1}</td>
+    <td class="font-bold">${log.name}</td>
+    <td class="text-center"><span style="background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:bold;">${log.type || 'Phép năm'}</span></td>
+    <td class="text-center font-bold">${formatDateVN(log.fromDate)}</td>
+    <td class="text-center font-bold">${formatDateVN(log.toDate)}</td>
+    <td class="text-center font-bold" style="color:var(--orange);">${log.days} ngày</td>
+    <td>${log.note || '-'}</td>
+    <td class="text-center">${formatDateVN(log.date)}</td>
+    <td class="text-center">
+        <button type="button" class="btn-edit" onclick="openEditLeaveModal(${lIdx})" title="Sửa đăng ký phép"><i class="fa-solid fa-pen-to-square"></i> Sửa</button>
+        <button type="button" class="btn-delete" onclick="deleteLeaveLog(${lIdx})"><i class="fa-solid fa-trash"></i></button>
+    </td>
+</tr>`;
             syncLeaveDaysToSalaryTables();
         }
 
