@@ -380,39 +380,7 @@
         </div> 
         <!-- KẾT THÚC CỘT BÊN TRÁI -->
 
-        <!-- CỘT BÊN PHẢI: KHỐI LỊCH WIDGET (SỬ DỤNG BANNER ĐỎ RƯỢU VANG SANG TRỌNG) -->
-        <div class="calendar-card" style="background: #ffffff; border-radius: 8px; border: 1.5px solid #cbd5e1; padding: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); overflow: hidden;">
-            
-            <!-- THANH ĐIỀU HƯỚNG THÁNG -->
-            <div style="background: #0f172a; color: white; padding: 6px 12px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <button type="button" onclick="changeMonth(-1)" style="background:none; border:none; color:white; font-size:14px; cursor:pointer;">❮</button>
-                <b id="calendar-month-year-title" style="font-size: 13.5px;">Tháng 8 / 2026</b>
-                <button type="button" onclick="changeMonth(1)" style="background:none; border:none; color:white; font-size:14px; cursor:pointer;">❯</button>
-            </div>
-
-            <!-- BANNER HÔM NAY (ĐẸP NỔI BẬT NGUYÊN BẢN CỦA BẠN) -->
-            <div style="background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%); color: white; padding: 10px; border-radius: 6px; text-align: center; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">
-                <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9;">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
-                <div style="font-size: 20px; font-weight: bold; color: #fef08a; margin: 3px 0; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">THỨ SÁU - 7</div>
-                <div style="font-size: 11px; color: #fecdd3;">Ngày Mậu Thìn - Tháng Ất Mùi</div>
-            </div>
-
-            <!-- BẢNG LƯỚI LỊCH (ÉP CỐ ĐỊNH CHIỀU CAO Ô 38PX) -->
-            <table style="width: 100%; border-collapse: collapse; text-align: center; font-family: sans-serif; table-layout: fixed;">
-                <thead>
-                    <tr style="background: #f1f5f9; color: #334155; font-size: 11px; font-weight: bold;">
-                        <th style="padding: 4px; color: #dc2626; border: 1px solid #e2e8f0;">CN</th>
-                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T2</th>
-                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T3</th>
-                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T4</th>
-                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T5</th>
-                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T6</th>
-                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T7</th>
-                    </tr>
-                </thead>
-                <tbody id="calendar-grid-body">
-                    <!-- Javascript tự động nạp dữ liệu ngày -->
-                </tbody>
+       
             </table>
 
         </div>
@@ -1386,15 +1354,14 @@
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
 
-            <div class="calendar-block-view">
-                <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
-                <div class="calendar-block-body">
-                    <div class="cal-selected-weekday" id="cal-selected-dow">Thứ Ba</div>
-                    <div class="cal-selected-day-number" id="cal-selected-day">4</div>
-                    <div class="cal-selected-lunar-sub" id="cal-selected-lunar-day">Ngày Mậu Thìn - Tháng Ất Mùi</div>
-                </div>
-            </div>
-
+        <!-- BANNER HÔM NAY THU GỌN SANG TRỌNG (ĐÃ GIỮ NGUYÊN ID CHO JAVASCRIPT NẠP DỮ LIỆU) -->
+<div style="background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%); color: white; padding: 10px; border-radius: 6px; text-align: center; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">
+    <div id="cal-block-lunar-month" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9;">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
+    <div style="font-size: 20px; font-weight: bold; color: #fef08a; margin: 3px 0; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">
+        <span id="cal-selected-dow">THỨ SÁU</span> - <span id="cal-selected-day">7</span>
+    </div>
+    <div id="cal-selected-lunar-day" style="font-size: 11px; color: #fecdd3;">Ngày Mậu Thìn - Tháng Ất Mùi</div>
+</div>
             <div class="cal-weekdays-bar">
                 <div style="color:#d9534f;">CN</div>
                 <div>T2</div>
