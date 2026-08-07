@@ -259,26 +259,27 @@
                 <button type="button" class="nav-tab" data-tab="it-assets" onclick="switchMainTab('it-assets')"><i class="fa-solid fa-laptop"></i> Thiết Bị CNTT</button>
                 <button type="button" class="nav-tab" data-tab="ink-inventory" onclick="switchMainTab('ink-inventory')"><i class="fa-solid fa-print"></i> Kho Mực In</button>
             </div>
-<!-- BỘ CHỌN CHẾ ĐỘ LÀM VIỆC THEO THÀNH VIÊN VĂN PHÒNG & ADMIN -->
-<div id="multi-user-header-bar" style="background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); border: 1.5px solid #0284c7; padding: 8px 15px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-    <div style="display: flex; align-items: center; gap: 10px;">
-        <label style="font-weight: bold; color: #0369a1; font-size: 13.5px; display: flex; align-items: center; gap: 6px;">
-            <i class="fa-solid fa-user-shield" style="color: #0284c7;"></i> Cán bộ / Tài khoản thực hiện:
-        </label>
-        <select id="global-user-select" onchange="AppMultiUserCore.switchUser(this.value)" style="padding: 5px 12px; border-radius: 6px; border: 1.5px solid #0284c7; font-weight: bold; color: #0c4a6e; background: #ffffff; cursor: pointer; outline: none;">
-            <!-- Ban Quản trị & Lãnh đạo -->
-            <option value="ALL">🌐 TỔNG QUAN (Toàn bộ dữ liệu Văn phòng)</option>
-            <option value="duong_tb">🔑 Trần Bình Dương (Quản trị viên)</option>
-            <option value="long_td">⭐ Tạ Đức Long (Tổng Giám Đốc)</option>
-            
-            <!-- Danh sách các chuyên viên/nhân viên Văn phòng (Thay tên thực tế tại đây) -->
-            <option value="cv_vanphong_1">👤 Chuyên viên Văn phòng 1</option>
-            <option value="cv_vanphong_2">👤 Chuyên viên Văn phòng 2</option>
-            <option value="cv_vanphong_3">👤 Chuyên viên Văn phòng 3</option>
-        </select>
+<!-- BẢNG TRẠNG THÁI TÀI KHOẢN & PHÂN QUYỀN VĂN PHÒNG -->
+<div id="multi-user-header-bar" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border: 1.5px solid #3b82f6; padding: 10px 16px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; color: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+    <div style="display: flex; align-items: center; gap: 12px;">
+        <span id="current-user-info" style="font-weight: bold; font-size: 13.5px; display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-user-shield" style="color: #60a5fa; font-size: 16px;"></i> Tài khoản: 
+            <b id="user-display-name" style="color: #38bdf8;">Trần Bình Dương</b>
+        </span>
+        <span id="user-role-badge" style="font-size: 11px; padding: 3px 10px; border-radius: 12px; background: #8b5cf6; font-weight: bold; color: #ffffff;">
+            🔑 QUẢN TRỊ VIÊN CỦA HỆ THỐNG
+        </span>
     </div>
-    <div id="user-status-badge" style="font-size: 12px; font-weight: bold; padding: 4px 10px; border-radius: 20px; background: #0284c7; color: #ffffff;">
-        Chế độ: Xem toàn bộ
+    
+    <div style="display: flex; gap: 10px; align-items: center;">
+        <!-- Nút Quản lý & Ủy quyền dành riêng cho Admin -->
+        <button id="btn-admin-manage-users" onclick="AppAuthCore.openAdminModal()" style="background: #0284c7; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-users-gear"></i> Quản lý Tài khoản & Ủy quyền
+        </button>
+        <!-- Nút Đổi tài khoản / Đăng xuất -->
+        <button id="btn-auth-action" onclick="AppAuthCore.switchAccountPrompt()" style="background: #334155; color: white; border: 1px solid #64748b; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-right-from-bracket"></i> Đổi Tài khoản
+        </button>
     </div>
 </div>
             <!-- TAB 0: DASHBOARD -->
@@ -3824,50 +3825,166 @@ document.addEventListener('DOMContentLoaded', function() {
     // =========================================================
 // BỘ LÕI QUẢN LÝ ĐA THÀNH VIÊN TỰ ĐỘNG (CORE MULTI-USER)
 // =========================================================
-const AppMultiUserCore = {
-    // 1. Lấy mã user đang chọn
-    getActiveUser: function() {
-        return localStorage.getItem('app_active_user') || 'ALL';
+// HỆ THỐNG XÁC THỰC, PHÂN QUYỀN & ỦY QUYỀN ADMIN (RBAC CORE)
+// =========================================================
+const AppAuthCore = {
+    // 1. Danh sách Tài khoản & Phân quyền mặc định
+    getUsersDatabase: function() {
+        const defaultUsers = [
+            { username: "duong_tb", name: "Trần Bình Dương", role: "ADMIN", title: "Quản trị viên / Trợ lý TGĐ" },
+            { username: "long_td", name: "Tạ Đức Long", role: "ADMIN", title: "Tổng Giám Đốc" },
+            { username: "cv_vanphong_1", name: "Chuyên viên Văn phòng 1", role: "USER", title: "Chuyên viên VP" },
+            { username: "cv_vanphong_2", name: "Chuyên viên Văn phòng 2", role: "USER", title: "Chuyên viên VP" }
+        ];
+        const localDb = localStorage.getItem('app_users_db');
+        return localDb ? JSON.parse(localDb) : defaultUsers;
     },
 
-    // 2. Đổi tài khoản làm việc
-    switchUser: function(userId) {
-        localStorage.setItem('app_active_user', userId);
-        this.updateBadgeUI(userId);
-        
-        // Tự động làm mới giao diện web
-        if (typeof renderAllTabs === 'function') {
-            renderAllTabs();
+    // 2. Lấy thông tin Tài khoản đang làm việc hiện tại
+    getCurrentUser: function() {
+        const activeUsername = localStorage.getItem('app_active_user') || 'duong_tb';
+        const users = this.getUsersDatabase();
+        return users.find(u => u.username === activeUsername) || users[0];
+    },
+
+    // 3. Cập nhật giao diện Trạng thái Đăng nhập & Nút bấm
+    updateUI: function() {
+        const user = this.getCurrentUser();
+        const displayNameElem = document.getElementById('user-display-name');
+        const badgeElem = document.getElementById('user-role-badge');
+        const adminBtn = document.getElementById('btn-admin-manage-users');
+
+        if (displayNameElem) displayNameElem.innerText = `${user.name} (${user.title})`;
+
+        if (user.role === 'ADMIN') {
+            if (badgeElem) {
+                badgeElem.style.background = '#8b5cf6';
+                badgeElem.innerText = '🔑 QUẢN TRỊ VIÊN / LÃNH ĐẠO (Xem toàn bộ)';
+            }
+            if (adminBtn) adminBtn.style.display = 'flex';
         } else {
-            location.reload();
+            if (badgeElem) {
+                badgeElem.style.background = '#10b981';
+                badgeElem.innerText = `👤 CÁ NHÂN: ${user.name}`;
+            }
+            if (adminBtn) adminBtn.style.display = 'none';
         }
     },
-// =========================================================
-// THUẬT TOÁN HỢP NHẤT DỮ LIỆU CHỐNG GHI ĐÈ CLOUD (MERGE APPEND)
-// =========================================================
-AppMultiUserCore.mergeCloudData = function(localArray, cloudArray) {
-    if (!Array.isArray(localArray)) localArray = [];
-    if (!Array.isArray(cloudArray)) cloudArray = [];
 
-    // Tạo Map để lọc trùng theo ID bản ghi
-    let mergedMap = new Map();
-
-    // 1. Nạp tất cả dữ liệu từ Cloud vào trước
-    cloudArray.forEach(item => {
-        let key = item.id || JSON.stringify(item);
-        mergedMap.set(key, item);
-    });
-
-    // 2. Nạp tiếp dữ liệu Local vào (bản ghi nào trùng ID sẽ giữ nguyên, bản ghi mới sẽ được NỐI THÊM)
-    localArray.forEach(item => {
-        let key = item.id || JSON.stringify(item);
-        if (!mergedMap.has(key)) {
-            mergedMap.set(key, item);
+    // 4. Bảng điều khiển Quản lý & Ủy quyền Admin dành riêng cho Admin
+    openAdminModal: function() {
+        const currentUser = this.getCurrentUser();
+        if (currentUser.role !== 'ADMIN') {
+            alert("Bạn không có quyền truy cập chức năng Quản trị!");
+            return;
         }
-    });
 
-    return Array.from(mergedMap.values());
+        const users = this.getUsersDatabase();
+        let listText = "DANH SÁCH TÀI KHOẢN VÀ PHÂN QUYỀN CỦA VĂN PHÒNG:\n\n";
+        users.forEach((u, idx) => {
+            listText += `${idx + 1}. ${u.name} [${u.username}] - Quyền: ${u.role === 'ADMIN' ? '🔑 ADMIN (Toàn quyền)' : '👤 USER (Cá nhân)'}\n`;
+        });
+        listText += "\n------------------------------------------------\n";
+        listText += "Để Ủy quyền Admin cho ai, nhập Username của người đó:";
+
+        const targetUser = prompt(listText);
+        if (targetUser) {
+            this.toggleAdminRole(targetUser.trim());
+        }
+    },
+
+    // 5. Cấp/Thu hồi Quyền Admin (Ủy quyền)
+    toggleAdminRole: function(username) {
+        let users = this.getUsersDatabase();
+        let target = users.find(u => u.username === username);
+        if (target) {
+            target.role = (target.role === 'ADMIN') ? 'USER' : 'ADMIN';
+            localStorage.setItem('app_users_db', JSON.stringify(users));
+            alert(`Đã cập nhật quyền cho ${target.name} thành: ${target.role}`);
+            this.updateUI();
+            location.reload();
+        } else {
+            alert("Không tìm thấy mã Username này trong hệ thống!");
+        }
+    },
+
+    // 6. Đổi tài khoản làm việc
+    switchAccountPrompt: function() {
+        const users = this.getUsersDatabase();
+        let msg = "CHỌN TÀI KHOẢN BẠN MUỐN ĐĂNG NHẬP / CHUYỂN ĐỔI:\n\n";
+        users.forEach(u => {
+            msg += `• Gõ [ ${u.username} ] để đăng nhập tài khoản: ${u.name}\n`;
+        });
+
+        const selected = prompt(msg);
+        if (selected) {
+            const found = users.find(u => u.username === selected.trim());
+            if (found) {
+                localStorage.setItem('app_active_user', found.username);
+                alert(`Đã chuyển sang tài khoản: ${found.name}`);
+                this.updateUI();
+                location.reload();
+            } else {
+                alert("Tài khoản không tồn tại!");
+            }
+        }
+    },
+
+    // 7. Lọc dữ liệu hiển thị theo Quyền (Admin xem full 100%, User xem dữ liệu của mình)
+    filterData: function(dataArray) {
+        if (!Array.isArray(dataArray)) return [];
+        const user = this.getCurrentUser();
+
+        // Nếu là ADMIN (Bao gồm Admin chính & Admin được ủy quyền): Xem 100% dữ liệu
+        if (user.role === 'ADMIN') {
+            return dataArray;
+        }
+
+        // Nếu là Chuyên viên: Chỉ thấy bản ghi do mình tạo
+        return dataArray.filter(item => !item.created_by || item.created_by === user.username);
+    },
+
+    // 8. Hợp nhất dữ liệu Cloud chống ghi đè
+    mergeCloudData: function(localArray, cloudArray) {
+        if (!Array.isArray(localArray)) localArray = [];
+        if (!Array.isArray(cloudArray)) cloudArray = [];
+
+        let mergedMap = new Map();
+        cloudArray.forEach(item => mergedMap.set(item.id || JSON.stringify(item), item));
+        localArray.forEach(item => {
+            let key = item.id || JSON.stringify(item);
+            if (!mergedMap.has(key)) mergedMap.set(key, item);
+        });
+        return Array.from(mergedMap.values());
+    },
+
+    // 9. Can thiệp LocalStorage
+    initAutoHook: function() {
+        const self = this;
+        const originalGetItem = localStorage.getItem;
+
+        localStorage.getItem = function(key) {
+            const rawVal = originalGetItem.apply(this, arguments);
+            const targetKeys = ['sys_ink_logs', 'sys_ink_inventory', 'inkData', 'cntt_devices', 'salary_logs', 'leave_logs'];
+            
+            if (targetKeys.includes(key) && rawVal) {
+                try {
+                    const parsed = JSON.parse(rawVal);
+                    if (Array.isArray(parsed)) {
+                        return JSON.stringify(self.filterData(parsed));
+                    }
+                } catch(e) {}
+            }
+            return rawVal;
+        };
+    }
 };
+
+// Khởi chạy hệ thống khi trang tải xong
+document.addEventListener('DOMContentLoaded', function() {
+    AppAuthCore.initAutoHook();
+    AppAuthCore.updateUI();
+});
     // 3. Cập nhật nhãn trạng thái hiển thị
     updateBadgeUI: function(userId) {
         const badge = document.getElementById('user-status-badge');
