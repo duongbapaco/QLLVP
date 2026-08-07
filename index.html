@@ -1106,6 +1106,10 @@
                                             <option value="Lọ mực (Màu)">Lọ mực (Màu)</option>
                                             <option value="Bộ (4 màu)">Bộ (4 màu)</option>
                                         </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <!-- KHUNG XEM TRƯỚC HÌNH ẢNH MỰC IN -->
                             <div style="background: #ffffff; border: 2px dashed #166534; border-radius: 6px; padding: 6px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 110px;">
                                 <div style="font-size: 10.5px; font-weight: bold; color: #166534; margin-bottom: 3px;">📷 Hình ảnh hộp mực:</div>
@@ -3695,48 +3699,6 @@ function resetWorkTimer() {
 document.addEventListener('DOMContentLoaded', function() {
     resetWorkTimer();
 });
-  function exportInkXNTReport() {
-    // Lấy danh sách kho mực từ LocalStorage
-    let inkData = JSON.parse(localStorage.getItem('sys_ink_inventory')) || [];
-    
-    if (!inkData || inkData.length === 0) {
-        alert("Hiện chưa có dữ liệu kho mực để xuất báo cáo!");
-        return;
-    }
-
-    // Tiêu đề các cột trong báo cáo
-    let csvContent = "\uFEFFSTT,Tên / Mã Loại Mực,Đơn Vị Tính,Tồn Đầu Kỳ,Tổng Nhập,Tổng Xuất,Tồn Cuối Kỳ,Trạng Thái Kho\n";
-
-    // Tổng hợp dữ liệu từng loại mực
-    inkData.forEach((item, index) => {
-        let stt = index + 1;
-        let model = `"${(item.model || item.name || '-').replace(/"/g, '""')}"`;
-        let unit = `"${(item.unit || 'Hộp').replace(/"/g, '""')}"`;
-        
-        let tonDau = item.initialQty || 0;
-        let tongNhap = item.totalImport || 0;
-        let tongXuat = item.totalExport || 0;
-        let tonCuoi = (item.qty !== undefined) ? item.qty : (tonDau + tongNhap - tongXuat);
-        
-        let trangThai = tonCuoi <= (item.minAlert || 2) ? "Cảnh báo thiếu mực" : "An toàn";
-
-        csvContent += `${stt},${model},${unit},${tonDau},${tongNhap},${tongXuat},${tonCuoi},"${trangThai}"\n`;
-    });
-
-    // Tạo file và kích hoạt tải về
-    let blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    let link = document.createElement("a");
-    let url = URL.createObjectURL(blob);
-    
-    let now = new Date();
-    let dateStr = `${now.getDate().toString().padStart(2,'0')}_${(now.getMonth()+1).toString().padStart(2,'0')}_${now.getFullYear()}`;
-    
-    link.setAttribute("href", url);
-    link.setAttribute("download", `Bao_Cao_XNT_Kho_Muc_${dateStr}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
 </script>
 </body>
 </html>
