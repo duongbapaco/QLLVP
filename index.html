@@ -277,9 +277,10 @@
             <i class="fa-solid fa-users-gear"></i> Quản lý Tài khoản & Ủy quyền
         </button>
         <!-- Nút Đổi tài khoản / Đăng xuất -->
-        <button id="btn-auth-action" onclick="AppAuthCore.switchAccountPrompt()" style="background: #334155; color: white; border: 1px solid #64748b; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-            <i class="fa-solid fa-right-from-bracket"></i> Đổi Tài khoản
-        </button>
+        <!-- Nút Đăng xuất -->
+<button id="btn-auth-action" onclick="AppAuthCore.logout()" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+    <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+</button>
     </div>
 </div>
             <!-- TAB 0: DASHBOARD -->
@@ -3825,14 +3826,15 @@ document.addEventListener('DOMContentLoaded', function() {
   // =========================================================
 // HỆ THỐNG XÁC THỰC, PHÂN QUYỀN & ỦY QUYỀN ADMIN (RBAC FULL)
 // =========================================================
+// HỆ THỐNG XÁC THỰC, ĐĂNG NHẬP, PHÂN QUYỀN & TẠO TÀI KHOẢN (RBAC)
+// =========================================================
 const AppAuthCore = {
     // 1. Danh sách Tài khoản & Phân quyền mặc định
     getUsersDatabase: function() {
         const defaultUsers = [
-            { username: "duong_tb", name: "Trần Bình Dương", role: "ADMIN", title: "Quản trị viên / Trợ lý TGĐ" },
-            { username: "long_td", name: "Tạ Đức Long", role: "ADMIN", title: "Tổng Giám Đốc" },
-            { username: "cv_vanphong_1", name: "Chuyên viên Văn phòng 1", role: "USER", title: "Chuyên viên VP" },
-            { username: "cv_vanphong_2", name: "Chuyên viên Văn phòng 2", role: "USER", title: "Chuyên viên VP" }
+            { username: "duong_tb", password: "123", name: "Trần Bình Dương", role: "ADMIN", title: "Quản trị viên / Trợ lý TGĐ" },
+            { username: "long_td", password: "123", name: "Tạ Đức Long", role: "ADMIN", title: "Tổng Giám Đốc" },
+            { username: "cv_vanphong_1", password: "123", name: "Chuyên viên Văn phòng 1", role: "USER", title: "Chuyên viên VP" }
         ];
         const localDb = localStorage.getItem('app_users_db');
         return localDb ? JSON.parse(localDb) : defaultUsers;
@@ -3840,17 +3842,92 @@ const AppAuthCore = {
 
     // 2. Lấy thông tin Tài khoản đang đăng nhập
     getCurrentUser: function() {
-        const activeUsername = localStorage.getItem('app_active_user') || 'duong_tb';
+        const activeUsername = localStorage.getItem('app_active_user');
+        if (!activeUsername) return null; // Chưa đăng nhập
         const users = this.getUsersDatabase();
-        return users.find(u => u.username === activeUsername) || users[0];
+        return users.find(u => u.username === activeUsername) || null;
     },
 
-    // 3. Cập nhật giao diện thanh Header
+    // 3. Kiểm tra trạng thái khi vừa nạp trang (Nếu chưa đăng nhập -> Mở Bảng Login)
+    checkSessionOnStart: function() {
+        const currentUser = this.getCurrentUser();
+        if (!currentUser) {
+            this.showLoginModal();
+        } else {
+            this.updateUI();
+        }
+    },
+
+    // 4. BẢNG DẠNG POPUP BẮT BỘC ĐĂNG NHẬP (USER & PASSWORD)
+    showLoginModal: function() {
+        const modalHtml = `
+            <div id="auth-login-modal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15,23,42,0.85); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 999999;">
+                <div style="background: #ffffff; border-radius: 12px; width: 400px; max-width: 90%; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); overflow: hidden; font-family: sans-serif;">
+                    <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; padding: 20px; text-align: center;">
+                        <i class="fa-solid fa-user-shield" style="font-size: 32px; color: #38bdf8; margin-bottom: 8px;"></i>
+                        <h3 style="margin: 0; font-size: 18px; font-weight: bold;">ĐĂNG NHẬP HỆ THỐNG</h3>
+                        <p style="margin: 4px 0 0 0; font-size: 12px; color: #94a3b8;">Văn phòng Tổng công ty Giấy Việt Nam</p>
+                    </div>
+                    <form onsubmit="AppAuthCore.handleLoginSubmit(event)" style="padding: 24px;">
+                        <div style="margin-bottom: 16px;">
+                            <label style="display: block; font-size: 12.5px; font-weight: bold; color: #334155; margin-bottom: 6px;">Tên tài khoản (Username):</label>
+                            <input type="text" id="login-username" placeholder="Nhập mã tài khoản..." required style="width: 100%; padding: 10px; border-radius: 6px; border: 1.5px solid #cbd5e1; outline: none; box-sizing: border-box; font-size: 13.5px;">
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; font-size: 12.5px; font-weight: bold; color: #334155; margin-bottom: 6px;">Mật khẩu:</label>
+                            <input type="password" id="login-password" placeholder="Nhập mật khẩu..." required style="width: 100%; padding: 10px; border-radius: 6px; border: 1.5px solid #cbd5e1; outline: none; box-sizing: border-box; font-size: 13.5px;">
+                        </div>
+                        <div id="login-error-msg" style="color: #ef4444; font-size: 12px; margin-bottom: 12px; font-weight: bold; display: none; text-align: center;"></div>
+                        <button type="submit" style="width: 100%; background: #0284c7; color: white; border: none; padding: 11px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer; transition: background 0.2s;">
+                            <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
+                        </button>
+                    </form>
+                </div>
+            </div>
+        `;
+        const oldModal = document.getElementById('auth-login-modal');
+        if (oldModal) oldModal.remove();
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+    },
+
+    // 5. Xử lý Xác thực Đăng nhập
+    handleLoginSubmit: function(e) {
+        e.preventDefault();
+        const userInp = document.getElementById('login-username').value.trim();
+        const passInp = document.getElementById('login-password').value.trim();
+        const errElem = document.getElementById('login-error-msg');
+
+        const users = this.getUsersDatabase();
+        const foundUser = users.find(u => u.username === userInp && u.password === passInp);
+
+        if (foundUser) {
+            localStorage.setItem('app_active_user', foundUser.username);
+            const modal = document.getElementById('auth-login-modal');
+            if (modal) modal.remove();
+            this.updateUI();
+            location.reload();
+        } else {
+            errElem.innerText = "❌ Sai Tên tài khoản hoặc Mật khẩu!";
+            errElem.style.display = 'block';
+        }
+    },
+
+    // 6. Đăng xuất tài khoản
+    logout: function() {
+        if (confirm("Bạn có chắc chắn muốn đăng xuất khỏi hệ thống?")) {
+            localStorage.removeItem('app_active_user');
+            location.reload();
+        }
+    },
+
+    // 7. Cập nhật giao diện Header
     updateUI: function() {
         const user = this.getCurrentUser();
         const displayNameElem = document.getElementById('user-display-name');
         const badgeElem = document.getElementById('user-role-badge');
         const adminBtn = document.getElementById('btn-admin-manage-users');
+
+        if (!user) return;
 
         if (displayNameElem) displayNameElem.innerText = `${user.name} (${user.title})`;
 
@@ -3869,10 +3946,10 @@ const AppAuthCore = {
         }
     },
 
-    // 4. Mở Bảng Quản lý Tài khoản & Ủy quyền Admin (Popup Modal)
+    // 8. BẢNG QUẢN LÝ & TẠO MỚI TÀI KHOẢN (DÀNH CHO ADMIN)
     openAdminModal: function() {
         const currentUser = this.getCurrentUser();
-        if (currentUser.role !== 'ADMIN') {
+        if (!currentUser || currentUser.role !== 'ADMIN') {
             alert("Bạn không có quyền truy cập chức năng Quản trị!");
             return;
         }
@@ -3884,7 +3961,8 @@ const AppAuthCore = {
             rowsHtml += `
                 <tr style="border-bottom: 1px solid #e2e8f0;">
                     <td style="padding: 10px; text-align: center;">${idx + 1}</td>
-                    <td style="padding: 10px;"><b>${u.name}</b> <br><small style="color:#64748b;">@${u.username}</small></td>
+                    <td style="padding: 10px;"><b>${u.name}</b><br><small style="color:#0284c7;">@${u.username}</small></td>
+                    <td style="padding: 10px;"><small style="background:#f1f5f9; padding:2px 6px; border-radius:4px;">🔑 ${u.password}</small></td>
                     <td style="padding: 10px;">${u.title}</td>
                     <td style="padding: 10px; text-align: center;">
                         <span style="background: ${isAdmin ? '#8b5cf6' : '#10b981'}; color: white; padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: bold;">
@@ -3893,7 +3971,7 @@ const AppAuthCore = {
                     </td>
                     <td style="padding: 10px; text-align: center;">
                         ${u.username === 'duong_tb' ? '<small style="color:#94a3b8;">Owner (Gốc)</small>' : `
-                            <button onclick="AppAuthCore.toggleRole('${u.username}')" style="background: ${isAdmin ? '#ef4444' : '#0284c7'}; color: white; border: none; padding: 4px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold;">
+                            <button onclick="AppAuthCore.toggleRole('${u.username}')" style="background: ${isAdmin ? '#ef4444' : '#0284c7'}; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold;">
                                 ${isAdmin ? 'Thu hồi Admin' : 'Ủy quyền Admin'}
                             </button>
                         `}
@@ -3904,17 +3982,31 @@ const AppAuthCore = {
 
         const modalHtml = `
             <div id="auth-admin-modal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15,23,42,0.7); display: flex; align-items: center; justify-content: center; z-index: 99999;">
-                <div style="background: #ffffff; border-radius: 10px; width: 650px; max-width: 90%; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); overflow: hidden; font-family: sans-serif;">
+                <div style="background: #ffffff; border-radius: 10px; width: 750px; max-width: 95%; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); overflow: hidden; font-family: sans-serif;">
                     <div style="background: #0f172a; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;">
-                        <h3 style="margin: 0; font-size: 16px;"><i class="fa-solid fa-users-gear" style="color: #38bdf8;"></i> QUẢN LÝ TÀI KHOẢN & ỦY QUYỀN ADMIN</h3>
+                        <h3 style="margin: 0; font-size: 16px;"><i class="fa-solid fa-users-gear" style="color: #38bdf8;"></i> QUẢN LÝ & TẠO MỚI TÀI KHOẢN VĂN PHÒNG</h3>
                         <button onclick="document.getElementById('auth-admin-modal').remove()" style="background: none; border: none; color: white; font-size: 18px; cursor: pointer;">✕</button>
                     </div>
-                    <div style="padding: 20px; max-height: 400px; overflow-y: auto;">
-                        <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                    
+                    <!-- FORM TẠO TÀI KHOẢN MỚI -->
+                    <div style="background: #f8fafc; padding: 15px 20px; border-bottom: 1px solid #e2e8f0;">
+                        <b style="font-size: 13px; color: #0369a1; display: block; margin-bottom: 8px;">➕ TẠO TÀI KHOẢN MỚI CHO NHÂN VIÊN:</b>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr auto; gap: 8px; align-items: center;">
+                            <input type="text" id="new-user-name" placeholder="Họ và tên..." style="padding: 6px 10px; border-radius: 5px; border: 1px solid #cbd5e1; font-size: 12px;">
+                            <input type="text" id="new-user-username" placeholder="Username (Mã VP)..." style="padding: 6px 10px; border-radius: 5px; border: 1px solid #cbd5e1; font-size: 12px;">
+                            <input type="text" id="new-user-password" placeholder="Mật khẩu..." value="123" style="padding: 6px 10px; border-radius: 5px; border: 1px solid #cbd5e1; font-size: 12px;">
+                            <input type="text" id="new-user-title" placeholder="Chức danh..." style="padding: 6px 10px; border-radius: 5px; border: 1px solid #cbd5e1; font-size: 12px;">
+                            <button onclick="AppAuthCore.createNewUser()" style="background: #16a34a; color: white; border: none; padding: 7px 12px; border-radius: 5px; font-weight: bold; font-size: 12px; cursor: pointer;">Tạo Mới</button>
+                        </div>
+                    </div>
+
+                    <div style="padding: 15px 20px; max-height: 300px; overflow-y: auto;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 12.5px;">
                             <thead>
                                 <tr style="background: #f1f5f9; color: #334155; text-align: left;">
                                     <th style="padding: 8px; text-align: center;">STT</th>
                                     <th style="padding: 8px;">Họ tên / Username</th>
+                                    <th style="padding: 8px;">Mật khẩu</th>
                                     <th style="padding: 8px;">Chức danh</th>
                                     <th style="padding: 8px; text-align: center;">Quyền</th>
                                     <th style="padding: 8px; text-align: center;">Thao tác</th>
@@ -3923,7 +4015,7 @@ const AppAuthCore = {
                             <tbody>${rowsHtml}</tbody>
                         </table>
                     </div>
-                    <div style="background: #f8fafc; padding: 12px 20px; text-align: right; border-top: 1px solid #e2e8f0;">
+                    <div style="background: #f8fafc; padding: 10px 20px; text-align: right; border-top: 1px solid #e2e8f0;">
                         <button onclick="document.getElementById('auth-admin-modal').remove()" style="background: #64748b; color: white; border: none; padding: 6px 16px; border-radius: 5px; cursor: pointer; font-weight: bold;">Đóng</button>
                     </div>
                 </div>
@@ -3935,59 +4027,34 @@ const AppAuthCore = {
         document.body.insertAdjacentHTML('beforeend', modalHtml);
     },
 
-    // 5. Mở Popup Đổi Tài khoản Đăng nhập
-    switchAccountPrompt: function() {
-        const users = this.getUsersDatabase();
-        const activeUser = this.getCurrentUser();
+    // 9. Hàm thêm Tài khoản mới vào Hệ thống
+    createNewUser: function() {
+        const name = document.getElementById('new-user-name').value.trim();
+        const username = document.getElementById('new-user-username').value.trim();
+        const password = document.getElementById('new-user-password').value.trim();
+        const title = document.getElementById('new-user-title').value.trim() || 'Chuyên viên VP';
+
+        if (!name || !username || !password) {
+            alert("Vui lòng nhập đầy đủ Họ tên, Username và Mật khẩu!");
+            return;
+        }
+
+        let users = this.getUsersDatabase();
+        if (users.some(u => u.username === username)) {
+            alert("Username này đã tồn tại trên hệ thống!");
+            return;
+        }
+
+        users.push({ username, password, name, role: 'USER', title });
+        localStorage.setItem('app_users_db', JSON.stringify(users));
+        alert(`Đã tạo thành công tài khoản cho: ${name}`);
         
-        let optionsHtml = '';
-        users.forEach(u => {
-            const isCurrent = u.username === activeUser.username;
-            optionsHtml += `
-                <div onclick="AppAuthCore.selectUser('${u.username}')" style="padding: 12px; margin-bottom: 8px; border: 1.5px solid ${isCurrent ? '#3b82f6' : '#e2e8f0'}; border-radius: 8px; background: ${isCurrent ? '#eff6ff' : '#ffffff'}; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
-                    <div>
-                        <strong style="color: #1e293b; font-size: 14px;">${u.name}</strong> 
-                        <span style="font-size: 12px; color: #64748b;">(${u.title})</span>
-                    </div>
-                    <span style="font-size: 11px; font-weight: bold; padding: 3px 8px; border-radius: 10px; background: ${u.role === 'ADMIN' ? '#8b5cf6' : '#10b981'}; color: white;">
-                        ${u.role === 'ADMIN' ? 'ADMIN' : 'USER'} ${isCurrent ? '✓ Đang dùng' : ''}
-                    </span>
-                </div>
-            `;
-        });
-
-        const modalHtml = `
-            <div id="auth-switch-modal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15,23,42,0.7); display: flex; align-items: center; justify-content: center; z-index: 99999;">
-                <div style="background: #ffffff; border-radius: 10px; width: 450px; max-width: 90%; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); overflow: hidden; font-family: sans-serif;">
-                    <div style="background: #0f172a; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;">
-                        <h3 style="margin: 0; font-size: 15px;"><i class="fa-solid fa-right-from-bracket" style="color: #38bdf8;"></i> CHỌN TÀI KHOẢN ĐĂNG NHẬP</h3>
-                        <button onclick="document.getElementById('auth-switch-modal').remove()" style="background: none; border: none; color: white; font-size: 18px; cursor: pointer;">✕</button>
-                    </div>
-                    <div style="padding: 20px; max-height: 350px; overflow-y: auto;">
-                        ${optionsHtml}
-                    </div>
-                    <div style="background: #f8fafc; padding: 12px 20px; text-align: right; border-top: 1px solid #e2e8f0;">
-                        <button onclick="document.getElementById('auth-switch-modal').remove()" style="background: #64748b; color: white; border: none; padding: 6px 16px; border-radius: 5px; cursor: pointer; font-weight: bold;">Hủy</button>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        const oldModal = document.getElementById('auth-switch-modal');
-        if (oldModal) oldModal.remove();
-        document.body.insertAdjacentHTML('beforeend', modalHtml);
-    },
-
-    // 6. Chuyển đổi tài khoản được chọn
-    selectUser: function(username) {
-        localStorage.setItem('app_active_user', username);
-        const modal = document.getElementById('auth-switch-modal');
+        const modal = document.getElementById('auth-admin-modal');
         if (modal) modal.remove();
-        this.updateUI();
-        location.reload();
+        this.openAdminModal();
     },
 
-    // 7. Chuyển đổi Quyền Admin / User (Ủy quyền)
+    // 10. Chuyển đổi Quyền Admin / User
     toggleRole: function(username) {
         let users = this.getUsersDatabase();
         let target = users.find(u => u.username === username);
@@ -4001,15 +4068,16 @@ const AppAuthCore = {
         }
     },
 
-    // 8. Bộ lọc dữ liệu theo Quyền
+    // 11. Bộ lọc dữ liệu theo Quyền
     filterData: function(dataArray) {
         if (!Array.isArray(dataArray)) return [];
         const user = this.getCurrentUser();
+        if (!user) return [];
         if (user.role === 'ADMIN') return dataArray;
         return dataArray.filter(item => !item.created_by || item.created_by === user.username);
     },
 
-    // 9. Can thiệp LocalStorage
+    // 12. Hook LocalStorage
     initAutoHook: function() {
         const self = this;
         const originalGetItem = localStorage.getItem;
@@ -4029,10 +4097,10 @@ const AppAuthCore = {
     }
 };
 
-// Khởi chạy hệ thống chuẩn mới khi nạp trang
+// Khởi chạy kiểm tra Đăng nhập khi nạp trang
 document.addEventListener('DOMContentLoaded', function() {
     AppAuthCore.initAutoHook();
-    AppAuthCore.updateUI();
+    AppAuthCore.checkSessionOnStart();
 });
 </script>
 </body>
