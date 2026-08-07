@@ -1308,66 +1308,6 @@
                 <h2 id="cal-header-title">Tháng 8 / 2026</h2>
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
-
-            <div class="calendar-block-view">
-                <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
-                <div class="calendar-block-body">
-                    <div class="cal-selected-weekday" id="cal-selected-dow">Thứ Ba</div>
-                    <div class="cal-selected-day-number" id="cal-selected-day">4</div>
-                    <div class="cal-selected-lunar-sub" id="cal-selected-lunar-day">Ngày Mậu Thìn - Tháng Ất Mùi</div>
-                </div>
-            </div>
-
-            <div class="cal-weekdays-bar">
-                <div style="color:#d9534f;">CN</div>
-                <div>T2</div>
-                <div>T3</div>
-                <div>T4</div>
-                <div>T5</div>
-                <div>T6</div>
-                <div>T7</div>
-            </div>
-            <div class="cal-grid-mini" id="cal-mini-days-container"></div>
-
-            <div class="cal-info-panel">
-                <div class="cal-info-row">
-                    <span class="cal-info-label">🌙 Âm lịch:</span>
-                    <span class="cal-info-val" id="info-lunar-exact">21/6/2026 (Bính Ngọ)</span>
-                </div>
-                <div class="cal-info-row">
-                    <span class="cal-info-label">⚙️ Tiết khí:</span>
-                    <span class="cal-info-val" id="info-tiet-khi">Lập Hạ</span>
-                </div>
-                <div class="cal-info-row">
-                    <span class="cal-info-label">🧭 Hướng xuất hành:</span>
-                    <span class="cal-info-val" id="info-huong-xuat-hanh">Tài thần: Đông - Hỷ thần: Tây Nam</span>
-                </div>
-                <div class="cal-info-row">
-                    <span class="cal-info-label">🕒 Giờ Hoàng Đạo:</span>
-                    <span class="cal-info-val" id="info-gio-hoang-dao">Tý (23h-1h), Sửu (1h-3h), Thìn (7h-9h)</span>
-                </div>
-                <div class="cal-info-row">
-                    <span class="cal-info-label">⚠️ Tuổi xung khắc:</span>
-                    <span class="cal-info-val red-text" id="info-tuoi-xung">Dậu, Sửu, Tỵ</span>
-                </div>
-                <div class="cal-info-row">
-                    <span class="cal-info-label">⭐ Trực & Sao tốt:</span>
-                    <span class="cal-info-val" id="info-truc-sao">Trực Thành - Sao: Nguyệt Tài, Thiên Quý</span>
-                </div>
-                <div class="cal-info-row" style="flex-direction: column; gap: 3px; padding-top: 5px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                        <span class="cal-info-label">🔔 Sự kiện / Ghi chú:</span>
-                        <button type="button" class="btn btn-primary" style="padding: 3px 8px; font-size: 11px; min-height: 28px;" onclick="openEventModal()"><i class="fa-solid fa-plus"></i> Đặt lịch</button>
-                    </div>
-                    <div id="info-event-note" style="color:var(--blue); font-style:italic; font-size: 11px; background: #eff6ff; padding: 3px 5px; border-radius: 4px; border: 1.5px dashed #93c5fd; margin-top: 2px;">Không có sự kiện</div>
-                </div>
-            </div>
-            <div style="text-align: center; margin-top: 8px;">
-                <button type="button" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 11.5px; min-height: 34px;" onclick="resetCalendarToToday()"><i class="fa-solid fa-calendar-day"></i> Quay Về Hôm Nay</button>
-            </div>
-        </div>
-    </div>
-
     <!-- MODAL ĐĂNG KÝ & SỬA ĐĂNG KÝ NGHỈ PHÉP -->
     <div id="leaveModal" class="modal" onclick="closeLeaveModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:480px;">
