@@ -316,10 +316,10 @@
 </div>
 <!-- TAB 0: DASHBOARD -->
 <div id="tab-dashboard" class="tab-content active">
-    <!-- KHUNG CHIA 2 CỘT (TRÁI: BIỂU ĐỒ & BÁO CÁO | PHẢI: LỊCH THU GỌN) -->
+    <!-- KHUNG WORKSPACE CHIA 2 CỘT TỶ LỆ CHUẨN (TRÁI: BIỂU ĐỒ | PHẢI: LỊCH 350PX) -->
     <div class="workspace" style="display: grid; grid-template-columns: 1fr 350px; gap: 12px; align-items: start;">
         
-        <!-- CỘT BÊN TRÁI: BIỂU ĐỒ & BÁO CÁO -->
+        <!-- CỘT BÊN TRÁI: BIỂU ĐỒ & BÁO CÁO TỔNG QUAN -->
         <div class="main-card">
             <div class="card-title" style="border-left-color: var(--blue);">
                 <span><i class="fa-solid fa-chart-pie" style="color:var(--blue);"></i> TRUNG TÂM ĐIỀU HÀNH & HỆ THỐNG BIỂU ĐỒ TỔNG QUAN NĂM (<span class="lbl-current-year">2026</span>)</span>
@@ -329,6 +329,7 @@
                 </div>
             </div>
 
+            <!-- HỆ THỐNG BIỂU ĐỒ -->
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; margin-bottom: 12px;">
                 <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 6px;">
                     <div style="font-weight: bold; font-size: 13px; color: var(--primary); margin-bottom: 6px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;">
@@ -349,7 +350,7 @@
                 </div>
             </div>
 
-            <!-- TÀI CHÍNH & TÀI SẢN -->
+            <!-- BÁO CÁO TÀI CHÍNH & TÀI SẢN -->
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px;">
                 <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 6px;">
                     <div style="font-weight: bold; font-size: 13px; color: var(--primary); margin-bottom: 6px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;">
@@ -379,24 +380,25 @@
         </div> 
         <!-- KẾT THÚC CỘT BÊN TRÁI -->
 
-        <!-- CỘT BÊN PHẢI: KHỐI LỊCH ÂM DƯƠNG THU GỌN 350PX -->
-        <div class="calendar-card" style="background: #ffffff; border-radius: 8px; border: 1.5px solid #cbd5e1; padding: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); overflow: hidden;">
+        <!-- CỘT BÊN PHẢI: KHỐI LỊCH WIDGET (SỬ DỤNG BANNER ĐỎ RƯỢU VANG SANG TRỌNG) -->
+        <div class="calendar-card" style="background: #ffffff; border-radius: 8px; border: 1.5px solid #cbd5e1; padding: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); overflow: hidden;">
+            
             <!-- THANH ĐIỀU HƯỚNG THÁNG -->
-            <div style="background: #0f172a; color: white; padding: 6px 10px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div style="background: #0f172a; color: white; padding: 6px 12px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                 <button type="button" onclick="changeMonth(-1)" style="background:none; border:none; color:white; font-size:14px; cursor:pointer;">❮</button>
-                <b id="calendar-month-year-title" style="font-size: 13px;">Tháng 8 / 2026</b>
+                <b id="calendar-month-year-title" style="font-size: 13.5px;">Tháng 8 / 2026</b>
                 <button type="button" onclick="changeMonth(1)" style="background:none; border:none; color:white; font-size:14px; cursor:pointer;">❯</button>
             </div>
 
-            <!-- BANNER HÔM NAY -->
-            <div style="background: #991b1b; color: white; padding: 6px; border-radius: 5px; text-align: center; margin-bottom: 8px;">
-                <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
-                <div style="font-size: 18px; font-weight: bold; color: #fef08a; line-height: 1.2; margin: 2px 0;">THỨ SÁU - 7</div>
-                <div style="font-size: 10.5px; opacity: 0.9;">Ngày Mậu Thìn - Tháng Ất Mùi</div>
+            <!-- BANNER HÔM NAY (MỚI: ĐẸP NỔI BẬT NGUYÊN BẢN CỦA BẠN) -->
+            <div style="background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%); color: white; padding: 10px; border-radius: 6px; text-align: center; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">
+                <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9;">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
+                <div style="font-size: 20px; font-weight: bold; color: #fef08a; margin: 3px 0; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">THỨ SÁU - 7</div>
+                <div style="font-size: 11px; color: #fecdd3;">Ngày Mậu Thìn - Tháng Ất Mùi</div>
             </div>
 
-            <!-- BẢNG LƯỚI LỊCH -->
-            <table style="width: 100%; border-collapse: collapse; text-align: center; font-family: sans-serif;">
+            <!-- BẢNG LƯỚI LỊCH (ÉP CỐ ĐỊNH CHIỀU CAO Ô 38PX) -->
+            <table style="width: 100%; border-collapse: collapse; text-align: center; font-family: sans-serif; table-layout: fixed;">
                 <thead>
                     <tr style="background: #f1f5f9; color: #334155; font-size: 11px; font-weight: bold;">
                         <th style="padding: 4px; color: #dc2626; border: 1px solid #e2e8f0;">CN</th>
@@ -409,9 +411,10 @@
                     </tr>
                 </thead>
                 <tbody id="calendar-grid-body">
-                    <!-- JavaScript sẽ tự động nạp các ngày vào đây gọn gàng -->
+                    <!-- Javascript tự động fill dữ liệu ngày -->
                 </tbody>
             </table>
+
         </div>
         <!-- KẾT THÚC CỘT PHẢI LỊCH -->
 
@@ -419,32 +422,51 @@
     <!-- KẾT THÚC WORKSPACE -->
 </div>
 
-<!-- CSS ĐỒNG BỘ ÉP THU GỌN BẢNG LỊCH -->
+<!-- CSS KHỐNG CHẾ ÉP Ô LỊCH NHỎ GỌN TRỰC TIẾP -->
 <style>
-.calendar-card table td {
+.workspace {
+    display: grid !important;
+    grid-template-columns: 1fr 350px !important;
+    gap: 12px !important;
+    align-items: start !important;
+}
+
+/* Triệt tiêu ô đỏ phồng to: Ép chiều cao tuyệt đối 38px cho toàn bộ các ô ngày */
+.calendar-card td, 
+.calendar-card th, 
+[id*="calendar"] td, 
+[class*="calendar"] td {
     height: 38px !important;
+    min-height: 38px !important;
     max-height: 38px !important;
     padding: 2px !important;
     border: 1px solid #e2e8f0 !important;
     vertical-align: middle !important;
+    text-align: center !important;
     font-size: 11px !important;
     box-sizing: border-box !important;
 }
-.calendar-card table td .s-date {
-    font-size: 12px;
-    font-weight: bold;
-    color: #0f172a;
+
+/* Định dạng số Dương lịch & Âm lịch trong ô */
+.calendar-card td .s-date, [id*="calendar"] td .s-date {
+    font-size: 12px !important;
+    font-weight: bold !important;
+    color: #0f172a !important;
 }
-.calendar-card table td .l-date {
-    font-size: 9.5px;
-    color: #64748b;
+.calendar-card td .l-date, [id*="calendar"] td .l-date {
+    font-size: 9.5px !important;
+    color: #64748b !important;
 }
-.calendar-card table td.today-cell {
+
+/* Ô đại diện cho ngày Hôm Nay (nhỏ gọn vuông vắn) */
+.calendar-card td.today-cell, 
+[id*="calendar"] td.today-cell,
+[class*="calendar"] .today {
     background: #b91c1c !important;
-    border-radius: 4px;
+    border-radius: 4px !important;
 }
-.calendar-card table td.today-cell .s-date,
-.calendar-card table td.today-cell .l-date {
+.calendar-card td.today-cell .s-date,
+.calendar-card td.today-cell .l-date {
     color: #ffffff !important;
 }
 </style>
