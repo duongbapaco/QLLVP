@@ -271,16 +271,21 @@
         </span>
     </div>
     
-    <div style="display: flex; gap: 10px; align-items: center;">
+    <div style="display: flex; gap: 8px; align-items: center;">
         <!-- Nút Quản lý & Ủy quyền dành riêng cho Admin -->
         <button id="btn-admin-manage-users" onclick="AppAuthCore.openAdminModal()" style="background: #0284c7; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
             <i class="fa-solid fa-users-gear"></i> Quản lý Tài khoản & Ủy quyền
         </button>
-        <!-- Nút Đổi tài khoản / Đăng xuất -->
+        
+        <!-- Nút Đổi mật khẩu cá nhân -->
+        <button id="btn-change-password" onclick="AppAuthCore.openChangePasswordModal()" style="background: #0d9488; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-key"></i> Đổi mật khẩu
+        </button>
+
         <!-- Nút Đăng xuất -->
-<button id="btn-auth-action" onclick="AppAuthCore.logout()" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-    <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
-</button>
+        <button id="btn-auth-action" onclick="AppAuthCore.logout()" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+        </button>
     </div>
 </div>
             <!-- TAB 0: DASHBOARD -->
@@ -4078,12 +4083,10 @@ const AppAuthCore = {
     },
 
     // =========================================================
-// HỆ THỐNG XÁC THỰC, PHÂN QUYỀN, ĐỔI & RESET MẬT KHẨU (RBAC FULL)
 // =========================================================
+// HỆ THỐNG XÁC THỰC, PHÂN QUYỀN, ĐỔI & RESET MẬT KHẨU (FULL AN TOÀN)
 // =========================================================
-// HỆ THỐNG XÁC THỰC, PHÂN QUYỀN, ĐỔI & RESET MẬT KHẨU (RBAC FULL)
-// =========================================================
-const AppAuthCore = {
+window.AppAuthCore = {
     // 1. Database Tài khoản
     getUsersDatabase: function() {
         const defaultUsers = [
@@ -4091,8 +4094,10 @@ const AppAuthCore = {
             { username: "long_td", password: "123", name: "Tạ Đức Long", role: "ADMIN", title: "Tổng Giám Đốc" },
             { username: "cv_vanphong_1", password: "123", name: "Chuyên viên Văn phòng 1", role: "USER", title: "Chuyên viên VP" }
         ];
-        const localDb = localStorage.getItem('app_users_db');
-        return localDb ? JSON.parse(localDb) : defaultUsers;
+        try {
+            const localDb = localStorage.getItem('app_users_db');
+            return localDb ? JSON.parse(localDb) : defaultUsers;
+        } catch(e) { return defaultUsers; }
     },
 
     getCurrentUser: function() {
@@ -4111,7 +4116,7 @@ const AppAuthCore = {
         }
     },
 
-    // 2. POPUP ĐĂNG NHẬP + MẸO RESET MẬT KHẨU
+    // 2. BẢNG ĐĂNG NHẬP
     showLoginModal: function() {
         const modalHtml = `
             <div id="auth-login-modal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15,23,42,0.85); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 999999;">
@@ -4134,7 +4139,7 @@ const AppAuthCore = {
                             <a href="javascript:void(0)" onclick="alert('Trường hợp quên mật khẩu, vui lòng liên hệ Admin (Trần Bình Dương) để được reset lại mật khẩu về mặc định [123]!')" style="font-size: 12px; color: #0284c7; text-decoration: none; font-weight: bold;">Quên mật khẩu?</a>
                         </div>
                         <div id="login-error-msg" style="color: #ef4444; font-size: 12px; margin-bottom: 12px; font-weight: bold; display: none; text-align: center;"></div>
-                        <button type="submit" style="width: 100%; background: #0284c7; color: white; border: none; padding: 11px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer; transition: background 0.2s;">
+                        <button type="submit" style="width: 100%; background: #0284c7; color: white; border: none; padding: 11px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer;">
                             <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
                         </button>
                     </form>
@@ -4174,10 +4179,13 @@ const AppAuthCore = {
         }
     },
 
-    // 3. POPUP ĐỔI MẬT KHẨU CÁ NHÂN
+    // 3. ĐỔI MẬT KHẨU CÁ NHÂN
     openChangePasswordModal: function() {
         const currentUser = this.getCurrentUser();
-        if (!currentUser) return;
+        if (!currentUser) {
+            alert("Bạn chưa đăng nhập!");
+            return;
+        }
 
         const modalHtml = `
             <div id="auth-changepass-modal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15,23,42,0.7); display: flex; align-items: center; justify-content: center; z-index: 999999;">
@@ -4237,7 +4245,7 @@ const AppAuthCore = {
         }
     },
 
-    // 4. BẢNG QUẢN LÝ TÀI KHOẢN + NÚT RESET MẬT KHẨU CHO ADMIN
+    // 4. BẢNG QUẢN LÝ TÀI KHOẢN DÀNH CHO ADMIN
     openAdminModal: function() {
         const currentUser = this.getCurrentUser();
         if (!currentUser || currentUser.role !== 'ADMIN') {
@@ -4262,7 +4270,7 @@ const AppAuthCore = {
                     </td>
                     <td style="padding: 8px; text-align: center; display: flex; gap: 4px; justify-content: center;">
                         <button onclick="AppAuthCore.resetUserPassword('${u.username}')" style="background: #eab308; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold;" title="Reset mật khẩu về 123">
-                            🔄 Reset Mật khẩu
+                            🔄 Reset
                         </button>
                         ${u.username === 'duong_tb' ? '' : `
                             <button onclick="AppAuthCore.toggleRole('${u.username}')" style="background: ${isAdmin ? '#ef4444' : '#0284c7'}; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold;">
@@ -4320,12 +4328,11 @@ const AppAuthCore = {
         document.body.insertAdjacentHTML('beforeend', modalHtml);
     },
 
-    // 5. HÀM RESET MẬT KHẨU VỀ 123 (DÀNH CHO ADMIN)
     resetUserPassword: function(username) {
         let users = this.getUsersDatabase();
         let target = users.find(u => u.username === username);
         if (target) {
-            if (confirm(`Bạn có chắc chắn muốn reset mật khẩu của tài khoản [${target.name}] về mặc định là "123"?`)) {
+            if (confirm(`Bạn có chắc chắn muốn reset mật khẩu của [${target.name}] về mặc định "123"?`)) {
                 target.password = "123";
                 localStorage.setItem('app_users_db', JSON.stringify(users));
                 alert(`Đã khôi phục mật khẩu tài khoản ${target.name} về: 123`);
@@ -4426,6 +4433,7 @@ const AppAuthCore = {
     }
 };
 
+// Khởi chạy hệ thống
 document.addEventListener('DOMContentLoaded', function() {
     AppAuthCore.initAutoHook();
     AppAuthCore.checkSessionOnStart();
