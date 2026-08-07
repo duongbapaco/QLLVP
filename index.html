@@ -3705,90 +3705,86 @@ document.addEventListener('DOMContentLoaded', function() {
     resetWorkTimer();
 });
   function exportInkXNTReport() {
-    let inkData = [];
+    let rowsData = [];
 
-    // 1. Chỉ tìm các dòng (tr) trong BẢNG KHO MỰC (Lấy bảng nằm trong khu vực kho mực hoặc chứa tiêu đề Tên loại mực)
-    let inkTableRows = document.querySelectorAll("#ink-history-table tbody tr, #ink-table tbody tr");
+    // 1. Tìm chính xác bảng chứa danh sách lịch sử nhập & cấp phát mực in
+    let allTables = document.querySelectorAll("table");
+    let targetTable = null;
 
-    // Dự phòng: Nếu bảng không có ID, tìm bảng có chứa cột "Tên loại mực / Mã mực"
-    if (!inkTableRows || inkTableRows.length === 0) {
-        let allTables = document.querySelectorAll("table");
-        allTables.forEach(table => {
-            if (table.innerText.includes("Tên loại mực / Mã mực") || table.innerText.includes("DANH SÁCH LỊCH SỬ NHẬP & CẤP PHÁT MỰC IN")) {
-                inkTableRows = table.querySelectorAll("tbody tr");
-            }
-        });
-    }
-
-    if (inkTableRows && inkTableRows.length > 0) {
-        inkTableRows.forEach(row => {
-            let cells = row.querySelectorAll("td");
-            // Kiểm tra dòng hợp lệ của kho mực (có đủ các cột STT, Tên mực, Số lượng...)
-            if (cells.length >= 6) {
-                let name = cells[2] ? cells[2].innerText.trim() : "";
-                let qty = cells[3] ? parseInt(cells[3].innerText.trim()) || 0 : 0;
-                let unit = cells[4] ? cells[4].innerText.trim() : "Hộp";
-                let status = cells[7] ? cells[7].innerText.trim() : (cells[6] ? cells[6].innerText.trim() : "");
-
-                // Lọc bỏ dòng tiêu đề nếu bị lọt vào và chỉ lấy dòng có tên mực
-                if (name && !name.includes("Tên loại mực") && !name.includes("STT")) {
-                    inkData.push({
-                        name: name,
-                        qty: qty,
-                        unit: unit,
-                        status: status
-                    });
-                }
-            }
-        });
-    }
-
-    if (inkData.length === 0) {
-        alert("Không tìm thấy dữ liệu trong bảng kho mực in!");
-        return;
-    }
-
-    // 2. Tổng hợp dữ liệu Xuất - Nhập - Tồn RIÊNG CHO KHO MỰC
-    let summary = {};
-
-    inkData.forEach(item => {
-        let name = item.name;
-        let unit = item.unit;
-        let qty = item.qty;
-        let status = item.status;
-
-        if (!summary[name]) {
-            summary[name] = {
-                name: name,
-                unit: unit,
-                tongNhap: 0,
-                tongXuat: 0
-            };
-        }
-
-        if (status.includes("Đã cấp") || status.includes("cấp phát") || status.includes("xuat")) {
-            summary[name].tongXuat += qty;
-        } else {
-            summary[name].tongNhap += qty;
+    allTables.forEach(table => {
+        let text = table.innerText || "";
+        if (text.includes("Tên loại mực / Mã mực") && (text.includes("Phòng ban nhận") || text.includes("Người nhận"))) {
+            targetTable = table;
         }
     });
 
-    // 3. Tạo file CSV Báo cáo XNT Kho Mực
-    let csvContent = "\uFEFFSTT,Tên / Mã Loại Mực,Đơn Vị Tính,Tổng Nhập,Tổng Xuất,Tồn Hiện Tại,Trạng Thái\n";
-    let index = 1;
-
-    for (let key in summary) {
-        let item = summary[key];
-        let tonCuoi = item.tongNhap - item.tongXuat;
-        if (tonCuoi < 0) tonCuoi = item.tongNhap;
-
-        let trangThai = tonCuoi <= 2 ? "Cảnh báo thiếu mực" : "An toàn";
-
-        csvContent += index + ',"' + item.name.replace(/"/g, '""') + '","' + item.unit + '",' + item.tongNhap + ',' + item.tongXuat + ',' + tonCuoi + ',"' + trangThai + '"\n';
-        index++;
+    if (!targetTable) {
+        alert("Chưa tìm thấy Bảng Lịch Sử Nhập & Cấp Phát Mực In trên giao diện!");
+        return;
     }
 
-    // 4. Kích hoạt tải về
+    // 2. Duyệt qua từng dòng trong tbody của bảng
+    let rows = targetTable.querySelectorAll("tbody tr");
+
+    rows.forEach(row => {
+        let cells = row.querySelectorAll("td");
+        
+        // Bảng giao diện có 10 cột (STT, Ảnh, Tên, Số lượng, ĐVT, Phòng ban, Người nhận, Ngày, Trạng thái, Tồn kho, Hành động)
+        if (cells.length >= 9) {
+            let stt = cells[0] ? cells[0].innerText.trim() : "";
+            // cells[1] là Ảnh minh họa (bỏ qua)
+            let tenMuc = cells[2] ? cells[2].innerText.trim() : "";
+            let soLuong = cells[3] ? cells[3].innerText.trim() : "";
+            let dvt = cells[4] ? cells[4].innerText.trim() : "";
+            let phongBan = cells[5] ? cells[5].innerText.trim() : "";
+            let nguoiNhan = cells[6] ? cells[6].innerText.trim() : "";
+            let ngayThang = cells[7] ? cells[7].innerText.trim() : "";
+            let trangThai = cells[8] ? cells[8].innerText.trim() : "";
+            let tonKhoConLai = cells[9] ? cells[9].innerText.trim() : "";
+
+            // Lọc loại bỏ dòng tiêu đề nếu lọt vào
+            if (tenMuc && !tenMuc.includes("Tên loại mực") && stt !== "STT") {
+                rowsData.push({
+                    stt: stt,
+                    tenMuc: tenMuc,
+                    soLuong: soLuong,
+                    dvt: dvt,
+                    phongBan: phongBan,
+                    nguoiNhan: nguoiNhan,
+                    ngayThang: ngayThang,
+                    trangThai: trangThai,
+                    tonKhoConLai: tonKhoConLai
+                });
+            }
+        }
+    });
+
+    if (rowsData.length === 0) {
+        alert("Hiện chưa có dữ liệu dòng nào trong bảng để xuất báo cáo!");
+        return;
+    }
+
+    // 3. Tạo tiêu đề các cột chuẩn theo Bảng giao diện (UTF-8 Unicode hỗ trợ tiếng Việt)
+    let csvContent = "\uFEFFSTT,Tên loại mực / Mã mực,Số lượng,ĐVT,Phòng ban nhận,Người nhận,Ngày tháng năm,Trạng thái kho,Tồn kho còn lại\n";
+
+    // 4. Ghép từng dòng dữ liệu
+    rowsData.forEach(item => {
+        let line = [
+            '"' + item.stt.replace(/"/g, '""') + '"',
+            '"' + item.tenMuc.replace(/"/g, '""') + '"',
+            '"' + item.soLuong.replace(/"/g, '""') + '"',
+            '"' + item.dvt.replace(/"/g, '""') + '"',
+            '"' + item.phongBan.replace(/"/g, '""') + '"',
+            '"' + item.nguoiNhan.replace(/"/g, '""') + '"',
+            '"' + item.ngayThang.replace(/"/g, '""') + '"',
+            '"' + item.trangThai.replace(/"/g, '""') + '"',
+            '"' + item.tonKhoConLai.replace(/"/g, '""') + '"'
+        ].join(",");
+
+        csvContent += line + "\n";
+    });
+
+    // 5. Tải file Excel (.csv)
     let blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     let link = document.createElement("a");
     let url = URL.createObjectURL(blob);
@@ -3799,7 +3795,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let dateStr = day + "_" + month + "_" + now.getFullYear();
     
     link.setAttribute("href", url);
-    link.setAttribute("download", "Bao_Cao_XNT_Kho_Muc_" + dateStr + ".csv");
+    link.setAttribute("download", "Bao_Cao_Lich_Su_Cap_Phat_Muc_In_" + dateStr + ".csv");
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
