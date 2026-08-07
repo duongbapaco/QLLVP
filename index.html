@@ -379,24 +379,6 @@
             </div>
         </div> 
         <!-- KẾT THÚC CỘT BÊN TRÁI -->
-
-        <!-- CỘT BÊN PHẢI: KHỐI LỊCH WIDGET (SỬ DỤNG BANNER ĐỎ RƯỢU VANG SANG TRỌNG) -->
-        <div class="calendar-card" style="background: #ffffff; border-radius: 8px; border: 1.5px solid #cbd5e1; padding: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); overflow: hidden;">
-            
-            <!-- THANH ĐIỀU HƯỚNG THÁNG -->
-            <div style="background: #0f172a; color: white; padding: 6px 12px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <button type="button" onclick="changeMonth(-1)" style="background:none; border:none; color:white; font-size:14px; cursor:pointer;">❮</button>
-                <b id="calendar-month-year-title" style="font-size: 13.5px;">Tháng 8 / 2026</b>
-                <button type="button" onclick="changeMonth(1)" style="background:none; border:none; color:white; font-size:14px; cursor:pointer;">❯</button>
-            </div>
-
-            <!-- BANNER HÔM NAY (MỚI: ĐẸP NỔI BẬT NGUYÊN BẢN CỦA BẠN) -->
-            <div style="background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%); color: white; padding: 10px; border-radius: 6px; text-align: center; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">
-                <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9;">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
-                <div style="font-size: 20px; font-weight: bold; color: #fef08a; margin: 3px 0; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">THỨ SÁU - 7</div>
-                <div style="font-size: 11px; color: #fecdd3;">Ngày Mậu Thìn - Tháng Ất Mùi</div>
-            </div>
-
             <!-- BẢNG LƯỚI LỊCH (ÉP CỐ ĐỊNH CHIỀU CAO Ô 38PX) -->
             <table style="width: 100%; border-collapse: collapse; text-align: center; font-family: sans-serif; table-layout: fixed;">
                 <thead>
@@ -414,7 +396,6 @@
                     <!-- Javascript tự động fill dữ liệu ngày -->
                 </tbody>
             </table>
-
         </div>
         <!-- KẾT THÚC CỘT PHẢI LỊCH -->
 
@@ -425,12 +406,9 @@
 <!-- CSS KHỐNG CHẾ ÉP Ô LỊCH NHỎ GỌN TRỰC TIẾP -->
 <style>
 .workspace {
-    display: grid !important;
-    grid-template-columns: 1fr 350px !important;
-    gap: 12px !important;
-    align-items: start !important;
+    display: block !important;
+    width: 100% !important;
 }
-
 /* Triệt tiêu ô đỏ phồng to: Ép chiều cao tuyệt đối 38px cho toàn bộ các ô ngày */
 .calendar-card td, 
 .calendar-card th, 
