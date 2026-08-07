@@ -223,18 +223,13 @@
             <button type="button" class="btn btn-purple" style="padding: 5px 8px; font-size:11.5px;" onclick="openConfigUrlModal()"><i class="fa-solid fa-link"></i> Cấu hình</button>
         </div>
     </div>
-    <!-- KHỐI WORKSPACE CHIA 2 CỘT -->
-<div class="workspace">
-    <!-- CỘT BÊN TRÁI: HIỂN THỊ BIỂU ĐỒ & BÁO CÁO CỦA ANH -->
-    <div class="main-content">
-        <!-- (Toàn bộ các thẻ HTML biểu đồ, báo cáo tài chính... của anh giữ nguyên ở đây) -->
-    </div>
-    <!-- CỘT BÊN PHẢI (SIDEBAR): ĐẶT LỊCH VẠN NIÊN Ở ĐẦU -->
-    <div class="sidebar-right">
-        <!-- DÁN TRỌN BỘ MÃ WIDGET LỊCH VẠN NIÊN VÀO ĐÂY -->
-    </div>
 
-</div>
+    <div class="workspace" id="main-workspace">
+        <div class="main-body">
+            <div class="header">
+                <h1 id="disp-header-company">TỔNG CÔNG TY GIẤY VIỆT NAM - VĂN PHÒNG</h1>
+                <div class="live-clock-box" id="live-system-clock">--:--:-- --/--/----</div>
+            </div>
 
             <!-- 6 THẺ DASHBOARD 3D CHUYÊN NGHIỆP -->
             <div class="stat-grid-3d">
@@ -384,61 +379,46 @@
             </div>
         </div> 
         <!-- KẾT THÚC CỘT BÊN TRÁI -->
-           <!-- CỘT BÊN PHẢI (SIDEBAR): LỊCH VẠN NIÊN PHONG THỦY MỚI -->
-    <div class="sidebar-right">
-        <div class="pro-calendar-card" style="background: #ffffff; border-radius: 10px; border: 1.5px solid #cbd5e1; padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); font-family: system-ui, -apple-system, sans-serif;">
+
+        <!-- CỘT BÊN PHẢI: KHỐI LỊCH WIDGET (SỬ DỤNG BANNER ĐỎ RƯỢU VANG SANG TRỌNG) -->
+        <div class="calendar-card" style="background: #ffffff; border-radius: 8px; border: 1.5px solid #cbd5e1; padding: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); overflow: hidden;">
             
-            <!-- 1. Thanh điều hướng Tháng / Năm -->
-            <div style="background: #0f172a; color: white; padding: 8px 14px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <button type="button" onclick="proCalendarNav(-1)" style="background:none; border:none; color:white; font-size:16px; cursor:pointer; font-weight:bold;">❮</button>
-                <b id="pro-cal-title" style="font-size: 15px; letter-spacing: 0.5px;">Tháng -- / ----</b>
-                <button type="button" onclick="proCalendarNav(1)" style="background:none; border:none; color:white; font-size:16px; cursor:pointer; font-weight:bold;">❯</button>
+            <!-- THANH ĐIỀU HƯỚNG THÁNG -->
+            <div style="background: #0f172a; color: white; padding: 6px 12px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <button type="button" onclick="changeMonth(-1)" style="background:none; border:none; color:white; font-size:14px; cursor:pointer;">❮</button>
+                <b id="calendar-month-year-title" style="font-size: 13.5px;">Tháng 8 / 2026</b>
+                <button type="button" onclick="changeMonth(1)" style="background:none; border:none; color:white; font-size:14px; cursor:pointer;">❯</button>
             </div>
 
-            <!-- 2. Banner Ngày Hiện Tại -->
-            <div style="background: linear-gradient(135deg, #851414 0%, #b91c1c 100%); color: white; padding: 12px; border-radius: 8px; text-align: center; margin-bottom: 10px; box-shadow: 0 2px 6px rgba(185,28,28,0.25);">
-                <div id="pro-lunar-month-year" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; opacity: 0.95; font-weight: 600; color: #fef08a;">ÂM LỊCH: ĐANG TÍNH...</div>
-                <div id="pro-today-solar" style="font-size: 22px; font-weight: 800; color: #ffffff; margin: 4px 0; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">THỨ -- - --</div>
-                <div id="pro-lunar-day-ganzhi" style="font-size: 12px; color: #fefdd3; font-weight: 500;">Ngày -- - Tháng --</div>
+            <!-- BANNER HÔM NAY (MỚI: ĐẸP NỔI BẬT NGUYÊN BẢN CỦA BẠN) -->
+            <div style="background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%); color: white; padding: 10px; border-radius: 6px; text-align: center; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">
+                <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9;">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
+                <div style="font-size: 20px; font-weight: bold; color: #fef08a; margin: 3px 0; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">THỨ SÁU - 7</div>
+                <div style="font-size: 11px; color: #fecdd3;">Ngày Mậu Thìn - Tháng Ất Mùi</div>
             </div>
 
-            <!-- 3. Bảng Lịch Ngày -->
-            <table style="width: 100%; border-collapse: collapse; text-align: center; font-size: 12px; margin-bottom: 10px;">
+            <!-- BẢNG LƯỚI LỊCH (ÉP CỐ ĐỊNH CHIỀU CAO Ô 38PX) -->
+            <table style="width: 100%; border-collapse: collapse; text-align: center; font-family: sans-serif; table-layout: fixed;">
                 <thead>
-                    <tr style="color: #64748b; font-weight: bold; border-bottom: 1px solid #e2e8f0; height: 26px;">
-                        <th style="color: #dc2626;">CN</th>
-                        <th>T2</th>
-                        <th>T3</th>
-                        <th>T4</th>
-                        <th>T5</th>
-                        <th>T6</th>
-                        <th>T7</th>
+                    <tr style="background: #f1f5f9; color: #334155; font-size: 11px; font-weight: bold;">
+                        <th style="padding: 4px; color: #dc2626; border: 1px solid #e2e8f0;">CN</th>
+                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T2</th>
+                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T3</th>
+                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T4</th>
+                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T5</th>
+                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T6</th>
+                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T7</th>
                     </tr>
                 </thead>
-                <tbody id="pro-cal-grid">
-                    <!-- Tự động sinh danh sách ngày -->
+                <tbody id="calendar-grid-body">
+                    <!-- Javascript tự động fill dữ liệu ngày -->
                 </tbody>
             </table>
 
-            <!-- 4. Phong Thủy Chi Tiết -->
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; font-size: 11.5px; color: #334155; line-height: 1.6;">
-                <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px; margin-bottom: 4px;">
-                    <span>☀️ <b>Tiết khí:</b> <span id="pro-fengshui-solar-term">--</span></span>
-                    <span>⭐ <b>Trực:</b> <span id="pro-fengshui-zhic">--</span></span>
-                </div>
-                <div style="margin-bottom: 4px;">
-                    ⏰ <b>Giờ Hoàng Đạo:</b> <span id="pro-fengshui-auspicious-hours" style="color: #15803d; font-weight: 600;">--</span>
-                </div>
-                <div>
-                    ⚠️ <b>Tuổi xung khắc ngày:</b> <span id="pro-fengshui-clash-age" style="color: #b91c1c; font-weight: 600;">--</span>
-                </div>
-            </div>
-
-            <button type="button" onclick="proResetToToday()" style="width: 100%; margin-top: 8px; background: #2563eb; color: white; border: none; padding: 6px; border-radius: 6px; font-size: 11.5px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
-                🔄 Trở về hôm nay
-            </button>
         </div>
-    </div>
+        <!-- KẾT THÚC CỘT PHẢI LỊCH -->
+
+    </div> 
     <!-- KẾT THÚC WORKSPACE -->
 </div>
 
@@ -446,17 +426,11 @@
 <style>
 .workspace {
     display: grid !important;
-    grid-template-columns: 1fr 330px !important;
-    gap: 16px !important;
+    grid-template-columns: 1fr 350px !important;
+    gap: 12px !important;
     align-items: start !important;
-    width: 100% !important;
 }
 
-.sidebar-right {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
 /* Triệt tiêu ô đỏ phồng to: Ép chiều cao tuyệt đối 38px cho toàn bộ các ô ngày */
 .calendar-card td, 
 .calendar-card th, 
@@ -1360,6 +1334,71 @@
 
         <!-- LỊCH VẠN NIÊN PHONG THỦY CHUYÊN NGHIỆP (SIDEBAR) -->
         <div class="calendar-sidebar" id="calendar-sidebar-box">
+            <div class="cal-smart-header">
+                <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+                <h2 id="cal-header-title">Tháng 8 / 2026</h2>
+                <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+
+            <div class="calendar-block-view">
+                <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
+                <div class="calendar-block-body">
+                    <div class="cal-selected-weekday" id="cal-selected-dow">Thứ Ba</div>
+                    <div class="cal-selected-day-number" id="cal-selected-day">4</div>
+                    <div class="cal-selected-lunar-sub" id="cal-selected-lunar-day">Ngày Mậu Thìn - Tháng Ất Mùi</div>
+                </div>
+            </div>
+
+            <div class="cal-weekdays-bar">
+                <div style="color:#d9534f;">CN</div>
+                <div>T2</div>
+                <div>T3</div>
+                <div>T4</div>
+                <div>T5</div>
+                <div>T6</div>
+                <div>T7</div>
+            </div>
+            <div class="cal-grid-mini" id="cal-mini-days-container"></div>
+
+            <div class="cal-info-panel">
+                <div class="cal-info-row">
+                    <span class="cal-info-label">🌙 Âm lịch:</span>
+                    <span class="cal-info-val" id="info-lunar-exact">21/6/2026 (Bính Ngọ)</span>
+                </div>
+                <div class="cal-info-row">
+                    <span class="cal-info-label">⚙️ Tiết khí:</span>
+                    <span class="cal-info-val" id="info-tiet-khi">Lập Hạ</span>
+                </div>
+                <div class="cal-info-row">
+                    <span class="cal-info-label">🧭 Hướng xuất hành:</span>
+                    <span class="cal-info-val" id="info-huong-xuat-hanh">Tài thần: Đông - Hỷ thần: Tây Nam</span>
+                </div>
+                <div class="cal-info-row">
+                    <span class="cal-info-label">🕒 Giờ Hoàng Đạo:</span>
+                    <span class="cal-info-val" id="info-gio-hoang-dao">Tý (23h-1h), Sửu (1h-3h), Thìn (7h-9h)</span>
+                </div>
+                <div class="cal-info-row">
+                    <span class="cal-info-label">⚠️ Tuổi xung khắc:</span>
+                    <span class="cal-info-val red-text" id="info-tuoi-xung">Dậu, Sửu, Tỵ</span>
+                </div>
+                <div class="cal-info-row">
+                    <span class="cal-info-label">⭐ Trực & Sao tốt:</span>
+                    <span class="cal-info-val" id="info-truc-sao">Trực Thành - Sao: Nguyệt Tài, Thiên Quý</span>
+                </div>
+                <div class="cal-info-row" style="flex-direction: column; gap: 3px; padding-top: 5px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                        <span class="cal-info-label">🔔 Sự kiện / Ghi chú:</span>
+                        <button type="button" class="btn btn-primary" style="padding: 3px 8px; font-size: 11px; min-height: 28px;" onclick="openEventModal()"><i class="fa-solid fa-plus"></i> Đặt lịch</button>
+                    </div>
+                    <div id="info-event-note" style="color:var(--blue); font-style:italic; font-size: 11px; background: #eff6ff; padding: 3px 5px; border-radius: 4px; border: 1.5px dashed #93c5fd; margin-top: 2px;">Không có sự kiện</div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 8px;">
+                <button type="button" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 11.5px; min-height: 34px;" onclick="resetCalendarToToday()"><i class="fa-solid fa-calendar-day"></i> Quay Về Hôm Nay</button>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL ĐĂNG KÝ & SỬA ĐĂNG KÝ NGHỈ PHÉP -->
     <div id="leaveModal" class="modal" onclick="closeLeaveModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:480px;">
@@ -4305,139 +4344,7 @@ document.addEventListener('DOMContentLoaded', function() {
     AppAuthCore.initAutoHook();
     AppAuthCore.checkSessionOnStart();
     AppAuthCore.bindHeaderEvents();
-    // Kích hoạt nạp dữ liệu Lịch Vạn Niên Phong Thủy
-    if (typeof renderProCalendar === 'function') {
-        renderProCalendar();
-    }
 });
-</script>
-<!-- CỤM SCRIPT LỊCH VẠN NIÊN PHONG THỦY -->
-<script>
-const CAN = ["Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ", "Canh", "Tân", "Nhâm", "Quý"];
-const CHI = ["Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi", "Thân", "Dậu", "Tuất", "Hợi"];
-const DAY_NAMES = ["CHỦ NHẬT", "THỨ HAI", "THỨ BA", "THỨ TƯ", "THỨ NĂM", "THỨ SÁU", "THỨ BẢY"];
-
-let viewDate = new Date();
-const todayReal = new Date();
-
-function getLunarDetails(d, m, y) {
-    const dateObj = new Date(y, m - 1, d);
-    const dayOfWeek = DAY_NAMES[dateObj.getDay()];
-    const baseDate = new Date(2000, 0, 1);
-    const diffDays = Math.floor((dateObj - baseDate) / (24 * 60 * 60 * 1000));
-    
-    const canDay = CAN[(diffDays + 4) % 10 < 0 ? ((diffDays + 4) % 10) + 10 : (diffDays + 4) % 10];
-    const chiDay = CHI[(diffDays + 6) % 12 < 0 ? ((diffDays + 6) % 12) + 12 : (diffDays + 6) % 12];
-    
-    let lunarDay = (d + 18) % 30; if (lunarDay === 0) lunarDay = 30;
-    let lunarMonth = m - 1; if (lunarMonth === 0) lunarMonth = 12;
-    
-    const canYear = CAN[(y - 4) % 10];
-    const chiYear = CHI[(y - 4) % 12];
-    const canMonth = CAN[(y * 12 + m + 3) % 10];
-    const chiMonth = CHI[(m + 1) % 12];
-
-    return {
-        solarDay: d, solarMonth: m, solarYear: y,
-        dayOfWeek: dayOfWeek, lunarDay: lunarDay, lunarMonth: lunarMonth,
-        lunarYearStr: `${canYear} ${chiYear}`,
-        ganzhiDay: `${canDay} ${chiDay}`,
-        ganzhiMonth: `${canMonth} ${chiMonth}`,
-        chiDayName: chiDay
-    };
-}
-
-function getFengShuiInfo(chiDay) {
-    const auspiciousMap = {
-        "Tý": "Tý (23-1h), Sửu (1-3h), Mão (5-7h), Ngọ (11-13h)",
-        "Sửu": "Dần (3-5h), Mão (5-7h), Tỵ (9-11h), Thân (15-17h)",
-        "Dần": "Tý (23-1h), Sửu (1-3h), Thìn (7-9h), Tỵ (9-11h)",
-        "Mão": "Tý (23-1h), Dần (3-5h), Mão (5-7h), Ngọ (11-13h)",
-        "Thìn": "Dần (3-5h), Thìn (7-9h), Tỵ (9-11h), Thân (15-17h)",
-        "Tỵ": "Sửu (1-3h), Tỵ (9-11h), Mùi (13-15h), Tuất (19-21h)",
-        "Ngọ": "Tý (23-1h), Sửu (1-3h), Mão (5-7h), Ngọ (11-13h)",
-        "Mùi": "Dần (3-5h), Mão (5-7h), Tỵ (9-11h), Thân (15-17h)",
-        "Thân": "Tý (23-1h), Thìn (7-9h), Tỵ (9-11h), Tuất (19-21h)",
-        "Dậu": "Sửu (1-3h), Thìn (7-9h), Ngọ (11-13h), Mùi (13-15h)",
-        "Tuất": "Dần (3-5h), Ngọ (11-13h), Thân (15-17h), Dậu (17-19h)",
-        "Hợi": "Sửu (1-3h), Thìn (7-9h), Tỵ (9-11h), Tuất (19-21h)"
-    };
-    const clashMap = {
-        "Tý": "Ngọ, Mão, Dậu", "Sửu": "Mùi, Thìn, Tuất", "Dần": "Thân, Tỵ, Hợi",
-        "Mão": "Dậu, Tý, Ngọ", "Thìn": "Tuất, Sửu, Mùi", "Tỵ": "Hợi, Dần, Thân",
-        "Ngọ": "Tý, Mão, Dậu", "Mùi": "Sửu, Thìn, Tuất", "Thân": "Dần, Tỵ, Hợi",
-        "Dậu": "Mão, Tý, Ngọ", "Tuất": "Thìn, Sửu, Mùi", "Hợi": "Tỵ, Dần, Thân"
-    };
-    return {
-        hours: auspiciousMap[chiDay] || "Tý, Dần, Mão, Ngọ",
-        clash: clashMap[chiDay] || "Tuổi xung ngày",
-        zhic: "Thành / Khai", term: "Lập Thu"
-    };
-}
-
-function renderProCalendar() {
-    const year = viewDate.getFullYear();
-    const month = viewDate.getMonth();
-
-    const titleEl = document.getElementById("pro-cal-title");
-    if(titleEl) titleEl.innerText = `Tháng ${month + 1} / ${year}`;
-
-    const todayDetails = getLunarDetails(todayReal.getDate(), todayReal.getMonth() + 1, todayReal.getFullYear());
-    
-    const lunarMY = document.getElementById("pro-lunar-month-year");
-    if(lunarMY) lunarMY.innerText = `ÂM LỊCH: THÁNG ${todayDetails.lunarMonth} NĂM ${todayDetails.lunarYearStr}`;
-    
-    const todaySolar = document.getElementById("pro-today-solar");
-    if(todaySolar) todaySolar.innerText = `${todayDetails.dayOfWeek} - ${todayDetails.solarDay}`;
-    
-    const lunarGanzhi = document.getElementById("pro-lunar-day-ganzhi");
-    if(lunarGanzhi) lunarGanzhi.innerText = `Ngày ${todayDetails.ganzhiDay} - Tháng ${todayDetails.ganzhiMonth}`;
-
-    const fs = getFengShuiInfo(todayDetails.chiDayName);
-    if(document.getElementById("pro-fengshui-solar-term")) document.getElementById("pro-fengshui-solar-term").innerText = fs.term;
-    if(document.getElementById("pro-fengshui-zhic")) document.getElementById("pro-fengshui-zhic").innerText = fs.zhic;
-    if(document.getElementById("pro-fengshui-auspicious-hours")) document.getElementById("pro-fengshui-auspicious-hours").innerText = fs.hours;
-    if(document.getElementById("pro-fengshui-clash-age")) document.getElementById("pro-fengshui-clash-age").innerText = fs.clash;
-
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const grid = document.getElementById("pro-cal-grid");
-    if(!grid) return;
-    grid.innerHTML = "";
-
-    let row = document.createElement("tr");
-    for (let i = 0; i < firstDay; i++) {
-        const emptyTd = document.createElement("td");
-        emptyTd.className = "pro-cal-cell other-month";
-        row.appendChild(emptyTd);
-    }
-    for (let day = 1; day <= daysInMonth; day++) {
-        if (row.children.length === 7) {
-            grid.appendChild(row);
-            row = document.createElement("tr");
-        }
-        const td = document.createElement("td");
-        td.className = "pro-cal-cell";
-        if (day === todayReal.getDate() && month === todayReal.getMonth() && year === todayReal.getFullYear()) {
-            td.classList.add("today");
-        }
-        const lunar = getLunarDetails(day, month + 1, year);
-        td.innerHTML = `<span class="s-date">${day}</span><span class="l-date">${lunar.lunarDay}/${lunar.lunarMonth}</span>`;
-        row.appendChild(td);
-    }
-    while (row.children.length < 7) {
-        const emptyTd = document.createElement("td");
-        emptyTd.className = "pro-cal-cell other-month";
-        row.appendChild(emptyTd);
-    }
-    grid.appendChild(row);
-}
-
-function proCalendarNav(dir) { viewDate.setMonth(viewDate.getMonth() + dir); renderProCalendar(); }
-function proResetToToday() { viewDate = new Date(); renderProCalendar(); }
-
-// Tự kích hoạt lại lần nữa cho chắc chắn
-renderProCalendar();
 </script>
 </body>
 </html>
