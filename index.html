@@ -3704,39 +3704,67 @@ function resetWorkTimer() {
 document.addEventListener('DOMContentLoaded', function() {
     resetWorkTimer();
 });
-    function exportInkXNTReport() {
-    // Lấy danh sách kho mực từ LocalStorage
-    let inkData = JSON.parse(localStorage.getItem('sys_ink_inventory')) || [];
-    
+   function exportInkXNTReport() {
+    // 1. Quét dữ liệu từ LocalStorage (kiểm tra tất cả tên key khả thi)
+    let rawData = localStorage.getItem('sys_ink_logs') 
+               || localStorage.getItem('sys_ink_inventory') 
+               || localStorage.getItem('inkData') 
+               || localStorage.getItem('ink_logs');
+
+    let inkData = rawData ? JSON.parse(rawData) : [];
+
+    // Nếu không thấy trong LocalStorage, thử lấy từ mảng dữ liệu đang chạy trên ứng dụng
+    if ((!inkData || inkData.length === 0) && typeof window.inkList !== 'undefined') {
+        inkData = window.inkList;
+    }
+
     if (!inkData || inkData.length === 0) {
-        alert("Hiện chưa có dữ liệu kho mực để xuất báo cáo!");
+        alert("Chưa tìm thấy dữ liệu kho mực! Vui lòng kiểm tra lại bảng danh sách.");
         return;
     }
 
-    // Tiêu đề các cột trong báo cáo
-    let csvContent = "\uFEFFSTT,Tên / Mã Loại Mực,Đơn Vị Tính,Tồn Đầu Kỳ,Tổng Nhập,Tổng Xuất,Tồn Cuối Kỳ,Trạng Thái Kho\n";
+    // 2. Tổng hợp dữ liệu Xuất - Nhập - Tồn theo mã mực
+    let summary = {};
+    inkData.forEach(item => {
+        let name = item.model || item.name || item.inkModel || item.tenMuc || "Mực in";
+        let unit = item.unit || item.dvt || "Hộp";
+        let qty = parseInt(item.qty || item.quantity || item.soLuong || 0);
+        let status = item.status || item.loaiNghiepVu || item.trangThai || "";
 
-    // Tổng hợp dữ liệu từng loại mực
-    inkData.forEach((item, index) => {
-        let stt = index + 1;
-        let model = '"' + (item.model || item.name || '-').replace(/"/g, '""') + '"';
-        let unit = '"' + (item.unit || 'Hộp').replace(/"/g, '""') + '"';
-        
-        let tonDau = item.initialQty || 0;
-        let tongNhap = item.totalImport || 0;
-        let tongXuat = item.totalExport || 0;
-        let tonCuoi = (item.qty !== undefined) ? item.qty : (tonDau + tongNhap - tongXuat);
-        
-        let trangThai = tonCuoi <= (item.minAlert || 2) ? "Cảnh báo thiếu mực" : "An toàn";
+        if (!summary[name]) {
+            summary[name] = {
+                name: name,
+                unit: unit,
+                tongNhap: 0,
+                tongXuat: 0
+            };
+        }
 
-        csvContent += stt + ',' + model + ',' + unit + ',' + tonDau + ',' + tongNhap + ',' + tongXuat + ',' + tonCuoi + ',"' + trangThai + '"\n';
+        if (status.includes("cấp phát") || status.includes("Đã cấp") || status === "xuat") {
+            summary[name].tongXuat += qty;
+        } else {
+            summary[name].tongNhap += qty;
+        }
     });
 
-    // Tạo file và kích hoạt tải về
+    // 3. Tạo nội dung CSV Unicode (Mở Excel không lỗi phông)
+    let csvContent = "\uFEFFSTT,Tên / Mã Loại Mực,Đơn Vị Tính,Tổng Nhập,Tổng Xuất,Tồn Hiện Tại,Trạng Thái\n";
+    let index = 1;
+
+    for (let key in summary) {
+        let item = summary[key];
+        let tonCuoi = item.tongNhap - item.tongXuat;
+        if (tonCuoi < 0) tonCuoi = item.tongNhap; // Xử lý nếu dòng ghi nhận là số tồn trực tiếp
+
+        let trangThai = tonCuoi <= 2 ? "Cảnh báo thiếu mực" : "An toàn";
+
+        csvContent += index + ',"' + item.name.replace(/"/g, '""') + '","' + item.unit + '",' + item.tongNhap + ',' + item.tongXuat + ',' + tonCuoi + ',"' + trangThai + '"\n';
+        index++;
+    }
+    // 4. Kích hoạt tải về file Excel (.csv)
     let blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     let link = document.createElement("a");
     let url = URL.createObjectURL(blob);
-    
     let now = new Date();
     let day = String(now.getDate()).padStart(2, '0');
     let month = String(now.getMonth() + 1).padStart(2, '0');
