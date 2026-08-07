@@ -3842,7 +3842,32 @@ const AppMultiUserCore = {
             location.reload();
         }
     },
+// =========================================================
+// THUẬT TOÁN HỢP NHẤT DỮ LIỆU CHỐNG GHI ĐÈ CLOUD (MERGE APPEND)
+// =========================================================
+AppMultiUserCore.mergeCloudData = function(localArray, cloudArray) {
+    if (!Array.isArray(localArray)) localArray = [];
+    if (!Array.isArray(cloudArray)) cloudArray = [];
 
+    // Tạo Map để lọc trùng theo ID bản ghi
+    let mergedMap = new Map();
+
+    // 1. Nạp tất cả dữ liệu từ Cloud vào trước
+    cloudArray.forEach(item => {
+        let key = item.id || JSON.stringify(item);
+        mergedMap.set(key, item);
+    });
+
+    // 2. Nạp tiếp dữ liệu Local vào (bản ghi nào trùng ID sẽ giữ nguyên, bản ghi mới sẽ được NỐI THÊM)
+    localArray.forEach(item => {
+        let key = item.id || JSON.stringify(item);
+        if (!mergedMap.has(key)) {
+            mergedMap.set(key, item);
+        }
+    });
+
+    return Array.from(mergedMap.values());
+};
     // 3. Cập nhật nhãn trạng thái hiển thị
     updateBadgeUI: function(userId) {
         const badge = document.getElementById('user-status-badge');
