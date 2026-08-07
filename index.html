@@ -259,19 +259,22 @@
                 <button type="button" class="nav-tab" data-tab="it-assets" onclick="switchMainTab('it-assets')"><i class="fa-solid fa-laptop"></i> Thiết Bị CNTT</button>
                 <button type="button" class="nav-tab" data-tab="ink-inventory" onclick="switchMainTab('ink-inventory')"><i class="fa-solid fa-print"></i> Kho Mực In</button>
             </div>
-<!-- BỘ CHỌN CHẾ ĐỘ LÀM VIỆC ĐA THÀNH VIÊN (HEADER) -->
+<!-- BỘ CHỌN CHẾ ĐỘ LÀM VIỆC THEO THÀNH VIÊN VĂN PHÒNG & ADMIN -->
 <div id="multi-user-header-bar" style="background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); border: 1.5px solid #0284c7; padding: 8px 15px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
     <div style="display: flex; align-items: center; gap: 10px;">
         <label style="font-weight: bold; color: #0369a1; font-size: 13.5px; display: flex; align-items: center; gap: 6px;">
-            <i class="fa-solid fa-users-gear" style="color: #0284c7;"></i> Tài khoản làm việc:
+            <i class="fa-solid fa-user-shield" style="color: #0284c7;"></i> Cán bộ / Tài khoản thực hiện:
         </label>
         <select id="global-user-select" onchange="AppMultiUserCore.switchUser(this.value)" style="padding: 5px 12px; border-radius: 6px; border: 1.5px solid #0284c7; font-weight: bold; color: #0c4a6e; background: #ffffff; cursor: pointer; outline: none;">
-            <option value="ALL">🌐 TỔNG QUAN (Xem toàn bộ dữ liệu tất cả thành viên)</option>
-            <option value="duong_tb">👤 Trần Bình Dương (Trợ lý Tổng Giám Đốc)</option>
-            <option value="long_td">👤 Tạ Đức Long (Tổng Giám Đốc)</option>
-            <option value="huong_ns">👤 Nguyễn Thu Hương (Phòng Nhân sự)</option>
-            <option value="nhi_tckt">👤 Cao Yến Nhi (Phòng TCKT)</option>
-            <option value="thang_khdt">👤 Nguyễn Tất Thắng (Phòng KH&ĐT)</option>
+            <!-- Ban Quản trị & Lãnh đạo -->
+            <option value="ALL">🌐 TỔNG QUAN (Toàn bộ dữ liệu Văn phòng)</option>
+            <option value="duong_tb">🔑 Trần Bình Dương (Quản trị viên)</option>
+            <option value="long_td">⭐ Tạ Đức Long (Tổng Giám Đốc)</option>
+            
+            <!-- Danh sách các chuyên viên/nhân viên Văn phòng (Thay tên thực tế tại đây) -->
+            <option value="cv_vanphong_1">👤 Chuyên viên Văn phòng 1</option>
+            <option value="cv_vanphong_2">👤 Chuyên viên Văn phòng 2</option>
+            <option value="cv_vanphong_3">👤 Chuyên viên Văn phòng 3</option>
         </select>
     </div>
     <div id="user-status-badge" style="font-size: 12px; font-weight: bold; padding: 4px 10px; border-radius: 20px; background: #0284c7; color: #ffffff;">
