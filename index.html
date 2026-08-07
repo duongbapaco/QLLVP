@@ -330,6 +330,72 @@
     </div>
 </div>
 <!-- TAB 0: DASHBOARD -->
+<style>
+/* 1. Ẩn hoàn toàn khối Lịch bị trùng lặp ở bên trái */
+.main-body .calendar-card,
+.workspace > .calendar-card,
+.workspace > div:first-child .calendar-card {
+    display: none !important;
+}
+
+/* 2. Ép Header Lịch bên phải hiển thị đẹp mắt, đủ thông tin */
+.calendar-sidebar .calendar-card [class*="banner"],
+.calendar-sidebar .calendar-card [class*="header"] {
+    background: #8b0000 !important;
+    color: #ffffff !important;
+    text-align: center !important;
+    padding: 8px 6px !important;
+    border-radius: 6px !important;
+}
+
+/* 3. Khối CSS Định dạng Dashboard & Lịch gọn gàng */
+.db-status-bar { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: #cbd5e1; border-bottom: 2px solid var(--border-color); font-size: 13px; font-weight: bold; border-radius: 4px; margin-bottom: 6px; flex-wrap: wrap; gap: 6px; }
+.status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; background-color: var(--green); }
+.year-selector-box { display: flex; align-items: center; gap: 6px; background: #ffffff; padding: 4px 8px; border-radius: 4px; border: 2px solid var(--blue); color: var(--blue); font-size: 13px; }
+.year-selector-box select { border: none; font-weight: bold; color: var(--blue); outline: none; background: transparent; font-size: 13px; cursor: pointer; font-family: 'Times New Roman', Times, serif; }
+.header { display: flex; justify-content: space-between; align-items: center; background: #0f172a; color: white; padding: 8px 12px; border-radius: 4px; margin-bottom: 6px; flex-wrap: wrap; gap: 6px; }
+.header h1 { font-size: 14px; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; }
+.live-clock-box { background: rgba(255,255,255,0.15); padding: 4px 8px; border-radius: 4px; font-family: monospace; font-size: 11.5px; text-align: right; border: 1px solid rgba(255,255,255,0.3); font-weight: bold; color: #fef08a; }
+.stat-grid-3d { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 10px; }
+@media (max-width: 1400px) { .stat-grid-3d { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px) { .stat-grid-3d { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .stat-grid-3d { grid-template-columns: 1fr; } }
+.stat-card-3d { background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); padding: 10px 12px; border-radius: 6px; box-shadow: 0 3px 10px rgba(0,0,0,0.06); border: 1.5px solid #cbd5e1; border-left: 5px solid var(--blue); display: flex; align-items: center; justify-content: space-between; transition: transform 0.2s ease; position: relative; overflow: hidden; }
+.stat-card-3d.green { border-left-color: var(--green); }
+.stat-card-3d.orange { border-left-color: var(--orange); }
+.stat-card-3d.purple { border-left-color: var(--purple); }
+.stat-card-3d.red { border-left-color: var(--red); }
+.stat-card-3d.teal { border-left-color: var(--teal); }
+.stat-info { display: flex; flex-direction: column; overflow: hidden; z-index: 2; }
+.stat-title { font-size: 10px; text-transform: uppercase; color: #475569; font-weight: 800; letter-spacing: 0.3px; white-space: nowrap; }
+.stat-value { font-size: 14px; font-weight: 900; color: var(--primary); margin-top: 2px; white-space: nowrap; }
+.stat-icon-3d { font-size: 22px; opacity: 0.25; flex-shrink: 0; z-index: 1; }
+.salary-visual-summary { display: flex; justify-content: space-between; align-items: center; gap: 6px; margin: 0 auto 8px auto; max-width: 100%; background: #ffffff; padding: 8px; border-radius: 6px; border: 2px solid #cbd5e1; box-shadow: 0 2px 4px rgba(0,0,0,0.04); flex-wrap: wrap; }
+.visual-mini-card { flex: 1; min-width: 140px; background: #f8fafc; padding: 6px 10px; border-radius: 4px; border: 1.5px solid #cbd5e1; display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.visual-lbl { font-size: 10.5px; font-weight: bold; color: #0f172a; white-space: nowrap; display: flex; align-items: center; }
+.visual-val { font-size: 14px; font-weight: 800; color: var(--primary); white-space: nowrap; }
+.config-toolbar-container { display: flex; justify-content: space-between; align-items: flex-end; gap: 8px; flex-wrap: wrap; background: #f8fafc; padding: 8px; border-radius: 6px; border: 1.5px solid #cbd5e1; }
+.config-inputs-group { display: flex; align-items: flex-end; gap: 6px; flex-wrap: wrap; flex: 1; }
+.config-inputs-group .form-group { flex: 1; min-width: 110px; }
+.nav-tabs { display: flex; gap: 4px; margin-bottom: 6px; border-bottom: 2px solid #64748b; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
+.nav-tabs::-webkit-scrollbar { height: 4px; }
+.nav-tabs::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 2px; }
+.nav-tabs .nav-tab { padding: 7px 12px; border: 1.5px solid #cbd5e1; border-bottom: none; background: #e2e8f0; font-weight: bold; color: #0f172a; cursor: pointer; font-size: 12.5px; border-radius: 4px 4px 0 0; white-space: nowrap; font-family: 'Times New Roman', Times, serif; }
+.nav-tabs .nav-tab.active { color: var(--blue) !important; background: white !important; border: 2px solid #64748b !important; border-bottom: 3px solid var(--blue) !important; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+.main-card { background: white; border-radius: 6px; padding: 8px 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 8px; border: 1.5px solid #cbd5e1; }
+.card-title { font-size: 14px; font-weight: bold; color: var(--primary); margin-bottom: 6px; border-left: 5px solid var(--blue); padding-left: 6px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
+.grid-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 6px; margin-bottom: 6px; }
+</style>
+/* 4. Cấu hình layout 2 cột Workspace & Ô Lịch */
+.workspace { display: grid !important; grid-template-columns: 1fr 350px !important; gap: 12px !important; align-items: start !important; }
+.calendar-card td, .calendar-card th, [id*="calendar"] td, [class*="calendar"] td { height: 38px !important; min-height: 38px !important; max-height: 38px !important; padding: 2px !important; border: 1px solid #e2e8f0 !important; vertical-align: middle !important; text-align: center !important; font-size: 11px !important; box-sizing: border-box !important; }
+.calendar-card td .s-date, [id*="calendar"] td .s-date { font-size: 12px !important; font-weight: bold !important; color: #0f172a !important; }
+.calendar-card td .l-date, [id*="calendar"] td .l-date { font-size: 9.5px !important; color: #64748b !important; }
+.calendar-card td.today-cell, [class*="calendar"] .today { background: #b91c1c !important; border-radius: 4px !important; }
+.calendar-card td.today-cell .s-date, .calendar-card td.today-cell .l-date { color: #ffffff !important; }
+</style>
 <div id="tab-dashboard" class="tab-content active">
     <!-- KHUNG WORKSPACE CHIA 2 CỘT TỶ LỆ CHUẨN (TRÁI: BIỂU ĐỒ & BÁO CÁO | PHẢI: LỊCH SANG TRỌNG) -->
     <div class="workspace">
