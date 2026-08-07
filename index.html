@@ -259,7 +259,25 @@
                 <button type="button" class="nav-tab" data-tab="it-assets" onclick="switchMainTab('it-assets')"><i class="fa-solid fa-laptop"></i> Thiết Bị CNTT</button>
                 <button type="button" class="nav-tab" data-tab="ink-inventory" onclick="switchMainTab('ink-inventory')"><i class="fa-solid fa-print"></i> Kho Mực In</button>
             </div>
-
+<!-- BỘ CHỌN CHẾ ĐỘ LÀM VIỆC ĐA THÀNH VIÊN (HEADER) -->
+<div id="multi-user-header-bar" style="background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); border: 1.5px solid #0284c7; padding: 8px 15px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <label style="font-weight: bold; color: #0369a1; font-size: 13.5px; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-users-gear" style="color: #0284c7;"></i> Tài khoản làm việc:
+        </label>
+        <select id="global-user-select" onchange="AppMultiUserCore.switchUser(this.value)" style="padding: 5px 12px; border-radius: 6px; border: 1.5px solid #0284c7; font-weight: bold; color: #0c4a6e; background: #ffffff; cursor: pointer; outline: none;">
+            <option value="ALL">🌐 TỔNG QUAN (Xem toàn bộ dữ liệu tất cả thành viên)</option>
+            <option value="duong_tb">👤 Trần Bình Dương (Trợ lý Tổng Giám Đốc)</option>
+            <option value="long_td">👤 Tạ Đức Long (Tổng Giám Đốc)</option>
+            <option value="huong_ns">👤 Nguyễn Thu Hương (Phòng Nhân sự)</option>
+            <option value="nhi_tckt">👤 Cao Yến Nhi (Phòng TCKT)</option>
+            <option value="thang_khdt">👤 Nguyễn Tất Thắng (Phòng KH&ĐT)</option>
+        </select>
+    </div>
+    <div id="user-status-badge" style="font-size: 12px; font-weight: bold; padding: 4px 10px; border-radius: 20px; background: #0284c7; color: #ffffff;">
+        Chế độ: Xem toàn bộ
+    </div>
+</div>
             <!-- TAB 0: DASHBOARD -->
             <div id="tab-dashboard" class="tab-content active">
                 <div class="main-card">
@@ -3800,6 +3818,101 @@ document.addEventListener('DOMContentLoaded', function() {
     link.click();
     document.body.removeChild(link);
 }
+    // =========================================================
+// BỘ LÕI QUẢN LÝ ĐA THÀNH VIÊN TỰ ĐỘNG (CORE MULTI-USER)
+// =========================================================
+const AppMultiUserCore = {
+    // 1. Lấy mã user đang chọn
+    getActiveUser: function() {
+        return localStorage.getItem('app_active_user') || 'ALL';
+    },
+
+    // 2. Đổi tài khoản làm việc
+    switchUser: function(userId) {
+        localStorage.setItem('app_active_user', userId);
+        this.updateBadgeUI(userId);
+        
+        // Tự động làm mới giao diện web
+        if (typeof renderAllTabs === 'function') {
+            renderAllTabs();
+        } else {
+            location.reload();
+        }
+    },
+
+    // 3. Cập nhật nhãn trạng thái hiển thị
+    updateBadgeUI: function(userId) {
+        const badge = document.getElementById('user-status-badge');
+        if (!badge) return;
+        if (userId === 'ALL') {
+            badge.style.background = '#0284c7';
+            badge.innerHTML = '🌐 Chế độ: Xem toàn bộ';
+        } else {
+            badge.style.background = '#15803d';
+            badge.innerHTML = '👤 Chế độ: Cá nhân (' + userId + ')';
+        }
+    },
+
+    // 4. Tự động gắn nhãn người tạo cho mọi bản ghi trước khi lưu
+    wrapData: function(recordObj) {
+        const currentUser = this.getActiveUser();
+        const createdBy = (currentUser === 'ALL') ? 'duong_tb' : currentUser;
+        
+        return Object.assign({}, recordObj, {
+            created_by: createdBy,
+            created_at: new Date().toISOString()
+        });
+    },
+
+    // 5. Bộ lọc dữ liệu theo Chế độ Cá nhân / Tổng quan cho MỌI TAB
+    filterData: function(dataArray) {
+        if (!Array.isArray(dataArray)) return [];
+        const currentUser = this.getActiveUser();
+
+        // Chế độ TỔNG QUAN: Hiển thị 100% dữ liệu
+        if (currentUser === 'ALL') {
+            return dataArray;
+        }
+
+        // Chế độ CÁ NHÂN: Chỉ hiển thị dữ liệu do người đó nhập (hoặc dữ liệu cũ chưa có nhãn)
+        return dataArray.filter(item => !item.created_by || item.created_by === currentUser);
+    },
+
+    // 6. Tự động can thiệp vào LocalStorage để lọc dữ liệu trong suốt cho các Tab
+    initAutoHook: function() {
+        const self = this;
+        const originalSetItem = localStorage.setItem;
+        const originalGetItem = localStorage.getItem;
+
+        // Tự động lọc dữ liệu khi các Tab đọc từ LocalStorage
+        localStorage.getItem = function(key) {
+            const rawVal = originalGetItem.apply(this, arguments);
+            // Các key dữ liệu của ứng dụng
+            const targetKeys = ['sys_ink_logs', 'sys_ink_inventory', 'inkData', 'cntt_devices', 'salary_logs', 'leave_logs'];
+            
+            if (targetKeys.includes(key) && rawVal) {
+                try {
+                    const parsed = JSON.parse(rawVal);
+                    if (Array.isArray(parsed)) {
+                        return JSON.stringify(self.filterData(parsed));
+                    }
+                } catch(e) {}
+            }
+            return rawVal;
+        };
+    }
+};
+
+// Khởi chạy khi trang tải xong
+document.addEventListener('DOMContentLoaded', function() {
+    AppMultiUserCore.initAutoHook();
+    const selectElem = document.getElementById('global-user-select');
+    if (selectElem) {
+        const activeUser = AppMultiUserCore.getActiveUser();
+        selectElem.value = activeUser;
+        AppMultiUserCore.updateBadgeUI(activeUser);
+    }
+});
 </script>
 </body>
 </html>
