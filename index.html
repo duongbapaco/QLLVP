@@ -18,14 +18,15 @@
         body { font-family: 'Times New Roman', Times, serif; font-size: 14px; margin: 0; padding: 6px; background: var(--bg-light); color: var(--text-main); font-weight: 500; }
         
         /* Chia cột Workspace: Trái tự co giãn, Phải rộng 360px */
-.workspace { 
-    display: grid; 
-    grid-template-columns: 1fr 360px; 
-    gap: 12px; 
-    align-items: start; 
+.workspace {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 12px;
+    align-items: start;
 }
-.workspace.calendar-hidden { 
-    grid-template-columns: 1fr !important; 
+
+.workspace.calendar-hidden {
+    grid-template-columns: 1fr !important;
 }
 
 /* Ép chiều cao Ô Ngày trong Lịch gọn gàng */
@@ -33,15 +34,15 @@
     width: 100% !important;
     border-collapse: collapse !important;
 }
+
 .calendar-card td, .workspace td {
-    height: 38px !important; /* Giảm chiều cao mỗi ô xuống 38px */
+    height: 38px !important;
     padding: 2px !important;
     text-align: center !important;
     vertical-align: middle !important;
     border: 1px solid #e2e8f0 !important;
     font-size: 11.5px !important;
 }
-
 /* Thu nhỏ Banner tiêu đề Lịch */
 .calendar-card [class*="banner"], .calendar-card [class*="header"] {
     padding: 4px 8px !important;
