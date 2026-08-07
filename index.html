@@ -470,6 +470,52 @@
     color: #ffffff !important;
 }
 </style>
+.workspace {
+    display: grid !important;
+    grid-template-columns: 1fr 350px !important;
+    gap: 12px !important;
+    align-items: start !important;
+}
+
+/* Triệt tiêu ô đỏ phồng to: Ép chiều cao tuyệt đối 38px cho toàn bộ các ô ngày */
+.calendar-card td, 
+.calendar-card th, 
+[id*="calendar"] td, 
+[class*="calendar"] td {
+    height: 38px !important;
+    min-height: 38px !important;
+    max-height: 38px !important;
+    padding: 2px !important;
+    border: 1px solid #e2e8f0 !important;
+    vertical-align: middle !important;
+    text-align: center !important;
+    font-size: 11px !important;
+    box-sizing: border-box !important;
+}
+
+/* Định dạng số Dương lịch & Âm lịch trong ô */
+.calendar-card td .s-date, [id*="calendar"] td .s-date {
+    font-size: 12px !important;
+    font-weight: bold !important;
+    color: #0f172a !important;
+}
+.calendar-card td .l-date, [id*="calendar"] td .l-date {
+    font-size: 9.5px !important;
+    color: #64748b !important;
+}
+
+/* Ô đại diện cho ngày Hôm Nay (nhỏ gọn vuông vắn) */
+.calendar-card td.today-cell, 
+[id*="calendar"] td.today-cell,
+[class*="calendar"] .today {
+    background: #b91c1c !important;
+    border-radius: 4px !important;
+}
+.calendar-card td.today-cell .s-date,
+.calendar-card td.today-cell .l-date {
+    color: #ffffff !important;
+}
+</style>
             <!-- TAB 1: BẢNG LƯƠNG NHÂN SỰ -->
             <div id="tab-salary" class="tab-content">
                 <div class="main-card">
