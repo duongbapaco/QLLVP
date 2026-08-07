@@ -17,36 +17,9 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: rgba(0,0,0,0.2); }
         body { font-family: 'Times New Roman', Times, serif; font-size: 14px; margin: 0; padding: 6px; background: var(--bg-light); color: var(--text-main); font-weight: 500; }
         
-        /* Chia cột Workspace: Trái tự co giãn, Phải rộng 360px */
-.workspace { 
-    display: grid; 
-    grid-template-columns: 1fr 360px; 
-    gap: 12px; 
-    align-items: start; 
-}
-.workspace.calendar-hidden { 
-    grid-template-columns: 1fr !important; 
-}
-
-/* Ép chiều cao Ô Ngày trong Lịch gọn gàng */
-.calendar-card table, .workspace table {
-    width: 100% !important;
-    border-collapse: collapse !important;
-}
-.calendar-card td, .workspace td {
-    height: 38px !important; /* Giảm chiều cao mỗi ô xuống 38px */
-    padding: 2px !important;
-    text-align: center !important;
-    vertical-align: middle !important;
-    border: 1px solid #e2e8f0 !important;
-    font-size: 11.5px !important;
-}
-
-/* Thu nhỏ Banner tiêu đề Lịch */
-.calendar-card [class*="banner"], .calendar-card [class*="header"] {
-    padding: 4px 8px !important;
-    font-size: 12px !important;
-}
+        .workspace { display: grid; grid-template-columns: 1fr 400px; gap: 10px; align-items: start; transition: all 0.3s ease; }
+        .workspace.calendar-hidden { grid-template-columns: 1fr !important; }
+        @media (max-width: 1024px) { .workspace { grid-template-columns: 1fr; } }
 
         .db-status-bar { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: #cbd5e1; border-bottom: 2px solid var(--border-color); font-size: 13px; font-weight: bold; border-radius: 4px; margin-bottom: 6px; flex-wrap: wrap; gap: 6px; }
         .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; background-color: var(--green); }
@@ -314,162 +287,72 @@
         </button>
     </div>
 </div>
-<!-- TAB 0: DASHBOARD -->
-<div id="tab-dashboard" class="tab-content active">
-    <!-- KHUNG WORKSPACE CHIA 2 CỘT TỶ LỆ CHUẨN (TRÁI: BIỂU ĐỒ | PHẢI: LỊCH 350PX) -->
-    <div class="workspace" style="display: grid; grid-template-columns: 1fr 350px; gap: 12px; align-items: start;">
-        
-        <!-- CỘT BÊN TRÁI: BIỂU ĐỒ & BÁO CÁO TỔNG QUAN -->
-        <div class="main-card">
-            <div class="card-title" style="border-left-color: var(--blue);">
-                <span><i class="fa-solid fa-chart-pie" style="color:var(--blue);"></i> TRUNG TÂM ĐIỀU HÀNH & HỆ THỐNG BIỂU ĐỒ TỔNG QUAN NĂM (<span class="lbl-current-year">2026</span>)</span>
-                <div style="display:flex; gap:5px; flex-wrap:wrap;">
-                    <button type="button" class="btn btn-green" onclick="exportStandardFinancialReportExcel()"><i class="fa-solid fa-file-excel"></i> Xuất Báo Cáo Tài Chính Chuẩn (Excel)</button>
-                    <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASSye43Y12Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Drive</a>
-                </div>
-            </div>
-
-            <!-- HỆ THỐNG BIỂU ĐỒ -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; margin-bottom: 12px;">
-                <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 6px;">
-                    <div style="font-weight: bold; font-size: 13px; color: var(--primary); margin-bottom: 6px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;">
-                        <i class="fa-solid fa-chart-pie" style="color:var(--blue);"></i> BIỂU ĐỒ TỶ TRỌNG TỔNG QUAN CHUNG TÀI CHÍNH (%)
-                    </div>
-                    <div style="position: relative; height: 240px; display: flex; justify-content: center; align-items: center;">
-                        <canvas id="combinedPieChart"></canvas>
-                    </div>
-                </div>
-
-                <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 6px;">
-                    <div style="font-weight: bold; font-size: 13px; color: var(--primary); margin-bottom: 6px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;">
-                        <i class="fa-solid fa-chart-column" style="color:var(--green);"></i> BIỂU ĐỒ CỘT CHUNG: THANH TOÁN, CƯỚC, LƯƠNG & THUẾ
-                    </div>
-                    <div style="position: relative; height: 240px; display: flex; justify-content: center; align-items: center;">
-                        <canvas id="combinedBarChart"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <!-- BÁO CÁO TÀI CHÍNH & TÀI SẢN -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px;">
-                <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 6px;">
-                    <div style="font-weight: bold; font-size: 13px; color: var(--primary); margin-bottom: 6px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;">
-                        <i class="fa-solid fa-wallet" style="color:var(--blue);"></i> TÀI CHÍNH & QUỸ LƯƠNG (<span class="lbl-current-year">2026</span>)
-                    </div>
-                    <div style="display: flex; flex-direction: column; gap: 4px; font-size: 12.5px;">
-                        <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Lương NET:</span><span id="dash-sub-net" style="color:var(--blue); font-weight:bold;">0 VND</span></div>
-                        <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Thanh Toán VP:</span><span id="dash-sub-paid" style="color:var(--green); font-weight:bold;">0 VND</span></div>
-                        <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Tạm Ứng Nhân Sự:</span><span id="dash-sub-advance" style="color:var(--red); font-weight:bold;">0 VND</span></div>
-                        <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Cước Viễn Thông:</span><span id="dash-sub-tele" style="color:var(--orange); font-weight:bold;">0 VND</span></div>
-                        <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Tiền Thuế:</span><span id="dash-sub-tax" style="color:var(--red); font-weight:bold;">0 VND</span></div>
-                    </div>
-                </div>
-
-                <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 6px;">
-                    <div style="font-weight: bold; font-size: 13px; color: var(--primary); margin-bottom: 6px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;">
-                        <i class="fa-solid fa-laptop-code" style="color:var(--purple);"></i> TÀI SẢN CNTT & KHO MỰC (<span class="lbl-current-year">2026</span>)
-                    </div>
-                    <div style="display: flex; flex-direction: column; gap: 4px; font-size: 12.5px;">
-                        <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Thiết Bị & Tài Sản CNTT:</span><span id="dash-sub-it" style="color:var(--purple); font-weight:bold;">0 Thiết bị</span></div>
-                        <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Hộp Mực Trong Kho:</span><span id="dash-sub-ink" style="color:var(--teal); font-weight:bold;">0 Hộp</span></div>
-                        <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Trạng Thái Hệ Thống:</span><span style="color:var(--green); font-weight:bold;">Tự động đồng bộ Cloud API</span></div>
-                        <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Thư Mục Google Drive:</span><span><a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASSye43Y12Pi" target="_blank" rel="noopener noreferrer" style="color:var(--blue); font-weight:bold;">Mở Thư Mục Gốc</a></span></div>
-                    </div>
-                </div>
-            </div>
-        </div> 
-        <!-- KẾT THÚC CỘT BÊN TRÁI -->
-
-        <!-- CỘT BÊN PHẢI: KHỐI LỊCH WIDGET (SỬ DỤNG BANNER ĐỎ RƯỢU VANG SANG TRỌNG) -->
-        <div class="calendar-card" style="background: #ffffff; border-radius: 8px; border: 1.5px solid #cbd5e1; padding: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); overflow: hidden;">
-            
-            <!-- THANH ĐIỀU HƯỚNG THÁNG -->
-            <div style="background: #0f172a; color: white; padding: 6px 12px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <button type="button" onclick="changeMonth(-1)" style="background:none; border:none; color:white; font-size:14px; cursor:pointer;">❮</button>
-                <b id="calendar-month-year-title" style="font-size: 13.5px;">Tháng 8 / 2026</b>
-                <button type="button" onclick="changeMonth(1)" style="background:none; border:none; color:white; font-size:14px; cursor:pointer;">❯</button>
-            </div>
-
-            <!-- BANNER HÔM NAY (MỚI: ĐẸP NỔI BẬT NGUYÊN BẢN CỦA BẠN) -->
-            <div style="background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%); color: white; padding: 10px; border-radius: 6px; text-align: center; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">
-                <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9;">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
-                <div style="font-size: 20px; font-weight: bold; color: #fef08a; margin: 3px 0; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">THỨ SÁU - 7</div>
-                <div style="font-size: 11px; color: #fecdd3;">Ngày Mậu Thìn - Tháng Ất Mùi</div>
-            </div>
-
-            <!-- BẢNG LƯỚI LỊCH (ÉP CỐ ĐỊNH CHIỀU CAO Ô 38PX) -->
-            <table style="width: 100%; border-collapse: collapse; text-align: center; font-family: sans-serif; table-layout: fixed;">
-                <thead>
-                    <tr style="background: #f1f5f9; color: #334155; font-size: 11px; font-weight: bold;">
-                        <th style="padding: 4px; color: #dc2626; border: 1px solid #e2e8f0;">CN</th>
-                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T2</th>
-                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T3</th>
-                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T4</th>
-                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T5</th>
-                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T6</th>
-                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T7</th>
-                    </tr>
-                </thead>
-                <tbody id="calendar-grid-body">
-                    <!-- Javascript tự động fill dữ liệu ngày -->
-                </tbody>
-            </table>
-
-        </div>
-        <!-- KẾT THÚC CỘT PHẢI LỊCH -->
-
-    </div> 
-    <!-- KẾT THÚC WORKSPACE -->
+        <!-- Nút Đăng xuất -->
+        <button id="btn-auth-action" onclick="AppAuthCore.logout()" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+        </button>
+    </div>
 </div>
+            <!-- TAB 0: DASHBOARD -->
+            <div id="tab-dashboard" class="tab-content active">
+                <div class="main-card">
+                    <div class="card-title" style="border-left-color: var(--blue);">
+                        <span><i class="fa-solid fa-chart-pie" style="color:var(--blue);"></i> TRUNG TÂM ĐIỀU HÀNH & HỆ THỐNG BIỂU ĐỒ TỔNG QUAN NĂM (<span class="lbl-current-year">2026</span>)</span>
+                        <div style="display:flex; gap:5px; flex-wrap:wrap;">
+                            <button type="button" class="btn btn-green" onclick="exportStandardFinancialReportExcel()"><i class="fa-solid fa-file-excel"></i> 📊 Xuất Báo Cáo Tài Chính Chuẩn (Excel)</button>
+                            <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Mở Drive</a>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; margin-bottom: 12px;">
+                        <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 6px;">
+                            <div style="font-weight: bold; font-size: 13px; color: var(--primary); margin-bottom: 6px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;">
+                                <i class="fa-solid fa-chart-pie" style="color:var(--blue);"></i> BIỂU ĐỒ TỶ TRỌNG TỔNG QUAN CHUNG TÀI CHÍNH (%)
+                            </div>
+                            <div style="position: relative; height: 240px; display: flex; justify-content: center; align-items: center;">
+                                <canvas id="combinedPieChart"></canvas>
+                            </div>
+                        </div>
 
-<!-- CSS KHỐNG CHẾ ÉP Ô LỊCH NHỎ GỌN TRỰC TIẾP -->
-<style>
-.workspace {
-    display: grid !important;
-    grid-template-columns: 1fr 350px !important;
-    gap: 12px !important;
-    align-items: start !important;
-}
+                        <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 6px;">
+                            <div style="font-weight: bold; font-size: 13px; color: var(--primary); margin-bottom: 6px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;">
+                                <i class="fa-solid fa-chart-column" style="color:var(--green);"></i> BIỂU ĐỒ CỘT CHUNG: THANH TOÁN, CƯỚC, LƯƠNG & THUẾ
+                            </div>
+                            <div style="position: relative; height: 240px; display: flex; justify-content: center; align-items: center;">
+                                <canvas id="combinedBarChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
 
-/* Triệt tiêu ô đỏ phồng to: Ép chiều cao tuyệt đối 38px cho toàn bộ các ô ngày */
-.calendar-card td, 
-.calendar-card th, 
-[id*="calendar"] td, 
-[class*="calendar"] td {
-    height: 38px !important;
-    min-height: 38px !important;
-    max-height: 38px !important;
-    padding: 2px !important;
-    border: 1px solid #e2e8f0 !important;
-    vertical-align: middle !important;
-    text-align: center !important;
-    font-size: 11px !important;
-    box-sizing: border-box !important;
-}
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; margin-bottom: 10px;">
+                        <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 6px;">
+                            <div style="font-weight: bold; font-size: 13px; color: var(--primary); margin-bottom: 6px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;">
+                                <i class="fa-solid fa-wallet" style="color:var(--blue);"></i> TÀI CHÍNH & QUỸ LƯƠNG (<span class="lbl-current-year">2026</span>)
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12.5px;">
+                                <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Lương NET:</span> <b id="dash-sub-net" style="color:var(--blue);">0 VND</b></div>
+                                <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Thanh Toán VP:</span> <b id="dash-sub-paid" style="color:var(--green);">0 VND</b></div>
+                                <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Tạm Ứng Nhân Sự:</span> <b id="dash-sub-advance" style="color:var(--red);">0 VND</b></div>
+                                <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Cước Viễn Thông:</span> <b id="dash-sub-tele" style="color:var(--orange);">0 VND</b></div>
+                                <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Tiền Thuế:</span> <b id="dash-sub-tax" style="color:var(--red);">0 VND</b></div>
+                            </div>
+                        </div>
 
-/* Định dạng số Dương lịch & Âm lịch trong ô */
-.calendar-card td .s-date, [id*="calendar"] td .s-date {
-    font-size: 12px !important;
-    font-weight: bold !important;
-    color: #0f172a !important;
-}
-.calendar-card td .l-date, [id*="calendar"] td .l-date {
-    font-size: 9.5px !important;
-    color: #64748b !important;
-}
+                        <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 12px; border-radius: 6px;">
+                            <div style="font-weight: bold; font-size: 13px; color: var(--primary); margin-bottom: 6px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;">
+                                <i class="fa-solid fa-laptop-code" style="color:var(--purple);"></i> TÀI SẢN CNTT & KHO MỰC (<span class="lbl-current-year">2026</span>)
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12.5px;">
+                                <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Thiết Bị & Tài Sản CNTT:</span> <b id="dash-sub-it" style="color:var(--purple);">0 Thiết bị</b></div>
+                                <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Tổng Hộp Mực Trong Kho:</span> <b id="dash-sub-ink" style="color:var(--teal);">0 Hộp</b></div>
+                                <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Trạng Thái Hệ Thống:</span> <b style="color:var(--green);">Tự động đồng bộ Cloud API</b></div>
+                                <div style="display: flex; justify-content: space-between;"><span style="color:#475569;">Thư Mục Google Drive:</span> <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" style="color:var(--blue); font-weight:bold;">Mở Thư Mục Gốc</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-/* Ô đại diện cho ngày Hôm Nay (nhỏ gọn vuông vắn) */
-.calendar-card td.today-cell, 
-[id*="calendar"] td.today-cell,
-[class*="calendar"] .today {
-    background: #b91c1c !important;
-    border-radius: 4px !important;
-}
-.calendar-card td.today-cell .s-date,
-.calendar-card td.today-cell .l-date {
-    color: #ffffff !important;
-}
-</style>
             <!-- TAB 1: BẢNG LƯƠNG NHÂN SỰ -->
             <div id="tab-salary" class="tab-content">
                 <div class="main-card">
