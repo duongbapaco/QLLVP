@@ -3705,31 +3705,52 @@ document.addEventListener('DOMContentLoaded', function() {
     resetWorkTimer();
 });
    function exportInkXNTReport() {
-    // 1. Quét dữ liệu từ LocalStorage (kiểm tra tất cả tên key khả thi)
-    let rawData = localStorage.getItem('sys_ink_logs') 
-               || localStorage.getItem('sys_ink_inventory') 
-               || localStorage.getItem('inkData') 
-               || localStorage.getItem('ink_logs');
+    let inkData = [];
+    // 1. Thử đọc dữ liệu trực tiếp từ các dòng (tr) của Bảng Lịch Sử hiển thị trên Web
+    // Lấy tất cả các thẻ <tr> trong bảng có các cột STT, Tên mực, Số lượng...
+    let tableRows = document.querySelectorAll("table tbody tr");
 
-    let inkData = rawData ? JSON.parse(rawData) : [];
+    if (tableRows && tableRows.length > 0) {
+        tableRows.forEach(row => {
+            let cells = row.querySelectorAll("td");
+            // Kiểm tra dòng có đủ các cột thông tin
+            if (cells.length >= 7) {
+                let name = cells[2] ? cells[2].innerText.trim() : "";
+                let qty = cells[3] ? parseInt(cells[3].innerText.trim()) || 0 : 0;
+                let unit = cells[4] ? cells[4].innerText.trim() : "Hộp";
+                let status = cells[7] ? cells[7].innerText.trim() : "";
 
-    // Nếu không thấy trong LocalStorage, thử lấy từ mảng dữ liệu đang chạy trên ứng dụng
-    if ((!inkData || inkData.length === 0) && typeof window.inkList !== 'undefined') {
-        inkData = window.inkList;
+                if (name && name !== "Tên loại mực / Mã mực") {
+                    inkData.push({
+                        name: name,
+                        qty: qty,
+                        unit: unit,
+                        status: status
+                    });
+                }
+            }
+        });
     }
 
-    if (!inkData || inkData.length === 0) {
-        alert("Chưa tìm thấy dữ liệu kho mực! Vui lòng kiểm tra lại bảng danh sách.");
+    // 2. Dự phòng: Nếu không đọc được từ bảng HTML thì mới đọc LocalStorage
+    if (inkData.length === 0) {
+        let rawData = localStorage.getItem('sys_ink_logs') || localStorage.getItem('sys_ink_inventory') || localStorage.getItem('inkData');
+        if (rawData) inkData = JSON.parse(rawData);
+    }
+
+    if (inkData.length === 0) {
+        alert("Hiện chưa tìm thấy dữ liệu trên bảng lịch sử để xuất báo cáo!");
         return;
     }
 
-    // 2. Tổng hợp dữ liệu Xuất - Nhập - Tồn theo mã mực
+    // 3. Tổng hợp dữ liệu Xuất - Nhập - Tồn
     let summary = {};
+
     inkData.forEach(item => {
-        let name = item.model || item.name || item.inkModel || item.tenMuc || "Mực in";
-        let unit = item.unit || item.dvt || "Hộp";
-        let qty = parseInt(item.qty || item.quantity || item.soLuong || 0);
-        let status = item.status || item.loaiNghiepVu || item.trangThai || "";
+        let name = item.name || item.model || "Mực in";
+        let unit = item.unit || "Hộp";
+        let qty = item.qty || 0;
+        let status = item.status || "";
 
         if (!summary[name]) {
             summary[name] = {
@@ -3740,31 +3761,33 @@ document.addEventListener('DOMContentLoaded', function() {
             };
         }
 
-        if (status.includes("cấp phát") || status.includes("Đã cấp") || status === "xuat") {
+        if (status.includes("Đã cấp") || status.includes("cấp phát") || status.includes("xuat")) {
             summary[name].tongXuat += qty;
         } else {
             summary[name].tongNhap += qty;
         }
     });
 
-    // 3. Tạo nội dung CSV Unicode (Mở Excel không lỗi phông)
+    // 4. Tạo nội dung file Excel CSV
     let csvContent = "\uFEFFSTT,Tên / Mã Loại Mực,Đơn Vị Tính,Tổng Nhập,Tổng Xuất,Tồn Hiện Tại,Trạng Thái\n";
     let index = 1;
 
     for (let key in summary) {
         let item = summary[key];
         let tonCuoi = item.tongNhap - item.tongXuat;
-        if (tonCuoi < 0) tonCuoi = item.tongNhap; // Xử lý nếu dòng ghi nhận là số tồn trực tiếp
+        if (tonCuoi < 0) tonCuoi = item.tongNhap;
 
         let trangThai = tonCuoi <= 2 ? "Cảnh báo thiếu mực" : "An toàn";
 
         csvContent += index + ',"' + item.name.replace(/"/g, '""') + '","' + item.unit + '",' + item.tongNhap + ',' + item.tongXuat + ',' + tonCuoi + ',"' + trangThai + '"\n';
         index++;
     }
-    // 4. Kích hoạt tải về file Excel (.csv)
+
+    // 5. Tải file CSV về máy
     let blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     let link = document.createElement("a");
     let url = URL.createObjectURL(blob);
+    
     let now = new Date();
     let day = String(now.getDate()).padStart(2, '0');
     let month = String(now.getMonth() + 1).padStart(2, '0');
