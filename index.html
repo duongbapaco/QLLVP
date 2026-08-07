@@ -4305,7 +4305,139 @@ document.addEventListener('DOMContentLoaded', function() {
     AppAuthCore.initAutoHook();
     AppAuthCore.checkSessionOnStart();
     AppAuthCore.bindHeaderEvents();
+    // Kích hoạt nạp dữ liệu Lịch Vạn Niên Phong Thủy
+    if (typeof renderProCalendar === 'function') {
+        renderProCalendar();
+    }
 });
+</script>
+<!-- CỤM SCRIPT LỊCH VẠN NIÊN PHONG THỦY -->
+<script>
+const CAN = ["Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ", "Canh", "Tân", "Nhâm", "Quý"];
+const CHI = ["Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi", "Thân", "Dậu", "Tuất", "Hợi"];
+const DAY_NAMES = ["CHỦ NHẬT", "THỨ HAI", "THỨ BA", "THỨ TƯ", "THỨ NĂM", "THỨ SÁU", "THỨ BẢY"];
+
+let viewDate = new Date();
+const todayReal = new Date();
+
+function getLunarDetails(d, m, y) {
+    const dateObj = new Date(y, m - 1, d);
+    const dayOfWeek = DAY_NAMES[dateObj.getDay()];
+    const baseDate = new Date(2000, 0, 1);
+    const diffDays = Math.floor((dateObj - baseDate) / (24 * 60 * 60 * 1000));
+    
+    const canDay = CAN[(diffDays + 4) % 10 < 0 ? ((diffDays + 4) % 10) + 10 : (diffDays + 4) % 10];
+    const chiDay = CHI[(diffDays + 6) % 12 < 0 ? ((diffDays + 6) % 12) + 12 : (diffDays + 6) % 12];
+    
+    let lunarDay = (d + 18) % 30; if (lunarDay === 0) lunarDay = 30;
+    let lunarMonth = m - 1; if (lunarMonth === 0) lunarMonth = 12;
+    
+    const canYear = CAN[(y - 4) % 10];
+    const chiYear = CHI[(y - 4) % 12];
+    const canMonth = CAN[(y * 12 + m + 3) % 10];
+    const chiMonth = CHI[(m + 1) % 12];
+
+    return {
+        solarDay: d, solarMonth: m, solarYear: y,
+        dayOfWeek: dayOfWeek, lunarDay: lunarDay, lunarMonth: lunarMonth,
+        lunarYearStr: `${canYear} ${chiYear}`,
+        ganzhiDay: `${canDay} ${chiDay}`,
+        ganzhiMonth: `${canMonth} ${chiMonth}`,
+        chiDayName: chiDay
+    };
+}
+
+function getFengShuiInfo(chiDay) {
+    const auspiciousMap = {
+        "Tý": "Tý (23-1h), Sửu (1-3h), Mão (5-7h), Ngọ (11-13h)",
+        "Sửu": "Dần (3-5h), Mão (5-7h), Tỵ (9-11h), Thân (15-17h)",
+        "Dần": "Tý (23-1h), Sửu (1-3h), Thìn (7-9h), Tỵ (9-11h)",
+        "Mão": "Tý (23-1h), Dần (3-5h), Mão (5-7h), Ngọ (11-13h)",
+        "Thìn": "Dần (3-5h), Thìn (7-9h), Tỵ (9-11h), Thân (15-17h)",
+        "Tỵ": "Sửu (1-3h), Tỵ (9-11h), Mùi (13-15h), Tuất (19-21h)",
+        "Ngọ": "Tý (23-1h), Sửu (1-3h), Mão (5-7h), Ngọ (11-13h)",
+        "Mùi": "Dần (3-5h), Mão (5-7h), Tỵ (9-11h), Thân (15-17h)",
+        "Thân": "Tý (23-1h), Thìn (7-9h), Tỵ (9-11h), Tuất (19-21h)",
+        "Dậu": "Sửu (1-3h), Thìn (7-9h), Ngọ (11-13h), Mùi (13-15h)",
+        "Tuất": "Dần (3-5h), Ngọ (11-13h), Thân (15-17h), Dậu (17-19h)",
+        "Hợi": "Sửu (1-3h), Thìn (7-9h), Tỵ (9-11h), Tuất (19-21h)"
+    };
+    const clashMap = {
+        "Tý": "Ngọ, Mão, Dậu", "Sửu": "Mùi, Thìn, Tuất", "Dần": "Thân, Tỵ, Hợi",
+        "Mão": "Dậu, Tý, Ngọ", "Thìn": "Tuất, Sửu, Mùi", "Tỵ": "Hợi, Dần, Thân",
+        "Ngọ": "Tý, Mão, Dậu", "Mùi": "Sửu, Thìn, Tuất", "Thân": "Dần, Tỵ, Hợi",
+        "Dậu": "Mão, Tý, Ngọ", "Tuất": "Thìn, Sửu, Mùi", "Hợi": "Tỵ, Dần, Thân"
+    };
+    return {
+        hours: auspiciousMap[chiDay] || "Tý, Dần, Mão, Ngọ",
+        clash: clashMap[chiDay] || "Tuổi xung ngày",
+        zhic: "Thành / Khai", term: "Lập Thu"
+    };
+}
+
+function renderProCalendar() {
+    const year = viewDate.getFullYear();
+    const month = viewDate.getMonth();
+
+    const titleEl = document.getElementById("pro-cal-title");
+    if(titleEl) titleEl.innerText = `Tháng ${month + 1} / ${year}`;
+
+    const todayDetails = getLunarDetails(todayReal.getDate(), todayReal.getMonth() + 1, todayReal.getFullYear());
+    
+    const lunarMY = document.getElementById("pro-lunar-month-year");
+    if(lunarMY) lunarMY.innerText = `ÂM LỊCH: THÁNG ${todayDetails.lunarMonth} NĂM ${todayDetails.lunarYearStr}`;
+    
+    const todaySolar = document.getElementById("pro-today-solar");
+    if(todaySolar) todaySolar.innerText = `${todayDetails.dayOfWeek} - ${todayDetails.solarDay}`;
+    
+    const lunarGanzhi = document.getElementById("pro-lunar-day-ganzhi");
+    if(lunarGanzhi) lunarGanzhi.innerText = `Ngày ${todayDetails.ganzhiDay} - Tháng ${todayDetails.ganzhiMonth}`;
+
+    const fs = getFengShuiInfo(todayDetails.chiDayName);
+    if(document.getElementById("pro-fengshui-solar-term")) document.getElementById("pro-fengshui-solar-term").innerText = fs.term;
+    if(document.getElementById("pro-fengshui-zhic")) document.getElementById("pro-fengshui-zhic").innerText = fs.zhic;
+    if(document.getElementById("pro-fengshui-auspicious-hours")) document.getElementById("pro-fengshui-auspicious-hours").innerText = fs.hours;
+    if(document.getElementById("pro-fengshui-clash-age")) document.getElementById("pro-fengshui-clash-age").innerText = fs.clash;
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const grid = document.getElementById("pro-cal-grid");
+    if(!grid) return;
+    grid.innerHTML = "";
+
+    let row = document.createElement("tr");
+    for (let i = 0; i < firstDay; i++) {
+        const emptyTd = document.createElement("td");
+        emptyTd.className = "pro-cal-cell other-month";
+        row.appendChild(emptyTd);
+    }
+    for (let day = 1; day <= daysInMonth; day++) {
+        if (row.children.length === 7) {
+            grid.appendChild(row);
+            row = document.createElement("tr");
+        }
+        const td = document.createElement("td");
+        td.className = "pro-cal-cell";
+        if (day === todayReal.getDate() && month === todayReal.getMonth() && year === todayReal.getFullYear()) {
+            td.classList.add("today");
+        }
+        const lunar = getLunarDetails(day, month + 1, year);
+        td.innerHTML = `<span class="s-date">${day}</span><span class="l-date">${lunar.lunarDay}/${lunar.lunarMonth}</span>`;
+        row.appendChild(td);
+    }
+    while (row.children.length < 7) {
+        const emptyTd = document.createElement("td");
+        emptyTd.className = "pro-cal-cell other-month";
+        row.appendChild(emptyTd);
+    }
+    grid.appendChild(row);
+}
+
+function proCalendarNav(dir) { viewDate.setMonth(viewDate.getMonth() + dir); renderProCalendar(); }
+function proResetToToday() { viewDate = new Date(); renderProCalendar(); }
+
+// Tự kích hoạt lại lần nữa cho chắc chắn
+renderProCalendar();
 </script>
 </body>
 </html>
