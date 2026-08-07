@@ -3822,10 +3822,8 @@ document.addEventListener('DOMContentLoaded', function() {
     link.click();
     document.body.removeChild(link);
 }
-    // =========================================================
-// BỘ LÕI QUẢN LÝ ĐA THÀNH VIÊN TỰ ĐỘNG (CORE MULTI-USER)
-// =========================================================
-// HỆ THỐNG XÁC THỰC, PHÂN QUYỀN & ỦY QUYỀN ADMIN (RBAC CORE)
+  // =========================================================
+// HỆ THỐNG XÁC THỰC, PHÂN QUYỀN & ỦY QUYỀN ADMIN (RBAC FULL)
 // =========================================================
 const AppAuthCore = {
     // 1. Danh sách Tài khoản & Phân quyền mặc định
@@ -3840,14 +3838,14 @@ const AppAuthCore = {
         return localDb ? JSON.parse(localDb) : defaultUsers;
     },
 
-    // 2. Lấy thông tin Tài khoản đang làm việc hiện tại
+    // 2. Lấy thông tin Tài khoản đang đăng nhập
     getCurrentUser: function() {
         const activeUsername = localStorage.getItem('app_active_user') || 'duong_tb';
         const users = this.getUsersDatabase();
         return users.find(u => u.username === activeUsername) || users[0];
     },
 
-    // 3. Cập nhật giao diện Trạng thái Đăng nhập & Nút bấm
+    // 3. Cập nhật giao diện thanh Header
     updateUI: function() {
         const user = this.getCurrentUser();
         const displayNameElem = document.getElementById('user-display-name');
@@ -3859,7 +3857,7 @@ const AppAuthCore = {
         if (user.role === 'ADMIN') {
             if (badgeElem) {
                 badgeElem.style.background = '#8b5cf6';
-                badgeElem.innerText = '🔑 QUẢN TRỊ VIÊN / LÃNH ĐẠO (Xem toàn bộ)';
+                badgeElem.innerText = '🔑 QUẢN TRỊ VIÊN CỦA HỆ THỐNG';
             }
             if (adminBtn) adminBtn.style.display = 'flex';
         } else {
@@ -3871,7 +3869,7 @@ const AppAuthCore = {
         }
     },
 
-    // 4. Bảng điều khiển Quản lý & Ủy quyền Admin dành riêng cho Admin
+    // 4. Mở Bảng Quản lý Tài khoản & Ủy quyền Admin (Popup Modal)
     openAdminModal: function() {
         const currentUser = this.getCurrentUser();
         if (currentUser.role !== 'ADMIN') {
@@ -3880,93 +3878,144 @@ const AppAuthCore = {
         }
 
         const users = this.getUsersDatabase();
-        let listText = "DANH SÁCH TÀI KHOẢN VÀ PHÂN QUYỀN CỦA VĂN PHÒNG:\n\n";
+        let rowsHtml = '';
         users.forEach((u, idx) => {
-            listText += `${idx + 1}. ${u.name} [${u.username}] - Quyền: ${u.role === 'ADMIN' ? '🔑 ADMIN (Toàn quyền)' : '👤 USER (Cá nhân)'}\n`;
+            const isAdmin = u.role === 'ADMIN';
+            rowsHtml += `
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                    <td style="padding: 10px; text-align: center;">${idx + 1}</td>
+                    <td style="padding: 10px;"><b>${u.name}</b> <br><small style="color:#64748b;">@${u.username}</small></td>
+                    <td style="padding: 10px;">${u.title}</td>
+                    <td style="padding: 10px; text-align: center;">
+                        <span style="background: ${isAdmin ? '#8b5cf6' : '#10b981'}; color: white; padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: bold;">
+                            ${isAdmin ? '🔑 ADMIN' : '👤 USER'}
+                        </span>
+                    </td>
+                    <td style="padding: 10px; text-align: center;">
+                        ${u.username === 'duong_tb' ? '<small style="color:#94a3b8;">Owner (Gốc)</small>' : `
+                            <button onclick="AppAuthCore.toggleRole('${u.username}')" style="background: ${isAdmin ? '#ef4444' : '#0284c7'}; color: white; border: none; padding: 4px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold;">
+                                ${isAdmin ? 'Thu hồi Admin' : 'Ủy quyền Admin'}
+                            </button>
+                        `}
+                    </td>
+                </tr>
+            `;
         });
-        listText += "\n------------------------------------------------\n";
-        listText += "Để Ủy quyền Admin cho ai, nhập Username của người đó:";
 
-        const targetUser = prompt(listText);
-        if (targetUser) {
-            this.toggleAdminRole(targetUser.trim());
-        }
+        const modalHtml = `
+            <div id="auth-admin-modal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15,23,42,0.7); display: flex; align-items: center; justify-content: center; z-index: 99999;">
+                <div style="background: #ffffff; border-radius: 10px; width: 650px; max-width: 90%; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); overflow: hidden; font-family: sans-serif;">
+                    <div style="background: #0f172a; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="margin: 0; font-size: 16px;"><i class="fa-solid fa-users-gear" style="color: #38bdf8;"></i> QUẢN LÝ TÀI KHOẢN & ỦY QUYỀN ADMIN</h3>
+                        <button onclick="document.getElementById('auth-admin-modal').remove()" style="background: none; border: none; color: white; font-size: 18px; cursor: pointer;">✕</button>
+                    </div>
+                    <div style="padding: 20px; max-height: 400px; overflow-y: auto;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                            <thead>
+                                <tr style="background: #f1f5f9; color: #334155; text-align: left;">
+                                    <th style="padding: 8px; text-align: center;">STT</th>
+                                    <th style="padding: 8px;">Họ tên / Username</th>
+                                    <th style="padding: 8px;">Chức danh</th>
+                                    <th style="padding: 8px; text-align: center;">Quyền</th>
+                                    <th style="padding: 8px; text-align: center;">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>${rowsHtml}</tbody>
+                        </table>
+                    </div>
+                    <div style="background: #f8fafc; padding: 12px 20px; text-align: right; border-top: 1px solid #e2e8f0;">
+                        <button onclick="document.getElementById('auth-admin-modal').remove()" style="background: #64748b; color: white; border: none; padding: 6px 16px; border-radius: 5px; cursor: pointer; font-weight: bold;">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const oldModal = document.getElementById('auth-admin-modal');
+        if (oldModal) oldModal.remove();
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
     },
 
-    // 5. Cấp/Thu hồi Quyền Admin (Ủy quyền)
-    toggleAdminRole: function(username) {
+    // 5. Mở Popup Đổi Tài khoản Đăng nhập
+    switchAccountPrompt: function() {
+        const users = this.getUsersDatabase();
+        const activeUser = this.getCurrentUser();
+        
+        let optionsHtml = '';
+        users.forEach(u => {
+            const isCurrent = u.username === activeUser.username;
+            optionsHtml += `
+                <div onclick="AppAuthCore.selectUser('${u.username}')" style="padding: 12px; margin-bottom: 8px; border: 1.5px solid ${isCurrent ? '#3b82f6' : '#e2e8f0'}; border-radius: 8px; background: ${isCurrent ? '#eff6ff' : '#ffffff'}; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <strong style="color: #1e293b; font-size: 14px;">${u.name}</strong> 
+                        <span style="font-size: 12px; color: #64748b;">(${u.title})</span>
+                    </div>
+                    <span style="font-size: 11px; font-weight: bold; padding: 3px 8px; border-radius: 10px; background: ${u.role === 'ADMIN' ? '#8b5cf6' : '#10b981'}; color: white;">
+                        ${u.role === 'ADMIN' ? 'ADMIN' : 'USER'} ${isCurrent ? '✓ Đang dùng' : ''}
+                    </span>
+                </div>
+            `;
+        });
+
+        const modalHtml = `
+            <div id="auth-switch-modal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15,23,42,0.7); display: flex; align-items: center; justify-content: center; z-index: 99999;">
+                <div style="background: #ffffff; border-radius: 10px; width: 450px; max-width: 90%; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); overflow: hidden; font-family: sans-serif;">
+                    <div style="background: #0f172a; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="margin: 0; font-size: 15px;"><i class="fa-solid fa-right-from-bracket" style="color: #38bdf8;"></i> CHỌN TÀI KHOẢN ĐĂNG NHẬP</h3>
+                        <button onclick="document.getElementById('auth-switch-modal').remove()" style="background: none; border: none; color: white; font-size: 18px; cursor: pointer;">✕</button>
+                    </div>
+                    <div style="padding: 20px; max-height: 350px; overflow-y: auto;">
+                        ${optionsHtml}
+                    </div>
+                    <div style="background: #f8fafc; padding: 12px 20px; text-align: right; border-top: 1px solid #e2e8f0;">
+                        <button onclick="document.getElementById('auth-switch-modal').remove()" style="background: #64748b; color: white; border: none; padding: 6px 16px; border-radius: 5px; cursor: pointer; font-weight: bold;">Hủy</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const oldModal = document.getElementById('auth-switch-modal');
+        if (oldModal) oldModal.remove();
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+    },
+
+    // 6. Chuyển đổi tài khoản được chọn
+    selectUser: function(username) {
+        localStorage.setItem('app_active_user', username);
+        const modal = document.getElementById('auth-switch-modal');
+        if (modal) modal.remove();
+        this.updateUI();
+        location.reload();
+    },
+
+    // 7. Chuyển đổi Quyền Admin / User (Ủy quyền)
+    toggleRole: function(username) {
         let users = this.getUsersDatabase();
         let target = users.find(u => u.username === username);
         if (target) {
             target.role = (target.role === 'ADMIN') ? 'USER' : 'ADMIN';
             localStorage.setItem('app_users_db', JSON.stringify(users));
-            alert(`Đã cập nhật quyền cho ${target.name} thành: ${target.role}`);
+            const modal = document.getElementById('auth-admin-modal');
+            if (modal) modal.remove();
+            this.openAdminModal();
             this.updateUI();
-            location.reload();
-        } else {
-            alert("Không tìm thấy mã Username này trong hệ thống!");
         }
     },
 
-    // 6. Đổi tài khoản làm việc
-    switchAccountPrompt: function() {
-        const users = this.getUsersDatabase();
-        let msg = "CHỌN TÀI KHOẢN BẠN MUỐN ĐĂNG NHẬP / CHUYỂN ĐỔI:\n\n";
-        users.forEach(u => {
-            msg += `• Gõ [ ${u.username} ] để đăng nhập tài khoản: ${u.name}\n`;
-        });
-
-        const selected = prompt(msg);
-        if (selected) {
-            const found = users.find(u => u.username === selected.trim());
-            if (found) {
-                localStorage.setItem('app_active_user', found.username);
-                alert(`Đã chuyển sang tài khoản: ${found.name}`);
-                this.updateUI();
-                location.reload();
-            } else {
-                alert("Tài khoản không tồn tại!");
-            }
-        }
-    },
-
-    // 7. Lọc dữ liệu hiển thị theo Quyền (Admin xem full 100%, User xem dữ liệu của mình)
+    // 8. Bộ lọc dữ liệu theo Quyền
     filterData: function(dataArray) {
         if (!Array.isArray(dataArray)) return [];
         const user = this.getCurrentUser();
-
-        // Nếu là ADMIN (Bao gồm Admin chính & Admin được ủy quyền): Xem 100% dữ liệu
-        if (user.role === 'ADMIN') {
-            return dataArray;
-        }
-
-        // Nếu là Chuyên viên: Chỉ thấy bản ghi do mình tạo
+        if (user.role === 'ADMIN') return dataArray;
         return dataArray.filter(item => !item.created_by || item.created_by === user.username);
-    },
-
-    // 8. Hợp nhất dữ liệu Cloud chống ghi đè
-    mergeCloudData: function(localArray, cloudArray) {
-        if (!Array.isArray(localArray)) localArray = [];
-        if (!Array.isArray(cloudArray)) cloudArray = [];
-
-        let mergedMap = new Map();
-        cloudArray.forEach(item => mergedMap.set(item.id || JSON.stringify(item), item));
-        localArray.forEach(item => {
-            let key = item.id || JSON.stringify(item);
-            if (!mergedMap.has(key)) mergedMap.set(key, item);
-        });
-        return Array.from(mergedMap.values());
     },
 
     // 9. Can thiệp LocalStorage
     initAutoHook: function() {
         const self = this;
         const originalGetItem = localStorage.getItem;
-
         localStorage.getItem = function(key) {
             const rawVal = originalGetItem.apply(this, arguments);
             const targetKeys = ['sys_ink_logs', 'sys_ink_inventory', 'inkData', 'cntt_devices', 'salary_logs', 'leave_logs'];
-            
             if (targetKeys.includes(key) && rawVal) {
                 try {
                     const parsed = JSON.parse(rawVal);
@@ -3980,83 +4029,10 @@ const AppAuthCore = {
     }
 };
 
-// Khởi chạy hệ thống khi trang tải xong
+// Khởi chạy hệ thống chuẩn mới khi nạp trang
 document.addEventListener('DOMContentLoaded', function() {
     AppAuthCore.initAutoHook();
     AppAuthCore.updateUI();
-});
-    // 3. Cập nhật nhãn trạng thái hiển thị
-    updateBadgeUI: function(userId) {
-        const badge = document.getElementById('user-status-badge');
-        if (!badge) return;
-        if (userId === 'ALL') {
-            badge.style.background = '#0284c7';
-            badge.innerHTML = '🌐 Chế độ: Xem toàn bộ';
-        } else {
-            badge.style.background = '#15803d';
-            badge.innerHTML = '👤 Chế độ: Cá nhân (' + userId + ')';
-        }
-    },
-
-    // 4. Tự động gắn nhãn người tạo cho mọi bản ghi trước khi lưu
-    wrapData: function(recordObj) {
-        const currentUser = this.getActiveUser();
-        const createdBy = (currentUser === 'ALL') ? 'duong_tb' : currentUser;
-        
-        return Object.assign({}, recordObj, {
-            created_by: createdBy,
-            created_at: new Date().toISOString()
-        });
-    },
-
-    // 5. Bộ lọc dữ liệu theo Chế độ Cá nhân / Tổng quan cho MỌI TAB
-    filterData: function(dataArray) {
-        if (!Array.isArray(dataArray)) return [];
-        const currentUser = this.getActiveUser();
-
-        // Chế độ TỔNG QUAN: Hiển thị 100% dữ liệu
-        if (currentUser === 'ALL') {
-            return dataArray;
-        }
-
-        // Chế độ CÁ NHÂN: Chỉ hiển thị dữ liệu do người đó nhập (hoặc dữ liệu cũ chưa có nhãn)
-        return dataArray.filter(item => !item.created_by || item.created_by === currentUser);
-    },
-
-    // 6. Tự động can thiệp vào LocalStorage để lọc dữ liệu trong suốt cho các Tab
-    initAutoHook: function() {
-        const self = this;
-        const originalSetItem = localStorage.setItem;
-        const originalGetItem = localStorage.getItem;
-
-        // Tự động lọc dữ liệu khi các Tab đọc từ LocalStorage
-        localStorage.getItem = function(key) {
-            const rawVal = originalGetItem.apply(this, arguments);
-            // Các key dữ liệu của ứng dụng
-            const targetKeys = ['sys_ink_logs', 'sys_ink_inventory', 'inkData', 'cntt_devices', 'salary_logs', 'leave_logs'];
-            
-            if (targetKeys.includes(key) && rawVal) {
-                try {
-                    const parsed = JSON.parse(rawVal);
-                    if (Array.isArray(parsed)) {
-                        return JSON.stringify(self.filterData(parsed));
-                    }
-                } catch(e) {}
-            }
-            return rawVal;
-        };
-    }
-};
-
-// Khởi chạy khi trang tải xong
-document.addEventListener('DOMContentLoaded', function() {
-    AppMultiUserCore.initAutoHook();
-    const selectElem = document.getElementById('global-user-select');
-    if (selectElem) {
-        const activeUser = AppMultiUserCore.getActiveUser();
-        selectElem.value = activeUser;
-        AppMultiUserCore.updateBadgeUI(activeUser);
-    }
 });
 </script>
 </body>
