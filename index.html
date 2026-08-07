@@ -223,13 +223,18 @@
             <button type="button" class="btn btn-purple" style="padding: 5px 8px; font-size:11.5px;" onclick="openConfigUrlModal()"><i class="fa-solid fa-link"></i> Cấu hình</button>
         </div>
     </div>
+    <!-- KHỐI WORKSPACE CHIA 2 CỘT -->
+<div class="workspace">
+    <!-- CỘT BÊN TRÁI: HIỂN THỊ BIỂU ĐỒ & BÁO CÁO CỦA ANH -->
+    <div class="main-content">
+        <!-- (Toàn bộ các thẻ HTML biểu đồ, báo cáo tài chính... của anh giữ nguyên ở đây) -->
+    </div>
+    <!-- CỘT BÊN PHẢI (SIDEBAR): ĐẶT LỊCH VẠN NIÊN Ở ĐẦU -->
+    <div class="sidebar-right">
+        <!-- DÁN TRỌN BỘ MÃ WIDGET LỊCH VẠN NIÊN VÀO ĐÂY -->
+    </div>
 
-    <div class="workspace" id="main-workspace">
-        <div class="main-body">
-            <div class="header">
-                <h1 id="disp-header-company">TỔNG CÔNG TY GIẤY VIỆT NAM - VĂN PHÒNG</h1>
-                <div class="live-clock-box" id="live-system-clock">--:--:-- --/--/----</div>
-            </div>
+</div>
 
             <!-- 6 THẺ DASHBOARD 3D CHUYÊN NGHIỆP -->
             <div class="stat-grid-3d">
@@ -379,26 +384,78 @@
             </div>
         </div> 
         <!-- KẾT THÚC CỘT BÊN TRÁI -->
-            <!-- BẢNG LƯỚI LỊCH (ÉP CỐ ĐỊNH CHIỀU CAO Ô 38PX) -->
-            <table style="width: 100%; border-collapse: collapse; text-align: center; font-family: sans-serif; table-layout: fixed;">
+           <!-- CỘT BÊN PHẢI (SIDEBAR): LỊCH VẠN NIÊN PHONG THỦY MỚI -->
+    <div class="sidebar-right">
+        <div class="pro-calendar-card" style="background: #ffffff; border-radius: 10px; border: 1.5px solid #cbd5e1; padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); font-family: system-ui, -apple-system, sans-serif;">
+            
+            <!-- 1. Thanh điều hướng Tháng / Năm -->
+            <div style="background: #0f172a; color: white; padding: 8px 14px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <button type="button" onclick="proCalendarNav(-1)" style="background:none; border:none; color:white; font-size:16px; cursor:pointer; font-weight:bold;">❮</button>
+                <b id="pro-cal-title" style="font-size: 15px; letter-spacing: 0.5px;">Tháng -- / ----</b>
+                <button type="button" onclick="proCalendarNav(1)" style="background:none; border:none; color:white; font-size:16px; cursor:pointer; font-weight:bold;">❯</button>
+            </div>
+
+            <!-- 2. Banner Ngày Hiện Tại -->
+            <div style="background: linear-gradient(135deg, #851414 0%, #b91c1c 100%); color: white; padding: 12px; border-radius: 8px; text-align: center; margin-bottom: 10px; box-shadow: 0 2px 6px rgba(185,28,28,0.25);">
+                <div id="pro-lunar-month-year" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; opacity: 0.95; font-weight: 600; color: #fef08a;">ÂM LỊCH: ĐANG TÍNH...</div>
+                <div id="pro-today-solar" style="font-size: 22px; font-weight: 800; color: #ffffff; margin: 4px 0; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">THỨ -- - --</div>
+                <div id="pro-lunar-day-ganzhi" style="font-size: 12px; color: #fefdd3; font-weight: 500;">Ngày -- - Tháng --</div>
+            </div>
+
+            <!-- 3. Bảng Lịch Ngày -->
+            <table style="width: 100%; border-collapse: collapse; text-align: center; font-size: 12px; margin-bottom: 10px;">
                 <thead>
-                    <tr style="background: #f1f5f9; color: #334155; font-size: 11px; font-weight: bold;">
-                        <th style="padding: 4px; color: #dc2626; border: 1px solid #e2e8f0;">CN</th>
-                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T2</th>
-                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T3</th>
-                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T4</th>
-                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T5</th>
-                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T6</th>
-                        <th style="padding: 4px; border: 1px solid #e2e8f0;">T7</th>
-    </div> 
+                    <tr style="color: #64748b; font-weight: bold; border-bottom: 1px solid #e2e8f0; height: 26px;">
+                        <th style="color: #dc2626;">CN</th>
+                        <th>T2</th>
+                        <th>T3</th>
+                        <th>T4</th>
+                        <th>T5</th>
+                        <th>T6</th>
+                        <th>T7</th>
+                    </tr>
+                </thead>
+                <tbody id="pro-cal-grid">
+                    <!-- Tự động sinh danh sách ngày -->
+                </tbody>
+            </table>
+
+            <!-- 4. Phong Thủy Chi Tiết -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; font-size: 11.5px; color: #334155; line-height: 1.6;">
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px; margin-bottom: 4px;">
+                    <span>☀️ <b>Tiết khí:</b> <span id="pro-fengshui-solar-term">--</span></span>
+                    <span>⭐ <b>Trực:</b> <span id="pro-fengshui-zhic">--</span></span>
+                </div>
+                <div style="margin-bottom: 4px;">
+                    ⏰ <b>Giờ Hoàng Đạo:</b> <span id="pro-fengshui-auspicious-hours" style="color: #15803d; font-weight: 600;">--</span>
+                </div>
+                <div>
+                    ⚠️ <b>Tuổi xung khắc ngày:</b> <span id="pro-fengshui-clash-age" style="color: #b91c1c; font-weight: 600;">--</span>
+                </div>
+            </div>
+
+            <button type="button" onclick="proResetToToday()" style="width: 100%; margin-top: 8px; background: #2563eb; color: white; border: none; padding: 6px; border-radius: 6px; font-size: 11.5px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
+                🔄 Trở về hôm nay
+            </button>
+        </div>
+    </div>
     <!-- KẾT THÚC WORKSPACE -->
 </div>
 
 <!-- CSS KHỐNG CHẾ ÉP Ô LỊCH NHỎ GỌN TRỰC TIẾP -->
 <style>
 .workspace {
-    display: block !important;
+    display: grid !important;
+    grid-template-columns: 1fr 330px !important;
+    gap: 16px !important;
+    align-items: start !important;
     width: 100% !important;
+}
+
+.sidebar-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 /* Triệt tiêu ô đỏ phồng to: Ép chiều cao tuyệt đối 38px cho toàn bộ các ô ngày */
 .calendar-card td, 
