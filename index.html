@@ -316,8 +316,8 @@
 </div>
 <!-- TAB 0: DASHBOARD -->
 <div id="tab-dashboard" class="tab-content active">
-    <!-- KHUNG WORKSPACE CHIA 2 CỘT TỶ LỆ CHUẨN (TRÁI: BIỂU ĐỒ | PHẢI: LỊCH 350PX) -->
-    <div class="workspace" style="display: grid; grid-template-columns: 1fr 350px; gap: 12px; align-items: start;">
+    <!-- KHUNG WORKSPACE CHIA 2 CỘT TỶ LỆ CHUẨN (TRÁI: BIỂU ĐỒ & BÁO CÁO | PHẢI: LỊCH SANG TRỌNG) -->
+    <div class="workspace">
         
         <!-- CỘT BÊN TRÁI: BIỂU ĐỒ & BÁO CÁO TỔNG QUAN -->
         <div class="main-card">
@@ -390,7 +390,7 @@
                 <button type="button" onclick="changeMonth(1)" style="background:none; border:none; color:white; font-size:14px; cursor:pointer;">❯</button>
             </div>
 
-            <!-- BANNER HÔM NAY (MỚI: ĐẸP NỔI BẬT NGUYÊN BẢN CỦA BẠN) -->
+            <!-- BANNER HÔM NAY (ĐẸP NỔI BẬT NGUYÊN BẢN CỦA BẠN) -->
             <div style="background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%); color: white; padding: 10px; border-radius: 6px; text-align: center; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">
                 <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9;">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
                 <div style="font-size: 20px; font-weight: bold; color: #fef08a; margin: 3px 0; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">THỨ SÁU - 7</div>
@@ -411,7 +411,7 @@
                     </tr>
                 </thead>
                 <tbody id="calendar-grid-body">
-                    <!-- Javascript tự động fill dữ liệu ngày -->
+                    <!-- Javascript tự động nạp dữ liệu ngày -->
                 </tbody>
             </table>
 
@@ -422,7 +422,7 @@
     <!-- KẾT THÚC WORKSPACE -->
 </div>
 
-<!-- CSS KHỐNG CHẾ ÉP Ô LỊCH NHỎ GỌN TRỰC TIẾP -->
+<!-- THẺ STYLE BỌC CHUẨN - TRIỆT TIÊU LỖI TRÀN CHỮ RA MÀN HÌNH -->
 <style>
 .workspace {
     display: grid !important;
