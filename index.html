@@ -4059,15 +4059,27 @@ document.addEventListener('DOMContentLoaded', function() {
 </html>
 });   
 function toggleCalendarModal() {
+  // Tìm tất cả các phần tử có ID hoặc Class liên quan đến lịch
   const calBox = document.getElementById('calendar-sidebar-box');
-  if (calBox) {
-    const currentDisplay = window.getComputedStyle(calBox).display;
-    if (currentDisplay === 'none') {
-      calBox.style.setProperty('display', 'block', 'important');
-    } else {
-      calBox.style.setProperty('display', 'none', 'important');
-    }
+  
+  if (!calBox) {
+    alert("Không tìm thấy phần tử 'calendar-sidebar-box' trên trang!");
+    return;
   }
+  // Lấy trạng thái hiển thị hiện tại
+  const style = window.getComputedStyle(calBox);
+  const isHidden = style.display === 'none' || style.visibility === 'hidden' || calBox.classList.contains('hidden');
+  if (isHidden) {
+    calBox.style.setProperty('display', 'block', 'important');
+    calBox.style.setProperty('visibility', 'visible', 'important');
+    calBox.classList.remove('hidden');
+    calBox.classList.add('show', 'active');
+  } else {
+    calBox.style.setProperty('display', 'none', 'important');
+    calBox.classList.remove('show', 'active');
+  }
+}
+}
 </script>
   <!-- Modal Đổi Mật Khẩu -->
 <div id="changePasswordModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:999999; backdrop-filter: blur(3px);">
