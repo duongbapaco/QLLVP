@@ -192,7 +192,8 @@
             <button type="button" class="btn btn-green" style="padding: 5px 8px; font-size:11.5px;" onclick="saveDataToCloudAPI()"><i class="fa-solid fa-cloud-arrow-up"></i> 🔄 Đồng Bộ Ngay Lên Cloud</button>
             <button type="button" class="btn btn-primary" style="padding: 5px 8px; font-size:11.5px;" onclick="loadDataFromCloudAPI()"><i class="fa-solid fa-cloud-arrow-down"></i> Tải Dữ Liệu Từ Cloud</button>
             <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="padding: 5px 8px; font-size:11.5px;"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
-          <button type="button" 
+         <button type="button" 
+        id="btn-toggle-calendar"
         onclick="toggleCalendarModal()" 
         style="background: #16a34a; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
   <i class="fa-solid fa-calendar-days"></i> Lịch
@@ -4059,27 +4060,39 @@ document.addEventListener('DOMContentLoaded', function() {
 </html>
 });   
 function toggleCalendarModal() {
-  // Tìm tất cả các phần tử có ID hoặc Class liên quan đến lịch
-  const calBox = document.getElementById('calendar-sidebar-box');
+  console.log("-> Nút Lịch đã được bấm!");
   
+  var calBox = document.getElementById('calendar-sidebar-box');
   if (!calBox) {
-    alert("Không tìm thấy phần tử 'calendar-sidebar-box' trên trang!");
+    alert("LỖI: Không tìm thấy ID 'calendar-sidebar-box'!");
     return;
   }
-  // Lấy trạng thái hiển thị hiện tại
-  const style = window.getComputedStyle(calBox);
-  const isHidden = style.display === 'none' || style.visibility === 'hidden' || calBox.classList.contains('hidden');
-  if (isHidden) {
+
+  // Lấy trạng thái hiển thị
+  var currentDisplay = window.getComputedStyle(calBox).display;
+  console.log("Trạng thái display hiện tại:", currentDisplay);
+
+  if (currentDisplay === 'none') {
     calBox.style.setProperty('display', 'block', 'important');
     calBox.style.setProperty('visibility', 'visible', 'important');
-    calBox.classList.remove('hidden');
-    calBox.classList.add('show', 'active');
+    calBox.style.setProperty('opacity', '1', 'important');
+    if (calBox.parentElement) {
+      calBox.parentElement.style.setProperty('display', 'block', 'important');
+    }
   } else {
     calBox.style.setProperty('display', 'none', 'important');
-    calBox.classList.remove('show', 'active');
   }
 }
-}
+// Đảm bảo sự kiện click luôn được bắt khi DOM đã sẵn sàng
+document.addEventListener('DOMContentLoaded', function() {
+  const btnCal = document.querySelector('button[onclick*="toggleCalendarModal"]');
+  if (btnCal) {
+    btnCal.onclick = function(e) {
+      e.preventDefault();
+      window.toggleCalendarModal();
+    };
+  }
+});
 </script>
   <!-- Modal Đổi Mật Khẩu -->
 <div id="changePasswordModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:999999; backdrop-filter: blur(3px);">
