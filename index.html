@@ -17,11 +17,12 @@
         :root { --primary: #0f172a; --blue: #1d4ed8; --orange: #ea580c; --green: #047857; --purple: #6d28d9; --red: #b91c1c; --teal: #0d9488; --border-color: #64748b; --text-main: #000000; --bg-light: #f1f5f9; }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: rgba(0,0,0,0.2); }
         body { font-family: 'Times New Roman', Times, serif; font-size: 14px; margin: 0; padding: 6px; background: var(--bg-light); color: var(--text-main); font-weight: 500; }
-        
-        .workspace { display: grid; grid-template-columns: 1fr 400px; gap: 10px; align-items: start; transition: all 0.3s ease; }
-        .workspace.calendar-hidden { grid-template-columns: 1fr !important; }
+        .workspace { display: grid; grid-template-columns: 1fr 340px; gap: 15px; align-items: start; transition: all 0.3s ease; }
+        .workspace.calendar-hidden { grid-template-columns: 1fr !important; gap: 0 !important; }
+        .workspace.calendar-hidden .sidebar-right,
+        .workspace.calendar-hidden #calendar-sidebar-box,
+       .workspace.calendar-hidden .calendar-sidebar { display: none !important; }
         @media (max-width: 1024px) { .workspace { grid-template-columns: 1fr; } }
-
         .db-status-bar { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: #cbd5e1; border-bottom: 2px solid var(--border-color); font-size: 13px; font-weight: bold; border-radius: 4px; margin-bottom: 6px; flex-wrap: wrap; gap: 6px; }
         .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; background-color: var(--green); }
         
@@ -193,7 +194,7 @@
             <button type="button" class="btn btn-green" style="padding: 5px 8px; font-size:11.5px;" onclick="saveDataToCloudAPI()"><i class="fa-solid fa-cloud-arrow-up"></i> 🔄 Đồng Bộ Ngay Lên Cloud</button>
             <button type="button" class="btn btn-primary" style="padding: 5px 8px; font-size:11.5px;" onclick="loadDataFromCloudAPI()"><i class="fa-solid fa-cloud-arrow-down"></i> Tải Dữ Liệu Từ Cloud</button>
             <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="padding: 5px 8px; font-size:11.5px;"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
-            <button type="button" class="btn btn-green" style="padding: 5px 8px; font-size:11.5px;" onclick="toggleCalendarSidebar()"><i class="fa-solid fa-calendar-days"></i> Lịch</button>
+            <button type="button" class="btn btn-green" style="padding: 5px 8px; font-size:11.5px;" onclick="toggleRightCalendar()"><i class="fa-solid fa-calendar-days"></i> Lịch</button>
             <button type="button" class="btn btn-purple" style="padding: 5px 8px; font-size:11.5px;" onclick="openConfigUrlModal()"><i class="fa-solid fa-link"></i> Cấu hình</button>
         </div>
     </div>
@@ -1880,7 +1881,6 @@
                 renderPopupCalendar(popupId);
             }
         }
-
         function renderPopupCalendar(popupId) {
             let popup = document.getElementById(popupId);
             let y = pickerCurrentDate.getFullYear();
@@ -1891,12 +1891,10 @@
             for (let yr = 2020; yr <= 2035; yr++) {
                 yearOptionsHTML += `<option value="${yr}" ${yr === y ? 'selected' : ''}>Năm ${yr}</option>`;
             }
-
             let monthOptionsHTML = '';
             for (let mo = 0; mo < 12; mo++) {
                 monthOptionsHTML += `<option value="${mo}" ${mo === m ? 'selected' : ''}>${monthNames[mo]}</option>`;
             }
-
             let html = `
                 <div class="popup-cal-top-bar">
                     <select onchange="onPopupYearChange(this.value, '${popupId}')">${yearOptionsHTML}</select>
@@ -1932,11 +1930,9 @@
             html += `</div><div style="text-align:right; margin-top:8px;"><button type="button" class="btn btn-gray" style="padding:4px 10px; font-size:11.5px;" onclick="document.getElementById('${popupId}').style.display='none'; activePickerId=null;">Đóng</button></div>`;
             popup.innerHTML = html;
         }
-
         function onPopupYearChange(yr, popupId) { pickerCurrentDate.setFullYear(parseInt(yr)); renderPopupCalendar(popupId); }
         function onPopupMonthChange(mo, popupId) { pickerCurrentDate.setMonth(parseInt(mo)); renderPopupCalendar(popupId); }
         function changePopupMonth(dir, popupId) { pickerCurrentDate.setMonth(pickerCurrentDate.getMonth() + dir); renderPopupCalendar(popupId); }
-
         function selectPopupDate(d, m, y, popupId) {
             let formattedDay = d < 10 ? '0' + d : d;
             let formattedMonth = m < 10 ? '0' + m : m;
@@ -2684,29 +2680,23 @@
             localStorage.setItem('sys_salary_configs_by_month', JSON.stringify(salaryConfigsByMonth));
             calculateSalaryLogic();
         }
-
         function calculateSalaryLogic() {
             let sm = document.getElementById('filter-month').value;
             let parts = sm.split('-');
             let mNum = parts[1] || "07";
             let yNum = parts[0] || CURRENT_SELECTED_YEAR;
-
             syncLeaveDaysToSalaryTables();
-
             let activeData = salaryDataByMonth[sm] || JSON.parse(JSON.stringify(default16Staffs));
             let cfg = salaryConfigsByMonth[sm] || {};
             document.getElementById('disp-header-company').innerText = `${cfg.companyTitle || 'TỔNG CÔNG TY GIẤY VIỆT NAM'} - ${cfg.deptTitle || 'VĂN PHÒNG'}`;
             document.getElementById('disp-table-title').innerText = cfg.sheetTitle || `BẢNG LƯƠNG TỔNG HỢP THÁNG ${mNum}/${yNum}`;
             document.getElementById('disp-signer-name').innerText = cfg.signer || "Nguyễn Thị Tuyết Nhung";
-
             const tbody = document.getElementById('tbody-salary'); 
             tbody.innerHTML = ""; 
-
             let T_thuc_linh_cb = 0, T_thuc_linh_lcv = 0, T_anca = 0, T_net = 0;
             let vungReg = cfg.vung || 4140000;
             let baseReg = cfg.base || 2650000;
             let lcvReg = cfg.lcv || 1991139;
-
             activeData.forEach((row, index) => {
                 let val_NT = row.NT !== undefined ? parseFloat(row.NT) : 20;
                 let val_P = row.P !== undefined ? parseFloat(row.P) : getStaffUsedLeaveInMonth(row.name, sm);
@@ -4561,6 +4551,33 @@ function addFullCalendarEvent() {
 document.addEventListener("DOMContentLoaded", function() {
     renderFullSmartCalendar();
 });
+    // HÀM BẬT / TẮT LỊCH SIDEBAR & BUNG FULL MÀN HÌNH 100%
+function toggleRightCalendar() {
+    // 1. Tìm khung chứa workspace
+    let workspace = document.querySelector('.workspace');
+    if (!workspace) {
+        workspace = document.querySelector('.main-content')?.parentElement || document.body;
+    }
+
+    // 2. Bật/Tắt class calendar-hidden để co/dãn giao diện
+    if (workspace) {
+        workspace.classList.toggle('calendar-hidden');
+    }
+
+    // 3. Tìm và Bật/Tắt hiển thị của cột Lịch bên phải
+    const sidebar = document.getElementById('sidebar-calendar') 
+                 || document.getElementById('calendar-sidebar-box') 
+                 || document.querySelector('.sidebar-right') 
+                 || document.querySelector('.calendar-sidebar');
+
+    if (sidebar) {
+        if (sidebar.style.display === 'none') {
+            sidebar.style.display = 'block';
+        } else {
+            sidebar.style.display = 'none';
+        }
+    }
+}
 </script>
 </body>
 </html>
