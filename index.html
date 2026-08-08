@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -3667,7 +3667,7 @@ const AppAuthCore = {
     // 1. Danh sách Tài khoản & Phân quyền mặc định
     getUsersDatabase: function() {
         const defaultUsers = [
-            { username: "duong_tb", password: "123", name: "Trần Bình Dương", role: "ADMIN", title: "Quản trị viên / Trợ lý TGĐ" },
+            { username: "duong_tb", password: "123", name: "Trần Bình Dương", role: "ADMIN", title: "Quản trị viên" },
             { username: "long_td", password: "123", name: "Tạ Đức Long", role: "ADMIN", title: "Tổng Giám Đốc" },
             { username: "cv_vanphong_1", password: "123", name: "Chuyên viên Văn phòng 1", role: "USER", title: "Chuyên viên VP" }
         ];
@@ -3830,15 +3830,18 @@ const AppAuthCore = {
                     <!-- FORM TẠO TÀI KHOẢN MỚI -->
                     <div style="background: #f8fafc; padding: 15px 20px; border-bottom: 1px solid #e2e8f0;">
                         <b style="font-size: 13px; color: #0369a1; display: block; margin-bottom: 8px;">➕ TẠO TÀI KHOẢN MỚI CHO NHÂN VIÊN:</b>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr auto; gap: 8px; align-items: center;">
-                            <input type="text" id="new-user-name" placeholder="Họ và tên..." style="padding: 6px 10px; border-radius: 5px; border: 1px solid #cbd5e1; font-size: 12px;">
-                            <input type="text" id="new-user-username" placeholder="Username (Mã VP)..." style="padding: 6px 10px; border-radius: 5px; border: 1px solid #cbd5e1; font-size: 12px;">
-                            <input type="text" id="new-user-password" placeholder="Mật khẩu..." value="123" style="padding: 6px 10px; border-radius: 5px; border: 1px solid #cbd5e1; font-size: 12px;">
-                            <input type="text" id="new-user-title" placeholder="Chức danh..." style="padding: 6px 10px; border-radius: 5px; border: 1px solid #cbd5e1; font-size: 12px;">
-                            <button onclick="AppAuthCore.createNewUser()" style="background: #16a34a; color: white; border: none; padding: 7px 12px; border-radius: 5px; font-weight: bold; font-size: 12px; cursor: pointer;">Tạo Mới</button>
-                        </div>
+                        <!-- KHỐI TẠO TÀI KHOẢN MỚI (ĐÃ SỬA LỖI KHUẤT NÚT) -->
+                         <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center; width: 100%; box-sizing: border-box; margin-bottom: 15px;">
+  <input type="text" id="new-user-name" placeholder="Họ và tên..." style="flex: 1.5; min-width: 110px; padding: 6px 10px; border-radius: 5px; border: 1px solid #cbd5e1; font-size: 12px; box-sizing: border-box;" />
+  <input type="text" id="new-user-username" placeholder="Username (Mã VP)..." style="flex: 1.2; min-width: 110px; padding: 6px 10px; border-radius: 5px; border: 1px solid #cbd5e1; font-size: 12px; box-sizing: border-box;" />
+  <input type="text" id="new-user-password" placeholder="Mật khẩu..." value="123" style="flex: 0.8; min-width: 60px; padding: 6px 10px; border-radius: 5px; border: 1px solid #cbd5e1; font-size: 12px; box-sizing: border-box;" />
+  <input type="text" id="new-user-title" placeholder="Chức danh..." style="flex: 1.2; min-width: 90px; padding: 6px 10px; border-radius: 5px; border: 1px solid #cbd5e1; font-size: 12px; box-sizing: border-box;" />
+  
+  <button type="button" onclick="AppAuthCore.createNewUser()" style="background: #16a34a; color: white; border: none; padding: 7px 12px; border-radius: 5px; font-weight: bold; font-size: 12px; cursor: pointer; white-space: nowrap; flex-shrink: 0;">
+    Tạo Mới
+  </button>
+</div>
                     </div>
-
                     <div style="padding: 15px 20px; max-height: 300px; overflow-y: auto;">
                         <table style="width: 100%; border-collapse: collapse; font-size: 12.5px;">
                             <thead>
@@ -4031,41 +4034,46 @@ document.addEventListener('DOMContentLoaded', function() {
 </html>
 });   
 </script>
-  <div id="changePasswordModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999;">
-    <div class="modal-content" style="background:#fff; width:350px; margin:100px auto; padding:20px; border-radius:8px;">
-      <h3>Đổi Mật Khẩu</h3>
-      <form id="changePasswordForm">
-        <div style="margin-bottom:10px;">
-          <label>Mật khẩu hiện tại:</label><br>
-          <input type="password" id="currentPassword" style="width:100%; padding:6px;" required />
-        </div>
-        <div style="margin-bottom:10px;">
-          <label>Mật khẩu mới:</label><br>
-          <input type="password" id="newPassword" style="width:100%; padding:6px;" required />
-        </div>
-        <div style="margin-bottom:15px;">
-          <label>Xác nhận mật khẩu mới:</label><br>
-          <input type="password" id="confirmNewPassword" style="width:100%; padding:6px;" required />
-        </div>
-        <button type="submit" style="padding:6px 12px; background:#007bff; color:#fff; border:none; border-radius:4px; cursor:pointer;">Cập nhật</button>
-        <button type="button" onclick="closeModal('changePasswordModal')" style="padding:6px 12px; background:#6c757d; color:#fff; border:none; border-radius:4px; cursor:pointer;">Hủy</button>
-      </form>
-    </div>
+  <!-- Modal Đổi Mật Khẩu -->
+<div id="changePasswordModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:999999; backdrop-filter: blur(3px);">
+  <div class="modal-content" style="background:#fff; width:90%; max-width:380px; margin:5vh auto; padding:24px; border-radius:12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; position: relative;">
+    <h3 style="margin-top:0; font-size:18px; color:#1e293b;">Đổi Mật Khẩu</h3>
+    <form id="changePasswordForm">
+      <div style="margin-bottom:12px;">
+        <label style="font-size:13px; font-weight:600; color:#475569;">Mật khẩu hiện tại:</label>
+        <input type="password" id="currentPassword" style="width:100%; padding:8px 10px; margin-top:4px; border-radius:6px; border:1px solid #cbd5e1; box-sizing:border-box;" required />
+      </div>
+      <div style="margin-bottom:12px;">
+        <label style="font-size:13px; font-weight:600; color:#475569;">Mật khẩu mới:</label>
+        <input type="password" id="newPassword" style="width:100%; padding:8px 10px; margin-top:4px; border-radius:6px; border:1px solid #cbd5e1; box-sizing:border-box;" required />
+      </div>
+      <div style="margin-bottom:18px;">
+        <label style="font-size:13px; font-weight:600; color:#475569;">Xác nhận mật khẩu mới:</label>
+        <input type="password" id="confirmNewPassword" style="width:100%; padding:8px 10px; margin-top:4px; border-radius:6px; border:1px solid #cbd5e1; box-sizing:border-box;" required />
+      </div>
+      <div style="display:flex; gap:10px; justify-content:flex-end;">
+        <button type="button" onclick="closeModal('changePasswordModal')" style="padding:8px 16px; background:#e2e8f0; color:#475569; border:none; border-radius:6px; cursor:pointer; font-weight:600;">Hủy</button>
+        <button type="submit" style="padding:8px 16px; background:#2563eb; color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:600;">Cập nhật</button>
+      </div>
+    </form>
   </div>
-
-  <div id="forgotPasswordModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999;">
-    <div class="modal-content" style="background:#fff; width:350px; margin:100px auto; padding:20px; border-radius:8px;">
-      <h3>Lấy Lại Mật Khẩu</h3>
-      <p style="font-size:13px; color:#555;">Nhập email hoặc tên tài khoản để khôi phục:</p>
-      <form id="forgotPasswordForm">
-        <div style="margin-bottom:15px;">
-          <input type="text" id="recoveryEmail" style="width:100%; padding:6px;" placeholder="Email hoặc Tên đăng nhập" required />
-        </div>
-        <button type="submit" style="padding:6px 12px; background:#28a745; color:#fff; border:none; border-radius:4px; cursor:pointer;">Xác nhận</button>
-        <button type="button" onclick="closeModal('forgotPasswordModal')" style="padding:6px 12px; background:#6c757d; color:#fff; border:none; border-radius:4px; cursor:pointer;">Đóng</button>
-      </form>
-    </div>
+</div>
+<!-- Modal Quên Mật Khẩu -->
+<div id="forgotPasswordModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:999999; backdrop-filter: blur(3px);">
+  <div class="modal-content" style="background:#fff; width:90%; max-width:380px; margin:5vh auto; padding:24px; border-radius:12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; position: relative;">
+    <h3 style="margin-top:0; font-size:18px; color:#1e293b;">Lấy Lại Mật Khẩu</h3>
+    <p style="font-size:13px; color:#64748b; margin-bottom:16px;">Nhập email hoặc tên tài khoản để khôi phục:</p>
+    <form id="forgotPasswordForm">
+      <div style="margin-bottom:18px;">
+        <input type="text" id="recoveryEmail" style="width:100%; padding:8px 10px; border-radius:6px; border:1px solid #cbd5e1; box-sizing:border-box;" placeholder="Email hoặc Tên đăng nhập" required />
+      </div>
+      <div style="display:flex; gap:10px; justify-content:flex-end;">
+        <button type="button" onclick="closeModal('forgotPasswordModal')" style="padding:8px 16px; background:#e2e8f0; color:#475569; border:none; border-radius:6px; cursor:pointer; font-weight:600;">Đóng</button>
+        <button type="submit" style="padding:8px 16px; background:#16a34a; color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:600;">Xác nhận</button>
+      </div>
+    </form>
   </div>
+</div>
   <!-- =========================================================== -->
 
   <!-- Dòng 4106: </body> -->
