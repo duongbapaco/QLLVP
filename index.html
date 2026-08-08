@@ -4061,11 +4061,11 @@ document.addEventListener('DOMContentLoaded', function() {
 function toggleCalendarModal() {
   const calBox = document.getElementById('calendar-sidebar-box');
   if (calBox) {
-    // Nếu đang ẩn hoặc chưa set style inline thì hiện lên, ngược lại thì ẩn đi
-    if (window.getComputedStyle(calBox).display === 'none') {
-      calBox.style.display = 'block';
+    const currentDisplay = window.getComputedStyle(calBox).display;
+    if (currentDisplay === 'none') {
+      calBox.style.setProperty('display', 'block', 'important');
     } else {
-      calBox.style.display = 'none';
+      calBox.style.setProperty('display', 'none', 'important');
     }
   }
 </script>
