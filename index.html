@@ -367,12 +367,6 @@
             <i class="fa-solid fa-key"></i> Đổi mật khẩu
         </button>
         <!-- Nút Đăng xuất -->
-        <button id="btn-auth-action" type="button" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-            <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
-        </button>
-    </div>
-</div>
-        <!-- Nút Đăng xuất -->
         <button id="btn-auth-action" onclick="AppAuthCore.logout()" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
             <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
         </button>
@@ -1300,73 +1294,90 @@
             </div>
         </div>
 
-        <!-- LỊCH VẠN NIÊN PHONG THỦY CHUYÊN NGHIỆP (SIDEBAR) -->
-        <div class="calendar-sidebar" id="calendar-sidebar-box">
-            <div class="cal-smart-header">
-                <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
-                <h2 id="cal-header-title">Tháng 8 / 2026</h2>
-                <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
-            </div>
+     <!-- TAB LỊCH VẠN NIÊN THÔNG MINH TINH GỌN HOÀN CHỈNH -->
+<div id="calendar" class="tab-content" style="display: none; width: 100%;">
+    <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-width: 1050px; margin: 0 auto; font-family: 'Times New Roman', serif;">
+        
+        <!-- HEADER TIÊU ĐỀ -->
+        <div style="border-bottom: 2px solid #1e3a8a; padding-bottom: 8px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="color: #1e3a8a; margin: 0; font-size: 18px; text-transform: uppercase; display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-calendar-days" style="color: #1d4ed8;"></i> TRUNG TÂM LỊCH VẠN NIÊN & CÔNG TÁC VĂN PHÒNG
+            </h3>
+            <button type="button" onclick="resetToToday()" style="background: #0d9488; color: #ffffff; border: none; padding: 5px 12px; border-radius: 4px; font-weight: bold; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                <i class="fa-solid fa-rotate-right"></i> Về Hôm Nay
+            </button>
+        </div>
 
-            <div class="calendar-block-view">
-                <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
-                <div class="calendar-block-body">
-                    <div class="cal-selected-weekday" id="cal-selected-dow">Thứ Ba</div>
-                    <div class="cal-selected-day-number" id="cal-selected-day">4</div>
-                    <div class="cal-selected-lunar-sub" id="cal-selected-lunar-day">Ngày Mậu Thìn - Tháng Ất Mùi</div>
+        <!-- BỐ CỤC 2 CỘT TỶ LỆ VÀNG (280px - FLEX 1FR) -->
+        <div style="display: grid; grid-template-columns: 280px 1fr; gap: 16px; align-items: start;">
+            
+            <!-- CỘT TRÁI: TỜ LỊCH BLOCK NGÀY CHUYÊN NGHIỆP -->
+            <div style="background: #ffffff; border: 2px solid #1d4ed8; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                <div style="background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%); color: #ffffff; padding: 12px; text-align: center;">
+                    <div id="full-cal-day-name" style="font-size: 15px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">THỨ BẢY</div>
+                    <div id="full-cal-solar-month" style="font-size: 13px; opacity: 0.9;">Tháng 8 - 2026</div>
                 </div>
-            </div>
 
-            <div class="cal-weekdays-bar">
-                <div style="color:#d9534f;">CN</div>
-                <div>T2</div>
-                <div>T3</div>
-                <div>T4</div>
-                <div>T5</div>
-                <div>T6</div>
-                <div>T7</div>
-            </div>
-            <div class="cal-grid-mini" id="cal-mini-days-container"></div>
+                <div style="text-align: center; padding: 15px 5px; background: #ffffff;">
+                    <div id="full-cal-solar-date" style="font-size: 72px; font-weight: bold; color: #b91c1c; line-height: 1;">08</div>
+                </div>
 
-            <div class="cal-info-panel">
-                <div class="cal-info-row">
-                    <span class="cal-info-label">🌙 Âm lịch:</span>
-                    <span class="cal-info-val" id="info-lunar-exact">21/6/2026 (Bính Ngọ)</span>
-                </div>
-                <div class="cal-info-row">
-                    <span class="cal-info-label">⚙️ Tiết khí:</span>
-                    <span class="cal-info-val" id="info-tiet-khi">Lập Hạ</span>
-                </div>
-                <div class="cal-info-row">
-                    <span class="cal-info-label">🧭 Hướng xuất hành:</span>
-                    <span class="cal-info-val" id="info-huong-xuat-hanh">Tài thần: Đông - Hỷ thần: Tây Nam</span>
-                </div>
-                <div class="cal-info-row">
-                    <span class="cal-info-label">🕒 Giờ Hoàng Đạo:</span>
-                    <span class="cal-info-val" id="info-gio-hoang-dao">Tý (23h-1h), Sửu (1h-3h), Thìn (7h-9h)</span>
-                </div>
-                <div class="cal-info-row">
-                    <span class="cal-info-label">⚠️ Tuổi xung khắc:</span>
-                    <span class="cal-info-val red-text" id="info-tuoi-xung">Dậu, Sửu, Tỵ</span>
-                </div>
-                <div class="cal-info-row">
-                    <span class="cal-info-label">⭐ Trực & Sao tốt:</span>
-                    <span class="cal-info-val" id="info-truc-sao">Trực Thành - Sao: Nguyệt Tài, Thiên Quý</span>
-                </div>
-                <div class="cal-info-row" style="flex-direction: column; gap: 3px; padding-top: 5px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                        <span class="cal-info-label">🔔 Sự kiện / Ghi chú:</span>
-                        <button type="button" class="btn btn-primary" style="padding: 3px 8px; font-size: 11px; min-height: 28px;" onclick="openEventModal()"><i class="fa-solid fa-plus"></i> Đặt lịch</button>
+                <div style="background: #f8fafc; border-top: 1px solid #cbd5e1; padding: 12px; font-size: 12.5px; line-height: 1.7;">
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px; margin-bottom: 6px;">
+                        <span>🌙 <strong>Âm lịch:</strong></span>
+                        <strong id="full-cal-lunar-date" style="color: #b91c1c; font-size: 14px;">26/06/2026</strong>
                     </div>
-                    <div id="info-event-note" style="color:var(--blue); font-style:italic; font-size: 11px; background: #eff6ff; padding: 3px 5px; border-radius: 4px; border: 1.5px dashed #93c5fd; margin-top: 2px;">Không có sự kiện</div>
+                    <div>🚩 <strong>Can chi:</strong> <span id="full-cal-can-chi">Bính Ngọ</span></div>
+                    <div>🌾 <strong>Tiết khí:</strong> <span id="full-cal-tiet-khi" style="color: #047857; font-weight: bold;">Lập Thu</span></div>
+                    <div>🧭 <strong>Hướng xuất hành:</strong> <span id="full-cal-huong" style="font-size: 11.5px;">Tài thần: Đông - Hỷ thần: Tây Nam</span></div>
+                    <div style="margin-top: 4px;">⏰ <strong>Giờ Hoàng Đạo:</strong> 
+                        <div id="full-cal-gio-hd" style="color: #1d4ed8; font-size: 11.5px; font-weight: 500;">Tý (23h-1h), Sửu (1h-3h), Thìn (7h-9h), Tỵ (9h-11h)</div>
+                    </div>
                 </div>
             </div>
-            <div style="text-align: center; margin-top: 8px;">
-                <button type="button" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 11.5px; min-height: 34px;" onclick="resetCalendarToToday()"><i class="fa-solid fa-calendar-day"></i> Quay Về Hôm Nay</button>
+
+            <!-- CỘT PHẢI: BẢNG LỊCH THÁNG KHUÔN MẪU & LỊCH CÔNG TÁC -->
+            <div>
+                <!-- BẢNG LỊCH THÁNG COMPACT -->
+                <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <button type="button" onclick="changeFullCalMonth(-1)" style="background: #f1f5f9; border: 1px solid #cbd5e1; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 12px; cursor: pointer;">◄ Tháng trước</button>
+                        <strong id="full-mini-cal-title" style="color: #0f172a; font-size: 15px;">Tháng 8 / 2026</strong>
+                        <button type="button" onclick="changeFullCalMonth(1)" style="background: #f1f5f9; border: 1px solid #cbd5e1; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 12px; cursor: pointer;">Tháng sau ►</button>
+                    </div>
+
+                    <table style="width: 100% !important; border-collapse: collapse; text-align: center; font-size: 12.5px;">
+                        <thead>
+                            <tr style="background: #1e293b; color: #ffffff;">
+                                <th style="padding: 6px; border: 1px solid #cbd5e1 !important; width: 14%;">CN</th>
+                                <th style="padding: 6px; border: 1px solid #cbd5e1 !important; width: 14%;">T2</th>
+                                <th style="padding: 6px; border: 1px solid #cbd5e1 !important; width: 14%;">T3</th>
+                                <th style="padding: 6px; border: 1px solid #cbd5e1 !important; width: 14%;">T4</th>
+                                <th style="padding: 6px; border: 1px solid #cbd5e1 !important; width: 14%;">T5</th>
+                                <th style="padding: 6px; border: 1px solid #cbd5e1 !important; width: 14%;">T6</th>
+                                <th style="padding: 6px; border: 1px solid #cbd5e1 !important; width: 14%;">T7</th>
+                            </tr>
+                        </thead>
+                        <tbody id="full-calendar-body-matrix">
+                            <!-- JS tự động render danh sách các ô ngày -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- SỔ TAY QUẢN LÝ LỊCH HỌP / CÔNG TÁC -->
+                <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <strong style="color: #0f172a; font-size: 13.5px;"><i class="fa-solid fa-thumbtack" style="color: #ea580c;"></i> Lịch họp & Ghi chú công tác:</strong>
+                        <button type="button" onclick="addFullCalendarEvent()" style="background: #047857; color: #ffffff; border: none; padding: 4px 10px; border-radius: 4px; font-size: 11.5px; font-weight: bold; cursor: pointer;">+ Thêm lịch mới</button>
+                    </div>
+                    <ul id="full-calendar-events-list" style="list-style: none; padding: 0; margin: 0; font-size: 12.5px;">
+                        <li style="padding: 6px 0; color: #64748b; font-style: italic;">• Chưa có ghi chú lịch công tác cho ngày được chọn.</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-
+</div>
     <!-- MODAL ĐĂNG KÝ & SỬA ĐĂNG KÝ NGHỈ PHÉP -->
     <div id="leaveModal" class="modal" onclick="closeLeaveModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:480px;">
@@ -4426,6 +4437,127 @@ function addFullCalendarEvent() {
     }
 }
 // Khởi tạo Lịch khi tải trang
+document.addEventListener("DOMContentLoaded", function() {
+    renderFullSmartCalendar();
+});
+    <script>
+// ====================================================
+// MODULE LỊCH VẠN NIÊN THÔNG MINH AUTOMATIC
+// ====================================================
+let currentCalDate = new Date();
+
+function renderFullSmartCalendar() {
+    const today = currentCalDate;
+    const realToday = new Date();
+    const day = today.getDate();
+    const month = today.getMonth() + 1;
+    const year = today.getFullYear();
+
+    // 1. Cập nhật Tờ Lịch Ngày Block
+    const dayNames = ["CHỦ NHẬT", "THỨ HAI", "THỨ BA", "THỨ TƯ", "THỨ NĂM", "THỨ SÁU", "THỨ BẢY"];
+    if(document.getElementById("full-cal-day-name")) document.getElementById("full-cal-day-name").innerText = dayNames[today.getDay()];
+    if(document.getElementById("full-cal-solar-date")) document.getElementById("full-cal-solar-date").innerText = day < 10 ? '0' + day : day;
+    if(document.getElementById("full-cal-solar-month")) document.getElementById("full-cal-solar-month").innerText = `Tháng ${month} - ${year}`;
+
+    // 2. Thuật toán Âm Lịch & Phong Thủy
+    const lunar = getFullLunarInfo(day, month, year);
+    if(document.getElementById("full-cal-lunar-date")) document.getElementById("full-cal-lunar-date").innerText = `${lunar.day}/${lunar.month}/${lunar.year}`;
+    if(document.getElementById("full-cal-can-chi")) document.getElementById("full-cal-can-chi").innerText = lunar.canChi;
+    if(document.getElementById("full-cal-tiet-khi")) document.getElementById("full-cal-tiet-khi").innerText = lunar.tietKhi;
+
+    // 3. Render Bảng Lịch Tháng Compact
+    if(document.getElementById("full-mini-cal-title")) document.getElementById("full-mini-cal-title").innerText = `Tháng ${month} / ${year}`;
+    
+    const firstDay = new Date(year, month - 1, 1).getDay();
+    const daysInMonth = new Date(year, month, 0).getDate();
+    const tbody = document.getElementById("full-calendar-body-matrix");
+
+    if (tbody) {
+        tbody.innerHTML = "";
+        let dateCounter = 1;
+
+        for (let i = 0; i < 6; i++) {
+            let tr = document.createElement("tr");
+            let hasData = false;
+
+            for (let j = 0; j < 7; j++) {
+                let td = document.createElement("td");
+                td.style.padding = "7px 4px";
+                td.style.border = "1px solid #cbd5e1";
+                td.style.fontSize = "12.5px";
+
+                if ((i === 0 && j < firstDay) || dateCounter > daysInMonth) {
+                    td.innerText = "";
+                    td.style.background = "#f8fafc";
+                } else {
+                    td.innerText = dateCounter;
+                    td.style.cursor = "pointer";
+                    td.style.fontWeight = "500";
+
+                    // Đánh dấu Focus tô đỏ đúng Ngày Hiện Tại
+                    if (dateCounter === realToday.getDate() && (month - 1) === realToday.getMonth() && year === realToday.getFullYear()) {
+                        td.style.background = "#b91c1c";
+                        td.style.color = "#ffffff";
+                        td.style.fontWeight = "bold";
+                        td.style.borderRadius = "3px";
+                    }
+
+                    const selectedDay = dateCounter;
+                    td.onclick = function() {
+                        currentCalDate = new Date(year, month - 1, selectedDay);
+                        renderFullSmartCalendar();
+                    };
+
+                    dateCounter++;
+                    hasData = true;
+                }
+                tr.appendChild(td);
+            }
+            if (hasData || i < 5) tbody.appendChild(tr);
+        }
+    }
+}
+
+// Thuật toán tính Âm Lịch & Tiết Khí tham chiếu
+function getFullLunarInfo(d, m, y) {
+    const tietKhis = ["Tiểu Hàn", "Đại Hàn", "Lập Xuân", "Vũ Thủy", "Kinh Trập", "Xuân Phân", "Thanh Minh", "Cốc Vũ", "Lập Hạ", "Tiểu Mãn", "Mang Chủng", "Hạ Chí", "Tiểu Thử", "Đại Thử", "Lập Thu", "Xử Thử", "Bạch Lộ", "Thu Phân", "Hàn Lộ", "Sương Giáng", "Lập Đông", "Tiểu Tuyết", "Đại Tuyết", "Đông Chí"];
+    const tkIndex = Math.floor((m - 1) * 2 + (d > 15 ? 1 : 0)) % 24;
+    return {
+        day: (d > 13) ? d - 13 : d + 15,
+        month: (d > 13) ? (m === 1 ? 12 : m - 1) : m,
+        year: y,
+        canChi: "Bính Ngọ (Năm)",
+        tietKhi: tietKhis[tkIndex] || "Lập Thu"
+    };
+}
+
+function changeFullCalMonth(offset) {
+    currentCalDate.setMonth(currentCalDate.getMonth() + offset);
+    renderFullSmartCalendar();
+}
+
+function resetToToday() {
+    currentCalDate = new Date();
+    renderFullSmartCalendar();
+}
+
+function addFullCalendarEvent() {
+    const note = prompt("Nhập nội dung ghi chú lịch họp / lịch công tác văn phòng:");
+    if (note && note.trim() !== "") {
+        const list = document.getElementById("full-calendar-events-list");
+        if (list.querySelector('li')?.innerText.includes("Chưa có ghi chú")) {
+            list.innerHTML = "";
+        }
+        const li = document.createElement("li");
+        li.style.padding = "6px 0";
+        li.style.borderBottom = "1px dashed #cbd5e1";
+        li.style.color = "#1e3a8a";
+        li.innerHTML = `📌 <strong>Ngày ${currentCalDate.getDate()}/${currentCalDate.getMonth()+1}/${currentCalDate.getFullYear()}:</strong> ${note.trim()}`;
+        list.appendChild(li);
+    }
+}
+
+// Khởi tạo Lịch ngay khi tải trang
 document.addEventListener("DOMContentLoaded", function() {
     renderFullSmartCalendar();
 });
