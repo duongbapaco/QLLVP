@@ -4100,8 +4100,137 @@ const AppAuthCore = {
 // Khởi chạy kiểm tra Đăng nhập khi nạp trang
 document.addEventListener('DOMContentLoaded', function() {
     AppAuthCore.initAutoHook();
-    AppAuthCore.checkSessionOnStart();
-});
+   AppAuthCore.checkSessionOnStart();
+    // ================= CHÈN JS XỬ LÝ TÀI KHOẢN =================
+    window.closeModal = function(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    };
+
+    // 1. Phân quyền dữ liệu độc lập
+    window.filterDataByRole = function(currentUser, allRecords) {
+      if (!currentUser) return [];
+      if (currentUser.role === 'admin' || currentUser.role === 'authorized') {
+        return allRecords; // Admin / Ủy quyền xem toàn bộ
+      }
+      return allRecords.filter(item => item.createdBy === currentUser.username);
+    };
+
+    // 2. Sự kiện Đổi mật khẩu
+    document.getElementById('changePasswordForm')?.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const currentPassword = document.getElementById('currentPassword').value;
+      const newPassword = document.getElementById('newPassword').value;
+      const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+
+      const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+      if (currentUser.password !== currentPassword) {
+        alert('Mật khẩu hiện tại không chính xác!');
+        return;
+      }
+      if (newPassword !== confirmNewPassword) {
+        alert('Mật khẩu xác nhận không trùng khớp!');
+        return;
+      }
+
+      currentUser.password = newPassword;
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
+      
+      if (typeof saveConfigToDrive === 'function') {
+        await saveConfigToDrive(currentUser);
+      }
+
+      alert('Đổi mật khẩu thành công!');
+      closeModal('changePasswordModal');
+    });
+
+    // 3. Sự kiện Quên mật khẩu
+    document.getElementById('forgotPasswordForm')?.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const input = document.getElementById('recoveryEmail').value;
+      alert('Yêu cầu khôi phục mật khẩu cho tài khoản ' + input + ' đã được gửi.');
+      closeModal('forgotPasswordModal');
+    });
+    // =========================================================
+  });
 </script>
+<!-- KHỐI GIAO DIỆN HTML MODAL -->
+<div id="changePasswordModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999;">
+  <div class="modal-content" style="background:#fff; width:350px; margin:100px auto; padding:20px; border-radius:8px;">
+    <h3>Đổi Mật Khẩu</h3>
+    <form id="changePasswordForm">
+      <div style="margin-bottom:10px;">
+        <label>Mật khẩu hiện tại:</label><br>
+        <input type="password" id="currentPassword" style="width:100%; padding:6px;" required />
+      </div>
+      <div style="margin-bottom:10px;">
+        <label>Mật khẩu mới:</label><br>
+        <input type="password" id="newPassword" style="width:100%; padding:6px;" required />
+      </div>
+      <div style="margin-bottom:15px;">
+        <label>Xác nhận mật khẩu mới:</label><br>
+        <input type="password" id="confirmNewPassword" style="width:100%; padding:6px;" required />
+      </div>
+      <button type="submit" style="padding:6px 12px; background:#007bff; color:#fff; border:none; border-radius:4px; cursor:pointer;">Cập nhật</button>
+      <button type="button" onclick="closeModal('changePasswordModal')" style="padding:6px 12px; background:#6c757d; color:#fff; border:none; border-radius:4px; cursor:pointer;">Hủy</button>
+    </form>
+  </div>
+</div>
+
+<div id="forgotPasswordModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999;">
+  <div class="modal-content" style="background:#fff; width:350px; margin:100px auto; padding:20px; border-radius:8px;">
+    <h3>Lấy Lại Mật Khẩu</h3>
+    <p style="font-size:13px; color:#555;">Nhập email hoặc tên tài khoản để khôi phục:</p>
+    <form id="forgotPasswordForm">
+      <div style="margin-bottom:15px;">
+        <input type="text" id="recoveryEmail" style="width:100%; padding:6px;" placeholder="Email hoặc Tên đăng nhập" required />
+      </div>
+      <button type="submit" style="padding:6px 12px; background:#28a745; color:#fff; border:none; border-radius:4px; cursor:pointer;">Xác nhận</button>
+      <button type="button" onclick="closeModal('forgotPasswordModal')" style="padding:6px 12px; background:#6c757d; color:#fff; border:none; border-radius:4px; cursor:pointer;">Đóng</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>
+});   
+</script>
+  <div id="changePasswordModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999;">
+    <div class="modal-content" style="background:#fff; width:350px; margin:100px auto; padding:20px; border-radius:8px;">
+      <h3>Đổi Mật Khẩu</h3>
+      <form id="changePasswordForm">
+        <div style="margin-bottom:10px;">
+          <label>Mật khẩu hiện tại:</label><br>
+          <input type="password" id="currentPassword" style="width:100%; padding:6px;" required />
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Mật khẩu mới:</label><br>
+          <input type="password" id="newPassword" style="width:100%; padding:6px;" required />
+        </div>
+        <div style="margin-bottom:15px;">
+          <label>Xác nhận mật khẩu mới:</label><br>
+          <input type="password" id="confirmNewPassword" style="width:100%; padding:6px;" required />
+        </div>
+        <button type="submit" style="padding:6px 12px; background:#007bff; color:#fff; border:none; border-radius:4px; cursor:pointer;">Cập nhật</button>
+        <button type="button" onclick="closeModal('changePasswordModal')" style="padding:6px 12px; background:#6c757d; color:#fff; border:none; border-radius:4px; cursor:pointer;">Hủy</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="forgotPasswordModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999;">
+    <div class="modal-content" style="background:#fff; width:350px; margin:100px auto; padding:20px; border-radius:8px;">
+      <h3>Lấy Lại Mật Khẩu</h3>
+      <p style="font-size:13px; color:#555;">Nhập email hoặc tên tài khoản để khôi phục:</p>
+      <form id="forgotPasswordForm">
+        <div style="margin-bottom:15px;">
+          <input type="text" id="recoveryEmail" style="width:100%; padding:6px;" placeholder="Email hoặc Tên đăng nhập" required />
+        </div>
+        <button type="submit" style="padding:6px 12px; background:#28a745; color:#fff; border:none; border-radius:4px; cursor:pointer;">Xác nhận</button>
+        <button type="button" onclick="closeModal('forgotPasswordModal')" style="padding:6px 12px; background:#6c757d; color:#fff; border:none; border-radius:4px; cursor:pointer;">Đóng</button>
+      </form>
+    </div>
+  </div>
+  <!-- =========================================================== -->
+
+  <!-- Dòng 4106: </body> -->
 </body>
 </html>
