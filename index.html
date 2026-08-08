@@ -389,14 +389,6 @@
                 <b id="calendar-month-year-title" style="font-size: 13.5px;">Tháng 8 / 2026</b>
                 <button type="button" onclick="changeMonth(1)" style="background:none; border:none; color:white; font-size:14px; cursor:pointer;">❯</button>
             </div>
-
-            <!-- BANNER HÔM NAY (MỚI: ĐẸP NỔI BẬT NGUYÊN BẢN CỦA BẠN) -->
-            <div style="background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%); color: white; padding: 10px; border-radius: 6px; text-align: center; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">
-                <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9;">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
-                <div style="font-size: 20px; font-weight: bold; color: #fef08a; margin: 3px 0; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">THỨ SÁU - 7</div>
-                <div style="font-size: 11px; color: #fecdd3;">Ngày Mậu Thìn - Tháng Ất Mùi</div>
-            </div>
-
             <!-- BẢNG LƯỚI LỊCH (ÉP CỐ ĐỊNH CHIỀU CAO Ô 38PX) -->
             <table style="width: 100%; border-collapse: collapse; text-align: center; font-family: sans-serif; table-layout: fixed;">
                 <thead>
@@ -735,6 +727,82 @@
                         </table>
                     </div>
                 </div>
+                <!-- MÔ-ĐUN TẠO PHIẾU LƯƠNG HÀNG LOẠT (TỔNG CÔNG TY GIẤY VIỆT NAM) -->
+<div class="payslip-module-card" style="background: #ffffff; border-radius: 10px; border: 1.5px solid #cbd5e1; padding: 16px; margin-top: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 10px; margin-bottom: 16px;">
+        <h3 style="color: #1e3a8a; font-size: 16px; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 8px;">
+            📄 TẠO PHIẾU LƯƠNG HÀNG LOẠT (TỔNG CÔNG TY GIẤY VIỆT NAM)
+        </h3>
+        <div style="display: flex; gap: 8px;">
+            <button type="button" onclick="generateBulkPayslips()" style="background: #0284c7; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer;">
+                ⚙️ Xuất Danh Sách Phiếu Lương
+            </button>
+            <button type="button" onclick="printBulkPayslips()" style="background: #15803d; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer;">
+                🖨️ In Hàng Loạt (PDF / Máy in)
+            </button>
+        </div>
+    </div>
+
+    <!-- Khu vực chứa danh sách Phiếu Lương Render -->
+    <div id="bulk-payslip-container" style="background: #f8fafc; border: 1px dashed #94a3b8; border-radius: 8px; padding: 16px; max-height: 600px; overflow-y: auto;">
+        <p style="text-align: center; color: #64748b; font-style: italic; margin: 20px 0;">
+            Bấm "Xuất Danh Sách Phiếu Lương" để chuyển đổi dữ liệu Bảng lương tháng thành Phiếu lương cá nhân chuẩn mẫu VINAPACO.
+        </p>
+    </div>
+</div>
+
+<style>
+.vinapaco-payslip {
+    background: #ffffff;
+    border: 1.5px solid #000000;
+    padding: 20px;
+    margin-bottom: 24px;
+    font-family: "Times New Roman", Times, serif;
+    color: #000000;
+    line-height: 1.4;
+    page-break-after: always;
+}
+.vnp-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #000000;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+}
+.vnp-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    text-transform: uppercase;
+    margin: 10px 0;
+}
+.vnp-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 13px;
+}
+.vnp-table th, .vnp-table td {
+    border: 1px solid #000000;
+    padding: 5px 8px;
+}
+.vnp-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    text-align: center;
+    font-size: 13px;
+}
+@media print {
+    body * { visibility: hidden; }
+    #bulk-payslip-container, #bulk-payslip-container * { visibility: visible; }
+    #bulk-payslip-container {
+        position: absolute; left: 0; top: 0; width: 100%;
+        max-height: none !important; overflow: visible !important;
+        padding: 0 !important; background: transparent !important; border: none !important;
+    }
+}
+</style>
             </div>
 
             <!-- TAB 2: HỒ SƠ THANH TOÁN VĂN PHÒNG -->
@@ -4302,7 +4370,6 @@ var AppAuthCore = {
         if (user.role === 'ADMIN') return dataArray;
         return dataArray.filter(function(item){ return !item.created_by || item.created_by === user.username; });
     },
-
     initAutoHook: function() {
         var self = this;
         var originalGetItem = localStorage.getItem;
@@ -4326,7 +4393,6 @@ var AppAuthCore = {
         var btnAdmin = document.getElementById('btn-admin-manage-users');
         var btnPass = document.getElementById('btn-change-password');
         var btnLogout = document.getElementById('btn-auth-action');
-
         if (btnAdmin) {
             btnAdmin.onclick = function() { AppAuthCore.openAdminModal(); };
         }
@@ -4338,13 +4404,177 @@ var AppAuthCore = {
         }
     }
 };
-
 // Khởi chạy an toàn
 document.addEventListener('DOMContentLoaded', function() {
     AppAuthCore.initAutoHook();
     AppAuthCore.checkSessionOnStart();
     AppAuthCore.bindHeaderEvents();
 });
+</script>
+<!-- SCRIPT XỬ LÝ XUẤT PHIẾU LƯƠNG HÀNG LOẠT TỰ ĐỘNG (VINAPACO) -->
+<script>
+// Dữ liệu bảng lương dự phòng (Nếu chưa kết nối database)
+const monthlySalaryData = [
+    {
+        empCode: "VNP-0102",
+        fullname: "Trần Bình Dương",
+        department: "Văn phòng Tổng công ty - Ban Trợ lý TĐ",
+        position: "Trợ lý Tổng Giám đốc",
+        basicSalary: 18000000,
+        coefficient: 4.65,
+        kRatio: 1.8,
+        allowance: 3500000,
+        workDays: 22,
+        actualSalary: 28500000,
+        insurance: 1890000,
+        tax: 1250000,
+        netSalary: 25360000
+    },
+    {
+        empCode: "VNP-0105",
+        fullname: "Nguyễn Văn A",
+        department: "Ban Tài chính Kế toán",
+        position: "Chuyên viên Chính",
+        basicSalary: 12000000,
+        coefficient: 3.66,
+        kRatio: 1.5,
+        allowance: 1500000,
+        workDays: 22,
+        actualSalary: 18000000,
+        insurance: 1260000,
+        tax: 450000,
+        netSalary: 16290000
+    }
+];
+function generateBulkPayslips() {
+    const container = document.getElementById("bulk-payslip-container");
+    if (!container) return;
+    // Lấy dữ liệu thực tế từ bảng lương nếu có, hoặc dùng mảng tĩnh dự phòng
+    const sourceData = (typeof salaryDataList !== 'undefined' && salaryDataList.length > 0) 
+                       ? salaryDataList 
+                       : monthlySalaryData;
+    let htmlContent = "";
+    sourceData.forEach((emp) => {
+        const basic = Number(emp.basicSalary || emp.luongCoBan || 0);
+        const coeff = Number(emp.coefficient || emp.heSoLinh || 1);
+        const kVal = Number(emp.kRatio || emp.heSoK || 1);
+        const allow = Number(emp.allowance || emp.phuCap || 0);
+        const actual = Number(emp.actualSalary || emp.tongThuNhap || (basic * coeff * kVal + allow));
+        const ins = Number(emp.insurance || emp.trichBaoHiem || Math.round(actual * 0.105));
+        const tax = Number(emp.tax || emp.thueTNCN || 0);
+        const net = Number(emp.netSalary || emp.thucLinh || (actual - ins - tax));
+        htmlContent += `
+        <div class="vinapaco-payslip">
+            <div class="vnp-header">
+                <div>
+                    <strong>TỔNG CÔNG TY GIẤY VIỆT NAM</strong><br>
+                    <span style="font-size: 12px;">Đơn vị: ${emp.department || "Văn phòng Tổng công ty"}</span>
+                </div>
+                <div style="text-align: right;">
+                    <strong>MẪU PHIẾU LƯƠNG CÁ NHÂN</strong><br>
+                    <span style="font-size: 12px;">Kỳ lương: ${document.getElementById("config-sheet-title")?.value || "Tháng 08 / 2026"}</span>
+                </div>
+            </div>
+            <div class="vnp-title">PHIẾU THÔNG BÁO LƯƠNG TỰ ĐỘNG</div>
+
+            <table style="width: 100%; font-size: 13px; margin-bottom: 8px;">
+                <tr>
+                    <td style="width: 50%;"><strong>Họ và tên:</strong> ${emp.fullname || emp.hoTen}</td>
+                    <td><strong>Mã nhân viên:</strong> ${emp.empCode || emp.maNV || "VNP-NV"}</td>
+                </tr>
+                <tr>
+                    <td><strong>Chức danh/Vị trí:</strong> ${emp.position || emp.chucVu || "Cán bộ"}</td>
+                    <td><strong>Ngày công thực tế:</strong> ${emp.workDays || 22} / 22 công</td>
+                </tr>
+            </table>
+
+            <table class="vnp-table">
+                <thead>
+                    <tr style="background: #f1f5f9; text-align: center;">
+                        <th>STT</th>
+                        <th>Khoản mục thu nhập / Trích nộp</th>
+                        <th>Hệ số / Định mức</th>
+                        <th>Thành tiền (VNĐ)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align: center;">I</td>
+                        <td><strong>TỔNG THU NHẬP LƯƠNG & PHỤ CẤP</strong></td>
+                        <td></td>
+                        <td style="text-align: right;"><strong>${actual.toLocaleString('vi-VN')}</strong></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">1</td>
+                        <td>Lương cấp bậc / Chức vụ</td>
+                        <td style="text-align: center;">HS: ${coeff}</td>
+                        <td style="text-align: right;">${Math.round(basic * coeff * 0.6).toLocaleString('vi-VN')}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">2</td>
+                        <td>Lương hiệu quả công việc / Năng suất (K)</td>
+                        <td style="text-align: center;">K: ${kVal}</td>
+                        <td style="text-align: right;">${Math.max(0, actual - Math.round(basic * coeff * 0.6) - allow).toLocaleString('vi-VN')}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">3</td>
+                        <td>Phụ cấp trách nhiệm / Trợ cấp</td>
+                        <td style="text-align: center;">Cố định</td>
+                        <td style="text-align: right;">${allow.toLocaleString('vi-VN')}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">II</td>
+                        <td><strong>CÁC KHOẢN TRÍCH TRỪ VÀO LƯƠNG</strong></td>
+                        <td></td>
+                        <td style="text-align: right; color: #b91c1c;"><strong>-${(ins + tax).toLocaleString('vi-VN')}</strong></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">1</td>
+                        <td>Trích nộp Bảo hiểm (BHXH, BHYT, BHTN)</td>
+                        <td style="text-align: center;">10.5%</td>
+                        <td style="text-align: right;">-${ins.toLocaleString('vi-VN')}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">2</td>
+                        <td>Thuế Thu nhập cá nhân (TNCN)</td>
+                        <td style="text-align: center;">Lũy tiến</td>
+                        <td style="text-align: right;">-${tax.toLocaleString('vi-VN')}</td>
+                    </tr>
+                    <tr style="background: #fef08a; font-size: 14px;">
+                        <td colspan="3" style="text-align: right;"><strong>THỰC LĨNH CHUYỂN KHOẢN (I - II):</strong></td>
+                        <td style="text-align: right; color: #15803d;"><strong>${net.toLocaleString('vi-VN')} VNĐ</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="vnp-footer">
+                <div>
+                    <strong>NGƯỜI LẬP PHIẾU</strong><br>
+                    <span style="font-size: 11px; color: #475569;">(Ký, ghi rõ họ tên)</span>
+                </div>
+                <div>
+                    <strong>KẾ TOÁN TRƯỜNG</strong><br>
+                    <span style="font-size: 11px; color: #475569;">(Ký, duyệt)</span>
+                </div>
+                <div>
+                    <strong>NGƯỜI NHẬN LƯƠNG</strong><br>
+                    <span style="font-size: 11px; color: #475569;">(Xác nhận)</span>
+                </div>
+            </div>
+        </div>
+        `;
+    });
+
+    container.innerHTML = htmlContent;
+}
+function printBulkPayslips() {
+    const container = document.getElementById("bulk-payslip-container");
+    if (!container || container.children.length === 0 || container.querySelector('p')) {
+        alert("Vui lòng bấm 'Xuất Danh Sách Phiếu Lương' trước khi in!");
+        return;
+    }
+    window.print();
+}
 </script>
 </body>
 </html>
