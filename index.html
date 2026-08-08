@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -178,13 +178,13 @@
                 <i class="fa-solid fa-calendar-check"></i>
                 <label for="global-year-picker">NĂM:</label>
                 <select id="global-year-picker" onchange="handleGlobalYearChange()">
-                    <option value="2024">Năm 2024</option>
-                    <option value="2025">Năm 2025</option>
-                    <option value="2026" selected>Năm 2026</option>
-                    <option value="2027">Năm 2027</option>
-                    <option value="2028">Năm 2028</option>
-                    <option value="2029">Năm 2029</option>
-                    <option value="2030">Năm 2030</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026" selected>2026</option>
+                    <option value="2027">2027</option>
+                    <option value="2028">2028</option>
+                    <option value="2029">2029</option>
+                    <option value="2030">2030</option>
                 </select>
             </div>
         </div>
@@ -192,7 +192,11 @@
             <button type="button" class="btn btn-green" style="padding: 5px 8px; font-size:11.5px;" onclick="saveDataToCloudAPI()"><i class="fa-solid fa-cloud-arrow-up"></i> 🔄 Đồng Bộ Ngay Lên Cloud</button>
             <button type="button" class="btn btn-primary" style="padding: 5px 8px; font-size:11.5px;" onclick="loadDataFromCloudAPI()"><i class="fa-solid fa-cloud-arrow-down"></i> Tải Dữ Liệu Từ Cloud</button>
             <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="padding: 5px 8px; font-size:11.5px;"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
-            <button type="button" class="btn btn-green" style="padding: 5px 8px; font-size:11.5px;" onclick="toggleCalendarSidebar()"><i class="fa-solid fa-calendar-days"></i> Lịch</button>
+          <button type="button" 
+        onclick="toggleCalendarModal()" 
+        style="background: #16a34a; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+  <i class="fa-solid fa-calendar-days"></i> Lịch
+</button>
             <button type="button" class="btn btn-purple" style="padding: 5px 8px; font-size:11.5px;" onclick="openConfigUrlModal()"><i class="fa-solid fa-link"></i> Cấu hình</button>
         </div>
     </div>
@@ -4054,6 +4058,16 @@ document.addEventListener('DOMContentLoaded', function() {
 </body>
 </html>
 });   
+function toggleCalendarModal() {
+  const calBox = document.getElementById('calendar-sidebar-box');
+  if (calBox) {
+    // Nếu đang ẩn hoặc chưa set style inline thì hiện lên, ngược lại thì ẩn đi
+    if (window.getComputedStyle(calBox).display === 'none') {
+      calBox.style.display = 'block';
+    } else {
+      calBox.style.display = 'none';
+    }
+  }
 </script>
   <!-- Modal Đổi Mật Khẩu -->
 <div id="changePasswordModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:999999; backdrop-filter: blur(3px);">
