@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>HỆ THỐNG QUẢN TRỊ TỔNG HỢP VÀ TÍNH LƯƠNG - VINAPACO ENTERPRISE</title>
     <link rel="icon" href="data:,">
-
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
@@ -17,12 +16,11 @@
         :root { --primary: #0f172a; --blue: #1d4ed8; --orange: #ea580c; --green: #047857; --purple: #6d28d9; --red: #b91c1c; --teal: #0d9488; --border-color: #64748b; --text-main: #000000; --bg-light: #f1f5f9; }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: rgba(0,0,0,0.2); }
         body { font-family: 'Times New Roman', Times, serif; font-size: 14px; margin: 0; padding: 6px; background: var(--bg-light); color: var(--text-main); font-weight: 500; }
-        .workspace { display: grid; grid-template-columns: 1fr 340px; gap: 15px; align-items: start; transition: all 0.3s ease; }
-        .workspace.calendar-hidden { grid-template-columns: 1fr !important; gap: 0 !important; }
-        .workspace.calendar-hidden .sidebar-right,
-        .workspace.calendar-hidden #calendar-sidebar-box,
-       .workspace.calendar-hidden .calendar-sidebar { display: none !important; }
+        
+        .workspace { display: grid; grid-template-columns: 1fr 400px; gap: 10px; align-items: start; transition: all 0.3s ease; }
+        .workspace.calendar-hidden { grid-template-columns: 1fr !important; }
         @media (max-width: 1024px) { .workspace { grid-template-columns: 1fr; } }
+
         .db-status-bar { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: #cbd5e1; border-bottom: 2px solid var(--border-color); font-size: 13px; font-weight: bold; border-radius: 4px; margin-bottom: 6px; flex-wrap: wrap; gap: 6px; }
         .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; background-color: var(--green); }
         
@@ -194,16 +192,18 @@
             <button type="button" class="btn btn-green" style="padding: 5px 8px; font-size:11.5px;" onclick="saveDataToCloudAPI()"><i class="fa-solid fa-cloud-arrow-up"></i> 🔄 Đồng Bộ Ngay Lên Cloud</button>
             <button type="button" class="btn btn-primary" style="padding: 5px 8px; font-size:11.5px;" onclick="loadDataFromCloudAPI()"><i class="fa-solid fa-cloud-arrow-down"></i> Tải Dữ Liệu Từ Cloud</button>
             <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="padding: 5px 8px; font-size:11.5px;"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
-            <button type="button" class="btn btn-green" style="padding: 5px 8px; font-size:11.5px;" onclick="toggleRightCalendar()"><i class="fa-solid fa-calendar-days"></i> Lịch</button>
+            <button type="button" class="btn btn-green" style="padding: 5px 8px; font-size:11.5px;" onclick="toggleCalendarSidebar()"><i class="fa-solid fa-calendar-days"></i> Lịch</button>
             <button type="button" class="btn btn-purple" style="padding: 5px 8px; font-size:11.5px;" onclick="openConfigUrlModal()"><i class="fa-solid fa-link"></i> Cấu hình</button>
         </div>
     </div>
+
     <div class="workspace" id="main-workspace">
         <div class="main-body">
             <div class="header">
                 <h1 id="disp-header-company">TỔNG CÔNG TY GIẤY VIỆT NAM - VĂN PHÒNG</h1>
                 <div class="live-clock-box" id="live-system-clock">--:--:-- --/--/----</div>
             </div>
+
             <!-- 6 THẺ DASHBOARD 3D CHUYÊN NGHIỆP -->
             <div class="stat-grid-3d">
                 <div class="stat-card-3d">
@@ -259,159 +259,6 @@
                 <button type="button" class="nav-tab" data-tab="it-assets" onclick="switchMainTab('it-assets')"><i class="fa-solid fa-laptop"></i> Thiết Bị CNTT</button>
                 <button type="button" class="nav-tab" data-tab="ink-inventory" onclick="switchMainTab('ink-inventory')"><i class="fa-solid fa-print"></i> Kho Mực In</button>
             </div>
-            <!-- TAB LỊCH VẠN NIÊN THÔNG MINH ĐỘC LẬP -->
-            <div class="workspace" id="main-workspace">
-
-    <!-- 1. CỘT NỘI DUNG CHÍNH (Dashboard, Biểu đồ) -->
-    <div class="main-body">
-        <div class="header">
-            <h1 id="disp-header-company">TỔNG CÔNG TY GIẤY VIỆT NAM - VĂN PHÒNG</h1>
-            ...
-        </div>
-        ...
-    </div> <!-- 👈 DÁN NGAY SAU THẺ ĐÓNG CỦA MAIN-BODY NÀY -->
-    <!-- 🔻 2. KHỐI HTML LỊCH SIDEBAR CỦA ANH DÁN VÀO ĐÂY 🔻 -->
-    <div class="calendar-sidebar" id="sidebar-calendar" style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); font-family: 'Times New Roman', serif; width: 100%;">
-        
-        <!-- HEADER LỊCH DƯƠNG -->
-        <div style="background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%); color: #ffffff; border-radius: 6px; padding: 10px; text-align: center; margin-bottom: 10px;">
-            <div id="cal-day-name" style="font-size: 13px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">THỨ BẢY</div>
-            <div id="cal-solar-date" style="font-size: 46px; font-weight: bold; line-height: 1; margin: 4px 0;">08</div>
-            <div id="cal-solar-month-year" style="font-size: 13px; opacity: 0.95;">Tháng 8 - Năm 2026</div>
-        </div>
-
-        <!-- PHONG THỦY - ÂM LỊCH -->
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 10px; font-size: 12px; line-height: 1.6; margin-bottom: 10px;">
-            <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #cbd5e1; padding-bottom: 3px; margin-bottom: 4px;">
-                <span>🌙 <strong>Âm lịch:</strong></span>
-                <strong id="cal-lunar-date" style="color: #b91c1c;">26/06/2026 (Bính Ngọ)</strong>
-            </div>
-            <div style="display: flex; justify-content: space-between;">
-                <span>🌾 <strong>Tiết khí:</strong></span>
-                <span id="cal-tiet-khi" style="font-weight: bold; color: #047857;">Lập Thu</span>
-            </div>
-            <div style="display: flex; justify-content: space-between;">
-                <span>🧭 <strong>Xuất hành:</strong></span>
-                <span id="cal-huong" style="font-size: 11px;">Tài thần: Đông - Hỷ thần: Tây Nam</span>
-            </div>
-            <div style="display: flex; justify-content: space-between;">
-                <span>⏰ <strong>Giờ HD:</strong></span>
-                <span id="cal-gio-hd" style="font-size: 11px; color: #1d4ed8;">Tý, Sửu, Thìn, Tỵ</span>
-            </div>
-        </div>
-        <!-- BẢNG THÁNG MINI -->
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-            <button type="button" onclick="changeSidebarMonth(-1)" style="background: #e2e8f0; border: none; padding: 2px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 11px;">◄</button>
-            <strong id="mini-cal-title" style="font-size: 12.5px; color: #0f172a;">Tháng 8 / 2026</strong>
-            <button type="button" onclick="changeSidebarMonth(1)" style="background: #e2e8f0; border: none; padding: 2px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 11px;">►</button>
-        </div>
-        <table style="width: 100% !important; border-collapse: collapse; text-align: center; margin-bottom: 8px;">
-            <thead>
-                <tr style="background: #f1f5f9; color: #334155; font-size: 11px;">
-                    <th style="padding: 4px; border: none !important;">CN</th>
-                    <th style="padding: 4px; border: none !important;">T2</th>
-                    <th style="padding: 4px; border: none !important;">T3</th>
-                    <th style="padding: 4px; border: none !important;">T4</th>
-                    <th style="padding: 4px; border: none !important;">T5</th>
-                    <th style="padding: 4px; border: none !important;">T6</th>
-                    <th style="padding: 4px; border: none !important;">T7</th>
-                </tr>
-            </thead>
-            <tbody id="mini-calendar-body">
-                <!-- JS tự động dựng ô ngày -->
-            </tbody>
-        </table>
-
-        <div style="text-align: center; margin-top: 8px;">
-            <button type="button" onclick="currentSidebarCalDate = new Date(); renderSmartSidebarCalendar();" style="background: #0d9488; color: #ffffff; border: none; padding: 4px 10px; border-radius: 4px; font-size: 11.5px; font-weight: bold; cursor: pointer;">
-                🔄 Hôm nay
-            </button>
-        </div>
-    </div>
-</div> <!-- 👈 3. THẺ ĐÓNG CỦA WORKSPACE (KẾT THÚC CẢ 2 CỘT) -->
-<div id="calendar" class="tab-content" style="display: none; width: 100%;">
-    <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-width: 1050px; margin: 0 auto; font-family: 'Times New Roman', serif;">
-        
-        <!-- HEADER CỦA TAB LỊCH -->
-        <div style="border-bottom: 2px solid #1e3a8a; padding-bottom: 8px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
-            <h3 style="color: #1e3a8a; margin: 0; font-size: 18px; text-transform: uppercase; display: flex; align-items: center; gap: 8px;">
-                <i class="fa-solid fa-calendar-days" style="color: #1d4ed8;"></i> TRUNG TÂM LỊCH VẠN NIÊN & CÔNG TÁC VĂN PHÒNG
-            </h3>
-            <button type="button" onclick="resetToToday()" style="background: #0d9488; color: #ffffff; border: none; padding: 5px 12px; border-radius: 4px; font-weight: bold; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
-                <i class="fa-solid fa-rotate-right"></i> Về Hôm Nay
-            </button>
-        </div>
-
-        <!-- BỐ CỤC 2 CỘT TỶ LỆ VÀNG (280px - FLEX 1FR) -->
-        <div style="display: grid; grid-template-columns: 280px 1fr; gap: 16px; align-items: start;">
-            
-            <!-- CỘT TRÁI: TỜ LỊCH BLOCK NGÀY CHUYÊN NGHIỆP -->
-            <div style="background: #ffffff; border: 2px solid #1d4ed8; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-                <div style="background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%); color: #ffffff; padding: 12px; text-align: center;">
-                    <div id="full-cal-day-name" style="font-size: 15px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">THỨ BẢY</div>
-                    <div id="full-cal-solar-month" style="font-size: 13px; opacity: 0.9;">Tháng 8 - 2026</div>
-                </div>
-
-                <div style="text-align: center; padding: 15px 5px; background: #ffffff;">
-                    <div id="full-cal-solar-date" style="font-size: 72px; font-weight: bold; color: #b91c1c; line-height: 1;">08</div>
-                </div>
-
-                <div style="background: #f8fafc; border-top: 1px solid #cbd5e1; padding: 12px; font-size: 12.5px; line-height: 1.7;">
-                    <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px; margin-bottom: 6px;">
-                        <span>🌙 <strong>Âm lịch:</strong></span>
-                        <strong id="full-cal-lunar-date" style="color: #b91c1c; font-size: 14px;">26/06/2026</strong>
-                    </div>
-                    <div>🚩 <strong>Can chi:</strong> <span id="full-cal-can-chi">Bính Ngọ</span></div>
-                    <div>🌾 <strong>Tiết khí:</strong> <span id="full-cal-tiet-khi" style="color: #047857; font-weight: bold;">Lập Thu</span></div>
-                    <div>🧭 <strong>Hướng xuất hành:</strong> <span id="full-cal-huong" style="font-size: 11.5px;">Tài thần: Đông - Hỷ thần: Tây Nam</span></div>
-                    <div style="margin-top: 4px;">⏰ <strong>Giờ Hoàng Đạo:</strong> 
-                        <div id="full-cal-gio-hd" style="color: #1d4ed8; font-size: 11.5px; font-weight: 500;">Tý (23h-1h), Sửu (1h-3h), Thìn (7h-9h), Tỵ (9h-11h)</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CỘT PHẢI: BẢNG LỊCH THÁNG KHUÔN MẪU & LỊCH CÔNG TÁC -->
-            <div>
-                <!-- BẢNG LỊCH THÁNG COMPACT -->
-                <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; margin-bottom: 12px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <button type="button" onclick="changeFullCalMonth(-1)" style="background: #f1f5f9; border: 1px solid #cbd5e1; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 12px; cursor: pointer;">◄ Tháng trước</button>
-                        <strong id="full-mini-cal-title" style="color: #0f172a; font-size: 15px;">Tháng 8 / 2026</strong>
-                        <button type="button" onclick="changeFullCalMonth(1)" style="background: #f1f5f9; border: 1px solid #cbd5e1; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 12px; cursor: pointer;">Tháng sau ►</button>
-                    </div>
-
-                    <table style="width: 100% !important; border-collapse: collapse; text-align: center; font-size: 12.5px;">
-                        <thead>
-                            <tr style="background: #1e293b; color: #ffffff;">
-                                <th style="padding: 6px; border: 1px solid #cbd5e1 !important; width: 14%;">CN</th>
-                                <th style="padding: 6px; border: 1px solid #cbd5e1 !important; width: 14%;">T2</th>
-                                <th style="padding: 6px; border: 1px solid #cbd5e1 !important; width: 14%;">T3</th>
-                                <th style="padding: 6px; border: 1px solid #cbd5e1 !important; width: 14%;">T4</th>
-                                <th style="padding: 6px; border: 1px solid #cbd5e1 !important; width: 14%;">T5</th>
-                                <th style="padding: 6px; border: 1px solid #cbd5e1 !important; width: 14%;">T6</th>
-                                <th style="padding: 6px; border: 1px solid #cbd5e1 !important; width: 14%;">T7</th>
-                            </tr>
-                        </thead>
-                        <tbody id="full-calendar-body-matrix">
-                            <!-- JS tự động render danh sách các ô ngày gọn gàng -->
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- SỔ TAY QUẢN LÝ LỊCH HỌP / CÔNG TÁC -->
-                <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                        <strong style="color: #0f172a; font-size: 13.5px;"><i class="fa-solid fa-thumbtack" style="color: #ea580c;"></i> Lịch họp & Ghi chú công tác:</strong>
-                        <button type="button" onclick="addFullCalendarEvent()" style="background: #047857; color: #ffffff; border: none; padding: 4px 10px; border-radius: 4px; font-size: 11.5px; font-weight: bold; cursor: pointer;">+ Thêm lịch mới</button>
-                    </div>
-                    <ul id="full-calendar-events-list" style="list-style: none; padding: 0; margin: 0; font-size: 12.5px;">
-                        <li style="padding: 6px 0; color: #64748b; font-style: italic;">• Chưa có ghi chú lịch công tác cho ngày được chọn.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 <!-- BẢNG TRẠNG THÁI TÀI KHOẢN & PHÂN QUYỀN VĂN PHÒNG -->
 <div id="multi-user-header-bar" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border: 1.5px solid #3b82f6; padding: 10px 16px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; color: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
     <div style="display: flex; align-items: center; gap: 12px;">
@@ -424,20 +271,16 @@
         </span>
     </div>
     
-    <div style="display: flex; gap: 8px; align-items: center;">
+    <div style="display: flex; gap: 10px; align-items: center;">
         <!-- Nút Quản lý & Ủy quyền dành riêng cho Admin -->
-        <button id="btn-admin-manage-users" type="button" style="background: #0284c7; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+        <button id="btn-admin-manage-users" onclick="AppAuthCore.openAdminModal()" style="background: #0284c7; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
             <i class="fa-solid fa-users-gear"></i> Quản lý Tài khoản & Ủy quyền
         </button>
-        
-        <!-- Nút Đổi mật khẩu cá nhân -->
-        <button id="btn-change-password" type="button" style="background: #0d9488; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-            <i class="fa-solid fa-key"></i> Đổi mật khẩu
-        </button>
+        <!-- Nút Đổi tài khoản / Đăng xuất -->
         <!-- Nút Đăng xuất -->
-        <button id="btn-auth-action" onclick="AppAuthCore.logout()" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-            <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
-        </button>
+<button id="btn-auth-action" onclick="AppAuthCore.logout()" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+    <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+</button>
     </div>
 </div>
             <!-- TAB 0: DASHBOARD -->
@@ -1362,90 +1205,73 @@
             </div>
         </div>
 
-     <!-- TAB LỊCH VẠN NIÊN THÔNG MINH TINH GỌN HOÀN CHỈNH -->
-<div id="calendar" class="tab-content" style="display: none; width: 100%;">
-    <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-width: 1050px; margin: 0 auto; font-family: 'Times New Roman', serif;">
-        
-        <!-- HEADER TIÊU ĐỀ -->
-        <div style="border-bottom: 2px solid #1e3a8a; padding-bottom: 8px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
-            <h3 style="color: #1e3a8a; margin: 0; font-size: 18px; text-transform: uppercase; display: flex; align-items: center; gap: 8px;">
-                <i class="fa-solid fa-calendar-days" style="color: #1d4ed8;"></i> TRUNG TÂM LỊCH VẠN NIÊN & CÔNG TÁC VĂN PHÒNG
-            </h3>
-            <button type="button" onclick="resetToToday()" style="background: #0d9488; color: #ffffff; border: none; padding: 5px 12px; border-radius: 4px; font-weight: bold; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
-                <i class="fa-solid fa-rotate-right"></i> Về Hôm Nay
-            </button>
-        </div>
+        <!-- LỊCH VẠN NIÊN PHONG THỦY CHUYÊN NGHIỆP (SIDEBAR) -->
+        <div class="calendar-sidebar" id="calendar-sidebar-box">
+            <div class="cal-smart-header">
+                <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+                <h2 id="cal-header-title">Tháng 8 / 2026</h2>
+                <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
 
-        <!-- BỐ CỤC 2 CỘT TỶ LỆ VÀNG (280px - FLEX 1FR) -->
-        <div style="display: grid; grid-template-columns: 280px 1fr; gap: 16px; align-items: start;">
-            
-            <!-- CỘT TRÁI: TỜ LỊCH BLOCK NGÀY CHUYÊN NGHIỆP -->
-            <div style="background: #ffffff; border: 2px solid #1d4ed8; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-                <div style="background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%); color: #ffffff; padding: 12px; text-align: center;">
-                    <div id="full-cal-day-name" style="font-size: 15px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">THỨ BẢY</div>
-                    <div id="full-cal-solar-month" style="font-size: 13px; opacity: 0.9;">Tháng 8 - 2026</div>
-                </div>
-
-                <div style="text-align: center; padding: 15px 5px; background: #ffffff;">
-                    <div id="full-cal-solar-date" style="font-size: 72px; font-weight: bold; color: #b91c1c; line-height: 1;">08</div>
-                </div>
-
-                <div style="background: #f8fafc; border-top: 1px solid #cbd5e1; padding: 12px; font-size: 12.5px; line-height: 1.7;">
-                    <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px; margin-bottom: 6px;">
-                        <span>🌙 <strong>Âm lịch:</strong></span>
-                        <strong id="full-cal-lunar-date" style="color: #b91c1c; font-size: 14px;">26/06/2026</strong>
-                    </div>
-                    <div>🚩 <strong>Can chi:</strong> <span id="full-cal-can-chi">Bính Ngọ</span></div>
-                    <div>🌾 <strong>Tiết khí:</strong> <span id="full-cal-tiet-khi" style="color: #047857; font-weight: bold;">Lập Thu</span></div>
-                    <div>🧭 <strong>Hướng xuất hành:</strong> <span id="full-cal-huong" style="font-size: 11.5px;">Tài thần: Đông - Hỷ thần: Tây Nam</span></div>
-                    <div style="margin-top: 4px;">⏰ <strong>Giờ Hoàng Đạo:</strong> 
-                        <div id="full-cal-gio-hd" style="color: #1d4ed8; font-size: 11.5px; font-weight: 500;">Tý (23h-1h), Sửu (1h-3h), Thìn (7h-9h), Tỵ (9h-11h)</div>
-                    </div>
+            <div class="calendar-block-view">
+                <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
+                <div class="calendar-block-body">
+                    <div class="cal-selected-weekday" id="cal-selected-dow">Thứ Ba</div>
+                    <div class="cal-selected-day-number" id="cal-selected-day">4</div>
+                    <div class="cal-selected-lunar-sub" id="cal-selected-lunar-day">Ngày Mậu Thìn - Tháng Ất Mùi</div>
                 </div>
             </div>
 
-            <!-- CỘT PHẢI: BẢNG LỊCH THÁNG KHUÔN MẪU & LỊCH CÔNG TÁC -->
-            <div>
-                <!-- BẢNG LỊCH THÁNG COMPACT -->
-                <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; margin-bottom: 12px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <button type="button" onclick="changeFullCalMonth(-1)" style="background: #f1f5f9; border: 1px solid #cbd5e1; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 12px; cursor: pointer;">◄ Tháng trước</button>
-                        <strong id="full-mini-cal-title" style="color: #0f172a; font-size: 15px;">Tháng 8 / 2026</strong>
-                        <button type="button" onclick="changeFullCalMonth(1)" style="background: #f1f5f9; border: 1px solid #cbd5e1; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 12px; cursor: pointer;">Tháng sau ►</button>
-                    </div>
+            <div class="cal-weekdays-bar">
+                <div style="color:#d9534f;">CN</div>
+                <div>T2</div>
+                <div>T3</div>
+                <div>T4</div>
+                <div>T5</div>
+                <div>T6</div>
+                <div>T7</div>
+            </div>
+            <div class="cal-grid-mini" id="cal-mini-days-container"></div>
 
-                    <table style="width: 100% !important; border-collapse: collapse; text-align: center; font-size: 12.5px;">
-                        <thead>
-                            <tr style="background: #1e293b; color: #ffffff;">
-                                <th style="padding: 6px; border: 1px solid #cbd5e1 !important; width: 14%;">CN</th>
-                                <th style="padding: 6px; border: 1px solid #cbd5e1 !important; width: 14%;">T2</th>
-                                <th style="padding: 6px; border: 1px solid #cbd5e1 !important; width: 14%;">T3</th>
-                                <th style="padding: 6px; border: 1px solid #cbd5e1 !important; width: 14%;">T4</th>
-                                <th style="padding: 6px; border: 1px solid #cbd5e1 !important; width: 14%;">T5</th>
-                                <th style="padding: 6px; border: 1px solid #cbd5e1 !important; width: 14%;">T6</th>
-                                <th style="padding: 6px; border: 1px solid #cbd5e1 !important; width: 14%;">T7</th>
-                            </tr>
-                        </thead>
-                        <tbody id="full-calendar-body-matrix">
-                            <!-- JS tự động render danh sách các ô ngày -->
-                        </tbody>
-                    </table>
+            <div class="cal-info-panel">
+                <div class="cal-info-row">
+                    <span class="cal-info-label">🌙 Âm lịch:</span>
+                    <span class="cal-info-val" id="info-lunar-exact">21/6/2026 (Bính Ngọ)</span>
                 </div>
-
-                <!-- SỔ TAY QUẢN LÝ LỊCH HỌP / CÔNG TÁC -->
-                <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                        <strong style="color: #0f172a; font-size: 13.5px;"><i class="fa-solid fa-thumbtack" style="color: #ea580c;"></i> Lịch họp & Ghi chú công tác:</strong>
-                        <button type="button" onclick="addFullCalendarEvent()" style="background: #047857; color: #ffffff; border: none; padding: 4px 10px; border-radius: 4px; font-size: 11.5px; font-weight: bold; cursor: pointer;">+ Thêm lịch mới</button>
+                <div class="cal-info-row">
+                    <span class="cal-info-label">⚙️ Tiết khí:</span>
+                    <span class="cal-info-val" id="info-tiet-khi">Lập Hạ</span>
+                </div>
+                <div class="cal-info-row">
+                    <span class="cal-info-label">🧭 Hướng xuất hành:</span>
+                    <span class="cal-info-val" id="info-huong-xuat-hanh">Tài thần: Đông - Hỷ thần: Tây Nam</span>
+                </div>
+                <div class="cal-info-row">
+                    <span class="cal-info-label">🕒 Giờ Hoàng Đạo:</span>
+                    <span class="cal-info-val" id="info-gio-hoang-dao">Tý (23h-1h), Sửu (1h-3h), Thìn (7h-9h)</span>
+                </div>
+                <div class="cal-info-row">
+                    <span class="cal-info-label">⚠️ Tuổi xung khắc:</span>
+                    <span class="cal-info-val red-text" id="info-tuoi-xung">Dậu, Sửu, Tỵ</span>
+                </div>
+                <div class="cal-info-row">
+                    <span class="cal-info-label">⭐ Trực & Sao tốt:</span>
+                    <span class="cal-info-val" id="info-truc-sao">Trực Thành - Sao: Nguyệt Tài, Thiên Quý</span>
+                </div>
+                <div class="cal-info-row" style="flex-direction: column; gap: 3px; padding-top: 5px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                        <span class="cal-info-label">🔔 Sự kiện / Ghi chú:</span>
+                        <button type="button" class="btn btn-primary" style="padding: 3px 8px; font-size: 11px; min-height: 28px;" onclick="openEventModal()"><i class="fa-solid fa-plus"></i> Đặt lịch</button>
                     </div>
-                    <ul id="full-calendar-events-list" style="list-style: none; padding: 0; margin: 0; font-size: 12.5px;">
-                        <li style="padding: 6px 0; color: #64748b; font-style: italic;">• Chưa có ghi chú lịch công tác cho ngày được chọn.</li>
-                    </ul>
+                    <div id="info-event-note" style="color:var(--blue); font-style:italic; font-size: 11px; background: #eff6ff; padding: 3px 5px; border-radius: 4px; border: 1.5px dashed #93c5fd; margin-top: 2px;">Không có sự kiện</div>
                 </div>
+            </div>
+            <div style="text-align: center; margin-top: 8px;">
+                <button type="button" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 11.5px; min-height: 34px;" onclick="resetCalendarToToday()"><i class="fa-solid fa-calendar-day"></i> Quay Về Hôm Nay</button>
             </div>
         </div>
     </div>
-</div>
+
     <!-- MODAL ĐĂNG KÝ & SỬA ĐĂNG KÝ NGHỈ PHÉP -->
     <div id="leaveModal" class="modal" onclick="closeLeaveModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:480px;">
@@ -1948,6 +1774,7 @@
                 renderPopupCalendar(popupId);
             }
         }
+
         function renderPopupCalendar(popupId) {
             let popup = document.getElementById(popupId);
             let y = pickerCurrentDate.getFullYear();
@@ -1958,10 +1785,12 @@
             for (let yr = 2020; yr <= 2035; yr++) {
                 yearOptionsHTML += `<option value="${yr}" ${yr === y ? 'selected' : ''}>Năm ${yr}</option>`;
             }
+
             let monthOptionsHTML = '';
             for (let mo = 0; mo < 12; mo++) {
                 monthOptionsHTML += `<option value="${mo}" ${mo === m ? 'selected' : ''}>${monthNames[mo]}</option>`;
             }
+
             let html = `
                 <div class="popup-cal-top-bar">
                     <select onchange="onPopupYearChange(this.value, '${popupId}')">${yearOptionsHTML}</select>
@@ -1997,9 +1826,11 @@
             html += `</div><div style="text-align:right; margin-top:8px;"><button type="button" class="btn btn-gray" style="padding:4px 10px; font-size:11.5px;" onclick="document.getElementById('${popupId}').style.display='none'; activePickerId=null;">Đóng</button></div>`;
             popup.innerHTML = html;
         }
+
         function onPopupYearChange(yr, popupId) { pickerCurrentDate.setFullYear(parseInt(yr)); renderPopupCalendar(popupId); }
         function onPopupMonthChange(mo, popupId) { pickerCurrentDate.setMonth(parseInt(mo)); renderPopupCalendar(popupId); }
         function changePopupMonth(dir, popupId) { pickerCurrentDate.setMonth(pickerCurrentDate.getMonth() + dir); renderPopupCalendar(popupId); }
+
         function selectPopupDate(d, m, y, popupId) {
             let formattedDay = d < 10 ? '0' + d : d;
             let formattedMonth = m < 10 ? '0' + m : m;
@@ -2747,23 +2578,29 @@
             localStorage.setItem('sys_salary_configs_by_month', JSON.stringify(salaryConfigsByMonth));
             calculateSalaryLogic();
         }
+
         function calculateSalaryLogic() {
             let sm = document.getElementById('filter-month').value;
             let parts = sm.split('-');
             let mNum = parts[1] || "07";
             let yNum = parts[0] || CURRENT_SELECTED_YEAR;
+
             syncLeaveDaysToSalaryTables();
+
             let activeData = salaryDataByMonth[sm] || JSON.parse(JSON.stringify(default16Staffs));
             let cfg = salaryConfigsByMonth[sm] || {};
             document.getElementById('disp-header-company').innerText = `${cfg.companyTitle || 'TỔNG CÔNG TY GIẤY VIỆT NAM'} - ${cfg.deptTitle || 'VĂN PHÒNG'}`;
             document.getElementById('disp-table-title').innerText = cfg.sheetTitle || `BẢNG LƯƠNG TỔNG HỢP THÁNG ${mNum}/${yNum}`;
             document.getElementById('disp-signer-name').innerText = cfg.signer || "Nguyễn Thị Tuyết Nhung";
+
             const tbody = document.getElementById('tbody-salary'); 
             tbody.innerHTML = ""; 
+
             let T_thuc_linh_cb = 0, T_thuc_linh_lcv = 0, T_anca = 0, T_net = 0;
             let vungReg = cfg.vung || 4140000;
             let baseReg = cfg.base || 2650000;
             let lcvReg = cfg.lcv || 1991139;
+
             activeData.forEach((row, index) => {
                 let val_NT = row.NT !== undefined ? parseFloat(row.NT) : 20;
                 let val_P = row.P !== undefined ? parseFloat(row.P) : getStaffUsedLeaveInMonth(row.name, sm);
@@ -3986,34 +3823,34 @@ document.addEventListener('DOMContentLoaded', function() {
     link.click();
     document.body.removeChild(link);
 }
+  // =========================================================
+// HỆ THỐNG XÁC THỰC, PHÂN QUYỀN & ỦY QUYỀN ADMIN (RBAC FULL)
 // =========================================================
-// HỆ THỐNG XÁC THỰC, PHÂN QUYỀN, ĐỔI & RESET MẬT KHẨU (SIÊU ỔN ĐỊNH)
+// HỆ THỐNG XÁC THỰC, ĐĂNG NHẬP, PHÂN QUYỀN & TẠO TÀI KHOẢN (RBAC)
 // =========================================================
-var AppAuthCore = {
-    // 1. Database Tài khoản
+const AppAuthCore = {
+    // 1. Danh sách Tài khoản & Phân quyền mặc định
     getUsersDatabase: function() {
-        var defaultUsers = [
-            { username: "duong_tb", password: "123", name: "Trần Bình Dương", role: "ADMIN", title: "Quản trị viên" },
+        const defaultUsers = [
+            { username: "duong_tb", password: "123", name: "Trần Bình Dương", role: "ADMIN", title: "Quản trị viên / Trợ lý TGĐ" },
             { username: "long_td", password: "123", name: "Tạ Đức Long", role: "ADMIN", title: "Tổng Giám Đốc" },
             { username: "cv_vanphong_1", password: "123", name: "Chuyên viên Văn phòng 1", role: "USER", title: "Chuyên viên VP" }
         ];
-        try {
-            var localDb = localStorage.getItem('app_users_db');
-            return localDb ? JSON.parse(localDb) : defaultUsers;
-        } catch(e) {
-            return defaultUsers;
-        }
+        const localDb = localStorage.getItem('app_users_db');
+        return localDb ? JSON.parse(localDb) : defaultUsers;
     },
 
+    // 2. Lấy thông tin Tài khoản đang đăng nhập
     getCurrentUser: function() {
-        var activeUsername = localStorage.getItem('app_active_user');
-        if (!activeUsername) return null;
-        var users = this.getUsersDatabase();
-        return users.find(function(u){ return u.username === activeUsername; }) || null;
+        const activeUsername = localStorage.getItem('app_active_user');
+        if (!activeUsername) return null; // Chưa đăng nhập
+        const users = this.getUsersDatabase();
+        return users.find(u => u.username === activeUsername) || null;
     },
 
+    // 3. Kiểm tra trạng thái khi vừa nạp trang (Nếu chưa đăng nhập -> Mở Bảng Login)
     checkSessionOnStart: function() {
-        var currentUser = this.getCurrentUser();
+        const currentUser = this.getCurrentUser();
         if (!currentUser) {
             this.showLoginModal();
         } else {
@@ -4021,61 +3858,51 @@ var AppAuthCore = {
         }
     },
 
-    // 2. BẢNG ĐĂNG NHẬP
+    // 4. BẢNG DẠNG POPUP BẮT BỘC ĐĂNG NHẬP (USER & PASSWORD)
     showLoginModal: function() {
-        var modalHtml = 
-            '<div id="auth-login-modal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15,23,42,0.85); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 999999;">' +
-                '<div style="background: #ffffff; border-radius: 12px; width: 400px; max-width: 90%; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); overflow: hidden; font-family: sans-serif;">' +
-                    '<div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; padding: 20px; text-align: center;">' +
-                        '<i class="fa-solid fa-user-shield" style="font-size: 32px; color: #38bdf8; margin-bottom: 8px;"></i>' +
-                        '<h3 style="margin: 0; font-size: 18px; font-weight: bold;">ĐĂNG NHẬP HỆ THỐNG</h3>' +
-                        '<p style="margin: 4px 0 0 0; font-size: 12px; color: #94a3b8;">Văn phòng Tổng công ty Giấy Việt Nam</p>' +
-                    '</div>' +
-                    '<form id="auth-form-login" style="padding: 24px;">' +
-                        '<div style="margin-bottom: 16px;">' +
-                            '<label style="display: block; font-size: 12.5px; font-weight: bold; color: #334155; margin-bottom: 6px;">Tên tài khoản (Username):</label>' +
-                            '<input type="text" id="login-username" placeholder="Nhập mã tài khoản..." required style="width: 100%; padding: 10px; border-radius: 6px; border: 1.5px solid #cbd5e1; outline: none; box-sizing: border-box; font-size: 13.5px;">' +
-                        '</div>' +
-                        '<div style="margin-bottom: 12px;">' +
-                            '<label style="display: block; font-size: 12.5px; font-weight: bold; color: #334155; margin-bottom: 6px;">Mật khẩu:</label>' +
-                            '<input type="password" id="login-password" placeholder="Nhập mật khẩu..." required style="width: 100%; padding: 10px; border-radius: 6px; border: 1.5px solid #cbd5e1; outline: none; box-sizing: border-box; font-size: 13.5px;">' +
-                        '</div>' +
-                        '<div style="text-align: right; margin-bottom: 16px;">' +
-                            '<a href="javascript:void(0)" id="btn-forgot-pass-link" style="font-size: 12px; color: #0284c7; text-decoration: none; font-weight: bold;">Quên mật khẩu?</a>' +
-                        '</div>' +
-                        '<div id="login-error-msg" style="color: #ef4444; font-size: 12px; margin-bottom: 12px; font-weight: bold; display: none; text-align: center;"></div>' +
-                        '<button type="submit" style="width: 100%; background: #0284c7; color: white; border: none; padding: 11px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer;">' +
-                            '<i class="fa-solid fa-right-to-bracket"></i> Đăng nhập' +
-                        '</button>' +
-                    '</form>' +
-                '</div>' +
-            '</div>';
-            
-        var oldModal = document.getElementById('auth-login-modal');
+        const modalHtml = `
+            <div id="auth-login-modal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15,23,42,0.85); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 999999;">
+                <div style="background: #ffffff; border-radius: 12px; width: 400px; max-width: 90%; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); overflow: hidden; font-family: sans-serif;">
+                    <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; padding: 20px; text-align: center;">
+                        <i class="fa-solid fa-user-shield" style="font-size: 32px; color: #38bdf8; margin-bottom: 8px;"></i>
+                        <h3 style="margin: 0; font-size: 18px; font-weight: bold;">ĐĂNG NHẬP HỆ THỐNG</h3>
+                        <p style="margin: 4px 0 0 0; font-size: 12px; color: #94a3b8;">Văn phòng Tổng công ty Giấy Việt Nam</p>
+                    </div>
+                    <form onsubmit="AppAuthCore.handleLoginSubmit(event)" style="padding: 24px;">
+                        <div style="margin-bottom: 16px;">
+                            <label style="display: block; font-size: 12.5px; font-weight: bold; color: #334155; margin-bottom: 6px;">Tên tài khoản (Username):</label>
+                            <input type="text" id="login-username" placeholder="Nhập mã tài khoản..." required style="width: 100%; padding: 10px; border-radius: 6px; border: 1.5px solid #cbd5e1; outline: none; box-sizing: border-box; font-size: 13.5px;">
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; font-size: 12.5px; font-weight: bold; color: #334155; margin-bottom: 6px;">Mật khẩu:</label>
+                            <input type="password" id="login-password" placeholder="Nhập mật khẩu..." required style="width: 100%; padding: 10px; border-radius: 6px; border: 1.5px solid #cbd5e1; outline: none; box-sizing: border-box; font-size: 13.5px;">
+                        </div>
+                        <div id="login-error-msg" style="color: #ef4444; font-size: 12px; margin-bottom: 12px; font-weight: bold; display: none; text-align: center;"></div>
+                        <button type="submit" style="width: 100%; background: #0284c7; color: white; border: none; padding: 11px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer; transition: background 0.2s;">
+                            <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
+                        </button>
+                    </form>
+                </div>
+            </div>
+        `;
+        const oldModal = document.getElementById('auth-login-modal');
         if (oldModal) oldModal.remove();
         document.body.insertAdjacentHTML('beforeend', modalHtml);
-
-        document.getElementById('auth-form-login').addEventListener('submit', function(e) {
-            e.preventDefault();
-            AppAuthCore.handleLoginSubmit();
-        });
-
-        document.getElementById('btn-forgot-pass-link').addEventListener('click', function() {
-            alert('Trường hợp quên mật khẩu, vui lòng liên hệ Admin (Trần Bình Dương) để được reset lại mật khẩu về mặc định [123]!');
-        });
     },
 
-    handleLoginSubmit: function() {
-        var userInp = document.getElementById('login-username').value.trim();
-        var passInp = document.getElementById('login-password').value.trim();
-        var errElem = document.getElementById('login-error-msg');
+    // 5. Xử lý Xác thực Đăng nhập
+    handleLoginSubmit: function(e) {
+        e.preventDefault();
+        const userInp = document.getElementById('login-username').value.trim();
+        const passInp = document.getElementById('login-password').value.trim();
+        const errElem = document.getElementById('login-error-msg');
 
-        var users = this.getUsersDatabase();
-        var foundUser = users.find(function(u){ return u.username === userInp && u.password === passInp; });
+        const users = this.getUsersDatabase();
+        const foundUser = users.find(u => u.username === userInp && u.password === passInp);
 
         if (foundUser) {
             localStorage.setItem('app_active_user', foundUser.username);
-            var modal = document.getElementById('auth-login-modal');
+            const modal = document.getElementById('auth-login-modal');
             if (modal) modal.remove();
             this.updateUI();
             location.reload();
@@ -4085,6 +3912,7 @@ var AppAuthCore = {
         }
     },
 
+    // 6. Đăng xuất tài khoản
     logout: function() {
         if (confirm("Bạn có chắc chắn muốn đăng xuất khỏi hệ thống?")) {
             localStorage.removeItem('app_active_user');
@@ -4092,229 +3920,16 @@ var AppAuthCore = {
         }
     },
 
-    // 3. BẢNG ĐỔI MẬT KHẨU CÁ NHÂN
-    openChangePasswordModal: function() {
-        var currentUser = this.getCurrentUser();
-        if (!currentUser) {
-            alert("Bạn chưa đăng nhập!");
-            return;
-        }
-
-        var modalHtml = 
-            '<div id="auth-changepass-modal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15,23,42,0.7); display: flex; align-items: center; justify-content: center; z-index: 999999;">' +
-                '<div style="background: #ffffff; border-radius: 10px; width: 380px; max-width: 90%; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); overflow: hidden; font-family: sans-serif;">' +
-                    '<div style="background: #0f172a; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;">' +
-                        '<h3 style="margin: 0; font-size: 15px;"><i class="fa-solid fa-key" style="color: #38bdf8;"></i> ĐỔI MẬT KHẨU CÁ NHÂN</h3>' +
-                        '<button id="close-cp-btn" style="background: none; border: none; color: white; font-size: 18px; cursor: pointer;">✕</button>' +
-                    '</div>' +
-                    '<form id="cp-form-submit" style="padding: 20px;">' +
-                        '<div style="margin-bottom: 12px;">' +
-                            '<label style="display: block; font-size: 12px; font-weight: bold; color: #334155; margin-bottom: 4px;">Mật khẩu hiện tại:</label>' +
-                            '<input type="password" id="cp-old-pass" required style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #cbd5e1; box-sizing: border-box; font-size: 13px;">' +
-                        '</div>' +
-                        '<div style="margin-bottom: 12px;">' +
-                            '<label style="display: block; font-size: 12px; font-weight: bold; color: #334155; margin-bottom: 4px;">Mật khẩu mới:</label>' +
-                            '<input type="password" id="cp-new-pass" required style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #cbd5e1; box-sizing: border-box; font-size: 13px;">' +
-                        '</div>' +
-                        '<div style="margin-bottom: 16px;">' +
-                            '<label style="display: block; font-size: 12px; font-weight: bold; color: #334155; margin-bottom: 4px;">Xác nhận Mật khẩu mới:</label>' +
-                            '<input type="password" id="cp-confirm-pass" required style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #cbd5e1; box-sizing: border-box; font-size: 13px;">' +
-                        '</div>' +
-                        '<button type="submit" style="width: 100%; background: #0d9488; color: white; border: none; padding: 9px; border-radius: 5px; font-weight: bold; font-size: 13px; cursor: pointer;">' +
-                            'Lưu Mật Khẩu Mới' +
-                        '</button>' +
-                    '</form>' +
-                '</div>' +
-            '</div>';
-
-        var oldModal = document.getElementById('auth-changepass-modal');
-        if (oldModal) oldModal.remove();
-        document.body.insertAdjacentHTML('beforeend', modalHtml);
-
-        document.getElementById('close-cp-btn').addEventListener('click', function() {
-            document.getElementById('auth-changepass-modal').remove();
-        });
-
-        document.getElementById('cp-form-submit').addEventListener('submit', function(e) {
-            e.preventDefault();
-            AppAuthCore.handleChangePasswordSubmit();
-        });
-    },
-
-    handleChangePasswordSubmit: function() {
-        var currentUser = this.getCurrentUser();
-        var oldPass = document.getElementById('cp-old-pass').value.trim();
-        var newPass = document.getElementById('cp-new-pass').value.trim();
-        var confirmPass = document.getElementById('cp-confirm-pass').value.trim();
-
-        if (oldPass !== currentUser.password) {
-            alert("Mật khẩu hiện tại không chính xác!");
-            return;
-        }
-        if (newPass !== confirmPass) {
-            alert("Mật khẩu mới và xác nhận mật khẩu không khớp nhau!");
-            return;
-        }
-
-        var users = this.getUsersDatabase();
-        var target = users.find(function(u){ return u.username === currentUser.username; });
-        if (target) {
-            target.password = newPass;
-            localStorage.setItem('app_users_db', JSON.stringify(users));
-            alert("Đã thay đổi mật khẩu thành công!");
-            var modal = document.getElementById('auth-changepass-modal');
-            if (modal) modal.remove();
-        }
-    },
-
-    // 4. BẢNG QUẢN LÝ TÀI KHOẢN ADMIN
-    openAdminModal: function() {
-        var currentUser = this.getCurrentUser();
-        if (!currentUser || currentUser.role !== 'ADMIN') {
-            alert("Bạn không có quyền truy cập chức năng Quản trị!");
-            return;
-        }
-
-        var users = this.getUsersDatabase();
-        var rowsHtml = '';
-        users.forEach(function(u, idx) {
-            var isAdmin = u.role === 'ADMIN';
-            rowsHtml += 
-                '<tr style="border-bottom: 1px solid #e2e8f0;">' +
-                    '<td style="padding: 8px; text-align: center;">' + (idx + 1) + '</td>' +
-                    '<td style="padding: 8px;"><b>' + u.name + '</b><br><small style="color:#0284c7;">@' + u.username + '</small></td>' +
-                    '<td style="padding: 8px;"><small style="background:#f1f5f9; padding:2px 6px; border-radius:4px;">🔑 ' + u.password + '</small></td>' +
-                    '<td style="padding: 8px;">' + u.title + '</td>' +
-                    '<td style="padding: 8px; text-align: center;">' +
-                        '<span style="background: ' + (isAdmin ? '#8b5cf6' : '#10b981') + '; color: white; padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: bold;">' +
-                            (isAdmin ? '🔑 ADMIN' : '👤 USER') +
-                        '</span>' +
-                    '</td>' +
-                    '<td style="padding: 8px; text-align: center; display: flex; gap: 4px; justify-content: center;">' +
-                        '<button onclick="AppAuthCore.resetUserPassword(\'' + u.username + '\')" style="background: #eab308; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold;">' +
-                            '🔄 Reset' +
-                        '</button>' +
-                        (u.username === 'duong_tb' ? '' : 
-                            '<button onclick="AppAuthCore.toggleRole(\'' + u.username + '\')" style="background: ' + (isAdmin ? '#ef4444' : '#0284c7') + '; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold;">' +
-                                (isAdmin ? 'Thu hồi' : 'Ủy quyền') +
-                            '</button>'
-                        ) +
-                    '</td>' +
-                '</tr>';
-        });
-
-        var modalHtml = 
-            '<div id="auth-admin-modal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15,23,42,0.7); display: flex; align-items: center; justify-content: center; z-index: 99999;">' +
-                '<div style="background: #ffffff; border-radius: 10px; width: 780px; max-width: 95%; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); overflow: hidden; font-family: sans-serif;">' +
-                    '<div style="background: #0f172a; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;">' +
-                        '<h3 style="margin: 0; font-size: 16px;"><i class="fa-solid fa-users-gear" style="color: #38bdf8;"></i> QUẢN LÝ & KHÔI PHỤC MẬT KHẨU TÀI KHOẢN</h3>' +
-                        '<button id="close-admin-modal-btn" style="background: none; border: none; color: white; font-size: 18px; cursor: pointer;">✕</button>' +
-                    '</div>' +
-                    '<div style="background: #f8fafc; padding: 15px 20px; border-bottom: 1px solid #e2e8f0;">' +
-                        '<b style="font-size: 13px; color: #0369a1; display: block; margin-bottom: 8px;">➕ TẠO TÀI KHOẢN MỚI:</b>' +
-                        '<div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr auto; gap: 8px; align-items: center;">' +
-                            '<input type="text" id="new-user-name" placeholder="Họ và tên..." style="padding: 6px 10px; border-radius: 5px; border: 1px solid #cbd5e1; font-size: 12px;">' +
-                            '<input type="text" id="new-user-username" placeholder="Username..." style="padding: 6px 10px; border-radius: 5px; border: 1px solid #cbd5e1; font-size: 12px;">' +
-                            '<input type="text" id="new-user-password" placeholder="Mật khẩu..." value="123" style="padding: 6px 10px; border-radius: 5px; border: 1px solid #cbd5e1; font-size: 12px;">' +
-                            '<input type="text" id="new-user-title" placeholder="Chức danh..." style="padding: 6px 10px; border-radius: 5px; border: 1px solid #cbd5e1; font-size: 12px;">' +
-                            '<button onclick="AppAuthCore.createNewUser()" style="background: #16a34a; color: white; border: none; padding: 7px 12px; border-radius: 5px; font-weight: bold; font-size: 12px; cursor: pointer;">Tạo Mới</button>' +
-                        '</div>' +
-                    '</div>' +
-                    '<div style="padding: 15px 20px; max-height: 300px; overflow-y: auto;">' +
-                        '<table style="width: 100%; border-collapse: collapse; font-size: 12.5px;">' +
-                            '<thead>' +
-                                '<tr style="background: #f1f5f9; color: #334155; text-align: left;">' +
-                                    '<th style="padding: 8px; text-align: center;">STT</th>' +
-                                    '<th style="padding: 8px;">Họ tên / Username</th>' +
-                                    '<th style="padding: 8px;">Mật khẩu</th>' +
-                                    '<th style="padding: 8px;">Chức danh</th>' +
-                                    '<th style="padding: 8px; text-align: center;">Quyền</th>' +
-                                    '<th style="padding: 8px; text-align: center;">Thao tác</th>' +
-                                '</tr>' +
-                            '</thead>' +
-                            '<tbody>' + rowsHtml + '</tbody>' +
-                        '</table>' +
-                    '</div>' +
-                    '<div style="background: #f8fafc; padding: 10px 20px; text-align: right; border-top: 1px solid #e2e8f0;">' +
-                        '<button id="close-admin-modal-btn2" style="background: #64748b; color: white; border: none; padding: 6px 16px; border-radius: 5px; cursor: pointer; font-weight: bold;">Đóng</button>' +
-                    '</div>' +
-                '</div>' +
-            '</div>';
-
-        var oldModal = document.getElementById('auth-admin-modal');
-        if (oldModal) oldModal.remove();
-        document.body.insertAdjacentHTML('beforeend', modalHtml);
-
-        document.getElementById('close-admin-modal-btn').addEventListener('click', function() {
-            document.getElementById('auth-admin-modal').remove();
-        });
-        document.getElementById('close-admin-modal-btn2').addEventListener('click', function() {
-            document.getElementById('auth-admin-modal').remove();
-        });
-    },
-
-    resetUserPassword: function(username) {
-        var users = this.getUsersDatabase();
-        var target = users.find(function(u){ return u.username === username; });
-        if (target) {
-            if (confirm("Bạn có chắc chắn muốn reset mật khẩu của [" + target.name + "] về mặc định '123'?")) {
-                target.password = "123";
-                localStorage.setItem('app_users_db', JSON.stringify(users));
-                alert("Đã khôi phục mật khẩu tài khoản " + target.name + " về: 123");
-                var modal = document.getElementById('auth-admin-modal');
-                if (modal) modal.remove();
-                this.openAdminModal();
-            }
-        }
-    },
-
-    createNewUser: function() {
-        var name = document.getElementById('new-user-name').value.trim();
-        var username = document.getElementById('new-user-username').value.trim();
-        var password = document.getElementById('new-user-password').value.trim();
-        var title = document.getElementById('new-user-title').value.trim() || 'Chuyên viên VP';
-
-        if (!name || !username || !password) {
-            alert("Vui lòng nhập đầy đủ thông tin!");
-            return;
-        }
-
-        var users = this.getUsersDatabase();
-        if (users.some(function(u){ return u.username === username; })) {
-            alert("Username đã tồn tại!");
-            return;
-        }
-
-        users.push({ username: username, password: password, name: name, role: 'USER', title: title });
-        localStorage.setItem('app_users_db', JSON.stringify(users));
-        alert("Đã tạo tài khoản cho: " + name);
-        
-        var modal = document.getElementById('auth-admin-modal');
-        if (modal) modal.remove();
-        this.openAdminModal();
-    },
-
-    toggleRole: function(username) {
-        var users = this.getUsersDatabase();
-        var target = users.find(function(u){ return u.username === username; });
-        if (target) {
-            target.role = (target.role === 'ADMIN') ? 'USER' : 'ADMIN';
-            localStorage.setItem('app_users_db', JSON.stringify(users));
-            var modal = document.getElementById('auth-admin-modal');
-            if (modal) modal.remove();
-            this.openAdminModal();
-            this.updateUI();
-        }
-    },
-
+    // 7. Cập nhật giao diện Header
     updateUI: function() {
-        var user = this.getCurrentUser();
-        var displayNameElem = document.getElementById('user-display-name');
-        var badgeElem = document.getElementById('user-role-badge');
-        var adminBtn = document.getElementById('btn-admin-manage-users');
+        const user = this.getCurrentUser();
+        const displayNameElem = document.getElementById('user-display-name');
+        const badgeElem = document.getElementById('user-role-badge');
+        const adminBtn = document.getElementById('btn-admin-manage-users');
 
         if (!user) return;
-        if (displayNameElem) displayNameElem.innerText = user.name + " (" + user.title + ")";
+
+        if (displayNameElem) displayNameElem.innerText = `${user.name} (${user.title})`;
 
         if (user.role === 'ADMIN') {
             if (badgeElem) {
@@ -4325,29 +3940,153 @@ var AppAuthCore = {
         } else {
             if (badgeElem) {
                 badgeElem.style.background = '#10b981';
-                badgeElem.innerText = '👤 CÁ NHÂN: ' + user.name;
+                badgeElem.innerText = `👤 CÁ NHÂN: ${user.name}`;
             }
             if (adminBtn) adminBtn.style.display = 'none';
         }
     },
 
-    filterData: function(dataArray) {
-        if (!Array.isArray(dataArray)) return [];
-        var user = this.getCurrentUser();
-        if (!user) return [];
-        if (user.role === 'ADMIN') return dataArray;
-        return dataArray.filter(function(item){ return !item.created_by || item.created_by === user.username; });
+    // 8. BẢNG QUẢN LÝ & TẠO MỚI TÀI KHOẢN (DÀNH CHO ADMIN)
+    openAdminModal: function() {
+        const currentUser = this.getCurrentUser();
+        if (!currentUser || currentUser.role !== 'ADMIN') {
+            alert("Bạn không có quyền truy cập chức năng Quản trị!");
+            return;
+        }
+
+        const users = this.getUsersDatabase();
+        let rowsHtml = '';
+        users.forEach((u, idx) => {
+            const isAdmin = u.role === 'ADMIN';
+            rowsHtml += `
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                    <td style="padding: 10px; text-align: center;">${idx + 1}</td>
+                    <td style="padding: 10px;"><b>${u.name}</b><br><small style="color:#0284c7;">@${u.username}</small></td>
+                    <td style="padding: 10px;"><small style="background:#f1f5f9; padding:2px 6px; border-radius:4px;">🔑 ${u.password}</small></td>
+                    <td style="padding: 10px;">${u.title}</td>
+                    <td style="padding: 10px; text-align: center;">
+                        <span style="background: ${isAdmin ? '#8b5cf6' : '#10b981'}; color: white; padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: bold;">
+                            ${isAdmin ? '🔑 ADMIN' : '👤 USER'}
+                        </span>
+                    </td>
+                    <td style="padding: 10px; text-align: center;">
+                        ${u.username === 'duong_tb' ? '<small style="color:#94a3b8;">Owner (Gốc)</small>' : `
+                            <button onclick="AppAuthCore.toggleRole('${u.username}')" style="background: ${isAdmin ? '#ef4444' : '#0284c7'}; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold;">
+                                ${isAdmin ? 'Thu hồi Admin' : 'Ủy quyền Admin'}
+                            </button>
+                        `}
+                    </td>
+                </tr>
+            `;
+        });
+
+        const modalHtml = `
+            <div id="auth-admin-modal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15,23,42,0.7); display: flex; align-items: center; justify-content: center; z-index: 99999;">
+                <div style="background: #ffffff; border-radius: 10px; width: 750px; max-width: 95%; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); overflow: hidden; font-family: sans-serif;">
+                    <div style="background: #0f172a; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="margin: 0; font-size: 16px;"><i class="fa-solid fa-users-gear" style="color: #38bdf8;"></i> QUẢN LÝ & TẠO MỚI TÀI KHOẢN VĂN PHÒNG</h3>
+                        <button onclick="document.getElementById('auth-admin-modal').remove()" style="background: none; border: none; color: white; font-size: 18px; cursor: pointer;">✕</button>
+                    </div>
+                    
+                    <!-- FORM TẠO TÀI KHOẢN MỚI -->
+                    <div style="background: #f8fafc; padding: 15px 20px; border-bottom: 1px solid #e2e8f0;">
+                        <b style="font-size: 13px; color: #0369a1; display: block; margin-bottom: 8px;">➕ TẠO TÀI KHOẢN MỚI CHO NHÂN VIÊN:</b>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr auto; gap: 8px; align-items: center;">
+                            <input type="text" id="new-user-name" placeholder="Họ và tên..." style="padding: 6px 10px; border-radius: 5px; border: 1px solid #cbd5e1; font-size: 12px;">
+                            <input type="text" id="new-user-username" placeholder="Username (Mã VP)..." style="padding: 6px 10px; border-radius: 5px; border: 1px solid #cbd5e1; font-size: 12px;">
+                            <input type="text" id="new-user-password" placeholder="Mật khẩu..." value="123" style="padding: 6px 10px; border-radius: 5px; border: 1px solid #cbd5e1; font-size: 12px;">
+                            <input type="text" id="new-user-title" placeholder="Chức danh..." style="padding: 6px 10px; border-radius: 5px; border: 1px solid #cbd5e1; font-size: 12px;">
+                            <button onclick="AppAuthCore.createNewUser()" style="background: #16a34a; color: white; border: none; padding: 7px 12px; border-radius: 5px; font-weight: bold; font-size: 12px; cursor: pointer;">Tạo Mới</button>
+                        </div>
+                    </div>
+
+                    <div style="padding: 15px 20px; max-height: 300px; overflow-y: auto;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 12.5px;">
+                            <thead>
+                                <tr style="background: #f1f5f9; color: #334155; text-align: left;">
+                                    <th style="padding: 8px; text-align: center;">STT</th>
+                                    <th style="padding: 8px;">Họ tên / Username</th>
+                                    <th style="padding: 8px;">Mật khẩu</th>
+                                    <th style="padding: 8px;">Chức danh</th>
+                                    <th style="padding: 8px; text-align: center;">Quyền</th>
+                                    <th style="padding: 8px; text-align: center;">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>${rowsHtml}</tbody>
+                        </table>
+                    </div>
+                    <div style="background: #f8fafc; padding: 10px 20px; text-align: right; border-top: 1px solid #e2e8f0;">
+                        <button onclick="document.getElementById('auth-admin-modal').remove()" style="background: #64748b; color: white; border: none; padding: 6px 16px; border-radius: 5px; cursor: pointer; font-weight: bold;">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const oldModal = document.getElementById('auth-admin-modal');
+        if (oldModal) oldModal.remove();
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
     },
 
+    // 9. Hàm thêm Tài khoản mới vào Hệ thống
+    createNewUser: function() {
+        const name = document.getElementById('new-user-name').value.trim();
+        const username = document.getElementById('new-user-username').value.trim();
+        const password = document.getElementById('new-user-password').value.trim();
+        const title = document.getElementById('new-user-title').value.trim() || 'Chuyên viên VP';
+
+        if (!name || !username || !password) {
+            alert("Vui lòng nhập đầy đủ Họ tên, Username và Mật khẩu!");
+            return;
+        }
+
+        let users = this.getUsersDatabase();
+        if (users.some(u => u.username === username)) {
+            alert("Username này đã tồn tại trên hệ thống!");
+            return;
+        }
+
+        users.push({ username, password, name, role: 'USER', title });
+        localStorage.setItem('app_users_db', JSON.stringify(users));
+        alert(`Đã tạo thành công tài khoản cho: ${name}`);
+        
+        const modal = document.getElementById('auth-admin-modal');
+        if (modal) modal.remove();
+        this.openAdminModal();
+    },
+
+    // 10. Chuyển đổi Quyền Admin / User
+    toggleRole: function(username) {
+        let users = this.getUsersDatabase();
+        let target = users.find(u => u.username === username);
+        if (target) {
+            target.role = (target.role === 'ADMIN') ? 'USER' : 'ADMIN';
+            localStorage.setItem('app_users_db', JSON.stringify(users));
+            const modal = document.getElementById('auth-admin-modal');
+            if (modal) modal.remove();
+            this.openAdminModal();
+            this.updateUI();
+        }
+    },
+
+    // 11. Bộ lọc dữ liệu theo Quyền
+    filterData: function(dataArray) {
+        if (!Array.isArray(dataArray)) return [];
+        const user = this.getCurrentUser();
+        if (!user) return [];
+        if (user.role === 'ADMIN') return dataArray;
+        return dataArray.filter(item => !item.created_by || item.created_by === user.username);
+    },
+
+    // 12. Hook LocalStorage
     initAutoHook: function() {
-        var self = this;
-        var originalGetItem = localStorage.getItem;
+        const self = this;
+        const originalGetItem = localStorage.getItem;
         localStorage.getItem = function(key) {
-            var rawVal = originalGetItem.apply(this, arguments);
-            var targetKeys = ['sys_ink_logs', 'sys_ink_inventory', 'inkData', 'cntt_devices', 'salary_logs', 'leave_logs'];
+            const rawVal = originalGetItem.apply(this, arguments);
+            const targetKeys = ['sys_ink_logs', 'sys_ink_inventory', 'inkData', 'cntt_devices', 'salary_logs', 'leave_logs'];
             if (targetKeys.includes(key) && rawVal) {
                 try {
-                    var parsed = JSON.parse(rawVal);
+                    const parsed = JSON.parse(rawVal);
                     if (Array.isArray(parsed)) {
                         return JSON.stringify(self.filterData(parsed));
                     }
@@ -4355,296 +4094,14 @@ var AppAuthCore = {
             }
             return rawVal;
         };
-    },
-
-    // 5. GẮN SỰ KIỆN NÚT BẤM
-    bindHeaderEvents: function() {
-        var btnAdmin = document.getElementById('btn-admin-manage-users');
-        var btnPass = document.getElementById('btn-change-password');
-        var btnLogout = document.getElementById('btn-auth-action');
-
-        if (btnAdmin) {
-            btnAdmin.onclick = function() { AppAuthCore.openAdminModal(); };
-        }
-        if (btnPass) {
-            btnPass.onclick = function() { AppAuthCore.openChangePasswordModal(); };
-        }
-        if (btnLogout) {
-            btnLogout.onclick = function() { AppAuthCore.logout(); };
-        }
     }
 };
 
-// Khởi chạy an toàn
+// Khởi chạy kiểm tra Đăng nhập khi nạp trang
 document.addEventListener('DOMContentLoaded', function() {
     AppAuthCore.initAutoHook();
     AppAuthCore.checkSessionOnStart();
-    AppAuthCore.bindHeaderEvents();
 });
-    // ====================================================
-// MODULE LỊCH VẠN NIÊN THÔNG MINH AUTOMATIC
-// ====================================================
-let currentCalDate = new Date();
-
-function renderFullSmartCalendar() {
-    const today = currentCalDate;
-    const day = today.getDate();
-    const month = today.getMonth() + 1;
-    const year = today.getFullYear();
-
-    // 1. Cập nhật Tờ Lịch Ngày Block
-    const dayNames = ["CHỦ NHẬT", "THỨ HAI", "THỨ BA", "THỨ TƯ", "THỨ NĂM", "THỨ SÁU", "THỨ BẢY"];
-    if(document.getElementById("full-cal-day-name")) document.getElementById("full-cal-day-name").innerText = dayNames[today.getDay()];
-    if(document.getElementById("full-cal-solar-date")) document.getElementById("full-cal-solar-date").innerText = day < 10 ? '0' + day : day;
-    if(document.getElementById("full-cal-solar-month")) document.getElementById("full-cal-solar-month").innerText = `Tháng ${month} - ${year}`;
-
-    // 2. Thuật toán Âm Lịch & Phong Thủy
-    const lunar = getFullLunarInfo(day, month, year);
-    if(document.getElementById("full-cal-lunar-date")) document.getElementById("full-cal-lunar-date").innerText = `${lunar.day}/${lunar.month}/${lunar.year}`;
-    if(document.getElementById("full-cal-can-chi")) document.getElementById("full-cal-can-chi").innerText = lunar.canChi;
-    if(document.getElementById("full-cal-tiet-khi")) document.getElementById("full-cal-tiet-khi").innerText = lunar.tietKhi;
-
-    // 3. Render Bảng Lịch Tháng Compact
-    if(document.getElementById("full-mini-cal-title")) document.getElementById("full-mini-cal-title").innerText = `Tháng ${month} / ${year}`;
-    
-    const firstDay = new Date(year, month - 1, 1).getDay();
-    const daysInMonth = new Date(year, month, 0).getDate();
-    const tbody = document.getElementById("full-calendar-body-matrix");
-
-    if (tbody) {
-        tbody.innerHTML = "";
-        let dateCounter = 1;
-
-        for (let i = 0; i < 6; i++) {
-            let tr = document.createElement("tr");
-            let hasData = false;
-
-            for (let j = 0; j < 7; j++) {
-                let td = document.createElement("td");
-                td.style.padding = "7px 4px";
-                td.style.border = "1px solid #cbd5e1";
-                td.style.fontSize = "12.5px";
-
-                if ((i === 0 && j < firstDay) || dateCounter > daysInMonth) {
-                    td.innerText = "";
-                    td.style.background = "#f8fafc";
-                } else {
-                    td.innerText = dateCounter;
-                    td.style.cursor = "pointer";
-                    td.style.fontWeight = "500";
-
-                    // Đánh dấu Ngày Đang Chọn
-                    if (dateCounter === day) {
-                        td.style.background = "#b91c1c";
-                        td.style.color = "#ffffff";
-                        td.style.fontWeight = "bold";
-                        td.style.borderRadius = "3px";
-                    }
-
-                    const selectedDay = dateCounter;
-                    td.onclick = function() {
-                        currentCalDate = new Date(year, month - 1, selectedDay);
-                        renderFullSmartCalendar();
-                    };
-
-                    dateCounter++;
-                    hasData = true;
-                }
-                tr.appendChild(td);
-            }
-            if (hasData || i < 5) tbody.appendChild(tr);
-        }
-    }
-}
-
-// Thuật toán tính Âm Lịch & Tiết Khí tham chiếu chính xác
-function getFullLunarInfo(d, m, y) {
-    const tietKhis = ["Tiểu Hàn", "Đại Hàn", "Lập Xuân", "Vũ Thủy", "Kinh Trập", "Xuân Phân", "Thanh Minh", "Cốc Vũ", "Lập Hạ", "Tiểu Mãn", "Mang Chủng", "Hạ Chí", "Tiểu Thử", "Đại Thử", "Lập Thu", "Xử Thử", "Bạch Lộ", "Thu Phân", "Hàn Lộ", "Sương Giáng", "Lập Đông", "Tiểu Tuyết", "Đại Tuyết", "Đông Chí"];
-    const tkIndex = Math.floor((m - 1) * 2 + (d > 15 ? 1 : 0)) % 24;
-    return {
-        day: (d > 13) ? d - 13 : d + 15,
-        month: (d > 13) ? (m === 1 ? 12 : m - 1) : m,
-        year: y,
-        canChi: "Bính Ngọ (Năm)",
-        tietKhi: tietKhis[tkIndex] || "Lập Thu"
-    };
-}
-
-function changeFullCalMonth(offset) {
-    currentCalDate.setMonth(currentCalDate.getMonth() + offset);
-    renderFullSmartCalendar();
-}
-function resetToToday() {
-    currentCalDate = new Date();
-    renderFullSmartCalendar();
-}
-function addFullCalendarEvent() {
-    const note = prompt("Nhập nội dung ghi chú lịch họp / lịch công tác văn phòng:");
-    if (note && note.trim() !== "") {
-        const list = document.getElementById("full-calendar-events-list");
-        if (list.querySelector('li')?.innerText.includes("Chưa có ghi chú")) {
-            list.innerHTML = "";
-        }
-        const li = document.createElement("li");
-        li.style.padding = "6px 0";
-        li.style.borderBottom = "1px dashed #cbd5e1";
-        li.style.color = "#1e3a8a";
-        li.innerHTML = `📌 <strong>Ngày ${currentCalDate.getDate()}/${currentCalDate.getMonth()+1}/${currentCalDate.getFullYear()}:</strong> ${note.trim()}`;
-        list.appendChild(li);
-    }
-}
-// Khởi tạo Lịch khi tải trang
-document.addEventListener("DOMContentLoaded", function() {
-    renderFullSmartCalendar();
-});
-    <script>
-// ====================================================
-// MODULE LỊCH VẠN NIÊN THÔNG MINH AUTOMATIC
-// ====================================================
-let currentCalDate = new Date();
-
-function renderFullSmartCalendar() {
-    const today = currentCalDate;
-    const realToday = new Date();
-    const day = today.getDate();
-    const month = today.getMonth() + 1;
-    const year = today.getFullYear();
-
-    // 1. Cập nhật Tờ Lịch Ngày Block
-    const dayNames = ["CHỦ NHẬT", "THỨ HAI", "THỨ BA", "THỨ TƯ", "THỨ NĂM", "THỨ SÁU", "THỨ BẢY"];
-    if(document.getElementById("full-cal-day-name")) document.getElementById("full-cal-day-name").innerText = dayNames[today.getDay()];
-    if(document.getElementById("full-cal-solar-date")) document.getElementById("full-cal-solar-date").innerText = day < 10 ? '0' + day : day;
-    if(document.getElementById("full-cal-solar-month")) document.getElementById("full-cal-solar-month").innerText = `Tháng ${month} - ${year}`;
-
-    // 2. Thuật toán Âm Lịch & Phong Thủy
-    const lunar = getFullLunarInfo(day, month, year);
-    if(document.getElementById("full-cal-lunar-date")) document.getElementById("full-cal-lunar-date").innerText = `${lunar.day}/${lunar.month}/${lunar.year}`;
-    if(document.getElementById("full-cal-can-chi")) document.getElementById("full-cal-can-chi").innerText = lunar.canChi;
-    if(document.getElementById("full-cal-tiet-khi")) document.getElementById("full-cal-tiet-khi").innerText = lunar.tietKhi;
-
-    // 3. Render Bảng Lịch Tháng Compact
-    if(document.getElementById("full-mini-cal-title")) document.getElementById("full-mini-cal-title").innerText = `Tháng ${month} / ${year}`;
-    
-    const firstDay = new Date(year, month - 1, 1).getDay();
-    const daysInMonth = new Date(year, month, 0).getDate();
-    const tbody = document.getElementById("full-calendar-body-matrix");
-
-    if (tbody) {
-        tbody.innerHTML = "";
-        let dateCounter = 1;
-
-        for (let i = 0; i < 6; i++) {
-            let tr = document.createElement("tr");
-            let hasData = false;
-
-            for (let j = 0; j < 7; j++) {
-                let td = document.createElement("td");
-                td.style.padding = "7px 4px";
-                td.style.border = "1px solid #cbd5e1";
-                td.style.fontSize = "12.5px";
-
-                if ((i === 0 && j < firstDay) || dateCounter > daysInMonth) {
-                    td.innerText = "";
-                    td.style.background = "#f8fafc";
-                } else {
-                    td.innerText = dateCounter;
-                    td.style.cursor = "pointer";
-                    td.style.fontWeight = "500";
-
-                    // Đánh dấu Focus tô đỏ đúng Ngày Hiện Tại
-                    if (dateCounter === realToday.getDate() && (month - 1) === realToday.getMonth() && year === realToday.getFullYear()) {
-                        td.style.background = "#b91c1c";
-                        td.style.color = "#ffffff";
-                        td.style.fontWeight = "bold";
-                        td.style.borderRadius = "3px";
-                    }
-
-                    const selectedDay = dateCounter;
-                    td.onclick = function() {
-                        currentCalDate = new Date(year, month - 1, selectedDay);
-                        renderFullSmartCalendar();
-                    };
-
-                    dateCounter++;
-                    hasData = true;
-                }
-                tr.appendChild(td);
-            }
-            if (hasData || i < 5) tbody.appendChild(tr);
-        }
-    }
-}
-
-// Thuật toán tính Âm Lịch & Tiết Khí tham chiếu
-function getFullLunarInfo(d, m, y) {
-    const tietKhis = ["Tiểu Hàn", "Đại Hàn", "Lập Xuân", "Vũ Thủy", "Kinh Trập", "Xuân Phân", "Thanh Minh", "Cốc Vũ", "Lập Hạ", "Tiểu Mãn", "Mang Chủng", "Hạ Chí", "Tiểu Thử", "Đại Thử", "Lập Thu", "Xử Thử", "Bạch Lộ", "Thu Phân", "Hàn Lộ", "Sương Giáng", "Lập Đông", "Tiểu Tuyết", "Đại Tuyết", "Đông Chí"];
-    const tkIndex = Math.floor((m - 1) * 2 + (d > 15 ? 1 : 0)) % 24;
-    return {
-        day: (d > 13) ? d - 13 : d + 15,
-        month: (d > 13) ? (m === 1 ? 12 : m - 1) : m,
-        year: y,
-        canChi: "Bính Ngọ (Năm)",
-        tietKhi: tietKhis[tkIndex] || "Lập Thu"
-    };
-}
-
-function changeFullCalMonth(offset) {
-    currentCalDate.setMonth(currentCalDate.getMonth() + offset);
-    renderFullSmartCalendar();
-}
-
-function resetToToday() {
-    currentCalDate = new Date();
-    renderFullSmartCalendar();
-}
-
-function addFullCalendarEvent() {
-    const note = prompt("Nhập nội dung ghi chú lịch họp / lịch công tác văn phòng:");
-    if (note && note.trim() !== "") {
-        const list = document.getElementById("full-calendar-events-list");
-        if (list.querySelector('li')?.innerText.includes("Chưa có ghi chú")) {
-            list.innerHTML = "";
-        }
-        const li = document.createElement("li");
-        li.style.padding = "6px 0";
-        li.style.borderBottom = "1px dashed #cbd5e1";
-        li.style.color = "#1e3a8a";
-        li.innerHTML = `📌 <strong>Ngày ${currentCalDate.getDate()}/${currentCalDate.getMonth()+1}/${currentCalDate.getFullYear()}:</strong> ${note.trim()}`;
-        list.appendChild(li);
-    }
-}
-
-// Khởi tạo Lịch ngay khi tải trang
-document.addEventListener("DOMContentLoaded", function() {
-    renderFullSmartCalendar();
-});
-    // HÀM BẬT / TẮT LỊCH SIDEBAR & BUNG FULL MÀN HÌNH 100%
-function toggleRightCalendar() {
-    // 1. Tìm khung chứa workspace
-    let workspace = document.querySelector('.workspace');
-    if (!workspace) {
-        workspace = document.querySelector('.main-content')?.parentElement || document.body;
-    }
-
-    // 2. Bật/Tắt class calendar-hidden để co/dãn giao diện
-    if (workspace) {
-        workspace.classList.toggle('calendar-hidden');
-    }
-
-    // 3. Tìm và Bật/Tắt hiển thị của cột Lịch bên phải
-    const sidebar = document.getElementById('sidebar-calendar') 
-                 || document.getElementById('calendar-sidebar-box') 
-                 || document.querySelector('.sidebar-right') 
-                 || document.querySelector('.calendar-sidebar');
-
-    if (sidebar) {
-        if (sidebar.style.display === 'none') {
-            sidebar.style.display = 'block';
-        } else {
-            sidebar.style.display = 'none';
-        }
-    }
-}
 </script>
 </body>
 </html>
