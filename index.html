@@ -1513,12 +1513,33 @@
             if (lunarD === 0) lunarD = 30;
             document.getElementById('cal-selected-lunar-day').innerText = `Ngày Mậu Thìn - Tháng Ất Mùi`;
             document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG ${m > 6 ? 6 : m} NĂM BÍNH NGỌ`;
-            document.getElementById('info-lunar-exact').innerText = `${lunarD}/${m}/${y} (Bính Ngọ)`;
-            document.getElementById('info-tiet-khi').innerText = m === 8 ? "Lập Hạ / Xử Thử" : "Tiết Khí Theo Mùa";
-            document.getElementById('info-huong-xuat-hanh').innerText = "Tài thần: Đông - Hỷ thần: Tây Nam";
-            document.getElementById('info-gio-hoang-dao').innerText = "Tý (23h-1h), Sửu (1h-3h), Thìn (7h-9h)";
-            document.getElementById('info-tuoi-xung').innerText = "Dậu, Sửu, Tỵ";
-            document.getElementById('info-truc-sao').innerText = "Trực Thành - Sao: Nguyệt Tài, Thiên Quý";
+            // Thêm hàm tính Tiết khí này vào khối script
+function getVietSolarTerm(day, month) {
+  const terms = [
+    "Tiểu Hàn", "Đại Hàn", "Lập Xuân", "Vũ Thủy", 
+    "Kinh Trập", "Xuân Phân", "Thanh Minh", "Cốc Vũ", 
+    "Lập Hạ", "Tiểu Mãn", "Mang Chủng", "Hạ Chí", 
+    "Tiểu Thử", "Đại Thử", "Lập Thu", "Xử Thử", 
+    "Bạch Lộ", "Thu Phân", "Hàn Lộ", "Sương Giáng", 
+    "Lập Đông", "Tiểu Tuyết", "Đại Tuyết", "Đông Chí"
+  ];
+  const termDates = [
+    [5, 20], [4, 19], [6, 21], [5, 20], [6, 21], [6, 21],
+    [7, 23], [8, 23], [8, 23], [8, 23], [7, 22], [7, 22]
+  ];
+  const mIdx = month - 1;
+  const [d1, d2] = termDates[mIdx];
+  if (day < d1) return terms[(mIdx * 2 - 1 + 24) % 24];
+  if (day < d2) return terms[mIdx * 2];
+  return terms[mIdx * 2 + 1];
+}
+document.getElementById('info-lunar-exact').innerText = `${lunarD}/${m > 6 ? 6 : m}/${y} (Bính Ngộ)`;
+// THÊM DÒNG NÀY ĐỂ HIỂN THỊ TIẾT KHÍ TỰ ĐỘNG:
+document.getElementById('info-tiet-khi').innerText = getVietSolarTerm(d, m);
+document.getElementById('info-huong-xuat-hanh').innerText = "Tài thần: Đông - Hỷ thần: Tây Nam";
+document.getElementById('info-gio-hoang-dao').innerText = "Tý (23h-1h), Sửu (1h-3h), Thìn (7h-9h)";
+document.getElementById('info-tuoi-xung').innerText = "Dậu, Sửu, Tỵ";
+document.getElementById('info-truc-sao').innerText = "Trực Thành - Sao: Nguyệt Tài, Thiên Quý";
             const dateKey = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
             let noteEl = document.getElementById('info-event-note');
             if (dayEventsMap[dateKey]) {
