@@ -249,7 +249,6 @@
                     <i class="fa-solid fa-calendar-check stat-icon-3d" style="color:var(--teal);"></i>
                 </div>
             </div>
-
             <div class="nav-tabs">
                 <button type="button" class="nav-tab active" data-tab="dashboard" onclick="switchMainTab('dashboard')"><i class="fa-solid fa-chart-pie"></i> Dashboard</button>
                 <button type="button" class="nav-tab" data-tab="salary" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Tính Lương</button>
@@ -277,6 +276,12 @@
             <i class="fa-solid fa-users-gear"></i> Quản lý Tài khoản & Ủy quyền
         </button>
         <!-- Nút Đổi tài khoản / Đăng xuất -->
+        <!-- Chèn vào Menu Tài Khoản / Thanh Sidebar -->
+<button type="button"
+        onclick="document.getElementById('changePasswordModal').style.display='block'"
+        style="background: #2563eb; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+  <i class="fa-solid fa-key"></i> Đổi mật khẩu
+</button>
         <!-- Nút Đăng xuất -->
 <button id="btn-auth-action" onclick="AppAuthCore.logout()" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
     <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
@@ -388,7 +393,6 @@
                                 <input type="text" id="config-signer-name" value="Nguyễn Thị Tuyết Nhung" oninput="handleConfigChangeLive()">
                             </div>
                         </div>
-
                         <div class="config-actions-group" style="display:flex; gap:5px; flex-wrap: wrap; align-items:center;">
                             <input type="file" id="timekeeping-file-input" accept=".xlsx, .xls, .csv" style="display:none;" onchange="importTimekeepingFile(this)">
                             <button type="button" class="btn btn-teal" onclick="document.getElementById('timekeeping-file-input').click()"><i class="fa-solid fa-file-excel"></i> 📤 Nhập File Chấm Công</button>
@@ -396,9 +400,7 @@
                         </div>
                     </div>
                 </div>
-
                 <div id="syncNotifyBox" class="status-box-notify"></div>
-
                 <div class="main-card">
                     <div class="salary-visual-summary">
                         <div class="visual-mini-card">
@@ -418,7 +420,6 @@
                             <span class="visual-val" id="v-total-thuc" style="color:var(--green);">0 VND</span>
                         </div>
                     </div>
-
                     <div class="card-title">
                         <span id="disp-table-title">DANH SÁCH BẢNG LƯƠNG TỔNG HỢP NHÂN VIÊN</span>
                         <div style="display:flex; gap:5px; flex-wrap:wrap;">
@@ -426,7 +427,6 @@
                             <button type="button" class="btn btn-primary" style="padding:5px 8px; font-size:11.5px;" onclick="addNewSalaryRow()"><i class="fa-solid fa-user-plus"></i> Thêm NV</button>
                         </div>
                     </div>
-                    
                     <div class="table-responsive">
                         <table class="main-table" id="main-salary-table">
                             <thead>
@@ -470,7 +470,6 @@
                             <tbody id="tbody-salary"></tbody>
                         </table>
                     </div>
-
                     <div class="signature-container">
                         <div class="signature-box">
                             <div class="signature-title">PHÒNG NHÂN SỰ</div>
@@ -541,7 +540,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; margin-bottom: 10px;">
                         <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 10px; border-radius: 6px;">
                             <div style="font-weight: bold; font-size: 12.5px; color: var(--primary); margin-bottom: 6px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;">
@@ -562,7 +560,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="card-title" style="font-size: 13px; margin-top: 10px;">
                         <span>BẢNG THEO DÕI QUỸ PHÉP & CẤP BẬC THÂM NIÊN NHÂN SỰ NĂM <span class="lbl-current-year">2026</span></span>
                     </div>
@@ -585,7 +582,6 @@
                             <tbody id="tbody-leave-quota"></tbody>
                         </table>
                     </div>
-
                     <div class="card-title" style="font-size: 13px; margin-top: 15px;">
                         <span>NHẬT KÝ ĐĂNG KÝ NGHỈ PHÉP THỰC TẾ TRONG NĂM <span class="lbl-current-year">2026</span></span>
                     </div>
@@ -617,7 +613,6 @@
                         <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--green);"></i> LẬP HỒ SƠ ĐỀ NGHỊ THANH TOÁN VĂN PHÒNG (<span class="lbl-current-year">2026</span>)</span>
                         <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
                     </div>
-
                     <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 8px 10px; border-radius: 6px; margin-bottom: 8px;">
                         <div style="font-weight: bold; color: #166534; font-size: 12.5px; margin-bottom: 5px; display: flex; align-items: center; gap: 5px;">
                             <i class="fa-solid fa-calculator"></i> 🧮 CÔNG CỤ TÍNH THUẾ THUẬN & NGƯỢC (LÀM TRÒN THÔNG MINH)
@@ -759,7 +754,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- TAB 3: CƯỚC VIỄN THÔNG & INTERNET -->
             <div id="tab-telecom" class="tab-content">
                 <div class="main-card">
@@ -828,7 +822,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div style="display: flex; gap: 8px; align-items: center; justify-content: space-between; flex-wrap: wrap; border-top: 1px dashed #fdba74; padding-top: 6px;">
                             <div style="display: flex; gap: 6px; align-items: center; flex: 1; flex-wrap: wrap;">
                                 <label style="font-weight: bold; color: #c2410c; white-space: nowrap;"><i class="fa-solid fa-file-arrow-up"></i> Hóa đơn:</label>
@@ -872,7 +865,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- TAB 4: THIẾT BỊ CÔNG NGHỆ THÔNG TIN & TÀI SẢN -->
             <div id="tab-it-assets" class="tab-content">
                 <div class="main-card">
@@ -963,7 +955,6 @@
                                 </select>
                             </div>
                         </div>
-
                         <!-- PHẦN MỀM NGHIỆP VỤ & THIẾT KẾ CHUYÊN SÂU -->
                         <div style="background: #ffffff; border: 2px solid #d8b4fe; padding: 10px; border-radius: 6px; margin-bottom: 8px;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1.5px solid #e9d5ff; padding-bottom: 5px;">
@@ -977,7 +968,6 @@
                             </div>
                             <div id="software-checkbox-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 8px; max-height: 260px; overflow-y: auto; padding: 4px;"></div>
                         </div>
-
                         <div class="grid-form" style="margin-bottom: 6px;">
                             <div class="form-group" style="grid-column: span 2;">
                                 <label style="color: #6d28d9;">Thông số cấu hình phần cứng</label>
@@ -1002,7 +992,6 @@
                             <button type="button" class="btn btn-gray" onclick="clearItAssetForm()"><i class="fa-solid fa-rotate-left"></i> Làm mới</button>
                         </div>
                     </div>
-
                     <div id="status-cntt" style="font-weight: bold; font-size: 12.5px; margin-bottom: 6px;"></div>
 
                     <div style="display: flex; justify-content: space-between; align-items: center; background: #f3e8ff; border: 1.5px solid #d8b4fe; padding: 8px 10px; border-radius: 6px; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
@@ -1030,7 +1019,6 @@
                             <button type="button" class="btn btn-purple" onclick="exportItAssetWordReport()"><i class="fa-solid fa-file-word"></i> 📄 Xuất Báo Cáo Word</button>
                         </div>
                     </div>
-
                     <div class="card-title" style="font-size: 13px; margin-top: 10px;">
                         <span>BẢNG TỔNG HỢP KIỂM KÊ TRANG THIẾT BỊ CNTT & TÀI SẢN NĂM <span class="lbl-current-year">2026</span></span>
                         <span id="it-total-count" style="color: var(--purple);">Tổng: 0 Thiết bị</span>
@@ -1059,7 +1047,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- TAB 5: MODULE QUẢN LÝ KHO & CẤP PHÁT MỰC IN -->
             <div id="tab-ink-inventory" class="tab-content">
                 <div class="main-card">
@@ -1067,7 +1054,6 @@
                         <span><i class="fa-solid fa-print" style="color:var(--teal);"></i> QUẢN LÝ KHO & CẤP PHÁT MỰC IN VĂN PHÒNG (<span class="lbl-current-year">2026</span>)</span>
                         <button type="button" class="btn btn-teal" style="padding: 5px 10px; font-size:11.5px;" onclick="openAddInkModal()"><i class="fa-solid fa-plus"></i> Thêm Mực Nhập / Cấp Phát</button>
                     </div>
-
                     <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 8px 10px; border-radius: 6px; margin-bottom: 8px;">
                         <div style="font-weight: bold; color: #166534; font-size: 12.5px; margin-bottom: 4px;">
                             <i class="fa-solid fa-warehouse"></i> 📦 TỔNG HỢP TỒN KHO MỰC IN HIỆN TẠI (TỰ ĐỘNG CẬP NHẬT SAU KHI CẤP PHÁT):
@@ -1137,7 +1123,6 @@
                                     </div>
                                 </div>
                             </div>
-                            
                             <!-- KHUNG XEM TRƯỚC HÌNH ẢNH MỰC IN -->
                             <div style="background: #ffffff; border: 2px dashed #166534; border-radius: 6px; padding: 6px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 110px;">
                                 <div style="font-size: 10.5px; font-weight: bold; color: #166534; margin-bottom: 3px;">📷 Hình ảnh hộp mực:</div>
@@ -1145,7 +1130,6 @@
                                 <div id="ink-preview-label" style="font-size: 9.5px; color: #475569; margin-top: 2px; font-weight: bold;">Chưa chọn mã mực</div>
                             </div>
                         </div>
-
                         <div class="grid-form" style="margin-bottom: 6px;">
                             <div class="form-group">
                                 <label style="color:#166534;">Phòng ban nhận / Cấp phát:</label>
@@ -1176,7 +1160,6 @@
                             <button type="button" class="btn btn-teal" id="btn-save-ink" onclick="saveInkInventoryRecord()"><i class="fa-solid fa-floppy-disk"></i> Lưu Thông Tin Mực Vào Danh Sách</button>
                         </div>
                     </div>
-
                     <div class="card-title" style="font-size: 13px; margin-top: 10px;">
                         <span>DANH SÁCH LỊCH SỬ NHẬP & CẤP PHÁT MỰC IN NĂM <span class="lbl-current-year">2026</span></span>
                         <span id="ink-total-count" style="color: var(--teal);">Tổng tồn kho: 0 Hộp</span>
@@ -1204,7 +1187,6 @@
                 </div>
             </div>
         </div>
-
         <!-- LỊCH VẠN NIÊN PHONG THỦY CHUYÊN NGHIỆP (SIDEBAR) -->
         <div class="calendar-sidebar" id="calendar-sidebar-box">
             <div class="cal-smart-header">
@@ -1212,7 +1194,6 @@
                 <h2 id="cal-header-title">Tháng 8 / 2026</h2>
                 <button type="button" class="cal-nav-btn" onclick="changeCalendarMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
-
             <div class="calendar-block-view">
                 <div class="calendar-block-head" id="cal-block-lunar-month">ÂM LỊCH: THÁNG 6 NĂM BÍNH NGỌ</div>
                 <div class="calendar-block-body">
@@ -1221,7 +1202,6 @@
                     <div class="cal-selected-lunar-sub" id="cal-selected-lunar-day">Ngày Mậu Thìn - Tháng Ất Mùi</div>
                 </div>
             </div>
-
             <div class="cal-weekdays-bar">
                 <div style="color:#d9534f;">CN</div>
                 <div>T2</div>
@@ -1232,7 +1212,6 @@
                 <div>T7</div>
             </div>
             <div class="cal-grid-mini" id="cal-mini-days-container"></div>
-
             <div class="cal-info-panel">
                 <div class="cal-info-row">
                     <span class="cal-info-label">🌙 Âm lịch:</span>
@@ -1271,7 +1250,6 @@
             </div>
         </div>
     </div>
-
     <!-- MODAL ĐĂNG KÝ & SỬA ĐĂNG KÝ NGHỈ PHÉP -->
     <div id="leaveModal" class="modal" onclick="closeLeaveModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:480px;">
@@ -1314,7 +1292,6 @@
             </div>
         </div>
     </div>
-
     <!-- MODAL CẤU HÌNH THÂM NIÊN & ĐIỀU KIỆN PHÉP -->
     <div id="leaveConfigModal" class="modal" onclick="closeLeaveConfigModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:450px;">
@@ -1361,7 +1338,6 @@
             </div>
         </div>
     </div>
-
     <!-- MODAL CONFIG URL -->
     <div id="configUrlModal" class="modal" onclick="closeConfigUrlModal()">
         <div class="modal-content" onclick="event.stopPropagation()" style="max-width:550px;">
@@ -1380,21 +1356,16 @@
             </div>
         </div>
     </div>
-
     <script>
         const HARDCODED_SCRIPT_API = "https://script.google.com/macros/s/AKfycbxcz6ynaYF_FmckDC1p4EPCkVHMMvCe8rwcbAjNV0BQeVNdQx9j1UzHpOo0Z17T0fGb/exec";
         const DEFAULT_GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1MM2VqBw1EnZ7YFdpRW-So9_AQgR99YI_7XOAHgUULns/edit?gid=1529354527#gid=1529354527";
         const ROOT_DRIVE_FOLDER_URL = "https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi";
-
         let GOOGLE_SHEET_VIEW_URL = localStorage.getItem('sys_cfg_sheet_url') || DEFAULT_GOOGLE_SHEET_URL; 
         let GOOGLE_SCRIPT_API_URL = localStorage.getItem('sys_cfg_script_url') || HARDCODED_SCRIPT_API; 
-
         let CURRENT_SELECTED_YEAR = "2026";
         let isAmountManual = false;
-
         let combinedPieChartInstance = null;
         let combinedBarChartInstance = null;
-
         const default16Staffs = [
             {"name": "Nguyễn Minh Ngọc", "account": "105005712499", "lcb_heso": 1.94, "lcb_phucap": 0.25, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 5.20, "phu_cap_lcv": 0.6, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 5000000, "pctt": 0, "tru_ung": 0},
             {"name": "Nguyễn Văn Nam", "account": "105004242307", "lcb_heso": 1.48, "lcb_phucap": 0.00, "NT": 14, "P": 0, "le_vr": 1, "he_so_lcv": 2.24, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 70000, "dohai": 182000, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0},
@@ -1413,7 +1384,6 @@
             {"name": "Đặng Trần Trung", "account": "107002654931", "lcb_heso": 1.53, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 1.62, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 3000000, "pctt": 0, "tru_ung": 0},
             {"name": "Phạm Huy Chiến", "account": "102004830132", "lcb_heso": 2.26, "lcb_phucap": 0.00, "NT": 20, "P": 0, "le_vr": 1, "he_so_lcv": 2.40, "phu_cap_lcv": 0.0, "hs_htcv": 1.0, "anca": 100000, "dohai": 260000, "tam_ung": 4000000, "pctt": 0, "tru_ung": 0}
         ];
-
         const INK_IMAGE_DATABASE = {
             "HP 12A": "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=200&auto=format&fit=crop&q=60",
             "HP 85A": "https://images.unsplash.com/photo-1588702547919-269b9e6e1dad?w=200&auto=format&fit=crop&q=60",
@@ -1425,7 +1395,6 @@
             "EPSON 003": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=200&auto=format&fit=crop&q=60",
             "DEFAULT": "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=200&auto=format&fit=crop&q=60"
         };
-
         const AVAILABLE_SOFTWARE_LIST = [
             "Không sử dụng phần mềm",
             "CloudOffice - Văn phòng điện tử",
@@ -1453,10 +1422,8 @@
         let leaveConfigsByYear = JSON.parse(localStorage.getItem('sys_leave_configs_by_year')) || {};
         let leaveLogsByYear = JSON.parse(localStorage.getItem('sys_leave_logs_by_year')) || {};
         let dayEventsMap = JSON.parse(localStorage.getItem('sys_day_events_map')) || {};
-
         let activePickerId = null;
         let pickerCurrentDate = new Date();
-
         function updateLiveSystemClock() {
             let now = new Date();
             let hours = String(now.getHours()).padStart(2, '0');
@@ -1471,9 +1438,7 @@
             }
         }
         setInterval(updateLiveSystemClock, 1000);
-
         const weekdaysVN = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
-        
         let calendarViewDate = new Date();
         let calendarSelectedDate = new Date();
 
@@ -1483,15 +1448,12 @@
 
             const titleEl = document.getElementById('cal-header-title');
             if (titleEl) titleEl.innerText = `Tháng ${month + 1} / ${year}`;
-
             const container = document.getElementById('cal-mini-days-container');
             if (!container) return;
             container.innerHTML = '';
-
             const firstDayIndex = new Date(year, month, 1).getDay();
             const totalDays = new Date(year, month + 1, 0).getDate();
             const prevTotalDays = new Date(year, month, 0).getDate();
-
             for (let i = firstDayIndex; i > 0; i--) {
                 const dayNum = prevTotalDays - i + 1;
                 const cellDate = new Date(year, month - 1, dayNum);
@@ -1502,22 +1464,18 @@
                 const cellDate = new Date(year, month, i);
                 container.appendChild(createCalCell(i, false, cellDate));
             }
-
             const totalCellsSoFar = firstDayIndex + totalDays;
             const nextDaysCount = totalCellsSoFar <= 35 ? (35 - totalCellsSoFar) : (42 - totalCellsSoFar);
             for (let i = 1; i <= nextDaysCount; i++) {
                 const cellDate = new Date(year, month + 1, i);
                 container.appendChild(createCalCell(i, true, cellDate));
             }
-
             updateCalendarDetailPane();
         }
-
         function createCalCell(solarDay, isInactive, fullDate) {
             const cell = document.createElement('div');
             cell.className = `cal-day-cell ${isInactive ? 'inactive' : ''}`;
             if (fullDate.getDay() === 0) cell.classList.add('sun-day');
-
             if (
                 fullDate.getDate() === calendarSelectedDate.getDate() &&
                 fullDate.getMonth() === calendarSelectedDate.getMonth() &&
@@ -1544,19 +1502,15 @@
 
             return cell;
         }
-
         function updateCalendarDetailPane() {
             const y = calendarSelectedDate.getFullYear();
             const m = calendarSelectedDate.getMonth() + 1;
             const d = calendarSelectedDate.getDate();
             const dayOfWeek = calendarSelectedDate.getDay();
-
             document.getElementById('cal-selected-dow').innerText = weekdaysVN[dayOfWeek];
             document.getElementById('cal-selected-day').innerText = d;
-            
             let lunarD = (d + 18) % 30;
             if (lunarD === 0) lunarD = 30;
-            
             document.getElementById('cal-selected-lunar-day').innerText = `Ngày Mậu Thìn - Tháng Ất Mùi`;
             document.getElementById('cal-block-lunar-month').innerText = `ÂM LỊCH: THÁNG ${m > 6 ? 6 : m} NĂM BÍNH NGỌ`;
             document.getElementById('info-lunar-exact').innerText = `${lunarD}/${m}/${y} (Bính Ngọ)`;
@@ -1565,7 +1519,6 @@
             document.getElementById('info-gio-hoang-dao').innerText = "Tý (23h-1h), Sửu (1h-3h), Thìn (7h-9h)";
             document.getElementById('info-tuoi-xung').innerText = "Dậu, Sửu, Tỵ";
             document.getElementById('info-truc-sao').innerText = "Trực Thành - Sao: Nguyệt Tài, Thiên Quý";
-
             const dateKey = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
             let noteEl = document.getElementById('info-event-note');
             if (dayEventsMap[dateKey]) {
@@ -1576,12 +1529,10 @@
                 noteEl.style.fontStyle = "italic";
             }
         }
-
         function changeCalendarMonth(dir) {
             calendarViewDate.setMonth(calendarViewDate.getMonth() + dir);
             renderCalendar();
         }
-
         function resetCalendarToToday() {
             calendarViewDate = new Date();
             calendarSelectedDate = new Date();
@@ -1593,14 +1544,11 @@
             const m = calendarSelectedDate.getMonth() + 1;
             const d = calendarSelectedDate.getDate();
             const dateKey = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-            
             document.getElementById('modal-event-date-lbl').innerText = `${String(d).padStart(2,'0')}/${String(m).padStart(2,'0')}/${y}`;
             document.getElementById('modal-event-text').value = dayEventsMap[dateKey] || '';
             document.getElementById('eventModal').style.display = 'flex';
         }
-
         function closeEventModal() { document.getElementById('eventModal').style.display = 'none'; }
-
         function saveDayEvent() {
             const y = calendarSelectedDate.getFullYear();
             const m = calendarSelectedDate.getMonth() + 1;
@@ -1619,14 +1567,12 @@
             alert("✅ Đã lưu sự kiện thành công!");
             saveDataToCloudAPI();
         }
-
         async function saveDataToCloudAPI() {
             if (!GOOGLE_SCRIPT_API_URL) return;
             let dot = document.getElementById('cloud-status-dot');
             let txt = document.getElementById('cloud-status-text');
             if (dot) dot.style.backgroundColor = "var(--orange)";
             if (txt) txt.innerText = "⏳ Đang đồng bộ dữ liệu lên Cloud...";
-
             let payload = {
                 salary_by_month: salaryDataByMonth,
                 payment_records: paymentRecordsByMonth,
@@ -1636,7 +1582,6 @@
                 leave_configs: leaveConfigsByYear,
                 leave_logs: leaveLogsByYear
             };
-
             try {
                 let response = await fetch(GOOGLE_SCRIPT_API_URL, {
                     method: "POST",
@@ -1660,14 +1605,12 @@
                 alert("❌ Lỗi kết nối mạng khi đồng bộ lên Cloud!");
             }
         }
-
         async function loadDataFromCloudAPI() {
             if (!GOOGLE_SCRIPT_API_URL) return;
             let dot = document.getElementById('cloud-status-dot');
             let txt = document.getElementById('cloud-status-text');
             if (dot) dot.style.backgroundColor = "var(--orange)";
             if (txt) txt.innerText = "⏳ Đang tải dữ liệu từ Google Cloud...";
-
             try {
                 let response = await fetch(GOOGLE_SCRIPT_API_URL);
                 let cloudData = await response.json();
@@ -1700,10 +1643,8 @@
                     leaveLogsByYear = cloudData.leave_logs;
                     localStorage.setItem('sys_leave_logs_by_year', JSON.stringify(leaveLogsByYear));
                 }
-
                 if (dot) dot.style.backgroundColor = "var(--green)";
                 if (txt) txt.innerText = "Đã đồng bộ thành công dữ liệu từ Cloud!";
-
                 handleMonthChangeSelect();
                 renderPaymentTable();
                 renderTelecomTable();
@@ -1719,7 +1660,6 @@
                 alert("❌ Không thể tải dữ liệu từ Cloud!");
             }
         }
-
         function switchMainTab(tabId) {
             document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
@@ -1730,7 +1670,6 @@
             if (targetBtn) targetBtn.classList.add('active');
             if (targetContent) targetContent.classList.add('active');
         }
-
         function initSoftwareDropdown() {
             let container = document.getElementById('software-checkbox-container');
             if (!container) return;
@@ -1759,7 +1698,6 @@
             sidebar.classList.toggle('hidden');
             workspace.classList.toggle('calendar-hidden');
         }
-
         function togglePicker(popupId) {
             let popup = document.getElementById(popupId);
             if (activePickerId && activePickerId !== popupId) {
@@ -1774,7 +1712,6 @@
                 renderPopupCalendar(popupId);
             }
         }
-
         function renderPopupCalendar(popupId) {
             let popup = document.getElementById(popupId);
             let y = pickerCurrentDate.getFullYear();
@@ -1785,12 +1722,10 @@
             for (let yr = 2020; yr <= 2035; yr++) {
                 yearOptionsHTML += `<option value="${yr}" ${yr === y ? 'selected' : ''}>Năm ${yr}</option>`;
             }
-
             let monthOptionsHTML = '';
             for (let mo = 0; mo < 12; mo++) {
                 monthOptionsHTML += `<option value="${mo}" ${mo === m ? 'selected' : ''}>${monthNames[mo]}</option>`;
             }
-
             let html = `
                 <div class="popup-cal-top-bar">
                     <select onchange="onPopupYearChange(this.value, '${popupId}')">${yearOptionsHTML}</select>
@@ -1810,14 +1745,12 @@
                     <div class="popup-dow">T6</div>
                     <div class="popup-dow">T7</div>
             `;
-
             let firstDayIndex = new Date(y, m, 1).getDay();
             let totalDays = new Date(y, m + 1, 0).getDate();
 
             for (let i = 0; i < firstDayIndex; i++) {
                 html += `<div></div>`;
             }
-
             let today = new Date();
             for (let d = 1; d <= totalDays; d++) {
                 let isToday = (d === today.getDate() && m === today.getMonth() && y === today.getFullYear());
@@ -1830,11 +1763,9 @@
         function onPopupYearChange(yr, popupId) { pickerCurrentDate.setFullYear(parseInt(yr)); renderPopupCalendar(popupId); }
         function onPopupMonthChange(mo, popupId) { pickerCurrentDate.setMonth(parseInt(mo)); renderPopupCalendar(popupId); }
         function changePopupMonth(dir, popupId) { pickerCurrentDate.setMonth(pickerCurrentDate.getMonth() + dir); renderPopupCalendar(popupId); }
-
         function selectPopupDate(d, m, y, popupId) {
             let formattedDay = d < 10 ? '0' + d : d;
             let formattedMonth = m < 10 ? '0' + m : m;
-
             if (popupId === 'payment-date-popup') {
                 document.getElementById('pay-date-time').value = `${formattedDay}/${formattedMonth}/${y}`;
             } else if (popupId === 'telecom-period-popup') {
@@ -1845,7 +1776,6 @@
             document.getElementById(popupId).style.display = 'none';
             activePickerId = null;
         }
-
         function formatCurrencyVN(num) {
             if (num === null || num === undefined || isNaN(num)) return "0";
             let parts = Number(num).toFixed(2).split('.');
@@ -1854,7 +1784,6 @@
             if (decimalPart === "00") return integerPart;
             return integerPart + "," + decimalPart.replace(/0+$/, '');
         }
-
         function parseCurrencyVN(str) {
             if (str === null || str === undefined) return 0;
             if (typeof str === 'number') return str;
@@ -1864,17 +1793,14 @@
             let val = parseFloat(cleanStr);
             return isNaN(val) ? 0 : val;
         }
-
         function handleMoneyFocus(inputEl) { inputEl.value = parseCurrencyVN(inputEl.value); }
         function handleMoneyBlur(inputEl) { inputEl.value = formatCurrencyVN(parseCurrencyVN(inputEl.value)); }
         function markAmountManual() { isAmountManual = true; }
-
         function calculateTaxPro() {
             let amount = parseCurrencyVN(document.getElementById('tax-input-amount').value);
             let rate = parseFloat(document.getElementById('tax-rate-select').value) || 0;
             let mode = document.getElementById('tax-mode-select').value;
             let taxAmount = 0, totalAmount = 0;
-
             if (mode === 'add') {
                 taxAmount = Math.round(amount * (rate / 100));
                 totalAmount = amount + taxAmount;
@@ -1883,10 +1809,8 @@
                 taxAmount = Math.round(amount - base);
                 totalAmount = amount;
             }
-
             document.getElementById('tax-result-tax').innerText = `Thuế: ${formatCurrencyVN(taxAmount)} VND`;
             document.getElementById('tax-result-total').innerText = `Tổng: ${formatCurrencyVN(totalAmount)} VND`;
-            
             if (!isAmountManual) {
                 let qty = parseFloat(document.getElementById('pay-qty').value) || 1;
                 let unitPrice = parseCurrencyVN(document.getElementById('pay-unit-price').value);
@@ -1895,7 +1819,6 @@
                 document.getElementById('pay-amount').value = formatCurrencyVN(baseSubtotal + calcTax);
             }
         }
-
         function calculatePayLineTotal() {
             if (isAmountManual) return;
             let qty = parseFloat(document.getElementById('pay-qty').value) || 1;
@@ -1905,7 +1828,6 @@
             let taxAmount = Math.round(baseSubtotal * (rate / 100));
             document.getElementById('pay-amount').value = formatCurrencyVN(baseSubtotal + taxAmount);
         }
-
         function calculateTelecomTotal() {
             let mode = document.getElementById('tele-tax-mode').value;
             let taxRate = parseFloat(document.getElementById('tele-tax-rate').value) || 0;
@@ -1916,7 +1838,6 @@
             let baseAmount = parseCurrencyVN(baseInput.value);
             let totalAmount = parseCurrencyVN(totalInput.value);
             let taxAmt = 0;
-
             if (mode === 'add') {
                 taxAmt = Math.round(baseAmount * (taxRate / 100));
                 totalAmount = baseAmount + taxAmt;
@@ -1929,7 +1850,6 @@
             }
             taxInput.value = formatCurrencyVN(taxAmt);
         }
-
         function calculateTelecomTotalFromTotal() {
             let mode = document.getElementById('tele-tax-mode').value;
             if (mode === 'extract') {
@@ -1943,7 +1863,6 @@
                 document.getElementById('tele-tax-amt').value = formatCurrencyVN(taxAmt);
             }
         }
-
         function calculateLeaveDaysAuto() {
             let fromVal = document.getElementById('form-leave-from').value;
             let toVal = document.getElementById('form-leave-to').value;
@@ -1957,7 +1876,6 @@
                 }
             }
         }
-
         function calculateModalLeaveDaysAuto() {
             let fromVal = document.getElementById('modal-leave-from').value;
             let toVal = document.getElementById('modal-leave-to').value;
@@ -1971,7 +1889,6 @@
                 }
             }
         }
-
         function getStaffTotalLeaveQuota(staffName) {
             if (!leaveConfigsByYear[CURRENT_SELECTED_YEAR]) leaveConfigsByYear[CURRENT_SELECTED_YEAR] = {};
             let cfg = leaveConfigsByYear[CURRENT_SELECTED_YEAR][staffName];
@@ -1982,7 +1899,6 @@
             let totalGranted = Math.round(((baseDays / 12) * months + seniorityBonus) * 10) / 10;
             return totalGranted;
         }
-
         function getStaffUsedLeave(staffName) {
             let logs = leaveLogsByYear[CURRENT_SELECTED_YEAR] || [];
             let totalUsed = 0;
@@ -1993,7 +1909,6 @@
             });
             return totalUsed;
         }
-
         function getStaffUsedLeaveInMonth(staffName, monthStr) {
             let logs = leaveLogsByYear[CURRENT_SELECTED_YEAR] || [];
             let totalMonth = 0;
@@ -2004,7 +1919,6 @@
             });
             return totalMonth;
         }
-
         function getStaffListNames() {
             let staffNamesSet = new Set();
             Object.keys(salaryDataByMonth || {}).forEach(sm => {
@@ -2017,7 +1931,6 @@
             }
             return Array.from(staffNamesSet);
         }
-
         function renderLeaveManagementModule() {
             let staffArr = getStaffListNames();
             let quotaTbody = document.getElementById('tbody-leave-quota');
@@ -2026,7 +1939,6 @@
             let formStaffSel = document.getElementById('form-leave-staff');
             
             if (!quotaTbody || !logTbody || !alertBox) return;
-
             if (formStaffSel) {
                 let curVal = formStaffSel.value;
                 let optHtml = "";
@@ -2035,15 +1947,12 @@
                 });
                 formStaffSel.innerHTML = optHtml;
             }
-
             quotaTbody.innerHTML = "";
             alertBox.innerHTML = "";
 
             if (!leaveConfigsByYear[CURRENT_SELECTED_YEAR]) leaveConfigsByYear[CURRENT_SELECTED_YEAR] = {};
-
             let totalGrantedAll = 0, totalUsedAll = 0;
             let alertHtml = "";
-
             staffArr.forEach((name, idx) => {
                 if (!leaveConfigsByYear[CURRENT_SELECTED_YEAR][name]) {
                     leaveConfigsByYear[CURRENT_SELECTED_YEAR][name] = { months: 12, baseDays: 12, seniority: 0 };
@@ -2052,10 +1961,8 @@
                 let granted = getStaffTotalLeaveQuota(name);
                 let used = getStaffUsedLeave(name);
                 let remaining = Math.round((granted - used) * 10) / 10;
-
                 totalGrantedAll += granted;
                 totalUsedAll += used;
-
                 let statusBadge = "";
                 let alertColor = "var(--green)";
                 let alertText = "✅ Phép dồi dào";
@@ -2074,7 +1981,6 @@
                 if (remaining <= 3) {
                     alertHtml += `<div style="padding: 4px 6px; background: #fff; border-left: 3px solid ${alertColor}; border-radius: 3px; font-weight:bold; color:${alertColor};">${alertText}</div>`;
                 }
-
                 quotaTbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${idx + 1}</td>
                     <td class="font-bold" style="color:var(--primary);">${name}</td>
@@ -2090,17 +1996,14 @@
                     </td>
                 </tr>`;
             });
-
             if (alertHtml === "") {
                 alertHtml = `<div style="padding: 6px; background: #f0fdf4; color: #166534; border-radius: 4px; font-weight: bold; text-align:center;">🎉 Tất cả nhân sự đều còn nhiều ngày phép trong hạn mức!</div>`;
             }
             alertBox.innerHTML = alertHtml;
-
             document.getElementById('stat-leave-staff-count').innerText = `${staffArr.length} người`;
             document.getElementById('stat-leave-total-granted').innerText = `${Math.round(totalGrantedAll * 10)/10} ngày`;
             document.getElementById('stat-leave-total-used').innerText = `${Math.round(totalUsedAll * 10)/10} ngày`;
             document.getElementById('stat-leave-total-remaining').innerText = `${Math.round((totalGrantedAll - totalUsedAll) * 10)/10} ngày`;
-
             let logs = leaveLogsByYear[CURRENT_SELECTED_YEAR] || [];
             logTbody.innerHTML = "";
             if (logs.length === 0) {
@@ -2125,7 +2028,6 @@
 }
             syncLeaveDaysToSalaryTables();
         }
-
         function submitCorporateLeaveForm() {
             let name = document.getElementById('form-leave-staff').value;
             let type = document.getElementById('form-leave-type').value;
@@ -2159,7 +2061,6 @@
             alert(`✅ Đã gửi duyệt và cập nhật phiếu nghỉ phép cho nhân sự "${name}" thành công!`);
             saveDataToCloudAPI();
         }
-
         function syncLeaveDaysToSalaryTables() {
             Object.keys(salaryDataByMonth || {}).forEach(sm => {
                 if (sm.split('-')[0] === CURRENT_SELECTED_YEAR) {
@@ -2190,19 +2091,16 @@
             document.getElementById('modal-leave-note').value = "";
             document.getElementById('leaveModal').style.display = "flex";
         }
-
         function openEditLeaveModal(lIdx) {
             let logs = leaveLogsByYear[CURRENT_SELECTED_YEAR] || [];
             let log = logs[lIdx];
             if (!log) return;
-
             let staffArr = getStaffListNames();
             let sel = document.getElementById('modal-leave-staff');
             sel.innerHTML = "";
             staffArr.forEach(name => {
                 sel.innerHTML += `<option value="${name}" ${name === log.name ? 'selected' : ''}>${name}</option>`;
             });
-
             document.getElementById('modal-leave-edit-index').value = lIdx;
             document.getElementById('leave-modal-title').innerHTML = `<i class="fa-solid fa-pen-to-square"></i> SỬA ĐĂNG KÝ NGHỈ PHÉP`;
             document.getElementById('btn-save-modal-leave').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Cập Nhật Lại Phép`;
@@ -2213,9 +2111,7 @@
             document.getElementById('modal-leave-note').value = log.note || "";
             document.getElementById('leaveModal').style.display = "flex";
         }
-
         function closeLeaveModal() { document.getElementById('leaveModal').style.display = "none"; }
-
         function saveNewLeaveLog() {
             let editIdx = parseInt(document.getElementById('modal-leave-edit-index').value);
             let name = document.getElementById('modal-leave-staff').value;
@@ -2226,9 +2122,7 @@
             let note = document.getElementById('modal-leave-note').value.trim();
 
             if (!name || days <= 0 || !fromDate || !toDate) { alert("Vui lòng chọn nhân sự, từ ngày, đến ngày hợp lệ!"); return; }
-
             if (!leaveLogsByYear[CURRENT_SELECTED_YEAR]) leaveLogsByYear[CURRENT_SELECTED_YEAR] = [];
-
             let recordObj = {
                 name, type, fromDate, toDate, days, note, date: new Date().toLocaleDateString('vi-VN')
             };
@@ -2247,7 +2141,6 @@
             calculateSalaryLogic();
             saveDataToCloudAPI();
         }
-
         function deleteLeaveLog(lIdx) {
             if (confirm("Xóa bản ghi nhật ký nghỉ phép này?")) {
                 let logs = leaveLogsByYear[CURRENT_SELECTED_YEAR] || [];
@@ -2258,11 +2151,9 @@
                 saveDataToCloudAPI();
             }
         }
-
         function openLeaveConfigModal(staffName) {
             if (!leaveConfigsByYear[CURRENT_SELECTED_YEAR]) leaveConfigsByYear[CURRENT_SELECTED_YEAR] = {};
-            let cfg = leaveConfigsByYear[CURRENT_SELECTED_YEAR][staffName] || { months: 12, baseDays: 12, seniority: 0 };
-            
+            let cfg = leaveConfigsByYear[CURRENT_SELECTED_YEAR][staffName] || { months: 12, baseDays: 12, seniority: 0 }; 
             document.getElementById('cfg-leave-staff-name').value = staffName;
             document.getElementById('cfg-leave-name-disp').value = staffName;
             document.getElementById('cfg-leave-months').value = cfg.months || 12;
@@ -2270,9 +2161,7 @@
             document.getElementById('cfg-leave-seniority').value = cfg.seniority || 0;
             document.getElementById('leaveConfigModal').style.display = "flex";
         }
-
         function closeLeaveConfigModal() { document.getElementById('leaveConfigModal').style.display = "none"; }
-
         function saveStaffLeaveConfig() {
             let staffName = document.getElementById('cfg-leave-staff-name').value;
             let months = parseInt(document.getElementById('cfg-leave-months').value) || 12;
@@ -2288,7 +2177,6 @@
             alert("✅ Cập nhật điều kiện phép thành công!");
             saveDataToCloudAPI();
         }
-
         async function exportLeaveReportExcel() {
             let workbook = new ExcelJS.Workbook();
             workbook.creator = "Tổng công ty Giấy Việt Nam";
@@ -2300,7 +2188,6 @@
 
             let headers = ["STT", "Họ và tên nhân sự", "Số tháng làm việc", "Phép chuẩn", "Thâm niên", "Tổng phép được cấp", "Đã nghỉ", "Còn lại"];
             sheet.addRow(headers);
-
             let staffArr = getStaffListNames();
             staffArr.forEach((name, idx) => {
                 let granted = getStaffTotalLeaveQuota(name);
@@ -2314,7 +2201,6 @@
             let blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
             saveAs(blob, `Bao_Cao_Quan_Ly_Phep_${CURRENT_SELECTED_YEAR}.xlsx`);
         }
-
         function renderCombinedDashboardCharts(netPay, paidPay, telecomPay, totalTax) {
             const ctxPie = document.getElementById('combinedPieChart');
             if (ctxPie) {
@@ -2348,7 +2234,6 @@
                     plugins: [ChartDataLabels]
                 });
             }
-
             const ctxBar = document.getElementById('combinedBarChart');
             if (ctxBar) {
                 if (combinedBarChartInstance) combinedBarChartInstance.destroy();
@@ -2372,14 +2257,12 @@
                 });
             }
         }
-
         function updateGlobalDashboardSummary() {
             let totalNetYear = 0;
             let totalAdvanceYear = 0;
             let totalPaidYear = 0;
             let totalTelecomYear = 0;
             let totalTaxYear = 0;
-
             Object.keys(salaryDataByMonth || {}).forEach(sm => {
                 let parts = sm.split('-');
                 let yr = parts[0] || "";
@@ -2389,37 +2272,31 @@
                     let vungReg = cfg.vung || 4140000;
                     let baseReg = cfg.base || 2650000;
                     let lcvReg = cfg.lcv || 1991139;
-
                     staffList.forEach(row => {
                         let val_NT = row.NT !== undefined ? parseFloat(row.NT) : 20;
                         let val_P = row.P !== undefined ? parseFloat(row.P) : 0;
                         let val_LE = row.le_vr !== undefined ? parseFloat(row.le_vr) : 1;
                         let val_hsHtcv = row.hs_htcv !== undefined ? parseFloat(row.hs_htcv) : 1.0;
                         let tongHeSoLCB = parseFloat(row.lcb_heso || 0) + parseFloat(row.lcb_phucap || 0);
-
                         let luong_ky_hdld = Math.round(tongHeSoLCB * vungReg);
                         let luong_co_ban = Math.round(tongHeSoLCB * baseReg);
                         let l_thoigian = Math.round((luong_co_ban / 22) * val_NT); 
                         let le_phep_tt = Math.round((luong_ky_hdld / 22) * (val_P + val_LE));
                         let l_tong_cb = l_thoigian + le_phep_tt; 
                         let bh = Math.round(luong_ky_hdld * 0.105);
-                        let thuc_linh_cb = l_tong_cb - bh;
-                        
+                        let thuc_linh_cb = l_tong_cb - bh; 
                         let luong_cong_viec = Math.round((parseFloat(row.he_so_lcv || 0) + parseFloat(row.phu_cap_lcv || 0)) * lcvReg * val_hsHtcv);
                         let lcv_thucte = Math.round((luong_cong_viec / 22) * val_NT); 
                         let tamUngVal = row.tam_ung !== undefined ? parseCurrencyVN(row.tam_ung) : 0;
                         let pcttVal = row.pctt !== undefined ? parseCurrencyVN(row.pctt) : 0;
                         let truUngVal = row.tru_ung !== undefined ? parseCurrencyVN(row.tru_ung) : 0;
-
                         let thuc_linh_lcv = lcv_thucte - tamUngVal - pcttVal - truUngVal;
                         let thuc_linh_tong = thuc_linh_cb + thuc_linh_lcv;
-
                         totalNetYear += thuc_linh_tong;
                         totalAdvanceYear += tamUngVal;
                     });
                 }
             });
-
             Object.keys(paymentRecordsByMonth || {}).forEach(sm => {
                 let records = paymentRecordsByMonth[sm] || [];
                 records.forEach(rec => {
@@ -2432,7 +2309,6 @@
                     }
                 });
             });
-
             Object.keys(telecomRecordsByMonth || {}).forEach(sm => {
                 let records = telecomRecordsByMonth[sm] || [];
                 records.forEach(rec => {
@@ -2445,11 +2321,9 @@
                     }
                 });
             });
-
             let itListYear = itAssetRecordsByYear[CURRENT_SELECTED_YEAR] || [];
             let totalItCount = 0;
             itListYear.forEach(item => { totalItCount += (parseFloat(item.qty) || 1); });
-
             let inkListYear = inkInventoryRecordsByYear[CURRENT_SELECTED_YEAR] || [];
             let totalRemainingInk = 0;
             let stockMapSummary = {};
@@ -2467,14 +2341,12 @@
             for (let m in stockMapSummary) {
                 totalRemainingInk += stockMapSummary[m];
             }
-
             document.getElementById('dash-total-pay').innerText = formatCurrencyVN(totalNetYear) + " VND";
             document.getElementById('dash-paid-pay').innerText = formatCurrencyVN(totalPaidYear) + " VND";
             document.getElementById('dash-total-advance').innerText = formatCurrencyVN(totalAdvanceYear) + " VND";
             document.getElementById('dash-pending-pay').innerText = formatCurrencyVN(totalTelecomYear) + " VND";
             document.getElementById('dash-total-it-devices').innerText = `${totalItCount} Thiết bị`;
             document.getElementById('dash-total-leave-alert').innerText = "Đã chuẩn hóa";
-
             if(document.getElementById('dash-sub-net')) {
                 document.getElementById('dash-sub-net').innerText = formatCurrencyVN(totalNetYear) + " VND";
                 document.getElementById('dash-sub-paid').innerText = formatCurrencyVN(totalPaidYear) + " VND";
@@ -2484,35 +2356,28 @@
                 document.getElementById('dash-sub-it').innerText = `${totalItCount} Thiết bị`;
                 document.getElementById('dash-sub-ink').innerText = `${totalRemainingInk} Hộp`;
             }
-
             renderCombinedDashboardCharts(totalNetYear, totalPaidYear, totalTelecomYear, totalTaxYear);
         }
-
         async function exportStandardFinancialReportExcel() {
             let workbook = new ExcelJS.Workbook();
             workbook.creator = "Tổng công ty Giấy Việt Nam";
             let sheet = workbook.addWorksheet("BaoCaoTaiChinh_" + CURRENT_SELECTED_YEAR, { views: [{ showGridLines: true }] });
-
             sheet.mergeCells('A1:E1');
             sheet.getCell('A1').value = "TỔNG CÔNG TY GIẤY VIỆT NAM";
             sheet.getCell('A1').font = { name: 'Times New Roman', size: 11, bold: true };
             sheet.getCell('A1').alignment = { horizontal: 'center', vertical: 'middle' };
-
             sheet.mergeCells('A2:E2');
             sheet.getCell('A2').value = "VĂN PHÒNG TỔNG CÔNG TY";
             sheet.getCell('A2').font = { name: 'Times New Roman', size: 11, bold: true };
             sheet.getCell('A2').alignment = { horizontal: 'center', vertical: 'middle' };
-
             sheet.mergeCells('A4:E4');
             sheet.getCell('A4').value = `BÁO CÁO TÀI CHÍNH & QUẢN TRỊ TỔNG HỢP NĂM ${CURRENT_SELECTED_YEAR}`;
             sheet.getCell('A4').font = { name: 'Times New Roman', size: 14, bold: true, color: { argb: 'FF1D4ED8' } };
             sheet.getCell('A4').alignment = { horizontal: 'center', vertical: 'middle' };
-
             let buffer = await workbook.xlsx.writeBuffer();
             let blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
             saveAs(blob, `Bao_Cao_Tai_Chinh_Tong_Hop_${CURRENT_SELECTED_YEAR}.xlsx`);
         }
-
         function handleGlobalYearChange() {
             CURRENT_SELECTED_YEAR = document.getElementById('global-year-picker').value;
             document.querySelectorAll('.lbl-current-year').forEach(el => el.innerText = CURRENT_SELECTED_YEAR);
@@ -2523,20 +2388,17 @@
             renderLeaveManagementModule();
             updateGlobalDashboardSummary();
         }
-
         function restoreDefaultStaffs() {
             let sm = document.getElementById('filter-month').value;
             salaryDataByMonth[sm] = JSON.parse(JSON.stringify(default16Staffs));
             calculateSalaryLogic();
             renderLeaveManagementModule();
         }
-
         function handleMonthChangeSelect() {
             let sm = document.getElementById('filter-month').value;
             let parts = sm.split('-');
             let mNum = parts[1] || "07";
             let yNum = parts[0] || CURRENT_SELECTED_YEAR;
-
             if (!salaryConfigsByMonth[sm]) {
                 salaryConfigsByMonth[sm] = {
                     companyTitle: "TỔNG CÔNG TY GIẤY VIỆT NAM",
@@ -2563,7 +2425,6 @@
             renderTelecomTable();
             renderLeaveManagementModule();
         }
-
         function handleConfigChangeLive() {
             let sm = document.getElementById('filter-month').value;
             salaryConfigsByMonth[sm] = {
@@ -2578,44 +2439,36 @@
             localStorage.setItem('sys_salary_configs_by_month', JSON.stringify(salaryConfigsByMonth));
             calculateSalaryLogic();
         }
-
         function calculateSalaryLogic() {
             let sm = document.getElementById('filter-month').value;
             let parts = sm.split('-');
             let mNum = parts[1] || "07";
             let yNum = parts[0] || CURRENT_SELECTED_YEAR;
-
             syncLeaveDaysToSalaryTables();
-
             let activeData = salaryDataByMonth[sm] || JSON.parse(JSON.stringify(default16Staffs));
             let cfg = salaryConfigsByMonth[sm] || {};
             document.getElementById('disp-header-company').innerText = `${cfg.companyTitle || 'TỔNG CÔNG TY GIẤY VIỆT NAM'} - ${cfg.deptTitle || 'VĂN PHÒNG'}`;
             document.getElementById('disp-table-title').innerText = cfg.sheetTitle || `BẢNG LƯƠNG TỔNG HỢP THÁNG ${mNum}/${yNum}`;
             document.getElementById('disp-signer-name').innerText = cfg.signer || "Nguyễn Thị Tuyết Nhung";
-
             const tbody = document.getElementById('tbody-salary'); 
             tbody.innerHTML = ""; 
-
             let T_thuc_linh_cb = 0, T_thuc_linh_lcv = 0, T_anca = 0, T_net = 0;
             let vungReg = cfg.vung || 4140000;
             let baseReg = cfg.base || 2650000;
             let lcvReg = cfg.lcv || 1991139;
-
             activeData.forEach((row, index) => {
                 let val_NT = row.NT !== undefined ? parseFloat(row.NT) : 20;
                 let val_P = row.P !== undefined ? parseFloat(row.P) : getStaffUsedLeaveInMonth(row.name, sm);
                 let val_LE = row.le_vr !== undefined ? parseFloat(row.le_vr) : 1;
                 let val_hsHtcv = row.hs_htcv !== undefined ? parseFloat(row.hs_htcv) : 1.0;
                 let tongHeSoLCB = parseFloat(row.lcb_heso || 0) + parseFloat(row.lcb_phucap || 0);
-
                 let luong_ky_hdld = Math.round(tongHeSoLCB * vungReg);
                 let luong_co_ban = Math.round(tongHeSoLCB * baseReg);
                 let l_thoigian = Math.round((luong_co_ban / 22) * val_NT); 
                 let le_phep_tt = Math.round((luong_ky_hdld / 22) * (val_P + val_LE));
                 let l_tong_cb = l_thoigian + le_phep_tt; 
                 let bh = Math.round(luong_ky_hdld * 0.105);
-                let thuc_linh_cb = l_tong_cb - bh;
-                
+                let thuc_linh_cb = l_tong_cb - bh;  
                 let luong_cong_viec = Math.round((parseFloat(row.he_so_lcv || 0) + parseFloat(row.phu_cap_lcv || 0)) * lcvReg * val_hsHtcv);
                 let lcv_thucte = Math.round((luong_cong_viec / 22) * val_NT); 
                 let ancaVal = row.anca !== undefined ? parseCurrencyVN(row.anca) : val_NT * 5000;
@@ -2623,15 +2476,12 @@
                 let tamUngVal = row.tam_ung !== undefined ? parseCurrencyVN(row.tam_ung) : 0;
                 let pcttVal = row.pctt !== undefined ? parseCurrencyVN(row.pctt) : 0;
                 let truUngVal = row.tru_ung !== undefined ? parseCurrencyVN(row.tru_ung) : 0;
-
                 let thuc_linh_lcv = lcv_thucte - tamUngVal - pcttVal - truUngVal;
                 let thuc_linh_tong = thuc_linh_cb + thuc_linh_lcv;
-
                 T_thuc_linh_cb += thuc_linh_cb; 
                 T_thuc_linh_lcv += thuc_linh_lcv; 
                 T_anca += ancaVal;
                 T_net += thuc_linh_tong;
-
                 tbody.innerHTML += `<tr>
                     <td class="text-center font-bold">${index + 1}</td>
                     <td><input class="inp-table inp-name" type="text" value="${row.name}" oninput="updateSalaryRowValue(${index}, 'name', this.value)"></td>
@@ -2663,16 +2513,13 @@
                     <td class="text-center"><button type="button" class="btn-delete" onclick="deleteSalaryRow(${index})"><i class="fa-solid fa-trash"></i></button></td>
                 </tr>`;
             });
-
             localStorage.setItem('sys_salary_by_month', JSON.stringify(salaryDataByMonth));
             document.getElementById('v-total-lcb').innerText = formatCurrencyVN(T_thuc_linh_cb) + " VND";
             document.getElementById('v-total-lcv-text').innerText = formatCurrencyVN(T_thuc_linh_lcv) + " VND";
             document.getElementById('v-total-anca').innerText = formatCurrencyVN(T_anca) + " VND";
             document.getElementById('v-total-thuc').innerText = formatCurrencyVN(T_net) + " VND";
-            
             updateGlobalDashboardSummary();
         }
-
         function updateSalaryRowValue(index, field, val) {
             let sm = document.getElementById('filter-month').value;
             salaryDataByMonth[sm][index][field] = (field === 'name' || field === 'account') ? val : parseCurrencyVN(val);
@@ -2686,7 +2533,6 @@
             }
             calculateSalaryLogic();
         }
-
         function addNewSalaryRow() {
             let sm = document.getElementById('filter-month').value;
             if (!salaryDataByMonth[sm]) salaryDataByMonth[sm] = [];
@@ -2705,24 +2551,20 @@
                 renderLeaveManagementModule();
             }
         }
-
         async function importTimekeepingFile(inputEl) {
             let file = inputEl.files[0];
             if (!file) return;
 
             let sm = document.getElementById('filter-month').value;
             if (!salaryDataByMonth[sm]) salaryDataByMonth[sm] = JSON.parse(JSON.stringify(default16Staffs));
-
             let notifyBox = document.getElementById('syncNotifyBox');
             notifyBox.style.display = "block";
             notifyBox.innerText = "⏳ Đang phân tích file chấm công và nạp tự động...";
-
             try {
                 let data = await file.arrayBuffer();
                 let workbook = new ExcelJS.Workbook();
                 await workbook.xlsx.load(data);
-                let worksheet = workbook.worksheets[0];
-                
+                let worksheet = workbook.worksheets[0];  
                 let timekeepingMap = {};
 
                 worksheet.eachRow((row) => {
@@ -2740,7 +2582,6 @@
                         if (staffName) timekeepingMap[staffName.toLowerCase()] = days;
                     }
                 });
-
                 let updatedCount = 0;
                 salaryDataByMonth[sm].forEach(staff => {
                     let keyName = staff.name.toLowerCase();
@@ -2764,14 +2605,12 @@
             }
             inputEl.value = "";
         }
-
         async function addNewPaymentRecord() {
             let payDateTime = document.getElementById('pay-date-time').value.trim() || `04/08/${CURRENT_SELECTED_YEAR}`;
             let dParts = payDateTime.split('/');
             let month = dParts[1] || "08";
             let year = dParts[2] || CURRENT_SELECTED_YEAR;
             let sm = `${year}-${month}`;
-
             let editIndex = parseInt(document.getElementById('edit-payment-index').value);
             let content = document.getElementById('pay-content').value.trim();
             let receiver = document.getElementById('pay-receiver').value.trim();
@@ -2791,7 +2630,6 @@
             if (editIndex >= 0 && paymentRecordsByMonth[sm][editIndex] && paymentRecordsByMonth[sm][editIndex].files) {
                 uploadedFiles = [...paymentRecordsByMonth[sm][editIndex].files];
             }
-
             if (fileInput.files.length > 0) {
                 let progressContainer = document.getElementById('progress-container-hstt');
                 let progressFill = document.getElementById('progress-fill-hstt');
@@ -2799,7 +2637,6 @@
 
                 progressContainer.style.display = "block";
                 statusLabel.innerText = "⏳ Đang đẩy file vào Google Drive...";
-
                 for (let i = 0; i < fileInput.files.length; i++) {
                     let file = fileInput.files[i];
                     let percent = Math.round(((i + 1) / fileInput.files.length) * 100);
@@ -2811,7 +2648,6 @@
                         reader.onload = (e) => resolve(e.target.result);
                         reader.readAsDataURL(file);
                     });
-
                     try {
                         let payload = { 
                             action: "upload_attachment_folder", 
@@ -2870,7 +2706,6 @@
             document.getElementById('btn-cancel-edit-pay').style.display = "inline-flex";
             window.scrollTo({ top: 200, behavior: 'smooth' });
         }
-
         function cancelEditPayment() {
             document.getElementById('edit-payment-index').value = "-1";
             clearPaymentForm();
@@ -3839,7 +3674,6 @@ const AppAuthCore = {
         const localDb = localStorage.getItem('app_users_db');
         return localDb ? JSON.parse(localDb) : defaultUsers;
     },
-
     // 2. Lấy thông tin Tài khoản đang đăng nhập
     getCurrentUser: function() {
         const activeUsername = localStorage.getItem('app_active_user');
@@ -3857,7 +3691,6 @@ const AppAuthCore = {
             this.updateUI();
         }
     },
-
     // 4. BẢNG DẠNG POPUP BẮT BỘC ĐĂNG NHẬP (USER & PASSWORD)
     showLoginModal: function() {
         const modalHtml = `
@@ -3876,6 +3709,14 @@ const AppAuthCore = {
                         <div style="margin-bottom: 20px;">
                             <label style="display: block; font-size: 12.5px; font-weight: bold; color: #334155; margin-bottom: 6px;">Mật khẩu:</label>
                             <input type="password" id="login-password" placeholder="Nhập mật khẩu..." required style="width: 100%; padding: 10px; border-radius: 6px; border: 1.5px solid #cbd5e1; outline: none; box-sizing: border-box; font-size: 13.5px;">
+                            <!-- Đường dẫn Quên mật khẩu -->
+<div style="text-align: right; margin-top: 6px; margin-bottom: 12px;">
+  <a href="javascript:void(0)" 
+     onclick="document.getElementById('forgotPasswordModal').style.display='block'" 
+     style="color: #0284c7; font-size: 12.5px; text-decoration: none; font-weight: 500;">
+    Quên mật khẩu?
+  </a>
+</div>
                         </div>
                         <div id="login-error-msg" style="color: #ef4444; font-size: 12px; margin-bottom: 12px; font-weight: bold; display: none; text-align: center;"></div>
                         <button type="submit" style="width: 100%; background: #0284c7; color: white; border: none; padding: 11px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer; transition: background 0.2s;">
@@ -3889,7 +3730,6 @@ const AppAuthCore = {
         if (oldModal) oldModal.remove();
         document.body.insertAdjacentHTML('beforeend', modalHtml);
     },
-
     // 5. Xử lý Xác thực Đăng nhập
     handleLoginSubmit: function(e) {
         e.preventDefault();
@@ -3953,7 +3793,6 @@ const AppAuthCore = {
             alert("Bạn không có quyền truy cập chức năng Quản trị!");
             return;
         }
-
         const users = this.getUsersDatabase();
         let rowsHtml = '';
         users.forEach((u, idx) => {
@@ -4021,12 +3860,10 @@ const AppAuthCore = {
                 </div>
             </div>
         `;
-
         const oldModal = document.getElementById('auth-admin-modal');
         if (oldModal) oldModal.remove();
         document.body.insertAdjacentHTML('beforeend', modalHtml);
     },
-
     // 9. Hàm thêm Tài khoản mới vào Hệ thống
     createNewUser: function() {
         const name = document.getElementById('new-user-name').value.trim();
