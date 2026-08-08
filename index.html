@@ -12,17 +12,57 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-    :root { --primary: #0f172a; --blue: #1d4ed8; --orange: #ea580c; --green: #047857; --purple: #6d28d9; --red: #b91c1c; --teal: #0d9488; --border-color: #64748b; --text-main: #000000; --bg-light: #f1f5f9; }
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: rgba(0,0,0,0.2); }
-body { font-family: 'Times New Roman', Times, serif; font-size: 14px; margin: 0; padding: 6px; background: var(--bg-light); color: var(--text-main); font-weight: 500; }
+   :root { 
+    --primary: #0f172a; --blue: #1d4ed8; --orange: #ea580c; --green: #047857; 
+    --purple: #6d28d9; --red: #b91c1c; --teal: #0d9488; --border-color: #cbd5e1; 
+    --text-main: #0f172a; --bg-light: #f8fafc; 
+}
 
-/* Cấu hình Workspace chia 2 cột chuẩn: Cột chính co giãn full, Sidebar Lịch cố định bên phải */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Times New Roman', Times, serif; font-size: 14px; margin: 0; padding: 8px; background: var(--bg-light); color: var(--text-main); }
+
+/* BỘ KHUNG CHÍNH: Cột Dashboard co giãn linh hoạt 1fr, Cột Lịch vạn niên sát mép phải 340px */
 .workspace {
     display: grid !important;
     grid-template-columns: 1fr 340px !important;
-    gap: 12px !important;
+    gap: 14px !important;
     align-items: start !important;
     width: 100% !important;
+}
+
+/* QUẢN LÝ ẨN/HIỆN TAB TRÁNH CHỒNG LẤN GIAO DIỆN */
+.tab-content { display: none; }
+.tab-content.active { display: block !important; width: 100% !important; }
+
+/* TRÌNH BÀY BẢNG DỮ LIỆU ĐẸP MẮT & ĐỘ RỘNG LINH HOẠT SMART-WIDTH */
+table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    background: #ffffff;
+    font-size: 13px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+th, td {
+    border: 1px solid var(--border-color) !important;
+    padding: 7px 10px !important;
+    vertical-align: middle !important;
+    text-align: left;
+    white-space: normal; /* Cho phép tự xuống dòng thông minh */
+    word-break: break-word;
+}
+
+th {
+    background-color: #f1f5f9 !important;
+    color: #1e293b !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+}
+
+/* Hiệu ứng rê chuột lướt nhẹ trên từng dòng bảng */
+tbody tr:hover { background-color: #f1f5f9 !important; }
 }
 
 /* Đảm bảo chỉ Tab nào Active mới được hiện (Chống tràn/chồng tab) */
@@ -4535,6 +4575,119 @@ function generateBulkPayslipsFromRealTable() {
     container.innerHTML = htmlContent;
 }
 
+<!-- SCRIPT TẠO PHIẾU LƯƠNG TỰ ĐỘNG CHUẨN VINAPACO -->
+<script>
+function generateBulkPayslipsFromRealTable() {
+    const container = document.getElementById("bulk-payslip-container");
+    if (!container) return;
+
+    const salaryTable = document.querySelector("#tab-salary table") || document.querySelector("table");
+    if (!salaryTable) {
+        alert("Không tìm thấy dữ liệu Bảng lương!");
+        return;
+    }
+
+    const headerCells = salaryTable.querySelectorAll("thead tr:last-child th, thead tr th");
+    const headers = Array.from(headerCells).map(th => th.innerText.replace(/\n/g, ' ').trim());
+
+    const rows = salaryTable.querySelectorAll("tbody#tbody-salary tr, tbody tr");
+    if (!rows || rows.length === 0) {
+        alert("Bảng lương hiện tại chưa có dữ liệu nhân sự!");
+        return;
+    }
+
+    let htmlContent = "";
+
+    const companyName = document.getElementById("config-company-title")?.value || "TỔNG CÔNG TY GIẤY VIỆT NAM";
+    const deptName = document.getElementById("config-dept-title")?.value || "VĂN PHÒNG TỔNG CÔNG TY";
+    const sheetTitle = document.getElementById("config-sheet-title")?.value || "KỲ LƯƠNG THÁNG THỰC TẾ";
+
+    rows.forEach((row, index) => {
+        const cells = row.querySelectorAll("td");
+        if (cells.length < 4) return;
+
+        let d = {};
+        cells.forEach((cell, i) => {
+            const hName = headers[i] || `Col_${i}`;
+            const inputEl = cell.querySelector("input, select");
+            d[hName] = inputEl ? inputEl.value.trim() : cell.innerText.trim();
+        });
+
+        const name = d["Họ và tên nhân sự"] || d["Họ và tên"] || d["Họ tên"] || cells[1]?.innerText.trim() || "Cán bộ / Nhân viên";
+        const stt = d["STT"] || (index + 1);
+
+        htmlContent += `
+        <div style="background: #ffffff; border: 1.5px solid #000; padding: 25px; margin-bottom: 25px; font-family: 'Times New Roman', serif; color: #000; page-break-after: always; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+            <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 12px;">
+                <div>
+                    <strong style="font-size: 14px; text-transform: uppercase;">${companyName}</strong><br>
+                    <span style="font-size: 13px;">Đơn vị / Phòng ban: <strong>${deptName}</strong></span>
+                </div>
+                <div style="text-align: right;">
+                    <strong style="font-size: 14px;">MẪU PHIẾU LƯƠNG CÁ NHÂN</strong><br>
+                    <span style="font-size: 13px; font-style: italic;">${sheetTitle}</span>
+                </div>
+            </div>
+
+            <div style="text-align: center; font-weight: bold; font-size: 18px; margin: 12px 0 16px 0; text-transform: uppercase;">
+                PHIẾU THÔNG BÁO THU NHẬP VÀ LƯƠNG CÁ NHÂN
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13.5px; background: #f8fafc; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 4px; margin-bottom: 15px;">
+                <div><strong>Họ và tên:</strong> <span style="font-size: 15px; color: #1e3a8a; font-weight: bold;">${name}</span></div>
+                <div><strong>STT / Mã Số NV:</strong> VNP-${stt}</div>
+            </div>
+
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 15px;">
+                <thead>
+                    <tr style="background: #e2e8f0; text-align: center;">
+                        <th style="border: 1px solid #000; padding: 6px; width: 8%;">STT</th>
+                        <th style="border: 1px solid #000; padding: 6px; text-align: left;">Danh mục Thu nhập / Trích nộp / Ngày công</th>
+                        <th style="border: 1px solid #000; padding: 6px; width: 35%; text-align: right;">Thông số / Số tiền (VNĐ)</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+
+        let itemIndex = 1;
+        for (let key in d) {
+            if (key !== "STT" && key !== "Họ và tên nhân sự" && !key.includes("Thao tác") && d[key] !== "") {
+                const isNet = key.includes("Thực Lĩnh") || key.includes("Thực lĩnh") || key.includes("Tổng Thu Nhập");
+                htmlContent += `
+                    <tr style="${isNet ? 'background: #fef08a; font-weight: bold;' : ''}">
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">${itemIndex++}</td>
+                        <td style="border: 1px solid #000; padding: 5px 10px;">${key}</td>
+                        <td style="border: 1px solid #000; padding: 5px 10px; text-align: right; ${isNet ? 'font-size: 14px; color: #15803d;' : ''}">${d[key]}</td>
+                    </tr>
+                `;
+            }
+        }
+
+        htmlContent += `
+                </tbody>
+            </table>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 30px; text-align: center; font-size: 13px;">
+                <div>
+                    <strong>NGƯỜI LẬP PHIẾU</strong><br>
+                    <span style="font-size: 11px; color: #64748b;">(Ký, ghi rõ họ tên)</span>
+                </div>
+                <div>
+                    <strong>KẾ TOÁN TRƯỜNG</strong><br>
+                    <span style="font-size: 11px; color: #64748b;">(Ký, duyệt)</span>
+                </div>
+                <div>
+                    <strong>NGƯỜI NHẬN LƯƠNG</strong><br>
+                    <span style="font-size: 11px; color: #64748b;">(Xác nhận)</span>
+                </div>
+            </div>
+        </div>
+        `;
+    });
+
+    container.innerHTML = htmlContent;
+}
+
 function printBulkPayslips() {
     const container = document.getElementById("bulk-payslip-container");
     if (!container || container.children.length === 0 || container.querySelector('p')) {
@@ -4543,7 +4696,6 @@ function printBulkPayslips() {
     }
     window.print();
 }
-</script>
 </script>
 </body>
 </html>
