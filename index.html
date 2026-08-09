@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>HỆ THỐNG QUẢN TRỊ TỔNG HỢP VÀ TÍNH LƯƠNG - VINAPACO ENTERPRISE</title>
     <link rel="icon" href="data:,">
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -302,14 +301,19 @@ body:not(.logged-in) #system-login-modal {
                 </div>
             </div>
             <div class="nav-tabs">
-                <button type="button" class="nav-tab active" data-tab="dashboard" onclick="switchMainTab('dashboard')"><i class="fa-solid fa-chart-pie"></i> Dashboard</button>
-                <button type="button" class="nav-tab" data-tab="salary" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Tính Lương</button>
-                <button type="button" class="nav-tab" data-tab="leave" onclick="switchMainTab('leave')"><i class="fa-solid fa-calendar-check"></i> Quản Lý Phép</button>
-                <button type="button" class="nav-tab" data-tab="payment" onclick="switchMainTab('payment')"><i class="fa-solid fa-file-invoice"></i> Hồ Sơ TT</button>
-                <button type="button" class="nav-tab" data-tab="telecom" onclick="switchMainTab('telecom')"><i class="fa-solid fa-globe"></i> Cước Viễn Thông</button>
-                <button type="button" class="nav-tab" data-tab="it-assets" onclick="switchMainTab('it-assets')"><i class="fa-solid fa-laptop"></i> Thiết Bị CNTT</button>
-                <button type="button" class="nav-tab" data-tab="ink-inventory" onclick="switchMainTab('ink-inventory')"><i class="fa-solid fa-print"></i> Kho Mực In</button>
-            </div>
+  <button type="button" class="nav-tab active" data-tab="dashboard" onclick="switchMainTab('dashboard')"><i class="fa-solid fa-chart-pie"></i> Dashboard</button>
+  <button type="button" class="nav-tab" data-tab="salary" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Tính Lương</button>
+  
+  <!-- ⬇️ NÚT PHIẾU LƯƠNG HÀNG LOẠT BỔ SUNG Ở ĐÂY ⬇️ -->
+  <button type="button" class="nav-tab" onclick="renderPhieuLuongModule()" style="background: #0d9488; color: #fff; font-weight: bold;">
+    <i class="fa-solid fa-file-lines"></i> Phiếu Lương Hàng Loạt
+  </button>
+  <button type="button" class="nav-tab" data-tab="leave" onclick="switchMainTab('leave')"><i class="fa-solid fa-calendar-check"></i> Quản Lý Phép</button>
+  <button type="button" class="nav-tab" data-tab="payment" onclick="switchMainTab('payment')"><i class="fa-solid fa-file-invoice"></i> Hồ Sơ TT</button>
+  <button type="button" class="nav-tab" data-tab="telecom" onclick="switchMainTab('telecom')"><i class="fa-solid fa-globe"></i> Cước Viễn Thông</button>
+  <button type="button" class="nav-tab" data-tab="it-assets" onclick="switchMainTab('it-assets')"><i class="fa-solid fa-laptop"></i> Thiết Bị CNTT</button>
+  <button type="button" class="nav-tab" data-tab="ink-inventory" onclick="switchMainTab('ink-inventory')"><i class="fa-solid fa-print"></i> Kho Mực In</button>
+</div>
 <!-- BẢNG TRẠNG THÁI TÀI KHOẢN & PHÂN QUYỀN VĂN PHÒNG -->
 <div id="multi-user-header-bar" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border: 1.5px solid #3b82f6; padding: 10px 16px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; color: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
     <div style="display: flex; align-items: center; gap: 12px;">
