@@ -192,23 +192,20 @@
             <button type="button" class="btn btn-green" style="padding: 5px 8px; font-size:11.5px;" onclick="saveDataToCloudAPI()"><i class="fa-solid fa-cloud-arrow-up"></i> 🔄 Đồng Bộ Ngay Lên Cloud</button>
             <button type="button" class="btn btn-primary" style="padding: 5px 8px; font-size:11.5px;" onclick="loadDataFromCloudAPI()"><i class="fa-solid fa-cloud-arrow-down"></i> Tải Dữ Liệu Từ Cloud</button>
             <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="padding: 5px 8px; font-size:11.5px;"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
-         <button type="button" 
+       <button type="button"
         id="btn-toggle-calendar"
         style="background: #16a34a; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
   <i class="fa-solid fa-calendar-days"></i> Lịch
 </button>
-</button>
-            <button type="button" class="btn btn-purple" style="padding: 5px 8px; font-size:11.5px;" onclick="openConfigUrlModal()"><i class="fa-solid fa-link"></i> Cấu hình</button>
+<button type="button" class="btn btn-purple" style="padding: 5px 8px; font-size:11.5px;" onclick="openConfigUrlModal()"><i class="fa-solid fa-link"></i> Cấu hình</button>
         </div>
     </div>
-
     <div class="workspace" id="main-workspace">
         <div class="main-body">
             <div class="header">
                 <h1 id="disp-header-company">TỔNG CÔNG TY GIẤY VIỆT NAM - VĂN PHÒNG</h1>
                 <div class="live-clock-box" id="live-system-clock">--:--:-- --/--/----</div>
             </div>
-
             <!-- 6 THẺ DASHBOARD 3D CHUYÊN NGHIỆP -->
             <div class="stat-grid-3d">
                 <div class="stat-card-3d">
@@ -4059,30 +4056,39 @@ document.addEventListener('DOMContentLoaded', function() {
 </body>
 </html>
 });   
-document.addEventListener('DOMContentLoaded', function() {
-  const btnCal = document.getElementById('btn-toggle-calendar');
-  const calBox = document.getElementById('calendar-sidebar-box');
+// Lắng nghe sự kiện click trên toàn bộ giao diện
+document.addEventListener('click', function(e) {
+  // Bắt tất cả nút có chữ 'Lịch' hoặc có id/class chứa 'calendar'
+  const btn = e.target.closest('#btn-toggle-calendar') || 
+              e.target.closest('button[onclick*="toggleCalendarModal"]') ||
+              (e.target.tagName === 'BUTTON' && e.target.innerText.includes('Lịch'));
+  
+  if (btn) {
+    e.preventDefault();
+    console.log("-> BẮT ĐƯỢC SỰ KIỆN CLICK NÚT LỊCH!");
 
-  if (btnCal && calBox) {
-    btnCal.addEventListener('click', function(e) {
-      e.preventDefault();
-      console.log("-> Nút Lịch đã kích hoạt!");
-      
-      const currentDisplay = window.getComputedStyle(calBox).display;
-      
-      if (currentDisplay === 'none') {
-        calBox.style.setProperty('display', 'block', 'important');
-        calBox.style.setProperty('visibility', 'visible', 'important');
-        calBox.style.setProperty('opacity', '1', 'important');
-        if (calBox.parentElement) {
-          calBox.parentElement.style.setProperty('display', 'block', 'important');
-        }
-      } else {
-        calBox.style.setProperty('display', 'none', 'important');
-      }
-    });
-  } else {
-    console.warn("Chưa tìm thấy nút bấm hoặc khung lịch trên trang.");
+    // Thử tìm khung lịch theo nhiều ID/Class phổ biến
+    const calBox = document.getElementById('calendar-sidebar-box') || 
+                   document.querySelector('.calendar-sidebar-box') ||
+                   document.getElementById('calendar-box') ||
+                   document.querySelector('.lunar-calendar-container');
+
+    if (!calBox) {
+      alert("LỖI: Chưa tìm đúng ID của Khung Lịch! Vui lòng kiểm tra lại ID trong thẻ HTML.");
+      return;
+    }
+
+    // Toggle ẩn/hiện trực tiếp
+    const currentDisplay = window.getComputedStyle(calBox).display;
+    console.log("Display hiện tại của Lịch:", currentDisplay);
+
+    if (currentDisplay === 'none') {
+      calBox.style.setProperty('display', 'block', 'important');
+      calBox.style.setProperty('visibility', 'visible', 'important');
+      calBox.style.setProperty('opacity', '1', 'important');
+    } else {
+      calBox.style.setProperty('display', 'none', 'important');
+    }
   }
 });
 </script>
