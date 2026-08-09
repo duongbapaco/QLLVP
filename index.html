@@ -34,6 +34,47 @@ body.hide-calendar-mode .main-body {
   width: 100% !important;
   max-width: 100% !important;
 }
+/* --- CẤU HÌNH BẮT BUỘC ĐĂNG NHẬP --- */
+/* 1. Mặc định ẩn Dashboard khi chưa đăng nhập */
+body:not(.logged-in) .workspace, 
+body:not(.logged-in) #main-workspace, 
+body:not(.logged-in) .main-body, 
+body:not(.logged-in) .db-status-bar {
+  display: none !important;
+}
+
+/* 2. Hiển thị Form Đăng Nhập */
+#system-login-modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(4px);
+  z-index: 999999;
+  justify-content: center;
+  align-items: center;
+}
+
+body:not(.logged-in) #system-login-modal {
+  display: flex !important;
+}
+
+/* Style cho khung Đăng nhập */
+.login-card {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
+  width: 360px;
+  text-align: center;
+  font-family: 'Times New Roman', Times, serif;
+}
+.login-card h2 { margin-top: 0; color: #0f172a; font-size: 20px; text-transform: uppercase; }
+.login-field { margin-bottom: 15px; text-align: left; }
+.login-field label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 13px; color: #334155; }
+.login-field input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; }
+.login-btn { width: 100%; padding: 10px; background: #0d9488; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; }
+.login-btn:hover { background: #0f766e; }
         .db-status-bar { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: #cbd5e1; border-bottom: 2px solid var(--border-color); font-size: 13px; font-weight: bold; border-radius: 4px; margin-bottom: 6px; flex-wrap: wrap; gap: 6px; }
         .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; background-color: var(--green); }
         .year-selector-box { display: flex; align-items: center; gap: 6px; background: #ffffff; padding: 4px 8px; border-radius: 4px; border: 2px solid var(--blue); color: var(--blue); font-size: 13px; }
@@ -4022,94 +4063,353 @@ document.addEventListener('DOMContentLoaded', function() {
       alert('Yêu cầu khôi phục mật khẩu cho tài khoản ' + input + ' đã được gửi.');
       closeModal('forgotPasswordModal');
     });
-    // =========================================================
-  });
+ // --- TỰ ĐỘNG BẮT ĐĂNG NHẬP VÀ PHÂN QUYỀN NHÓM NGUỜI DÙNG ---
+  (function checkLogin() {
+    // 1. Danh sách tài khoản & nhóm quyền trong hệ thống
+    const userDatabase = [
+      { user: 'admin', pass: '123456', name: 'Quản trị viên', role: 'ADMIN' },
+      { user: 'duong', pass: '2026', name: 'Trần Bình Dương', role: 'MANAGER' },
+      { user: 'nv01', pass: '123', name: 'Nhân viên 01', role: 'STAFF' }
+    ];
+
+    // 2. Nếu đã đăng nhập trước đó -> khôi phục thông tin nhóm
+    const savedUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    if (savedUser && localStorage.getItem('isLoggedIn') === 'true') {
+      document.body.classList.add('logged-in');
+      document.body.setAttribute('data-role', savedUser.role); // Gắn nhóm quyền vào Body
+      const existingOverlay = document.getElementById('custom-login-overlay');
+      if (existingOverlay) existingOverlay.remove();
+      return;
+    }
+
+    if (document.getElementById('custom-login-overlay')) return;
+
+    // 3. Tạo màn hình Đăng Nhập
+    const overlay = document.createElement('div');
+    overlay.id = 'custom-login-overlay';
+    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.85);backdrop-filter:blur(5px);z-index:999999;display:flex;justify-content:center;align-items:center;font-family:sans-serif;';
+
+    overlay.innerHTML = `
+      <div style="background:#fff;padding:30px;border-radius:12px;box-shadow:0 20px 25px -5px rgba(0,0,0,0.3);width:340px;text-align:center;">
+        <h3 style="margin:0 0 10px;color:#0f172a;font-size:18px;text-transform:uppercase;">ĐĂNG NHẬP HỆ THỐNG</h3>
+        <p style="font-size:13px;color:#64748b;margin-bottom:15px;">Vui lòng nhập tài khoản được cấp</p>
+        <div id="loginAlert" style="display:none;color:#ef4444;font-size:12px;margin-bottom:10px;font-weight:bold;"></div>
+        <form id="jsLoginForm" onsubmit="return false;">
+          <div style="margin-bottom:12px;text-align:left;">
+            <label style="display:block;font-weight:bold;margin-bottom:5px;font-size:12px;color:#334155;">Tên tài khoản</label>
+            <input type="text" id="userInput" required placeholder="Nhập tài khoản..." style="width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:6px;box-sizing:border-box;">
+          </div>
+          <div style="margin-bottom:20px;text-align:left;">
+            <label style="display:block;font-weight:bold;margin-bottom:5px;font-size:12px;color:#334155;">Mật khẩu</label>
+            <input type="password" id="passInput" required placeholder="Nhập mật khẩu..." style="width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:6px;box-sizing:border-box;">
+          </div>
+          <button type="button" id="btnSubmitLogin" style="width:100%;padding:10px;background:#0d9488;color:#fff;border:none;border-radius:6px;font-weight:bold;cursor:pointer;font-size:14px;">Đăng Nhập</button>
+        </form>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    // 4. Xử lý Kiểm tra Đăng nhập & Xác định Nhóm
+    document.getElementById('btnSubmitLogin').addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const uVal = document.getElementById('userInput').value.trim();
+      const pVal = document.getElementById('passInput').value.trim();
+      const alertBox = document.getElementById('loginAlert');
+
+      // Tìm kiếm user trong CSDL
+      const foundUser = userDatabase.find(item => item.user === uVal && item.pass === pVal);
+
+      if (foundUser) {
+        // Đăng nhập đúng -> Lưu thông tin & Nhóm quyền
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('currentUser', JSON.stringify(foundUser));
+        
+        document.body.classList.add('logged-in');
+        document.body.setAttribute('data-role', foundUser.role); // Gán nhóm (ADMIN, MANAGER, STAFF)
+
+        alert('Xin chào ' + foundUser.name + '! Bạn đã đăng nhập với quyền: ' + foundUser.role);
+        overlay.remove();
+      } else {
+        // Đăng nhập sai
+        alertBox.innerText = 'Tài khoản hoặc mật khẩu không chính xác!';
+        alertBox.style.display = 'block';
+      }
+    });
+  })();
 </script>
 <!-- KHỐI GIAO DIỆN HTML MODAL -->
 <div id="changePasswordModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999;">
   <div class="modal-content" style="background:#fff; width:350px; margin:100px auto; padding:20px; border-radius:8px;">
     <h3>Đổi Mật Khẩu</h3>
-    <form id="changePasswordForm">
-      <div style="margin-bottom:10px;">
-        <label>Mật khẩu hiện tại:</label><br>
-        <input type="password" id="currentPassword" style="width:100%; padding:6px;" required />
-      </div>
-      <div style="margin-bottom:10px;">
-        <label>Mật khẩu mới:</label><br>
-        <input type="password" id="newPassword" style="width:100%; padding:6px;" required />
-      </div>
-      <div style="margin-bottom:15px;">
-        <label>Xác nhận mật khẩu mới:</label><br>
-        <input type="password" id="confirmNewPassword" style="width:100%; padding:6px;" required />
-      </div>
-      <button type="submit" style="padding:6px 12px; background:#007bff; color:#fff; border:none; border-radius:4px; cursor:pointer;">Cập nhật</button>
-      <button type="button" onclick="closeModal('changePasswordModal')" style="padding:6px 12px; background:#6c757d; color:#fff; border:none; border-radius:4px; cursor:pointer;">Hủy</button>
-    </form>
-  </div>
-</div>
+  <!-- SCRIPT TỰ ĐỘNG TẠO FORM ĐĂNG NHẬP & XỬ LÝ NÚT LỊCH -->
+  <script>
+  // 1. Script xử lý nút Lịch
+  document.addEventListener('click', function(e) {
+    const btn = e.target.closest('#btn-toggle-calendar') || 
+                e.target.closest('button[onclick*="toggleCalendarModal"]') ||
+                (e.target.tagName === 'BUTTON' && e.target.innerText.includes('Lịch'));
 
-<div id="forgotPasswordModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999;">
-  <div class="modal-content" style="background:#fff; width:350px; margin:100px auto; padding:20px; border-radius:8px;">
-    <h3>Lấy Lại Mật Khẩu</h3>
-    <p style="font-size:13px; color:#555;">Nhập email hoặc tên tài khoản để khôi phục:</p>
-    <form id="forgotPasswordForm">
-    <!-- SCRIPT XỬ LÝ NÚT LỊCH VÀ DÃN MÀN HÌNH CHUẨN -->
-<script>
-document.addEventListener('click', function(e) {
-  // Bắt sự kiện click vào nút Lịch màu xanh
-  const btn = e.target.closest('#btn-toggle-calendar') || 
-              e.target.closest('button[onclick*="toggleCalendarModal"]') ||
-              (e.target.tagName === 'BUTTON' && e.target.innerText.includes('Lịch'));
+    if (btn) {
+      e.preventDefault();
+      document.body.classList.toggle('hide-calendar-mode');
+    }
+  });
 
-  if (btn) {
-    e.preventDefault();
-    // Bật/Tắt class 'hide-calendar-mode' trên thẻ <body>
-    document.body.classList.toggle('hide-calendar-mode');
-  }
-});
-</script>
-  <!-- Modal Đổi Mật Khẩu -->
-<div id="changePasswordModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:999999; backdrop-filter: blur(3px);">
-  <div class="modal-content" style="background:#fff; width:90%; max-width:380px; margin:5vh auto; padding:24px; border-radius:12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; position: relative;">
-    <h3 style="margin-top:0; font-size:18px; color:#1e293b;">Đổi Mật Khẩu</h3>
-    <form id="changePasswordForm">
-      <div style="margin-bottom:12px;">
-        <label style="font-size:13px; font-weight:600; color:#475569;">Mật khẩu hiện tại:</label>
-        <input type="password" id="currentPassword" style="width:100%; padding:8px 10px; margin-top:4px; border-radius:6px; border:1px solid #cbd5e1; box-sizing:border-box;" required />
-      </div>
-      <div style="margin-bottom:12px;">
-        <label style="font-size:13px; font-weight:600; color:#475569;">Mật khẩu mới:</label>
-        <input type="password" id="newPassword" style="width:100%; padding:8px 10px; margin-top:4px; border-radius:6px; border:1px solid #cbd5e1; box-sizing:border-box;" required />
-      </div>
-      <div style="margin-bottom:18px;">
-        <label style="font-size:13px; font-weight:600; color:#475569;">Xác nhận mật khẩu mới:</label>
-        <input type="password" id="confirmNewPassword" style="width:100%; padding:8px 10px; margin-top:4px; border-radius:6px; border:1px solid #cbd5e1; box-sizing:border-box;" required />
-      </div>
-      <div style="display:flex; gap:10px; justify-content:flex-end;">
-        <button type="button" onclick="closeModal('changePasswordModal')" style="padding:8px 16px; background:#e2e8f0; color:#475569; border:none; border-radius:6px; cursor:pointer; font-weight:600;">Hủy</button>
-        <button type="submit" style="padding:8px 16px; background:#2563eb; color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:600;">Cập nhật</button>
-      </div>
-    </form>
-  </div>
-</div>
-<!-- Modal Quên Mật Khẩu -->
-<div id="forgotPasswordModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:999999; backdrop-filter: blur(3px);">
-  <div class="modal-content" style="background:#fff; width:90%; max-width:380px; margin:5vh auto; padding:24px; border-radius:12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; position: relative;">
-    <h3 style="margin-top:0; font-size:18px; color:#1e293b;">Lấy Lại Mật Khẩu</h3>
-    <p style="font-size:13px; color:#64748b; margin-bottom:16px;">Nhập email hoặc tên tài khoản để khôi phục:</p>
-    <form id="forgotPasswordForm">
-      <div style="margin-bottom:18px;">
-        <input type="text" id="recoveryEmail" style="width:100%; padding:8px 10px; border-radius:6px; border:1px solid #cbd5e1; box-sizing:border-box;" placeholder="Email hoặc Tên đăng nhập" required />
-      </div>
-      <div style="display:flex; gap:10px; justify-content:flex-end;">
-        <button type="button" onclick="closeModal('forgotPasswordModal')" style="padding:8px 16px; background:#e2e8f0; color:#475569; border:none; border-radius:6px; cursor:pointer; font-weight:600;">Đóng</button>
-        <button type="submit" style="padding:8px 16px; background:#16a34a; color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:600;">Xác nhận</button>
-      </div>
-    </form>
-  </div>
-</div>
-  <!-- =========================================================== -->
+ // --- 1. HÀM HỖ TRỢ DÙNG CHUNG ---
+  window.closeModal = function(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) modal.style.display = 'none';
+  };
 
-  <!-- Dòng 4106: </body> -->
+  window.getUsersDB = function() {
+    const defaultUsers = [
+      { user: 'admin', pass: '123456', name: 'Quản trị viên', role: 'ADMIN' },
+      { user: 'duong', pass: '2026', name: 'Trần Bình Dương', role: 'MANAGER' },
+      { user: 'nv01', pass: '123', name: 'Nhân viên 01', role: 'STAFF' }
+    ];
+    const saved = localStorage.getItem('appUsersDB');
+    if (!saved) {
+      localStorage.setItem('appUsersDB', JSON.stringify(defaultUsers));
+      return defaultUsers;
+    }
+    return JSON.parse(saved);
+  };
+
+  window.saveUsersDB = function(db) {
+    localStorage.setItem('appUsersDB', JSON.stringify(db));
+  };
+
+  // --- 2. TỰ ĐỘNG BẮT ĐĂNG NHẬP NGAY KHI MỞ TRANG (HỖ TRỢ PHÍM ENTER) ---
+  (function enforceLoginOnLoad() {
+    // Nếu chưa bấm Đăng xuất hoặc chưa đăng nhập bao giờ -> Tự động bật màn hình Đăng Nhập
+    const isLogged = localStorage.getItem('isLoggedIn');
+    const savedUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+
+    if (isLogged === 'true' && savedUser) {
+      document.body.classList.add('logged-in');
+      document.body.setAttribute('data-role', savedUser.role);
+      const existingOverlay = document.getElementById('custom-login-overlay');
+      if (existingOverlay) existingOverlay.remove();
+      return;
+    }
+
+    // Chưa đăng nhập: Xóa class để ẩn toàn bộ Dashboard
+    document.body.classList.remove('logged-in');
+    if (document.getElementById('custom-login-overlay')) return;
+
+    // Tạo màn hình Đăng Nhập
+    const overlay = document.createElement('div');
+    overlay.id = 'custom-login-overlay';
+    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.85);backdrop-filter:blur(5px);z-index:999999;display:flex;justify-content:center;align-items:center;font-family:sans-serif;';
+
+    overlay.innerHTML = `
+      <div style="background:#fff;padding:30px;border-radius:12px;box-shadow:0 20px 25px -5px rgba(0,0,0,0.3);width:340px;text-align:center;">
+        <h3 style="margin:0 0 10px;color:#0f172a;font-size:18px;text-transform:uppercase;">ĐĂNG NHẬP HỆ THỐNG</h3>
+        <p style="font-size:13px;color:#64748b;margin-bottom:15px;">Vui lòng nhập tài khoản được cấp</p>
+        <div id="loginAlertMsg" style="display:none;color:#ef4444;font-size:12px;margin-bottom:10px;font-weight:bold;"></div>
+        <form id="activeLoginForm">
+          <div style="margin-bottom:12px;text-align:left;">
+            <label style="display:block;font-weight:bold;margin-bottom:5px;font-size:12px;color:#334155;">Tên tài khoản</label>
+            <input type="text" id="userInputVal" required placeholder="Nhập tài khoản..." style="width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:6px;box-sizing:border-box;">
+          </div>
+          <div style="margin-bottom:20px;text-align:left;">
+            <label style="display:block;font-weight:bold;margin-bottom:5px;font-size:12px;color:#334155;">Mật khẩu</label>
+            <input type="password" id="passInputVal" required placeholder="Nhập mật khẩu..." style="width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:6px;box-sizing:border-box;">
+          </div>
+          <button type="submit" id="btnDoMainLogin" style="width:100%;padding:10px;background:#0d9488;color:#fff;border:none;border-radius:6px;font-weight:bold;cursor:pointer;font-size:14px;">Đăng Nhập</button>
+        </form>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    // Hàm xử lý kiểm tra đăng nhập
+    function processMainLogin(e) {
+      if (e) e.preventDefault(); // Chặn reload trang
+      
+      const u = document.getElementById('userInputVal').value.trim();
+      const p = document.getElementById('passInputVal').value.trim();
+      const alertBox = document.getElementById('loginAlertMsg');
+
+      const db = getUsersDB();
+      const found = db.find(x => x.user === u && x.pass === p);
+
+      if (found) {
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('currentUser', JSON.stringify(found));
+        document.body.classList.add('logged-in');
+        document.body.setAttribute('data-role', found.role);
+        overlay.remove();
+      } else {
+        alertBox.innerText = 'Mật khẩu hoặc tên tài khoản không đúng!';
+        alertBox.style.display = 'block';
+      }
+    }
+
+    // Bắt sự kiện Submit cho Form (Ăn cả phím ENTER lẫn Click nút Đăng nhập)
+    const activeForm = document.getElementById('activeLoginForm');
+    if (activeForm) {
+      activeForm.addEventListener('submit', processMainLogin);
+    }
+  })();
+
+  // --- 3. BẮT SỰ KIỆN NÚT ĐĂNG XUẤT, ĐỔI MẬT KHẨU & QUẢN LÝ ---
+  document.addEventListener('click', function(e) {
+    
+    // NÚT ĐĂNG XUẤT
+    const btnLogout = e.target.closest('button, a, div')?.innerText.includes('Đăng xuất') || e.target.closest('.btn-logout');
+    if (btnLogout) {
+      e.preventDefault();
+      if (confirm('Bạn có chắc chắn muốn đăng xuất khỏi hệ thống?')) {
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('currentUser');
+        document.body.classList.remove('logged-in');
+        document.body.removeAttribute('data-role');
+        location.reload();
+      }
+      return;
+    }
+
+    // NÚT ĐỔI MẬT KHẨU
+    const btnChangePass = e.target.closest('button, a, div')?.innerText.includes('Đổi mật khẩu');
+    if (btnChangePass) {
+      e.preventDefault();
+      let modal = document.getElementById('changePasswordModal');
+      if (modal) {
+        modal.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.6);z-index:99999;display:flex;justify-content:center;align-items:center;font-family:sans-serif;';
+        modal.innerHTML = `
+          <div style="background:#fff;padding:25px;border-radius:10px;width:340px;box-shadow:0 10px 25px rgba(0,0,0,0.3);position:relative;">
+            <button type="button" onclick="closeModal('changePasswordModal')" style="position:absolute;top:10px;right:15px;border:none;background:none;font-size:18px;cursor:pointer;color:#64748b;">✕</button>
+            <h3 style="margin-top:0;color:#0f172a;font-size:16px;text-align:center;">ĐỔI MẬT KHẨU</h3>
+            <form id="activeChangePassForm">
+              <div style="margin-bottom:12px;text-align:left;">
+                <label style="display:block;font-size:12px;font-weight:bold;margin-bottom:4px;color:#334155;">Mật khẩu mới</label>
+                <input type="password" id="inputNewPass" required style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:4px;box-sizing:border-box;">
+              </div>
+              <div style="margin-bottom:15px;text-align:left;">
+                <label style="display:block;font-size:12px;font-weight:bold;margin-bottom:4px;color:#334155;">Xác nhận mật khẩu mới</label>
+                <input type="password" id="inputConfirmPass" required style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:4px;box-sizing:border-box;">
+              </div>
+              <div style="display:flex;gap:10px;">
+                <button type="button" onclick="closeModal('changePasswordModal')" style="flex:1;padding:8px;background:#64748b;color:#fff;border:none;border-radius:4px;cursor:pointer;">Hủy</button>
+                <button type="submit" id="btnDoChangePass" style="flex:1;padding:8px;background:#0d9488;color:#fff;border:none;border-radius:4px;cursor:pointer;font-weight:bold;">Cập nhật</button>
+              </div>
+            </form>
+          </div>
+        `;
+        modal.style.display = 'flex';
+
+        const changeForm = document.getElementById('activeChangePassForm');
+        if (changeForm) {
+          changeForm.addEventListener('submit', function(ev) {
+            ev.preventDefault();
+            const np = document.getElementById('inputNewPass').value.trim();
+            const cp = document.getElementById('inputConfirmPass').value.trim();
+            if (!np || !cp) { alert('Vui lòng nhập đầy đủ mật khẩu mới!'); return; }
+            if (np !== cp) { alert('Mật khẩu xác nhận không khớp!'); return; }
+            
+            alert('Đổi mật khẩu thành công!');
+            closeModal('changePasswordModal');
+          });
+        }
+      }
+      return;
+    }
+
+    // NÚT QUẢN LÝ TÀI KHỎAN & ƯỶ QUYỀN
+    const btnManage = e.target.closest('button, a, div')?.innerText.includes('Quản lý Tài khoản');
+    if (btnManage) {
+      e.preventDefault();
+      
+      window.renderUserManagementModal = function() {
+        let modal = document.getElementById('userManagementModal');
+        if (!modal) {
+          modal = document.createElement('div');
+          modal.id = 'userManagementModal';
+          modal.className = 'modal';
+          document.body.appendChild(modal);
+        }
+        
+        modal.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.6);z-index:99999;display:flex;justify-content:center;align-items:center;font-family:sans-serif;';
+        
+        const db = getUsersDB();
+        let rowsHtml = db.map((u, index) => `
+          <tr style="border-bottom:1px solid #e2e8f0;font-size:13px;">
+            <td style="padding:8px;"><b>${u.user}</b></td>
+            <td style="padding:8px;">${u.name}</td>
+            <td style="padding:8px;"><span style="color:${u.role==='ADMIN'?'#ef4444':(u.role==='MANAGER'?'#0d9488':'#64748b')};font-weight:bold;">${u.role}</span></td>
+            <td style="padding:8px;text-align:right;">
+              ${u.role !== 'ADMIN' 
+                ? `<button onclick="toggleAdminRole(${index}, 'ADMIN')" style="padding:4px 8px;background:#ef4444;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:11px;">Ủy quyền ADMIN</button>`
+                : `<button onclick="toggleAdminRole(${index}, 'STAFF')" style="padding:4px 8px;background:#64748b;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:11px;">Thu hồi ADMIN</button>`
+              }
+            </td>
+          </tr>
+        `).join('');
+
+        modal.innerHTML = `
+          <div style="background:#fff;padding:20px;border-radius:10px;width:580px;max-width:95%;box-shadow:0 10px 25px rgba(0,0,0,0.3);position:relative;max-height:90vh;overflow-y:auto;">
+            <button onclick="closeModal('userManagementModal')" style="position:absolute;top:10px;right:15px;border:none;background:none;font-size:18px;cursor:pointer;color:#64748b;">✕</button>
+            <h3 style="margin-top:0;color:#0f172a;font-size:16px;">QUẢN LÝ TÀI KHỎAN & PHÂN QUYỀN</h3>
+            
+            <div style="background:#f8fafc;padding:12px;border-radius:6px;margin-bottom:15px;border:1px solid #e2e8f0;text-align:left;">
+              <b style="font-size:12px;color:#334155;display:block;margin-bottom:8px;">+ THÊM TÀI KHỎAN MỚI</b>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <input type="text" id="newUsername" placeholder="Tên đăng nhập" style="flex:1;min-width:110px;padding:6px;border:1px solid #cbd5e1;border-radius:4px;font-size:12px;">
+                <input type="text" id="newFullName" placeholder="Họ và tên" style="flex:1;min-width:110px;padding:6px;border:1px solid #cbd5e1;border-radius:4px;font-size:12px;">
+                <input type="password" id="newPassWord" placeholder="Mật khẩu" style="flex:1;min-width:90px;padding:6px;border:1px solid #cbd5e1;border-radius:4px;font-size:12px;">
+                <button onclick="createNewUser()" style="padding:6px 12px;background:#0d9488;color:#fff;border:none;border-radius:4px;cursor:pointer;font-weight:bold;font-size:12px;">Tạo mới</button>
+              </div>
+            </div>
+
+            <table style="width:100%;border-collapse:collapse;text-align:left;">
+              <thead>
+                <tr style="background:#f1f5f9;border-bottom:2px solid #cbd5e1;font-size:12px;">
+                  <th style="padding:8px;">Tài khoản</th>
+                  <th style="padding:8px;">Họ tên</th>
+                  <th style="padding:8px;">Quyền</th>
+                  <th style="padding:8px;text-align:right;">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>${rowsHtml}</tbody>
+            </table>
+            
+            <div style="text-align:right;margin-top:15px;">
+              <button type="button" onclick="closeModal('userManagementModal')" style="padding:6px 15px;background:#64748b;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;">Đóng</button>
+            </div>
+          </div>
+        `;
+        modal.style.display = 'flex';
+      };
+
+      window.createNewUser = function() {
+        const u = document.getElementById('newUsername').value.trim();
+        const n = document.getElementById('newFullName').value.trim();
+        const p = document.getElementById('newPassWord').value.trim();
+        if (!u || !n || !p) { alert('Vui lòng nhập đủ Tên tài khoản, Họ tên và Mật khẩu!'); return; }
+        
+        const db = getUsersDB();
+        if (db.some(x => x.user === u)) { alert('Tên tài khoản này đã tồn tại!'); return; }
+        
+        db.push({ user: u, pass: p, name: n, role: 'STAFF' });
+        saveUsersDB(db);
+        alert('Tạo tài khoản ' + u + ' thành công!');
+        renderUserManagementModal();
+      };
+
+      window.toggleAdminRole = function(index, newRole) {
+        const db = getUsersDB();
+        db[index].role = newRole;
+        saveUsersDB(db);
+        renderUserManagementModal();
+      };
+
+      renderUserManagementModal();
+      return;
+    }
+  });
+  </script>
 </body>
 </html>
