@@ -194,9 +194,9 @@
             <a href="https://drive.google.com/drive/folders/178tb6bmU0IUlkvqJGYzsASsye43Yl2Pi" target="_blank" rel="noopener noreferrer" class="btn-drive-link" style="padding: 5px 8px; font-size:11.5px;"><i class="fa-brands fa-google-drive"></i> Thư Mục Gốc Drive</a>
          <button type="button" 
         id="btn-toggle-calendar"
-        onclick="toggleCalendarModal()" 
         style="background: #16a34a; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
   <i class="fa-solid fa-calendar-days"></i> Lịch
+</button>
 </button>
             <button type="button" class="btn btn-purple" style="padding: 5px 8px; font-size:11.5px;" onclick="openConfigUrlModal()"><i class="fa-solid fa-link"></i> Cấu hình</button>
         </div>
@@ -4059,38 +4059,30 @@ document.addEventListener('DOMContentLoaded', function() {
 </body>
 </html>
 });   
-function toggleCalendarModal() {
-  console.log("-> Nút Lịch đã được bấm!");
-  
-  var calBox = document.getElementById('calendar-sidebar-box');
-  if (!calBox) {
-    alert("LỖI: Không tìm thấy ID 'calendar-sidebar-box'!");
-    return;
-  }
-
-  // Lấy trạng thái hiển thị
-  var currentDisplay = window.getComputedStyle(calBox).display;
-  console.log("Trạng thái display hiện tại:", currentDisplay);
-
-  if (currentDisplay === 'none') {
-    calBox.style.setProperty('display', 'block', 'important');
-    calBox.style.setProperty('visibility', 'visible', 'important');
-    calBox.style.setProperty('opacity', '1', 'important');
-    if (calBox.parentElement) {
-      calBox.parentElement.style.setProperty('display', 'block', 'important');
-    }
-  } else {
-    calBox.style.setProperty('display', 'none', 'important');
-  }
-}
-// Đảm bảo sự kiện click luôn được bắt khi DOM đã sẵn sàng
 document.addEventListener('DOMContentLoaded', function() {
-  const btnCal = document.querySelector('button[onclick*="toggleCalendarModal"]');
-  if (btnCal) {
-    btnCal.onclick = function(e) {
+  const btnCal = document.getElementById('btn-toggle-calendar');
+  const calBox = document.getElementById('calendar-sidebar-box');
+
+  if (btnCal && calBox) {
+    btnCal.addEventListener('click', function(e) {
       e.preventDefault();
-      window.toggleCalendarModal();
-    };
+      console.log("-> Nút Lịch đã kích hoạt!");
+      
+      const currentDisplay = window.getComputedStyle(calBox).display;
+      
+      if (currentDisplay === 'none') {
+        calBox.style.setProperty('display', 'block', 'important');
+        calBox.style.setProperty('visibility', 'visible', 'important');
+        calBox.style.setProperty('opacity', '1', 'important');
+        if (calBox.parentElement) {
+          calBox.parentElement.style.setProperty('display', 'block', 'important');
+        }
+      } else {
+        calBox.style.setProperty('display', 'none', 'important');
+      }
+    });
+  } else {
+    console.warn("Chưa tìm thấy nút bấm hoặc khung lịch trên trang.");
   }
 });
 </script>
