@@ -5,44 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>HỆ THỐNG QUẢN TRỊ TỔNG HỢP VÀ TÍNH LƯƠNG - VINAPACO ENTERPRISE</title>
     <link rel="icon" href="data:,">
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    
     <style>
         :root { --primary: #0f172a; --blue: #1d4ed8; --orange: #ea580c; --green: #047857; --purple: #6d28d9; --red: #b91c1c; --teal: #0d9488; --border-color: #64748b; --text-main: #000000; --bg-light: #f1f5f9; }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: rgba(0,0,0,0.2); }
         body { font-family: 'Times New Roman', Times, serif; font-size: 14px; margin: 0; padding: 6px; background: var(--bg-light); color: var(--text-main); font-weight: 500; }
-        
         .workspace { display: grid; grid-template-columns: 1fr 400px; gap: 10px; align-items: start; transition: all 0.3s ease; }
         .workspace.calendar-hidden { grid-template-columns: 1fr !important; }
         @media (max-width: 1024px) { .workspace { grid-template-columns: 1fr; } }
+      /* --- CẤU HÌNH BẬT/TẮT VÀ DÃN FULL MÀN HÌNH KHI ẨN LỊCH --- */
+body.hide-calendar-mode #calendar-sidebar-box,
+body.hide-calendar-mode .calendar-sidebar-box,
+body.hide-calendar-mode #calendar-box,
+body.hide-calendar-mode .lunar-calendar-container,
+body.hide-calendar-mode [class*="calendar"] {
+  display: none !important;
+}
 
+/* ÉP KHUNG BỌC GRID VỀ 1 CỘT DUY NHẤT TRÀN 100% */
+body.hide-calendar-mode .workspace,
+body.hide-calendar-mode #main-workspace,
+body.hide-calendar-mode .main-body {
+  grid-template-columns: 1fr !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
         .db-status-bar { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: #cbd5e1; border-bottom: 2px solid var(--border-color); font-size: 13px; font-weight: bold; border-radius: 4px; margin-bottom: 6px; flex-wrap: wrap; gap: 6px; }
         .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; background-color: var(--green); }
-        
         .year-selector-box { display: flex; align-items: center; gap: 6px; background: #ffffff; padding: 4px 8px; border-radius: 4px; border: 2px solid var(--blue); color: var(--blue); font-size: 13px; }
         .year-selector-box select { border: none; font-weight: bold; color: var(--blue); outline: none; background: transparent; font-size: 13px; cursor: pointer; font-family: 'Times New Roman', Times, serif; }
-
         .header { display: flex; justify-content: space-between; align-items: center; background: #0f172a; color: white; padding: 8px 12px; border-radius: 4px; margin-bottom: 6px; flex-wrap: wrap; gap: 6px; }
         .header h1 { font-size: 14px; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; }
         .live-clock-box { background: rgba(255,255,255,0.15); padding: 4px 8px; border-radius: 4px; font-family: monospace; font-size: 11.5px; text-align: right; border: 1px solid rgba(255,255,255,0.3); font-weight: bold; color: #fef08a; }
-
         .stat-grid-3d { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 10px; }
         @media (max-width: 1400px) { .stat-grid-3d { grid-template-columns: repeat(3, 1fr); } }
         @media (max-width: 768px) { .stat-grid-3d { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 480px) { .stat-grid-3d { grid-template-columns: 1fr; } }
-
         .stat-card-3d { background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); padding: 10px 12px; border-radius: 6px; box-shadow: 0 3px 10px rgba(0,0,0,0.06); border: 1.5px solid #cbd5e1; border-left: 5px solid var(--blue); display: flex; align-items: center; justify-content: space-between; transition: transform 0.2s ease; position: relative; overflow: hidden; }
         .stat-card-3d.green { border-left-color: var(--green); }
         .stat-card-3d.orange { border-left-color: var(--orange); }
         .stat-card-3d.purple { border-left-color: var(--purple); }
         .stat-card-3d.red { border-left-color: var(--red); }
         .stat-card-3d.teal { border-left-color: var(--teal); }
-        
         .stat-info { display: flex; flex-direction: column; overflow: hidden; z-index: 2; }
         .stat-title { font-size: 10px; text-transform: uppercase; color: #475569; font-weight: 800; letter-spacing: 0.3px; white-space: nowrap; }
         .stat-value { font-size: 14px; font-weight: 900; color: var(--primary); margin-top: 2px; white-space: nowrap; }
@@ -4045,50 +4053,18 @@ document.addEventListener('DOMContentLoaded', function() {
     <h3>Lấy Lại Mật Khẩu</h3>
     <p style="font-size:13px; color:#555;">Nhập email hoặc tên tài khoản để khôi phục:</p>
     <form id="forgotPasswordForm">
-      <div style="margin-bottom:15px;">
-        <input type="text" id="recoveryEmail" style="width:100%; padding:6px;" placeholder="Email hoặc Tên đăng nhập" required />
-      </div>
-      <button type="submit" style="padding:6px 12px; background:#28a745; color:#fff; border:none; border-radius:4px; cursor:pointer;">Xác nhận</button>
-      <button type="button" onclick="closeModal('forgotPasswordModal')" style="padding:6px 12px; background:#6c757d; color:#fff; border:none; border-radius:4px; cursor:pointer;">Đóng</button>
-    </form>
-  </div>
-</div>
-</body>
-</html>
-});   
-// Lắng nghe sự kiện click trên toàn bộ giao diện
+    <!-- SCRIPT XỬ LÝ NÚT LỊCH VÀ DÃN MÀN HÌNH CHUẨN -->
+<script>
 document.addEventListener('click', function(e) {
-  // Bắt tất cả nút có chữ 'Lịch' hoặc có id/class chứa 'calendar'
+  // Bắt sự kiện click vào nút Lịch màu xanh
   const btn = e.target.closest('#btn-toggle-calendar') || 
               e.target.closest('button[onclick*="toggleCalendarModal"]') ||
               (e.target.tagName === 'BUTTON' && e.target.innerText.includes('Lịch'));
-  
+
   if (btn) {
     e.preventDefault();
-    console.log("-> BẮT ĐƯỢC SỰ KIỆN CLICK NÚT LỊCH!");
-
-    // Thử tìm khung lịch theo nhiều ID/Class phổ biến
-    const calBox = document.getElementById('calendar-sidebar-box') || 
-                   document.querySelector('.calendar-sidebar-box') ||
-                   document.getElementById('calendar-box') ||
-                   document.querySelector('.lunar-calendar-container');
-
-    if (!calBox) {
-      alert("LỖI: Chưa tìm đúng ID của Khung Lịch! Vui lòng kiểm tra lại ID trong thẻ HTML.");
-      return;
-    }
-
-    // Toggle ẩn/hiện trực tiếp
-    const currentDisplay = window.getComputedStyle(calBox).display;
-    console.log("Display hiện tại của Lịch:", currentDisplay);
-
-    if (currentDisplay === 'none') {
-      calBox.style.setProperty('display', 'block', 'important');
-      calBox.style.setProperty('visibility', 'visible', 'important');
-      calBox.style.setProperty('opacity', '1', 'important');
-    } else {
-      calBox.style.setProperty('display', 'none', 'important');
-    }
+    // Bật/Tắt class 'hide-calendar-mode' trên thẻ <body>
+    document.body.classList.toggle('hide-calendar-mode');
   }
 });
 </script>
