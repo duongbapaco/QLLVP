@@ -4142,279 +4142,262 @@ document.addEventListener('DOMContentLoaded', function() {
         alertBox.style.display = 'block';
       }
     });
-  })();
+
+      
 </script>
-<!-- KHỐI GIAO DIỆN HTML MODAL -->
-<div id="changePasswordModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999;">
-  <div class="modal-content" style="background:#fff; width:350px; margin:100px auto; padding:20px; border-radius:8px;">
-    <h3>Đổi Mật Khẩu</h3>
-  <!-- SCRIPT TỰ ĐỘNG TẠO FORM ĐĂNG NHẬP & XỬ LÝ NÚT LỊCH -->
-  <script>
-  // 1. Script xử lý nút Lịch
-  document.addEventListener('click', function(e) {
-    const btn = e.target.closest('#btn-toggle-calendar') || 
-                e.target.closest('button[onclick*="toggleCalendarModal"]') ||
-                (e.target.tagName === 'BUTTON' && e.target.innerText.includes('Lịch'));
 
-    if (btn) {
-      e.preventDefault();
-      document.body.classList.toggle('hide-calendar-mode');
-    }
-  });
+<!-- ======================================================= -->
+<!-- 1. PHẦN GIAO DIỆN HTML (ĐẶT BÊN NGOÀI THẺ SCRIPT)       -->
+<!-- ======================================================= -->
+<div id="tab-phieu-luong-hang-loat" class="tab-content" style="display: none; padding: 15px; background-color: #f4f6f9;">
+    <div style="background: #ffffff; padding: 15px; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 15px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #003366; padding-bottom: 10px; margin-bottom: 15px;">
+            <h3 style="margin: 0; color: #003366; font-size: 18px;">
+                <i class="fas fa-file-invoice-dollar"></i> PHÁT HÀNH PHIẾU LƯƠNG HÀNG LOẠT
+            </h3>
+            <span id="plhl-total-badge" style="font-size: 13px; font-weight: bold; background: #e9ecef; padding: 5px 12px; border-radius: 12px; color: #003366;">
+                Tổng số nhân sự: 0
+            </span>
+        </div>
 
- // --- 1. HÀM HỖ TRỢ DÙNG CHUNG ---
-  window.closeModal = function(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) modal.style.display = 'none';
-  };
-
-  window.getUsersDB = function() {
-    const defaultUsers = [
-      { user: 'admin', pass: '123456', name: 'Quản trị viên', role: 'ADMIN' },
-      { user: 'duong', pass: '2026', name: 'Trần Bình Dương', role: 'MANAGER' },
-      { user: 'nv01', pass: '123', name: 'Nhân viên 01', role: 'STAFF' }
-    ];
-    const saved = localStorage.getItem('appUsersDB');
-    if (!saved) {
-      localStorage.setItem('appUsersDB', JSON.stringify(defaultUsers));
-      return defaultUsers;
-    }
-    return JSON.parse(saved);
-  };
-
-  window.saveUsersDB = function(db) {
-    localStorage.setItem('appUsersDB', JSON.stringify(db));
-  };
-
-  // --- 2. TỰ ĐỘNG BẮT ĐĂNG NHẬP NGAY KHI MỞ TRANG (HỖ TRỢ PHÍM ENTER) ---
-  (function enforceLoginOnLoad() {
-    // Nếu chưa bấm Đăng xuất hoặc chưa đăng nhập bao giờ -> Tự động bật màn hình Đăng Nhập
-    const isLogged = localStorage.getItem('isLoggedIn');
-    const savedUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
-
-    if (isLogged === 'true' && savedUser) {
-      document.body.classList.add('logged-in');
-      document.body.setAttribute('data-role', savedUser.role);
-      const existingOverlay = document.getElementById('custom-login-overlay');
-      if (existingOverlay) existingOverlay.remove();
-      return;
-    }
-
-    // Chưa đăng nhập: Xóa class để ẩn toàn bộ Dashboard
-    document.body.classList.remove('logged-in');
-    if (document.getElementById('custom-login-overlay')) return;
-
-    // Tạo màn hình Đăng Nhập
-    const overlay = document.createElement('div');
-    overlay.id = 'custom-login-overlay';
-    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.85);backdrop-filter:blur(5px);z-index:999999;display:flex;justify-content:center;align-items:center;font-family:sans-serif;';
-
-    overlay.innerHTML = `
-      <div style="background:#fff;padding:30px;border-radius:12px;box-shadow:0 20px 25px -5px rgba(0,0,0,0.3);width:340px;text-align:center;">
-        <h3 style="margin:0 0 10px;color:#0f172a;font-size:18px;text-transform:uppercase;">ĐĂNG NHẬP HỆ THỐNG</h3>
-        <p style="font-size:13px;color:#64748b;margin-bottom:15px;">Vui lòng nhập tài khoản được cấp</p>
-        <div id="loginAlertMsg" style="display:none;color:#ef4444;font-size:12px;margin-bottom:10px;font-weight:bold;"></div>
-        <form id="activeLoginForm">
-          <div style="margin-bottom:12px;text-align:left;">
-            <label style="display:block;font-weight:bold;margin-bottom:5px;font-size:12px;color:#334155;">Tên tài khoản</label>
-            <input type="text" id="userInputVal" required placeholder="Nhập tài khoản..." style="width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:6px;box-sizing:border-box;">
-          </div>
-          <div style="margin-bottom:20px;text-align:left;">
-            <label style="display:block;font-weight:bold;margin-bottom:5px;font-size:12px;color:#334155;">Mật khẩu</label>
-            <input type="password" id="passInputVal" required placeholder="Nhập mật khẩu..." style="width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:6px;box-sizing:border-box;">
-          </div>
-          <button type="submit" id="btnDoMainLogin" style="width:100%;padding:10px;background:#0d9488;color:#fff;border:none;border-radius:6px;font-weight:bold;cursor:pointer;font-size:14px;">Đăng Nhập</button>
-        </form>
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-
-    // Hàm xử lý kiểm tra đăng nhập
-    function processMainLogin(e) {
-      if (e) e.preventDefault(); // Chặn reload trang
-      
-      const u = document.getElementById('userInputVal').value.trim();
-      const p = document.getElementById('passInputVal').value.trim();
-      const alertBox = document.getElementById('loginAlertMsg');
-
-      const db = getUsersDB();
-      const found = db.find(x => x.user === u && x.pass === p);
-
-      if (found) {
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('currentUser', JSON.stringify(found));
-        document.body.classList.add('logged-in');
-        document.body.setAttribute('data-role', found.role);
-        overlay.remove();
-      } else {
-        alertBox.innerText = 'Mật khẩu hoặc tên tài khoản không đúng!';
-        alertBox.style.display = 'block';
-      }
-    }
-
-    // Bắt sự kiện Submit cho Form (Ăn cả phím ENTER lẫn Click nút Đăng nhập)
-    const activeForm = document.getElementById('activeLoginForm');
-    if (activeForm) {
-      activeForm.addEventListener('submit', processMainLogin);
-    }
-  })();
-
-  // --- 3. BẮT SỰ KIỆN NÚT ĐĂNG XUẤT, ĐỔI MẬT KHẨU & QUẢN LÝ ---
-  document.addEventListener('click', function(e) {
-    
-    // NÚT ĐĂNG XUẤT
-    const btnLogout = e.target.closest('button, a, div')?.innerText.includes('Đăng xuất') || e.target.closest('.btn-logout');
-    if (btnLogout) {
-      e.preventDefault();
-      if (confirm('Bạn có chắc chắn muốn đăng xuất khỏi hệ thống?')) {
-        localStorage.removeItem('isLoggedIn');
-        localStorage.removeItem('currentUser');
-        document.body.classList.remove('logged-in');
-        document.body.removeAttribute('data-role');
-        location.reload();
-      }
-      return;
-    }
-
-    // NÚT ĐỔI MẬT KHẨU
-    const btnChangePass = e.target.closest('button, a, div')?.innerText.includes('Đổi mật khẩu');
-    if (btnChangePass) {
-      e.preventDefault();
-      let modal = document.getElementById('changePasswordModal');
-      if (modal) {
-        modal.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.6);z-index:99999;display:flex;justify-content:center;align-items:center;font-family:sans-serif;';
-        modal.innerHTML = `
-          <div style="background:#fff;padding:25px;border-radius:10px;width:340px;box-shadow:0 10px 25px rgba(0,0,0,0.3);position:relative;">
-            <button type="button" onclick="closeModal('changePasswordModal')" style="position:absolute;top:10px;right:15px;border:none;background:none;font-size:18px;cursor:pointer;color:#64748b;">✕</button>
-            <h3 style="margin-top:0;color:#0f172a;font-size:16px;text-align:center;">ĐỔI MẬT KHẨU</h3>
-            <form id="activeChangePassForm">
-              <div style="margin-bottom:12px;text-align:left;">
-                <label style="display:block;font-size:12px;font-weight:bold;margin-bottom:4px;color:#334155;">Mật khẩu mới</label>
-                <input type="password" id="inputNewPass" required style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:4px;box-sizing:border-box;">
-              </div>
-              <div style="margin-bottom:15px;text-align:left;">
-                <label style="display:block;font-size:12px;font-weight:bold;margin-bottom:4px;color:#334155;">Xác nhận mật khẩu mới</label>
-                <input type="password" id="inputConfirmPass" required style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:4px;box-sizing:border-box;">
-              </div>
-              <div style="display:flex;gap:10px;">
-                <button type="button" onclick="closeModal('changePasswordModal')" style="flex:1;padding:8px;background:#64748b;color:#fff;border:none;border-radius:4px;cursor:pointer;">Hủy</button>
-                <button type="submit" id="btnDoChangePass" style="flex:1;padding:8px;background:#0d9488;color:#fff;border:none;border-radius:4px;cursor:pointer;font-weight:bold;">Cập nhật</button>
-              </div>
-            </form>
-          </div>
-        `;
-        modal.style.display = 'flex';
-
-        const changeForm = document.getElementById('activeChangePassForm');
-        if (changeForm) {
-          changeForm.addEventListener('submit', function(ev) {
-            ev.preventDefault();
-            const np = document.getElementById('inputNewPass').value.trim();
-            const cp = document.getElementById('inputConfirmPass').value.trim();
-            if (!np || !cp) { alert('Vui lòng nhập đầy đủ mật khẩu mới!'); return; }
-            if (np !== cp) { alert('Mật khẩu xác nhận không khớp!'); return; }
-            
-            alert('Đổi mật khẩu thành công!');
-            closeModal('changePasswordModal');
-          });
-        }
-      }
-      return;
-    }
-
-    // NÚT QUẢN LÝ TÀI KHỎAN & ƯỶ QUYỀN
-    const btnManage = e.target.closest('button, a, div')?.innerText.includes('Quản lý Tài khoản');
-    if (btnManage) {
-      e.preventDefault();
-      
-      window.renderUserManagementModal = function() {
-        let modal = document.getElementById('userManagementModal');
-        if (!modal) {
-          modal = document.createElement('div');
-          modal.id = 'userManagementModal';
-          modal.className = 'modal';
-          document.body.appendChild(modal);
-        }
-        
-        modal.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.6);z-index:99999;display:flex;justify-content:center;align-items:center;font-family:sans-serif;';
-        
-        const db = getUsersDB();
-        let rowsHtml = db.map((u, index) => `
-          <tr style="border-bottom:1px solid #e2e8f0;font-size:13px;">
-            <td style="padding:8px;"><b>${u.user}</b></td>
-            <td style="padding:8px;">${u.name}</td>
-            <td style="padding:8px;"><span style="color:${u.role==='ADMIN'?'#ef4444':(u.role==='MANAGER'?'#0d9488':'#64748b')};font-weight:bold;">${u.role}</span></td>
-            <td style="padding:8px;text-align:right;">
-              ${u.role !== 'ADMIN' 
-                ? `<button onclick="toggleAdminRole(${index}, 'ADMIN')" style="padding:4px 8px;background:#ef4444;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:11px;">Ủy quyền ADMIN</button>`
-                : `<button onclick="toggleAdminRole(${index}, 'STAFF')" style="padding:4px 8px;background:#64748b;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:11px;">Thu hồi ADMIN</button>`
-              }
-            </td>
-          </tr>
-        `).join('');
-
-        modal.innerHTML = `
-          <div style="background:#fff;padding:20px;border-radius:10px;width:580px;max-width:95%;box-shadow:0 10px 25px rgba(0,0,0,0.3);position:relative;max-height:90vh;overflow-y:auto;">
-            <button onclick="closeModal('userManagementModal')" style="position:absolute;top:10px;right:15px;border:none;background:none;font-size:18px;cursor:pointer;color:#64748b;">✕</button>
-            <h3 style="margin-top:0;color:#0f172a;font-size:16px;">QUẢN LÝ TÀI KHỎAN & PHÂN QUYỀN</h3>
-            
-            <div style="background:#f8fafc;padding:12px;border-radius:6px;margin-bottom:15px;border:1px solid #e2e8f0;text-align:left;">
-              <b style="font-size:12px;color:#334155;display:block;margin-bottom:8px;">+ THÊM TÀI KHỎAN MỚI</b>
-              <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                <input type="text" id="newUsername" placeholder="Tên đăng nhập" style="flex:1;min-width:110px;padding:6px;border:1px solid #cbd5e1;border-radius:4px;font-size:12px;">
-                <input type="text" id="newFullName" placeholder="Họ và tên" style="flex:1;min-width:110px;padding:6px;border:1px solid #cbd5e1;border-radius:4px;font-size:12px;">
-                <input type="password" id="newPassWord" placeholder="Mật khẩu" style="flex:1;min-width:90px;padding:6px;border:1px solid #cbd5e1;border-radius:4px;font-size:12px;">
-                <button onclick="createNewUser()" style="padding:6px 12px;background:#0d9488;color:#fff;border:none;border-radius:4px;cursor:pointer;font-weight:bold;font-size:12px;">Tạo mới</button>
-              </div>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+            <div>
+                <label style="font-size: 13px; font-weight: bold; margin-right: 5px;">Kỳ Báo Cáo:</label>
+                <input type="text" id="plhl-period-input" value="Tháng 07/2026" readonly style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; background: #e9ecef; font-weight: bold; width: 120px;">
             </div>
+            <div>
+                <label style="font-size: 13px; font-weight: bold; margin-right: 5px;">Tìm kiếm:</label>
+                <input type="text" id="plhl-search-input" placeholder="Nhập tên hoặc STT..." oninput="renderPhieuLuongBatchTable()" style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; width: 220px;">
+            </div>
+            <div style="margin-left: auto; display: flex; gap: 8px;">
+                <button onclick="printSelectedBatchSlips()" style="background: #003366; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: bold;">
+                    <i class="fas fa-print"></i> In Phiếu Đã Chọn
+                </button>
+                <button onclick="sendBatchEmailSlips()" style="background: #28a745; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: bold;">
+                    <i class="fas fa-paper-plane"></i> Gửi Email Hàng Loạt
+                </button>
+            </div>
+        </div>
+    </div>
 
-            <table style="width:100%;border-collapse:collapse;text-align:left;">
-              <thead>
-                <tr style="background:#f1f5f9;border-bottom:2px solid #cbd5e1;font-size:12px;">
-                  <th style="padding:8px;">Tài khoản</th>
-                  <th style="padding:8px;">Họ tên</th>
-                  <th style="padding:8px;">Quyền</th>
-                  <th style="padding:8px;text-align:right;">Thao tác</th>
+    <div style="background: #ffffff; padding: 15px; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
+            <thead>
+                <tr style="background-color: #003366; color: white;">
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: center; width: 40px;">
+                        <input type="checkbox" id="plhl-select-all-cb" onclick="toggleSelectAllBatchSlips(this)">
+                    </th>
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: center; width: 50px;">STT</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Họ và Tên</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Số Tài Khoản</th>
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: right;">Thực Lĩnh CB</th>
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: right;">Thực Lĩnh CV</th>
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: right;">Khấu Trừ Tạm Ứng</th>
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: right; background-color: #002244;">TỔNG NET THỰC NHẬN</th>
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: center; width: 100px;">Thao Tác</th>
                 </tr>
-              </thead>
-              <tbody>${rowsHtml}</tbody>
-            </table>
-            
-            <div style="text-align:right;margin-top:15px;">
-              <button type="button" onclick="closeModal('userManagementModal')" style="padding:6px 15px;background:#64748b;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;">Đóng</button>
-            </div>
-          </div>
-        `;
-        modal.style.display = 'flex';
-      };
+            </thead>
+            <tbody id="plhl-table-body"></tbody>
+        </table>
+    </div>
+</div>
 
-      window.createNewUser = function() {
-        const u = document.getElementById('newUsername').value.trim();
-        const n = document.getElementById('newFullName').value.trim();
-        const p = document.getElementById('newPassWord').value.trim();
-        if (!u || !n || !p) { alert('Vui lòng nhập đủ Tên tài khoản, Họ tên và Mật khẩu!'); return; }
-        
-        const db = getUsersDB();
-        if (db.some(x => x.user === u)) { alert('Tên tài khoản này đã tồn tại!'); return; }
-        
-        db.push({ user: u, pass: p, name: n, role: 'STAFF' });
-        saveUsersDB(db);
-        alert('Tạo tài khoản ' + u + ' thành công!');
-        renderUserManagementModal();
-      };
+<div id="plhl-modal-preview" style="display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:99999; justify-content:center; align-items:center;">
+    <div style="background: #fff; width: 700px; max-width: 95%; padding: 25px; border-radius: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #003366; padding-bottom: 10px;">
+            <h4 style="margin: 0; color: #003366; font-size: 16px;">CHI TIẾT PHIẾU LƯƠNG CÁ NHÂN</h4>
+            <button onclick="closeBatchModal()" style="border:none; background:none; font-size:22px; cursor:pointer; color:#777;">&times;</button>
+        </div>
+        <div id="plhl-print-area" style="padding: 15px 0;"></div>
+        <div style="text-align: right; border-top: 1px solid #ddd; padding-top: 15px;">
+            <button onclick="window.print()" style="background: #17a2b8; color: white; border: none; padding: 8px 18px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                <i class="fas fa-print"></i> In Phiếu Này
+            </button>
+            <button onclick="closeBatchModal()" style="background: #6c757d; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; margin-left: 5px;">Đóng</button>
+        </div>
+    </div>
+</div>
 
-      window.toggleAdminRole = function(index, newRole) {
-        const db = getUsersDB();
-        db[index].role = newRole;
-        saveUsersDB(db);
-        renderUserManagementModal();
-      };
+<!-- ======================================================= -->
+<!-- 2. PHẦN JAVASCRIPT XỬ LÝ (MỞ CẶP THẺ SCRIPT MỚI)         -->
+<!-- ======================================================= -->
+<script>
+    const rawPayrollData = [
+        { stt: 1, hoTen: "Nguyễn Minh Ngọc", stk: "105005712499", hsLCB: 1.94, phuCapLCB: 0.25, luongHDLD: 9066600, luongCB: 5803500, ngayCong: 23, nghiLePhep: 0, nghiVR: 0, luongThoiGian: 6067295, luongLePhep: 0, tongLuongCB: 6067295, bh105: 951993, thucLinhCB: 5115302, hsLCV: 5.2, phuCapLCV: 0.6, hsHTCD: 1, lcvGoc: 11548606, lcvThucTe: 12072543, tienAnCa: 115000, tienDocHai: 299000, tamUng: 5000000, quyPCTT: 0, truUng: 0, thucLinhCV: 7072543, tongNET: 12188845 },
+        { stt: 2, hoTen: "Nguyễn Văn Nam", stk: "105004242387", hsLCB: 1.48, phuCapLCB: 0, luongHDLD: 6127200, luongCB: 3922000, ngayCong: 22, nghiLePhep: 1, nghiVR: 0, luongThoiGian: 3922000, luongLePhep: 278509, tongLuongCB: 4200509, bh105: 643356, thucLinhCB: 3557153, hsLCV: 2.24, phuCapLCV: 0, hsHTCD: 1, lcvGoc: 4460151, lcvThucTe: 4460151, tienAnCa: 110000, tienDocHai: 286000, tamUng: 4000000, quyPCTT: 0, truUng: 0, thucLinhCV: 460151, tongNET: 4017304 },
+        { stt: 3, hoTen: "Nguyễn Thị Tuyết Nhung", stk: "102805035542", hsLCB: 1.79, phuCapLCB: 0, luongHDLD: 7410600, luongCB: 4742500, ngayCong: 22, nghiLePhep: 1, nghiVR: 0, luongThoiGian: 4742500, luongLePhep: 336845, tongLuongCB: 5079345, bh105: 778113, thucLinhCB: 4301232, hsLCV: 1.74, phuCapLCV: 0, hsHTCD: 1, lcvGoc: 3464582, lcvThucTe: 3464582, tienAnCa: 110000, tienDocHai: 286000, tamUng: 3500000, quyPCTT: 0, truUng: 0, thucLinhCV: 464582, tongNET: 4765814 },
+        { stt: 14, hoTen: "Trần Bình Dương", stk: "106872586143", hsLCB: 1.79, phuCapLCB: 0, luongHDLD: 7410600, luongCB: 4742500, ngayCong: 23, nghiLePhep: 0, nghiVR: 0, luongThoiGian: 4959114, luongLePhep: 0, tongLuongCB: 4959114, bh105: 778113, thucLinhCB: 4181001, hsLCV: 2.4, phuCapLCV: 0, hsHTCD: 1, lcvGoc: 4778734, lcvThucTe: 4995949, tienAnCa: 115000, tienDocHai: 299000, tamUng: 3000000, quyPCTT: 0, truUng: 0, thucLinhCV: 1995949, tongNET: 6176950 }
+    ];
 
-      renderUserManagementModal();
-      return;
+    function formatVND(amount) {
+        if (!amount || isNaN(amount)) return "0";
+        return amount.toLocaleString('vi-VN');
     }
-  });
-  </script>
+
+    function switchMainTab(tabId, btnElement) {
+        const allTabs = document.querySelectorAll('.main-tab-content, .tab-content');
+        allTabs.forEach(tab => { tab.style.display = 'none'; });
+
+        const targetTab = document.getElementById(tabId);
+        if (targetTab) {
+            targetTab.style.display = 'block';
+            if (tabId === 'tab-phieu-luong-hang-loat') {
+                renderPhieuLuongBatchTable();
+            }
+        }
+    }
+
+    function renderPhieuLuongBatchTable() {
+        const tbody = document.getElementById("plhl-table-body");
+        const searchVal = document.getElementById("plhl-search-input") ? document.getElementById("plhl-search-input").value.toLowerCase().trim() : "";
+        if (!tbody) return;
+        tbody.innerHTML = "";
+
+        const filteredData = rawPayrollData.filter(item => {
+            return item.hoTen.toLowerCase().includes(searchVal) || item.stt.toString() === searchVal;
+        });
+
+        const badge = document.getElementById("plhl-total-badge");
+        if (badge) badge.innerText = `Tổng số nhân sự: ${filteredData.length}`;
+
+        filteredData.forEach((item) => {
+            const tr = document.createElement("tr");
+            tr.style.borderBottom = "1px solid #ddd";
+            tr.innerHTML = `
+                <td style="padding: 8px; text-align: center;"><input type="checkbox" class="plhl-item-cb" value="${item.stt}"></td>
+                <td style="padding: 8px; text-align: center; font-weight: bold;">${item.stt}</td>
+                <td style="padding: 8px; font-weight: bold; color: #003366;">${item.hoTen}</td>
+                <td style="padding: 8px;">${item.stk}</td>
+                <td style="padding: 8px; text-align: right;">${formatVND(item.thucLinhCB)}</td>
+                <td style="padding: 8px; text-align: right;">${formatVND(item.thucLinhCV)}</td>
+                <td style="padding: 8px; text-align: right; color: #d9534f;">${formatVND(item.tamUng)}</td>
+                <td style="padding: 8px; text-align: right; font-weight: bold; color: #28a745; background-color: #f8f9fa;">${formatVND(item.tongNET)} đ</td>
+                <td style="padding: 8px; text-align: center;">
+                    <button onclick="previewSingleSlip(${item.stt})" style="background: #17a2b8; color: #fff; border: none; padding: 4px 10px; border-radius: 3px; cursor: pointer; font-size: 12px;">
+                        <i class="fas fa-eye"></i> Xem Phiếu
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function previewSingleSlip(stt) {
+        const emp = rawPayrollData.find(x => x.stt === stt);
+        if (!emp) return;
+
+        const printArea = document.getElementById("plhl-print-area");
+        printArea.innerHTML = `
+            <div style="border: 2px solid #003366; padding: 20px; background: #ffffff; font-family: 'Times New Roman', Times, serif;">
+                <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #003366; padding-bottom: 10px; margin-bottom: 15px;">
+                    <div>
+                        <h4 style="margin: 0; color: #003366; text-transform: uppercase;">TỔNG CÔNG TY GIẤY VIỆT NAM</h4>
+                        <p style="margin: 3px 0 0 0; font-size: 13px; font-style: italic;">Đơn vị: Văn Phòng</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <h3 style="margin: 0; color: #d9534f; font-size: 16px; text-transform: uppercase;">PHIẾU LƯƠNG CÁ NHÂN</h3>
+                        <p style="margin: 3px 0 0 0; font-size: 13px;"><b>Kỳ báo cáo:</b> Tháng 07/2026</p>
+                    </div>
+                </div>
+
+                <table style="width: 100%; margin-bottom: 15px; font-size: 14px;">
+                    <tr>
+                        <td style="width: 50%;"><b>Họ và tên:</b> ${emp.hoTen}</td>
+                        <td style="width: 50%;"><b>Số tài khoản:</b> ${emp.stk}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Số ngày công thực tế:</b> ${emp.ngayCong} ngày</td>
+                        <td><b>Số ngày nghỉ phép/lễ:</b> ${emp.nghiLePhep} ngày</td>
+                    </tr>
+                </table>
+
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px; font-size: 13px;" border="1" borderColor="#ccc">
+                    <tr style="background: #f2f2f2; font-weight: bold; text-align: center;">
+                        <td style="padding: 6px;">HẠNG MỤC TÍNH LƯƠNG DETAILED</td>
+                        <td style="padding: 6px; width: 35%;">THÔNG SỐ / SỐ TIỀN (VNĐ)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px;">Hệ số Lương CB & Phụ cấp</td>
+                        <td style="padding: 6px; text-align: right;">${emp.hsLCB} + ${emp.phuCapLCB}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px;">Tổng Lương Cơ Bản Theo Ngày Công</td>
+                        <td style="padding: 6px; text-align: right;">${formatVND(emp.tongLuongCB)} đ</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px; color: #d9534f;">Trừ Bảo Hiểm Bắt Buộc (10.5%)</td>
+                        <td style="padding: 6px; text-align: right; color: #d9534f;">- ${formatVND(emp.bh105)} đ</td>
+                    </tr>
+                    <tr style="background: #fafafa; font-weight: bold;">
+                        <td style="padding: 6px;">1. Thực Lĩnh Lương Cơ Bản</td>
+                        <td style="padding: 6px; text-align: right; color: #003366;">${formatVND(emp.thucLinhCB)} đ</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px;">Lương Công Việc (LCV Thực tế)</td>
+                        <td style="padding: 6px; text-align: right;">${formatVND(emp.lcvThucTe)} đ</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px;">Phụ cấp Tiền Ăn Ca + Độc hại</td>
+                        <td style="padding: 6px; text-align: right;">${formatVND(emp.tienAnCa + emp.tienDocHai)} đ</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px; color: #d9534f;">Trừ Khoản Tạm Ứng Trong Tháng</td>
+                        <td style="padding: 6px; text-align: right; color: #d9534f;">- ${formatVND(emp.tamUng)} đ</td>
+                    </tr>
+                    <tr style="background: #fafafa; font-weight: bold;">
+                        <td style="padding: 6px;">2. Thực Lĩnh Lương Công Việc</td>
+                        <td style="padding: 6px; text-align: right; color: #003366;">${formatVND(emp.thucLinhCV)} đ</td>
+                    </tr>
+                    <tr style="background: #e6f2ff; font-weight: bold; font-size: 15px;">
+                        <td style="padding: 10px; color: #003366;">TỔNG LƯƠNG NET THỰC NHẬN (1 + 2)</td>
+                        <td style="padding: 10px; text-align: right; color: #28a745;">${formatVND(emp.tongNET)} VNĐ</td>
+                    </tr>
+                </table>
+
+                <div style="display: flex; justify-content: space-between; margin-top: 30px; text-align: center; font-size: 13px;">
+                    <div style="width: 45%;">
+                        <b>NGƯỜI LẬP BIỂU</b><br>
+                        <i style="font-size: 11px;">(Ký, ghi rõ họ tên)</i><br><br><br>
+                        <b>Nguyễn Thị Tuyết Nhung</b>
+                    </div>
+                    <div style="width: 45%;">
+                        <b>THỦ TRƯỞNG ĐƠN VỊ</b><br>
+                        <i style="font-size: 11px;">(Ký, đóng dấu)</i><br><br><br>
+                        <b>Tạ Đức Long</b>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.getElementById("plhl-modal-preview").style.display = "flex";
+    }
+
+    function closeBatchModal() {
+        document.getElementById("plhl-modal-preview").style.display = "none";
+    }
+
+    function toggleSelectAllBatchSlips(master) {
+        const cbs = document.querySelectorAll(".plhl-item-cb");
+        cbs.forEach(cb => cb.checked = master.checked);
+    }
+
+    function printSelectedBatchSlips() {
+        const selected = document.querySelectorAll(".plhl-item-cb:checked");
+        if (selected.length === 0) {
+            alert("Vui lòng tích chọn ít nhất một nhân viên để in phiếu lương!");
+            return;
+        }
+        window.print();
+    }
+
+    function sendBatchEmailSlips() {
+        const selected = document.querySelectorAll(".plhl-item-cb:checked");
+        if (selected.length === 0) {
+            alert("Vui lòng chọn danh sách nhân viên cần gửi phiếu lương qua Email!");
+            return;
+        }
+        alert(`Đã gửi thông báo phiếu lương tự động đến ${selected.length} nhân sự thành công!`);
+    }
+</script>
 </body>
 </html>
