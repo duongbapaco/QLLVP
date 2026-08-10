@@ -4142,9 +4142,11 @@ document.addEventListener('DOMContentLoaded', function() {
 <div id="changePasswordModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999;">
   <div class="modal-content" style="background:#fff; width:350px; margin:100px auto; padding:20px; border-radius:8px;">
     <h3>Đổi Mật Khẩu</h3>
-  <!-- SCRIPT TỰ ĐỘNG TẠO FORM ĐĂNG NHẬP & XỬ LÝ NÚT LỊCH -->
-  <script>
-  // 1. Script xử lý nút Lịch
+ </div>
+  </div>
+
+<!-- SCRIPT TỰ ĐỘNG TẠO FORM ĐĂNG NHẬP & XỬ LÝ NÚT LỊCH -->
+<script>
   document.addEventListener('click', function(e) {
     const btn = e.target.closest('#btn-toggle-calendar') || 
                 e.target.closest('button[onclick*="toggleCalendarModal"]') ||
