@@ -301,13 +301,14 @@ body:not(.logged-in) #system-login-modal {
                 </div>
             </div>
             <div class="nav-tabs">
-  <button type="button" class="nav-tab active" data-tab="dashboard" onclick="switchMainTab('dashboard')"><i class="fa-solid fa-chart-pie"></i> Dashboard</button>
-  <button type="button" class="nav-tab" data-tab="salary" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Tính Lương</button>
-  <button type="button" class="nav-tab" data-tab="leave" onclick="switchMainTab('leave')"><i class="fa-solid fa-calendar-check"></i> Quản Lý Phép</button>
-  <button type="button" class="nav-tab" data-tab="payment" onclick="switchMainTab('payment')"><i class="fa-solid fa-file-invoice"></i> Hồ Sơ TT</button>
-  <button type="button" class="nav-tab" data-tab="telecom" onclick="switchMainTab('telecom')"><i class="fa-solid fa-globe"></i> Cước Viễn Thông</button>
-  <button type="button" class="nav-tab" data-tab="it-assets" onclick="switchMainTab('it-assets')"><i class="fa-solid fa-laptop"></i> Thiết Bị CNTT</button>
-  <button type="button" class="nav-tab" data-tab="ink-inventory" onclick="switchMainTab('ink-inventory')"><i class="fa-solid fa-print"></i> Kho Mực In</button>
+ <button type="button" class="nav-tab active" data-tab="dashboard" onclick="switchMainTab('dashboard')"><i class="fa-solid fa-chart-pie"></i> Dashboard</button>
+<button type="button" class="nav-tab" data-tab="salary" onclick="switchMainTab('salary')"><i class="fa-solid fa-users"></i> Tính Lương</button>
+<button type="button" class="nav-tab" data-tab="bulk-payslip" onclick="triggerRenderBulkPayslips()"><i class="fa-solid fa-file-invoice-dollar"></i> Phiếu Lương Hàng Loạt</button>
+<button type="button" class="nav-tab" data-tab="leave" onclick="switchMainTab('leave')"><i class="fa-solid fa-calendar-check"></i> Quản Lý Phép</button>
+<button type="button" class="nav-tab" data-tab="payment" onclick="switchMainTab('payment')"><i class="fa-solid fa-file-invoice"></i> Hồ Sơ TT</button>
+<button type="button" class="nav-tab" data-tab="telecom" onclick="switchMainTab('telecom')"><i class="fa-solid fa-globe"></i> Cước Viễn Thông</button>
+<button type="button" class="nav-tab" data-tab="it-assets" onclick="switchMainTab('it-assets')"><i class="fa-solid fa-laptop"></i> Thiết Bị CNTT</button>
+<button type="button" class="nav-tab" data-tab="ink-inventory" onclick="switchMainTab('ink-inventory')"><i class="fa-solid fa-print"></i> Kho Mực In</button>
 </div>
 <!-- BẢNG TRẠNG THÁI TÀI KHOẢN & PHÂN QUYỀN VĂN PHÒNG -->
 <div id="multi-user-header-bar" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border: 1.5px solid #3b82f6; padding: 10px 16px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; color: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
@@ -4408,177 +4409,274 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   </script>
 <!-- ========================================================= -->
-<!-- 1. PHẦN KHUNG MODAL XEM VÀ IN PHIẾU LƯƠNG HÀNG LOẠT        -->
+<!-- KHUNG PHIẾU LƯƠNG HÀNG LOẠT (GỘP TỰ ĐỘNG BƠM CSS - W3C OK) -->
 <!-- ========================================================= -->
-<div id="bulkPayslipModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:99999;">
-    <div style="background:#fff; width:92%; max-width:900px; height:90vh; margin:20px auto; border-radius:8px; display:flex; flex-direction:column; overflow:hidden;">
-        <!-- Thanh công cụ điều khiển -->
-        <div class="no-print" style="padding:12px 20px; background:#0f172a; color:#fff; display:flex; justify-content:space-between; align-items:center;">
-            <h3 style="margin:0; font-size:16px;">XEM TRƯỚC PHIẾU LƯƠNG HÀNG LOẠT</h3>
-            <div>
-                <button type="button" onclick="window.print()" style="background:#d97706; color:#fff; border:none; padding:7px 18px; font-weight:bold; border-radius:4px; margin-right:8px; cursor:pointer;">🖨️ IN TOÀN BỘ PHIẾU</button>
-                <button type="button" onclick="document.getElementById('bulkPayslipModal').style.display='none'" style="background:#64748b; color:#fff; border:none; padding:7px 14px; border-radius:4px; cursor:pointer;">Đóng</button>
+<div id="bulkPayslipModal">
+    <div class="payslip-modal-container">
+        <!-- Thanh Công Cụ & Chọn Nhân Viên -->
+        <div class="payslip-toolbar no-print">
+            <div style="font-size:12px; color:#64748b;">Tìm theo tên nhân viên, chọn phiếu cần phát hành rồi in hoặc gửi qua Zalo / email.</div>
+            
+            <div class="payslip-tool-top">
+                <input type="text" id="payslipSearchInput" class="payslip-search-box" onkeyup="filterEmployeeList()" placeholder="Tìm kiếm theo tên nhân viên hoặc số tài khoản...">
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <button type="button" class="payslip-btn btn-sub" onclick="selectAllEmployees(true)">CHỌN TẤT CẢ</button>
+                    <button type="button" class="payslip-btn btn-sub" onclick="selectAllEmployees(false)">BỎ CHỌN</button>
+                    <button type="button" class="payslip-btn btn-primary" id="btnCountSummary">IN 0 PHIẾU LƯƠNG</button>
+                    <button type="button" class="payslip-btn btn-gold" onclick="window.print()">IN PHIẾU</button>
+                    <button type="button" class="payslip-btn btn-sub" onclick="document.getElementById('bulkPayslipModal').style.display='none'">Đóng</button>
+                </div>
+            </div>
+
+            <!-- Danh sách Checkbox chọn người -->
+            <div class="employee-tags-wrapper" id="employeeTagsContainer">
             </div>
         </div>
-        <!-- Vùng chứa danh sách phiếu lương -->
-        <div id="bulkPayslipContainer" style="padding:20px; overflow-y:auto; flex:1; background:#f1f5f9;">
+
+        <!-- Vùng chứa danh sách phiếu lương hiển thị -->
+        <div id="bulkPayslipContainer" style="padding:24px; overflow-y:auto; flex:1; background:#f1f5f9;">
         </div>
     </div>
 </div>
 
-<!-- ========================================================= -->
-<!-- 2. PHẦN JAVASCRIPT XỬ LÝ RENDER & TỰ ĐỘNG CHÈN CSS IN ẤN  -->
-<!-- ========================================================= -->
 <script>
-// Tự động chèn Style Phiếu Lương vào <head> để đạt chuẩn W3C (Không bị lỗi "style in body")
+// Tự động tiêm CSS chuẩn vào <head> để hợp lệ W3C 100%
 (function injectPayslipStyles() {
-    if (document.getElementById('payslip-dynamic-style')) return;
-    const styleEl = document.createElement('style');
-    styleEl.id = 'payslip-dynamic-style';
-    styleEl.textContent = `
-        .payslip-page {
-            page-break-after: always;
-            break-after: page;
-            background: #ffffff;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            overflow: hidden;
-            font-family: 'Times New Roman', Times, serif;
-            color: #0f172a;
+    if (document.getElementById('dynamic-payslip-style')) return;
+    const style = document.createElement('style');
+    style.id = 'dynamic-payslip-style';
+    style.innerHTML = `
+        #bulkPayslipModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.75); z-index: 99999;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
         }
-        .payslip-header {
-            background: #1e3a8a;
-            color: #ffffff;
-            padding: 14px 20px;
+        .payslip-modal-container {
+            background: #f8fafc; width: 95%; max-width: 1100px; height: 92vh;
+            margin: 20px auto; border-radius: 12px; display: flex; flex-direction: column;
+            overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
         }
-        .payslip-header h4 { margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9; }
-        .payslip-header h2 { margin: 4px 0 0 0; font-size: 18px; text-transform: uppercase; font-weight: bold; }
-        .payslip-subhead {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 20px;
-            background: #f8fafc;
-            border-bottom: 1px solid #e2e8f0;
-            font-size: 13.5px;
+        .payslip-toolbar {
+            padding: 16px 24px; background: #fff; border-bottom: 1px solid #e2e8f0;
+            display: flex; flex-direction: column; gap: 14px;
         }
-        .payslip-body {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            padding: 16px 20px;
+        .payslip-tool-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+        .payslip-search-box {
+            padding: 8px 14px; border: 1px solid #cbd5e1; border-radius: 6px;
+            outline: none; font-size: 14px; width: 320px; transition: all 0.2s;
         }
-        .payslip-col-title {
-            font-weight: bold;
-            color: #1e3a8a;
-            text-transform: uppercase;
-            font-size: 13px;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #cbd5e1;
-            padding-bottom: 4px;
+        .payslip-search-box:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+        .payslip-btn { padding: 8px 16px; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.2s; }
+        .btn-primary { background: #1e293b; color: #fff; }
+        .btn-primary:hover { background: #0f172a; }
+        .btn-gold { background: #d97706; color: #fff; }
+        .btn-gold:hover { background: #b45309; }
+        .btn-sub { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
+        .btn-sub:hover { background: #e2e8f0; }
+
+        .employee-tags-wrapper {
+            display: flex; flex-wrap: wrap; gap: 8px; max-height: 100px; overflow-y: auto;
+            padding: 10px; background: #f1f5f9; border-radius: 8px; border: 1px solid #e2e8f0;
         }
-        .payslip-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px 0;
-            font-size: 13px;
-            border-bottom: 1px dashed #e2e8f0;
+        .emp-tag-label {
+            display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: #fff;
+            border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; font-weight: 500; color: #1e293b; cursor: pointer; user-select: none;
         }
-        .payslip-row.highlight-green { color: #15803d; font-weight: bold; }
-        .payslip-row.highlight-red { color: #dc2626; }
-        .payslip-footer {
-            background: #e0f2fe;
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid #bae6fd;
+        .emp-tag-label:has(input:checked) { background: #eff6ff; border-color: #3b82f6; color: #1d4ed8; font-weight: 600; }
+
+        .payslip-card-item {
+            background: #fff; border-radius: 8px; border: 1px solid #cbd5e1;
+            margin-bottom: 24px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
         }
-        .payslip-footer .total-val { font-size: 20px; font-weight: bold; color: #1e3a8a; }
+        .payslip-card-header { background: #1e293b; color: #fff; padding: 18px 24px; }
+        .payslip-card-header h4 { margin: 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.8; }
+        .payslip-card-header h2 { margin: 4px 0 0 0; font-size: 20px; font-weight: 700; letter-spacing: 0.5px; }
+
+        .payslip-card-subhead {
+            padding: 14px 24px; background: #f8fafc; border-bottom: 1px solid #e2e8f0;
+            display: flex; justify-content: space-between; font-size: 14px; color: #334155;
+        }
+        .payslip-card-body { padding: 20px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+        .payslip-col-head {
+            font-size: 13px; font-weight: 700; color: #0f172a; text-transform: uppercase;
+            padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; margin-bottom: 10px;
+        }
+        .payslip-row-line {
+            display: flex; justify-content: space-between; padding: 6px 0; font-size: 13px; border-bottom: 1px dashed #f1f5f9; color: #475569;
+        }
+        .payslip-row-line strong { color: #0f172a; }
+        .text-red { color: #dc2626 !important; }
+        .text-green { color: #16a34a !important; font-weight: 700; }
 
         @media print {
-            body * { visibility: hidden !important; }
-            #bulkPayslipModal, #bulkPayslipModal * { visibility: visible !important; }
-            #bulkPayslipModal { position: absolute !important; left: 0 !important; top: 0 !important; width: 100% !important; height: auto !important; background: #fff !important; }
-            #bulkPayslipContainer { overflow: visible !important; height: auto !important; padding: 0 !important; }
-            .payslip-page { page-break-after: always !important; break-after: page !important; border: none !important; box-shadow: none !important; margin: 0 !important; }
             .no-print { display: none !important; }
+            #bulkPayslipModal { position: absolute; top:0; left:0; width:100%; height:auto; background:#fff; }
+            .payslip-modal-container { width:100%; height:auto; box-shadow:none; margin:0; }
+            .payslip-card-item { page-break-after: always; border:1px solid #000; margin-bottom:0; }
         }
     `;
-    document.head.appendChild(styleEl);
+    document.head.appendChild(style);
 })();
 
-// Hàm render danh sách phiếu lương hàng loạt
-function renderBulkPayslips(payrollDataList, monthYearText) {
-    const container = document.getElementById('bulkPayslipContainer');
-    if (!container) return;
-    
-    let htmlContent = '';
+let globalPayrollData = [];
 
-    payrollDataList.forEach(emp => {
-        htmlContent += `
-        <div class="payslip-page">
-            <div class="payslip-header">
-                <h4>TỔNG CÔNG TY GIẤY VIỆT NAM – VĂN PHÒNG</h4>
-                <h2>PHIẾU LƯƠNG THÁNG ${monthYearText || '07/2026'}</h2>
-            </div>
-            <div class="payslip-subhead">
-                <div>
-                    <div>Họ và tên: <strong>${emp.fullname || ''}</strong></div>
-                    <div style="margin-top:4px;">Ngày công: <strong>${emp.workDays || 0}</strong></div>
-                </div>
-                <div style="text-align:right;">
-                    <div>Số TK: <strong>${emp.bankAccount || ''}</strong></div>
-                    <div style="margin-top:4px;">Phép / Lễ: <strong>${emp.leaveDays || '0 / 0'}</strong></div>
-                </div>
-            </div>
-            <div class="payslip-body">
-                <!-- CỘT A: LƯƠNG CƠ BẢN -->
-                <div>
-                    <div class="payslip-col-title">A. LƯƠNG CƠ BẢN</div>
-                    <div class="payslip-row"><span>Hệ số (LCB + PC)</span><span>${emp.hsLCB || '0.00'}</span></div>
-                    <div class="payslip-row"><span>Lương ký HĐLĐ</span><strong>${formatNumber(emp.luongHD)}</strong></div>
-                    <div class="payslip-row"><span>Lương cơ bản</span><strong>${formatNumber(emp.luongCB)}</strong></div>
-                    <div class="payslip-row"><span>Lương thời gian</span><span>${formatNumber(emp.luongTG)}</span></div>
-                    <div class="payslip-row"><span>Lễ + phép thanh toán</span><span>${formatNumber(emp.luongLePhep)}</span></div>
-                    <div class="payslip-row" style="font-weight:bold;"><span>Cộng lương cơ bản</span><span>${formatNumber(emp.congLCB)}</span></div>
-                    <div class="payslip-row highlight-red"><span>Trừ BHXH, BHYT, BHTN (10,5%)</span><span>- ${formatNumber(emp.truBH)}</span></div>
-                    <div class="payslip-row highlight-green" style="margin-top:6px;"><span>Thực lĩnh lương cơ bản</span><span>${formatNumber(emp.thucLinhLCB)}</span></div>
-                </div>
+function triggerRenderBulkPayslips() {
+    globalPayrollData = getActualPayrollData();
+    const monthText = getCurrentSelectedMonthYear();
 
-                <!-- CỘT B: LƯƠNG CÔNG VIỆC & KHOẢN KHÁC -->
-                <div>
-                    <div class="payslip-col-title">B. LƯƠNG CÔNG VIỆC & KHOẢN KHÁC</div>
-                    <div class="payslip-row"><span>Hệ số LCV × HTCV</span><span>${emp.hsLCV || '0.00'} × ${emp.htcv || 1}</span></div>
-                    <div class="payslip-row"><span>Lương công việc</span><strong>${formatNumber(emp.luongCV)}</strong></div>
-                    <div class="payslip-row"><span>LCV theo ngày công</span><strong>${formatNumber(emp.lcvNgayCong)}</strong></div>
-                    <div class="payslip-row highlight-red"><span>Tạm ứng</span><span>- ${formatNumber(emp.tamUng)}</span></div>
-                    <div class="payslip-row"><span>Phải chi trả thêm</span><span>${formatNumber(emp.chiTraThem)}</span></div>
-                    <div class="payslip-row"><span>Trừ ứng khác</span><span>${formatNumber(emp.truKhac)}</span></div>
-                    <div class="payslip-row highlight-green" style="margin-top:6px;"><span>Thực lĩnh lương công việc</span><span>${formatNumber(emp.thucLinhLCV)}</span></div>
-                    <div class="payslip-row"><span>Ăn ca / Độc hại (chi riêng)</span><span>${formatNumber(emp.anCa)} / ${formatNumber(emp.docHai)}</span></div>
-                </div>
-            </div>
-            <div class="payslip-footer">
-                <div>
-                    <div style="font-size:12px; font-weight:bold; color:#1e3a8a; text-transform:uppercase;">TỔNG THỰC LĨNH</div>
-                    <div style="font-size:12px; font-style:italic; color:#475569; margin-top:2px;">Bằng chữ: <i>${emp.tongBangChu || ''}</i></div>
-                </div>
-                <div class="total-val">${formatNumber(emp.tongThucLinh)} đ</div>
-            </div>
-        </div>
-        `;
-    });
+    if (!globalPayrollData || globalPayrollData.length === 0) {
+        alert("Chưa có dữ liệu bảng lương được tính cho tháng " + monthText);
+        return;
+    }
 
-    container.innerHTML = htmlContent;
+    renderEmployeeCheckboxTags(globalPayrollData);
+    renderSelectedPayslips(monthText);
     document.getElementById('bulkPayslipModal').style.display = 'block';
 }
 
-// Hàm hỗ trợ định dạng số tiền VND
-function formatNumber(num) {
-    if (!num || isNaN(num)) return '0';
-    return Number(num).toLocaleString('vi-VN');
+function getActualPayrollData() {
+    let list = [];
+    if (typeof payrollData !== 'undefined' && Array.isArray(payrollData) && payrollData.length > 0) return payrollData;
+    if (typeof bangLuongData !== 'undefined' && Array.isArray(bangLuongData) && bangLuongData.length > 0) return bangLuongData;
+
+    const rows = document.querySelectorAll('table tbody tr');
+    rows.forEach((row, idx) => {
+        const cols = row.querySelectorAll('td');
+        if (cols.length >= 8) {
+            const name = cols[1] ? cols[1].innerText.trim() : (cols[0] ? cols[0].innerText.trim() : '');
+            if (name && !name.toLowerCase().includes('tổng') && !name.toLowerCase().includes('stt')) {
+                const getV = (i) => cols[i] ? cols[i].innerText.trim() : '';
+                const getN = (i) => cleanNum(getV(i));
+
+                list.push({
+                    id: 'emp_' + idx,
+                    fullname: name,
+                    workDays: getV(2) || '20',
+                    bankAccount: getV(3) || '',
+                    leaveDays: getV(4) || '0 / 1',
+                    hsLCB: getV(5) || '0.00',
+                    luongHD: getN(6), luongCB: getN(7), luongTG: getN(8), luongLePhep: getN(9),
+                    congLCB: getN(10), truBH: getN(11), thucLinhLCB: getN(12),
+                    hsLCV: getV(13) || '0.00', htcv: getV(14) || '1',
+                    luongCV: getN(15), lcvNgayCong: getN(16), tamUng: getN(17),
+                    chiTraThem: getN(18), truKhac: getN(19), thucLinhLCV: getN(20),
+                    anCa: getN(21), docHai: getN(22),
+                    tongThucLinh: getN(23) || (getN(12) + getN(20)),
+                    tongBangChu: getV(24) || ''
+                });
+            }
+        }
+    });
+    return list;
+}
+
+function renderEmployeeCheckboxTags(dataList) {
+    const container = document.getElementById('employeeTagsContainer');
+    let html = '';
+    dataList.forEach((emp, i) => {
+        html += `
+        <label class="emp-tag-label" data-search="${(emp.fullname + ' ' + emp.bankAccount).toLowerCase()}">
+            <input type="checkbox" class="emp-checkbox" value="${i}" checked onchange="updatePayslipDisplay()">
+            <span>${emp.fullname}</span>
+        </label>`;
+    });
+    container.innerHTML = html;
+}
+
+function updatePayslipDisplay() {
+    renderSelectedPayslips(getCurrentSelectedMonthYear());
+}
+
+function renderSelectedPayslips(monthText) {
+    const container = document.getElementById('bulkPayslipContainer');
+    const checkboxes = document.querySelectorAll('.emp-checkbox:checked');
+    let count = 0;
+    let html = '';
+
+    checkboxes.forEach(cb => {
+        const emp = globalPayrollData[cb.value];
+        if (emp) {
+            count++;
+            html += generateSinglePayslipHTML(emp, monthText);
+        }
+    });
+
+    container.innerHTML = html || '<div style="text-align:center; padding:40px; color:#64748b;">Vui lòng chọn ít nhất 1 nhân viên để hiển thị phiếu lương.</div>';
+    document.getElementById('btnCountSummary').innerText = `IN ${count} PHIẾU LƯƠNG`;
+}
+
+function generateSinglePayslipHTML(emp, monthText) {
+    return `
+    <div class="payslip-card-item">
+        <div class="payslip-card-header">
+            <h4>TỔNG CÔNG TY GIẤY VIỆT NAM – VĂN PHÒNG</h4>
+            <h2>PHIẾU LƯƠNG THÁNG ${monthText}</h2>
+        </div>
+        <div class="payslip-card-subhead">
+            <div>
+                <div>Họ và tên: <strong style="color:#0f172a; text-transform:uppercase;">${emp.fullname}</strong></div>
+                <div style="margin-top:4px;">Ngày công: <strong>${emp.workDays}</strong></div>
+            </div>
+            <div style="text-align:right;">
+                <div>Số TK: <strong>${emp.bankAccount || '---'}</strong></div>
+                <div style="margin-top:4px;">Phép / Lễ: <strong>${emp.leaveDays || '0 / 0'}</strong></div>
+            </div>
+        </div>
+        <div class="payslip-card-body">
+            <div>
+                <div class="payslip-col-head">A. LƯƠNG CƠ BẢN</div>
+                <div class="payslip-row-line"><span>Hệ số (LCB + PC)</span><span>${emp.hsLCB || '0.00'}</span></div>
+                <div class="payslip-row-line"><span>Lương ký HĐLĐ</span><strong>${fmtNum(emp.luongHD)}</strong></div>
+                <div class="payslip-row-line"><span>Lương cơ bản</span><strong>${fmtNum(emp.luongCB)}</strong></div>
+                <div class="payslip-row-line"><span>Lương thời gian</span><span>${fmtNum(emp.luongTG)}</span></div>
+                <div class="payslip-row-line"><span>Lễ + phép thanh toán</span><span>${fmtNum(emp.luongLePhep)}</span></div>
+                <div class="payslip-row-line" style="font-weight:bold;"><span>Cộng lương cơ bản</span><span>${fmtNum(emp.congLCB)}</span></div>
+                <div class="payslip-row-line text-red"><span>Trừ BHXH, BHYT, BHTN (10,5%)</span><span>- ${fmtNum(emp.truBH)}</span></div>
+                <div class="payslip-row-line text-green" style="margin-top:8px; font-size:14px;"><span>Thực lĩnh lương cơ bản</span><span>${fmtNum(emp.thucLinhLCB)}</span></div>
+            </div>
+
+            <div>
+                <div class="payslip-col-head">B. LƯƠNG CÔNG VIỆC & KHOẢN KHÁC</div>
+                <div class="payslip-row-line"><span>Hệ số LCV × HTCV</span><span>${emp.hsLCV || '0.00'} × ${emp.htcv || 1}</span></div>
+                <div class="payslip-row-line"><span>Lương công việc</span><strong>${fmtNum(emp.luongCV)}</strong></div>
+                <div class="payslip-row-line"><span>LCV theo ngày công</span><strong>${fmtNum(emp.lcvNgayCong)}</strong></div>
+                <div class="payslip-row-line text-red"><span>Tạm ứng</span><span>- ${fmtNum(emp.tamUng)}</span></div>
+                <div class="payslip-row-line"><span>Phải chi trả thêm</span><span>${fmtNum(emp.chiTraThem)}</span></div>
+                <div class="payslip-row-line"><span>Trừ ứng khác</span><span>${fmtNum(emp.truKhac)}</span></div>
+                <div class="payslip-row-line text-green" style="margin-top:8px; font-size:14px;"><span>Thực lĩnh lương công việc</span><span>${fmtNum(emp.thucLinhLCV)}</span></div>
+                <div class="payslip-row-line"><span>Ăn ca / Độc hại (chi riêng)</span><span>${fmtNum(emp.anCa)} / ${fmtNum(emp.docHai)}</span></div>
+            </div>
+        </div>
+    </div>`;
+}
+
+function filterEmployeeList() {
+    const kw = (document.getElementById('payslipSearchInput').value || '').toLowerCase().trim();
+    document.querySelectorAll('.emp-tag-label').forEach(tag => {
+        const search = tag.getAttribute('data-search') || '';
+        tag.style.display = (!kw || search.includes(kw)) ? 'inline-flex' : 'none';
+    });
+}
+
+function selectAllEmployees(status) {
+    document.querySelectorAll('.emp-checkbox').forEach(cb => cb.checked = status);
+    updatePayslipDisplay();
+}
+
+function getCurrentSelectedMonthYear() {
+    const m = document.getElementById('salaryMonthSelect') || document.getElementById('selectedMonth') || document.querySelector('select[name="month"]');
+    return (m && m.value) ? m.value : '07/2026';
+}
+
+function fmtNum(n) {
+    if (!n || isNaN(n)) return '0';
+    return Number(n).toLocaleString('vi-VN');
+}
+
+function cleanNum(s) {
+    if (!s) return 0;
+    const n = String(s).replace(/[^0-9-]/g, '');
+    return n ? parseInt(n, 10) : 0;
 }
 </script>
 </body>
