@@ -14,9 +14,20 @@
 
 <section id="forecast" class="page"><div class="grid2"><div class="card"><h3>Kịch bản nhu cầu nhân lực</h3><div class="toolbar"><label>Sản lượng <input id="prod" type="range" min="-10" max="30" value="10"></label><label>Năng suất <input id="eff" type="range" min="0" max="25" value="8"></label><label>Biến động <input id="turn" type="range" min="0" max="12" value="3"></label><label>Tự động hóa <input id="auto" type="range" min="0" max="20" value="6"></label></div><div class="grid3"><div class="kpi"><label>Nhu cầu</label><b id="need"></b></div><div class="kpi"><label>Chênh lệch</label><b id="gap"></b></div><div class="kpi"><label>Đào tạo/chuyển đổi</label><b id="train"></b></div></div><p class="muted">Mô hình chỉ dùng cho kịch bản điều hành, không thay thế định biên chính thức.</p></div><div class="card"><h3>Cơ sở dự báo</h3><div class="alert green">VINAPACO 2026 tập trung sản xuất theo đơn hàng, đẩy mạnh tiêu thụ, giảm tồn kho, kiểm soát chi phí, hoàn thiện định biên lao động và tăng sản lượng giấy bao bì/tissue.</div><div class="alert">Đề án cơ cấu lại 2026–2030 đặt mục tiêu doanh thu và sản lượng tăng từ 10% trở lên.</div></div></div></section>
 
-<section id="market" class="page"><div class="grid2"><div class="card"><div style="display:flex;justify-content:space-between"><h3>Tin ngành & công nghệ mới nhất</h3><button class="btn primary" onclick="refreshMarket()">↻ Cập nhật</button></div><div id="news" class="feed-grid"><div class="muted">Đang tải nguồn…</div></div></div><div class="card"><h3>Nguồn ưu tiên</h3><div class="source"><a href="https://vinapaco.com.vn/tin-tuc-su-kien/tin-nganh-giay/" target="_blank">VINAPACO · Tin về ngành giấy</a><p>Tin ngành, xu hướng xanh, thị trường và các vấn đề liên quan đến giấy/bột giấy.</p></div><div class="source"><a href="https://www.fao.org/markets-and-trade/commodities/pulp-and-paper/en/" target="_blank">FAO · Pulp & Paper</a><p>Nguồn quốc tế cho thị trường hàng hóa và lâm sản.</p></div><div class="source"><a href="https://www.fastmarkets.com/methodology/forest-products/fastmarkets-risi-price-assessments/" target="_blank">Fastmarkets RISI</a><p>Danh mục đánh giá giá pulp, tissue, paper packaging, graphic paper và recovered paper; nhiều dữ liệu cần quyền truy cập.</p></div><div class="source"><a href="https://www.pppc.org/" target="_blank">PPPC</a><p>Thông tin quốc tế về pulp & paper.</p></div></div></div><div class="card" style="margin-top:14px"><h3>Nhật ký cập nhật</h3><div id="marketMeta" class="alert">Chưa có lần cập nhật từ GAS.</div></div></section>
+<section id="market" class="page"><div class="grid2"><div class="card"><div style="display:flex;justify-content:space-between"><h3>Tin ngành & công nghệ mới nhất</h3><button class="btn primary" onclick="refreshMarket()">↻ Cập nhật</button></div><div id="news" class="feed-grid"><div class="muted">Đang tải nguồn…</div></div></div><div class="card"><h3>Nguồn ưu tiên</h3><div class="source"><a href="https://vinapaco.com.vn/tin-tuc-su-kien/tin-nganh-giay/" target="_blank">VINAPACO · Tin về ngành giấy</a><p>Tin ngành, xu hướng xanh, thị trường và các vấn đề liên quan đến giấy/bột giấy.</p></div><div class="source"><a href="https://www.fao.org/markets-and-trade/commodities/pulp-and-paper/en/" target="_blank">FAO · Pulp & Paper</a><p>Nguồn quốc tế cho thị trường hàng hóa và lâm sản.</p></div><div class="source"><a href="https://www.fastmarkets.com/methodology/forest-products/fastmarkets-risi-price-assessments/" target="_blank">Fastmarkets RISI</a><p>Danh mục đánh giá giá pulp, tissue, paper packaging, graphic paper và recovered paper; nhiều dữ liệu cần quyền truy cập.</p></div><div class="source"><a href="https://www.pppc.org/" target="_blank">PPPC</a><p>Thông tin quốc tế về pulp & paper.</p></div></div></div><div class="card" style="margin-top:14px">
+      <div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+        <div><h3>Trạng thái dữ liệu thị trường</h3><p class="muted">Website tự kiểm tra Cloud định kỳ; GAS thu thập nguồn theo lịch 6 giờ/lần.</p></div>
+        <span class="status" id="marketLiveStatus"><i class="dot"></i> Đang theo dõi</span>
+      </div>
+      <div id="marketMeta" class="alert green">Chưa có lần cập nhật từ GAS.</div>
+      <div id="marketSignals" class="grid3"></div>
+    </div></section>
 
-<section id="prices" class="page"><div class="card"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><div><h3>Giá giấy & bột giấy theo ngày/tháng/năm</h3><p class="muted">Thiết kế để nhận dữ liệu từ API/feed có quyền sử dụng hoặc dữ liệu nhập nội bộ. Không coi giá từ nguồn trả phí là dữ liệu công khai.</p></div><button class="btn primary" onclick="refreshPrices()">↻ Cập nhật giá</button></div><div class="table-wrap" style="margin-top:12px"><table class="price-table"><thead><tr><th>Ngày</th><th>Thị trường</th><th>Sản phẩm</th><th>Chỉ số/giá</th><th>Đơn vị</th><th>Nguồn</th><th>Độ tin cậy</th></tr></thead><tbody id="priceBody"><tr><td colspan="7" class="muted">Chưa có dữ liệu giá từ nguồn/API.</td></tr></tbody></table></div><div class="alert">Fastmarkets công bố lịch đánh giá giá pulp theo các khu vực/thị trường với tần suất cụ thể; vì vậy hệ thống sẽ lưu <b>ngày công bố</b> và <b>ngày hiệu lực</b> riêng, không tự gán “giá hôm nay” nếu nguồn không công bố hằng ngày.</div></div></section>
+<section id="prices" class="page"><div class="card"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><div><h3>Giá giấy & bột giấy theo ngày/tháng/năm</h3><p class="muted">Thiết kế để nhận dữ liệu từ API/feed có quyền sử dụng hoặc dữ liệu nhập nội bộ. Không coi giá từ nguồn trả phí là dữ liệu công khai.</p></div><button class="btn primary" onclick="refreshPrices()">↻ Cập nhật giá</button></div><div class="toolbar" style="margin-top:14px">
+      <input class="search" id="priceQuery" placeholder="Tìm sản phẩm: BHKP, NBSK, OCC, Medium, Testliner, Tissue..." oninput="renderPricesCached()">
+      <select id="priceMarketFilter" onchange="renderPricesCached()"><option value="">Tất cả thị trường</option><option>Việt Nam</option><option>Trung Quốc</option><option>Châu Á</option><option>Châu Âu</option><option>Bắc Mỹ</option></select>
+      <select id="priceConfidenceFilter" onchange="renderPricesCached()"><option value="">Tất cả độ tin cậy</option><option value="A">A · Chính thức/benchmark</option><option value="B">B · Nguồn ngành</option><option value="C">C · Tổng hợp/phát hiện</option></select>
+    </div><div class="table-wrap" style="margin-top:12px"><table class="price-table"><thead><tr><th>Ngày</th><th>Thị trường</th><th>Sản phẩm</th><th>Chỉ số/giá</th><th>Đơn vị</th><th>Nguồn</th><th>Độ tin cậy</th></tr></thead><tbody id="priceBody"><tr><td colspan="7" class="muted">Chưa có dữ liệu giá từ nguồn/API.</td></tr></tbody></table></div><div class="alert">Fastmarkets công bố lịch đánh giá giá pulp theo các khu vực/thị trường với tần suất cụ thể; vì vậy hệ thống sẽ lưu <b>ngày công bố</b> và <b>ngày hiệu lực</b> riêng, không tự gán “giá hôm nay” nếu nguồn không công bố hằng ngày.</div></div></section>
 
 <section id="legacy" class="page"><div class="card"><h3>Hệ thống VINAPACO hiện hữu</h3><p class="muted">Trang này được nối trực tiếp với hệ thống nghiệp vụ QLCCDV2026 bạn đã xây dựng. Các chức năng kho, lương, lịch, hóa đơn, cấp phát bản quyền… tiếp tục nằm trong hệ thống hiện hữu.</p><iframe class="iframe" src="https://duongbapaco.github.io/QLCCDV2026/" title="Hệ thống VINAPACO QLCCDV2026"></iframe></div></section>
 </div><footer>VINAPACO HR & Market Intelligence · Dữ liệu nhân sự nội bộ · Thị trường sử dụng nguồn có kiểm chứng</footer></main></div>
@@ -46,8 +57,50 @@ function profile(id){let e=people.find(x=>x.id===id);$('mt').textContent=e.name;
 const titles={overview:'Tổng quan điều hành nhân sự',people:'Tra cứu nhân sự thông minh',structure:'Cơ cấu & năng lực',succession:'Nghỉ hưu & kế nhiệm',forecast:'Dự báo sản xuất & nhân sự',market:'Thị trường giấy, bột giấy & công nghệ',prices:'Giá giấy & bột giấy',legacy:'Hệ thống VINAPACO hiện hữu'};document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(b.dataset.page).classList.add('active');$('title').textContent=titles[b.dataset.page];window.scrollTo(0,0);if(b.dataset.page==='market')refreshMarket();if(b.dataset.page==='prices')refreshPrices()});
 async function jsonp(url){return await new Promise((resolve,reject)=>{let cb='__hrcb'+Date.now()+Math.random().toString(36).slice(2),s=document.createElement('script'),t=setTimeout(()=>{s.remove();delete window[cb];reject(new Error('timeout'))},15000);window[cb]=d=>{clearTimeout(t);s.remove();delete window[cb];resolve(d)};s.onerror=()=>{clearTimeout(t);s.remove();delete window[cb];reject(new Error('GAS error'))};s.src=url+(url.includes('?')?'&':'?')+'callback='+cb+'&_='+Date.now();document.head.appendChild(s)})}
 async function syncNow(){$('syncStatus').innerHTML='<i class="dot"></i> Đang đồng bộ…';try{let d=await jsonp(GAS+'?action=getHR');if(d&&d.people){people=d.people;save();populate();renderAll()}$('syncStatus').innerHTML='<i class="dot"></i> Đã đồng bộ '+new Date().toLocaleTimeString('vi-VN')}catch(e){$('syncStatus').innerHTML='<i class="dot" style="background:#d33"></i> Cloud chưa sẵn sàng'}}
-async function refreshMarket(){let box=$('news');box.innerHTML='<div class="muted">Đang cập nhật…</div>';try{let d=await jsonp(GAS+'?action=getMarket');let items=d&&d.news||[];box.innerHTML=items.length?items.slice(0,20).map(x=>`<article class="feed"><h4>${esc(x.title||'Tin ngành')}</h4><time>${esc(x.date||'')} · ${esc(x.source||'')}</time><p class="muted">${esc(x.summary||'')}</p><a href="${esc(x.url||'#')}" target="_blank">Mở nguồn →</a></article>`).join(''):'<div class="muted">Chưa có dữ liệu. Hãy chạy refreshMarket() trong GAS hoặc kiểm tra nguồn.</div>';if(d&&d.updatedAt)$('marketMeta').textContent='Cập nhật: '+d.updatedAt+' · '+(items.length||0)+' bản tin'}catch(e){box.innerHTML='<div class="alert">Không đọc được nguồn thị trường từ GAS. Hệ thống vẫn hoạt động bình thường với dữ liệu nội bộ.</div>'}}
-async function refreshPrices(){try{let d=await jsonp(GAS+'?action=getPrices');let a=d&&d.prices||[];$('priceBody').innerHTML=a.length?a.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.market)}</td><td>${esc(x.product)}</td><td><b>${esc(x.value)}</b></td><td>${esc(x.unit)}</td><td>${esc(x.source)}</td><td>${esc(x.confidence||'—')}</td></tr>`).join(''):'<tr><td colspan="7" class="muted">Chưa có dữ liệu giá. Hãy cấu hình PRICE_API/nguồn giá trong GAS.</td></tr>'}catch(e){}}
+let MARKET_CACHE=[], PRICE_CACHE=[];
+function marketSignalHTML(prices){
+  const products=['Giấy Medium','Giấy Testliner','OCC Mỹ','OCC Nhật Bản'];
+  return products.map(p=>{
+    const a=prices.filter(x=>x.product===p).sort((x,y)=>String(y.date).localeCompare(String(x.date)));
+    const x=a[0]; return `<div class="kpi"><label>${esc(p)}</label><b>${x?esc(x.value):'—'}</b><span>${x?esc(x.unit)+' · '+esc(x.date)+' · '+esc(x.source):'Chưa có tín hiệu công khai'}</span></div>`
+  }).join('');
+}
+async function refreshMarket(forceServer=false){
+  let box=$('news'); if(box)box.innerHTML='<div class="muted">Đang đọc dữ liệu Cloud…</div>';
+  try{
+    let d=await jsonp(GAS+'?action=getMarket');
+    MARKET_CACHE=d&&d.news||[];
+    if(box) box.innerHTML=MARKET_CACHE.length
+      ? MARKET_CACHE.slice(0,30).map(x=>`<article class="feed"><h4>${esc(x.title||'Tin ngành')}</h4><time>${esc(x.published||x.date||'')} · ${esc(x.source||'')} · Tin cậy ${esc(x.confidence||'C')}</time><p class="muted">${esc(x.summary||'')}</p><a href="${esc(x.url||'#')}" target="_blank" rel="noopener">Mở nguồn →</a></article>`).join('')
+      : '<div class="muted">Chưa có dữ liệu từ Cloud.</div>';
+    if($('marketMeta'))$('marketMeta').textContent='Cập nhật Cloud: '+(d.updatedAt||'—')+' · '+MARKET_CACHE.length+' bản tin · '+(d.sourceCount||0)+' nguồn';
+    if($('marketLiveStatus'))$('marketLiveStatus').innerHTML='<i class="dot"></i> Cloud đang hoạt động';
+  }catch(e){
+    if(box)box.innerHTML='<div class="alert red">Không đọc được Cloud. Kiểm tra URL GAS và quyền triển khai.</div>';
+    if($('marketLiveStatus'))$('marketLiveStatus').innerHTML='<i class="dot"></i> Mất kết nối Cloud';
+  }
+  await refreshPrices();
+}
+async function refreshPrices(){
+  try{
+    let d=await jsonp(GAS+'?action=getPrices');
+    PRICE_CACHE=d&&d.prices||[];
+    renderPricesCached();
+    if($('marketSignals'))$('marketSignals').innerHTML=marketSignalHTML(PRICE_CACHE);
+  }catch(e){
+    if($('priceBody'))$('priceBody').innerHTML='<tr><td colspan="7" class="muted">Chưa đọc được dữ liệu giá từ GAS.</td></tr>';
+  }
+}
+function renderPricesCached(){
+  const qv=($('priceQuery')?.value||'').toLowerCase().trim(), mv=$('priceMarketFilter')?.value||'', cv=$('priceConfidenceFilter')?.value||'';
+  const a=PRICE_CACHE.filter(x=>(!qv||(`${x.product} ${x.market} ${x.source}`.toLowerCase().includes(qv)))&&(!mv||x.market===mv)&&(!cv||x.confidence===cv));
+  $('priceBody').innerHTML=a.length?a.slice(0,500).map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.market)}</td><td>${esc(x.product)}</td><td><b>${esc(x.value)}</b></td><td>${esc(x.unit)}</td><td>${esc(x.source)}</td><td><span class="tag">${esc(x.confidence||'C')}</span><div class="small">${esc(x.note||'')}</div></td></tr>`).join(''):'<tr><td colspan="7" class="muted">Không có giá phù hợp bộ lọc.</td></tr>';
+}
+async function autoRefreshMarket(){
+  // Đọc Cloud mỗi 15 phút để giao diện luôn gần dữ liệu mới nhất.
+  await refreshMarket(false);
+}
+function startMarketAutoRefresh(){ autoRefreshMarket(); setInterval(autoRefreshMarket,15*60*1000); }
 function exportCSV(){let a=people.filter(matches),h=['STT','Họ tên','Giới tính','Ngày sinh','Tuổi','Đơn vị','Nhóm việc','Chức danh','Ngày nghỉ hưu','CCCD','BHXH'];let l=[h.join(',')].concat(a.map(e=>[e.stt,e.name,e.female?'Nữ':'Nam',date(e.birthDate),age(e.birthDate),e.unit,e.roleGroup,e.title,date(e.retireDate),e.cccd,e.bhxh].map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')));let blob=new Blob(['\ufeff'+l.join('\n')],{type:'text/csv;charset=utf-8'}),ael=document.createElement('a');ael.href=URL.createObjectURL(blob);ael.download='VINAPACO_NhanSu_Loc.csv';ael.click()}
-populate();renderAll();
+populate();renderAll();startMarketAutoRefresh();
 </script></body></html>
